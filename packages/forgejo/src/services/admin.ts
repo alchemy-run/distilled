@@ -107,11 +107,11 @@ export type AdminCreateHookRequestType =
   | "wechatwork"
   | "packagist";
 export interface AdminCreateHookRequest {
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   config: CreateHookOptionConfig;
-  events?: AdminCreateHookRequestEventsList;
+  events?: AdminCreateHookRequestEventsList | undefined;
   type: AdminCreateHookRequestType | (string & {});
 }
 /** Deprecated: use Metadata instead */
@@ -120,15 +120,15 @@ export type HookEventsList = Array<string>;
 /** Hook a hook is a web hook when one repository changed */
 export interface Hook {
   active: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   /** Deprecated: use Metadata instead */
-  config?: HookConfigMap;
-  content_type?: string;
+  config?: HookConfigMap | undefined;
+  content_type?: string | undefined;
   created_at: string;
-  events?: HookEventsList;
+  events?: HookEventsList | undefined;
   id: number;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   type: string;
   updated_at: string;
   url: string;
@@ -138,31 +138,31 @@ export type AdminCreateOrgRequestVisibility = "public" | "limited" | "private";
 export interface AdminCreateOrgRequest {
   /** username of the user that will own the created organization */
   owner: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
-  location?: string;
-  repo_admin_change_team_access?: boolean;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
+  location?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   username: string;
   /** possible values are `public` (default), `limited` or `private` */
-  visibility?: AdminCreateOrgRequestVisibility | (string & {});
-  website?: string;
+  visibility?: AdminCreateOrgRequestVisibility | (string & {}) | undefined;
+  website?: string | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export interface AdminCreatePublicKeyRequest {
   /** username of the user */
@@ -170,116 +170,116 @@ export interface AdminCreatePublicKeyRequest {
   /** An armored SSH key to add */
   key: string;
   /** Describe if the key has only read access or read/write */
-  read_only?: boolean;
+  read_only?: boolean | undefined;
   /** Title of the key to add */
   title: string;
 }
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 /** PublicKey publickey is a user key to push code to repository */
 export interface PublicKey {
-  created_at?: string;
-  fingerprint?: string;
-  id?: number;
-  key?: string;
-  key_type?: string;
-  read_only?: boolean;
-  title?: string;
-  updated_at?: string;
-  url?: string;
-  user?: User;
-  verified?: boolean;
+  created_at?: string | undefined;
+  fingerprint?: string | undefined;
+  id?: number | undefined;
+  key?: string | undefined;
+  key_type?: string | undefined;
+  read_only?: boolean | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  user?: User | undefined;
+  verified?: boolean | undefined;
 }
 /** The subjects affected by the rule */
 export type CreateQuotaRuleOptionsSubjectsList = Array<string>;
 /** CreateQuotaRuleOptions represents the options for creating a quota rule */
 export interface CreateQuotaRuleOptions {
   /** The limit set by the rule */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the rule to create */
-  name?: string;
+  name?: string | undefined;
   /** The subjects affected by the rule */
-  subjects?: CreateQuotaRuleOptionsSubjectsList;
+  subjects?: CreateQuotaRuleOptionsSubjectsList | undefined;
 }
 /** Rules to add to the newly created group. If a rule does not exist, it will be created. */
 export type AdminCreateQuotaGroupRequestRulesList = Array<CreateQuotaRuleOptions>;
 export interface AdminCreateQuotaGroupRequest {
   /** Name of the quota group to create */
-  name?: string;
+  name?: string | undefined;
   /** Rules to add to the newly created group. If a rule does not exist, it will be created. */
-  rules?: AdminCreateQuotaGroupRequestRulesList;
+  rules?: AdminCreateQuotaGroupRequestRulesList | undefined;
 }
 /** Subjects the rule affects */
 export type QuotaRuleInfoSubjectsList = Array<string>;
 /** QuotaRuleInfo contains information about a quota rule */
 export interface QuotaRuleInfo {
   /** The limit set by the rule */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the rule (only shown to admins) */
-  name?: string;
+  name?: string | undefined;
   /** Subjects the rule affects */
-  subjects?: QuotaRuleInfoSubjectsList;
+  subjects?: QuotaRuleInfoSubjectsList | undefined;
 }
 /** Rules associated with the group */
 export type QuotaGroupRulesList = Array<QuotaRuleInfo>;
 /** QuotaGroup represents a quota group */
 export interface QuotaGroup {
   /** Name of the group */
-  name?: string;
+  name?: string | undefined;
   /** Rules associated with the group */
-  rules?: QuotaGroupRulesList;
+  rules?: QuotaGroupRulesList | undefined;
 }
 /** The subjects affected by the rule */
 export type AdminCreateQuotaRuleRequestSubjectsList = Array<string>;
 export interface AdminCreateQuotaRuleRequest {
   /** The limit set by the rule */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the rule to create */
-  name?: string;
+  name?: string | undefined;
   /** The subjects affected by the rule */
-  subjects?: AdminCreateQuotaRuleRequestSubjectsList;
+  subjects?: AdminCreateQuotaRuleRequestSubjectsList | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type AdminCreateRepoRequestObjectFormatName = "sha1" | "sha256";
@@ -293,171 +293,171 @@ export interface AdminCreateRepoRequest {
   /** username of the user. This user will own the created repository */
   username: string;
   /** Whether the repository should be auto-initialized? */
-  auto_init?: boolean;
+  auto_init?: boolean | undefined;
   /** DefaultBranch of the repository (used when initializes and in template) */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Description of the repository to create */
-  description?: string;
+  description?: string | undefined;
   /** Gitignores to use, separated by commas */
-  gitignores?: string;
+  gitignores?: string | undefined;
   /** Label-Set to use */
-  issue_labels?: string;
+  issue_labels?: string | undefined;
   /** License to use */
-  license?: string;
+  license?: string | undefined;
   /** Name of the repository to create */
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: AdminCreateRepoRequestObjectFormatName | (string & {});
+  object_format_name?: AdminCreateRepoRequestObjectFormatName | (string & {}) | undefined;
   /** Whether the repository is private */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Readme of the repository to create */
-  readme?: string;
+  readme?: string | undefined;
   /** Whether the repository is template */
-  template?: boolean;
+  template?: boolean | undefined;
   /** TrustModel of the repository */
-  trust_model?: AdminCreateRepoRequestTrustModel | (string & {});
+  trust_model?: AdminCreateRepoRequestTrustModel | (string & {}) | undefined;
 }
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
-  archived?: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
+  archived?: boolean | undefined;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
   created_at: string;
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
-  description?: string;
-  empty?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
+  description?: string | undefined;
+  empty?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
   owner: User;
-  parent?: Repository;
-  permissions?: Permission;
-  private?: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
+  private?: boolean | undefined;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   updated_at: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 export interface AdminCreateUserRequest {
   /** For explicitly setting the user creation timestamp. Useful when users are migrated from other systems. When omitted, the user's creation timestamp will be set to "now". */
-  created_at?: string;
+  created_at?: string | undefined;
   email: string;
-  full_name?: string;
-  login_name?: string;
-  must_change_password?: boolean;
-  password?: string | Redacted.Redacted<string>;
-  restricted?: boolean;
-  send_notify?: boolean;
-  source_id?: number;
+  full_name?: string | undefined;
+  login_name?: string | undefined;
+  must_change_password?: boolean | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  restricted?: boolean | undefined;
+  send_notify?: boolean | undefined;
+  source_id?: number | undefined;
   username: string;
-  visibility?: string;
+  visibility?: string | undefined;
 }
 export interface RepoTargetOption {
   /** Name of repository */
@@ -473,15 +473,15 @@ export interface AdminCreateUserAccessTokenRequest {
   username: string;
   name: string;
   /** If provided and not-empty, creates an access token with access only to specified repositories. */
-  repositories?: AdminCreateUserAccessTokenRequestRepositoriesList;
-  scopes?: AdminCreateUserAccessTokenRequestScopesList;
+  repositories?: AdminCreateUserAccessTokenRequestRepositoriesList | undefined;
+  scopes?: AdminCreateUserAccessTokenRequestScopesList | undefined;
 }
 /** RepositoryMeta basic repository information */
 export interface RepositoryMeta {
-  full_name?: string;
-  id?: number;
-  name?: string;
-  owner?: string;
+  full_name?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  owner?: string | undefined;
 }
 /** Indicates that an access token only has access to the specified repositories. Will be null if the access token is not limited to a set of specified repositories. */
 export type AccessTokenRepositoriesList = Array<RepositoryMeta>;
@@ -491,9 +491,9 @@ export interface AccessToken {
   id: number;
   name: string;
   /** Indicates that an access token only has access to the specified repositories. Will be null if the access token is not limited to a set of specified repositories. */
-  repositories?: AccessTokenRepositoriesList;
-  scopes?: AccessTokenScopesList;
-  sha1?: string | Redacted.Redacted<string>;
+  repositories?: AccessTokenRepositoriesList | undefined;
+  scopes?: AccessTokenScopesList | undefined;
+  sha1?: string | Redacted.Redacted<string> | undefined;
   token_last_eight: string;
 }
 export interface AdminDeleteHookRequest {
@@ -522,7 +522,7 @@ export interface AdminDeleteUserRequest {
   /** username of user to delete */
   username: string;
   /** purge the user from the system completely */
-  purge?: boolean;
+  purge?: boolean | undefined;
 }
 export interface AdminDeleteUserResponse {}
 export interface AdminDeleteUserAccessTokenRequest {
@@ -538,7 +538,7 @@ export interface AdminDeleteUserEmailsRequest {
   /** username of user to delete email addresses from */
   username: string;
   /** email addresses to delete */
-  emails?: AdminDeleteUserEmailsRequestEmailsList;
+  emails?: AdminDeleteUserEmailsRequestEmailsList | undefined;
 }
 export interface AdminDeleteUserEmailsResponse {}
 export interface AdminDeleteUserPublicKeyRequest {
@@ -553,11 +553,11 @@ export type AdminEditHookRequestEventsList = Array<string>;
 export interface AdminEditHookRequest {
   /** id of the hook to update */
   id: number;
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
-  config?: AdminEditHookRequestConfigMap;
-  events?: AdminEditHookRequestEventsList;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
+  config?: AdminEditHookRequestConfigMap | undefined;
+  events?: AdminEditHookRequestEventsList | undefined;
 }
 /** The subjects affected by the rule */
 export type AdminEditQuotaRuleRequestSubjectsList = Array<string>;
@@ -565,37 +565,37 @@ export interface AdminEditQuotaRuleRequest {
   /** Quota rule to change */
   quotarule: string;
   /** The limit set by the rule */
-  limit?: number;
+  limit?: number | undefined;
   /** The subjects affected by the rule */
-  subjects?: AdminEditQuotaRuleRequestSubjectsList;
+  subjects?: AdminEditQuotaRuleRequestSubjectsList | undefined;
 }
 export interface AdminEditUserRequest {
   /** username of user to edit */
   username: string;
-  active?: boolean;
-  admin?: boolean;
-  allow_create_organization?: boolean;
-  allow_git_hook?: boolean;
-  allow_import_local?: boolean;
-  description?: string;
-  email?: string;
-  full_name?: string;
-  hide_email?: boolean;
-  location?: string;
-  login_name?: string;
-  max_repo_creation?: number;
-  must_change_password?: boolean;
-  password?: string | Redacted.Redacted<string>;
-  prohibit_login?: boolean;
-  pronouns?: string;
-  restricted?: boolean;
-  source_id?: number;
-  visibility?: string;
-  website?: string;
+  active?: boolean | undefined;
+  admin?: boolean | undefined;
+  allow_create_organization?: boolean | undefined;
+  allow_git_hook?: boolean | undefined;
+  allow_import_local?: boolean | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
+  hide_email?: boolean | undefined;
+  location?: string | undefined;
+  login_name?: string | undefined;
+  max_repo_creation?: number | undefined;
+  must_change_password?: boolean | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  prohibit_login?: boolean | undefined;
+  pronouns?: string | undefined;
+  restricted?: boolean | undefined;
+  source_id?: number | undefined;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export interface AdminGetActionRunJobsRequest {
   /** a comma separated list of labels to search for */
-  labels?: string;
+  labels?: string | undefined;
 }
 /** the action run job needed ids */
 export type ActionRunJobNeedsList = Array<string>;
@@ -604,51 +604,51 @@ export type ActionRunJobRunsOnList = Array<string>;
 /** ActionRunJob represents a job of a run */
 export interface ActionRunJob {
   /** How many times the job has been attempted including the current attempt. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** Opaque identifier that uniquely identifies a single attempt of a job. */
-  handle?: string;
+  handle?: string | undefined;
   /** Identifier of this job. */
-  id?: number;
+  id?: number | undefined;
   /** the action run job name */
-  name?: string;
+  name?: string | undefined;
   /** the action run job needed ids */
-  needs?: ActionRunJobNeedsList;
+  needs?: ActionRunJobNeedsList | undefined;
   /** the owner id */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** the repository id */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Identifier of the workflow run this job belongs to. */
-  run_id?: number;
+  run_id?: number | undefined;
   /** the action run job labels to run on */
-  runs_on?: ActionRunJobRunsOnList;
+  runs_on?: ActionRunJobRunsOnList | undefined;
   /** the action run job status */
-  status?: string;
+  status?: string | undefined;
   /** the action run job latest task id */
-  task_id?: number;
+  task_id?: number | undefined;
 }
 export type AdminGetActionRunJobsResponseBodyList = Array<ActionRunJob>;
 export type AdminGetActionRunJobsResponse = AdminGetActionRunJobsResponseBodyList;
 export interface AdminGetAllEmailsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Email an email address belonging to a user */
 export interface Email {
-  email?: string;
-  primary?: boolean;
-  user_id?: number;
-  username?: string;
-  verified?: boolean;
+  email?: string | undefined;
+  primary?: boolean | undefined;
+  user_id?: number | undefined;
+  username?: string | undefined;
+  verified?: boolean | undefined;
 }
 export type AdminGetAllEmailsResponseBodyList = Array<Email>;
 export type AdminGetAllEmailsResponse = AdminGetAllEmailsResponseBodyList;
 export interface AdminGetAllOrgsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AdminGetAllOrgsResponseBodyList = Array<Organization>;
 export type AdminGetAllOrgsResponse = AdminGetAllOrgsResponseBodyList;
@@ -673,54 +673,54 @@ export type QuotaGroupList = Array<QuotaGroup>;
 /** QuotaUsedSizeAssetsAttachments represents the size-based attachment quota usage of a user */
 export interface QuotaUsedSizeAssetsAttachments {
   /** Storage size used for the user's issue & comment attachments */
-  issues?: number;
+  issues?: number | undefined;
   /** Storage size used for the user's release attachments */
-  releases?: number;
+  releases?: number | undefined;
 }
 /** QuotaUsedSizeAssetsPackages represents the size-based package quota usage of a user */
 export interface QuotaUsedSizeAssetsPackages {
   /** Storage suze used for the user's packages */
-  all?: number;
+  all?: number | undefined;
 }
 /** QuotaUsedSizeAssets represents the size-based asset usage of a user */
 export interface QuotaUsedSizeAssets {
   /** Storage size used for the user's artifacts */
-  artifacts?: number;
-  attachments?: QuotaUsedSizeAssetsAttachments;
-  packages?: QuotaUsedSizeAssetsPackages;
+  artifacts?: number | undefined;
+  attachments?: QuotaUsedSizeAssetsAttachments | undefined;
+  packages?: QuotaUsedSizeAssetsPackages | undefined;
 }
 /** QuotaUsedSizeGit represents the size-based git (lfs) quota usage of a user */
 export interface QuotaUsedSizeGit {
   /** Storage size of the user's Git LFS objects */
-  LFS?: number;
+  LFS?: number | undefined;
 }
 /** QuotaUsedSizeRepos represents the size-based repository quota usage of a user */
 export interface QuotaUsedSizeRepos {
   /** Storage size of the user's private repositories */
-  private?: number;
+  private?: number | undefined;
   /** Storage size of the user's public repositories */
-  public?: number;
+  public?: number | undefined;
 }
 /** QuotaUsedSize represents the size-based quota usage of a user */
 export interface QuotaUsedSize {
-  assets?: QuotaUsedSizeAssets;
-  git?: QuotaUsedSizeGit;
-  repos?: QuotaUsedSizeRepos;
+  assets?: QuotaUsedSizeAssets | undefined;
+  git?: QuotaUsedSizeGit | undefined;
+  repos?: QuotaUsedSizeRepos | undefined;
 }
 /** QuotaUsed represents the quota usage of a user */
 export interface QuotaUsed {
-  size?: QuotaUsedSize;
+  size?: QuotaUsedSize | undefined;
 }
 /** QuotaInfo represents information about a user's quota */
 export interface QuotaInfo {
-  groups?: QuotaGroupList;
-  used?: QuotaUsed;
+  groups?: QuotaGroupList | undefined;
+  used?: QuotaUsed | undefined;
 }
 export interface AdminListHooksRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AdminListHooksResponseBodyList = Array<Hook>;
 export type AdminListHooksResponse = AdminListHooksResponseBodyList;
@@ -733,9 +733,9 @@ export interface AdminListUserAccessTokensRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AdminListUserAccessTokensResponseBodyList = Array<AccessToken>;
 export type AdminListUserAccessTokensResponse = AdminListUserAccessTokensResponseBodyList;
@@ -774,11 +774,11 @@ export interface AdminRenameUserRequest {
 export interface AdminRenameUserResponse {}
 export interface AdminSearchEmailsRequest {
   /** keyword */
-  q?: string;
+  q?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AdminSearchEmailsResponseBodyList = Array<Email>;
 export type AdminSearchEmailsResponse = AdminSearchEmailsResponseBodyList;
@@ -791,17 +791,17 @@ export type AdminSearchUsersRequestSort =
   | "leastupdate";
 export interface AdminSearchUsersRequest {
   /** ID of the user's login source to search for */
-  source_id?: number;
+  source_id?: number | undefined;
   /** user's login name to search for */
-  login_name?: string;
+  login_name?: string | undefined;
   /** whether or not to filter users with the 2fa enabled */
-  is_2fa_enabled?: boolean;
+  is_2fa_enabled?: boolean | undefined;
   /** sort order of results */
-  sort?: AdminSearchUsersRequestSort | (string & {});
+  sort?: AdminSearchUsersRequestSort | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type AdminSearchUsersResponseBodyList = Array<User>;
 export type AdminSearchUsersResponse = AdminSearchUsersResponseBodyList;
@@ -830,74 +830,74 @@ export type ActionRunnerStatus = "offline" | "idle" | "active";
 /** ActionRunner represents a runner */
 export interface ActionRunner {
   /** Description provides optional details about this runner. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if runner is ephemeral runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** ID uniquely identifies this runner. */
-  id?: number;
+  id?: number | undefined;
   /** Labels is a list of labels attached to this runner. */
-  labels?: ActionRunnerLabelsList;
+  labels?: ActionRunnerLabelsList | undefined;
   /** Name of the runner; not unique. */
-  name?: string;
+  name?: string | undefined;
   /** OwnerID is the identifier of the user or organization this runner belongs to. O if the runner is owned by a repository. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** RepoID is the identifier of the repository this runner belongs to. 0 if the runner belongs to a user or organization. */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Status indicates whether this runner is offline, or active, for example. */
-  status?: ActionRunnerStatus;
+  status?: ActionRunnerStatus | undefined;
   /** UUID uniquely identifies this runner. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Version is the self-reported version string of Forgejo Runner. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetAdminRunnersRequest {
   /** whether to include all visible runners (true) or only those that are directly owned by the instance (false) */
-  visible?: boolean;
+  visible?: boolean | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetAdminRunnersResponseBodyList = Array<ActionRunner>;
 export type GetAdminRunnersResponse = GetAdminRunnersResponseBodyList;
 export interface ListAdminCronRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Cron represents a Cron task */
 export interface Cron {
-  exec_times?: number;
-  name?: string;
-  next?: string;
-  prev?: string;
-  schedule?: string;
+  exec_times?: number | undefined;
+  name?: string | undefined;
+  next?: string | undefined;
+  prev?: string | undefined;
+  schedule?: string | undefined;
 }
 export type ListAdminCronResponseBodyList = Array<Cron>;
 export type ListAdminCronResponse = ListAdminCronResponseBodyList;
 export interface ListAdminUnadoptedRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** pattern of repositories to search for */
-  pattern?: string;
+  pattern?: string | undefined;
 }
 export type ListAdminUnadoptedResponseBodyList = Array<string>;
 export type ListAdminUnadoptedResponse = ListAdminUnadoptedResponseBodyList;
 export interface RegisterAdminRunnerRequest {
   /** Description of the runner to register. */
-  description?: string;
+  description?: string | undefined;
   /** Register as ephemeral runner https://forgejo.org/docs/latest/admin/actions/security/#ephemeral-runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** Name of the runner to register. The name of the runner does not have to be unique. */
   name: string;
 }
 export interface RegisterRunnerResponse {
-  id?: number;
-  token?: string;
-  uuid?: string;
+  id?: number | undefined;
+  token?: string | undefined;
+  uuid?: string | undefined;
 }
 export interface RunAdminCronRequest {
   /** task to run */

@@ -1,14 +1,14 @@
+/**
+ * The `Endpoint` override service comes from `@distilled.cloud/s3`; this
+ * module adds the environment and the helpers.
+ */
 import * as Config from "@distilled.cloud/core/config";
-import type { SourceError } from "effect/ConfigProvider";
-import * as Context from "effect/Context";
+import { Endpoint } from "@distilled.cloud/s3/Endpoint";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 
-export class Endpoint
-  extends /*@__PURE__*/ Context.Service<Endpoint, Effect.Effect<string | undefined, SourceError>>()(
-    "AWS::Endpoint",
-  ) {}
+export * from "@distilled.cloud/s3/Endpoint";
 
 /**
  * `AWS_ENDPOINT_URL` -- the LocalStack-standard endpoint override that local

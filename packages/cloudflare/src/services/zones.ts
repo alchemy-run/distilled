@@ -170,9 +170,18 @@ export class ZoneHoldsRequireEnterprise
     [{ code: 1005, message: { includes: "Zone holds are only available on Enterprise zones" } }],
   ) {}
 
+export class ZoneQuotaExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ZoneQuotaExceeded>()("ZoneQuotaExceeded", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 400, message: { includes: "zone quota" } }],
+  ) {}
+
 export interface EnvironmentsCreateRequestEnvironmentsItemPosition {
-  after?: string;
-  before?: string;
+  after?: string | undefined;
+  before?: string | undefined;
 }
 export interface EnvironmentsCreateRequestEnvironmentsItem {
   expression: string;
@@ -181,7 +190,7 @@ export interface EnvironmentsCreateRequestEnvironmentsItem {
   position: EnvironmentsCreateRequestEnvironmentsItemPosition;
   ref: string;
   version: number;
-  httpApplicationId?: string;
+  httpApplicationId?: string | undefined;
 }
 export type EnvironmentsCreateRequestEnvironmentsList =
   Array<EnvironmentsCreateRequestEnvironmentsItem>;
@@ -190,8 +199,8 @@ export interface CreateEnvironmentRequest {
   environments: EnvironmentsCreateRequestEnvironmentsList;
 }
 export interface EnvironmentsCreateResponseEnvironmentsItemPosition {
-  after?: string | null;
-  before?: string | null;
+  after?: string | null | undefined;
+  before?: string | null | undefined;
 }
 export interface EnvironmentsCreateResponseEnvironmentsItem {
   expression: string;
@@ -200,7 +209,7 @@ export interface EnvironmentsCreateResponseEnvironmentsItem {
   position: EnvironmentsCreateResponseEnvironmentsItemPosition;
   ref: string;
   version: number;
-  httpApplicationId?: string | null;
+  httpApplicationId?: string | null | undefined;
 }
 export type EnvironmentsCreateResponseEnvironmentsList =
   Array<EnvironmentsCreateResponseEnvironmentsItem>;
@@ -212,14 +221,19 @@ export interface CreateHoldRequest {
   /** Identifier. */
   zoneId: string;
   /** If provided, the zone hold will extend to block any subdomain of the given zone, as well as SSL4SaaS Custom Hostnames. For example, a zone hold on a zone with the hostname 'example.com' and include_subdomains=true will block 'example.com', 'staging.example.com', 'api.staging.example.com', etc. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateHoldResponse {
-  hold?: boolean | null;
-  holdAfter?: string | null;
-  includeSubdomains?: unknown | null;
+  hold?: boolean | null | undefined;
+  holdAfter?: string | null | undefined;
+  includeSubdomains?: unknown | null | undefined;
 }
+export interface CreateOhttpGatewayRequest {
+  zoneId: string;
+}
+export type CreateOhttpGatewayResult = "on" | "off";
+export type CreateOhttpGatewayResponse = CreateOhttpGatewayResult;
 export type SubscriptionsCreateRequestFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export type SubscriptionsCreateRequestRatePlanId =
   | "free"
@@ -235,27 +249,27 @@ export type SubscriptionsCreateRequestRatePlanId =
 export type SubscriptionsCreateRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsCreateRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsCreateRequestRatePlanId | (string & {});
+  id?: SubscriptionsCreateRequestRatePlanId | (string & {}) | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string;
+  currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean;
+  isContract?: boolean | undefined;
   /** The full name of the rate plan. */
-  publicName?: string;
+  publicName?: string | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsCreateRequestRatePlanSetsList;
+  sets?: SubscriptionsCreateRequestRatePlanSetsList | undefined;
 }
 export interface CreateSubscriptionRequest {
   /** Identifier */
   zoneId: string;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsCreateRequestFrequency | (string & {});
+  frequency?: SubscriptionsCreateRequestFrequency | (string & {}) | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsCreateRequestRatePlan;
+  ratePlan?: SubscriptionsCreateRequestRatePlan | undefined;
 }
 export type SubscriptionsCreateResponseFrequency =
   | "weekly"
@@ -277,19 +291,19 @@ export type SubscriptionsCreateResponseRatePlanId =
 export type SubscriptionsCreateResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsCreateResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsCreateResponseRatePlanId | null;
+  id?: SubscriptionsCreateResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsCreateResponseRatePlanSetsList | null;
+  sets?: SubscriptionsCreateResponseRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsCreateResponseState =
   | "Trial"
@@ -302,25 +316,25 @@ export type SubscriptionsCreateResponseState =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsCreateResponseFrequency | null;
+  frequency?: SubscriptionsCreateResponseFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsCreateResponseRatePlan | null;
+  ratePlan?: SubscriptionsCreateResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsCreateResponseState | null;
+  state?: SubscriptionsCreateResponseState | null | undefined;
 }
 export interface CreateRequestAccount {
   /** Identifier */
-  id?: string;
+  id?: string | undefined;
 }
 export type CreateRequestType = "full" | "partial" | "secondary" | "internal";
 export interface CreateZoneRequest {
@@ -328,72 +342,72 @@ export interface CreateZoneRequest {
   /** The domain name. Per [RFC 1035](https://datatracker.ietf.org/doc/html/rfc1035#section-2.3.4) the overall zone name can be up to 253 characters, with each segment ("label") not exceeding 63 characters. */
   name: string;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: CreateRequestType | (string & {});
+  type?: CreateRequestType | (string & {}) | undefined;
 }
 export interface CreateResponseAccount {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the account. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface CreateResponseMeta {
   /** The zone is only configured for CDN. */
-  cdnOnly?: boolean | null;
+  cdnOnly?: boolean | null | undefined;
   /** Number of Custom Certificates the zone can have. */
-  customCertificateQuota?: number | null;
+  customCertificateQuota?: number | null | undefined;
   /** The zone is only configured for DNS. */
-  dnsOnly?: boolean | null;
+  dnsOnly?: boolean | null | undefined;
   /** The zone is setup with Foundation DNS. */
-  foundationDns?: boolean | null;
+  foundationDns?: boolean | null | undefined;
   /** Number of Page Rules a zone can have. */
-  pageRuleQuota?: number | null;
+  pageRuleQuota?: number | null | undefined;
   /** The zone has been flagged for phishing. */
-  phishingDetected?: boolean | null;
-  step?: number | null;
+  phishingDetected?: boolean | null | undefined;
+  step?: number | null | undefined;
 }
 export type CreateResponseNameServersList = Array<string>;
 export type CreateResponseOriginalNameServersList = Array<string>;
 export interface CreateResponseOwner {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Name of the owner. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type of owner. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface CreateResponsePlan {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** States if the subscription can be activated. */
-  canSubscribe?: boolean | null;
+  canSubscribe?: boolean | null | undefined;
   /** The denomination of the customer. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** If this Zone is managed by another company. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** How often the customer is billed. */
-  frequency?: string | null;
+  frequency?: string | null | undefined;
   /** States if the subscription active. */
-  isSubscribed?: boolean | null;
+  isSubscribed?: boolean | null | undefined;
   /** If the legacy discount applies to this Zone. */
-  legacyDiscount?: boolean | null;
+  legacyDiscount?: boolean | null | undefined;
   /** The legacy name of the plan. */
-  legacyId?: string | null;
+  legacyId?: string | null | undefined;
   /** Name of the owner. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** How much the customer is paying. */
-  price?: number | null;
+  price?: number | null | undefined;
 }
 export type CreateResponsePermissionsList = Array<string>;
 export type CreateResponseStatus = "initializing" | "pending" | "active" | "moved";
 export interface CreateResponseTenant {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the Tenant account. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface CreateResponseTenantUnit {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type CreateResponseType = "full" | "partial" | "secondary" | "internal";
 export type CreateResponseVanityNameServersList = Array<string>;
@@ -428,23 +442,23 @@ export interface CreateZoneResponse {
   /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
   /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
-  cnameSuffix?: string | null;
+  cnameSuffix?: string | null | undefined;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** This has been replaced by Account memberships. */
-  permissions?: CreateResponsePermissionsList | null;
+  permissions?: CreateResponsePermissionsList | null | undefined;
   /** The zone status on Cloudflare. */
-  status?: CreateResponseStatus | null;
+  status?: CreateResponseStatus | null | undefined;
   /** The root organizational unit that this zone belongs to (such as a tenant or organization). */
-  tenant?: CreateResponseTenant | null;
+  tenant?: CreateResponseTenant | null | undefined;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
-  tenantUnit?: CreateResponseTenantUnit | null;
+  tenantUnit?: CreateResponseTenantUnit | null | undefined;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: CreateResponseType | null;
+  type?: CreateResponseType | null | undefined;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: CreateResponseVanityNameServersList | null;
+  vanityNameServers?: CreateResponseVanityNameServersList | null | undefined;
   /** Verification key for partial zone setup. */
-  verificationKey?: string | null;
+  verificationKey?: string | null | undefined;
 }
 export interface DeleteEnvironmentRequest {
   zoneId: string;
@@ -463,13 +477,13 @@ export interface DeleteHoldRequest {
   /** Identifier. */
   zoneId: string;
   /** If `hold_after` is provided, the hold will be temporarily disabled, then automatically re-enabled by the system at the time specified in this RFC3339-formatted timestamp. Otherwise, the hold will be disabled indefinitely. `hold_after` cannot be provided for CDN-only zones. */
-  holdAfter?: string;
+  holdAfter?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteHoldResponse {
-  hold?: boolean | null;
-  holdAfter?: string | null;
-  includeSubdomains?: unknown | null;
+  hold?: boolean | null | undefined;
+  holdAfter?: string | null | undefined;
+  includeSubdomains?: unknown | null | undefined;
 }
 export interface DeleteObservabilityTracingRuleRequest {
   /** Specify the zone ID. */
@@ -519,6 +533,11 @@ export interface DeleteObservabilityTracingSettingsResponse {
   /** The ratio of requests sampled for tracing, from 0 to 1. */
   samplingRatio: number;
 }
+export interface DeleteOhttpGatewayRequest {
+  zoneId: string;
+}
+export type DeleteOhttpGatewayResult = "on" | "off";
+export type DeleteOhttpGatewayResponse = DeleteOhttpGatewayResult;
 export interface DeleteZoneRequest {
   /** Identifier */
   zoneId: string;
@@ -562,13 +581,13 @@ export type EditTransformationsAllowedOriginResponseValue = "on" | "off";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditTransformationsAllowedOriginResponse {
   /** ID of the zone setting. */
-  id?: EditTransformationsAllowedOriginResponseId | null;
+  id?: EditTransformationsAllowedOriginResponseId | null | undefined;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Comma-separated list of allowed origin domains for image and video transformations. Use "*" to allow all origins (default). */
-  value?: EditTransformationsAllowedOriginResponseValue | null;
+  value?: EditTransformationsAllowedOriginResponseValue | null | undefined;
 }
 export type EditTransformationsC2paRequestValue = "off" | "on";
 export interface EditTransformationsC2paRequest {
@@ -582,13 +601,13 @@ export type EditTransformationsC2paResponseValue = "on" | "off";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditTransformationsC2paResponse {
   /** ID of the zone setting. */
-  id?: EditTransformationsC2paResponseId | null;
+  id?: EditTransformationsC2paResponseId | null | undefined;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Current value of the zone setting. */
-  value?: EditTransformationsC2paResponseValue | null;
+  value?: EditTransformationsC2paResponseValue | null | undefined;
 }
 export interface GetCtAlertingRequest {
   /** Identifier. */
@@ -599,8 +618,8 @@ export type CtAlertingGetResponseEmailsList = Array<string>;
 export interface GetCtAlertingResponse {
   /** Whether CT alerting is enabled for the zone. */
   enabled: boolean;
-  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. */
-  emails?: CtAlertingGetResponseEmailsList | null;
+  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. Omitted from responses when no addresses are configured. */
+  emails?: CtAlertingGetResponseEmailsList | null | undefined;
 }
 export interface GetCustomNameserverRequest {
   /** Identifier. */
@@ -609,9 +628,9 @@ export interface GetCustomNameserverRequest {
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetCustomNameserverResponse {
   /** Whether zone uses account-level custom nameservers. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The number of the name server set to assign to the zone. */
-  nsSet?: number | null;
+  nsSet?: number | null | undefined;
 }
 export interface GetHoldRequest {
   /** Identifier. */
@@ -619,9 +638,9 @@ export interface GetHoldRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHoldResponse {
-  hold?: boolean | null;
-  holdAfter?: string | null;
-  includeSubdomains?: unknown | null;
+  hold?: boolean | null | undefined;
+  holdAfter?: string | null | undefined;
+  includeSubdomains?: unknown | null | undefined;
 }
 export interface GetNelRequest {
   /** Identifier of the zone. */
@@ -686,6 +705,11 @@ export interface GetObservabilityTracingSettingsResponse {
   /** The ratio of requests sampled for tracing, from 0 to 1. */
   samplingRatio: number;
 }
+export interface GetOhttpGatewayRequest {
+  zoneId: string;
+}
+export type GetOhttpGatewayResult = "on" | "off";
+export type GetOhttpGatewayResponse = GetOhttpGatewayResult;
 export interface GetPlanRequest {
   /** Identifier */
   zoneId: string;
@@ -696,23 +720,23 @@ export type PlansGetResponseFrequency = "weekly" | "monthly" | "quarterly" | "ye
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPlanResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Indicates whether you can subscribe to this plan. */
-  canSubscribe?: boolean | null;
+  canSubscribe?: boolean | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Indicates whether this plan is managed externally. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** The frequency at which you will be billed for this plan. */
-  frequency?: PlansGetResponseFrequency | null;
+  frequency?: PlansGetResponseFrequency | null | undefined;
   /** Indicates whether you are currently subscribed to this plan. */
-  isSubscribed?: boolean | null;
+  isSubscribed?: boolean | null | undefined;
   /** The legacy identifier for this rate plan, if any. */
-  legacyId?: string | null;
+  legacyId?: string | null | undefined;
   /** The plan name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The amount you will be billed for this plan. */
-  price?: number | null;
+  price?: number | null | undefined;
 }
 export interface GetRatePlanRequest {
   /** Identifier */
@@ -725,34 +749,34 @@ export type RatePlansGetResultItemComponentsItemName =
   | "dedicated_certificates_custom";
 export interface RatePlansGetResultItemComponentsItem {
   /** The default amount allocated. */
-  default?: number | null;
+  default?: number | null | undefined;
   /** The unique component. */
-  name?: RatePlansGetResultItemComponentsItemName | null;
+  name?: RatePlansGetResultItemComponentsItemName | null | undefined;
   /** The unit price of the component. */
-  unitPrice?: number | null;
+  unitPrice?: number | null | undefined;
 }
 export type RatePlansGetResultItemComponentsList = Array<RatePlansGetResultItemComponentsItem>;
 export type RatePlansGetResultItemFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export interface RatePlansGetResultItem {
   /** Plan identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Array of available components values for the plan. */
-  components?: RatePlansGetResultItemComponentsList | null;
+  components?: RatePlansGetResultItemComponentsList | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The duration of the plan subscription. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** The frequency at which you will be billed for this plan. */
-  frequency?: RatePlansGetResultItemFrequency | null;
+  frequency?: RatePlansGetResultItemFrequency | null | undefined;
   /** The plan name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type RatePlansGetResultList = Array<RatePlansGetResultItem>;
 export interface GetRatePlanResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RatePlansGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetSettingRequest {
   /** Identifier */
@@ -761,421 +785,333 @@ export interface GetSettingRequest {
   settingId: string;
 }
 export type SettingsGetResultZeroRTTId = "0rtt";
-export type SettingsGetResultZeroRTTValue = "on" | "off";
 export interface SettingsGetResultZeroRTT {
   /** ID of the zone setting. */
   id: SettingsGetResultZeroRTTId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZeroRTTValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultAdvancedDDoSId = "advanced_ddos";
-export type SettingsGetResultAdvancedDDoSValue = "on" | "off";
 export interface SettingsGetResultAdvancedDDoS {
   /** ID of the zone setting. */
   id: SettingsGetResultAdvancedDDoSId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultAdvancedDDoSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesCacheRulesAegisId = "aegis";
 export interface SettingsGetResultZonesCacheRulesAegisValue {
   /** Whether the feature is enabled or not. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin. */
-  poolId?: string | null;
+  poolId?: string | null | undefined;
 }
 export interface SettingsGetResultZonesCacheRulesAegis {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesCacheRulesAegisId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. */
-  value?: SettingsGetResultZonesCacheRulesAegisValue | null;
+  value?: SettingsGetResultZonesCacheRulesAegisValue | null | undefined;
 }
 export type SettingsGetResultAlwaysOnlineId = "always_online";
-export type SettingsGetResultAlwaysOnlineValue = "on" | "off";
 export interface SettingsGetResultAlwaysOnline {
   /** ID of the zone setting. */
   id: SettingsGetResultAlwaysOnlineId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultAlwaysOnlineValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesAlwaysUseHTTPS2Id = "always_use_https";
-export type SettingsGetResultZonesAlwaysUseHTTPS2Value = "on" | "off";
 export interface SettingsGetResultZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesAlwaysUseHTTPS2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesAutomaticHTTPSRewrites2Id = "automatic_https_rewrites";
-export type SettingsGetResultZonesAutomaticHTTPSRewrites2Value = "on" | "off";
 export interface SettingsGetResultZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesAutomaticHTTPSRewrites2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultBrotliId = "brotli";
-export type SettingsGetResultBrotliValue = "off" | "on";
 export interface SettingsGetResultBrotli {
   /** ID of the zone setting. */
   id: SettingsGetResultBrotliId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultBrotliValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesBrowserCacheTTL2Id = "browser_cache_ttl";
 export interface SettingsGetResultZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesBrowserCacheTTL2Id;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting in seconds. Minimum values by plan: */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesBrowserCheck2Id = "browser_check";
-export type SettingsGetResultZonesBrowserCheck2Value = "on" | "off";
 export interface SettingsGetResultZonesBrowserCheck2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesBrowserCheck2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesCacheLevel2Id = "cache_level";
-export type SettingsGetResultZonesCacheLevel2Value = "aggressive" | "basic" | "simplified";
 export interface SettingsGetResultZonesCacheLevel2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesCacheLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultChallengeTTLId = "challenge_ttl";
-export type SettingsGetResultChallengeTTLValue =
-  | 300
-  | 900
-  | 1800
-  | 2700
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 28800
-  | 57600
-  | 86400
-  | 604800
-  | 2592000
-  | 31536000;
 export interface SettingsGetResultChallengeTTL {
   /** ID of the zone setting. */
   id: SettingsGetResultChallengeTTLId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultChallengeTTLValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesChinaNetworkEnabledId = "china_network_enabled";
-export type SettingsGetResultZonesChinaNetworkEnabledValue = "on" | "off";
 export interface SettingsGetResultZonesChinaNetworkEnabled {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesChinaNetworkEnabledId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesChinaNetworkEnabledValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesContentConverterId = "content_converter";
-export type SettingsGetResultZonesContentConverterValue = "off" | "on";
 export interface SettingsGetResultZonesContentConverter {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesContentConverterId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesContentConverterValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultCiphersId = "ciphers";
-export type SettingsGetResultCiphersValueList = Array<string>;
 export interface SettingsGetResultCiphers {
   /** ID of the zone setting. */
   id: SettingsGetResultCiphersId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultCiphersValueList;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesCNAMEFlatteningId = "cname_flattening";
-export type SettingsGetResultZonesCNAMEFlatteningValue = "flatten_at_root" | "flatten_all";
 export interface SettingsGetResultZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsGetResultZonesCNAMEFlatteningId;
-  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
-  value: SettingsGetResultZonesCNAMEFlatteningValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultDevelopmentModeId = "development_mode";
-export type SettingsGetResultDevelopmentModeValue = "on" | "off";
 export interface SettingsGetResultDevelopmentMode {
   /** ID of the zone setting. */
   id: SettingsGetResultDevelopmentModeId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultDevelopmentModeValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
-  timeRemaining?: number | null;
+  timeRemaining?: number | null | undefined;
 }
 export type SettingsGetResultEarlyHintsId = "early_hints";
-export type SettingsGetResultEarlyHintsValue = "on" | "off";
 export interface SettingsGetResultEarlyHints {
   /** ID of the zone setting. */
   id: SettingsGetResultEarlyHintsId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultEarlyHintsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesEdgeCacheTTL2Id = "edge_cache_ttl";
-export type SettingsGetResultZonesEdgeCacheTTL2Value =
-  | 30
-  | 60
-  | 300
-  | 1200
-  | 1800
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 18000
-  | 28800
-  | 43200
-  | 57600
-  | 72000
-  | 86400
-  | 172800
-  | 259200
-  | 345600
-  | 432000
-  | 518400
-  | 604800;
 export interface SettingsGetResultZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesEdgeCacheTTL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesEmailObfuscation2Id = "email_obfuscation";
-export type SettingsGetResultZonesEmailObfuscation2Value = "on" | "off";
 export interface SettingsGetResultZonesEmailObfuscation2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesEmailObfuscation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultH2PrioritizationId = "h2_prioritization";
-export type SettingsGetResultH2PrioritizationValue = "on" | "off" | "custom";
 export interface SettingsGetResultH2Prioritization {
   /** ID of the zone setting. */
   id: SettingsGetResultH2PrioritizationId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultH2PrioritizationValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultHotlinkProtectionId = "hotlink_protection";
-export type SettingsGetResultHotlinkProtectionValue = "on" | "off";
 export interface SettingsGetResultHotlinkProtection {
   /** ID of the zone setting. */
   id: SettingsGetResultHotlinkProtectionId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultHotlinkProtectionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultHTTP2Id = "http2";
-export type SettingsGetResultHTTP2Value = "on" | "off";
 export interface SettingsGetResultHTTP2 {
   /** ID of the zone setting. */
   id: SettingsGetResultHTTP2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultHTTP2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultHTTP3Id = "http3";
-export type SettingsGetResultHTTP3Value = "on" | "off";
 export interface SettingsGetResultHTTP3 {
   /** ID of the zone setting. */
   id: SettingsGetResultHTTP3Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultHTTP3Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultImageResizingId = "image_resizing";
-export type SettingsGetResultImageResizingValue = "on" | "off" | "open";
 export interface SettingsGetResultImageResizing {
   /** ID of the zone setting. */
   id: SettingsGetResultImageResizingId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultImageResizingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesIPGeolocation2Id = "ip_geolocation";
-export type SettingsGetResultZonesIPGeolocation2Value = "on" | "off";
 export interface SettingsGetResultZonesIPGeolocation2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesIPGeolocation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultIPV6Id = "ipv6";
-export type SettingsGetResultIPV6Value = "off" | "on";
 export interface SettingsGetResultIPV6 {
   /** ID of the zone setting. */
   id: SettingsGetResultIPV6Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultIPV6Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesMaxUploadId = "max_upload";
-export type SettingsGetResultZonesMaxUploadValue =
-  | 100
-  | 125
-  | 150
-  | 175
-  | 200
-  | 225
-  | 250
-  | 275
-  | 300
-  | 325
-  | 350
-  | 375
-  | 400
-  | 425
-  | 450
-  | 475
-  | 500
-  | 1000
-  | 1500
-  | 2000
-  | 2500
-  | 3000
-  | 3500
-  | 4000
-  | 4500
-  | 5000;
 export interface SettingsGetResultZonesMaxUpload {
   /** identifier of the zone setting. */
   id: SettingsGetResultZonesMaxUploadId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesMaxUploadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultMinTLSVersionId = "min_tls_version";
-export type SettingsGetResultMinTLSVersionValue = "1.0" | "1.1" | "1.2" | "1.3";
 export interface SettingsGetResultMinTLSVersion {
   /** ID of the zone setting. */
   id: SettingsGetResultMinTLSVersionId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultMinTLSVersionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesMirage2Id = "mirage";
-export type SettingsGetResultZonesMirage2Value = "on" | "off";
 export interface SettingsGetResultZonesMirage2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesMirage2Id;
-  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
-  value: SettingsGetResultZonesMirage2Value;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultNELId = "nel";
 export interface SettingsGetResultNELValue {
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface SettingsGetResultNEL {
   /** Zone setting identifier. */
@@ -1183,66 +1119,62 @@ export interface SettingsGetResultNEL {
   /** Current value of the zone setting. */
   value: SettingsGetResultNELValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesOpportunisticEncryption2Id = "opportunistic_encryption";
-export type SettingsGetResultZonesOpportunisticEncryption2Value = "on" | "off";
 export interface SettingsGetResultZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesOpportunisticEncryption2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultOpportunisticOnionId = "opportunistic_onion";
-export type SettingsGetResultOpportunisticOnionValue = "on" | "off";
 export interface SettingsGetResultOpportunisticOnion {
   /** ID of the zone setting. */
   id: SettingsGetResultOpportunisticOnionId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultOpportunisticOnionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultOrangeToOrangeId = "orange_to_orange";
-export type SettingsGetResultOrangeToOrangeValue = "on" | "off";
 export interface SettingsGetResultOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsGetResultOrangeToOrangeId;
-  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
-  value: SettingsGetResultOrangeToOrangeValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesOriginErrorPagePassThru2Id = "origin_error_page_pass_thru";
-export type SettingsGetResultZonesOriginErrorPagePassThru2Value = "on" | "off";
 export interface SettingsGetResultZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesOriginErrorPagePassThru2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesCacheRulesOriginH2MaxStreamsId = "origin_h2_max_streams";
 export interface SettingsGetResultZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
   id: SettingsGetResultZonesCacheRulesOriginH2MaxStreamsId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin H2 Max Streams Setting. */
-  value?: number | null;
+  value?: number | null | undefined;
 }
 export type SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionId = "origin_max_http_version";
 export type SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionValue = "2" | "1";
@@ -1250,128 +1182,119 @@ export interface SettingsGetResultZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
   id: SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin Max HTTP Version Setting. */
-  value?: SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionValue | null;
+  value?: SettingsGetResultZonesCacheRulesOriginMaxHTTPVersionValue | null | undefined;
 }
 export type SettingsGetResultZonesPolish2Id = "polish";
-export type SettingsGetResultZonesPolish2Value = "off" | "lossless" | "lossy";
 export interface SettingsGetResultZonesPolish2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesPolish2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultPrefetchPreloadId = "prefetch_preload";
-export type SettingsGetResultPrefetchPreloadValue = "on" | "off";
 export interface SettingsGetResultPrefetchPreload {
   /** ID of the zone setting. */
   id: SettingsGetResultPrefetchPreloadId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultPrefetchPreloadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesPreRenderId = "pre_render";
-export type SettingsGetResultZonesPreRenderValue = "off" | "on";
 export interface SettingsGetResultZonesPreRender {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesPreRenderId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesPreRenderValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesPrivacyPassId = "privacy_pass";
-export type SettingsGetResultZonesPrivacyPassValue = "on" | "off";
 export interface SettingsGetResultZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesPrivacyPassId;
-  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
-  value: SettingsGetResultZonesPrivacyPassValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultProxyReadTimeoutId = "proxy_read_timeout";
 export interface SettingsGetResultProxyReadTimeout {
   /** ID of the zone setting. */
   id: SettingsGetResultProxyReadTimeoutId;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting. Notes: Value must be between 1 and 6000 */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultPseudoIPV4Id = "pseudo_ipv4";
-export type SettingsGetResultPseudoIPV4Value = "off" | "add_header" | "overwrite_header";
 export interface SettingsGetResultPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
   id: SettingsGetResultPseudoIPV4Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultPseudoIPV4Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesRedirectsForAITrainingId = "redirects_for_ai_training";
-export type SettingsGetResultZonesRedirectsForAITrainingValue = "off" | "on";
 export interface SettingsGetResultZonesRedirectsForAITraining {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesRedirectsForAITrainingId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesRedirectsForAITrainingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesReplaceInsecureJSId = "replace_insecure_js";
-export type SettingsGetResultZonesReplaceInsecureJSValue = "on" | "off";
 export interface SettingsGetResultZonesReplaceInsecureJS {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesReplaceInsecureJSId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesReplaceInsecureJSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesResponseBuffering2Id = "response_buffering";
-export type SettingsGetResultZonesResponseBuffering2Value = "on" | "off";
 export interface SettingsGetResultZonesResponseBuffering2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesResponseBuffering2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesRocketLoader2Id = "rocket_loader";
-export type SettingsGetResultZonesRocketLoader2Value = "on" | "off";
 export interface SettingsGetResultZonesRocketLoader2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesRocketLoader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
@@ -1379,17 +1302,20 @@ export type SettingsGetResultZonesSchemasAutomaticPlatformOptimizationValueHostn
   Array<string>;
 export interface SettingsGetResultZonesSchemasAutomaticPlatformOptimizationValue {
   /** Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled. */
-  cacheByDeviceType: boolean;
+  cacheByDeviceType?: boolean | null | undefined;
   /** Indicates whether or not Cloudflare proxy is enabled. */
-  cf: boolean;
+  cf?: boolean | null | undefined;
   /** Indicates whether or not Automatic Platform Optimization is enabled. */
-  enabled: boolean;
+  enabled?: boolean | null | undefined;
   /** An array of hostnames where Automatic Platform Optimization for WordPress is activated. */
-  hostnames: SettingsGetResultZonesSchemasAutomaticPlatformOptimizationValueHostnamesList;
+  hostnames?:
+    | SettingsGetResultZonesSchemasAutomaticPlatformOptimizationValueHostnamesList
+    | null
+    | undefined;
   /** Indicates whether or not site is powered by WordPress. */
-  wordpress: boolean;
+  wordpress?: boolean | null | undefined;
   /** Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed. */
-  wpPlugin: boolean;
+  wpPlugin?: boolean | null | undefined;
 }
 export interface SettingsGetResultZonesSchemasAutomaticPlatformOptimization {
   /** ID of the zone setting. */
@@ -1397,38 +1323,40 @@ export interface SettingsGetResultZonesSchemasAutomaticPlatformOptimization {
   /** Current value of the zone setting. */
   value: SettingsGetResultZonesSchemasAutomaticPlatformOptimizationValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesSearchForAgentsId = "search_for_agents";
-export type SettingsGetResultZonesSearchForAgentsValue = "off" | "on";
 export interface SettingsGetResultZonesSearchForAgents {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesSearchForAgentsId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSearchForAgentsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultSecurityHeadersId = "security_header";
 export interface SettingsGetResultSecurityHeadersValueStrictTransportSecurity {
   /** Whether or not strict transport security is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Include all subdomains for strict transport security. */
-  includeSubdomains?: boolean | null;
+  includeSubdomains?: boolean | null | undefined;
   /** Max age in seconds of the strict transport security. */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Whether or not to include 'X-Content-Type-Options: nosniff' header. */
-  nosniff?: boolean | null;
+  nosniff?: boolean | null | undefined;
   /** Enable automatic preload of the HSTS configuration. */
-  preload?: boolean | null;
+  preload?: boolean | null | undefined;
 }
 export interface SettingsGetResultSecurityHeadersValue {
   /** Strict Transport Security. */
-  strictTransportSecurity?: SettingsGetResultSecurityHeadersValueStrictTransportSecurity | null;
+  strictTransportSecurity?:
+    | SettingsGetResultSecurityHeadersValueStrictTransportSecurity
+    | null
+    | undefined;
 }
 export interface SettingsGetResultSecurityHeaders {
   /** ID of the zone's security header. */
@@ -1436,224 +1364,215 @@ export interface SettingsGetResultSecurityHeaders {
   /** Current value of the zone setting. */
   value: SettingsGetResultSecurityHeadersValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesSecurityLevel2Id = "security_level";
-export type SettingsGetResultZonesSecurityLevel2Value =
-  | "off"
-  | "essentially_off"
-  | "low"
-  | "medium"
-  | "high"
-  | "under_attack";
 export interface SettingsGetResultZonesSecurityLevel2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSecurityLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultServerSideExcludesId = "server_side_exclude";
-export type SettingsGetResultServerSideExcludesValue = "on" | "off";
 export interface SettingsGetResultServerSideExcludes {
   /** ID of the zone setting. */
   id: SettingsGetResultServerSideExcludesId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultServerSideExcludesValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesSha1SupportId = "sha1_support";
-export type SettingsGetResultZonesSha1SupportValue = "off" | "on";
 export interface SettingsGetResultZonesSha1Support {
   /** Zone setting identifier. */
   id: SettingsGetResultZonesSha1SupportId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSha1SupportValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesSortQueryStringForCache2Id = "sort_query_string_for_cache";
-export type SettingsGetResultZonesSortQueryStringForCache2Value = "on" | "off";
 export interface SettingsGetResultZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSortQueryStringForCache2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesSSL2Id = "ssl";
-export type SettingsGetResultZonesSSL2Value = "off" | "flexible" | "full" | "strict";
 export interface SettingsGetResultZonesSSL2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesSSL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultSSLRecommenderId = "ssl_recommender";
 export interface SettingsGetResultSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
-  id?: SettingsGetResultSSLRecommenderId | null;
+  id?: SettingsGetResultSSLRecommenderId | null | undefined;
   /** ssl-recommender enrollment setting. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type SettingsGetResultZonesTLS12OnlyId = "tls_1_2_only";
-export type SettingsGetResultZonesTLS12OnlyValue = "off" | "on";
 export interface SettingsGetResultZonesTLS12Only {
   /** Zone setting identifier. */
   id: SettingsGetResultZonesTLS12OnlyId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesTLS12OnlyValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultTLS13Id = "tls_1_3";
-export type SettingsGetResultTLS13Value = "on" | "off" | "zrt";
 export interface SettingsGetResultTLS13 {
   /** ID of the zone setting. */
   id: SettingsGetResultTLS13Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultTLS13Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultTLSClientAuthId = "tls_client_auth";
-export type SettingsGetResultTLSClientAuthValue = "on" | "off";
 export interface SettingsGetResultTLSClientAuth {
   /** ID of the zone setting. */
   id: SettingsGetResultTLSClientAuthId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultTLSClientAuthValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesTransformationsId = "transformations";
-export type SettingsGetResultZonesTransformationsValue = "on" | "off" | "open";
 export interface SettingsGetResultZonesTransformations {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: SettingsGetResultZonesTransformationsId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesTransformationsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesTransformationsAllowedOriginsId =
   "transformations_allowed_origins";
 export interface SettingsGetResultZonesTransformationsAllowedOrigins {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: SettingsGetResultZonesTransformationsAllowedOriginsId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of allowed origins. Refer to the [Image Transformations](https://developers.cloudflare.com/images/transform-images/sources/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesTrueClientIPHeader2Id = "true_client_ip_header";
-export type SettingsGetResultZonesTrueClientIPHeader2Value = "on" | "off";
 export interface SettingsGetResultZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesTrueClientIPHeader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesWAF2Id = "waf";
-export type SettingsGetResultZonesWAF2Value = "on" | "off";
 export interface SettingsGetResultZonesWAF2 {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesWAF2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesWebmcpEnabledId = "webmcp_enabled";
-export type SettingsGetResultZonesWebmcpEnabledValue = "off" | "on";
 export interface SettingsGetResultZonesWebmcpEnabled {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesWebmcpEnabledId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultZonesWebmcpEnabledValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesWebmcpMcpURLId = "webmcp_mcp_url";
 export interface SettingsGetResultZonesWebmcpMcpURL {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesWebmcpMcpURLId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Root-relative path (with optional query string) of this zone's MCP endpoint, for example "/api/mcp". Surfaced to the injected bridge as the data-mcp-url attribute. Absolute and protocol-relative URLs, fragments, and characters outside RFC 3986 paths and queries are rejected. An empty value clears the override so the bridge uses /mcp. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultZonesWebmcpPacksId = "webmcp_packs";
 export interface SettingsGetResultZonesWebmcpPacks {
   /** ID of the zone setting. */
   id: SettingsGetResultZonesWebmcpPacksId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of WebMCP tool-pack names to activate for this zone (for example, "c2pa,mcp-server-client"), surfaced to the injected bridge as the data-packs attribute. An empty value clears the override so the bridge uses its built-in default pack set. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultWebPId = "webp";
-export type SettingsGetResultWebPValue = "off" | "on";
 export interface SettingsGetResultWebP {
   /** ID of the zone setting. */
   id: SettingsGetResultWebPId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultWebPValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
+}
+export type SettingsGetResultZonesAVIFId = "avif";
+export interface SettingsGetResultZonesAVIF {
+  /** ID of the zone setting. */
+  id: SettingsGetResultZonesAVIFId;
+  /** Current value of the zone setting. */
+  value: unknown;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null | undefined;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResultWebsocketId = "websockets";
-export type SettingsGetResultWebsocketValue = "off" | "on";
 export interface SettingsGetResultWebsocket {
   /** ID of the zone setting. */
   id: SettingsGetResultWebsocketId;
   /** Current value of the zone setting. */
-  value: SettingsGetResultWebsocketValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsGetResult =
   | SettingsGetResultZeroRTT
@@ -1722,6 +1641,7 @@ export type SettingsGetResult =
   | SettingsGetResultZonesWebmcpMcpURL
   | SettingsGetResultZonesWebmcpPacks
   | SettingsGetResultWebP
+  | SettingsGetResultZonesAVIF
   | SettingsGetResultWebsocket;
 export type GetSettingResponse = SettingsGetResult;
 export interface GetSubscriptionRequest {
@@ -1748,19 +1668,19 @@ export type SubscriptionsGetResponseRatePlanId =
 export type SubscriptionsGetResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsGetResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsGetResponseRatePlanId | null;
+  id?: SubscriptionsGetResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsGetResponseRatePlanSetsList | null;
+  sets?: SubscriptionsGetResponseRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsGetResponseState =
   | "Trial"
@@ -1773,21 +1693,21 @@ export type SubscriptionsGetResponseState =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsGetResponseFrequency | null;
+  frequency?: SubscriptionsGetResponseFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsGetResponseRatePlan | null;
+  ratePlan?: SubscriptionsGetResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsGetResponseState | null;
+  state?: SubscriptionsGetResponseState | null | undefined;
 }
 export interface GetTransformationsAllowedOriginRequest {
   /** Identifier. */
@@ -1798,13 +1718,13 @@ export type GetTransformationsAllowedOriginResponseValue = "on" | "off";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTransformationsAllowedOriginResponse {
   /** ID of the zone setting. */
-  id?: GetTransformationsAllowedOriginResponseId | null;
+  id?: GetTransformationsAllowedOriginResponseId | null | undefined;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Comma-separated list of allowed origin domains for image and video transformations. Use "*" to allow all origins (default). */
-  value?: GetTransformationsAllowedOriginResponseValue | null;
+  value?: GetTransformationsAllowedOriginResponseValue | null | undefined;
 }
 export interface GetTransformationsC2paRequest {
   /** Identifier. */
@@ -1815,13 +1735,13 @@ export type GetTransformationsC2paResponseValue = "on" | "off";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTransformationsC2paResponse {
   /** ID of the zone setting. */
-  id?: GetTransformationsC2paResponseId | null;
+  id?: GetTransformationsC2paResponseId | null | undefined;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Current value of the zone setting. */
-  value?: GetTransformationsC2paResponseValue | null;
+  value?: GetTransformationsC2paResponseValue | null | undefined;
 }
 export interface GetZoneRequest {
   /** Identifier */
@@ -1870,23 +1790,23 @@ export interface GetZoneResponse {
   /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
   /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
-  cnameSuffix?: string | null;
+  cnameSuffix?: string | null | undefined;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** This has been replaced by Account memberships. */
-  permissions?: GetResponsePermissionsList | null;
+  permissions?: GetResponsePermissionsList | null | undefined;
   /** The zone status on Cloudflare. */
-  status?: GetResponseStatus | null;
+  status?: GetResponseStatus | null | undefined;
   /** The root organizational unit that this zone belongs to (such as a tenant or organization). */
-  tenant?: CreateResponseTenant | null;
+  tenant?: CreateResponseTenant | null | undefined;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
-  tenantUnit?: CreateResponseTenantUnit | null;
+  tenantUnit?: CreateResponseTenantUnit | null | undefined;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: GetResponseType | null;
+  type?: GetResponseType | null | undefined;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: GetResponseVanityNameServersList | null;
+  vanityNameServers?: GetResponseVanityNameServersList | null | undefined;
   /** Verification key for partial zone setup. */
-  verificationKey?: string | null;
+  verificationKey?: string | null | undefined;
 }
 export interface ListEntitlementsRequest {
   /** Identifier tag. */
@@ -1960,58 +1880,56 @@ export interface ListPlansRequest {
 export type PlansListResultItemFrequency = "weekly" | "monthly" | "quarterly" | "yearly";
 export interface PlansListResultItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Indicates whether you can subscribe to this plan. */
-  canSubscribe?: boolean | null;
+  canSubscribe?: boolean | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Indicates whether this plan is managed externally. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** The frequency at which you will be billed for this plan. */
-  frequency?: PlansListResultItemFrequency | null;
+  frequency?: PlansListResultItemFrequency | null | undefined;
   /** Indicates whether you are currently subscribed to this plan. */
-  isSubscribed?: boolean | null;
+  isSubscribed?: boolean | null | undefined;
   /** The legacy identifier for this rate plan, if any. */
-  legacyId?: string | null;
+  legacyId?: string | null | undefined;
   /** The plan name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The amount you will be billed for this plan. */
-  price?: number | null;
+  price?: number | null | undefined;
 }
 export type PlansListResultList = Array<PlansListResultItem>;
 export interface ListPlansResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PlansListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingsRequest {
   /** Identifier */
   zoneId: string;
 }
 export type ListSettingsResultItemZeroRTTId = "0rtt";
-export type ListSettingsResultItemZeroRTTValue = "on" | "off";
 export interface ListSettingsResultItemZeroRTT {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZeroRTTId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZeroRTTValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemAdvancedDDoSId = "advanced_ddos";
-export type ListSettingsResultItemAdvancedDDoSValue = "on" | "off";
 export interface ListSettingsResultItemAdvancedDDoS {
   /** ID of the zone setting. */
   id: ListSettingsResultItemAdvancedDDoSId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemAdvancedDDoSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesCacheRulesAegisId = "aegis";
 export type ListSettingsResultItemZonesCacheRulesAegisValue =
@@ -2020,371 +1938,286 @@ export interface ListSettingsResultItemZonesCacheRulesAegis {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesCacheRulesAegisId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. */
-  value?: SettingsGetResultZonesCacheRulesAegisValue | null;
+  value?: SettingsGetResultZonesCacheRulesAegisValue | null | undefined;
 }
 export type ListSettingsResultItemAlwaysOnlineId = "always_online";
-export type ListSettingsResultItemAlwaysOnlineValue = "on" | "off";
 export interface ListSettingsResultItemAlwaysOnline {
   /** ID of the zone setting. */
   id: ListSettingsResultItemAlwaysOnlineId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemAlwaysOnlineValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesAlwaysUseHTTPS2Id = "always_use_https";
-export type ListSettingsResultItemZonesAlwaysUseHTTPS2Value = "on" | "off";
 export interface ListSettingsResultItemZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesAlwaysUseHTTPS2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesAutomaticHTTPSRewrites2Id = "automatic_https_rewrites";
-export type ListSettingsResultItemZonesAutomaticHTTPSRewrites2Value = "on" | "off";
 export interface ListSettingsResultItemZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesAutomaticHTTPSRewrites2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemBrotliId = "brotli";
-export type ListSettingsResultItemBrotliValue = "off" | "on";
 export interface ListSettingsResultItemBrotli {
   /** ID of the zone setting. */
   id: ListSettingsResultItemBrotliId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemBrotliValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesBrowserCacheTTL2Id = "browser_cache_ttl";
 export interface ListSettingsResultItemZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesBrowserCacheTTL2Id;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting in seconds. Minimum values by plan: */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesBrowserCheck2Id = "browser_check";
-export type ListSettingsResultItemZonesBrowserCheck2Value = "on" | "off";
 export interface ListSettingsResultItemZonesBrowserCheck2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesBrowserCheck2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesCacheLevel2Id = "cache_level";
-export type ListSettingsResultItemZonesCacheLevel2Value = "aggressive" | "basic" | "simplified";
 export interface ListSettingsResultItemZonesCacheLevel2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesCacheLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemChallengeTTLId = "challenge_ttl";
-export type ListSettingsResultItemChallengeTTLValue =
-  | 300
-  | 900
-  | 1800
-  | 2700
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 28800
-  | 57600
-  | 86400
-  | 604800
-  | 2592000
-  | 31536000;
 export interface ListSettingsResultItemChallengeTTL {
   /** ID of the zone setting. */
   id: ListSettingsResultItemChallengeTTLId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemChallengeTTLValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemCiphersId = "ciphers";
-export type ListSettingsResultItemCiphersValueList = Array<string>;
 export interface ListSettingsResultItemCiphers {
   /** ID of the zone setting. */
   id: ListSettingsResultItemCiphersId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemCiphersValueList;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesContentConverterId = "content_converter";
-export type ListSettingsResultItemZonesContentConverterValue = "off" | "on";
 export interface ListSettingsResultItemZonesContentConverter {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesContentConverterId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesContentConverterValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesCNAMEFlatteningId = "cname_flattening";
-export type ListSettingsResultItemZonesCNAMEFlatteningValue = "flatten_at_root" | "flatten_all";
 export interface ListSettingsResultItemZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: ListSettingsResultItemZonesCNAMEFlatteningId;
-  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
-  value: ListSettingsResultItemZonesCNAMEFlatteningValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemDevelopmentModeId = "development_mode";
-export type ListSettingsResultItemDevelopmentModeValue = "on" | "off";
 export interface ListSettingsResultItemDevelopmentMode {
   /** ID of the zone setting. */
   id: ListSettingsResultItemDevelopmentModeId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemDevelopmentModeValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
-  timeRemaining?: number | null;
+  timeRemaining?: number | null | undefined;
 }
 export type ListSettingsResultItemEarlyHintsId = "early_hints";
-export type ListSettingsResultItemEarlyHintsValue = "on" | "off";
 export interface ListSettingsResultItemEarlyHints {
   /** ID of the zone setting. */
   id: ListSettingsResultItemEarlyHintsId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemEarlyHintsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesEdgeCacheTTL2Id = "edge_cache_ttl";
-export type ListSettingsResultItemZonesEdgeCacheTTL2Value =
-  | 30
-  | 60
-  | 300
-  | 1200
-  | 1800
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 18000
-  | 28800
-  | 43200
-  | 57600
-  | 72000
-  | 86400
-  | 172800
-  | 259200
-  | 345600
-  | 432000
-  | 518400
-  | 604800;
 export interface ListSettingsResultItemZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesEdgeCacheTTL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesEmailObfuscation2Id = "email_obfuscation";
-export type ListSettingsResultItemZonesEmailObfuscation2Value = "on" | "off";
 export interface ListSettingsResultItemZonesEmailObfuscation2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesEmailObfuscation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemH2PrioritizationId = "h2_prioritization";
-export type ListSettingsResultItemH2PrioritizationValue = "on" | "off" | "custom";
 export interface ListSettingsResultItemH2Prioritization {
   /** ID of the zone setting. */
   id: ListSettingsResultItemH2PrioritizationId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemH2PrioritizationValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemHotlinkProtectionId = "hotlink_protection";
-export type ListSettingsResultItemHotlinkProtectionValue = "on" | "off";
 export interface ListSettingsResultItemHotlinkProtection {
   /** ID of the zone setting. */
   id: ListSettingsResultItemHotlinkProtectionId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemHotlinkProtectionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemHTTP2Id = "http2";
-export type ListSettingsResultItemHTTP2Value = "on" | "off";
 export interface ListSettingsResultItemHTTP2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemHTTP2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemHTTP2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemHTTP3Id = "http3";
-export type ListSettingsResultItemHTTP3Value = "on" | "off";
 export interface ListSettingsResultItemHTTP3 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemHTTP3Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemHTTP3Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemImageResizingId = "image_resizing";
-export type ListSettingsResultItemImageResizingValue = "on" | "off" | "open";
 export interface ListSettingsResultItemImageResizing {
   /** ID of the zone setting. */
   id: ListSettingsResultItemImageResizingId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemImageResizingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesIPGeolocation2Id = "ip_geolocation";
-export type ListSettingsResultItemZonesIPGeolocation2Value = "on" | "off";
 export interface ListSettingsResultItemZonesIPGeolocation2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesIPGeolocation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemIPV6Id = "ipv6";
-export type ListSettingsResultItemIPV6Value = "off" | "on";
 export interface ListSettingsResultItemIPV6 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemIPV6Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemIPV6Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesMaxUploadId = "max_upload";
-export type ListSettingsResultItemZonesMaxUploadValue =
-  | 100
-  | 125
-  | 150
-  | 175
-  | 200
-  | 225
-  | 250
-  | 275
-  | 300
-  | 325
-  | 350
-  | 375
-  | 400
-  | 425
-  | 450
-  | 475
-  | 500
-  | 1000
-  | 1500
-  | 2000
-  | 2500
-  | 3000
-  | 3500
-  | 4000
-  | 4500
-  | 5000;
 export interface ListSettingsResultItemZonesMaxUpload {
   /** identifier of the zone setting. */
   id: ListSettingsResultItemZonesMaxUploadId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesMaxUploadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemMinTLSVersionId = "min_tls_version";
-export type ListSettingsResultItemMinTLSVersionValue = "1.0" | "1.1" | "1.2" | "1.3";
 export interface ListSettingsResultItemMinTLSVersion {
   /** ID of the zone setting. */
   id: ListSettingsResultItemMinTLSVersionId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemMinTLSVersionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesMirage2Id = "mirage";
-export type ListSettingsResultItemZonesMirage2Value = "on" | "off";
 export interface ListSettingsResultItemZonesMirage2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesMirage2Id;
-  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
-  value: ListSettingsResultItemZonesMirage2Value;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemNELId = "nel";
 export type ListSettingsResultItemNELValue = SettingsGetResultNELValue;
@@ -2394,66 +2227,62 @@ export interface ListSettingsResultItemNEL {
   /** Current value of the zone setting. */
   value: SettingsGetResultNELValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesOpportunisticEncryption2Id = "opportunistic_encryption";
-export type ListSettingsResultItemZonesOpportunisticEncryption2Value = "on" | "off";
 export interface ListSettingsResultItemZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesOpportunisticEncryption2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemOpportunisticOnionId = "opportunistic_onion";
-export type ListSettingsResultItemOpportunisticOnionValue = "on" | "off";
 export interface ListSettingsResultItemOpportunisticOnion {
   /** ID of the zone setting. */
   id: ListSettingsResultItemOpportunisticOnionId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemOpportunisticOnionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemOrangeToOrangeId = "orange_to_orange";
-export type ListSettingsResultItemOrangeToOrangeValue = "on" | "off";
 export interface ListSettingsResultItemOrangeToOrange {
   /** ID of the zone setting. */
   id: ListSettingsResultItemOrangeToOrangeId;
-  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
-  value: ListSettingsResultItemOrangeToOrangeValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesOriginErrorPagePassThru2Id = "origin_error_page_pass_thru";
-export type ListSettingsResultItemZonesOriginErrorPagePassThru2Value = "on" | "off";
 export interface ListSettingsResultItemZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesOriginErrorPagePassThru2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesCacheRulesOriginH2MaxStreamsId = "origin_h2_max_streams";
 export interface ListSettingsResultItemZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
   id: ListSettingsResultItemZonesCacheRulesOriginH2MaxStreamsId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin H2 Max Streams Setting. */
-  value?: number | null;
+  value?: number | null | undefined;
 }
 export type ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionId = "origin_max_http_version";
 export type ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionValue = "2" | "1";
@@ -2461,128 +2290,119 @@ export interface ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
   id: ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin Max HTTP Version Setting. */
-  value?: ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionValue | null;
+  value?: ListSettingsResultItemZonesCacheRulesOriginMaxHTTPVersionValue | null | undefined;
 }
 export type ListSettingsResultItemZonesPolish2Id = "polish";
-export type ListSettingsResultItemZonesPolish2Value = "off" | "lossless" | "lossy";
 export interface ListSettingsResultItemZonesPolish2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesPolish2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemPrefetchPreloadId = "prefetch_preload";
-export type ListSettingsResultItemPrefetchPreloadValue = "on" | "off";
 export interface ListSettingsResultItemPrefetchPreload {
   /** ID of the zone setting. */
   id: ListSettingsResultItemPrefetchPreloadId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemPrefetchPreloadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesPreRenderId = "pre_render";
-export type ListSettingsResultItemZonesPreRenderValue = "off" | "on";
 export interface ListSettingsResultItemZonesPreRender {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesPreRenderId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesPreRenderValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesPrivacyPassId = "privacy_pass";
-export type ListSettingsResultItemZonesPrivacyPassValue = "on" | "off";
 export interface ListSettingsResultItemZonesPrivacyPass {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesPrivacyPassId;
-  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
-  value: ListSettingsResultItemZonesPrivacyPassValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemProxyReadTimeoutId = "proxy_read_timeout";
 export interface ListSettingsResultItemProxyReadTimeout {
   /** ID of the zone setting. */
   id: ListSettingsResultItemProxyReadTimeoutId;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting. Notes: Value must be between 1 and 6000 */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemPseudoIPV4Id = "pseudo_ipv4";
-export type ListSettingsResultItemPseudoIPV4Value = "off" | "add_header" | "overwrite_header";
 export interface ListSettingsResultItemPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
   id: ListSettingsResultItemPseudoIPV4Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemPseudoIPV4Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesRedirectsForAITrainingId = "redirects_for_ai_training";
-export type ListSettingsResultItemZonesRedirectsForAITrainingValue = "off" | "on";
 export interface ListSettingsResultItemZonesRedirectsForAITraining {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesRedirectsForAITrainingId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesRedirectsForAITrainingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesReplaceInsecureJSId = "replace_insecure_js";
-export type ListSettingsResultItemZonesReplaceInsecureJSValue = "on" | "off";
 export interface ListSettingsResultItemZonesReplaceInsecureJS {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesReplaceInsecureJSId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesReplaceInsecureJSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesResponseBuffering2Id = "response_buffering";
-export type ListSettingsResultItemZonesResponseBuffering2Value = "on" | "off";
 export interface ListSettingsResultItemZonesResponseBuffering2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesResponseBuffering2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesRocketLoader2Id = "rocket_loader";
-export type ListSettingsResultItemZonesRocketLoader2Value = "on" | "off";
 export interface ListSettingsResultItemZonesRocketLoader2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesRocketLoader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
@@ -2590,17 +2410,20 @@ export type ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue
   Array<string>;
 export interface ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue {
   /** Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled. */
-  cacheByDeviceType: boolean;
+  cacheByDeviceType?: boolean | null | undefined;
   /** Indicates whether or not Cloudflare proxy is enabled. */
-  cf: boolean;
+  cf?: boolean | null | undefined;
   /** Indicates whether or not Automatic Platform Optimization is enabled. */
-  enabled: boolean;
+  enabled?: boolean | null | undefined;
   /** An array of hostnames where Automatic Platform Optimization for WordPress is activated. */
-  hostnames: ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList;
+  hostnames?:
+    | ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList
+    | null
+    | undefined;
   /** Indicates whether or not site is powered by WordPress. */
-  wordpress: boolean;
+  wordpress?: boolean | null | undefined;
   /** Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed. */
-  wpPlugin: boolean;
+  wpPlugin?: boolean | null | undefined;
 }
 export interface ListSettingsResultItemZonesSchemasAutomaticPlatformOptimization {
   /** ID of the zone setting. */
@@ -2608,21 +2431,20 @@ export interface ListSettingsResultItemZonesSchemasAutomaticPlatformOptimization
   /** Current value of the zone setting. */
   value: ListSettingsResultItemZonesSchemasAutomaticPlatformOptimizationValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesSearchForAgentsId = "search_for_agents";
-export type ListSettingsResultItemZonesSearchForAgentsValue = "off" | "on";
 export interface ListSettingsResultItemZonesSearchForAgents {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesSearchForAgentsId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesSearchForAgentsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemSecurityHeadersId = "security_header";
 export type ListSettingsResultItemSecurityHeadersValueStrictTransportSecurity =
@@ -2634,224 +2456,215 @@ export interface ListSettingsResultItemSecurityHeaders {
   /** Current value of the zone setting. */
   value: SettingsGetResultSecurityHeadersValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesSecurityLevel2Id = "security_level";
-export type ListSettingsResultItemZonesSecurityLevel2Value =
-  | "off"
-  | "essentially_off"
-  | "low"
-  | "medium"
-  | "high"
-  | "under_attack";
 export interface ListSettingsResultItemZonesSecurityLevel2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesSecurityLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemServerSideExcludesId = "server_side_exclude";
-export type ListSettingsResultItemServerSideExcludesValue = "on" | "off";
 export interface ListSettingsResultItemServerSideExcludes {
   /** ID of the zone setting. */
   id: ListSettingsResultItemServerSideExcludesId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemServerSideExcludesValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesSha1SupportId = "sha1_support";
-export type ListSettingsResultItemZonesSha1SupportValue = "off" | "on";
 export interface ListSettingsResultItemZonesSha1Support {
   /** Zone setting identifier. */
   id: ListSettingsResultItemZonesSha1SupportId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesSha1SupportValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesSortQueryStringForCache2Id = "sort_query_string_for_cache";
-export type ListSettingsResultItemZonesSortQueryStringForCache2Value = "on" | "off";
 export interface ListSettingsResultItemZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesSortQueryStringForCache2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesSSL2Id = "ssl";
-export type ListSettingsResultItemZonesSSL2Value = "off" | "flexible" | "full" | "strict";
 export interface ListSettingsResultItemZonesSSL2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesSSL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemSSLRecommenderId = "ssl_recommender";
 export interface ListSettingsResultItemSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
-  id?: ListSettingsResultItemSSLRecommenderId | null;
+  id?: ListSettingsResultItemSSLRecommenderId | null | undefined;
   /** ssl-recommender enrollment setting. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type ListSettingsResultItemZonesTLS12OnlyId = "tls_1_2_only";
-export type ListSettingsResultItemZonesTLS12OnlyValue = "off" | "on";
 export interface ListSettingsResultItemZonesTLS12Only {
   /** Zone setting identifier. */
   id: ListSettingsResultItemZonesTLS12OnlyId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesTLS12OnlyValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemTLS13Id = "tls_1_3";
-export type ListSettingsResultItemTLS13Value = "on" | "off" | "zrt";
 export interface ListSettingsResultItemTLS13 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemTLS13Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemTLS13Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemTLSClientAuthId = "tls_client_auth";
-export type ListSettingsResultItemTLSClientAuthValue = "on" | "off";
 export interface ListSettingsResultItemTLSClientAuth {
   /** ID of the zone setting. */
   id: ListSettingsResultItemTLSClientAuthId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemTLSClientAuthValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesTransformationsId = "transformations";
-export type ListSettingsResultItemZonesTransformationsValue = "on" | "off" | "open";
 export interface ListSettingsResultItemZonesTransformations {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: ListSettingsResultItemZonesTransformationsId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesTransformationsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesTransformationsAllowedOriginsId =
   "transformations_allowed_origins";
 export interface ListSettingsResultItemZonesTransformationsAllowedOrigins {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: ListSettingsResultItemZonesTransformationsAllowedOriginsId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of allowed origins. Refer to the [Image Transformations](https://developers.cloudflare.com/images/transform-images/sources/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesTrueClientIPHeader2Id = "true_client_ip_header";
-export type ListSettingsResultItemZonesTrueClientIPHeader2Value = "on" | "off";
 export interface ListSettingsResultItemZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesTrueClientIPHeader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesWAF2Id = "waf";
-export type ListSettingsResultItemZonesWAF2Value = "on" | "off";
 export interface ListSettingsResultItemZonesWAF2 {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesWAF2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesWebmcpEnabledId = "webmcp_enabled";
-export type ListSettingsResultItemZonesWebmcpEnabledValue = "off" | "on";
 export interface ListSettingsResultItemZonesWebmcpEnabled {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesWebmcpEnabledId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemZonesWebmcpEnabledValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesWebmcpMcpURLId = "webmcp_mcp_url";
 export interface ListSettingsResultItemZonesWebmcpMcpURL {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesWebmcpMcpURLId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Root-relative path (with optional query string) of this zone's MCP endpoint, for example "/api/mcp". Surfaced to the injected bridge as the data-mcp-url attribute. Absolute and protocol-relative URLs, fragments, and characters outside RFC 3986 paths and queries are rejected. An empty value clears the override so the bridge uses /mcp. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemZonesWebmcpPacksId = "webmcp_packs";
 export interface ListSettingsResultItemZonesWebmcpPacks {
   /** ID of the zone setting. */
   id: ListSettingsResultItemZonesWebmcpPacksId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of WebMCP tool-pack names to activate for this zone (for example, "c2pa,mcp-server-client"), surfaced to the injected bridge as the data-packs attribute. An empty value clears the override so the bridge uses its built-in default pack set. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemWebPId = "webp";
-export type ListSettingsResultItemWebPValue = "off" | "on";
 export interface ListSettingsResultItemWebP {
   /** ID of the zone setting. */
   id: ListSettingsResultItemWebPId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemWebPValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
+}
+export type ListSettingsResultItemZonesAVIFId = "avif";
+export interface ListSettingsResultItemZonesAVIF {
+  /** ID of the zone setting. */
+  id: ListSettingsResultItemZonesAVIFId;
+  /** Current value of the zone setting. */
+  value: unknown;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null | undefined;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItemWebsocketId = "websockets";
-export type ListSettingsResultItemWebsocketValue = "off" | "on";
 export interface ListSettingsResultItemWebsocket {
   /** ID of the zone setting. */
   id: ListSettingsResultItemWebsocketId;
   /** Current value of the zone setting. */
-  value: ListSettingsResultItemWebsocketValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListSettingsResultItem =
   | ListSettingsResultItemZeroRTT
@@ -2919,14 +2732,15 @@ export type ListSettingsResultItem =
   | ListSettingsResultItemZonesWebmcpMcpURL
   | ListSettingsResultItemZonesWebmcpPacks
   | ListSettingsResultItemWebP
+  | ListSettingsResultItemZonesAVIF
   | ListSettingsResultItemWebsocket;
 export type ListSettingsResultList = Array<ListSettingsResultItem>;
 export type ListSettingsResponse = ListSettingsResultList;
 export interface ListRequestAccount {
   /** Filter by an account ID. */
-  id?: string;
+  id?: string | undefined;
   /** An account Name. Optional filter operators can be provided to extend refine the search: */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListRequestDirection = "asc" | "desc";
 export type ListRequestMatch = "any" | "all";
@@ -2935,23 +2749,23 @@ export type ListRequestStatus = "initializing" | "pending" | "active" | "moved";
 export type ListRequestType = "full" | "partial" | "secondary" | "internal";
 export type ListRequestTypeList = Array<ListRequestType | (string & {})>;
 export interface ListZonesRequest {
-  account?: ListRequestAccount;
+  account?: ListRequestAccount | undefined;
   /** Direction to order zones. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Whether to match all search requirements or at least one (any). */
-  match?: ListRequestMatch | (string & {});
+  match?: ListRequestMatch | (string & {}) | undefined;
   /** A domain name. Optional filter operators can be provided to extend refine the search: */
-  name?: string;
+  name?: string | undefined;
   /** Field to order zones by. */
-  order?: ListRequestOrder | (string & {});
+  order?: ListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of zones per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Specify a zone status to filter by. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
   /** Zone types to filter by. Multiple types can be specified as a comma-separated list (e.g., ?type=full,partial,secondary). When this parameter is not provided, zones with type "internal" are excluded from the results. */
-  type?: ListRequestTypeList;
+  type?: ListRequestTypeList | undefined;
 }
 export type ListResultItemAccount = CreateResponseAccount;
 export type ListResultItemMeta = CreateResponseMeta;
@@ -2995,30 +2809,30 @@ export interface ListResultItem {
   /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
   /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
-  cnameSuffix?: string | null;
+  cnameSuffix?: string | null | undefined;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** This has been replaced by Account memberships. */
-  permissions?: ListResultItemPermissionsList | null;
+  permissions?: ListResultItemPermissionsList | null | undefined;
   /** The zone status on Cloudflare. */
-  status?: ListResultItemStatus | null;
+  status?: ListResultItemStatus | null | undefined;
   /** The root organizational unit that this zone belongs to (such as a tenant or organization). */
-  tenant?: CreateResponseTenant | null;
+  tenant?: CreateResponseTenant | null | undefined;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
-  tenantUnit?: CreateResponseTenantUnit | null;
+  tenantUnit?: CreateResponseTenantUnit | null | undefined;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: ListResultItemType | null;
+  type?: ListResultItemType | null | undefined;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: ListResultItemVanityNameServersList | null;
+  vanityNameServers?: ListResultItemVanityNameServersList | null | undefined;
   /** Verification key for partial zone setup. */
-  verificationKey?: string | null;
+  verificationKey?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListZonesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CtAlertingEditRequestEmailsList = Array<string>;
 export interface PatchCtAlertingRequest {
@@ -3026,16 +2840,16 @@ export interface PatchCtAlertingRequest {
   zoneId: string;
   /** Whether CT alerting is enabled for the zone. */
   enabled: boolean;
-  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. */
-  emails?: CtAlertingEditRequestEmailsList;
+  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. Omitted from responses when no addresses are configured. */
+  emails?: CtAlertingEditRequestEmailsList | undefined;
 }
 export type CtAlertingEditResponseEmailsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchCtAlertingResponse {
   /** Whether CT alerting is enabled for the zone. */
   enabled: boolean;
-  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. */
-  emails?: CtAlertingEditResponseEmailsList | null;
+  /** Email addresses that receive CT alert notifications for the zone. A maximum of 100 addresses may be configured. Each address must be a valid RFC 5322 email address and must not contain a comma. Omitted from responses when no addresses are configured. */
+  emails?: CtAlertingEditResponseEmailsList | null | undefined;
 }
 export type EnvironmentsEditRequestEnvironmentsItemPosition =
   EnvironmentsCreateRequestEnvironmentsItemPosition;
@@ -3059,15 +2873,15 @@ export interface PatchHoldRequest {
   /** Identifier. */
   zoneId: string;
   /** If `hold_after` is provided and future-dated, the hold will be temporarily disabled, then automatically re-enabled by the system at the time specified in this RFC3339-formatted timestamp. A past-dated `hold_after` value will have no effect on an existing, enabled hold. Providing an empty string will set its value to the current time. Providing `null` will disable the hold indefinitely. */
-  holdAfter?: string;
+  holdAfter?: string | undefined;
   /** If `true`, the zone hold will extend to block any subdomain of the given zone, as well as SSL4SaaS Custom Hostnames. For example, a zone hold on a zone with the hostname 'example.com' and include_subdomains=true will block 'example.com', 'staging.example.com', 'api.staging.example.com', etc. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchHoldResponse {
-  hold?: boolean | null;
-  holdAfter?: string | null;
-  includeSubdomains?: unknown | null;
+  hold?: boolean | null | undefined;
+  holdAfter?: string | null | undefined;
+  includeSubdomains?: unknown | null | undefined;
 }
 export interface PatchSettingRequest {
   /** Identifier */
@@ -3075,33 +2889,31 @@ export interface PatchSettingRequest {
   /** Setting name */
   settingId: string;
   /** ssl-recommender enrollment setting. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Value of the zone setting. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type SettingsEditResultZeroRTTId = "0rtt";
-export type SettingsEditResultZeroRTTValue = "on" | "off";
 export interface SettingsEditResultZeroRTT {
   /** ID of the zone setting. */
   id: SettingsEditResultZeroRTTId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZeroRTTValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultAdvancedDDoSId = "advanced_ddos";
-export type SettingsEditResultAdvancedDDoSValue = "on" | "off";
 export interface SettingsEditResultAdvancedDDoS {
   /** ID of the zone setting. */
   id: SettingsEditResultAdvancedDDoSId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultAdvancedDDoSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesCacheRulesAegisId = "aegis";
 export type SettingsEditResultZonesCacheRulesAegisValue =
@@ -3110,383 +2922,297 @@ export interface SettingsEditResultZonesCacheRulesAegis {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesCacheRulesAegisId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. */
-  value?: SettingsGetResultZonesCacheRulesAegisValue | null;
+  value?: SettingsGetResultZonesCacheRulesAegisValue | null | undefined;
 }
 export type SettingsEditResultAlwaysOnlineId = "always_online";
-export type SettingsEditResultAlwaysOnlineValue = "on" | "off";
 export interface SettingsEditResultAlwaysOnline {
   /** ID of the zone setting. */
   id: SettingsEditResultAlwaysOnlineId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultAlwaysOnlineValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesAlwaysUseHTTPS2Id = "always_use_https";
-export type SettingsEditResultZonesAlwaysUseHTTPS2Value = "on" | "off";
 export interface SettingsEditResultZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesAlwaysUseHTTPS2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesAutomaticHTTPSRewrites2Id = "automatic_https_rewrites";
-export type SettingsEditResultZonesAutomaticHTTPSRewrites2Value = "on" | "off";
 export interface SettingsEditResultZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesAutomaticHTTPSRewrites2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultBrotliId = "brotli";
-export type SettingsEditResultBrotliValue = "off" | "on";
 export interface SettingsEditResultBrotli {
   /** ID of the zone setting. */
   id: SettingsEditResultBrotliId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultBrotliValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesBrowserCacheTTL2Id = "browser_cache_ttl";
 export interface SettingsEditResultZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesBrowserCacheTTL2Id;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting in seconds. Minimum values by plan: */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesBrowserCheck2Id = "browser_check";
-export type SettingsEditResultZonesBrowserCheck2Value = "on" | "off";
 export interface SettingsEditResultZonesBrowserCheck2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesBrowserCheck2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesCacheLevel2Id = "cache_level";
-export type SettingsEditResultZonesCacheLevel2Value = "aggressive" | "basic" | "simplified";
 export interface SettingsEditResultZonesCacheLevel2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesCacheLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultChallengeTTLId = "challenge_ttl";
-export type SettingsEditResultChallengeTTLValue =
-  | 300
-  | 900
-  | 1800
-  | 2700
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 28800
-  | 57600
-  | 86400
-  | 604800
-  | 2592000
-  | 31536000;
 export interface SettingsEditResultChallengeTTL {
   /** ID of the zone setting. */
   id: SettingsEditResultChallengeTTLId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultChallengeTTLValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesChinaNetworkEnabledId = "china_network_enabled";
-export type SettingsEditResultZonesChinaNetworkEnabledValue = "on" | "off";
 export interface SettingsEditResultZonesChinaNetworkEnabled {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesChinaNetworkEnabledId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesChinaNetworkEnabledValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesContentConverterId = "content_converter";
-export type SettingsEditResultZonesContentConverterValue = "off" | "on";
 export interface SettingsEditResultZonesContentConverter {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesContentConverterId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesContentConverterValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultCiphersId = "ciphers";
-export type SettingsEditResultCiphersValueList = Array<string>;
 export interface SettingsEditResultCiphers {
   /** ID of the zone setting. */
   id: SettingsEditResultCiphersId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultCiphersValueList;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesCNAMEFlatteningId = "cname_flattening";
-export type SettingsEditResultZonesCNAMEFlatteningValue = "flatten_at_root" | "flatten_all";
 export interface SettingsEditResultZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsEditResultZonesCNAMEFlatteningId;
-  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
-  value: SettingsEditResultZonesCNAMEFlatteningValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultDevelopmentModeId = "development_mode";
-export type SettingsEditResultDevelopmentModeValue = "on" | "off";
 export interface SettingsEditResultDevelopmentMode {
   /** ID of the zone setting. */
   id: SettingsEditResultDevelopmentModeId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultDevelopmentModeValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
-  timeRemaining?: number | null;
+  timeRemaining?: number | null | undefined;
 }
 export type SettingsEditResultEarlyHintsId = "early_hints";
-export type SettingsEditResultEarlyHintsValue = "on" | "off";
 export interface SettingsEditResultEarlyHints {
   /** ID of the zone setting. */
   id: SettingsEditResultEarlyHintsId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultEarlyHintsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesEdgeCacheTTL2Id = "edge_cache_ttl";
-export type SettingsEditResultZonesEdgeCacheTTL2Value =
-  | 30
-  | 60
-  | 300
-  | 1200
-  | 1800
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 18000
-  | 28800
-  | 43200
-  | 57600
-  | 72000
-  | 86400
-  | 172800
-  | 259200
-  | 345600
-  | 432000
-  | 518400
-  | 604800;
 export interface SettingsEditResultZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesEdgeCacheTTL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesEmailObfuscation2Id = "email_obfuscation";
-export type SettingsEditResultZonesEmailObfuscation2Value = "on" | "off";
 export interface SettingsEditResultZonesEmailObfuscation2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesEmailObfuscation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultH2PrioritizationId = "h2_prioritization";
-export type SettingsEditResultH2PrioritizationValue = "on" | "off" | "custom";
 export interface SettingsEditResultH2Prioritization {
   /** ID of the zone setting. */
   id: SettingsEditResultH2PrioritizationId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultH2PrioritizationValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultHotlinkProtectionId = "hotlink_protection";
-export type SettingsEditResultHotlinkProtectionValue = "on" | "off";
 export interface SettingsEditResultHotlinkProtection {
   /** ID of the zone setting. */
   id: SettingsEditResultHotlinkProtectionId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultHotlinkProtectionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultHTTP2Id = "http2";
-export type SettingsEditResultHTTP2Value = "on" | "off";
 export interface SettingsEditResultHTTP2 {
   /** ID of the zone setting. */
   id: SettingsEditResultHTTP2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultHTTP2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultHTTP3Id = "http3";
-export type SettingsEditResultHTTP3Value = "on" | "off";
 export interface SettingsEditResultHTTP3 {
   /** ID of the zone setting. */
   id: SettingsEditResultHTTP3Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultHTTP3Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultImageResizingId = "image_resizing";
-export type SettingsEditResultImageResizingValue = "on" | "off" | "open";
 export interface SettingsEditResultImageResizing {
   /** ID of the zone setting. */
   id: SettingsEditResultImageResizingId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultImageResizingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesIPGeolocation2Id = "ip_geolocation";
-export type SettingsEditResultZonesIPGeolocation2Value = "on" | "off";
 export interface SettingsEditResultZonesIPGeolocation2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesIPGeolocation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultIPV6Id = "ipv6";
-export type SettingsEditResultIPV6Value = "off" | "on";
 export interface SettingsEditResultIPV6 {
   /** ID of the zone setting. */
   id: SettingsEditResultIPV6Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultIPV6Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesMaxUploadId = "max_upload";
-export type SettingsEditResultZonesMaxUploadValue =
-  | 100
-  | 125
-  | 150
-  | 175
-  | 200
-  | 225
-  | 250
-  | 275
-  | 300
-  | 325
-  | 350
-  | 375
-  | 400
-  | 425
-  | 450
-  | 475
-  | 500
-  | 1000
-  | 1500
-  | 2000
-  | 2500
-  | 3000
-  | 3500
-  | 4000
-  | 4500
-  | 5000;
 export interface SettingsEditResultZonesMaxUpload {
   /** identifier of the zone setting. */
   id: SettingsEditResultZonesMaxUploadId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesMaxUploadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultMinTLSVersionId = "min_tls_version";
-export type SettingsEditResultMinTLSVersionValue = "1.0" | "1.1" | "1.2" | "1.3";
 export interface SettingsEditResultMinTLSVersion {
   /** ID of the zone setting. */
   id: SettingsEditResultMinTLSVersionId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultMinTLSVersionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesMirage2Id = "mirage";
-export type SettingsEditResultZonesMirage2Value = "on" | "off";
 export interface SettingsEditResultZonesMirage2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesMirage2Id;
-  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
-  value: SettingsEditResultZonesMirage2Value;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultNELId = "nel";
 export type SettingsEditResultNELValue = SettingsGetResultNELValue;
@@ -3496,66 +3222,62 @@ export interface SettingsEditResultNEL {
   /** Current value of the zone setting. */
   value: SettingsGetResultNELValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesOpportunisticEncryption2Id = "opportunistic_encryption";
-export type SettingsEditResultZonesOpportunisticEncryption2Value = "on" | "off";
 export interface SettingsEditResultZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesOpportunisticEncryption2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultOpportunisticOnionId = "opportunistic_onion";
-export type SettingsEditResultOpportunisticOnionValue = "on" | "off";
 export interface SettingsEditResultOpportunisticOnion {
   /** ID of the zone setting. */
   id: SettingsEditResultOpportunisticOnionId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultOpportunisticOnionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultOrangeToOrangeId = "orange_to_orange";
-export type SettingsEditResultOrangeToOrangeValue = "on" | "off";
 export interface SettingsEditResultOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsEditResultOrangeToOrangeId;
-  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
-  value: SettingsEditResultOrangeToOrangeValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesOriginErrorPagePassThru2Id = "origin_error_page_pass_thru";
-export type SettingsEditResultZonesOriginErrorPagePassThru2Value = "on" | "off";
 export interface SettingsEditResultZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesOriginErrorPagePassThru2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesCacheRulesOriginH2MaxStreamsId = "origin_h2_max_streams";
 export interface SettingsEditResultZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
   id: SettingsEditResultZonesCacheRulesOriginH2MaxStreamsId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin H2 Max Streams Setting. */
-  value?: number | null;
+  value?: number | null | undefined;
 }
 export type SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionId = "origin_max_http_version";
 export type SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionValue = "2" | "1";
@@ -3563,128 +3285,119 @@ export interface SettingsEditResultZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
   id: SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin Max HTTP Version Setting. */
-  value?: SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionValue | null;
+  value?: SettingsEditResultZonesCacheRulesOriginMaxHTTPVersionValue | null | undefined;
 }
 export type SettingsEditResultZonesPolish2Id = "polish";
-export type SettingsEditResultZonesPolish2Value = "off" | "lossless" | "lossy";
 export interface SettingsEditResultZonesPolish2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesPolish2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultPrefetchPreloadId = "prefetch_preload";
-export type SettingsEditResultPrefetchPreloadValue = "on" | "off";
 export interface SettingsEditResultPrefetchPreload {
   /** ID of the zone setting. */
   id: SettingsEditResultPrefetchPreloadId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultPrefetchPreloadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesPreRenderId = "pre_render";
-export type SettingsEditResultZonesPreRenderValue = "off" | "on";
 export interface SettingsEditResultZonesPreRender {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesPreRenderId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesPreRenderValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesPrivacyPassId = "privacy_pass";
-export type SettingsEditResultZonesPrivacyPassValue = "on" | "off";
 export interface SettingsEditResultZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesPrivacyPassId;
-  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
-  value: SettingsEditResultZonesPrivacyPassValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultProxyReadTimeoutId = "proxy_read_timeout";
 export interface SettingsEditResultProxyReadTimeout {
   /** ID of the zone setting. */
   id: SettingsEditResultProxyReadTimeoutId;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting. Notes: Value must be between 1 and 6000 */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultPseudoIPV4Id = "pseudo_ipv4";
-export type SettingsEditResultPseudoIPV4Value = "off" | "add_header" | "overwrite_header";
 export interface SettingsEditResultPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
   id: SettingsEditResultPseudoIPV4Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultPseudoIPV4Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesRedirectsForAITrainingId = "redirects_for_ai_training";
-export type SettingsEditResultZonesRedirectsForAITrainingValue = "off" | "on";
 export interface SettingsEditResultZonesRedirectsForAITraining {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesRedirectsForAITrainingId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesRedirectsForAITrainingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesReplaceInsecureJSId = "replace_insecure_js";
-export type SettingsEditResultZonesReplaceInsecureJSValue = "on" | "off";
 export interface SettingsEditResultZonesReplaceInsecureJS {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesReplaceInsecureJSId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesReplaceInsecureJSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesResponseBuffering2Id = "response_buffering";
-export type SettingsEditResultZonesResponseBuffering2Value = "on" | "off";
 export interface SettingsEditResultZonesResponseBuffering2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesResponseBuffering2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesRocketLoader2Id = "rocket_loader";
-export type SettingsEditResultZonesRocketLoader2Value = "on" | "off";
 export interface SettingsEditResultZonesRocketLoader2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesRocketLoader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
@@ -3692,17 +3405,20 @@ export type SettingsEditResultZonesSchemasAutomaticPlatformOptimizationValueHost
   Array<string>;
 export interface SettingsEditResultZonesSchemasAutomaticPlatformOptimizationValue {
   /** Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled. */
-  cacheByDeviceType: boolean;
+  cacheByDeviceType?: boolean | null | undefined;
   /** Indicates whether or not Cloudflare proxy is enabled. */
-  cf: boolean;
+  cf?: boolean | null | undefined;
   /** Indicates whether or not Automatic Platform Optimization is enabled. */
-  enabled: boolean;
+  enabled?: boolean | null | undefined;
   /** An array of hostnames where Automatic Platform Optimization for WordPress is activated. */
-  hostnames: SettingsEditResultZonesSchemasAutomaticPlatformOptimizationValueHostnamesList;
+  hostnames?:
+    | SettingsEditResultZonesSchemasAutomaticPlatformOptimizationValueHostnamesList
+    | null
+    | undefined;
   /** Indicates whether or not site is powered by WordPress. */
-  wordpress: boolean;
+  wordpress?: boolean | null | undefined;
   /** Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed. */
-  wpPlugin: boolean;
+  wpPlugin?: boolean | null | undefined;
 }
 export interface SettingsEditResultZonesSchemasAutomaticPlatformOptimization {
   /** ID of the zone setting. */
@@ -3710,21 +3426,20 @@ export interface SettingsEditResultZonesSchemasAutomaticPlatformOptimization {
   /** Current value of the zone setting. */
   value: SettingsEditResultZonesSchemasAutomaticPlatformOptimizationValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesSearchForAgentsId = "search_for_agents";
-export type SettingsEditResultZonesSearchForAgentsValue = "off" | "on";
 export interface SettingsEditResultZonesSearchForAgents {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesSearchForAgentsId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSearchForAgentsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultSecurityHeadersId = "security_header";
 export type SettingsEditResultSecurityHeadersValueStrictTransportSecurity =
@@ -3736,224 +3451,215 @@ export interface SettingsEditResultSecurityHeaders {
   /** Current value of the zone setting. */
   value: SettingsGetResultSecurityHeadersValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesSecurityLevel2Id = "security_level";
-export type SettingsEditResultZonesSecurityLevel2Value =
-  | "off"
-  | "essentially_off"
-  | "low"
-  | "medium"
-  | "high"
-  | "under_attack";
 export interface SettingsEditResultZonesSecurityLevel2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSecurityLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultServerSideExcludesId = "server_side_exclude";
-export type SettingsEditResultServerSideExcludesValue = "on" | "off";
 export interface SettingsEditResultServerSideExcludes {
   /** ID of the zone setting. */
   id: SettingsEditResultServerSideExcludesId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultServerSideExcludesValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesSha1SupportId = "sha1_support";
-export type SettingsEditResultZonesSha1SupportValue = "off" | "on";
 export interface SettingsEditResultZonesSha1Support {
   /** Zone setting identifier. */
   id: SettingsEditResultZonesSha1SupportId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSha1SupportValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesSortQueryStringForCache2Id = "sort_query_string_for_cache";
-export type SettingsEditResultZonesSortQueryStringForCache2Value = "on" | "off";
 export interface SettingsEditResultZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSortQueryStringForCache2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesSSL2Id = "ssl";
-export type SettingsEditResultZonesSSL2Value = "off" | "flexible" | "full" | "strict";
 export interface SettingsEditResultZonesSSL2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesSSL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultSSLRecommenderId = "ssl_recommender";
 export interface SettingsEditResultSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
-  id?: SettingsEditResultSSLRecommenderId | null;
+  id?: SettingsEditResultSSLRecommenderId | null | undefined;
   /** ssl-recommender enrollment setting. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type SettingsEditResultZonesTLS12OnlyId = "tls_1_2_only";
-export type SettingsEditResultZonesTLS12OnlyValue = "off" | "on";
 export interface SettingsEditResultZonesTLS12Only {
   /** Zone setting identifier. */
   id: SettingsEditResultZonesTLS12OnlyId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesTLS12OnlyValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultTLS13Id = "tls_1_3";
-export type SettingsEditResultTLS13Value = "on" | "off" | "zrt";
 export interface SettingsEditResultTLS13 {
   /** ID of the zone setting. */
   id: SettingsEditResultTLS13Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultTLS13Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultTLSClientAuthId = "tls_client_auth";
-export type SettingsEditResultTLSClientAuthValue = "on" | "off";
 export interface SettingsEditResultTLSClientAuth {
   /** ID of the zone setting. */
   id: SettingsEditResultTLSClientAuthId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultTLSClientAuthValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesTransformationsId = "transformations";
-export type SettingsEditResultZonesTransformationsValue = "on" | "off" | "open";
 export interface SettingsEditResultZonesTransformations {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: SettingsEditResultZonesTransformationsId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesTransformationsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesTransformationsAllowedOriginsId =
   "transformations_allowed_origins";
 export interface SettingsEditResultZonesTransformationsAllowedOrigins {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: SettingsEditResultZonesTransformationsAllowedOriginsId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of allowed origins. Refer to the [Image Transformations](https://developers.cloudflare.com/images/transform-images/sources/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesTrueClientIPHeader2Id = "true_client_ip_header";
-export type SettingsEditResultZonesTrueClientIPHeader2Value = "on" | "off";
 export interface SettingsEditResultZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesTrueClientIPHeader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesWAF2Id = "waf";
-export type SettingsEditResultZonesWAF2Value = "on" | "off";
 export interface SettingsEditResultZonesWAF2 {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesWAF2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesWebmcpEnabledId = "webmcp_enabled";
-export type SettingsEditResultZonesWebmcpEnabledValue = "off" | "on";
 export interface SettingsEditResultZonesWebmcpEnabled {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesWebmcpEnabledId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultZonesWebmcpEnabledValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesWebmcpMcpURLId = "webmcp_mcp_url";
 export interface SettingsEditResultZonesWebmcpMcpURL {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesWebmcpMcpURLId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Root-relative path (with optional query string) of this zone's MCP endpoint, for example "/api/mcp". Surfaced to the injected bridge as the data-mcp-url attribute. Absolute and protocol-relative URLs, fragments, and characters outside RFC 3986 paths and queries are rejected. An empty value clears the override so the bridge uses /mcp. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultZonesWebmcpPacksId = "webmcp_packs";
 export interface SettingsEditResultZonesWebmcpPacks {
   /** ID of the zone setting. */
   id: SettingsEditResultZonesWebmcpPacksId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of WebMCP tool-pack names to activate for this zone (for example, "c2pa,mcp-server-client"), surfaced to the injected bridge as the data-packs attribute. An empty value clears the override so the bridge uses its built-in default pack set. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultWebPId = "webp";
-export type SettingsEditResultWebPValue = "off" | "on";
 export interface SettingsEditResultWebP {
   /** ID of the zone setting. */
   id: SettingsEditResultWebPId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultWebPValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
+}
+export type SettingsEditResultZonesAVIFId = "avif";
+export interface SettingsEditResultZonesAVIF {
+  /** ID of the zone setting. */
+  id: SettingsEditResultZonesAVIFId;
+  /** Current value of the zone setting. */
+  value: unknown;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null | undefined;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResultWebsocketId = "websockets";
-export type SettingsEditResultWebsocketValue = "off" | "on";
 export interface SettingsEditResultWebsocket {
   /** ID of the zone setting. */
   id: SettingsEditResultWebsocketId;
   /** Current value of the zone setting. */
-  value: SettingsEditResultWebsocketValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsEditResult =
   | SettingsEditResultZeroRTT
@@ -4022,6 +3728,7 @@ export type SettingsEditResult =
   | SettingsEditResultZonesWebmcpMcpURL
   | SettingsEditResultZonesWebmcpPacks
   | SettingsEditResultWebP
+  | SettingsEditResultZonesAVIF
   | SettingsEditResultWebsocket;
 export type PatchSettingResponse = SettingsEditResult;
 export type EditRequestType = "full" | "partial" | "secondary" | "internal";
@@ -4030,11 +3737,11 @@ export interface PatchZoneRequest {
   /** Identifier */
   zoneId: string;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. This parameter is only available to Enterprise customers or if it has been explicitly enabled on a zone. */
-  type?: EditRequestType | (string & {});
+  type?: EditRequestType | (string & {}) | undefined;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: EditRequestVanityNameServersList;
+  vanityNameServers?: EditRequestVanityNameServersList | undefined;
 }
 export type EditResponseAccount = CreateResponseAccount;
 export type EditResponseMeta = CreateResponseMeta;
@@ -4079,38 +3786,38 @@ export interface PatchZoneResponse {
   /** Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zone Plans](https://developers.cloudflare.com/api/resources/zones/subresources/plans/). */
   plan: CreateResponsePlan;
   /** Allows the customer to use a custom apex. *Tenants Only Configuration*. */
-  cnameSuffix?: string | null;
+  cnameSuffix?: string | null | undefined;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean | null;
+  paused?: boolean | null | undefined;
   /** This has been replaced by Account memberships. */
-  permissions?: EditResponsePermissionsList | null;
+  permissions?: EditResponsePermissionsList | null | undefined;
   /** The zone status on Cloudflare. */
-  status?: EditResponseStatus | null;
+  status?: EditResponseStatus | null | undefined;
   /** The root organizational unit that this zone belongs to (such as a tenant or organization). */
-  tenant?: CreateResponseTenant | null;
+  tenant?: CreateResponseTenant | null | undefined;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
-  tenantUnit?: CreateResponseTenantUnit | null;
+  tenantUnit?: CreateResponseTenantUnit | null | undefined;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: EditResponseType | null;
+  type?: EditResponseType | null | undefined;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: EditResponseVanityNameServersList | null;
+  vanityNameServers?: EditResponseVanityNameServersList | null | undefined;
   /** Verification key for partial zone setup. */
-  verificationKey?: string | null;
+  verificationKey?: string | null | undefined;
 }
 export interface PutCustomNameserverRequest {
   /** Identifier. */
   zoneId: string;
   /** Whether zone uses account-level custom nameservers. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The number of the name server set to assign to the zone. */
-  nsSet?: number;
+  nsSet?: number | undefined;
 }
 export type CustomNameserversUpdateResultList = Array<string>;
 export interface PutCustomNameserverResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: CustomNameserversUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface RollbackEnvironmentRequest {
   zoneId: string;
@@ -4127,415 +3834,323 @@ export interface RollbackEnvironmentResponse {
   environments: EnvironmentsRollbackResponseEnvironmentsList;
 }
 export type SettingsBulkEditRequestBodyItemZeroRTTId = "0rtt";
-export type SettingsBulkEditRequestBodyItemZeroRTTValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZeroRTT {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZeroRTTId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZeroRTTValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemAdvancedDDoSId = "advanced_ddos";
-export type SettingsBulkEditRequestBodyItemAdvancedDDoSValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemAdvancedDDoS {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemAdvancedDDoSId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemAdvancedDDoSValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesCacheRulesAegisId = "aegis";
 export interface SettingsBulkEditRequestBodyItemZonesCacheRulesAegisValue {
   /** Whether the feature is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Egress pool id which refers to a grouping of dedicated egress IPs through which Cloudflare will connect to origin. */
-  poolId?: string;
+  poolId?: string | undefined;
 }
 export interface SettingsBulkEditRequestBodyItemZonesCacheRulesAegis {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesCacheRulesAegisId;
   /** Last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Value of the zone setting. */
-  value?: SettingsBulkEditRequestBodyItemZonesCacheRulesAegisValue;
+  value?: SettingsBulkEditRequestBodyItemZonesCacheRulesAegisValue | undefined;
 }
 export type SettingsBulkEditRequestBodyItemAlwaysOnlineId = "always_online";
-export type SettingsBulkEditRequestBodyItemAlwaysOnlineValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemAlwaysOnline {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemAlwaysOnlineId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemAlwaysOnlineValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Id = "always_use_https";
-export type SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesAlwaysUseHTTPS2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Id =
   "automatic_https_rewrites";
-export type SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesAutomaticHTTPSRewrites2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemBrotliId = "brotli";
-export type SettingsBulkEditRequestBodyItemBrotliValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemBrotli {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemBrotliId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemBrotliValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2Id = "browser_cache_ttl";
 export interface SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesBrowserCacheTTL2Id;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting in seconds. Minimum values by plan: */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesBrowserCheck2Id = "browser_check";
-export type SettingsBulkEditRequestBodyItemZonesBrowserCheck2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesBrowserCheck2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesBrowserCheck2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesCacheLevel2Id = "cache_level";
-export type SettingsBulkEditRequestBodyItemZonesCacheLevel2Value =
-  | "aggressive"
-  | "basic"
-  | "simplified";
 export interface SettingsBulkEditRequestBodyItemZonesCacheLevel2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesCacheLevel2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemChallengeTTLId = "challenge_ttl";
-export type SettingsBulkEditRequestBodyItemChallengeTTLValue =
-  | 300
-  | 900
-  | 1800
-  | 2700
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 28800
-  | 57600
-  | 86400
-  | 604800
-  | 2592000
-  | 31536000;
 export interface SettingsBulkEditRequestBodyItemChallengeTTL {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemChallengeTTLId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemChallengeTTLValue | (number & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledId = "china_network_enabled";
-export type SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabled {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesChinaNetworkEnabledValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesContentConverterId = "content_converter";
-export type SettingsBulkEditRequestBodyItemZonesContentConverterValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemZonesContentConverter {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesContentConverterId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesContentConverterValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemCiphersId = "ciphers";
-export type SettingsBulkEditRequestBodyItemCiphersValueList = Array<string>;
 export interface SettingsBulkEditRequestBodyItemCiphers {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemCiphersId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemCiphersValueList;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningId = "cname_flattening";
-export type SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningValue =
-  | "flatten_at_root"
-  | "flatten_all";
 export interface SettingsBulkEditRequestBodyItemZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningId;
-  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
-  value: SettingsBulkEditRequestBodyItemZonesCNAMEFlatteningValue | (string & {});
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemDevelopmentModeId = "development_mode";
-export type SettingsBulkEditRequestBodyItemDevelopmentModeValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemDevelopmentMode {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemDevelopmentModeId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemDevelopmentModeValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
-  timeRemaining?: number;
+  timeRemaining?: number | undefined;
 }
 export type SettingsBulkEditRequestBodyItemEarlyHintsId = "early_hints";
-export type SettingsBulkEditRequestBodyItemEarlyHintsValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemEarlyHints {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemEarlyHintsId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemEarlyHintsValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Id = "edge_cache_ttl";
-export type SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Value =
-  | 30
-  | 60
-  | 300
-  | 1200
-  | 1800
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 18000
-  | 28800
-  | 43200
-  | 57600
-  | 72000
-  | 86400
-  | 172800
-  | 259200
-  | 345600
-  | 432000
-  | 518400
-  | 604800;
 export interface SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesEdgeCacheTTL2Value | (number & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Id = "email_obfuscation";
-export type SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesEmailObfuscation2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesEmailObfuscation2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemH2PrioritizationId = "h2_prioritization";
-export type SettingsBulkEditRequestBodyItemH2PrioritizationValue = "on" | "off" | "custom";
 export interface SettingsBulkEditRequestBodyItemH2Prioritization {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemH2PrioritizationId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemH2PrioritizationValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemHotlinkProtectionId = "hotlink_protection";
-export type SettingsBulkEditRequestBodyItemHotlinkProtectionValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemHotlinkProtection {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemHotlinkProtectionId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemHotlinkProtectionValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemHTTP2Id = "http2";
-export type SettingsBulkEditRequestBodyItemHTTP2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemHTTP2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemHTTP2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemHTTP2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemHTTP3Id = "http3";
-export type SettingsBulkEditRequestBodyItemHTTP3Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemHTTP3 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemHTTP3Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemHTTP3Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesIPGeolocation2Id = "ip_geolocation";
-export type SettingsBulkEditRequestBodyItemZonesIPGeolocation2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesIPGeolocation2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesIPGeolocation2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemIPV6Id = "ipv6";
-export type SettingsBulkEditRequestBodyItemIPV6Value = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemIPV6 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemIPV6Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemIPV6Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesMaxUploadId = "max_upload";
-export type SettingsBulkEditRequestBodyItemZonesMaxUploadValue =
-  | 100
-  | 125
-  | 150
-  | 175
-  | 200
-  | 225
-  | 250
-  | 275
-  | 300
-  | 325
-  | 350
-  | 375
-  | 400
-  | 425
-  | 450
-  | 475
-  | 500
-  | 1000
-  | 1500
-  | 2000
-  | 2500
-  | 3000
-  | 3500
-  | 4000
-  | 4500
-  | 5000;
 export interface SettingsBulkEditRequestBodyItemZonesMaxUpload {
   /** identifier of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesMaxUploadId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesMaxUploadValue | (number & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemMinTLSVersionId = "min_tls_version";
-export type SettingsBulkEditRequestBodyItemMinTLSVersionValue = "1.0" | "1.1" | "1.2" | "1.3";
 export interface SettingsBulkEditRequestBodyItemMinTLSVersion {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemMinTLSVersionId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemMinTLSVersionValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesMirage2Id = "mirage";
-export type SettingsBulkEditRequestBodyItemZonesMirage2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesMirage2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesMirage2Id;
-  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
-  value: SettingsBulkEditRequestBodyItemZonesMirage2Value | (string & {});
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemNELId = "nel";
 export interface SettingsBulkEditRequestBodyItemNELValue {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface SettingsBulkEditRequestBodyItemNEL {
   /** Zone setting identifier. */
@@ -4543,59 +4158,55 @@ export interface SettingsBulkEditRequestBodyItemNEL {
   /** Current value of the zone setting. */
   value: SettingsBulkEditRequestBodyItemNELValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Id =
   "opportunistic_encryption";
-export type SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesOpportunisticEncryption2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemOpportunisticOnionId = "opportunistic_onion";
-export type SettingsBulkEditRequestBodyItemOpportunisticOnionValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemOpportunisticOnion {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemOpportunisticOnionId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemOpportunisticOnionValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemOrangeToOrangeId = "orange_to_orange";
-export type SettingsBulkEditRequestBodyItemOrangeToOrangeValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemOrangeToOrangeId;
-  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
-  value: SettingsBulkEditRequestBodyItemOrangeToOrangeValue | (string & {});
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Id =
   "origin_error_page_pass_thru";
-export type SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesOriginErrorPagePassThru2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStreamsId =
   "origin_h2_max_streams";
@@ -4603,9 +4214,9 @@ export interface SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStream
   /** Value of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesCacheRulesOriginH2MaxStreamsId;
   /** Last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Value of the Origin H2 Max Streams Setting. */
-  value?: number;
+  value?: number | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionId =
   "origin_max_http_version";
@@ -4614,132 +4225,123 @@ export interface SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVers
   /** Value of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionId;
   /** Last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Value of the Origin Max HTTP Version Setting. */
-  value?: SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionValue | (string & {});
+  value?:
+    | SettingsBulkEditRequestBodyItemZonesCacheRulesOriginMaxHTTPVersionValue
+    | (string & {})
+    | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesPolish2Id = "polish";
-export type SettingsBulkEditRequestBodyItemZonesPolish2Value = "off" | "lossless" | "lossy";
 export interface SettingsBulkEditRequestBodyItemZonesPolish2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesPolish2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemPrefetchPreloadId = "prefetch_preload";
-export type SettingsBulkEditRequestBodyItemPrefetchPreloadValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemPrefetchPreload {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemPrefetchPreloadId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemPrefetchPreloadValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesPreRenderId = "pre_render";
-export type SettingsBulkEditRequestBodyItemZonesPreRenderValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemZonesPreRender {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesPreRenderId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesPreRenderValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesPrivacyPassId = "privacy_pass";
-export type SettingsBulkEditRequestBodyItemZonesPrivacyPassValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesPrivacyPassId;
-  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
-  value: SettingsBulkEditRequestBodyItemZonesPrivacyPassValue | (string & {});
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemProxyReadTimeoutId = "proxy_read_timeout";
 export interface SettingsBulkEditRequestBodyItemProxyReadTimeout {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemProxyReadTimeoutId;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting. Notes: Value must be between 1 and 6000 */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemPseudoIPV4Id = "pseudo_ipv4";
-export type SettingsBulkEditRequestBodyItemPseudoIPV4Value =
-  | "off"
-  | "add_header"
-  | "overwrite_header";
 export interface SettingsBulkEditRequestBodyItemPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
   id: SettingsBulkEditRequestBodyItemPseudoIPV4Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemPseudoIPV4Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingId =
   "redirects_for_ai_training";
-export type SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemZonesRedirectsForAITraining {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesRedirectsForAITrainingValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSId = "replace_insecure_js";
-export type SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesReplaceInsecureJS {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesReplaceInsecureJSValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesResponseBuffering2Id = "response_buffering";
-export type SettingsBulkEditRequestBodyItemZonesResponseBuffering2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesResponseBuffering2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesResponseBuffering2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesRocketLoader2Id = "rocket_loader";
-export type SettingsBulkEditRequestBodyItemZonesRocketLoader2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesRocketLoader2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesRocketLoader2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
@@ -4747,17 +4349,19 @@ export type SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimiza
   Array<string>;
 export interface SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationValue {
   /** Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled. */
-  cacheByDeviceType: boolean;
+  cacheByDeviceType?: boolean | undefined;
   /** Indicates whether or not Cloudflare proxy is enabled. */
-  cf: boolean;
+  cf?: boolean | undefined;
   /** Indicates whether or not Automatic Platform Optimization is enabled. */
-  enabled: boolean;
+  enabled?: boolean | undefined;
   /** An array of hostnames where Automatic Platform Optimization for WordPress is activated. */
-  hostnames: SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList;
+  hostnames?:
+    | SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList
+    | undefined;
   /** Indicates whether or not site is powered by WordPress. */
-  wordpress: boolean;
+  wordpress?: boolean | undefined;
   /** Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed. */
-  wpPlugin: boolean;
+  wpPlugin?: boolean | undefined;
 }
 export interface SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimization {
   /** ID of the zone setting. */
@@ -4765,38 +4369,39 @@ export interface SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOpt
   /** Current value of the zone setting. */
   value: SettingsBulkEditRequestBodyItemZonesSchemasAutomaticPlatformOptimizationValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesSearchForAgentsId = "search_for_agents";
-export type SettingsBulkEditRequestBodyItemZonesSearchForAgentsValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemZonesSearchForAgents {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesSearchForAgentsId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSearchForAgentsValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemSecurityHeadersId = "security_header";
 export interface SettingsBulkEditRequestBodyItemSecurityHeadersValueStrictTransportSecurity {
   /** Whether or not strict transport security is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Include all subdomains for strict transport security. */
-  includeSubdomains?: boolean;
+  includeSubdomains?: boolean | undefined;
   /** Max age in seconds of the strict transport security. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Whether or not to include 'X-Content-Type-Options: nosniff' header. */
-  nosniff?: boolean;
+  nosniff?: boolean | undefined;
   /** Enable automatic preload of the HSTS configuration. */
-  preload?: boolean;
+  preload?: boolean | undefined;
 }
 export interface SettingsBulkEditRequestBodyItemSecurityHeadersValue {
   /** Strict Transport Security. */
-  strictTransportSecurity?: SettingsBulkEditRequestBodyItemSecurityHeadersValueStrictTransportSecurity;
+  strictTransportSecurity?:
+    | SettingsBulkEditRequestBodyItemSecurityHeadersValueStrictTransportSecurity
+    | undefined;
 }
 export interface SettingsBulkEditRequestBodyItemSecurityHeaders {
   /** ID of the zone's security header. */
@@ -4804,201 +4409,193 @@ export interface SettingsBulkEditRequestBodyItemSecurityHeaders {
   /** Current value of the zone setting. */
   value: SettingsBulkEditRequestBodyItemSecurityHeadersValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesSecurityLevel2Id = "security_level";
-export type SettingsBulkEditRequestBodyItemZonesSecurityLevel2Value =
-  | "off"
-  | "essentially_off"
-  | "low"
-  | "medium"
-  | "high"
-  | "under_attack";
 export interface SettingsBulkEditRequestBodyItemZonesSecurityLevel2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSecurityLevel2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemServerSideExcludesId = "server_side_exclude";
-export type SettingsBulkEditRequestBodyItemServerSideExcludesValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemServerSideExcludes {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemServerSideExcludesId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemServerSideExcludesValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesSha1SupportId = "sha1_support";
-export type SettingsBulkEditRequestBodyItemZonesSha1SupportValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemZonesSha1Support {
   /** Zone setting identifier. */
   id: SettingsBulkEditRequestBodyItemZonesSha1SupportId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSha1SupportValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Id =
   "sort_query_string_for_cache";
-export type SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSortQueryStringForCache2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesSSL2Id = "ssl";
-export type SettingsBulkEditRequestBodyItemZonesSSL2Value = "off" | "flexible" | "full" | "strict";
 export interface SettingsBulkEditRequestBodyItemZonesSSL2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesSSL2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemSSLRecommenderId = "ssl_recommender";
 export interface SettingsBulkEditRequestBodyItemSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
-  id?: SettingsBulkEditRequestBodyItemSSLRecommenderId | (string & {});
+  id?: SettingsBulkEditRequestBodyItemSSLRecommenderId | (string & {}) | undefined;
   /** ssl-recommender enrollment setting. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesTLS12OnlyId = "tls_1_2_only";
-export type SettingsBulkEditRequestBodyItemZonesTLS12OnlyValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemZonesTLS12Only {
   /** Zone setting identifier. */
   id: SettingsBulkEditRequestBodyItemZonesTLS12OnlyId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesTLS12OnlyValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemTLS13Id = "tls_1_3";
-export type SettingsBulkEditRequestBodyItemTLS13Value = "on" | "off" | "zrt";
 export interface SettingsBulkEditRequestBodyItemTLS13 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemTLS13Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemTLS13Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemTLSClientAuthId = "tls_client_auth";
-export type SettingsBulkEditRequestBodyItemTLSClientAuthValue = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemTLSClientAuth {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemTLSClientAuthId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemTLSClientAuthValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Id = "true_client_ip_header";
-export type SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesTrueClientIPHeader2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesWAF2Id = "waf";
-export type SettingsBulkEditRequestBodyItemZonesWAF2Value = "on" | "off";
 export interface SettingsBulkEditRequestBodyItemZonesWAF2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesWAF2Value | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesWebmcpEnabledId = "webmcp_enabled";
-export type SettingsBulkEditRequestBodyItemZonesWebmcpEnabledValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemZonesWebmcpEnabled {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesWebmcpEnabledId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemZonesWebmcpEnabledValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesWebmcpMcpURLId = "webmcp_mcp_url";
 export interface SettingsBulkEditRequestBodyItemZonesWebmcpMcpURL {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesWebmcpMcpURLId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Root-relative path (with optional query string) of this zone's MCP endpoint, for example "/api/mcp". Surfaced to the injected bridge as the data-mcp-url attribute. Absolute and protocol-relative URLs, fragments, and characters outside RFC 3986 paths and queries are rejected. An empty value clears the override so the bridge uses /mcp. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemZonesWebmcpPacksId = "webmcp_packs";
 export interface SettingsBulkEditRequestBodyItemZonesWebmcpPacks {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemZonesWebmcpPacksId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of WebMCP tool-pack names to activate for this zone (for example, "c2pa,mcp-server-client"), surfaced to the injected bridge as the data-packs attribute. An empty value clears the override so the bridge uses its built-in default pack set. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemWebPId = "webp";
-export type SettingsBulkEditRequestBodyItemWebPValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemWebP {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemWebPId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemWebPValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
+}
+export type SettingsBulkEditRequestBodyItemZonesAVIFId = "avif";
+export interface SettingsBulkEditRequestBodyItemZonesAVIF {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditRequestBodyItemZonesAVIFId;
+  /** Current value of the zone setting. */
+  value: unknown;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | undefined;
+  /** last time this setting was modified. */
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItemWebsocketId = "websockets";
-export type SettingsBulkEditRequestBodyItemWebsocketValue = "off" | "on";
 export interface SettingsBulkEditRequestBodyItemWebsocket {
   /** ID of the zone setting. */
   id: SettingsBulkEditRequestBodyItemWebsocketId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditRequestBodyItemWebsocketValue | (string & {});
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
 }
 export type SettingsBulkEditRequestBodyItem =
   | SettingsBulkEditRequestBodyItemZeroRTT
@@ -5064,6 +4661,7 @@ export type SettingsBulkEditRequestBodyItem =
   | SettingsBulkEditRequestBodyItemZonesWebmcpMcpURL
   | SettingsBulkEditRequestBodyItemZonesWebmcpPacks
   | SettingsBulkEditRequestBodyItemWebP
+  | SettingsBulkEditRequestBodyItemZonesAVIF
   | SettingsBulkEditRequestBodyItemWebsocket;
 export type SettingsBulkEditRequestBodyList = Array<SettingsBulkEditRequestBodyItem>;
 export interface SettingsBulkEditRequest {
@@ -5072,28 +4670,26 @@ export interface SettingsBulkEditRequest {
   body: SettingsBulkEditRequestBodyList;
 }
 export type SettingsBulkEditResultItemZeroRTTId = "0rtt";
-export type SettingsBulkEditResultItemZeroRTTValue = "on" | "off";
 export interface SettingsBulkEditResultItemZeroRTT {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZeroRTTId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZeroRTTValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemAdvancedDDoSId = "advanced_ddos";
-export type SettingsBulkEditResultItemAdvancedDDoSValue = "on" | "off";
 export interface SettingsBulkEditResultItemAdvancedDDoS {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemAdvancedDDoSId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemAdvancedDDoSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesCacheRulesAegisId = "aegis";
 export type SettingsBulkEditResultItemZonesCacheRulesAegisValue =
@@ -5102,371 +4698,286 @@ export interface SettingsBulkEditResultItemZonesCacheRulesAegis {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesCacheRulesAegisId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. */
-  value?: SettingsGetResultZonesCacheRulesAegisValue | null;
+  value?: SettingsGetResultZonesCacheRulesAegisValue | null | undefined;
 }
 export type SettingsBulkEditResultItemAlwaysOnlineId = "always_online";
-export type SettingsBulkEditResultItemAlwaysOnlineValue = "on" | "off";
 export interface SettingsBulkEditResultItemAlwaysOnline {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemAlwaysOnlineId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemAlwaysOnlineValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Id = "always_use_https";
-export type SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesAlwaysUseHTTPS2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesAlwaysUseHTTPS2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Id = "automatic_https_rewrites";
-export type SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesAutomaticHTTPSRewrites2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemBrotliId = "brotli";
-export type SettingsBulkEditResultItemBrotliValue = "off" | "on";
 export interface SettingsBulkEditResultItemBrotli {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemBrotliId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemBrotliValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesBrowserCacheTTL2Id = "browser_cache_ttl";
 export interface SettingsBulkEditResultItemZonesBrowserCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesBrowserCacheTTL2Id;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting in seconds. Minimum values by plan: */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesBrowserCheck2Id = "browser_check";
-export type SettingsBulkEditResultItemZonesBrowserCheck2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesBrowserCheck2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesBrowserCheck2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesBrowserCheck2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesCacheLevel2Id = "cache_level";
-export type SettingsBulkEditResultItemZonesCacheLevel2Value = "aggressive" | "basic" | "simplified";
 export interface SettingsBulkEditResultItemZonesCacheLevel2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesCacheLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesCacheLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemChallengeTTLId = "challenge_ttl";
-export type SettingsBulkEditResultItemChallengeTTLValue =
-  | 300
-  | 900
-  | 1800
-  | 2700
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 28800
-  | 57600
-  | 86400
-  | 604800
-  | 2592000
-  | 31536000;
 export interface SettingsBulkEditResultItemChallengeTTL {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemChallengeTTLId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemChallengeTTLValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemCiphersId = "ciphers";
-export type SettingsBulkEditResultItemCiphersValueList = Array<string>;
 export interface SettingsBulkEditResultItemCiphers {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemCiphersId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemCiphersValueList;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesContentConverterId = "content_converter";
-export type SettingsBulkEditResultItemZonesContentConverterValue = "off" | "on";
 export interface SettingsBulkEditResultItemZonesContentConverter {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesContentConverterId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesContentConverterValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesCNAMEFlatteningId = "cname_flattening";
-export type SettingsBulkEditResultItemZonesCNAMEFlatteningValue = "flatten_at_root" | "flatten_all";
 export interface SettingsBulkEditResultItemZonesCNAMEFlattening {
   /** How to flatten the cname destination. */
   id: SettingsBulkEditResultItemZonesCNAMEFlatteningId;
-  /** This zone setting is deprecated; please use the DNS Settings route instead. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2025-03-21 */
-  value: SettingsBulkEditResultItemZonesCNAMEFlatteningValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemDevelopmentModeId = "development_mode";
-export type SettingsBulkEditResultItemDevelopmentModeValue = "on" | "off";
 export interface SettingsBulkEditResultItemDevelopmentMode {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemDevelopmentModeId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemDevelopmentModeValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the zone setting. Notes: The interval (in seconds) from when development mode expires (positive integer) or last expired (negative integer) for the domain. If development mode has never been enabled, this value is false. */
-  timeRemaining?: number | null;
+  timeRemaining?: number | null | undefined;
 }
 export type SettingsBulkEditResultItemEarlyHintsId = "early_hints";
-export type SettingsBulkEditResultItemEarlyHintsValue = "on" | "off";
 export interface SettingsBulkEditResultItemEarlyHints {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemEarlyHintsId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemEarlyHintsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesEdgeCacheTTL2Id = "edge_cache_ttl";
-export type SettingsBulkEditResultItemZonesEdgeCacheTTL2Value =
-  | 30
-  | 60
-  | 300
-  | 1200
-  | 1800
-  | 3600
-  | 7200
-  | 10800
-  | 14400
-  | 18000
-  | 28800
-  | 43200
-  | 57600
-  | 72000
-  | 86400
-  | 172800
-  | 259200
-  | 345600
-  | 432000
-  | 518400
-  | 604800;
 export interface SettingsBulkEditResultItemZonesEdgeCacheTTL2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesEdgeCacheTTL2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesEdgeCacheTTL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesEmailObfuscation2Id = "email_obfuscation";
-export type SettingsBulkEditResultItemZonesEmailObfuscation2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesEmailObfuscation2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesEmailObfuscation2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesEmailObfuscation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemH2PrioritizationId = "h2_prioritization";
-export type SettingsBulkEditResultItemH2PrioritizationValue = "on" | "off" | "custom";
 export interface SettingsBulkEditResultItemH2Prioritization {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemH2PrioritizationId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemH2PrioritizationValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemHotlinkProtectionId = "hotlink_protection";
-export type SettingsBulkEditResultItemHotlinkProtectionValue = "on" | "off";
 export interface SettingsBulkEditResultItemHotlinkProtection {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemHotlinkProtectionId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemHotlinkProtectionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemHTTP2Id = "http2";
-export type SettingsBulkEditResultItemHTTP2Value = "on" | "off";
 export interface SettingsBulkEditResultItemHTTP2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemHTTP2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemHTTP2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemHTTP3Id = "http3";
-export type SettingsBulkEditResultItemHTTP3Value = "on" | "off";
 export interface SettingsBulkEditResultItemHTTP3 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemHTTP3Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemHTTP3Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemImageResizingId = "image_resizing";
-export type SettingsBulkEditResultItemImageResizingValue = "on" | "off" | "open";
 export interface SettingsBulkEditResultItemImageResizing {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemImageResizingId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemImageResizingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesIPGeolocation2Id = "ip_geolocation";
-export type SettingsBulkEditResultItemZonesIPGeolocation2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesIPGeolocation2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesIPGeolocation2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesIPGeolocation2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemIPV6Id = "ipv6";
-export type SettingsBulkEditResultItemIPV6Value = "off" | "on";
 export interface SettingsBulkEditResultItemIPV6 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemIPV6Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemIPV6Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesMaxUploadId = "max_upload";
-export type SettingsBulkEditResultItemZonesMaxUploadValue =
-  | 100
-  | 125
-  | 150
-  | 175
-  | 200
-  | 225
-  | 250
-  | 275
-  | 300
-  | 325
-  | 350
-  | 375
-  | 400
-  | 425
-  | 450
-  | 475
-  | 500
-  | 1000
-  | 1500
-  | 2000
-  | 2500
-  | 3000
-  | 3500
-  | 4000
-  | 4500
-  | 5000;
 export interface SettingsBulkEditResultItemZonesMaxUpload {
   /** identifier of the zone setting. */
   id: SettingsBulkEditResultItemZonesMaxUploadId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesMaxUploadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemMinTLSVersionId = "min_tls_version";
-export type SettingsBulkEditResultItemMinTLSVersionValue = "1.0" | "1.1" | "1.2" | "1.3";
 export interface SettingsBulkEditResultItemMinTLSVersion {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemMinTLSVersionId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemMinTLSVersionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesMirage2Id = "mirage";
-export type SettingsBulkEditResultItemZonesMirage2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesMirage2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesMirage2Id;
-  /** Mirage is being deprecated. More information at https://developers.cloudflare.com/speed/optimization/images/mirage/ */
-  value: SettingsBulkEditResultItemZonesMirage2Value;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemNELId = "nel";
 export type SettingsBulkEditResultItemNELValue = SettingsGetResultNELValue;
@@ -5476,67 +4987,63 @@ export interface SettingsBulkEditResultItemNEL {
   /** Current value of the zone setting. */
   value: SettingsGetResultNELValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesOpportunisticEncryption2Id = "opportunistic_encryption";
-export type SettingsBulkEditResultItemZonesOpportunisticEncryption2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesOpportunisticEncryption2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesOpportunisticEncryption2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesOpportunisticEncryption2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemOpportunisticOnionId = "opportunistic_onion";
-export type SettingsBulkEditResultItemOpportunisticOnionValue = "on" | "off";
 export interface SettingsBulkEditResultItemOpportunisticOnion {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemOpportunisticOnionId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemOpportunisticOnionValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemOrangeToOrangeId = "orange_to_orange";
-export type SettingsBulkEditResultItemOrangeToOrangeValue = "on" | "off";
 export interface SettingsBulkEditResultItemOrangeToOrange {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemOrangeToOrangeId;
-  /** This setting is deprecated. Orange to Orange (O2O) is applied automatically for eligible zones and no longer requires configuration; this setting only controlled the legacy O2O v1 (Managed CNAME) path. More information at https://developers.cloudflare.com/fundamentals/api/reference/deprecations/ */
-  value: SettingsBulkEditResultItemOrangeToOrangeValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Id =
   "origin_error_page_pass_thru";
-export type SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesOriginErrorPagePassThru2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesOriginErrorPagePassThru2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreamsId = "origin_h2_max_streams";
 export interface SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreams {
   /** Value of the zone setting. */
   id: SettingsBulkEditResultItemZonesCacheRulesOriginH2MaxStreamsId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin H2 Max Streams Setting. */
-  value?: number | null;
+  value?: number | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionId =
   "origin_max_http_version";
@@ -5545,128 +5052,119 @@ export interface SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersion {
   /** Value of the zone setting. */
   id: SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionId;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Value of the Origin Max HTTP Version Setting. */
-  value?: SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionValue | null;
+  value?: SettingsBulkEditResultItemZonesCacheRulesOriginMaxHTTPVersionValue | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesPolish2Id = "polish";
-export type SettingsBulkEditResultItemZonesPolish2Value = "off" | "lossless" | "lossy";
 export interface SettingsBulkEditResultItemZonesPolish2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesPolish2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesPolish2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemPrefetchPreloadId = "prefetch_preload";
-export type SettingsBulkEditResultItemPrefetchPreloadValue = "on" | "off";
 export interface SettingsBulkEditResultItemPrefetchPreload {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemPrefetchPreloadId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemPrefetchPreloadValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesPreRenderId = "pre_render";
-export type SettingsBulkEditResultItemZonesPreRenderValue = "off" | "on";
 export interface SettingsBulkEditResultItemZonesPreRender {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesPreRenderId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesPreRenderValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesPrivacyPassId = "privacy_pass";
-export type SettingsBulkEditResultItemZonesPrivacyPassValue = "on" | "off";
 export interface SettingsBulkEditResultItemZonesPrivacyPass {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesPrivacyPassId;
-  /** Privacy Pass v1 was deprecated in 2023. (Announcement - https://blog.cloudflare.com/privacy-pass-standard/) and (API deprecation details - https://developers.cloudflare.com/fundamentals/api/reference/deprecations/#2024-03-31) */
-  value: SettingsBulkEditResultItemZonesPrivacyPassValue;
+  /** Current value of the zone setting. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemProxyReadTimeoutId = "proxy_read_timeout";
 export interface SettingsBulkEditResultItemProxyReadTimeout {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemProxyReadTimeoutId;
-  /** Current value of the zone setting. */
-  value: number;
+  /** Value of the zone setting. Notes: Value must be between 1 and 6000 */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemPseudoIPV4Id = "pseudo_ipv4";
-export type SettingsBulkEditResultItemPseudoIPV4Value = "off" | "add_header" | "overwrite_header";
 export interface SettingsBulkEditResultItemPseudoIPV4 {
   /** Value of the Pseudo IPv4 setting. */
   id: SettingsBulkEditResultItemPseudoIPV4Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemPseudoIPV4Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesRedirectsForAITrainingId = "redirects_for_ai_training";
-export type SettingsBulkEditResultItemZonesRedirectsForAITrainingValue = "off" | "on";
 export interface SettingsBulkEditResultItemZonesRedirectsForAITraining {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesRedirectsForAITrainingId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesRedirectsForAITrainingValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesReplaceInsecureJSId = "replace_insecure_js";
-export type SettingsBulkEditResultItemZonesReplaceInsecureJSValue = "on" | "off";
 export interface SettingsBulkEditResultItemZonesReplaceInsecureJS {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesReplaceInsecureJSId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesReplaceInsecureJSValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesResponseBuffering2Id = "response_buffering";
-export type SettingsBulkEditResultItemZonesResponseBuffering2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesResponseBuffering2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesResponseBuffering2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesResponseBuffering2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesRocketLoader2Id = "rocket_loader";
-export type SettingsBulkEditResultItemZonesRocketLoader2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesRocketLoader2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesRocketLoader2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesRocketLoader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationId =
   "automatic_platform_optimization";
@@ -5674,17 +5172,20 @@ export type SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationV
   Array<string>;
 export interface SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationValue {
   /** Indicates whether or not [cache by device type](https://developers.cloudflare.com/automatic-platform-optimization/reference/cache-device-type/) is enabled. */
-  cacheByDeviceType: boolean;
+  cacheByDeviceType?: boolean | null | undefined;
   /** Indicates whether or not Cloudflare proxy is enabled. */
-  cf: boolean;
+  cf?: boolean | null | undefined;
   /** Indicates whether or not Automatic Platform Optimization is enabled. */
-  enabled: boolean;
+  enabled?: boolean | null | undefined;
   /** An array of hostnames where Automatic Platform Optimization for WordPress is activated. */
-  hostnames: SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList;
+  hostnames?:
+    | SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationValueHostnamesList
+    | null
+    | undefined;
   /** Indicates whether or not site is powered by WordPress. */
-  wordpress: boolean;
+  wordpress?: boolean | null | undefined;
   /** Indicates whether or not [Cloudflare for WordPress plugin](https://wordpress.org/plugins/cloudflare/) is installed. */
-  wpPlugin: boolean;
+  wpPlugin?: boolean | null | undefined;
 }
 export interface SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimization {
   /** ID of the zone setting. */
@@ -5692,21 +5193,20 @@ export interface SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimiza
   /** Current value of the zone setting. */
   value: SettingsBulkEditResultItemZonesSchemasAutomaticPlatformOptimizationValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesSearchForAgentsId = "search_for_agents";
-export type SettingsBulkEditResultItemZonesSearchForAgentsValue = "off" | "on";
 export interface SettingsBulkEditResultItemZonesSearchForAgents {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesSearchForAgentsId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSearchForAgentsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemSecurityHeadersId = "security_header";
 export type SettingsBulkEditResultItemSecurityHeadersValueStrictTransportSecurity =
@@ -5718,225 +5218,216 @@ export interface SettingsBulkEditResultItemSecurityHeaders {
   /** Current value of the zone setting. */
   value: SettingsGetResultSecurityHeadersValue;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesSecurityLevel2Id = "security_level";
-export type SettingsBulkEditResultItemZonesSecurityLevel2Value =
-  | "off"
-  | "essentially_off"
-  | "low"
-  | "medium"
-  | "high"
-  | "under_attack";
 export interface SettingsBulkEditResultItemZonesSecurityLevel2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesSecurityLevel2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSecurityLevel2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemServerSideExcludesId = "server_side_exclude";
-export type SettingsBulkEditResultItemServerSideExcludesValue = "on" | "off";
 export interface SettingsBulkEditResultItemServerSideExcludes {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemServerSideExcludesId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemServerSideExcludesValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesSha1SupportId = "sha1_support";
-export type SettingsBulkEditResultItemZonesSha1SupportValue = "off" | "on";
 export interface SettingsBulkEditResultItemZonesSha1Support {
   /** Zone setting identifier. */
   id: SettingsBulkEditResultItemZonesSha1SupportId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSha1SupportValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesSortQueryStringForCache2Id =
   "sort_query_string_for_cache";
-export type SettingsBulkEditResultItemZonesSortQueryStringForCache2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesSortQueryStringForCache2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesSortQueryStringForCache2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSortQueryStringForCache2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesSSL2Id = "ssl";
-export type SettingsBulkEditResultItemZonesSSL2Value = "off" | "flexible" | "full" | "strict";
 export interface SettingsBulkEditResultItemZonesSSL2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesSSL2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesSSL2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemSSLRecommenderId = "ssl_recommender";
 export interface SettingsBulkEditResultItemSSLRecommender {
   /** Enrollment value for SSL/TLS Recommender. */
-  id?: SettingsBulkEditResultItemSSLRecommenderId | null;
+  id?: SettingsBulkEditResultItemSSLRecommenderId | null | undefined;
   /** ssl-recommender enrollment setting. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesTLS12OnlyId = "tls_1_2_only";
-export type SettingsBulkEditResultItemZonesTLS12OnlyValue = "off" | "on";
 export interface SettingsBulkEditResultItemZonesTLS12Only {
   /** Zone setting identifier. */
   id: SettingsBulkEditResultItemZonesTLS12OnlyId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesTLS12OnlyValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemTLS13Id = "tls_1_3";
-export type SettingsBulkEditResultItemTLS13Value = "on" | "off" | "zrt";
 export interface SettingsBulkEditResultItemTLS13 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemTLS13Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemTLS13Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemTLSClientAuthId = "tls_client_auth";
-export type SettingsBulkEditResultItemTLSClientAuthValue = "on" | "off";
 export interface SettingsBulkEditResultItemTLSClientAuth {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemTLSClientAuthId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemTLSClientAuthValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesTransformationsId = "transformations";
-export type SettingsBulkEditResultItemZonesTransformationsValue = "on" | "off" | "open";
 export interface SettingsBulkEditResultItemZonesTransformations {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: SettingsBulkEditResultItemZonesTransformationsId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesTransformationsValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesTransformationsAllowedOriginsId =
   "transformations_allowed_origins";
 export interface SettingsBulkEditResultItemZonesTransformationsAllowedOrigins {
   /** ID of the zone setting. Shared between Image Transformations and Video Transformations. */
   id: SettingsBulkEditResultItemZonesTransformationsAllowedOriginsId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of allowed origins. Refer to the [Image Transformations](https://developers.cloudflare.com/images/transform-images/sources/) and [Video Transformations](https://developers.cloudflare.com/stream/transform-videos/#getting-started) documentation for more information. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesTrueClientIPHeader2Id = "true_client_ip_header";
-export type SettingsBulkEditResultItemZonesTrueClientIPHeader2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesTrueClientIPHeader2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesTrueClientIPHeader2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesTrueClientIPHeader2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesWAF2Id = "waf";
-export type SettingsBulkEditResultItemZonesWAF2Value = "on" | "off";
 export interface SettingsBulkEditResultItemZonesWAF2 {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesWAF2Id;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesWAF2Value;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesWebmcpEnabledId = "webmcp_enabled";
-export type SettingsBulkEditResultItemZonesWebmcpEnabledValue = "off" | "on";
 export interface SettingsBulkEditResultItemZonesWebmcpEnabled {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesWebmcpEnabledId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemZonesWebmcpEnabledValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesWebmcpMcpURLId = "webmcp_mcp_url";
 export interface SettingsBulkEditResultItemZonesWebmcpMcpURL {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesWebmcpMcpURLId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Root-relative path (with optional query string) of this zone's MCP endpoint, for example "/api/mcp". Surfaced to the injected bridge as the data-mcp-url attribute. Absolute and protocol-relative URLs, fragments, and characters outside RFC 3986 paths and queries are rejected. An empty value clears the override so the bridge uses /mcp. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemZonesWebmcpPacksId = "webmcp_packs";
 export interface SettingsBulkEditResultItemZonesWebmcpPacks {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemZonesWebmcpPacksId;
-  /** Current value of the zone setting. */
-  value: string;
+  /** Comma-separated list of WebMCP tool-pack names to activate for this zone (for example, "c2pa,mcp-server-client"), surfaced to the injected bridge as the data-packs attribute. An empty value clears the override so the bridge uses its built-in default pack set. */
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemWebPId = "webp";
-export type SettingsBulkEditResultItemWebPValue = "off" | "on";
 export interface SettingsBulkEditResultItemWebP {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemWebPId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemWebPValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
+}
+export type SettingsBulkEditResultItemZonesAVIFId = "avif";
+export interface SettingsBulkEditResultItemZonesAVIF {
+  /** ID of the zone setting. */
+  id: SettingsBulkEditResultItemZonesAVIFId;
+  /** Current value of the zone setting. */
+  value: unknown;
+  /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
+  editable?: boolean | null | undefined;
+  /** last time this setting was modified. */
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItemWebsocketId = "websockets";
-export type SettingsBulkEditResultItemWebsocketValue = "off" | "on";
 export interface SettingsBulkEditResultItemWebsocket {
   /** ID of the zone setting. */
   id: SettingsBulkEditResultItemWebsocketId;
   /** Current value of the zone setting. */
-  value: SettingsBulkEditResultItemWebsocketValue;
+  value: unknown;
   /** Whether or not this setting can be modified for this zone (based on your Cloudflare plan level). */
-  editable?: boolean | null;
+  editable?: boolean | null | undefined;
   /** last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SettingsBulkEditResultItem =
   | SettingsBulkEditResultItemZeroRTT
@@ -6004,6 +5495,7 @@ export type SettingsBulkEditResultItem =
   | SettingsBulkEditResultItemZonesWebmcpMcpURL
   | SettingsBulkEditResultItemZonesWebmcpPacks
   | SettingsBulkEditResultItemWebP
+  | SettingsBulkEditResultItemZonesAVIF
   | SettingsBulkEditResultItemWebsocket;
 export type SettingsBulkEditResultList = Array<SettingsBulkEditResultItem>;
 export type SettingsBulkEditResponse = SettingsBulkEditResultList;
@@ -6014,7 +5506,7 @@ export interface TriggerActivationCheckRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface TriggerActivationCheckResponse {
   /** Identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type EnvironmentsUpdateRequestEnvironmentsItemPosition =
   EnvironmentsCreateRequestEnvironmentsItemPosition;
@@ -6080,17 +5572,20 @@ export interface UpdateObservabilityTracingSettingsRequest {
   /** Specify the zone ID. */
   zoneId: string;
   /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
-  destinations?: UpdateObservabilityTracingSettingsRequestDestinationsList;
+  destinations?: UpdateObservabilityTracingSettingsRequestDestinationsList | undefined;
   /** Whether Cloudflare Traces is enabled for the zone. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether trace context is sent externally or across a zone boundary. */
-  forwardContext?: boolean;
+  forwardContext?: boolean | undefined;
   /** Whether traces are persisted in Cloudflare. */
-  persist?: boolean;
+  persist?: boolean | undefined;
   /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
-  propagationPolicy?: UpdateObservabilityTracingSettingsRequestPropagationPolicy | (string & {});
+  propagationPolicy?:
+    | UpdateObservabilityTracingSettingsRequestPropagationPolicy
+    | (string & {})
+    | undefined;
   /** The ratio of requests sampled for tracing, from 0 to 1. */
-  samplingRatio?: number;
+  samplingRatio?: number | undefined;
 }
 export type UpdateObservabilityTracingSettingsResponseDestinationsList = Array<string>;
 export type UpdateObservabilityTracingSettingsResponsePropagationPolicy =
@@ -6127,27 +5622,27 @@ export type SubscriptionsUpdateRequestRatePlanId =
 export type SubscriptionsUpdateRequestRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateRequestRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsUpdateRequestRatePlanId | (string & {});
+  id?: SubscriptionsUpdateRequestRatePlanId | (string & {}) | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string;
+  currency?: string | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean;
+  isContract?: boolean | undefined;
   /** The full name of the rate plan. */
-  publicName?: string;
+  publicName?: string | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string;
+  scope?: string | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsUpdateRequestRatePlanSetsList;
+  sets?: SubscriptionsUpdateRequestRatePlanSetsList | undefined;
 }
 export interface UpdateSubscriptionRequest {
   /** Identifier */
   zoneId: string;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsUpdateRequestFrequency | (string & {});
+  frequency?: SubscriptionsUpdateRequestFrequency | (string & {}) | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsUpdateRequestRatePlan;
+  ratePlan?: SubscriptionsUpdateRequestRatePlan | undefined;
 }
 export type SubscriptionsUpdateResponseFrequency =
   | "weekly"
@@ -6169,19 +5664,19 @@ export type SubscriptionsUpdateResponseRatePlanId =
 export type SubscriptionsUpdateResponseRatePlanSetsList = Array<string>;
 export interface SubscriptionsUpdateResponseRatePlan {
   /** The ID of the rate plan. */
-  id?: SubscriptionsUpdateResponseRatePlanId | null;
+  id?: SubscriptionsUpdateResponseRatePlanId | null | undefined;
   /** The currency applied to the rate plan subscription. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Whether this rate plan is managed externally from Cloudflare. */
-  externallyManaged?: boolean | null;
+  externallyManaged?: boolean | null | undefined;
   /** Whether a rate plan is enterprise-based (or newly adopted term contract). */
-  isContract?: boolean | null;
+  isContract?: boolean | null | undefined;
   /** The full name of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
   /** The scope that this rate plan applies to. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The list of sets this rate plan applies to. Returns array of strings. */
-  sets?: SubscriptionsUpdateResponseRatePlanSetsList | null;
+  sets?: SubscriptionsUpdateResponseRatePlanSetsList | null | undefined;
 }
 export type SubscriptionsUpdateResponseState =
   | "Trial"
@@ -6194,21 +5689,21 @@ export type SubscriptionsUpdateResponseState =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string | null;
+  currentPeriodEnd?: string | null | undefined;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string | null;
+  currentPeriodStart?: string | null | undefined;
   /** How often the subscription is renewed automatically. */
-  frequency?: SubscriptionsUpdateResponseFrequency | null;
+  frequency?: SubscriptionsUpdateResponseFrequency | null | undefined;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number | null;
+  price?: number | null | undefined;
   /** The rate plan applied to the subscription. */
-  ratePlan?: SubscriptionsUpdateResponseRatePlan | null;
+  ratePlan?: SubscriptionsUpdateResponseRatePlan | null | undefined;
   /** The state that the subscription is in. */
-  state?: SubscriptionsUpdateResponseState | null;
+  state?: SubscriptionsUpdateResponseState | null | undefined;
 }
 export type CreateEnvironmentError = CloudflareOpError;
 /** Creates environments for a zone. */
@@ -6254,6 +5749,23 @@ export const createHold: API.OperationMethod<
   span: "CreateHold",
 }));
 
+export type CreateOhttpGatewayError = CloudflareOpError;
+/** Idempotently enables OHTTP Gateway for the zone. Requires product subscription to call. */
+export const createOhttpGateway: API.OperationMethod<
+  CreateOhttpGatewayRequest,
+  CreateOhttpGatewayResponse,
+  CreateOhttpGatewayError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c5, 0) as any as S.Schema<CreateOhttpGatewayRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<CreateOhttpGatewayResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOhttpGateway",
+}));
+
 export type CreateSubscriptionError = CloudflareOpError;
 /** Create a zone subscription, either plan or add-ons. */
 export const createSubscription: API.OperationMethod<
@@ -6262,8 +5774,8 @@ export const createSubscription: API.OperationMethod<
   CreateSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateSubscriptionRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<CreateSubscriptionResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateSubscriptionRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<CreateSubscriptionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6277,6 +5789,7 @@ export type CreateZoneError =
   | InvalidDomain
   | DomainNotRegistered
   | SubdomainNotAllowed
+  | ZoneQuotaExceeded
   | CloudflareOpError;
 /** Creates a new zone (domain) in your Cloudflare account. The zone is created in a pending state and must be activated by updating your domain's nameservers to point to Cloudflare, or by completing the verification process for partial (CNAME) setups. */
 export const createZone: API.OperationMethod<
@@ -6285,14 +5798,15 @@ export const createZone: API.OperationMethod<
   CreateZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c9, 1) as any as S.Schema<CreateZoneRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<CreateZoneResponse>,
+  input: __S(89, __c11, 1) as any as S.Schema<CreateZoneRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<CreateZoneResponse>,
   errors: [
     ZoneAlreadyExists,
     ZoneCreationBlocked,
     InvalidDomain,
     DomainNotRegistered,
     SubdomainNotAllowed,
+    ZoneQuotaExceeded,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -6310,7 +5824,7 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  input: __S(112, __c14, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<DeleteEnvironmentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6327,7 +5841,7 @@ export const deleteHold: API.OperationMethod<
   DeleteHoldError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<DeleteHoldRequest>,
+  input: __S(120, __c15, 0) as any as S.Schema<DeleteHoldRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DeleteHoldResponse>,
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6344,8 +5858,8 @@ export const deleteObservabilityTracingRule: API.OperationMethod<
   DeleteObservabilityTracingRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<DeleteObservabilityTracingRuleRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<DeleteObservabilityTracingRuleResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<DeleteObservabilityTracingRuleRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<DeleteObservabilityTracingRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6361,13 +5875,30 @@ export const deleteObservabilityTracingSettings: API.OperationMethod<
   DeleteObservabilityTracingSettingsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<DeleteObservabilityTracingSettingsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<DeleteObservabilityTracingSettingsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<DeleteObservabilityTracingSettingsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<DeleteObservabilityTracingSettingsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteObservabilityTracingSettings",
+}));
+
+export type DeleteOhttpGatewayError = CloudflareOpError;
+/** Idempotently disables Oblivious HTTP Gateway for the zone. Requires product subscription to call. */
+export const deleteOhttpGateway: API.OperationMethod<
+  DeleteOhttpGatewayRequest,
+  DeleteOhttpGatewayResponse,
+  DeleteOhttpGatewayError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteOhttpGatewayRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<DeleteOhttpGatewayResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteOhttpGateway",
 }));
 
 export type DeleteZoneError = InvalidZoneIdentifier | CloudflareOpError;
@@ -6378,8 +5909,8 @@ export const deleteZone: API.OperationMethod<
   DeleteZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<DeleteZoneRequest>,
-  output: __S(145, __c18, 1) as any as S.Schema<DeleteZoneResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<DeleteZoneRequest>,
+  output: __S(169, __c21, 1) as any as S.Schema<DeleteZoneResponse>,
   errors: [InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6395,8 +5926,8 @@ export const editNel: API.OperationMethod<
   EditNelError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<EditNelRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<EditNelResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<EditNelRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<EditNelResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6412,8 +5943,8 @@ export const editTransformationsAllowedOrigin: API.OperationMethod<
   EditTransformationsAllowedOriginError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<EditTransformationsAllowedOriginRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<EditTransformationsAllowedOriginResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<EditTransformationsAllowedOriginRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<EditTransformationsAllowedOriginResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6429,8 +5960,8 @@ export const editTransformationsC2pa: API.OperationMethod<
   EditTransformationsC2paError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<EditTransformationsC2paRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<EditTransformationsC2paResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<EditTransformationsC2paRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<EditTransformationsC2paResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6446,8 +5977,8 @@ export const getCtAlerting: API.OperationMethod<
   GetCtAlertingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetCtAlertingRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<GetCtAlertingResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<GetCtAlertingRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<GetCtAlertingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6463,8 +5994,8 @@ export const getCustomNameserver: API.OperationMethod<
   GetCustomNameserverError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<GetCustomNameserverRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<GetCustomNameserverResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<GetCustomNameserverRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<GetCustomNameserverResponse>,
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6480,7 +6011,7 @@ export const getHold: API.OperationMethod<
   GetHoldError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<GetHoldRequest>,
+  input: __S(240, __c30, 0) as any as S.Schema<GetHoldRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<GetHoldResponse>,
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6497,8 +6028,8 @@ export const getNel: API.OperationMethod<
   GetNelError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<GetNelRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<GetNelResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<GetNelRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<GetNelResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6514,8 +6045,8 @@ export const getObservabilityTracingRule: API.OperationMethod<
   GetObservabilityTracingRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<GetObservabilityTracingRuleRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<GetObservabilityTracingRuleResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<GetObservabilityTracingRuleRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<GetObservabilityTracingRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6531,13 +6062,30 @@ export const getObservabilityTracingSettings: API.OperationMethod<
   GetObservabilityTracingSettingsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<GetObservabilityTracingSettingsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<GetObservabilityTracingSettingsResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<GetObservabilityTracingSettingsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetObservabilityTracingSettingsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetObservabilityTracingSettings",
+}));
+
+export type GetOhttpGatewayError = CloudflareOpError;
+/** Returns the state of Oblivious HTTP enablement for the zone. Requires product subscription to call. */
+export const getOhttpGateway: API.OperationMethod<
+  GetOhttpGatewayRequest,
+  GetOhttpGatewayResponse,
+  GetOhttpGatewayError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(272, __c34, 0) as any as S.Schema<GetOhttpGatewayRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<GetOhttpGatewayResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetOhttpGateway",
 }));
 
 export type GetPlanError = CloudflareOpError;
@@ -6548,8 +6096,8 @@ export const getPlan: API.OperationMethod<
   GetPlanError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<GetPlanRequest>,
-  output: __S(249, __c31, 1) as any as S.Schema<GetPlanResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<GetPlanRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<GetPlanResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6567,8 +6115,8 @@ export const getRatePlan: API.PaginatedOperationMethod<
   RatePlansGetResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(256, __c32, 0) as any as S.Schema<GetRatePlanRequest>,
-    output: __S(261, __c32, 5) as any as S.Schema<GetRatePlanResponse>,
+    input: __S(288, __c36, 0) as any as S.Schema<GetRatePlanRequest>,
+    output: __S(293, __c36, 5) as any as S.Schema<GetRatePlanResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -6587,8 +6135,8 @@ export const getSetting: API.OperationMethod<
   GetSettingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<GetSettingRequest>,
-  output: __S(266, __c33, 2) as any as S.Schema<GetSettingResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<GetSettingRequest>,
+  output: __S(298, __c37, 2) as any as S.Schema<GetSettingResponse>,
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6604,8 +6152,8 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<GetSubscriptionRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<GetSubscriptionResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<GetSubscriptionRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<GetSubscriptionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6621,8 +6169,8 @@ export const getTransformationsAllowedOrigin: API.OperationMethod<
   GetTransformationsAllowedOriginError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<GetTransformationsAllowedOriginRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<GetTransformationsAllowedOriginResponse>,
+  input: __S(312, __c39, 0) as any as S.Schema<GetTransformationsAllowedOriginRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<GetTransformationsAllowedOriginResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6638,8 +6186,8 @@ export const getTransformationsC2pa: API.OperationMethod<
   GetTransformationsC2paError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<GetTransformationsC2paRequest>,
-  output: __S(176, __c22, 0) as any as S.Schema<GetTransformationsC2paResponse>,
+  input: __S(320, __c40, 0) as any as S.Schema<GetTransformationsC2paRequest>,
+  output: __S(200, __c25, 0) as any as S.Schema<GetTransformationsC2paResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6655,8 +6203,8 @@ export const getZone: API.OperationMethod<
   GetZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<GetZoneRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<GetZoneResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<GetZoneRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetZoneResponse>,
   errors: [InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6672,8 +6220,8 @@ export const listEntitlements: API.OperationMethod<
   ListEntitlementsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<ListEntitlementsRequest>,
-  output: __S(310, __c38, 6) as any as S.Schema<ListEntitlementsResponse>,
+  input: __S(336, __c42, 0) as any as S.Schema<ListEntitlementsRequest>,
+  output: __S(342, __c42, 6) as any as S.Schema<ListEntitlementsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6689,7 +6237,7 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  input: __S(344, __c43, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<ListEnvironmentsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6708,8 +6256,8 @@ export const listPlans: API.PaginatedOperationMethod<
   PlansListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(320, __c40, 0) as any as S.Schema<ListPlansRequest>,
-    output: __S(323, __c40, 3) as any as S.Schema<ListPlansResponse>,
+    input: __S(352, __c44, 0) as any as S.Schema<ListPlansRequest>,
+    output: __S(355, __c44, 3) as any as S.Schema<ListPlansResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -6728,8 +6276,8 @@ export const listSettings: API.OperationMethod<
   ListSettingsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<ListSettingsRequest>,
-  output: __S(331, __c41, 3) as any as S.Schema<ListSettingsResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<ListSettingsRequest>,
+  output: __S(363, __c45, 3) as any as S.Schema<ListSettingsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6747,8 +6295,8 @@ export const listZones: API.PaginatedOperationMethod<
   ListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(338, __c42, 2) as any as S.Schema<ListZonesRequest>,
-    output: __S(341, __c42, 5) as any as S.Schema<ListZonesResponse>,
+    input: __S(370, __c46, 2) as any as S.Schema<ListZonesRequest>,
+    output: __S(373, __c46, 5) as any as S.Schema<ListZonesResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -6773,8 +6321,8 @@ export const patchCtAlerting: API.OperationMethod<
   PatchCtAlertingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<PatchCtAlertingRequest>,
-  output: __S(200, __c25, 0) as any as S.Schema<PatchCtAlertingResponse>,
+  input: __S(376, __c47, 0) as any as S.Schema<PatchCtAlertingRequest>,
+  output: __S(224, __c28, 0) as any as S.Schema<PatchCtAlertingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6790,7 +6338,7 @@ export const patchEnvironment: API.OperationMethod<
   PatchEnvironmentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<PatchEnvironmentRequest>,
+  input: __S(384, __c48, 0) as any as S.Schema<PatchEnvironmentRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<PatchEnvironmentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6812,7 +6360,7 @@ export const patchHold: API.OperationMethod<
   PatchHoldError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<PatchHoldRequest>,
+  input: __S(392, __c49, 0) as any as S.Schema<PatchHoldRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<PatchHoldResponse>,
   errors: [
     ZoneHoldNotFound,
@@ -6836,8 +6384,8 @@ export const patchSetting: API.OperationMethod<
   PatchSettingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<PatchSettingRequest>,
-  output: __S(370, __c46, 2) as any as S.Schema<PatchSettingResponse>,
+  input: __S(400, __c50, 0) as any as S.Schema<PatchSettingRequest>,
+  output: __S(402, __c50, 2) as any as S.Schema<PatchSettingResponse>,
   errors: [InvalidZoneIdentifier, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6853,8 +6401,8 @@ export const patchZone: API.OperationMethod<
   PatchZoneError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<PatchZoneRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<PatchZoneResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<PatchZoneRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<PatchZoneResponse>,
   errors: [InvalidZoneIdentifier, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6876,8 +6424,8 @@ export const putCustomNameserver: API.PaginatedOperationMethod<
   string
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(384, __c48, 0) as any as S.Schema<PutCustomNameserverRequest>,
-    output: __S(385, __c48, 1) as any as S.Schema<PutCustomNameserverResponse>,
+    input: __S(416, __c52, 0) as any as S.Schema<PutCustomNameserverRequest>,
+    output: __S(417, __c52, 1) as any as S.Schema<PutCustomNameserverResponse>,
     errors: [
       InvalidZoneIdentifier,
       CustomNameserverSetNotFound,
@@ -6902,7 +6450,7 @@ export const rollbackEnvironment: API.OperationMethod<
   RollbackEnvironmentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<RollbackEnvironmentRequest>,
+  input: __S(424, __c53, 0) as any as S.Schema<RollbackEnvironmentRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<RollbackEnvironmentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6919,8 +6467,8 @@ export const settingsBulkEdit: API.OperationMethod<
   SettingsBulkEditError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(402, __c50, 2) as any as S.Schema<SettingsBulkEditRequest>,
-  output: __S(405, __c50, 5) as any as S.Schema<SettingsBulkEditResponse>,
+  input: __S(434, __c54, 2) as any as S.Schema<SettingsBulkEditRequest>,
+  output: __S(437, __c54, 5) as any as S.Schema<SettingsBulkEditResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6936,8 +6484,8 @@ export const triggerActivationCheck: API.OperationMethod<
   TriggerActivationCheckError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<TriggerActivationCheckRequest>,
-  output: __S(409, __c51, 1) as any as S.Schema<TriggerActivationCheckResponse>,
+  input: __S(440, __c55, 0) as any as S.Schema<TriggerActivationCheckRequest>,
+  output: __S(441, __c55, 1) as any as S.Schema<TriggerActivationCheckResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6953,7 +6501,7 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<UpdateEnvironmentRequest>,
+  input: __S(448, __c56, 0) as any as S.Schema<UpdateEnvironmentRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<UpdateEnvironmentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6970,8 +6518,8 @@ export const updateObservabilityTracingRule: API.OperationMethod<
   UpdateObservabilityTracingRuleError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<UpdateObservabilityTracingRuleRequest>,
-  output: __S(123, __c15, 3) as any as S.Schema<UpdateObservabilityTracingRuleResponse>,
+  input: __S(456, __c57, 0) as any as S.Schema<UpdateObservabilityTracingRuleRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<UpdateObservabilityTracingRuleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6987,8 +6535,8 @@ export const updateObservabilityTracingSettings: API.OperationMethod<
   UpdateObservabilityTracingSettingsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<UpdateObservabilityTracingSettingsRequest>,
-  output: __S(136, __c17, 0) as any as S.Schema<UpdateObservabilityTracingSettingsResponse>,
+  input: __S(464, __c58, 0) as any as S.Schema<UpdateObservabilityTracingSettingsRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<UpdateObservabilityTracingSettingsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7004,8 +6552,8 @@ export const updateSubscription: API.OperationMethod<
   UpdateSubscriptionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<UpdateSubscriptionRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<UpdateSubscriptionResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<UpdateSubscriptionRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<UpdateSubscriptionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7114,21 +6662,43 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
+        })
+          .pipe(
+            T.Http({ method: "PUT", uri: "/zones/{zone_id}/settings/ohttp-gateway", code: 200 }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateOhttpGatewayRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.String.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateOhttpGatewayResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
           frequency: S.optional(S.String),
-          ratePlan: S.optional(__S(64, __c8, 0).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(__S(80, __c10, 0).pipe(T.Body("rate_plan"))),
         })
           .pipe(T.Http({ method: "POST", uri: "/zones/{zone_id}/subscription", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateSubscriptionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7139,7 +6709,7 @@ function __c7(j: number): any {
           isContract: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_contract"))),
           publicName: S.optional(S.NullOr(S.String).pipe(T.Body("public_name"))),
           scope: S.optional(S.NullOr(S.String)),
-          sets: S.optional(S.NullOr(__S(48, __c6, 0))),
+          sets: S.optional(S.NullOr(__S(64, __c8, 0))),
         }),
       ).annotate({ identifier: "SubscriptionsCreateResponseRatePlan" });
     case 1:
@@ -7151,13 +6721,13 @@ function __c7(j: number): any {
           currentPeriodStart: S.optional(S.NullOr(S.String).pipe(T.Body("current_period_start"))),
           frequency: S.optional(S.NullOr(S.String)),
           price: S.optional(S.NullOr(S.Number)),
-          ratePlan: S.optional(S.NullOr(__S(56, __c7, 0)).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(S.NullOr(__S(72, __c9, 0)).pipe(T.Body("rate_plan"))),
           state: S.optional(S.NullOr(S.String)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateSubscriptionResponse" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7168,12 +6738,12 @@ function __c8(j: number): any {
           isContract: S.optional(S.Boolean.pipe(T.Body("is_contract"))),
           publicName: S.optional(S.String.pipe(T.Body("public_name"))),
           scope: S.optional(S.String),
-          sets: S.optional(__S(48, __c6, 0)),
+          sets: S.optional(__S(64, __c8, 0)),
         }),
       ).annotate({ identifier: "SubscriptionsCreateRequestRatePlan" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7184,7 +6754,7 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          account: __S(72, __c9, 0),
+          account: __S(88, __c11, 0),
           name: S.String,
           type: S.optional(S.String),
         })
@@ -7193,7 +6763,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateZoneRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7247,41 +6817,41 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateResponseTenantUnit" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          account: __S(80, __c10, 0),
+          account: __S(96, __c12, 0),
           activatedOn: S.String.pipe(T.Body("activated_on")),
           createdOn: S.String.pipe(T.Body("created_on")),
           developmentMode: S.Number.pipe(T.Body("development_mode")),
-          meta: __S(81, __c10, 1),
+          meta: __S(97, __c12, 1),
           modifiedOn: S.String.pipe(T.Body("modified_on")),
           name: S.String,
-          nameServers: __S(48, __c6, 0).pipe(T.Body("name_servers")),
+          nameServers: __S(64, __c8, 0).pipe(T.Body("name_servers")),
           originalDnshost: S.String.pipe(T.Body("original_dnshost")),
-          originalNameServers: __S(48, __c6, 0).pipe(T.Body("original_name_servers")),
+          originalNameServers: __S(64, __c8, 0).pipe(T.Body("original_name_servers")),
           originalRegistrar: S.String.pipe(T.Body("original_registrar")),
-          owner: __S(82, __c10, 2),
-          plan: __S(83, __c10, 3),
+          owner: __S(98, __c12, 2),
+          plan: __S(99, __c12, 3),
           cnameSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("cname_suffix"))),
           paused: S.optional(S.NullOr(S.Boolean)),
-          permissions: S.optional(S.NullOr(__S(48, __c6, 0))),
+          permissions: S.optional(S.NullOr(__S(64, __c8, 0))),
           status: S.optional(S.NullOr(S.String)),
-          tenant: S.optional(S.NullOr(__S(80, __c10, 0))),
-          tenantUnit: S.optional(S.NullOr(__S(84, __c10, 4)).pipe(T.Body("tenant_unit"))),
+          tenant: S.optional(S.NullOr(__S(96, __c12, 0))),
+          tenantUnit: S.optional(S.NullOr(__S(100, __c12, 4)).pipe(T.Body("tenant_unit"))),
           type: S.optional(S.NullOr(S.String)),
           vanityNameServers: S.optional(
-            S.NullOr(__S(48, __c6, 0)).pipe(T.Body("vanity_name_servers")),
+            S.NullOr(__S(64, __c8, 0)).pipe(T.Body("vanity_name_servers")),
           ),
           verificationKey: S.optional(S.NullOr(S.String).pipe(T.Body("verification_key"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateZoneResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7300,7 +6870,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7313,7 +6883,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteHoldRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7331,7 +6901,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteObservabilityTracingRuleRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7343,23 +6913,23 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          actionParameters: __S(120, __c15, 0).pipe(T.Body("action_parameters")),
+          actionParameters: __S(136, __c17, 0).pipe(T.Body("action_parameters")),
           description: S.String,
           enabled: S.Boolean,
           expression: S.String,
         }),
       ).annotate({ identifier: "DeleteObservabilityTracingRuleResponseRulesItem" });
     case 2:
-      return S.Array(__S(121, __c15, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          rules: __S(122, __c15, 2),
+          rules: __S(138, __c17, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteObservabilityTracingRuleResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7377,12 +6947,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteObservabilityTracingSettingsRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinations: __S(48, __c6, 0),
+          destinations: __S(64, __c8, 0),
           enabled: S.Boolean,
           forwardContext: S.Boolean.pipe(T.Body("forward_context")),
           persist: S.Boolean,
@@ -7392,7 +6962,21 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteObservabilityTracingSettingsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+        })
+          .pipe(
+            T.Http({ method: "DELETE", uri: "/zones/{zone_id}/settings/ohttp-gateway", code: 200 }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "DeleteOhttpGatewayRequest" });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7410,20 +6994,20 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteZoneResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          value: __S(160, __c20, 0),
+          value: __S(184, __c23, 0),
         })
           .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings/nel", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "EditNelRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7437,12 +7021,12 @@ function __c20(j: number): any {
           id: S.String,
           editable: S.Boolean,
           modifiedOn: S.String.pipe(T.Body("modified_on")),
-          value: __S(160, __c20, 0),
+          value: __S(184, __c23, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "EditNelResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7461,7 +7045,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "EditTransformationsAllowedOriginRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7474,7 +7058,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "EditTransformationsAllowedOriginResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7493,7 +7077,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "EditTransformationsC2paRequest" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7505,18 +7089,18 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetCtAlertingRequest" });
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          emails: S.optional(S.NullOr(__S(48, __c6, 0))),
+          emails: S.optional(S.NullOr(__S(64, __c8, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetCtAlertingResponse" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7535,7 +7119,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetCustomNameserverResponse" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7547,7 +7131,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetHoldRequest" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7559,7 +7143,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetNelRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7577,7 +7161,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetObservabilityTracingRuleRequest" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7595,7 +7179,21 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetObservabilityTracingSettingsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          zoneId: S.String.pipe(T.Label("zone_id")),
+        })
+          .pipe(
+            T.Http({ method: "GET", uri: "/zones/{zone_id}/settings/ohttp-gateway", code: 200 }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetOhttpGatewayRequest" });
+  }
+}
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7628,7 +7226,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetPlanResponse" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7647,12 +7245,12 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "RatePlansGetResultItemComponentsItem" });
     case 2:
-      return S.Array(__S(257, __c32, 1));
+      return S.Array(__S(289, __c36, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          components: S.optional(S.NullOr(__S(258, __c32, 2))),
+          components: S.optional(S.NullOr(__S(290, __c36, 2))),
           currency: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.NullOr(S.Number)),
           frequency: S.optional(S.NullOr(S.String)),
@@ -7660,17 +7258,17 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "RatePlansGetResultItem" });
     case 4:
-      return S.Array(__S(259, __c32, 3));
+      return S.Array(__S(291, __c36, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: __S(260, __c32, 4).pipe(T.EnvelopePayload()),
+          result: __S(292, __c36, 4).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetRatePlanResponse" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7740,6 +7338,7 @@ function __c33(j: number): any {
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "enabled"],
+            ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
@@ -7822,6 +7421,7 @@ function __c33(j: number): any {
               "webmcp_mcp_url",
               "webmcp_packs",
               "webp",
+              "avif",
               "websockets",
             ],
           },
@@ -7829,11 +7429,11 @@ function __c33(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(265, __c33, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(297, __c37, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSettingResponse" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7845,7 +7445,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequest" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7863,7 +7463,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "GetTransformationsAllowedOriginRequest" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7881,7 +7481,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetTransformationsC2paRequest" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7893,7 +7493,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetZoneRequest" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7909,7 +7509,7 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          value: __S(305, __c38, 1),
+          value: __S(337, __c42, 1),
         }),
       ).annotate({ identifier: "ListEntitlementsResultItemAllocation" });
     case 3:
@@ -7925,22 +7525,22 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          allocation: __S(306, __c38, 2),
+          allocation: __S(338, __c42, 2),
           createdDate: S.String.pipe(T.Body("created_date")),
           deletedDate: S.String.pipe(T.Body("deleted_date")),
           editedDate: S.String.pipe(T.Body("edited_date")),
-          feature: __S(307, __c38, 3),
+          feature: __S(339, __c42, 3),
         }),
       ).annotate({ identifier: "ListEntitlementsResultItem" });
     case 5:
-      return S.Array(__S(308, __c38, 4));
+      return S.Array(__S(340, __c42, 4));
     case 6:
       return S.suspend(() =>
-        __S(309, __c38, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(341, __c42, 5).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListEntitlementsResponse" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7952,7 +7552,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListEnvironmentsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7977,17 +7577,17 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "PlansListResultItem" });
     case 2:
-      return S.Array(__S(321, __c40, 1));
+      return S.Array(__S(353, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(322, __c40, 2).pipe(T.EnvelopePayload()),
+          result: __S(354, __c44, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListPlansResponse" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8055,6 +7655,7 @@ function __c41(j: number): any {
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "enabled"],
+            ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
@@ -8136,20 +7737,21 @@ function __c41(j: number): any {
               "webmcp_mcp_url",
               "webmcp_packs",
               "webp",
+              "avif",
               "websockets",
             ],
           },
         ),
       );
     case 2:
-      return S.Array(__S(329, __c41, 1));
+      return S.Array(__S(361, __c45, 1));
     case 3:
       return S.suspend(() =>
-        __S(330, __c41, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(362, __c45, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListSettingsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8163,7 +7765,7 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          account: S.optional(__S(336, __c42, 0).pipe(T.DeepQuery("account"))),
+          account: S.optional(__S(368, __c46, 0).pipe(T.DeepQuery("account"))),
           direction: S.optional(S.String.pipe(T.Query())),
           match: S.optional(S.String.pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
@@ -8171,7 +7773,7 @@ function __c42(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
           status: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(__S(337, __c42, 1).pipe(T.Query())),
+          type: S.optional(__S(369, __c46, 1).pipe(T.Query())),
         })
           .pipe(T.Http({ method: "GET", uri: "/zones", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -8180,58 +7782,58 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          account: __S(80, __c10, 0),
+          account: __S(96, __c12, 0),
           activatedOn: S.String.pipe(T.Body("activated_on")),
           createdOn: S.String.pipe(T.Body("created_on")),
           developmentMode: S.Number.pipe(T.Body("development_mode")),
-          meta: __S(81, __c10, 1),
+          meta: __S(97, __c12, 1),
           modifiedOn: S.String.pipe(T.Body("modified_on")),
           name: S.String,
-          nameServers: __S(48, __c6, 0).pipe(T.Body("name_servers")),
+          nameServers: __S(64, __c8, 0).pipe(T.Body("name_servers")),
           originalDnshost: S.String.pipe(T.Body("original_dnshost")),
-          originalNameServers: __S(48, __c6, 0).pipe(T.Body("original_name_servers")),
+          originalNameServers: __S(64, __c8, 0).pipe(T.Body("original_name_servers")),
           originalRegistrar: S.String.pipe(T.Body("original_registrar")),
-          owner: __S(82, __c10, 2),
-          plan: __S(83, __c10, 3),
+          owner: __S(98, __c12, 2),
+          plan: __S(99, __c12, 3),
           cnameSuffix: S.optional(S.NullOr(S.String).pipe(T.Body("cname_suffix"))),
           paused: S.optional(S.NullOr(S.Boolean)),
-          permissions: S.optional(S.NullOr(__S(48, __c6, 0))),
+          permissions: S.optional(S.NullOr(__S(64, __c8, 0))),
           status: S.optional(S.NullOr(S.String)),
-          tenant: S.optional(S.NullOr(__S(80, __c10, 0))),
-          tenantUnit: S.optional(S.NullOr(__S(84, __c10, 4)).pipe(T.Body("tenant_unit"))),
+          tenant: S.optional(S.NullOr(__S(96, __c12, 0))),
+          tenantUnit: S.optional(S.NullOr(__S(100, __c12, 4)).pipe(T.Body("tenant_unit"))),
           type: S.optional(S.NullOr(S.String)),
           vanityNameServers: S.optional(
-            S.NullOr(__S(48, __c6, 0)).pipe(T.Body("vanity_name_servers")),
+            S.NullOr(__S(64, __c8, 0)).pipe(T.Body("vanity_name_servers")),
           ),
           verificationKey: S.optional(S.NullOr(S.String).pipe(T.Body("verification_key"))),
         }),
       ).annotate({ identifier: "ListResultItem" });
     case 4:
-      return S.Array(__S(339, __c42, 3));
+      return S.Array(__S(371, __c46, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          result: __S(340, __c42, 4).pipe(T.EnvelopePayload()),
+          result: __S(372, __c46, 4).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListZonesResponse" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           enabled: S.Boolean,
-          emails: S.optional(__S(48, __c6, 0)),
+          emails: S.optional(__S(64, __c8, 0)),
         })
           .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/ct/alerting", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchCtAlertingRequest" });
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8244,7 +7846,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PatchEnvironmentRequest" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8258,7 +7860,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "PatchHoldRequest" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8344,6 +7946,7 @@ function __c46(j: number): any {
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
+            ["id", "value", "editable", "modifiedOn"],
           ],
           {
             key: "id",
@@ -8414,6 +8017,7 @@ function __c46(j: number): any {
               "webmcp_mcp_url",
               "webmcp_packs",
               "webp",
+              "avif",
               "websockets",
             ],
           },
@@ -8421,11 +8025,11 @@ function __c46(j: number): any {
       );
     case 2:
       return S.suspend(() =>
-        __S(369, __c46, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(401, __c50, 1).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchSettingResponse" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8433,14 +8037,14 @@ function __c47(j: number): any {
           zoneId: S.String.pipe(T.Label("zone_id")),
           paused: S.optional(S.Boolean),
           type: S.optional(S.String),
-          vanityNameServers: S.optional(__S(48, __c6, 0).pipe(T.Body("vanity_name_servers"))),
+          vanityNameServers: S.optional(__S(64, __c8, 0).pipe(T.Body("vanity_name_servers"))),
         })
           .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PatchZoneRequest" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8455,13 +8059,13 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: __S(48, __c6, 0).pipe(T.EnvelopePayload()),
+          result: __S(64, __c8, 0).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PutCustomNameserverResponse" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8480,7 +8084,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "RollbackEnvironmentRequest" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -8540,6 +8144,7 @@ function __c50(j: number): any {
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "enabled"],
+            ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
@@ -8617,18 +8222,19 @@ function __c50(j: number): any {
               "webmcp_mcp_url",
               "webmcp_packs",
               "webp",
+              "avif",
               "websockets",
             ],
           },
         ),
       );
     case 1:
-      return S.Array(__S(400, __c50, 0));
+      return S.Array(__S(432, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          body: __S(401, __c50, 1).pipe(T.HttpBody()),
+          body: __S(433, __c54, 1).pipe(T.HttpBody()),
         })
           .pipe(T.Http({ method: "PATCH", uri: "/zones/{zone_id}/settings", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -8703,6 +8309,7 @@ function __c50(j: number): any {
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
             ["id", "value", "editable", "modifiedOn"],
+            ["id", "value", "editable", "modifiedOn"],
           ],
           {
             key: "id",
@@ -8772,20 +8379,21 @@ function __c50(j: number): any {
               "webmcp_mcp_url",
               "webmcp_packs",
               "webp",
+              "avif",
               "websockets",
             ],
           },
         ),
       );
     case 4:
-      return S.Array(__S(403, __c50, 3));
+      return S.Array(__S(435, __c54, 3));
     case 5:
       return S.suspend(() =>
-        __S(404, __c50, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(436, __c54, 4).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "SettingsBulkEditResponse" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8803,7 +8411,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "TriggerActivationCheckResponse" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8816,13 +8424,13 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateEnvironmentRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          rules: __S(122, __c15, 2),
+          rules: __S(138, __c17, 2),
         })
           .pipe(
             T.Http({
@@ -8835,13 +8443,13 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateObservabilityTracingRuleRequest" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
-          destinations: S.optional(__S(48, __c6, 0)),
+          destinations: S.optional(__S(64, __c8, 0)),
           enabled: S.optional(S.Boolean),
           forwardContext: S.optional(S.Boolean.pipe(T.Body("forward_context"))),
           persist: S.optional(S.Boolean),
@@ -8859,14 +8467,14 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UpdateObservabilityTracingSettingsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           zoneId: S.String.pipe(T.Label("zone_id")),
           frequency: S.optional(S.String),
-          ratePlan: S.optional(__S(64, __c8, 0).pipe(T.Body("rate_plan"))),
+          ratePlan: S.optional(__S(80, __c10, 0).pipe(T.Body("rate_plan"))),
         })
           .pipe(T.Http({ method: "PUT", uri: "/zones/{zone_id}/subscription", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -140,7 +141,7 @@ export type ClientToken = string;
 export interface CreateBillOfMaterialsImportJobRequest {
   instanceId: string;
   s3uri: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateBillOfMaterialsImportJobResponse {
   jobId: string;
@@ -152,12 +153,12 @@ export type S3BucketName = string;
 export type DataIntegrationFlowS3Prefix = string;
 export type DataIntegrationFlowFileType = "CSV" | "PARQUET" | "JSON" | (string & {});
 export interface DataIntegrationFlowS3Options {
-  fileType?: DataIntegrationFlowFileType;
+  fileType?: DataIntegrationFlowFileType | undefined;
 }
 export interface DataIntegrationFlowS3SourceConfiguration {
   bucketName: string;
   prefix: string;
-  options?: DataIntegrationFlowS3Options;
+  options?: DataIntegrationFlowS3Options | undefined;
 }
 export type DatasetIdentifier = string;
 export type DataIntegrationFlowLoadType = "INCREMENTAL" | "REPLACE" | (string & {});
@@ -175,22 +176,22 @@ export interface DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
 }
 export interface DataIntegrationFlowDedupeStrategy {
   type: DataIntegrationFlowDedupeStrategyType;
-  fieldPriority?: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration;
+  fieldPriority?: DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration | undefined;
 }
 export interface DataIntegrationFlowDatasetOptions {
-  loadType?: DataIntegrationFlowLoadType;
-  dedupeRecords?: boolean;
-  dedupeStrategy?: DataIntegrationFlowDedupeStrategy;
+  loadType?: DataIntegrationFlowLoadType | undefined;
+  dedupeRecords?: boolean | undefined;
+  dedupeStrategy?: DataIntegrationFlowDedupeStrategy | undefined;
 }
 export interface DataIntegrationFlowDatasetSourceConfiguration {
   datasetIdentifier: string;
-  options?: DataIntegrationFlowDatasetOptions;
+  options?: DataIntegrationFlowDatasetOptions | undefined;
 }
 export interface DataIntegrationFlowSource {
   sourceType: DataIntegrationFlowSourceType;
   sourceName: string;
-  s3Source?: DataIntegrationFlowS3SourceConfiguration;
-  datasetSource?: DataIntegrationFlowDatasetSourceConfiguration;
+  s3Source?: DataIntegrationFlowS3SourceConfiguration | undefined;
+  datasetSource?: DataIntegrationFlowDatasetSourceConfiguration | undefined;
 }
 export type DataIntegrationFlowSourceList = DataIntegrationFlowSource[];
 export type DataIntegrationFlowTransformationType = "SQL" | "NONE" | (string & {});
@@ -200,22 +201,22 @@ export interface DataIntegrationFlowSQLTransformationConfiguration {
 }
 export interface DataIntegrationFlowTransformation {
   transformationType: DataIntegrationFlowTransformationType;
-  sqlTransformation?: DataIntegrationFlowSQLTransformationConfiguration;
+  sqlTransformation?: DataIntegrationFlowSQLTransformationConfiguration | undefined;
 }
 export type DataIntegrationFlowTargetType = "S3" | "DATASET" | (string & {});
 export interface DataIntegrationFlowS3TargetConfiguration {
   bucketName: string;
   prefix: string;
-  options?: DataIntegrationFlowS3Options;
+  options?: DataIntegrationFlowS3Options | undefined;
 }
 export interface DataIntegrationFlowDatasetTargetConfiguration {
   datasetIdentifier: string;
-  options?: DataIntegrationFlowDatasetOptions;
+  options?: DataIntegrationFlowDatasetOptions | undefined;
 }
 export interface DataIntegrationFlowTarget {
   targetType: DataIntegrationFlowTargetType;
-  s3Target?: DataIntegrationFlowS3TargetConfiguration;
-  datasetTarget?: DataIntegrationFlowDatasetTargetConfiguration;
+  s3Target?: DataIntegrationFlowS3TargetConfiguration | undefined;
+  datasetTarget?: DataIntegrationFlowDatasetTargetConfiguration | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -226,7 +227,7 @@ export interface CreateDataIntegrationFlowRequest {
   sources: DataIntegrationFlowSource[];
   transformation: DataIntegrationFlowTransformation;
   target: DataIntegrationFlowTarget;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDataIntegrationFlowResponse {
   instanceId: string;
@@ -256,7 +257,7 @@ export type DataLakeDatasetPrimaryKeyFieldList = DataLakeDatasetPrimaryKeyField[
 export interface DataLakeDatasetSchema {
   name: string;
   fields: DataLakeDatasetSchemaField[];
-  primaryKeys?: DataLakeDatasetPrimaryKeyField[];
+  primaryKeys?: DataLakeDatasetPrimaryKeyField[] | undefined;
 }
 export type DataLakeDatasetDescription = string;
 export type DataLakeDatasetPartitionTransformType =
@@ -281,10 +282,10 @@ export interface CreateDataLakeDatasetRequest {
   instanceId: string;
   namespace: string;
   name: string;
-  schema?: DataLakeDatasetSchema;
-  description?: string;
-  partitionSpec?: DataLakeDatasetPartitionSpec;
-  tags?: { [key: string]: string | undefined };
+  schema?: DataLakeDatasetSchema | undefined;
+  description?: string | undefined;
+  partitionSpec?: DataLakeDatasetPartitionSpec | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AscResourceArn = string;
 export interface DataLakeDataset {
@@ -293,8 +294,8 @@ export interface DataLakeDataset {
   name: string;
   arn: string;
   schema: DataLakeDatasetSchema;
-  description?: string;
-  partitionSpec?: DataLakeDatasetPartitionSpec;
+  description?: string | undefined;
+  partitionSpec?: DataLakeDatasetPartitionSpec | undefined;
   createdTime: Date;
   lastModifiedTime: Date;
 }
@@ -305,14 +306,14 @@ export type DataLakeNamespaceDescription = string;
 export interface CreateDataLakeNamespaceRequest {
   instanceId: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DataLakeNamespace {
   instanceId: string;
   name: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
   createdTime: Date;
   lastModifiedTime: Date;
 }
@@ -324,12 +325,12 @@ export type InstanceDescription = string;
 export type KmsKeyArn = string;
 export type InstanceWebAppDnsDomain = string;
 export interface CreateInstanceRequest {
-  instanceName?: string;
-  instanceDescription?: string;
-  kmsKeyArn?: string;
-  webAppDnsDomain?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  instanceName?: string | undefined;
+  instanceDescription?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  webAppDnsDomain?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type AwsAccountId = string;
 export type InstanceState =
@@ -344,14 +345,14 @@ export interface Instance {
   instanceId: string;
   awsAccountId: string;
   state: InstanceState;
-  errorMessage?: string;
-  webAppDnsDomain?: string;
-  createdTime?: Date;
-  lastModifiedTime?: Date;
-  instanceName?: string;
-  instanceDescription?: string;
-  kmsKeyArn?: string;
-  versionNumber?: number;
+  errorMessage?: string | undefined;
+  webAppDnsDomain?: string | undefined;
+  createdTime?: Date | undefined;
+  lastModifiedTime?: Date | undefined;
+  instanceName?: string | undefined;
+  instanceDescription?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  versionNumber?: number | undefined;
 }
 export interface CreateInstanceResponse {
   instance: Instance;
@@ -404,7 +405,7 @@ export interface BillOfMaterialsImportJob {
   jobId: string;
   status: ConfigurationJobStatus;
   s3uri: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetBillOfMaterialsImportJobResponse {
   job: BillOfMaterialsImportJob;
@@ -445,7 +446,7 @@ export type DataIntegrationEventDatasetLoadStatus =
   | (string & {});
 export interface DataIntegrationEventDatasetLoadExecutionDetails {
   status: DataIntegrationEventDatasetLoadStatus;
-  message?: string;
+  message?: string | undefined;
 }
 export interface DataIntegrationEventDatasetTargetDetails {
   datasetIdentifier: string;
@@ -458,7 +459,7 @@ export interface DataIntegrationEvent {
   eventType: DataIntegrationEventType;
   eventGroupId: string;
   eventTimestamp: Date;
-  datasetTargetDetails?: DataIntegrationEventDatasetTargetDetails;
+  datasetTargetDetails?: DataIntegrationEventDatasetTargetDetails | undefined;
 }
 export interface GetDataIntegrationEventResponse {
   event: DataIntegrationEvent;
@@ -499,23 +500,23 @@ export interface DataIntegrationFlowDatasetSource {
 }
 export interface DataIntegrationFlowExecutionSourceInfo {
   sourceType: DataIntegrationFlowSourceType;
-  s3Source?: DataIntegrationFlowS3Source;
-  datasetSource?: DataIntegrationFlowDatasetSource;
+  s3Source?: DataIntegrationFlowS3Source | undefined;
+  datasetSource?: DataIntegrationFlowDatasetSource | undefined;
 }
 export type DataIntegrationFlowExecutionDiagnosticReportsRootS3URI = string;
 export interface DataIntegrationFlowExecutionOutputMetadata {
-  diagnosticReportsRootS3URI?: string;
+  diagnosticReportsRootS3URI?: string | undefined;
 }
 export interface DataIntegrationFlowExecution {
   instanceId: string;
   flowName: string;
   executionId: string;
-  status?: DataIntegrationFlowExecutionStatus;
-  sourceInfo?: DataIntegrationFlowExecutionSourceInfo;
-  message?: string;
-  startTime?: Date;
-  endTime?: Date;
-  outputMetadata?: DataIntegrationFlowExecutionOutputMetadata;
+  status?: DataIntegrationFlowExecutionStatus | undefined;
+  sourceInfo?: DataIntegrationFlowExecutionSourceInfo | undefined;
+  message?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  outputMetadata?: DataIntegrationFlowExecutionOutputMetadata | undefined;
 }
 export interface GetDataIntegrationFlowExecutionResponse {
   flowExecution: DataIntegrationFlowExecution;
@@ -545,79 +546,79 @@ export type DataIntegrationEventNextToken = string;
 export type DataIntegrationEventMaxResults = number;
 export interface ListDataIntegrationEventsRequest {
   instanceId: string;
-  eventType?: DataIntegrationEventType;
-  nextToken?: string;
-  maxResults?: number;
+  eventType?: DataIntegrationEventType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataIntegrationEventList = DataIntegrationEvent[];
 export interface ListDataIntegrationEventsResponse {
   events: DataIntegrationEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataIntegrationFlowExecutionNextToken = string;
 export type DataIntegrationFlowExecutionMaxResults = number;
 export interface ListDataIntegrationFlowExecutionsRequest {
   instanceId: string;
   flowName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataIntegrationFlowExecutionList = DataIntegrationFlowExecution[];
 export interface ListDataIntegrationFlowExecutionsResponse {
   flowExecutions: DataIntegrationFlowExecution[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataIntegrationFlowNextToken = string;
 export type DataIntegrationFlowMaxResults = number;
 export interface ListDataIntegrationFlowsRequest {
   instanceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataIntegrationFlowList = DataIntegrationFlow[];
 export interface ListDataIntegrationFlowsResponse {
   flows: DataIntegrationFlow[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataLakeDatasetNextToken = string;
 export type DataLakeDatasetMaxResults = number;
 export interface ListDataLakeDatasetsRequest {
   instanceId: string;
   namespace: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataLakeDatasetList = DataLakeDataset[];
 export interface ListDataLakeDatasetsResponse {
   datasets: DataLakeDataset[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type DataLakeNamespaceNextToken = string;
 export type DataLakeNamespaceMaxResults = number;
 export interface ListDataLakeNamespacesRequest {
   instanceId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DataLakeNamespaceList = DataLakeNamespace[];
 export interface ListDataLakeNamespacesResponse {
   namespaces: DataLakeNamespace[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type InstanceNextToken = string;
 export type InstanceMaxResults = number;
 export type InstanceNameList = string[];
 export type InstanceStateList = InstanceState[];
 export interface ListInstancesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  instanceNameFilter?: string[];
-  instanceStateFilter?: InstanceState[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  instanceNameFilter?: string[] | undefined;
+  instanceStateFilter?: InstanceState[] | undefined;
 }
 export type InstanceList = Instance[];
 export interface ListInstancesResponse {
   instances: Instance[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -635,9 +636,9 @@ export interface SendDataIntegrationEventRequest {
   eventType: DataIntegrationEventType;
   data: string | redacted.Redacted<string>;
   eventGroupId: string;
-  eventTimestamp?: Date;
-  clientToken?: string;
-  datasetTarget?: DataIntegrationEventDatasetTargetConfiguration;
+  eventTimestamp?: Date | undefined;
+  clientToken?: string | undefined;
+  datasetTarget?: DataIntegrationEventDatasetTargetConfiguration | undefined;
 }
 export interface SendDataIntegrationEventResponse {
   eventId: string;
@@ -656,9 +657,9 @@ export interface UntagResourceResponse {}
 export interface UpdateDataIntegrationFlowRequest {
   instanceId: string;
   name: string;
-  sources?: DataIntegrationFlowSource[];
-  transformation?: DataIntegrationFlowTransformation;
-  target?: DataIntegrationFlowTarget;
+  sources?: DataIntegrationFlowSource[] | undefined;
+  transformation?: DataIntegrationFlowTransformation | undefined;
+  target?: DataIntegrationFlowTarget | undefined;
 }
 export interface UpdateDataIntegrationFlowResponse {
   flow: DataIntegrationFlow;
@@ -667,7 +668,7 @@ export interface UpdateDataLakeDatasetRequest {
   instanceId: string;
   namespace: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateDataLakeDatasetResponse {
   dataset: DataLakeDataset;
@@ -675,15 +676,15 @@ export interface UpdateDataLakeDatasetResponse {
 export interface UpdateDataLakeNamespaceRequest {
   instanceId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateDataLakeNamespaceResponse {
   namespace: DataLakeNamespace;
 }
 export interface UpdateInstanceRequest {
   instanceId: string;
-  instanceName?: string;
-  instanceDescription?: string;
+  instanceName?: string | undefined;
+  instanceDescription?: string | undefined;
 }
 export interface UpdateInstanceResponse {
   instance: Instance;
@@ -702,7 +703,7 @@ export type CreateBillOfMaterialsImportJobError =
  * The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
  */
 export const createBillOfMaterialsImportJob: API.OperationMethod<
-  CreateBillOfMaterialsImportJobRequest,
+  CreateBillOfMaterialsImportJobRequest & RegionInput,
   CreateBillOfMaterialsImportJobResponse,
   CreateBillOfMaterialsImportJobError,
   Credentials | HttpClient.HttpClient
@@ -736,7 +737,7 @@ export type CreateDataIntegrationFlowError =
  * Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
  */
 export const createDataIntegrationFlow: API.OperationMethod<
-  CreateDataIntegrationFlowRequest,
+  CreateDataIntegrationFlowRequest & RegionInput,
   CreateDataIntegrationFlowResponse,
   CreateDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -771,7 +772,7 @@ export type CreateDataLakeDatasetError =
  * Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
  */
 export const createDataLakeDataset: API.OperationMethod<
-  CreateDataLakeDatasetRequest,
+  CreateDataLakeDatasetRequest & RegionInput,
   CreateDataLakeDatasetResponse,
   CreateDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -806,7 +807,7 @@ export type CreateDataLakeNamespaceError =
  * Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
  */
 export const createDataLakeNamespace: API.OperationMethod<
-  CreateDataLakeNamespaceRequest,
+  CreateDataLakeNamespaceRequest & RegionInput,
   CreateDataLakeNamespaceResponse,
   CreateDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -842,7 +843,7 @@ export type CreateInstanceError =
  * This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
  */
 export const createInstance: API.OperationMethod<
-  CreateInstanceRequest,
+  CreateInstanceRequest & RegionInput,
   CreateInstanceResponse,
   CreateInstanceError,
   Credentials | HttpClient.HttpClient
@@ -874,7 +875,7 @@ export type DeleteDataIntegrationFlowError =
  * Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
 export const deleteDataIntegrationFlow: API.OperationMethod<
-  DeleteDataIntegrationFlowRequest,
+  DeleteDataIntegrationFlowRequest & RegionInput,
   DeleteDataIntegrationFlowResponse,
   DeleteDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -905,7 +906,7 @@ export type DeleteDataLakeDatasetError =
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
  */
 export const deleteDataLakeDataset: API.OperationMethod<
-  DeleteDataLakeDatasetRequest,
+  DeleteDataLakeDatasetRequest & RegionInput,
   DeleteDataLakeDatasetResponse,
   DeleteDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -937,7 +938,7 @@ export type DeleteDataLakeNamespaceError =
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
  */
 export const deleteDataLakeNamespace: API.OperationMethod<
-  DeleteDataLakeNamespaceRequest,
+  DeleteDataLakeNamespaceRequest & RegionInput,
   DeleteDataLakeNamespaceResponse,
   DeleteDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +972,7 @@ export type DeleteInstanceError =
  * This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResponse,
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1003,7 +1004,7 @@ export type GetBillOfMaterialsImportJobError =
  * Get status and details of a BillOfMaterialsImportJob.
  */
 export const getBillOfMaterialsImportJob: API.OperationMethod<
-  GetBillOfMaterialsImportJobRequest,
+  GetBillOfMaterialsImportJobRequest & RegionInput,
   GetBillOfMaterialsImportJobResponse,
   GetBillOfMaterialsImportJobError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type GetDataIntegrationEventError =
  * Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
  */
 export const getDataIntegrationEvent: API.OperationMethod<
-  GetDataIntegrationEventRequest,
+  GetDataIntegrationEventRequest & RegionInput,
   GetDataIntegrationEventResponse,
   GetDataIntegrationEventError,
   Credentials | HttpClient.HttpClient
@@ -1067,7 +1068,7 @@ export type GetDataIntegrationFlowError =
  * Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
 export const getDataIntegrationFlow: API.OperationMethod<
-  GetDataIntegrationFlowRequest,
+  GetDataIntegrationFlowRequest & RegionInput,
   GetDataIntegrationFlowResponse,
   GetDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -1099,7 +1100,7 @@ export type GetDataIntegrationFlowExecutionError =
  * Get the flow execution.
  */
 export const getDataIntegrationFlowExecution: API.OperationMethod<
-  GetDataIntegrationFlowExecutionRequest,
+  GetDataIntegrationFlowExecutionRequest & RegionInput,
   GetDataIntegrationFlowExecutionResponse,
   GetDataIntegrationFlowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1131,7 +1132,7 @@ export type GetDataLakeDatasetError =
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
  */
 export const getDataLakeDataset: API.OperationMethod<
-  GetDataLakeDatasetRequest,
+  GetDataLakeDatasetRequest & RegionInput,
   GetDataLakeDatasetResponse,
   GetDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1163,7 +1164,7 @@ export type GetDataLakeNamespaceError =
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
  */
 export const getDataLakeNamespace: API.OperationMethod<
-  GetDataLakeNamespaceRequest,
+  GetDataLakeNamespaceRequest & RegionInput,
   GetDataLakeNamespaceResponse,
   GetDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1195,7 +1196,7 @@ export type GetInstanceError =
  * Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
  */
 export const getInstance: API.OperationMethod<
-  GetInstanceRequest,
+  GetInstanceRequest & RegionInput,
   GetInstanceResponse,
   GetInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1226,7 +1227,7 @@ export type ListDataIntegrationEventsError =
  * Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
  */
 export const listDataIntegrationEvents: API.PaginatedOperationMethod<
-  ListDataIntegrationEventsRequest,
+  ListDataIntegrationEventsRequest & RegionInput,
   ListDataIntegrationEventsResponse,
   ListDataIntegrationEventsError,
   Credentials | HttpClient.HttpClient,
@@ -1264,7 +1265,7 @@ export type ListDataIntegrationFlowExecutionsError =
  * List flow executions.
  */
 export const listDataIntegrationFlowExecutions: API.PaginatedOperationMethod<
-  ListDataIntegrationFlowExecutionsRequest,
+  ListDataIntegrationFlowExecutionsRequest & RegionInput,
   ListDataIntegrationFlowExecutionsResponse,
   ListDataIntegrationFlowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1302,7 +1303,7 @@ export type ListDataIntegrationFlowsError =
  * Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
  */
 export const listDataIntegrationFlows: API.PaginatedOperationMethod<
-  ListDataIntegrationFlowsRequest,
+  ListDataIntegrationFlowsRequest & RegionInput,
   ListDataIntegrationFlowsResponse,
   ListDataIntegrationFlowsError,
   Credentials | HttpClient.HttpClient,
@@ -1340,7 +1341,7 @@ export type ListDataLakeDatasetsError =
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
  */
 export const listDataLakeDatasets: API.PaginatedOperationMethod<
-  ListDataLakeDatasetsRequest,
+  ListDataLakeDatasetsRequest & RegionInput,
   ListDataLakeDatasetsResponse,
   ListDataLakeDatasetsError,
   Credentials | HttpClient.HttpClient,
@@ -1378,7 +1379,7 @@ export type ListDataLakeNamespacesError =
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
  */
 export const listDataLakeNamespaces: API.PaginatedOperationMethod<
-  ListDataLakeNamespacesRequest,
+  ListDataLakeNamespacesRequest & RegionInput,
   ListDataLakeNamespacesResponse,
   ListDataLakeNamespacesError,
   Credentials | HttpClient.HttpClient,
@@ -1415,7 +1416,7 @@ export type ListInstancesError =
  * List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1453,7 +1454,7 @@ export type ListTagsForResourceError =
  * List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1488,7 @@ export type SendDataIntegrationEventError =
  * Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
  */
 export const sendDataIntegrationEvent: API.OperationMethod<
-  SendDataIntegrationEventRequest,
+  SendDataIntegrationEventRequest & RegionInput,
   SendDataIntegrationEventResponse,
   SendDataIntegrationEventError,
   Credentials | HttpClient.HttpClient
@@ -1521,7 +1522,7 @@ export type TagResourceError =
  * You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1553,7 +1554,7 @@ export type UntagResourceError =
  * You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1585,7 +1586,7 @@ export type UpdateDataIntegrationFlowError =
  * Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
  */
 export const updateDataIntegrationFlow: API.OperationMethod<
-  UpdateDataIntegrationFlowRequest,
+  UpdateDataIntegrationFlowRequest & RegionInput,
   UpdateDataIntegrationFlowResponse,
   UpdateDataIntegrationFlowError,
   Credentials | HttpClient.HttpClient
@@ -1617,7 +1618,7 @@ export type UpdateDataLakeDatasetError =
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
  */
 export const updateDataLakeDataset: API.OperationMethod<
-  UpdateDataLakeDatasetRequest,
+  UpdateDataLakeDatasetRequest & RegionInput,
   UpdateDataLakeDatasetResponse,
   UpdateDataLakeDatasetError,
   Credentials | HttpClient.HttpClient
@@ -1649,7 +1650,7 @@ export type UpdateDataLakeNamespaceError =
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
  */
 export const updateDataLakeNamespace: API.OperationMethod<
-  UpdateDataLakeNamespaceRequest,
+  UpdateDataLakeNamespaceRequest & RegionInput,
   UpdateDataLakeNamespaceResponse,
   UpdateDataLakeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1681,7 +1682,7 @@ export type UpdateInstanceError =
  * Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
  */
 export const updateInstance: API.OperationMethod<
-  UpdateInstanceRequest,
+  UpdateInstanceRequest & RegionInput,
   UpdateInstanceResponse,
   UpdateInstanceError,
   Credentials | HttpClient.HttpClient

@@ -34,6 +34,7 @@ export interface ResultInfo {
   readonly totalPages?: number | null;
   readonly cursor?: string | null;
   readonly cursors?: ResultInfoCursors | null;
+  readonly nextPageToken?: string | null;
 }
 
 export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
@@ -43,6 +44,7 @@ export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
   totalCount: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
   totalPages: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.Number)),
   cursor: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
+  nextPageToken: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.NullOr(S.String)),
   cursors: /*@__PURE__*/ S.optional(
     /*@__PURE__*/ S.NullOr(
       /*@__PURE__*/ S.Struct({
@@ -75,7 +77,7 @@ export const ResultInfo: S.Schema<ResultInfo> = /*@__PURE__*/ S.Struct({
 const paginatePageByItems: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(new Error("Cloudflare page pagination requires an inputToken"));
+    return Pagination.missingPaginationConfig("Cloudflare page pagination requires an inputToken");
   }
 
   type State = { page: number; seen: number; done: boolean };

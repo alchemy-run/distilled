@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * UnkeyProtocol -- hand-written.
  *
@@ -38,7 +39,8 @@ export type UnkeyOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | UnkeyParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Unkey operation. */
 export type UnkeyOpContext = Credentials | HttpClient.HttpClient;

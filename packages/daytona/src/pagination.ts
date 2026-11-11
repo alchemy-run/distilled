@@ -1,9 +1,13 @@
 /**
  * Daytona pagination -- hand-written.
  *
- * Audit logs page by token (`nextToken` in and out, items under `items`).
- * The OpenAPI converter stamps `smithy.api#paginated` when it recognises
- * that shape; generated operations pass core's {@link paginateToken}
- * strategy to `API.makePaginated`.
+ * Audit logs page by token (`nextToken` in and out), sandboxes and secrets
+ * by cursor (`cursor` in, `nextCursor` out), and snapshots and sandbox
+ * telemetry by page number; items are under `items` everywhere. Generated
+ * operations pass the matching core strategy to `API.makePaginated`.
  */
-export { paginateToken } from "@distilled.cloud/core/pagination";
+export {
+  paginateCursor,
+  paginatePageNumber,
+  paginateToken,
+} from "@distilled.cloud/core/pagination";

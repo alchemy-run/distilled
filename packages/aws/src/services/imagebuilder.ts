@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -222,9 +223,9 @@ export interface CancelImageCreationRequest {
 }
 export type NonEmptyString = string;
 export interface CancelImageCreationResponse {
-  requestId?: string;
-  clientToken?: string;
-  imageBuildVersionArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
 }
 export type LifecycleExecutionId = string;
 export interface CancelLifecycleExecutionRequest {
@@ -232,7 +233,7 @@ export interface CancelLifecycleExecutionRequest {
   clientToken: string;
 }
 export interface CancelLifecycleExecutionResponse {
-  lifecycleExecutionId?: string;
+  lifecycleExecutionId?: string | undefined;
 }
 export type ResourceName = string;
 export type VersionNumber = string;
@@ -247,30 +248,30 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateComponentRequest {
   name: string;
   semanticVersion: string;
-  description?: string;
-  changeDescription?: string;
+  description?: string | undefined;
+  changeDescription?: string | undefined;
   platform: Platform;
-  supportedOsVersions?: string[];
-  data?: string;
-  uri?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  supportedOsVersions?: string[] | undefined;
+  data?: string | undefined;
+  uri?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type ComponentBuildVersionArn = string;
 export type ImageBuilderArn = string;
 export interface LatestVersionReferences {
-  latestVersionArn?: string;
-  latestMajorVersionArn?: string;
-  latestMinorVersionArn?: string;
-  latestPatchVersionArn?: string;
+  latestVersionArn?: string | undefined;
+  latestMajorVersionArn?: string | undefined;
+  latestMinorVersionArn?: string | undefined;
+  latestPatchVersionArn?: string | undefined;
 }
 export interface CreateComponentResponse {
-  requestId?: string;
-  clientToken?: string;
-  componentBuildVersionArn?: string;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  componentBuildVersionArn?: string | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export type ContainerType = "DOCKER" | (string & {});
 export type WildcardVersionNumber = string;
@@ -285,7 +286,7 @@ export interface ComponentParameter {
 export type ComponentParameterList = ComponentParameter[];
 export interface ComponentConfiguration {
   componentArn: string;
-  parameters?: ComponentParameter[];
+  parameters?: ComponentParameter[] | undefined;
 }
 export type ComponentConfigurationList = ComponentConfiguration[];
 export type EbsIopsInteger = number;
@@ -301,26 +302,26 @@ export type EbsVolumeType =
   | (string & {});
 export type EbsVolumeThroughput = number;
 export interface EbsInstanceBlockDeviceSpecification {
-  encrypted?: boolean;
-  deleteOnTermination?: boolean;
-  iops?: number;
-  kmsKeyId?: string;
-  snapshotId?: string;
-  volumeSize?: number;
-  volumeType?: EbsVolumeType;
-  throughput?: number;
+  encrypted?: boolean | undefined;
+  deleteOnTermination?: boolean | undefined;
+  iops?: number | undefined;
+  kmsKeyId?: string | undefined;
+  snapshotId?: string | undefined;
+  volumeSize?: number | undefined;
+  volumeType?: EbsVolumeType | undefined;
+  throughput?: number | undefined;
 }
 export type EmptyString = string;
 export interface InstanceBlockDeviceMapping {
-  deviceName?: string;
-  ebs?: EbsInstanceBlockDeviceSpecification;
-  virtualName?: string;
-  noDevice?: string;
+  deviceName?: string | undefined;
+  ebs?: EbsInstanceBlockDeviceSpecification | undefined;
+  virtualName?: string | undefined;
+  noDevice?: string | undefined;
 }
 export type InstanceBlockDeviceMappings = InstanceBlockDeviceMapping[];
 export interface InstanceConfiguration {
-  image?: string;
-  blockDeviceMappings?: InstanceBlockDeviceMapping[];
+  image?: string | undefined;
+  blockDeviceMappings?: InstanceBlockDeviceMapping[] | undefined;
 }
 export type InlineDockerFileTemplate = string;
 export type ContainerRepositoryService = "ECR" | (string & {});
@@ -331,28 +332,28 @@ export interface TargetContainerRepository {
 export interface CreateContainerRecipeRequest {
   containerType: ContainerType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   semanticVersion: string;
-  components?: ComponentConfiguration[];
-  instanceConfiguration?: InstanceConfiguration;
-  dockerfileTemplateData?: string;
-  dockerfileTemplateUri?: string;
-  platformOverride?: Platform;
-  imageOsVersionOverride?: string;
+  components?: ComponentConfiguration[] | undefined;
+  instanceConfiguration?: InstanceConfiguration | undefined;
+  dockerfileTemplateData?: string | undefined;
+  dockerfileTemplateUri?: string | undefined;
+  platformOverride?: Platform | undefined;
+  imageOsVersionOverride?: string | undefined;
   parentImage: string;
-  tags?: { [key: string]: string | undefined };
-  workingDirectory?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  workingDirectory?: string | undefined;
   targetRepository: TargetContainerRepository;
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
   clientToken: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type ContainerRecipeArn = string;
 export interface CreateContainerRecipeResponse {
-  requestId?: string;
-  clientToken?: string;
-  containerRecipeArn?: string;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  containerRecipeArn?: string | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export type AmiNameString = string;
 export type AccountId = string;
@@ -363,22 +364,22 @@ export type OrganizationArnList = string[];
 export type OrganizationalUnitArn = string;
 export type OrganizationalUnitArnList = string[];
 export interface LaunchPermissionConfiguration {
-  userIds?: string[];
-  userGroups?: string[];
-  organizationArns?: string[];
-  organizationalUnitArns?: string[];
+  userIds?: string[] | undefined;
+  userGroups?: string[] | undefined;
+  organizationArns?: string[] | undefined;
+  organizationalUnitArns?: string[] | undefined;
 }
 export interface AmiDistributionConfiguration {
-  name?: string;
-  description?: string;
-  targetAccountIds?: string[];
-  amiTags?: { [key: string]: string | undefined };
-  kmsKeyId?: string;
-  launchPermission?: LaunchPermissionConfiguration;
+  name?: string | undefined;
+  description?: string | undefined;
+  targetAccountIds?: string[] | undefined;
+  amiTags?: { [key: string]: string | undefined } | undefined;
+  kmsKeyId?: string | undefined;
+  launchPermission?: LaunchPermissionConfiguration | undefined;
 }
 export interface ContainerDistributionConfiguration {
-  description?: string;
-  containerTags?: string[];
+  description?: string | undefined;
+  containerTags?: string[] | undefined;
   targetRepository: TargetContainerRepository;
 }
 export type LicenseConfigurationArn = string;
@@ -386,8 +387,8 @@ export type LicenseConfigurationArnList = string[];
 export type LaunchTemplateId = string;
 export interface LaunchTemplateConfiguration {
   launchTemplateId: string;
-  accountId?: string;
-  setDefaultVersion?: boolean;
+  accountId?: string | undefined;
+  setDefaultVersion?: boolean | undefined;
 }
 export type LaunchTemplateConfigurationList = LaunchTemplateConfiguration[];
 export type DiskImageFormat = "VMDK" | "RAW" | "VHD" | (string & {});
@@ -395,73 +396,82 @@ export interface S3ExportConfiguration {
   roleName: string;
   diskImageFormat: DiskImageFormat;
   s3Bucket: string;
-  s3Prefix?: string;
+  s3Prefix?: string | undefined;
 }
 export type TargetResourceCount = number;
 export interface FastLaunchSnapshotConfiguration {
-  targetResourceCount?: number;
+  targetResourceCount?: number | undefined;
 }
 export type MaxParallelLaunches = number;
 export interface FastLaunchLaunchTemplateSpecification {
-  launchTemplateId?: string;
-  launchTemplateName?: string;
-  launchTemplateVersion?: string;
+  launchTemplateId?: string | undefined;
+  launchTemplateName?: string | undefined;
+  launchTemplateVersion?: string | undefined;
 }
 export interface FastLaunchConfiguration {
   enabled: boolean;
-  snapshotConfiguration?: FastLaunchSnapshotConfiguration;
-  maxParallelLaunches?: number;
-  launchTemplate?: FastLaunchLaunchTemplateSpecification;
-  accountId?: string;
+  snapshotConfiguration?: FastLaunchSnapshotConfiguration | undefined;
+  maxParallelLaunches?: number | undefined;
+  launchTemplate?: FastLaunchLaunchTemplateSpecification | undefined;
+  accountId?: string | undefined;
 }
 export type FastLaunchConfigurationList = FastLaunchConfiguration[];
 export type SsmParameterName = string;
 export type SsmParameterDataType = "text" | "aws:ec2:image" | (string & {});
 export interface SsmParameterConfiguration {
-  amiAccountId?: string;
+  amiAccountId?: string | undefined;
   parameterName: string;
-  dataType?: SsmParameterDataType;
+  dataType?: SsmParameterDataType | undefined;
 }
 export type SsmParameterConfigurationList = SsmParameterConfiguration[];
 export interface Distribution {
   region: string;
-  amiDistributionConfiguration?: AmiDistributionConfiguration;
-  containerDistributionConfiguration?: ContainerDistributionConfiguration;
-  licenseConfigurationArns?: string[];
-  launchTemplateConfigurations?: LaunchTemplateConfiguration[];
-  s3ExportConfiguration?: S3ExportConfiguration;
-  fastLaunchConfigurations?: FastLaunchConfiguration[];
-  ssmParameterConfigurations?: SsmParameterConfiguration[];
+  amiDistributionConfiguration?: AmiDistributionConfiguration | undefined;
+  containerDistributionConfiguration?: ContainerDistributionConfiguration | undefined;
+  licenseConfigurationArns?: string[] | undefined;
+  launchTemplateConfigurations?: LaunchTemplateConfiguration[] | undefined;
+  s3ExportConfiguration?: S3ExportConfiguration | undefined;
+  fastLaunchConfigurations?: FastLaunchConfiguration[] | undefined;
+  ssmParameterConfigurations?: SsmParameterConfiguration[] | undefined;
 }
 export type DistributionList = Distribution[];
 export interface CreateDistributionConfigurationRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   distributions: Distribution[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type DistributionConfigurationArn = string;
 export interface CreateDistributionConfigurationResponse {
-  requestId?: string;
-  clientToken?: string;
-  distributionConfigurationArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  distributionConfigurationArn?: string | undefined;
 }
 export type ImageRecipeArn = string;
 export type InfrastructureConfigurationArn = string;
 export type ImageTestsTimeoutMinutes = number;
 export interface ImageTestsConfiguration {
-  imageTestsEnabled?: boolean;
-  timeoutMinutes?: number;
+  imageTestsEnabled?: boolean | undefined;
+  timeoutMinutes?: number | undefined;
 }
 export interface EcrConfiguration {
-  repositoryName?: string;
-  containerTags?: string[];
+  repositoryName?: string | undefined;
+  containerTags?: string[] | undefined;
+}
+export type ImageScanningType = "TEST_INSTANCE_CVE" | "ON_DEMAND_AMI_CVE" | (string & {});
+export type ImageScanningTypeList = ImageScanningType[];
+export type MaximumSeverityLabel = "INFORMATIONAL" | "LOW" | "MEDIUM" | "HIGH" | (string & {});
+export interface ScanResultCondition {
+  maximumSeverityLabel: MaximumSeverityLabel;
+  fixAvailable?: boolean | undefined;
 }
 export interface ImageScanningConfiguration {
-  imageScanningEnabled?: boolean;
-  ecrConfiguration?: EcrConfiguration;
+  imageScanningEnabled?: boolean | undefined;
+  ecrConfiguration?: EcrConfiguration | undefined;
+  imageScanningTypes?: ImageScanningType[] | undefined;
+  scanResultCondition?: ScanResultCondition | undefined;
 }
 export type WorkflowVersionArnOrBuildVersionArn = string;
 export type WorkflowParameterName = string;
@@ -476,35 +486,35 @@ export type ParallelGroup = string;
 export type OnWorkflowFailure = "CONTINUE" | "ABORT" | (string & {});
 export interface WorkflowConfiguration {
   workflowArn: string;
-  parameters?: WorkflowParameter[];
-  parallelGroup?: string;
-  onFailure?: OnWorkflowFailure;
+  parameters?: WorkflowParameter[] | undefined;
+  parallelGroup?: string | undefined;
+  onFailure?: OnWorkflowFailure | undefined;
 }
 export type WorkflowConfigurationList = WorkflowConfiguration[];
 export type RoleNameOrArn = string;
 export type LogGroupName = string;
 export interface ImageLoggingConfiguration {
-  logGroupName?: string;
+  logGroupName?: string | undefined;
 }
 export interface CreateImageRequest {
-  imageRecipeArn?: string;
-  containerRecipeArn?: string;
-  distributionConfigurationArn?: string;
+  imageRecipeArn?: string | undefined;
+  containerRecipeArn?: string | undefined;
+  distributionConfigurationArn?: string | undefined;
   infrastructureConfigurationArn: string;
-  imageTestsConfiguration?: ImageTestsConfiguration;
-  enhancedImageMetadataEnabled?: boolean;
-  tags?: { [key: string]: string | undefined };
+  imageTestsConfiguration?: ImageTestsConfiguration | undefined;
+  enhancedImageMetadataEnabled?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  workflows?: WorkflowConfiguration[];
-  executionRole?: string;
-  loggingConfiguration?: ImageLoggingConfiguration;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  workflows?: WorkflowConfiguration[] | undefined;
+  executionRole?: string | undefined;
+  loggingConfiguration?: ImageLoggingConfiguration | undefined;
 }
 export interface CreateImageResponse {
-  requestId?: string;
-  clientToken?: string;
-  imageBuildVersionArn?: string;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export type Timezone = string;
 export type PipelineExecutionStartCondition =
@@ -516,133 +526,143 @@ export interface AutoDisablePolicy {
   failureCount: number;
 }
 export interface Schedule {
-  scheduleExpression?: string;
-  timezone?: string;
-  pipelineExecutionStartCondition?: PipelineExecutionStartCondition;
-  autoDisablePolicy?: AutoDisablePolicy;
+  scheduleExpression?: string | undefined;
+  timezone?: string | undefined;
+  pipelineExecutionStartCondition?: PipelineExecutionStartCondition | undefined;
+  autoDisablePolicy?: AutoDisablePolicy | undefined;
 }
 export type PipelineStatus = "DISABLED" | "ENABLED" | (string & {});
 export interface PipelineLoggingConfiguration {
-  imageLogGroupName?: string;
-  pipelineLogGroupName?: string;
+  imageLogGroupName?: string | undefined;
+  pipelineLogGroupName?: string | undefined;
 }
 export interface CreateImagePipelineRequest {
   name: string;
-  description?: string;
-  imageRecipeArn?: string;
-  containerRecipeArn?: string;
+  description?: string | undefined;
+  imageRecipeArn?: string | undefined;
+  containerRecipeArn?: string | undefined;
   infrastructureConfigurationArn: string;
-  distributionConfigurationArn?: string;
-  imageTestsConfiguration?: ImageTestsConfiguration;
-  enhancedImageMetadataEnabled?: boolean;
-  schedule?: Schedule;
-  status?: PipelineStatus;
-  tags?: { [key: string]: string | undefined };
-  imageTags?: { [key: string]: string | undefined };
+  distributionConfigurationArn?: string | undefined;
+  imageTestsConfiguration?: ImageTestsConfiguration | undefined;
+  enhancedImageMetadataEnabled?: boolean | undefined;
+  schedule?: Schedule | undefined;
+  status?: PipelineStatus | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  imageTags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  workflows?: WorkflowConfiguration[];
-  executionRole?: string;
-  loggingConfiguration?: PipelineLoggingConfiguration;
-  dryRun?: boolean;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  workflows?: WorkflowConfiguration[] | undefined;
+  executionRole?: string | undefined;
+  loggingConfiguration?: PipelineLoggingConfiguration | undefined;
+  dryRun?: boolean | undefined;
 }
 export type ImagePipelineArn = string;
 export interface CreateImagePipelineResponse {
-  requestId?: string;
-  clientToken?: string;
-  imagePipelineArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  imagePipelineArn?: string | undefined;
 }
 export interface SystemsManagerAgent {
-  uninstallAfterBuild?: boolean;
+  uninstallAfterBuild?: boolean | undefined;
 }
 export type UserDataOverride = string;
 export interface AdditionalInstanceConfiguration {
-  systemsManagerAgent?: SystemsManagerAgent;
-  userDataOverride?: string;
+  systemsManagerAgent?: SystemsManagerAgent | undefined;
+  userDataOverride?: string | undefined;
 }
 export type AmiWatermarkName = string;
 export type AmiWatermarksList = string[];
 export interface CreateImageRecipeRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   semanticVersion: string;
-  components?: ComponentConfiguration[];
+  components?: ComponentConfiguration[] | undefined;
   parentImage: string;
-  blockDeviceMappings?: InstanceBlockDeviceMapping[];
-  tags?: { [key: string]: string | undefined };
-  workingDirectory?: string;
-  additionalInstanceConfiguration?: AdditionalInstanceConfiguration;
-  amiTags?: { [key: string]: string | undefined };
-  amiWatermarks?: string[];
+  blockDeviceMappings?: InstanceBlockDeviceMapping[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  workingDirectory?: string | undefined;
+  additionalInstanceConfiguration?: AdditionalInstanceConfiguration | undefined;
+  amiTags?: { [key: string]: string | undefined } | undefined;
+  amiWatermarks?: string[] | undefined;
   clientToken: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface CreateImageRecipeResponse {
-  requestId?: string;
-  clientToken?: string;
-  imageRecipeArn?: string;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  imageRecipeArn?: string | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export type InstanceType = string;
 export type InstanceTypeList = string[];
 export type InstanceProfileNameType = string;
 export type SecurityGroupIds = string[];
 export interface S3Logs {
-  s3BucketName?: string;
-  s3KeyPrefix?: string;
+  s3BucketName?: string | undefined;
+  s3KeyPrefix?: string | undefined;
 }
 export interface Logging {
-  s3Logs?: S3Logs;
+  s3Logs?: S3Logs | undefined;
 }
 export type SnsTopicArn = string;
 export type ResourceTagMap = { [key: string]: string | undefined };
 export type HttpTokens = string;
 export type HttpPutResponseHopLimit = number;
 export interface InstanceMetadataOptions {
-  httpTokens?: string;
-  httpPutResponseHopLimit?: number;
+  httpTokens?: string | undefined;
+  httpPutResponseHopLimit?: number | undefined;
 }
 export type TenancyType = "default" | "dedicated" | "host" | (string & {});
 export interface Placement {
-  availabilityZone?: string;
-  tenancy?: TenancyType;
-  hostId?: string;
-  hostResourceGroupArn?: string;
+  availabilityZone?: string | undefined;
+  tenancy?: TenancyType | undefined;
+  hostId?: string | undefined;
+  hostResourceGroupArn?: string | undefined;
+}
+export type CapacityWaitTimeoutSeconds = number;
+export interface AutoScalingGroupConfiguration {
+  name: string;
+  capacityWaitTimeoutSeconds?: number | undefined;
+}
+export interface ParentInstanceConfiguration {
+  autoScalingGroup: AutoScalingGroupConfiguration;
 }
 export interface CreateInfrastructureConfigurationRequest {
   name: string;
-  description?: string;
-  instanceTypes?: string[];
+  description?: string | undefined;
+  instanceTypes?: string[] | undefined;
   instanceProfileName: string;
-  securityGroupIds?: string[];
-  subnetId?: string;
-  logging?: Logging;
-  keyPair?: string;
-  terminateInstanceOnFailure?: boolean;
-  snsTopicArn?: string;
-  resourceTags?: { [key: string]: string | undefined };
-  instanceMetadataOptions?: InstanceMetadataOptions;
-  tags?: { [key: string]: string | undefined };
-  placement?: Placement;
+  securityGroupIds?: string[] | undefined;
+  subnetId?: string | undefined;
+  logging?: Logging | undefined;
+  keyPair?: string | undefined;
+  terminateInstanceOnFailure?: boolean | undefined;
+  terminateInstanceOnCompletion?: boolean | undefined;
+  snsTopicArn?: string | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  instanceMetadataOptions?: InstanceMetadataOptions | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  placement?: Placement | undefined;
+  parentInstance?: ParentInstanceConfiguration | undefined;
   clientToken: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface CreateInfrastructureConfigurationResponse {
-  requestId?: string;
-  clientToken?: string;
-  infrastructureConfigurationArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  infrastructureConfigurationArn?: string | undefined;
 }
 export type LifecyclePolicyStatus = "DISABLED" | "ENABLED" | (string & {});
 export type LifecyclePolicyResourceType = "AMI_IMAGE" | "CONTAINER_IMAGE" | (string & {});
 export type LifecyclePolicyDetailActionType = "DELETE" | "DEPRECATE" | "DISABLE" | (string & {});
 export interface LifecyclePolicyDetailActionIncludeResources {
-  amis?: boolean;
-  snapshots?: boolean;
-  containers?: boolean;
+  amis?: boolean | undefined;
+  snapshots?: boolean | undefined;
+  containers?: boolean | undefined;
 }
 export interface LifecyclePolicyDetailAction {
   type: LifecyclePolicyDetailActionType;
-  includeResources?: LifecyclePolicyDetailActionIncludeResources;
+  includeResources?: LifecyclePolicyDetailActionIncludeResources | undefined;
 }
 export type LifecyclePolicyDetailFilterType = "AGE" | "COUNT" | (string & {});
 export type LifecyclePolicyDetailFilterValue = number;
@@ -651,8 +671,8 @@ export type LifecyclePolicyDetailFilterRetainAtLeast = number;
 export interface LifecyclePolicyDetailFilter {
   type: LifecyclePolicyDetailFilterType;
   value: number;
-  unit?: LifecyclePolicyTimeUnit;
-  retainAtLeast?: number;
+  unit?: LifecyclePolicyTimeUnit | undefined;
+  retainAtLeast?: number | undefined;
 }
 export type LifecyclePolicyDetailExclusionRulesAmisLastLaunchedValue = number;
 export interface LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
@@ -660,20 +680,20 @@ export interface LifecyclePolicyDetailExclusionRulesAmisLastLaunched {
   unit: LifecyclePolicyTimeUnit;
 }
 export interface LifecyclePolicyDetailExclusionRulesAmis {
-  isPublic?: boolean;
-  regions?: string[];
-  sharedAccounts?: string[];
-  lastLaunched?: LifecyclePolicyDetailExclusionRulesAmisLastLaunched;
-  tagMap?: { [key: string]: string | undefined };
+  isPublic?: boolean | undefined;
+  regions?: string[] | undefined;
+  sharedAccounts?: string[] | undefined;
+  lastLaunched?: LifecyclePolicyDetailExclusionRulesAmisLastLaunched | undefined;
+  tagMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface LifecyclePolicyDetailExclusionRules {
-  tagMap?: { [key: string]: string | undefined };
-  amis?: LifecyclePolicyDetailExclusionRulesAmis;
+  tagMap?: { [key: string]: string | undefined } | undefined;
+  amis?: LifecyclePolicyDetailExclusionRulesAmis | undefined;
 }
 export interface LifecyclePolicyDetail {
   action: LifecyclePolicyDetailAction;
   filter: LifecyclePolicyDetailFilter;
-  exclusionRules?: LifecyclePolicyDetailExclusionRules;
+  exclusionRules?: LifecyclePolicyDetailExclusionRules | undefined;
 }
 export type LifecyclePolicyDetails = LifecyclePolicyDetail[];
 export interface LifecyclePolicyResourceSelectionRecipe {
@@ -682,119 +702,119 @@ export interface LifecyclePolicyResourceSelectionRecipe {
 }
 export type LifecyclePolicyResourceSelectionRecipes = LifecyclePolicyResourceSelectionRecipe[];
 export interface LifecyclePolicyResourceSelection {
-  recipes?: LifecyclePolicyResourceSelectionRecipe[];
-  tagMap?: { [key: string]: string | undefined };
+  recipes?: LifecyclePolicyResourceSelectionRecipe[] | undefined;
+  tagMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateLifecyclePolicyRequest {
   name: string;
-  description?: string;
-  status?: LifecyclePolicyStatus;
+  description?: string | undefined;
+  status?: LifecyclePolicyStatus | undefined;
   executionRole: string;
   resourceType: LifecyclePolicyResourceType;
   policyDetails: LifecyclePolicyDetail[];
   resourceSelection: LifecyclePolicyResourceSelection;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type LifecyclePolicyArn = string;
 export interface CreateLifecyclePolicyResponse {
-  clientToken?: string;
-  lifecyclePolicyArn?: string;
+  clientToken?: string | undefined;
+  lifecyclePolicyArn?: string | undefined;
 }
 export type InlineWorkflowData = string;
 export type WorkflowType = "BUILD" | "TEST" | "DISTRIBUTION" | (string & {});
 export interface CreateWorkflowRequest {
   name: string;
   semanticVersion: string;
-  description?: string;
-  changeDescription?: string;
-  data?: string;
-  uri?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  changeDescription?: string | undefined;
+  data?: string | undefined;
+  uri?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
   type: WorkflowType;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type WorkflowBuildVersionArn = string;
 export interface CreateWorkflowResponse {
-  clientToken?: string;
-  workflowBuildVersionArn?: string;
-  latestVersionReferences?: LatestVersionReferences;
+  clientToken?: string | undefined;
+  workflowBuildVersionArn?: string | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export interface DeleteComponentRequest {
   componentBuildVersionArn: string;
 }
 export interface DeleteComponentResponse {
-  requestId?: string;
-  componentBuildVersionArn?: string;
+  requestId?: string | undefined;
+  componentBuildVersionArn?: string | undefined;
 }
 export interface DeleteContainerRecipeRequest {
   containerRecipeArn: string;
 }
 export interface DeleteContainerRecipeResponse {
-  requestId?: string;
-  containerRecipeArn?: string;
+  requestId?: string | undefined;
+  containerRecipeArn?: string | undefined;
 }
 export interface DeleteDistributionConfigurationRequest {
   distributionConfigurationArn: string;
 }
 export interface DeleteDistributionConfigurationResponse {
-  requestId?: string;
-  distributionConfigurationArn?: string;
+  requestId?: string | undefined;
+  distributionConfigurationArn?: string | undefined;
 }
 export interface DeleteImageRequest {
   imageBuildVersionArn: string;
 }
 export interface DeleteImageResponse {
-  requestId?: string;
-  imageBuildVersionArn?: string;
+  requestId?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
 }
 export interface DeleteImagePipelineRequest {
   imagePipelineArn: string;
 }
 export interface DeleteImagePipelineResponse {
-  requestId?: string;
-  imagePipelineArn?: string;
+  requestId?: string | undefined;
+  imagePipelineArn?: string | undefined;
 }
 export interface DeleteImageRecipeRequest {
   imageRecipeArn: string;
 }
 export interface DeleteImageRecipeResponse {
-  requestId?: string;
-  imageRecipeArn?: string;
+  requestId?: string | undefined;
+  imageRecipeArn?: string | undefined;
 }
 export interface DeleteInfrastructureConfigurationRequest {
   infrastructureConfigurationArn: string;
 }
 export interface DeleteInfrastructureConfigurationResponse {
-  requestId?: string;
-  infrastructureConfigurationArn?: string;
+  requestId?: string | undefined;
+  infrastructureConfigurationArn?: string | undefined;
 }
 export interface DeleteLifecyclePolicyRequest {
   lifecyclePolicyArn: string;
 }
 export interface DeleteLifecyclePolicyResponse {
-  lifecyclePolicyArn?: string;
+  lifecyclePolicyArn?: string | undefined;
 }
 export interface DeleteWorkflowRequest {
   workflowBuildVersionArn: string;
 }
 export interface DeleteWorkflowResponse {
-  workflowBuildVersionArn?: string;
+  workflowBuildVersionArn?: string | undefined;
 }
 export interface DistributeImageRequest {
   sourceImage: string;
   distributionConfigurationArn: string;
   executionRole: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
-  loggingConfiguration?: ImageLoggingConfiguration;
+  loggingConfiguration?: ImageLoggingConfiguration | undefined;
 }
 export interface DistributeImageResponse {
-  clientToken?: string;
-  imageBuildVersionArn?: string;
+  clientToken?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
 }
 export interface GetComponentRequest {
   componentBuildVersionArn: string;
@@ -802,16 +822,16 @@ export interface GetComponentRequest {
 export type ComponentType = "BUILD" | "TEST" | (string & {});
 export type ComponentStatus = "DEPRECATED" | "DISABLED" | "ACTIVE" | (string & {});
 export interface ComponentState {
-  status?: ComponentStatus;
-  reason?: string;
+  status?: ComponentStatus | undefined;
+  reason?: string | undefined;
 }
 export type ComponentParameterType = string;
 export type ComponentParameterDescription = string;
 export interface ComponentParameterDetail {
   name: string;
   type: string;
-  defaultValue?: string[];
-  description?: string;
+  defaultValue?: string[] | undefined;
+  description?: string | undefined;
 }
 export type ComponentParameterDetailList = ComponentParameterDetail[];
 export type ComponentData = string;
@@ -823,91 +843,91 @@ export interface ProductCodeListItem {
 }
 export type ProductCodeList = ProductCodeListItem[];
 export interface Component {
-  arn?: string;
-  name?: string;
-  version?: string;
-  description?: string;
-  changeDescription?: string;
-  type?: ComponentType;
-  platform?: Platform;
-  supportedOsVersions?: string[];
-  state?: ComponentState;
-  parameters?: ComponentParameterDetail[];
-  owner?: string;
-  data?: string;
-  kmsKeyId?: string;
-  encrypted?: boolean;
-  dateCreated?: string;
-  tags?: { [key: string]: string | undefined };
-  publisher?: string;
-  obfuscate?: boolean;
-  productCodes?: ProductCodeListItem[];
+  arn?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  description?: string | undefined;
+  changeDescription?: string | undefined;
+  type?: ComponentType | undefined;
+  platform?: Platform | undefined;
+  supportedOsVersions?: string[] | undefined;
+  state?: ComponentState | undefined;
+  parameters?: ComponentParameterDetail[] | undefined;
+  owner?: string | undefined;
+  data?: string | undefined;
+  kmsKeyId?: string | undefined;
+  encrypted?: boolean | undefined;
+  dateCreated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  publisher?: string | undefined;
+  obfuscate?: boolean | undefined;
+  productCodes?: ProductCodeListItem[] | undefined;
 }
 export interface GetComponentResponse {
-  requestId?: string;
-  component?: Component;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  component?: Component | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export interface GetComponentPolicyRequest {
   componentArn: string;
 }
 export type ResourcePolicyDocument = string;
 export interface GetComponentPolicyResponse {
-  requestId?: string;
-  policy?: string;
+  requestId?: string | undefined;
+  policy?: string | undefined;
 }
 export interface GetContainerRecipeRequest {
   containerRecipeArn: string;
 }
 export type DockerFileTemplate = string;
 export interface ContainerRecipe {
-  arn?: string;
-  containerType?: ContainerType;
-  name?: string;
-  description?: string;
-  platform?: Platform;
-  owner?: string;
-  version?: string;
-  components?: ComponentConfiguration[];
-  instanceConfiguration?: InstanceConfiguration;
-  dockerfileTemplateData?: string;
-  kmsKeyId?: string;
-  encrypted?: boolean;
-  parentImage?: string;
-  dateCreated?: string;
-  tags?: { [key: string]: string | undefined };
-  workingDirectory?: string;
-  targetRepository?: TargetContainerRepository;
+  arn?: string | undefined;
+  containerType?: ContainerType | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  platform?: Platform | undefined;
+  owner?: string | undefined;
+  version?: string | undefined;
+  components?: ComponentConfiguration[] | undefined;
+  instanceConfiguration?: InstanceConfiguration | undefined;
+  dockerfileTemplateData?: string | undefined;
+  kmsKeyId?: string | undefined;
+  encrypted?: boolean | undefined;
+  parentImage?: string | undefined;
+  dateCreated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  workingDirectory?: string | undefined;
+  targetRepository?: TargetContainerRepository | undefined;
 }
 export interface GetContainerRecipeResponse {
-  requestId?: string;
-  containerRecipe?: ContainerRecipe;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  containerRecipe?: ContainerRecipe | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export interface GetContainerRecipePolicyRequest {
   containerRecipeArn: string;
 }
 export interface GetContainerRecipePolicyResponse {
-  requestId?: string;
-  policy?: string;
+  requestId?: string | undefined;
+  policy?: string | undefined;
 }
 export interface GetDistributionConfigurationRequest {
   distributionConfigurationArn: string;
 }
 export type DistributionTimeoutMinutes = number;
 export interface DistributionConfiguration {
-  arn?: string;
-  name?: string;
-  description?: string;
-  distributions?: Distribution[];
-  timeoutMinutes?: number;
-  dateCreated?: string;
-  dateUpdated?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  distributions?: Distribution[] | undefined;
+  timeoutMinutes?: number | undefined;
+  dateCreated?: string | undefined;
+  dateUpdated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDistributionConfigurationResponse {
-  requestId?: string;
-  distributionConfiguration?: DistributionConfiguration;
+  requestId?: string | undefined;
+  distributionConfiguration?: DistributionConfiguration | undefined;
 }
 export type ImageVersionArnOrBuildVersionArn = string;
 export interface GetImageRequest {
@@ -934,11 +954,11 @@ export type WorkflowStepExecutionId = string;
 export type WorkflowStepName = string;
 export type NonEmptyMaxLengthString = string;
 export interface ComponentFailureContext {
-  componentArn?: string;
-  phaseName?: string;
-  stepName?: string;
-  action?: string;
-  errorMessage?: string;
+  componentArn?: string | undefined;
+  phaseName?: string | undefined;
+  stepName?: string | undefined;
+  action?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type RegionFailureStatus = "FAILED" | "CANCELLED" | "TIMED_OUT" | (string & {});
 export type ImageConfigurationStep =
@@ -949,86 +969,88 @@ export type ImageConfigurationStep =
   | "EXPORT_AMI"
   | (string & {});
 export interface RegionFailure {
-  region?: string;
-  status?: RegionFailureStatus;
-  imageConfigurationStep?: ImageConfigurationStep;
-  errorMessage?: string;
-  targetAccountId?: string;
+  region?: string | undefined;
+  status?: RegionFailureStatus | undefined;
+  imageConfigurationStep?: ImageConfigurationStep | undefined;
+  errorMessage?: string | undefined;
+  targetAccountId?: string | undefined;
 }
 export type RegionFailureList = RegionFailure[];
 export interface DistributionFailureContext {
-  errorMessage?: string;
-  regionFailures?: RegionFailure[];
+  errorMessage?: string | undefined;
+  regionFailures?: RegionFailure[] | undefined;
 }
 export interface ImageFailureContext {
-  imageStatus?: ImageStatus;
-  workflowExecutionId?: string;
-  workflowArn?: string;
-  stepExecutionId?: string;
-  failedStep?: string;
-  componentFailure?: ComponentFailureContext;
-  distributionFailure?: DistributionFailureContext;
+  imageStatus?: ImageStatus | undefined;
+  workflowExecutionId?: string | undefined;
+  workflowArn?: string | undefined;
+  stepExecutionId?: string | undefined;
+  failedStep?: string | undefined;
+  componentFailure?: ComponentFailureContext | undefined;
+  distributionFailure?: DistributionFailureContext | undefined;
 }
 export interface ImageState {
-  status?: ImageStatus;
-  reason?: string;
-  failureContext?: ImageFailureContext;
+  status?: ImageStatus | undefined;
+  reason?: string | undefined;
+  failureContext?: ImageFailureContext | undefined;
 }
 export interface ImageRecipe {
-  arn?: string;
-  type?: ImageType;
-  name?: string;
-  description?: string;
-  platform?: Platform;
-  owner?: string;
-  version?: string;
-  components?: ComponentConfiguration[];
-  parentImage?: string;
-  blockDeviceMappings?: InstanceBlockDeviceMapping[];
-  dateCreated?: string;
-  tags?: { [key: string]: string | undefined };
-  workingDirectory?: string;
-  additionalInstanceConfiguration?: AdditionalInstanceConfiguration;
-  amiTags?: { [key: string]: string | undefined };
-  amiWatermarks?: string[];
+  arn?: string | undefined;
+  type?: ImageType | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  platform?: Platform | undefined;
+  owner?: string | undefined;
+  version?: string | undefined;
+  components?: ComponentConfiguration[] | undefined;
+  parentImage?: string | undefined;
+  blockDeviceMappings?: InstanceBlockDeviceMapping[] | undefined;
+  dateCreated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  workingDirectory?: string | undefined;
+  additionalInstanceConfiguration?: AdditionalInstanceConfiguration | undefined;
+  amiTags?: { [key: string]: string | undefined } | undefined;
+  amiWatermarks?: string[] | undefined;
 }
 export type Arn = string;
 export interface InfrastructureConfiguration {
-  arn?: string;
-  name?: string;
-  description?: string;
-  instanceTypes?: string[];
-  instanceProfileName?: string;
-  securityGroupIds?: string[];
-  subnetId?: string;
-  logging?: Logging;
-  keyPair?: string;
-  terminateInstanceOnFailure?: boolean;
-  snsTopicArn?: string;
-  dateCreated?: string;
-  dateUpdated?: string;
-  resourceTags?: { [key: string]: string | undefined };
-  instanceMetadataOptions?: InstanceMetadataOptions;
-  tags?: { [key: string]: string | undefined };
-  placement?: Placement;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  instanceTypes?: string[] | undefined;
+  instanceProfileName?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  subnetId?: string | undefined;
+  logging?: Logging | undefined;
+  keyPair?: string | undefined;
+  terminateInstanceOnFailure?: boolean | undefined;
+  snsTopicArn?: string | undefined;
+  dateCreated?: string | undefined;
+  dateUpdated?: string | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  instanceMetadataOptions?: InstanceMetadataOptions | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  placement?: Placement | undefined;
+  terminateInstanceOnCompletion?: boolean | undefined;
+  parentInstance?: ParentInstanceConfiguration | undefined;
 }
 export interface Ami {
-  region?: string;
-  image?: string;
-  name?: string;
-  description?: string;
-  state?: ImageState;
-  accountId?: string;
+  region?: string | undefined;
+  image?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  state?: ImageState | undefined;
+  accountId?: string | undefined;
 }
 export type AmiList = Ami[];
 export interface Container {
-  region?: string;
-  imageUris?: string[];
+  region?: string | undefined;
+  imageUris?: string[] | undefined;
 }
 export type ContainerList = Container[];
 export interface OutputResources {
-  amis?: Ami[];
-  containers?: Container[];
+  amis?: Ami[] | undefined;
+  containers?: Container[] | undefined;
 }
 export type BuildType = "USER_INITIATED" | "SCHEDULED" | "IMPORT" | "IMPORT_ISO" | (string & {});
 export type ImageSource =
@@ -1047,112 +1069,112 @@ export type ImageScanStatus =
   | "TIMED_OUT"
   | (string & {});
 export interface ImageScanState {
-  status?: ImageScanStatus;
-  reason?: string;
+  status?: ImageScanStatus | undefined;
+  reason?: string | undefined;
 }
 export type DateTimeTimestamp = Date;
 export interface Image {
-  arn?: string;
-  type?: ImageType;
-  name?: string;
-  version?: string;
-  platform?: Platform;
-  enhancedImageMetadataEnabled?: boolean;
-  osVersion?: string;
-  state?: ImageState;
-  imageRecipe?: ImageRecipe;
-  containerRecipe?: ContainerRecipe;
-  sourcePipelineName?: string;
-  sourcePipelineArn?: string;
-  infrastructureConfiguration?: InfrastructureConfiguration;
-  distributionConfiguration?: DistributionConfiguration;
-  imageTestsConfiguration?: ImageTestsConfiguration;
-  dateCreated?: string;
-  outputResources?: OutputResources;
-  tags?: { [key: string]: string | undefined };
-  buildType?: BuildType;
-  imageSource?: ImageSource;
-  scanState?: ImageScanState;
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  deprecationTime?: Date;
-  lifecycleExecutionId?: string;
-  executionRole?: string;
-  workflows?: WorkflowConfiguration[];
-  loggingConfiguration?: ImageLoggingConfiguration;
+  arn?: string | undefined;
+  type?: ImageType | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  platform?: Platform | undefined;
+  enhancedImageMetadataEnabled?: boolean | undefined;
+  osVersion?: string | undefined;
+  state?: ImageState | undefined;
+  imageRecipe?: ImageRecipe | undefined;
+  containerRecipe?: ContainerRecipe | undefined;
+  sourcePipelineName?: string | undefined;
+  sourcePipelineArn?: string | undefined;
+  infrastructureConfiguration?: InfrastructureConfiguration | undefined;
+  distributionConfiguration?: DistributionConfiguration | undefined;
+  imageTestsConfiguration?: ImageTestsConfiguration | undefined;
+  dateCreated?: string | undefined;
+  outputResources?: OutputResources | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  buildType?: BuildType | undefined;
+  imageSource?: ImageSource | undefined;
+  scanState?: ImageScanState | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  deprecationTime?: Date | undefined;
+  lifecycleExecutionId?: string | undefined;
+  executionRole?: string | undefined;
+  workflows?: WorkflowConfiguration[] | undefined;
+  loggingConfiguration?: ImageLoggingConfiguration | undefined;
 }
 export interface GetImageResponse {
-  requestId?: string;
-  image?: Image;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  image?: Image | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export interface GetImagePipelineRequest {
   imagePipelineArn: string;
 }
 export type ConsecutiveFailures = number;
 export interface ImagePipeline {
-  arn?: string;
-  name?: string;
-  description?: string;
-  platform?: Platform;
-  enhancedImageMetadataEnabled?: boolean;
-  imageRecipeArn?: string;
-  containerRecipeArn?: string;
-  infrastructureConfigurationArn?: string;
-  distributionConfigurationArn?: string;
-  imageTestsConfiguration?: ImageTestsConfiguration;
-  schedule?: Schedule;
-  status?: PipelineStatus;
-  dateCreated?: string;
-  dateUpdated?: string;
-  dateLastRun?: string;
-  lastRunStatus?: ImageStatus;
-  dateNextRun?: string;
-  tags?: { [key: string]: string | undefined };
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  imageTags?: { [key: string]: string | undefined };
-  executionRole?: string;
-  workflows?: WorkflowConfiguration[];
-  loggingConfiguration?: PipelineLoggingConfiguration;
-  consecutiveFailures?: number;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  platform?: Platform | undefined;
+  enhancedImageMetadataEnabled?: boolean | undefined;
+  imageRecipeArn?: string | undefined;
+  containerRecipeArn?: string | undefined;
+  infrastructureConfigurationArn?: string | undefined;
+  distributionConfigurationArn?: string | undefined;
+  imageTestsConfiguration?: ImageTestsConfiguration | undefined;
+  schedule?: Schedule | undefined;
+  status?: PipelineStatus | undefined;
+  dateCreated?: string | undefined;
+  dateUpdated?: string | undefined;
+  dateLastRun?: string | undefined;
+  lastRunStatus?: ImageStatus | undefined;
+  dateNextRun?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  imageTags?: { [key: string]: string | undefined } | undefined;
+  executionRole?: string | undefined;
+  workflows?: WorkflowConfiguration[] | undefined;
+  loggingConfiguration?: PipelineLoggingConfiguration | undefined;
+  consecutiveFailures?: number | undefined;
 }
 export interface GetImagePipelineResponse {
-  requestId?: string;
-  imagePipeline?: ImagePipeline;
+  requestId?: string | undefined;
+  imagePipeline?: ImagePipeline | undefined;
 }
 export interface GetImagePolicyRequest {
   imageArn: string;
 }
 export interface GetImagePolicyResponse {
-  requestId?: string;
-  policy?: string;
+  requestId?: string | undefined;
+  policy?: string | undefined;
 }
 export interface GetImageRecipeRequest {
   imageRecipeArn: string;
 }
 export interface GetImageRecipeResponse {
-  requestId?: string;
-  imageRecipe?: ImageRecipe;
-  latestVersionReferences?: LatestVersionReferences;
+  requestId?: string | undefined;
+  imageRecipe?: ImageRecipe | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export interface GetImageRecipePolicyRequest {
   imageRecipeArn: string;
 }
 export interface GetImageRecipePolicyResponse {
-  requestId?: string;
-  policy?: string;
+  requestId?: string | undefined;
+  policy?: string | undefined;
 }
 export interface GetInfrastructureConfigurationRequest {
   infrastructureConfigurationArn: string;
 }
 export interface GetInfrastructureConfigurationResponse {
-  requestId?: string;
-  infrastructureConfiguration?: InfrastructureConfiguration;
+  requestId?: string | undefined;
+  infrastructureConfiguration?: InfrastructureConfiguration | undefined;
 }
 export interface GetLifecycleExecutionRequest {
   lifecycleExecutionId: string;
 }
 export interface LifecycleExecutionResourcesImpactedSummary {
-  hasImpactedResources?: boolean;
+  hasImpactedResources?: boolean | undefined;
 }
 export type LifecycleExecutionStatus =
   | "IN_PROGRESS"
@@ -1163,59 +1185,59 @@ export type LifecycleExecutionStatus =
   | "PENDING"
   | (string & {});
 export interface LifecycleExecutionState {
-  status?: LifecycleExecutionStatus;
-  reason?: string;
+  status?: LifecycleExecutionStatus | undefined;
+  reason?: string | undefined;
 }
 export interface LifecycleExecution {
-  lifecycleExecutionId?: string;
-  lifecyclePolicyArn?: string;
-  resourcesImpactedSummary?: LifecycleExecutionResourcesImpactedSummary;
-  state?: LifecycleExecutionState;
-  startTime?: Date;
-  endTime?: Date;
+  lifecycleExecutionId?: string | undefined;
+  lifecyclePolicyArn?: string | undefined;
+  resourcesImpactedSummary?: LifecycleExecutionResourcesImpactedSummary | undefined;
+  state?: LifecycleExecutionState | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface GetLifecycleExecutionResponse {
-  lifecycleExecution?: LifecycleExecution;
+  lifecycleExecution?: LifecycleExecution | undefined;
 }
 export interface GetLifecyclePolicyRequest {
   lifecyclePolicyArn: string;
 }
 export interface LifecyclePolicy {
-  arn?: string;
-  name?: string;
-  description?: string;
-  status?: LifecyclePolicyStatus;
-  executionRole?: string;
-  resourceType?: LifecyclePolicyResourceType;
-  policyDetails?: LifecyclePolicyDetail[];
-  resourceSelection?: LifecyclePolicyResourceSelection;
-  dateCreated?: Date;
-  dateUpdated?: Date;
-  dateLastRun?: Date;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: LifecyclePolicyStatus | undefined;
+  executionRole?: string | undefined;
+  resourceType?: LifecyclePolicyResourceType | undefined;
+  policyDetails?: LifecyclePolicyDetail[] | undefined;
+  resourceSelection?: LifecyclePolicyResourceSelection | undefined;
+  dateCreated?: Date | undefined;
+  dateUpdated?: Date | undefined;
+  dateLastRun?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLifecyclePolicyResponse {
-  lifecyclePolicy?: LifecyclePolicy;
+  lifecyclePolicy?: LifecyclePolicy | undefined;
 }
 export type MarketplaceResourceType = "COMPONENT_DATA" | "COMPONENT_ARTIFACT" | (string & {});
 export type MarketplaceResourceLocation = string;
 export interface GetMarketplaceResourceRequest {
   resourceType: MarketplaceResourceType;
   resourceArn: string;
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
 }
 export interface GetMarketplaceResourceResponse {
-  resourceArn?: string;
-  url?: string;
-  data?: string;
+  resourceArn?: string | undefined;
+  url?: string | undefined;
+  data?: string | undefined;
 }
 export interface GetWorkflowRequest {
   workflowBuildVersionArn: string;
 }
 export type WorkflowStatus = "DEPRECATED" | (string & {});
 export interface WorkflowState {
-  status?: WorkflowStatus;
-  reason?: string;
+  status?: WorkflowStatus | undefined;
+  reason?: string | undefined;
 }
 export type WorkflowData = string;
 export type WorkflowParameterType = string;
@@ -1223,28 +1245,28 @@ export type WorkflowParameterDescription = string;
 export interface WorkflowParameterDetail {
   name: string;
   type: string;
-  defaultValue?: string[];
-  description?: string;
+  defaultValue?: string[] | undefined;
+  description?: string | undefined;
 }
 export type WorkflowParameterDetailList = WorkflowParameterDetail[];
 export interface Workflow {
-  arn?: string;
-  name?: string;
-  version?: string;
-  description?: string;
-  changeDescription?: string;
-  type?: WorkflowType;
-  state?: WorkflowState;
-  owner?: string;
-  data?: string;
-  kmsKeyId?: string;
-  dateCreated?: string;
-  tags?: { [key: string]: string | undefined };
-  parameters?: WorkflowParameterDetail[];
+  arn?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  description?: string | undefined;
+  changeDescription?: string | undefined;
+  type?: WorkflowType | undefined;
+  state?: WorkflowState | undefined;
+  owner?: string | undefined;
+  data?: string | undefined;
+  kmsKeyId?: string | undefined;
+  dateCreated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  parameters?: WorkflowParameterDetail[] | undefined;
 }
 export interface GetWorkflowResponse {
-  workflow?: Workflow;
-  latestVersionReferences?: LatestVersionReferences;
+  workflow?: Workflow | undefined;
+  latestVersionReferences?: LatestVersionReferences | undefined;
 }
 export interface GetWorkflowExecutionRequest {
   workflowExecutionId: string;
@@ -1262,20 +1284,20 @@ export type WorkflowExecutionStatus =
 export type WorkflowExecutionMessage = string;
 export type WorkflowStepCount = number;
 export interface GetWorkflowExecutionResponse {
-  requestId?: string;
-  workflowBuildVersionArn?: string;
-  workflowExecutionId?: string;
-  imageBuildVersionArn?: string;
-  type?: WorkflowType;
-  status?: WorkflowExecutionStatus;
-  message?: string;
-  totalStepCount?: number;
-  totalStepsSucceeded?: number;
-  totalStepsFailed?: number;
-  totalStepsSkipped?: number;
-  startTime?: string;
-  endTime?: string;
-  parallelGroup?: string;
+  requestId?: string | undefined;
+  workflowBuildVersionArn?: string | undefined;
+  workflowExecutionId?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
+  type?: WorkflowType | undefined;
+  status?: WorkflowExecutionStatus | undefined;
+  message?: string | undefined;
+  totalStepCount?: number | undefined;
+  totalStepsSucceeded?: number | undefined;
+  totalStepsFailed?: number | undefined;
+  totalStepsSkipped?: number | undefined;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
+  parallelGroup?: string | undefined;
 }
 export interface GetWorkflowStepExecutionRequest {
   stepExecutionId: string;
@@ -1302,50 +1324,50 @@ export type WorkflowStepOutputs = string;
 export type WorkflowStepTimeoutSecondsInteger = number;
 export type WorkflowStepAttemptCount = number;
 export interface GetWorkflowStepExecutionResponse {
-  requestId?: string;
-  stepExecutionId?: string;
-  workflowBuildVersionArn?: string;
-  workflowExecutionId?: string;
-  imageBuildVersionArn?: string;
-  name?: string;
-  description?: string;
-  action?: string;
-  status?: WorkflowStepExecutionStatus;
-  rollbackStatus?: WorkflowStepExecutionRollbackStatus;
-  message?: string;
-  inputs?: string;
-  outputs?: string;
-  startTime?: string;
-  endTime?: string;
-  onFailure?: string;
-  timeoutSeconds?: number;
-  attemptNumber?: number;
-  maxAttempts?: number;
+  requestId?: string | undefined;
+  stepExecutionId?: string | undefined;
+  workflowBuildVersionArn?: string | undefined;
+  workflowExecutionId?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  action?: string | undefined;
+  status?: WorkflowStepExecutionStatus | undefined;
+  rollbackStatus?: WorkflowStepExecutionRollbackStatus | undefined;
+  message?: string | undefined;
+  inputs?: string | undefined;
+  outputs?: string | undefined;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
+  onFailure?: string | undefined;
+  timeoutSeconds?: number | undefined;
+  attemptNumber?: number | undefined;
+  maxAttempts?: number | undefined;
 }
 export type ComponentFormat = "SHELL" | (string & {});
 export interface ImportComponentRequest {
   name: string;
   semanticVersion: string;
-  description?: string;
-  changeDescription?: string;
+  description?: string | undefined;
+  changeDescription?: string | undefined;
   type: ComponentType;
   format: ComponentFormat;
   platform: Platform;
-  data?: string;
-  uri?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  data?: string | undefined;
+  uri?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
 }
 export interface ImportComponentResponse {
-  requestId?: string;
-  clientToken?: string;
-  componentBuildVersionArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  componentBuildVersionArn?: string | undefined;
 }
 export type UefiData = string;
 export interface RegisterImageOptions {
-  secureBootEnabled?: boolean;
-  uefiData?: string;
+  secureBootEnabled?: boolean | undefined;
+  uefiData?: string | undefined;
 }
 export type WindowsConfigurationImageIndex = number;
 export interface WindowsConfiguration {
@@ -1354,67 +1376,67 @@ export interface WindowsConfiguration {
 export interface ImportDiskImageRequest {
   name: string;
   semanticVersion: string;
-  description?: string;
+  description?: string | undefined;
   platform: string;
   osVersion: string;
-  executionRole?: string;
+  executionRole?: string | undefined;
   infrastructureConfigurationArn: string;
   uri: string;
-  loggingConfiguration?: ImageLoggingConfiguration;
-  tags?: { [key: string]: string | undefined };
-  registerImageOptions?: RegisterImageOptions;
-  windowsConfiguration?: WindowsConfiguration;
+  loggingConfiguration?: ImageLoggingConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  registerImageOptions?: RegisterImageOptions | undefined;
+  windowsConfiguration?: WindowsConfiguration | undefined;
   clientToken: string;
 }
 export interface ImportDiskImageResponse {
-  clientToken?: string;
-  imageBuildVersionArn?: string;
+  clientToken?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
 }
 export interface ImportVmImageRequest {
   name: string;
   semanticVersion: string;
-  description?: string;
+  description?: string | undefined;
   platform: Platform;
-  osVersion?: string;
+  osVersion?: string | undefined;
   vmImportTaskId: string;
-  loggingConfiguration?: ImageLoggingConfiguration;
-  tags?: { [key: string]: string | undefined };
+  loggingConfiguration?: ImageLoggingConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   clientToken: string;
 }
 export interface ImportVmImageResponse {
-  requestId?: string;
-  imageArn?: string;
-  clientToken?: string;
+  requestId?: string | undefined;
+  imageArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type ComponentVersionArn = string;
 export type RestrictedInteger = number;
 export type PaginationToken = string;
 export interface ListComponentBuildVersionsRequest {
-  componentVersionArn?: string;
-  maxResults?: number;
-  nextToken?: string;
+  componentVersionArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ComponentSummary {
-  arn?: string;
-  name?: string;
-  version?: string;
-  platform?: Platform;
-  supportedOsVersions?: string[];
-  state?: ComponentState;
-  type?: ComponentType;
-  owner?: string;
-  description?: string;
-  changeDescription?: string;
-  dateCreated?: string;
-  tags?: { [key: string]: string | undefined };
-  publisher?: string;
-  obfuscate?: boolean;
+  arn?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  platform?: Platform | undefined;
+  supportedOsVersions?: string[] | undefined;
+  state?: ComponentState | undefined;
+  type?: ComponentType | undefined;
+  owner?: string | undefined;
+  description?: string | undefined;
+  changeDescription?: string | undefined;
+  dateCreated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  publisher?: string | undefined;
+  obfuscate?: boolean | undefined;
 }
 export type ComponentSummaryList = ComponentSummary[];
 export interface ListComponentBuildVersionsResponse {
-  requestId?: string;
-  componentSummaryList?: ComponentSummary[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  componentSummaryList?: ComponentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Ownership =
   | "Self"
@@ -1427,358 +1449,358 @@ export type FilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
 export interface Filter {
-  name?: string;
-  values?: string[];
+  name?: string | undefined;
+  values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export interface ListComponentsRequest {
-  owner?: Ownership;
-  filters?: Filter[];
-  byName?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  owner?: Ownership | undefined;
+  filters?: Filter[] | undefined;
+  byName?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ComponentVersion {
-  arn?: string;
-  name?: string;
-  version?: string;
-  description?: string;
-  platform?: Platform;
-  supportedOsVersions?: string[];
-  type?: ComponentType;
-  owner?: string;
-  dateCreated?: string;
-  status?: ComponentStatus;
-  productCodes?: ProductCodeListItem[];
+  arn?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  description?: string | undefined;
+  platform?: Platform | undefined;
+  supportedOsVersions?: string[] | undefined;
+  type?: ComponentType | undefined;
+  owner?: string | undefined;
+  dateCreated?: string | undefined;
+  status?: ComponentStatus | undefined;
+  productCodes?: ProductCodeListItem[] | undefined;
 }
 export type ComponentVersionList = ComponentVersion[];
 export interface ListComponentsResponse {
-  requestId?: string;
-  componentVersionList?: ComponentVersion[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  componentVersionList?: ComponentVersion[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListContainerRecipesRequest {
-  owner?: Ownership;
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  owner?: Ownership | undefined;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ContainerRecipeSummary {
-  arn?: string;
-  containerType?: ContainerType;
-  name?: string;
-  platform?: Platform;
-  owner?: string;
-  parentImage?: string;
-  dateCreated?: string;
-  instanceImage?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  containerType?: ContainerType | undefined;
+  name?: string | undefined;
+  platform?: Platform | undefined;
+  owner?: string | undefined;
+  parentImage?: string | undefined;
+  dateCreated?: string | undefined;
+  instanceImage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ContainerRecipeSummaryList = ContainerRecipeSummary[];
 export interface ListContainerRecipesResponse {
-  requestId?: string;
-  containerRecipeSummaryList?: ContainerRecipeSummary[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  containerRecipeSummaryList?: ContainerRecipeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDistributionConfigurationsRequest {
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RegionList = string[];
 export interface DistributionConfigurationSummary {
-  arn?: string;
-  name?: string;
-  description?: string;
-  dateCreated?: string;
-  dateUpdated?: string;
-  tags?: { [key: string]: string | undefined };
-  regions?: string[];
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  dateCreated?: string | undefined;
+  dateUpdated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  regions?: string[] | undefined;
 }
 export type DistributionConfigurationSummaryList = DistributionConfigurationSummary[];
 export interface ListDistributionConfigurationsResponse {
-  requestId?: string;
-  distributionConfigurationSummaryList?: DistributionConfigurationSummary[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  distributionConfigurationSummaryList?: DistributionConfigurationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImageVersionArn = string;
 export interface ListImageBuildVersionsRequest {
-  imageVersionArn?: string;
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  imageVersionArn?: string | undefined;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ImageSummary {
-  arn?: string;
-  name?: string;
-  type?: ImageType;
-  version?: string;
-  platform?: Platform;
-  osVersion?: string;
-  state?: ImageState;
-  owner?: string;
-  dateCreated?: string;
-  outputResources?: OutputResources;
-  tags?: { [key: string]: string | undefined };
-  buildType?: BuildType;
-  imageSource?: ImageSource;
-  deprecationTime?: Date;
-  lifecycleExecutionId?: string;
-  loggingConfiguration?: ImageLoggingConfiguration;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: ImageType | undefined;
+  version?: string | undefined;
+  platform?: Platform | undefined;
+  osVersion?: string | undefined;
+  state?: ImageState | undefined;
+  owner?: string | undefined;
+  dateCreated?: string | undefined;
+  outputResources?: OutputResources | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  buildType?: BuildType | undefined;
+  imageSource?: ImageSource | undefined;
+  deprecationTime?: Date | undefined;
+  lifecycleExecutionId?: string | undefined;
+  loggingConfiguration?: ImageLoggingConfiguration | undefined;
 }
 export type ImageSummaryList = ImageSummary[];
 export interface ListImageBuildVersionsResponse {
-  requestId?: string;
-  imageSummaryList?: ImageSummary[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  imageSummaryList?: ImageSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImagePackagesRequest {
   imageBuildVersionArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ImagePackage {
-  packageName?: string;
-  packageVersion?: string;
+  packageName?: string | undefined;
+  packageVersion?: string | undefined;
 }
 export type ImagePackageList = ImagePackage[];
 export interface ListImagePackagesResponse {
-  requestId?: string;
-  imagePackageList?: ImagePackage[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  imagePackageList?: ImagePackage[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImagePipelineImagesRequest {
   imagePipelineArn: string;
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImagePipelineImagesResponse {
-  requestId?: string;
-  imageSummaryList?: ImageSummary[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  imageSummaryList?: ImageSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImagePipelinesRequest {
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ImagePipelineList = ImagePipeline[];
 export interface ListImagePipelinesResponse {
-  requestId?: string;
-  imagePipelineList?: ImagePipeline[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  imagePipelineList?: ImagePipeline[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImageRecipesRequest {
-  owner?: Ownership;
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  owner?: Ownership | undefined;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ImageRecipeSummary {
-  arn?: string;
-  name?: string;
-  platform?: Platform;
-  owner?: string;
-  parentImage?: string;
-  dateCreated?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  platform?: Platform | undefined;
+  owner?: string | undefined;
+  parentImage?: string | undefined;
+  dateCreated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ImageRecipeSummaryList = ImageRecipeSummary[];
 export interface ListImageRecipesResponse {
-  requestId?: string;
-  imageRecipeSummaryList?: ImageRecipeSummary[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  imageRecipeSummaryList?: ImageRecipeSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImagesRequest {
-  owner?: Ownership;
-  filters?: Filter[];
-  byName?: boolean;
-  maxResults?: number;
-  nextToken?: string;
-  includeDeprecated?: boolean;
+  owner?: Ownership | undefined;
+  filters?: Filter[] | undefined;
+  byName?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  includeDeprecated?: boolean | undefined;
 }
 export interface ImageVersion {
-  arn?: string;
-  name?: string;
-  type?: ImageType;
-  version?: string;
-  platform?: Platform;
-  osVersion?: string;
-  owner?: string;
-  dateCreated?: string;
-  buildType?: BuildType;
-  imageSource?: ImageSource;
+  arn?: string | undefined;
+  name?: string | undefined;
+  type?: ImageType | undefined;
+  version?: string | undefined;
+  platform?: Platform | undefined;
+  osVersion?: string | undefined;
+  owner?: string | undefined;
+  dateCreated?: string | undefined;
+  buildType?: BuildType | undefined;
+  imageSource?: ImageSource | undefined;
 }
 export type ImageVersionList = ImageVersion[];
 export interface ListImagesResponse {
-  requestId?: string;
-  imageVersionList?: ImageVersion[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  imageVersionList?: ImageVersion[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListImageScanFindingAggregationsRequest {
-  filter?: Filter;
-  nextToken?: string;
+  filter?: Filter | undefined;
+  nextToken?: string | undefined;
 }
 export type SeverityCountNumber = number;
 export interface SeverityCounts {
-  all?: number;
-  critical?: number;
-  high?: number;
-  medium?: number;
+  all?: number | undefined;
+  critical?: number | undefined;
+  high?: number | undefined;
+  medium?: number | undefined;
 }
 export interface AccountAggregation {
-  accountId?: string;
-  severityCounts?: SeverityCounts;
+  accountId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface ImageAggregation {
-  imageBuildVersionArn?: string;
-  severityCounts?: SeverityCounts;
+  imageBuildVersionArn?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface ImagePipelineAggregation {
-  imagePipelineArn?: string;
-  severityCounts?: SeverityCounts;
+  imagePipelineArn?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface VulnerabilityIdAggregation {
-  vulnerabilityId?: string;
-  severityCounts?: SeverityCounts;
+  vulnerabilityId?: string | undefined;
+  severityCounts?: SeverityCounts | undefined;
 }
 export interface ImageScanFindingAggregation {
-  accountAggregation?: AccountAggregation;
-  imageAggregation?: ImageAggregation;
-  imagePipelineAggregation?: ImagePipelineAggregation;
-  vulnerabilityIdAggregation?: VulnerabilityIdAggregation;
+  accountAggregation?: AccountAggregation | undefined;
+  imageAggregation?: ImageAggregation | undefined;
+  imagePipelineAggregation?: ImagePipelineAggregation | undefined;
+  vulnerabilityIdAggregation?: VulnerabilityIdAggregation | undefined;
 }
 export type ImageScanFindingAggregationsList = ImageScanFindingAggregation[];
 export interface ListImageScanFindingAggregationsResponse {
-  requestId?: string;
-  aggregationType?: string;
-  responses?: ImageScanFindingAggregation[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  aggregationType?: string | undefined;
+  responses?: ImageScanFindingAggregation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImageScanFindingsFilterValues = string[];
 export interface ImageScanFindingsFilter {
-  name?: string;
-  values?: string[];
+  name?: string | undefined;
+  values?: string[] | undefined;
 }
 export type ImageScanFindingsFilterList = ImageScanFindingsFilter[];
 export interface ListImageScanFindingsRequest {
-  filters?: ImageScanFindingsFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: ImageScanFindingsFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RemediationRecommendation {
-  text?: string;
-  url?: string;
+  text?: string | undefined;
+  url?: string | undefined;
 }
 export interface Remediation {
-  recommendation?: RemediationRecommendation;
+  recommendation?: RemediationRecommendation | undefined;
 }
 export type NonNegativeDouble = number;
 export interface CvssScoreAdjustment {
-  metric?: string;
-  reason?: string;
+  metric?: string | undefined;
+  reason?: string | undefined;
 }
 export type CvssScoreAdjustmentList = CvssScoreAdjustment[];
 export interface CvssScoreDetails {
-  scoreSource?: string;
-  cvssSource?: string;
-  version?: string;
-  score?: number;
-  scoringVector?: string;
-  adjustments?: CvssScoreAdjustment[];
+  scoreSource?: string | undefined;
+  cvssSource?: string | undefined;
+  version?: string | undefined;
+  score?: number | undefined;
+  scoringVector?: string | undefined;
+  adjustments?: CvssScoreAdjustment[] | undefined;
 }
 export interface InspectorScoreDetails {
-  adjustedCvss?: CvssScoreDetails;
+  adjustedCvss?: CvssScoreDetails | undefined;
 }
 export type VulnerabilityId = string;
 export type SourceLayerHash = string;
 export type PackageEpoch = number;
 export type PackageArchitecture = string;
 export interface VulnerablePackage {
-  name?: string;
-  version?: string;
-  sourceLayerHash?: string;
-  epoch?: number;
-  release?: string;
-  arch?: string;
-  packageManager?: string;
-  filePath?: string;
-  fixedInVersion?: string;
-  remediation?: string;
+  name?: string | undefined;
+  version?: string | undefined;
+  sourceLayerHash?: string | undefined;
+  epoch?: number | undefined;
+  release?: string | undefined;
+  arch?: string | undefined;
+  packageManager?: string | undefined;
+  filePath?: string | undefined;
+  fixedInVersion?: string | undefined;
+  remediation?: string | undefined;
 }
 export type VulnerablePackageList = VulnerablePackage[];
 export interface CvssScore {
-  baseScore?: number;
-  scoringVector?: string;
-  version?: string;
-  source?: string;
+  baseScore?: number | undefined;
+  scoringVector?: string | undefined;
+  version?: string | undefined;
+  source?: string | undefined;
 }
 export type CvssScoreList = CvssScore[];
 export type VulnerabilityIdList = string[];
 export type NonEmptyStringList = string[];
 export interface PackageVulnerabilityDetails {
   vulnerabilityId: string;
-  vulnerablePackages?: VulnerablePackage[];
-  source?: string;
-  cvss?: CvssScore[];
-  relatedVulnerabilities?: string[];
-  sourceUrl?: string;
-  vendorSeverity?: string;
-  vendorCreatedAt?: Date;
-  vendorUpdatedAt?: Date;
-  referenceUrls?: string[];
+  vulnerablePackages?: VulnerablePackage[] | undefined;
+  source?: string | undefined;
+  cvss?: CvssScore[] | undefined;
+  relatedVulnerabilities?: string[] | undefined;
+  sourceUrl?: string | undefined;
+  vendorSeverity?: string | undefined;
+  vendorCreatedAt?: Date | undefined;
+  vendorUpdatedAt?: Date | undefined;
+  referenceUrls?: string[] | undefined;
 }
 export interface ImageScanFinding {
-  awsAccountId?: string;
-  imageBuildVersionArn?: string;
-  imagePipelineArn?: string;
-  type?: string;
-  description?: string;
-  title?: string;
-  remediation?: Remediation;
-  severity?: string;
-  firstObservedAt?: Date;
-  updatedAt?: Date;
-  inspectorScore?: number;
-  inspectorScoreDetails?: InspectorScoreDetails;
-  packageVulnerabilityDetails?: PackageVulnerabilityDetails;
-  fixAvailable?: string;
+  awsAccountId?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
+  imagePipelineArn?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  title?: string | undefined;
+  remediation?: Remediation | undefined;
+  severity?: string | undefined;
+  firstObservedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  inspectorScore?: number | undefined;
+  inspectorScoreDetails?: InspectorScoreDetails | undefined;
+  packageVulnerabilityDetails?: PackageVulnerabilityDetails | undefined;
+  fixAvailable?: string | undefined;
 }
 export type ImageScanFindingsList = ImageScanFinding[];
 export interface ListImageScanFindingsResponse {
-  requestId?: string;
-  findings?: ImageScanFinding[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  findings?: ImageScanFinding[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListInfrastructureConfigurationsRequest {
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface InfrastructureConfigurationSummary {
-  arn?: string;
-  name?: string;
-  description?: string;
-  dateCreated?: string;
-  dateUpdated?: string;
-  resourceTags?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
-  instanceTypes?: string[];
-  instanceProfileName?: string;
-  placement?: Placement;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  dateCreated?: string | undefined;
+  dateUpdated?: string | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  instanceTypes?: string[] | undefined;
+  instanceProfileName?: string | undefined;
+  placement?: Placement | undefined;
 }
 export type InfrastructureConfigurationSummaryList = InfrastructureConfigurationSummary[];
 export interface ListInfrastructureConfigurationsResponse {
-  requestId?: string;
-  infrastructureConfigurationSummaryList?: InfrastructureConfigurationSummary[];
-  nextToken?: string;
+  requestId?: string | undefined;
+  infrastructureConfigurationSummaryList?: InfrastructureConfigurationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListLifecycleExecutionResourcesRequest {
   lifecycleExecutionId: string;
-  parentResourceId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  parentResourceId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type LifecycleExecutionResourceStatus =
   | "FAILED"
@@ -1787,8 +1809,8 @@ export type LifecycleExecutionResourceStatus =
   | "SUCCESS"
   | (string & {});
 export interface LifecycleExecutionResourceState {
-  status?: LifecycleExecutionResourceStatus;
-  reason?: string;
+  status?: LifecycleExecutionResourceStatus | undefined;
+  reason?: string | undefined;
 }
 export type LifecycleExecutionResourceActionName =
   | "AVAILABLE"
@@ -1797,278 +1819,278 @@ export type LifecycleExecutionResourceActionName =
   | "DISABLE"
   | (string & {});
 export interface LifecycleExecutionResourceAction {
-  name?: LifecycleExecutionResourceActionName;
-  reason?: string;
+  name?: LifecycleExecutionResourceActionName | undefined;
+  reason?: string | undefined;
 }
 export interface LifecycleExecutionSnapshotResource {
-  snapshotId?: string;
-  state?: LifecycleExecutionResourceState;
+  snapshotId?: string | undefined;
+  state?: LifecycleExecutionResourceState | undefined;
 }
 export type LifecycleExecutionSnapshotResourceList = LifecycleExecutionSnapshotResource[];
 export interface LifecycleExecutionResource {
-  accountId?: string;
-  resourceId?: string;
-  state?: LifecycleExecutionResourceState;
-  action?: LifecycleExecutionResourceAction;
-  region?: string;
-  snapshots?: LifecycleExecutionSnapshotResource[];
-  imageUris?: string[];
-  startTime?: Date;
-  endTime?: Date;
+  accountId?: string | undefined;
+  resourceId?: string | undefined;
+  state?: LifecycleExecutionResourceState | undefined;
+  action?: LifecycleExecutionResourceAction | undefined;
+  region?: string | undefined;
+  snapshots?: LifecycleExecutionSnapshotResource[] | undefined;
+  imageUris?: string[] | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type LifecycleExecutionResourceList = LifecycleExecutionResource[];
 export interface ListLifecycleExecutionResourcesResponse {
-  lifecycleExecutionId?: string;
-  lifecycleExecutionState?: LifecycleExecutionState;
-  resources?: LifecycleExecutionResource[];
-  nextToken?: string;
+  lifecycleExecutionId?: string | undefined;
+  lifecycleExecutionState?: LifecycleExecutionState | undefined;
+  resources?: LifecycleExecutionResource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListLifecycleExecutionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   resourceArn: string;
 }
 export type LifecycleExecutionsList = LifecycleExecution[];
 export interface ListLifecycleExecutionsResponse {
-  lifecycleExecutions?: LifecycleExecution[];
-  nextToken?: string;
+  lifecycleExecutions?: LifecycleExecution[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListLifecyclePoliciesRequest {
-  filters?: Filter[];
-  maxResults?: number;
-  nextToken?: string;
+  filters?: Filter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface LifecyclePolicySummary {
-  arn?: string;
-  name?: string;
-  description?: string;
-  status?: LifecyclePolicyStatus;
-  executionRole?: string;
-  resourceType?: LifecyclePolicyResourceType;
-  dateCreated?: Date;
-  dateUpdated?: Date;
-  dateLastRun?: Date;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: LifecyclePolicyStatus | undefined;
+  executionRole?: string | undefined;
+  resourceType?: LifecyclePolicyResourceType | undefined;
+  dateCreated?: Date | undefined;
+  dateUpdated?: Date | undefined;
+  dateLastRun?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LifecyclePolicySummaryList = LifecyclePolicySummary[];
 export interface ListLifecyclePoliciesResponse {
-  lifecyclePolicySummaryList?: LifecyclePolicySummary[];
-  nextToken?: string;
+  lifecyclePolicySummaryList?: LifecyclePolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListWaitingWorkflowStepsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface WorkflowStepExecution {
-  stepExecutionId?: string;
-  imageBuildVersionArn?: string;
-  workflowExecutionId?: string;
-  workflowBuildVersionArn?: string;
-  name?: string;
-  action?: string;
-  startTime?: string;
+  stepExecutionId?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
+  workflowExecutionId?: string | undefined;
+  workflowBuildVersionArn?: string | undefined;
+  name?: string | undefined;
+  action?: string | undefined;
+  startTime?: string | undefined;
 }
 export type WorkflowStepExecutionList = WorkflowStepExecution[];
 export interface ListWaitingWorkflowStepsResponse {
-  steps?: WorkflowStepExecution[];
-  nextToken?: string;
+  steps?: WorkflowStepExecution[] | undefined;
+  nextToken?: string | undefined;
 }
 export type WorkflowWildcardVersionArn = string;
 export interface ListWorkflowBuildVersionsRequest {
-  workflowVersionArn?: string;
-  maxResults?: number;
-  nextToken?: string;
+  workflowVersionArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface WorkflowSummary {
-  arn?: string;
-  name?: string;
-  version?: string;
-  description?: string;
-  changeDescription?: string;
-  type?: WorkflowType;
-  owner?: string;
-  state?: WorkflowState;
-  dateCreated?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  description?: string | undefined;
+  changeDescription?: string | undefined;
+  type?: WorkflowType | undefined;
+  owner?: string | undefined;
+  state?: WorkflowState | undefined;
+  dateCreated?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkflowSummaryList = WorkflowSummary[];
 export interface ListWorkflowBuildVersionsResponse {
-  workflowSummaryList?: WorkflowSummary[];
-  nextToken?: string;
+  workflowSummaryList?: WorkflowSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWorkflowExecutionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   imageBuildVersionArn: string;
 }
 export interface WorkflowExecutionMetadata {
-  workflowBuildVersionArn?: string;
-  workflowExecutionId?: string;
-  type?: WorkflowType;
-  status?: WorkflowExecutionStatus;
-  message?: string;
-  totalStepCount?: number;
-  totalStepsSucceeded?: number;
-  totalStepsFailed?: number;
-  totalStepsSkipped?: number;
-  startTime?: string;
-  endTime?: string;
-  parallelGroup?: string;
-  retried?: boolean;
+  workflowBuildVersionArn?: string | undefined;
+  workflowExecutionId?: string | undefined;
+  type?: WorkflowType | undefined;
+  status?: WorkflowExecutionStatus | undefined;
+  message?: string | undefined;
+  totalStepCount?: number | undefined;
+  totalStepsSucceeded?: number | undefined;
+  totalStepsFailed?: number | undefined;
+  totalStepsSkipped?: number | undefined;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
+  parallelGroup?: string | undefined;
+  retried?: boolean | undefined;
 }
 export type WorkflowExecutionsList = WorkflowExecutionMetadata[];
 export type ImageBuildMessage = string;
 export interface ListWorkflowExecutionsResponse {
-  requestId?: string;
-  workflowExecutions?: WorkflowExecutionMetadata[];
-  imageBuildVersionArn?: string;
-  message?: string;
-  nextToken?: string;
+  requestId?: string | undefined;
+  workflowExecutions?: WorkflowExecutionMetadata[] | undefined;
+  imageBuildVersionArn?: string | undefined;
+  message?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWorkflowsRequest {
-  owner?: Ownership;
-  filters?: Filter[];
-  byName?: boolean;
-  maxResults?: number;
-  nextToken?: string;
+  owner?: Ownership | undefined;
+  filters?: Filter[] | undefined;
+  byName?: boolean | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface WorkflowVersion {
-  arn?: string;
-  name?: string;
-  version?: string;
-  description?: string;
-  type?: WorkflowType;
-  owner?: string;
-  dateCreated?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
+  version?: string | undefined;
+  description?: string | undefined;
+  type?: WorkflowType | undefined;
+  owner?: string | undefined;
+  dateCreated?: string | undefined;
 }
 export type WorkflowVersionList = WorkflowVersion[];
 export interface ListWorkflowsResponse {
-  workflowVersionList?: WorkflowVersion[];
-  nextToken?: string;
+  workflowVersionList?: WorkflowVersion[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListWorkflowStepExecutionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   workflowExecutionId: string;
 }
 export interface WorkflowStepMetadata {
-  stepExecutionId?: string;
-  name?: string;
-  description?: string;
-  action?: string;
-  status?: WorkflowStepExecutionStatus;
-  rollbackStatus?: WorkflowStepExecutionRollbackStatus;
-  message?: string;
-  inputs?: string;
-  outputs?: string;
-  startTime?: string;
-  endTime?: string;
-  attemptNumber?: number;
-  maxAttempts?: number;
+  stepExecutionId?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  action?: string | undefined;
+  status?: WorkflowStepExecutionStatus | undefined;
+  rollbackStatus?: WorkflowStepExecutionRollbackStatus | undefined;
+  message?: string | undefined;
+  inputs?: string | undefined;
+  outputs?: string | undefined;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
+  attemptNumber?: number | undefined;
+  maxAttempts?: number | undefined;
 }
 export type WorkflowStepExecutionsList = WorkflowStepMetadata[];
 export interface ListWorkflowStepExecutionsResponse {
-  requestId?: string;
-  steps?: WorkflowStepMetadata[];
-  workflowBuildVersionArn?: string;
-  workflowExecutionId?: string;
-  imageBuildVersionArn?: string;
-  message?: string;
-  nextToken?: string;
+  requestId?: string | undefined;
+  steps?: WorkflowStepMetadata[] | undefined;
+  workflowBuildVersionArn?: string | undefined;
+  workflowExecutionId?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
+  message?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutComponentPolicyRequest {
   componentArn: string;
   policy: string;
 }
 export interface PutComponentPolicyResponse {
-  requestId?: string;
-  componentArn?: string;
+  requestId?: string | undefined;
+  componentArn?: string | undefined;
 }
 export interface PutContainerRecipePolicyRequest {
   containerRecipeArn: string;
   policy: string;
 }
 export interface PutContainerRecipePolicyResponse {
-  requestId?: string;
-  containerRecipeArn?: string;
+  requestId?: string | undefined;
+  containerRecipeArn?: string | undefined;
 }
 export interface PutImagePolicyRequest {
   imageArn: string;
   policy: string;
 }
 export interface PutImagePolicyResponse {
-  requestId?: string;
-  imageArn?: string;
+  requestId?: string | undefined;
+  imageArn?: string | undefined;
 }
 export interface PutImageRecipePolicyRequest {
   imageRecipeArn: string;
   policy: string;
 }
 export interface PutImageRecipePolicyResponse {
-  requestId?: string;
-  imageRecipeArn?: string;
+  requestId?: string | undefined;
+  imageRecipeArn?: string | undefined;
 }
 export interface RetryImageRequest {
   imageBuildVersionArn: string;
   clientToken: string;
 }
 export interface RetryImageResponse {
-  clientToken?: string;
-  imageBuildVersionArn?: string;
+  clientToken?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
 }
 export type WorkflowStepActionType = "RESUME" | "STOP" | (string & {});
 export interface SendWorkflowStepActionRequest {
   stepExecutionId: string;
   imageBuildVersionArn: string;
   action: WorkflowStepActionType;
-  reason?: string;
+  reason?: string | undefined;
   clientToken: string;
 }
 export interface SendWorkflowStepActionResponse {
-  stepExecutionId?: string;
-  imageBuildVersionArn?: string;
-  clientToken?: string;
+  stepExecutionId?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartImagePipelineExecutionRequest {
   imagePipelineArn: string;
   clientToken: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartImagePipelineExecutionResponse {
-  requestId?: string;
-  clientToken?: string;
-  imageBuildVersionArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  imageBuildVersionArn?: string | undefined;
 }
 export type ResourceStatus = "AVAILABLE" | "DELETED" | "DEPRECATED" | "DISABLED" | (string & {});
 export interface ResourceState {
-  status?: ResourceStatus;
+  status?: ResourceStatus | undefined;
 }
 export interface ResourceStateUpdateIncludeResources {
-  amis?: boolean;
-  snapshots?: boolean;
-  containers?: boolean;
+  amis?: boolean | undefined;
+  snapshots?: boolean | undefined;
+  containers?: boolean | undefined;
 }
 export interface ResourceStateUpdateExclusionRules {
-  amis?: LifecyclePolicyDetailExclusionRulesAmis;
+  amis?: LifecyclePolicyDetailExclusionRulesAmis | undefined;
 }
 export interface StartResourceStateUpdateRequest {
   resourceArn: string;
   state: ResourceState;
-  executionRole?: string;
-  includeResources?: ResourceStateUpdateIncludeResources;
-  exclusionRules?: ResourceStateUpdateExclusionRules;
-  updateAt?: Date;
+  executionRole?: string | undefined;
+  includeResources?: ResourceStateUpdateIncludeResources | undefined;
+  exclusionRules?: ResourceStateUpdateExclusionRules | undefined;
+  updateAt?: Date | undefined;
   clientToken: string;
 }
 export interface StartResourceStateUpdateResponse {
-  lifecycleExecutionId?: string;
-  resourceArn?: string;
+  lifecycleExecutionId?: string | undefined;
+  resourceArn?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -2083,63 +2105,65 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDistributionConfigurationRequest {
   distributionConfigurationArn: string;
-  description?: string;
+  description?: string | undefined;
   distributions: Distribution[];
   clientToken: string;
 }
 export interface UpdateDistributionConfigurationResponse {
-  requestId?: string;
-  clientToken?: string;
-  distributionConfigurationArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  distributionConfigurationArn?: string | undefined;
 }
 export interface UpdateImagePipelineRequest {
   imagePipelineArn: string;
-  description?: string;
-  imageRecipeArn?: string;
-  containerRecipeArn?: string;
+  description?: string | undefined;
+  imageRecipeArn?: string | undefined;
+  containerRecipeArn?: string | undefined;
   infrastructureConfigurationArn: string;
-  distributionConfigurationArn?: string;
-  imageTestsConfiguration?: ImageTestsConfiguration;
-  enhancedImageMetadataEnabled?: boolean;
-  schedule?: Schedule;
-  status?: PipelineStatus;
+  distributionConfigurationArn?: string | undefined;
+  imageTestsConfiguration?: ImageTestsConfiguration | undefined;
+  enhancedImageMetadataEnabled?: boolean | undefined;
+  schedule?: Schedule | undefined;
+  status?: PipelineStatus | undefined;
   clientToken: string;
-  imageScanningConfiguration?: ImageScanningConfiguration;
-  workflows?: WorkflowConfiguration[];
-  loggingConfiguration?: PipelineLoggingConfiguration;
-  executionRole?: string;
-  imageTags?: { [key: string]: string | undefined };
+  imageScanningConfiguration?: ImageScanningConfiguration | undefined;
+  workflows?: WorkflowConfiguration[] | undefined;
+  loggingConfiguration?: PipelineLoggingConfiguration | undefined;
+  executionRole?: string | undefined;
+  imageTags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateImagePipelineResponse {
-  requestId?: string;
-  clientToken?: string;
-  imagePipelineArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  imagePipelineArn?: string | undefined;
 }
 export interface UpdateInfrastructureConfigurationRequest {
   infrastructureConfigurationArn: string;
-  description?: string;
-  instanceTypes?: string[];
+  description?: string | undefined;
+  instanceTypes?: string[] | undefined;
   instanceProfileName: string;
-  securityGroupIds?: string[];
-  subnetId?: string;
-  logging?: Logging;
-  keyPair?: string;
-  terminateInstanceOnFailure?: boolean;
-  snsTopicArn?: string;
-  resourceTags?: { [key: string]: string | undefined };
-  instanceMetadataOptions?: InstanceMetadataOptions;
-  placement?: Placement;
+  securityGroupIds?: string[] | undefined;
+  subnetId?: string | undefined;
+  logging?: Logging | undefined;
+  keyPair?: string | undefined;
+  terminateInstanceOnFailure?: boolean | undefined;
+  terminateInstanceOnCompletion?: boolean | undefined;
+  snsTopicArn?: string | undefined;
+  resourceTags?: { [key: string]: string | undefined } | undefined;
+  instanceMetadataOptions?: InstanceMetadataOptions | undefined;
+  placement?: Placement | undefined;
+  parentInstance?: ParentInstanceConfiguration | undefined;
   clientToken: string;
 }
 export interface UpdateInfrastructureConfigurationResponse {
-  requestId?: string;
-  clientToken?: string;
-  infrastructureConfigurationArn?: string;
+  requestId?: string | undefined;
+  clientToken?: string | undefined;
+  infrastructureConfigurationArn?: string | undefined;
 }
 export interface UpdateLifecyclePolicyRequest {
   lifecyclePolicyArn: string;
-  description?: string;
-  status?: LifecyclePolicyStatus;
+  description?: string | undefined;
+  status?: LifecyclePolicyStatus | undefined;
   executionRole: string;
   resourceType: LifecyclePolicyResourceType;
   policyDetails: LifecyclePolicyDetail[];
@@ -2147,7 +2171,7 @@ export interface UpdateLifecyclePolicyRequest {
   clientToken: string;
 }
 export interface UpdateLifecyclePolicyResponse {
-  lifecyclePolicyArn?: string;
+  lifecyclePolicyArn?: string | undefined;
 }
 export type ErrorMessage = string;
 export type CancelImageCreationError =
@@ -2169,7 +2193,7 @@ export type CancelImageCreationError =
  * created, such as AMIs and snapshots, aren't removed.
  */
 export const cancelImageCreation: API.OperationMethod<
-  CancelImageCreationRequest,
+  CancelImageCreationRequest & RegionInput,
   CancelImageCreationResponse,
   CancelImageCreationError,
   Credentials | HttpClient.HttpClient
@@ -2212,7 +2236,7 @@ export type CancelLifecycleExecutionError =
  * completed lifecycle actions.
  */
 export const cancelLifecycleExecution: API.OperationMethod<
-  CancelLifecycleExecutionRequest,
+  CancelLifecycleExecutionRequest & RegionInput,
   CancelLifecycleExecutionResponse,
   CancelLifecycleExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2265,7 +2289,7 @@ export type CreateComponentError =
  * `TEST`. Otherwise, the component type is `BUILD`.
  */
 export const createComponent: API.OperationMethod<
-  CreateComponentRequest,
+  CreateComponentRequest & RegionInput,
   CreateComponentResponse,
   CreateComponentError,
   Credentials | HttpClient.HttpClient
@@ -2312,7 +2336,7 @@ export type CreateContainerRecipeError =
  * tested, and assessed.
  */
 export const createContainerRecipe: API.OperationMethod<
-  CreateContainerRecipeRequest,
+  CreateContainerRecipeRequest & RegionInput,
   CreateContainerRecipeResponse,
   CreateContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2360,7 +2384,7 @@ export type CreateDistributionConfigurationError =
  * accounts, and settings for each Region.
  */
 export const createDistributionConfiguration: API.OperationMethod<
-  CreateDistributionConfigurationRequest,
+  CreateDistributionConfigurationRequest & RegionInput,
   CreateDistributionConfigurationResponse,
   CreateDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2409,7 +2433,7 @@ export type CreateImageError =
  * GetImage and check the image status.
  */
 export const createImage: API.OperationMethod<
-  CreateImageRequest,
+  CreateImageRequest & RegionInput,
   CreateImageResponse,
   CreateImageError,
   Credentials | HttpClient.HttpClient
@@ -2454,7 +2478,7 @@ export type CreateImagePipelineError =
  * `imageRecipeArn`.
  */
 export const createImagePipeline: API.OperationMethod<
-  CreateImagePipelineRequest,
+  CreateImagePipelineRequest & RegionInput,
   CreateImagePipelineResponse,
   CreateImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -2500,7 +2524,7 @@ export type CreateImageRecipeError =
  * and assessed.
  */
 export const createImageRecipe: API.OperationMethod<
-  CreateImageRecipeRequest,
+  CreateImageRecipeRequest & RegionInput,
   CreateImageRecipeResponse,
   CreateImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2547,7 +2571,7 @@ export type CreateInfrastructureConfigurationError =
  * the environment in which your image will be built and tested.
  */
 export const createInfrastructureConfiguration: API.OperationMethod<
-  CreateInfrastructureConfigurationRequest,
+  CreateInfrastructureConfigurationRequest & RegionInput,
   CreateInfrastructureConfigurationResponse,
   CreateInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2616,7 @@ export type CreateLifecyclePolicyError =
  * Creates a lifecycle policy resource.
  */
 export const createLifecyclePolicy: API.OperationMethod<
-  CreateLifecyclePolicyRequest,
+  CreateLifecyclePolicyRequest & RegionInput,
   CreateLifecyclePolicyResponse,
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -2641,7 +2665,7 @@ export type CreateWorkflowError =
  * fails because that workflow configuration already exists.
  */
 export const createWorkflow: API.OperationMethod<
-  CreateWorkflowRequest,
+  CreateWorkflowRequest & RegionInput,
   CreateWorkflowResponse,
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -2686,7 +2710,7 @@ export type DeleteComponentError =
  * build version is shared with other accounts.
  */
 export const deleteComponent: API.OperationMethod<
-  DeleteComponentRequest,
+  DeleteComponentRequest & RegionInput,
   DeleteComponentResponse,
   DeleteComponentError,
   Credentials | HttpClient.HttpClient
@@ -2725,7 +2749,7 @@ export type DeleteContainerRecipeError =
  * accounts, or if an image pipeline references it.
  */
 export const deleteContainerRecipe: API.OperationMethod<
-  DeleteContainerRecipeRequest,
+  DeleteContainerRecipeRequest & RegionInput,
   DeleteContainerRecipeResponse,
   DeleteContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2765,7 +2789,7 @@ export type DeleteDistributionConfigurationError =
  * pipelines first.
  */
 export const deleteDistributionConfiguration: API.OperationMethod<
-  DeleteDistributionConfigurationRequest,
+  DeleteDistributionConfigurationRequest & RegionInput,
   DeleteDistributionConfigurationResponse,
   DeleteDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2824,7 +2848,7 @@ export type DeleteImageError =
  * an image in the *Amazon ECR User Guide*.
  */
 export const deleteImage: API.OperationMethod<
-  DeleteImageRequest,
+  DeleteImageRequest & RegionInput,
   DeleteImageResponse,
   DeleteImageError,
   Credentials | HttpClient.HttpClient
@@ -2865,7 +2889,7 @@ export type DeleteImagePipelineError =
  * build continues independently.
  */
 export const deleteImagePipeline: API.OperationMethod<
-  DeleteImagePipelineRequest,
+  DeleteImagePipelineRequest & RegionInput,
   DeleteImagePipelineResponse,
   DeleteImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -2903,7 +2927,7 @@ export type DeleteImageRecipeError =
  * Deletes an image recipe.
  */
 export const deleteImageRecipe: API.OperationMethod<
-  DeleteImageRecipeRequest,
+  DeleteImageRecipeRequest & RegionInput,
   DeleteImageRecipeResponse,
   DeleteImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -2944,7 +2968,7 @@ export type DeleteInfrastructureConfigurationError =
  * pipelines first.
  */
 export const deleteInfrastructureConfiguration: API.OperationMethod<
-  DeleteInfrastructureConfigurationRequest,
+  DeleteInfrastructureConfigurationRequest & RegionInput,
   DeleteInfrastructureConfigurationResponse,
   DeleteInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2985,7 +3009,7 @@ export type DeleteLifecyclePolicyError =
  * resources.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3023,7 +3047,7 @@ export type DeleteWorkflowError =
  * `ResourceDependencyException`.
  */
 export const deleteWorkflow: API.OperationMethod<
-  DeleteWorkflowRequest,
+  DeleteWorkflowRequest & RegionInput,
   DeleteWorkflowResponse,
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3066,7 +3090,7 @@ export type DistributeImageError =
  * phase on an image that has already been built.
  */
 export const distributeImage: API.OperationMethod<
-  DistributeImageRequest,
+  DistributeImageRequest & RegionInput,
   DistributeImageResponse,
   DistributeImageError,
   Credentials | HttpClient.HttpClient
@@ -3107,7 +3131,7 @@ export type GetComponentError =
  * Retrieves a component object.
  */
 export const getComponent: API.OperationMethod<
-  GetComponentRequest,
+  GetComponentRequest & RegionInput,
   GetComponentResponse,
   GetComponentError,
   Credentials | HttpClient.HttpClient
@@ -3142,7 +3166,7 @@ export type GetComponentPolicyError =
  * Retrieves a component policy.
  */
 export const getComponentPolicy: API.OperationMethod<
-  GetComponentPolicyRequest,
+  GetComponentPolicyRequest & RegionInput,
   GetComponentPolicyResponse,
   GetComponentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3176,7 +3200,7 @@ export type GetContainerRecipeError =
  * Retrieves a container recipe.
  */
 export const getContainerRecipe: API.OperationMethod<
-  GetContainerRecipeRequest,
+  GetContainerRecipeRequest & RegionInput,
   GetContainerRecipeResponse,
   GetContainerRecipeError,
   Credentials | HttpClient.HttpClient
@@ -3210,7 +3234,7 @@ export type GetContainerRecipePolicyError =
  * Retrieves the policy for a container recipe.
  */
 export const getContainerRecipePolicy: API.OperationMethod<
-  GetContainerRecipePolicyRequest,
+  GetContainerRecipePolicyRequest & RegionInput,
   GetContainerRecipePolicyResponse,
   GetContainerRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3245,7 +3269,7 @@ export type GetDistributionConfigurationError =
  * Retrieves a distribution configuration.
  */
 export const getDistributionConfiguration: API.OperationMethod<
-  GetDistributionConfigurationRequest,
+  GetDistributionConfigurationRequest & RegionInput,
   GetDistributionConfigurationResponse,
   GetDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3281,7 +3305,7 @@ export type GetImageError =
  * Retrieves an image.
  */
 export const getImage: API.OperationMethod<
-  GetImageRequest,
+  GetImageRequest & RegionInput,
   GetImageResponse,
   GetImageError,
   Credentials | HttpClient.HttpClient
@@ -3317,7 +3341,7 @@ export type GetImagePipelineError =
  * Retrieves an image pipeline.
  */
 export const getImagePipeline: API.OperationMethod<
-  GetImagePipelineRequest,
+  GetImagePipelineRequest & RegionInput,
   GetImagePipelineResponse,
   GetImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -3352,7 +3376,7 @@ export type GetImagePolicyError =
  * Retrieves an image policy.
  */
 export const getImagePolicy: API.OperationMethod<
-  GetImagePolicyRequest,
+  GetImagePolicyRequest & RegionInput,
   GetImagePolicyResponse,
   GetImagePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3387,7 +3411,7 @@ export type GetImageRecipeError =
  * Retrieves an image recipe.
  */
 export const getImageRecipe: API.OperationMethod<
-  GetImageRecipeRequest,
+  GetImageRecipeRequest & RegionInput,
   GetImageRecipeResponse,
   GetImageRecipeError,
   Credentials | HttpClient.HttpClient
@@ -3422,7 +3446,7 @@ export type GetImageRecipePolicyError =
  * Retrieves an image recipe policy.
  */
 export const getImageRecipePolicy: API.OperationMethod<
-  GetImageRecipePolicyRequest,
+  GetImageRecipePolicyRequest & RegionInput,
   GetImageRecipePolicyResponse,
   GetImageRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3457,7 +3481,7 @@ export type GetInfrastructureConfigurationError =
  * Retrieves an infrastructure configuration.
  */
 export const getInfrastructureConfiguration: API.OperationMethod<
-  GetInfrastructureConfigurationRequest,
+  GetInfrastructureConfigurationRequest & RegionInput,
   GetInfrastructureConfigurationResponse,
   GetInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3494,7 +3518,7 @@ export type GetLifecycleExecutionError =
  * StartResourceStateUpdate request started.
  */
 export const getLifecycleExecution: API.OperationMethod<
-  GetLifecycleExecutionRequest,
+  GetLifecycleExecutionRequest & RegionInput,
   GetLifecycleExecutionResponse,
   GetLifecycleExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3528,7 +3552,7 @@ export type GetLifecyclePolicyError =
  * Retrieves details for the specified image lifecycle policy.
  */
 export const getLifecyclePolicy: API.OperationMethod<
-  GetLifecyclePolicyRequest,
+  GetLifecyclePolicyRequest & RegionInput,
   GetLifecyclePolicyResponse,
   GetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -3565,7 +3589,7 @@ export type GetMarketplaceResourceError =
  * and their artifacts.
  */
 export const getMarketplaceResource: API.OperationMethod<
-  GetMarketplaceResourceRequest,
+  GetMarketplaceResourceRequest & RegionInput,
   GetMarketplaceResourceResponse,
   GetMarketplaceResourceError,
   Credentials | HttpClient.HttpClient
@@ -3599,7 +3623,7 @@ export type GetWorkflowError =
  * Retrieves a workflow resource object.
  */
 export const getWorkflow: API.OperationMethod<
-  GetWorkflowRequest,
+  GetWorkflowRequest & RegionInput,
   GetWorkflowResponse,
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
@@ -3634,7 +3658,7 @@ export type GetWorkflowExecutionError =
  * of the workflow.
  */
 export const getWorkflowExecution: API.OperationMethod<
-  GetWorkflowExecutionRequest,
+  GetWorkflowExecutionRequest & RegionInput,
   GetWorkflowExecutionResponse,
   GetWorkflowExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3669,7 +3693,7 @@ export type GetWorkflowStepExecutionError =
  * the workflow step.
  */
 export const getWorkflowStepExecution: API.OperationMethod<
-  GetWorkflowStepExecutionRequest,
+  GetWorkflowStepExecutionRequest & RegionInput,
   GetWorkflowStepExecutionResponse,
   GetWorkflowStepExecutionError,
   Credentials | HttpClient.HttpClient
@@ -3709,7 +3733,7 @@ export type ImportComponentError =
  * document with a single step that runs the script.
  */
 export const importComponent: API.OperationMethod<
-  ImportComponentRequest,
+  ImportComponentRequest & RegionInput,
   ImportComponentResponse,
   ImportComponentError,
   Credentials | HttpClient.HttpClient
@@ -3754,7 +3778,7 @@ export type ImportDiskImageError =
  * infrastructure configuration.
  */
 export const importDiskImage: API.OperationMethod<
-  ImportDiskImageRequest,
+  ImportDiskImageRequest & RegionInput,
   ImportDiskImageResponse,
   ImportDiskImageError,
   Credentials | HttpClient.HttpClient
@@ -3794,7 +3818,7 @@ export type ImportVmImageError =
  * CLI command.
  */
 export const importVmImage: API.OperationMethod<
-  ImportVmImageRequest,
+  ImportVmImageRequest & RegionInput,
   ImportVmImageResponse,
   ImportVmImageError,
   Credentials | HttpClient.HttpClient
@@ -3826,7 +3850,7 @@ export type ListComponentBuildVersionsError =
  * results.
  */
 export const listComponentBuildVersions: API.PaginatedOperationMethod<
-  ListComponentBuildVersionsRequest,
+  ListComponentBuildVersionsRequest & RegionInput,
   ListComponentBuildVersionsResponse,
   ListComponentBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -3880,7 +3904,7 @@ export type ListComponentsError =
  * to the right of the first wildcard must also be wildcards.
  */
 export const listComponents: API.PaginatedOperationMethod<
-  ListComponentsRequest,
+  ListComponentsRequest & RegionInput,
   ListComponentsResponse,
   ListComponentsError,
   Credentials | HttpClient.HttpClient,
@@ -3923,7 +3947,7 @@ export type ListContainerRecipesError =
  * Returns a list of container recipes.
  */
 export const listContainerRecipes: API.PaginatedOperationMethod<
-  ListContainerRecipesRequest,
+  ListContainerRecipesRequest & RegionInput,
   ListContainerRecipesResponse,
   ListContainerRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -3966,7 +3990,7 @@ export type ListDistributionConfigurationsError =
  * Returns a list of distribution configurations.
  */
 export const listDistributionConfigurations: API.PaginatedOperationMethod<
-  ListDistributionConfigurationsRequest,
+  ListDistributionConfigurationsRequest & RegionInput,
   ListDistributionConfigurationsResponse,
   ListDistributionConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4009,7 +4033,7 @@ export type ListImageBuildVersionsError =
  * Returns a list of image build versions.
  */
 export const listImageBuildVersions: API.PaginatedOperationMethod<
-  ListImageBuildVersionsRequest,
+  ListImageBuildVersionsRequest & RegionInput,
   ListImageBuildVersionsResponse,
   ListImageBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4054,7 +4078,7 @@ export type ListImagePackagesError =
  * Amazon Web Services Systems Manager Inventory at build time.
  */
 export const listImagePackages: API.PaginatedOperationMethod<
-  ListImagePackagesRequest,
+  ListImagePackagesRequest & RegionInput,
   ListImagePackagesResponse,
   ListImagePackagesError,
   Credentials | HttpClient.HttpClient,
@@ -4099,7 +4123,7 @@ export type ListImagePipelineImagesError =
  * Returns a list of images created by the specified pipeline.
  */
 export const listImagePipelineImages: API.PaginatedOperationMethod<
-  ListImagePipelineImagesRequest,
+  ListImagePipelineImagesRequest & RegionInput,
   ListImagePipelineImagesResponse,
   ListImagePipelineImagesError,
   Credentials | HttpClient.HttpClient,
@@ -4143,7 +4167,7 @@ export type ListImagePipelinesError =
  * Returns a list of image pipelines.
  */
 export const listImagePipelines: API.PaginatedOperationMethod<
-  ListImagePipelinesRequest,
+  ListImagePipelinesRequest & RegionInput,
   ListImagePipelinesResponse,
   ListImagePipelinesError,
   Credentials | HttpClient.HttpClient,
@@ -4186,7 +4210,7 @@ export type ListImageRecipesError =
  * Returns a list of image recipes.
  */
 export const listImageRecipes: API.PaginatedOperationMethod<
-  ListImageRecipesRequest,
+  ListImageRecipesRequest & RegionInput,
   ListImageRecipesResponse,
   ListImageRecipesError,
   Credentials | HttpClient.HttpClient,
@@ -4229,7 +4253,7 @@ export type ListImagesError =
  * Returns the list of images that you have access to.
  */
 export const listImages: API.PaginatedOperationMethod<
-  ListImagesRequest,
+  ListImagesRequest & RegionInput,
   ListImagesResponse,
   ListImagesError,
   Credentials | HttpClient.HttpClient,
@@ -4284,7 +4308,7 @@ export type ListImageScanFindingAggregationsError =
  * - `vulnerabilityId`
  */
 export const listImageScanFindingAggregations: API.PaginatedOperationMethod<
-  ListImageScanFindingAggregationsRequest,
+  ListImageScanFindingAggregationsRequest & RegionInput,
   ListImageScanFindingAggregationsResponse,
   ListImageScanFindingAggregationsError,
   Credentials | HttpClient.HttpClient,
@@ -4323,7 +4347,7 @@ export type ListImageScanFindingsError =
  * findings when it scans images that have scanning enabled.
  */
 export const listImageScanFindings: API.PaginatedOperationMethod<
-  ListImageScanFindingsRequest,
+  ListImageScanFindingsRequest & RegionInput,
   ListImageScanFindingsResponse,
   ListImageScanFindingsError,
   Credentials | HttpClient.HttpClient,
@@ -4366,7 +4390,7 @@ export type ListInfrastructureConfigurationsError =
  * Returns a list of infrastructure configurations.
  */
 export const listInfrastructureConfigurations: API.PaginatedOperationMethod<
-  ListInfrastructureConfigurationsRequest,
+  ListInfrastructureConfigurationsRequest & RegionInput,
   ListInfrastructureConfigurationsResponse,
   ListInfrastructureConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -4409,7 +4433,7 @@ export type ListLifecycleExecutionResourcesError =
  * Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.
  */
 export const listLifecycleExecutionResources: API.PaginatedOperationMethod<
-  ListLifecycleExecutionResourcesRequest,
+  ListLifecycleExecutionResourcesRequest & RegionInput,
   ListLifecycleExecutionResourcesResponse,
   ListLifecycleExecutionResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -4452,7 +4476,7 @@ export type ListLifecycleExecutionsError =
  * Retrieves the lifecycle runtime history for the specified resource.
  */
 export const listLifecycleExecutions: API.PaginatedOperationMethod<
-  ListLifecycleExecutionsRequest,
+  ListLifecycleExecutionsRequest & RegionInput,
   ListLifecycleExecutionsResponse,
   ListLifecycleExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4495,7 +4519,7 @@ export type ListLifecyclePoliciesError =
  * Retrieves a list of lifecycle policies in your Amazon Web Services account.
  */
 export const listLifecyclePolicies: API.PaginatedOperationMethod<
-  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesRequest & RegionInput,
   ListLifecyclePoliciesResponse,
   ListLifecyclePoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -4534,7 +4558,7 @@ export type ListTagsForResourceError =
  * Returns the list of tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -4564,7 +4588,7 @@ export type ListWaitingWorkflowStepsError =
  * a response, call SendWorkflowStepAction.
  */
 export const listWaitingWorkflowSteps: API.PaginatedOperationMethod<
-  ListWaitingWorkflowStepsRequest,
+  ListWaitingWorkflowStepsRequest & RegionInput,
   ListWaitingWorkflowStepsResponse,
   ListWaitingWorkflowStepsError,
   Credentials | HttpClient.HttpClient,
@@ -4607,7 +4631,7 @@ export type ListWorkflowBuildVersionsError =
  * Returns a list of build versions for a specific workflow resource.
  */
 export const listWorkflowBuildVersions: API.PaginatedOperationMethod<
-  ListWorkflowBuildVersionsRequest,
+  ListWorkflowBuildVersionsRequest & RegionInput,
   ListWorkflowBuildVersionsResponse,
   ListWorkflowBuildVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -4651,7 +4675,7 @@ export type ListWorkflowExecutionsError =
  * version.
  */
 export const listWorkflowExecutions: API.PaginatedOperationMethod<
-  ListWorkflowExecutionsRequest,
+  ListWorkflowExecutionsRequest & RegionInput,
   ListWorkflowExecutionsResponse,
   ListWorkflowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4696,7 +4720,7 @@ export type ListWorkflowsError =
  * ListWorkflowBuildVersions.
  */
 export const listWorkflows: API.PaginatedOperationMethod<
-  ListWorkflowsRequest,
+  ListWorkflowsRequest & RegionInput,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient,
@@ -4740,7 +4764,7 @@ export type ListWorkflowStepExecutionsError =
  * that you specify in the request.
  */
 export const listWorkflowStepExecutions: API.PaginatedOperationMethod<
-  ListWorkflowStepExecutionsRequest,
+  ListWorkflowStepExecutionsRequest & RegionInput,
   ListWorkflowStepExecutionsResponse,
   ListWorkflowStepExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -4787,7 +4811,7 @@ export type PutComponentPolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putComponentPolicy: API.OperationMethod<
-  PutComponentPolicyRequest,
+  PutComponentPolicyRequest & RegionInput,
   PutComponentPolicyResponse,
   PutComponentPolicyError,
   Credentials | HttpClient.HttpClient
@@ -4828,7 +4852,7 @@ export type PutContainerRecipePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putContainerRecipePolicy: API.OperationMethod<
-  PutContainerRecipePolicyRequest,
+  PutContainerRecipePolicyRequest & RegionInput,
   PutContainerRecipePolicyResponse,
   PutContainerRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4869,7 +4893,7 @@ export type PutImagePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putImagePolicy: API.OperationMethod<
-  PutImagePolicyRequest,
+  PutImagePolicyRequest & RegionInput,
   PutImagePolicyResponse,
   PutImagePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4910,7 +4934,7 @@ export type PutImageRecipePolicyError =
  * isn't visible to the principals that it's shared with.
  */
 export const putImageRecipePolicy: API.OperationMethod<
-  PutImageRecipePolicyRequest,
+  PutImageRecipePolicyRequest & RegionInput,
   PutImageRecipePolicyResponse,
   PutImageRecipePolicyError,
   Credentials | HttpClient.HttpClient
@@ -4952,7 +4976,7 @@ export type RetryImageError =
  * supported for AMI-based images.
  */
 export const retryImage: API.OperationMethod<
-  RetryImageRequest,
+  RetryImageRequest & RegionInput,
   RetryImageResponse,
   RetryImageError,
   Credentials | HttpClient.HttpClient
@@ -4995,7 +5019,7 @@ export type SendWorkflowStepActionError =
  * ListWaitingWorkflowSteps.
  */
 export const sendWorkflowStepAction: API.OperationMethod<
-  SendWorkflowStepActionRequest,
+  SendWorkflowStepActionRequest & RegionInput,
   SendWorkflowStepActionResponse,
   SendWorkflowStepActionError,
   Credentials | HttpClient.HttpClient
@@ -5040,7 +5064,7 @@ export type StartImagePipelineExecutionError =
  * GetImage to track build progress.
  */
 export const startImagePipelineExecution: API.OperationMethod<
-  StartImagePipelineExecutionRequest,
+  StartImagePipelineExecutionRequest & RegionInput,
   StartImagePipelineExecutionResponse,
   StartImagePipelineExecutionError,
   Credentials | HttpClient.HttpClient
@@ -5088,7 +5112,7 @@ export type StartResourceStateUpdateError =
  * progress, Image Builder rejects it.
  */
 export const startResourceStateUpdate: API.OperationMethod<
-  StartResourceStateUpdateRequest,
+  StartResourceStateUpdateRequest & RegionInput,
   StartResourceStateUpdateResponse,
   StartResourceStateUpdateError,
   Credentials | HttpClient.HttpClient
@@ -5122,7 +5146,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5146,7 +5170,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -5183,7 +5207,7 @@ export type UpdateDistributionConfigurationError =
  * want to keep.
  */
 export const updateDistributionConfiguration: API.OperationMethod<
-  UpdateDistributionConfigurationRequest,
+  UpdateDistributionConfigurationRequest & RegionInput,
   UpdateDistributionConfigurationResponse,
   UpdateDistributionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5233,7 +5257,7 @@ export type UpdateImagePipelineError =
  * or reset to its default.
  */
 export const updateImagePipeline: API.OperationMethod<
-  UpdateImagePipelineRequest,
+  UpdateImagePipelineRequest & RegionInput,
   UpdateImagePipelineResponse,
   UpdateImagePipelineError,
   Credentials | HttpClient.HttpClient
@@ -5279,7 +5303,7 @@ export type UpdateInfrastructureConfigurationError =
  * you want to keep. Omitted optional properties are cleared.
  */
 export const updateInfrastructureConfiguration: API.OperationMethod<
-  UpdateInfrastructureConfigurationRequest,
+  UpdateInfrastructureConfigurationRequest & RegionInput,
   UpdateInfrastructureConfigurationResponse,
   UpdateInfrastructureConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -5323,7 +5347,7 @@ export type UpdateLifecyclePolicyError =
  * policy's value.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
-  UpdateLifecyclePolicyRequest,
+  UpdateLifecyclePolicyRequest & RegionInput,
   UpdateLifecyclePolicyResponse,
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
@@ -5718,8 +5742,8 @@ function __c15(j: number): any {
           enhancedImageMetadataEnabled: S.optional(S.Boolean),
           tags: S.optional(__S(64, __c4, 0)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
-          workflows: S.optional(__S(260, __c16, 4)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           executionRole: S.optional(S.String),
           loggingConfiguration: S.optional(__S(272, __c17, 0)),
         }).pipe(
@@ -5754,13 +5778,21 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "EcrConfiguration" });
     case 2:
+      return S.Array(S.String);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ maximumSeverityLabel: S.String, fixAvailable: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "ScanResultCondition" });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           imageScanningEnabled: S.optional(S.Boolean),
           ecrConfiguration: S.optional(__S(257, __c16, 1)),
+          imageScanningTypes: S.optional(__S(258, __c16, 2)),
+          scanResultCondition: S.optional(__S(259, __c16, 3)),
         }),
       ).annotate({ identifier: "ImageScanningConfiguration" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           workflowArn: S.String,
@@ -5769,8 +5801,8 @@ function __c16(j: number): any {
           onFailure: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkflowConfiguration" });
-    case 4:
-      return S.Array(__S(259, __c16, 3));
+    case 6:
+      return S.Array(__S(261, __c16, 5));
   }
 }
 function __c17(j: number): any {
@@ -5799,8 +5831,8 @@ function __c18(j: number): any {
           tags: S.optional(__S(64, __c4, 0)),
           imageTags: S.optional(__S(64, __c4, 0)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
-          workflows: S.optional(__S(260, __c16, 4)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           executionRole: S.optional(S.String),
           loggingConfiguration: S.optional(__S(306, __c19, 2)),
           dryRun: S.optional(S.Boolean),
@@ -5915,11 +5947,13 @@ function __c23(j: number): any {
           logging: S.optional(__S(401, __c25, 1)),
           keyPair: S.optional(S.String),
           terminateInstanceOnFailure: S.optional(S.Boolean),
+          terminateInstanceOnCompletion: S.optional(S.Boolean),
           snsTopicArn: S.optional(S.String),
           resourceTags: S.optional(__S(64, __c4, 0)),
           instanceMetadataOptions: S.optional(__S(402, __c25, 2)),
           tags: S.optional(__S(64, __c4, 0)),
           placement: S.optional(__S(384, __c24, 0)),
+          parentInstance: S.optional(__S(404, __c25, 4)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
           dryRun: S.optional(S.Boolean),
         }).pipe(
@@ -5965,6 +5999,14 @@ function __c25(j: number): any {
           httpPutResponseHopLimit: S.optional(S.Number),
         }),
       ).annotate({ identifier: "InstanceMetadataOptions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, capacityWaitTimeoutSeconds: S.optional(S.Number) }),
+      ).annotate({ identifier: "AutoScalingGroupConfiguration" });
+    case 4:
+      return S.suspend(() => S.Struct({ autoScalingGroup: __S(403, __c25, 3) })).annotate({
+        identifier: "ParentInstanceConfiguration",
+      });
   }
 }
 function __c26(j: number): any {
@@ -6584,11 +6626,11 @@ function __c56(j: number): any {
           buildType: S.optional(S.String),
           imageSource: S.optional(S.String),
           scanState: S.optional(__S(736, __c46, 0)),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
           deprecationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           lifecycleExecutionId: S.optional(S.String),
           executionRole: S.optional(S.String),
-          workflows: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           loggingConfiguration: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "Image" });
@@ -6649,6 +6691,8 @@ function __c58(j: number): any {
           instanceMetadataOptions: S.optional(__S(402, __c25, 2)),
           tags: S.optional(__S(64, __c4, 0)),
           placement: S.optional(__S(384, __c24, 0)),
+          terminateInstanceOnCompletion: S.optional(S.Boolean),
+          parentInstance: S.optional(__S(404, __c25, 4)),
         }),
       ).annotate({ identifier: "InfrastructureConfiguration" });
   }
@@ -6772,10 +6816,10 @@ function __c61(j: number): any {
           lastRunStatus: S.optional(S.String),
           dateNextRun: S.optional(S.String),
           tags: S.optional(__S(64, __c4, 0)),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
           imageTags: S.optional(__S(64, __c4, 0)),
           executionRole: S.optional(S.String),
-          workflows: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           loggingConfiguration: S.optional(__S(306, __c19, 2)),
           consecutiveFailures: S.optional(S.Number),
         }),
@@ -8455,8 +8499,8 @@ function __c113(j: number): any {
           schedule: S.optional(__S(305, __c19, 1)),
           status: S.optional(S.String),
           clientToken: S.String.pipe(T.IdempotencyToken()),
-          imageScanningConfiguration: S.optional(__S(258, __c16, 2)),
-          workflows: S.optional(__S(260, __c16, 4)),
+          imageScanningConfiguration: S.optional(__S(260, __c16, 4)),
+          workflows: S.optional(__S(262, __c16, 6)),
           loggingConfiguration: S.optional(__S(306, __c19, 2)),
           executionRole: S.optional(S.String),
           imageTags: S.optional(__S(64, __c4, 0)),
@@ -8487,10 +8531,12 @@ function __c114(j: number): any {
           logging: S.optional(__S(401, __c25, 1)),
           keyPair: S.optional(S.String),
           terminateInstanceOnFailure: S.optional(S.Boolean),
+          terminateInstanceOnCompletion: S.optional(S.Boolean),
           snsTopicArn: S.optional(S.String),
           resourceTags: S.optional(__S(64, __c4, 0)),
           instanceMetadataOptions: S.optional(__S(402, __c25, 2)),
           placement: S.optional(__S(384, __c24, 0)),
+          parentInstance: S.optional(__S(404, __c25, 4)),
           clientToken: S.String.pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(

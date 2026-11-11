@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -120,9 +121,9 @@ export class ValidationException
 export type SuiteDefinitionName = string;
 export type AmazonResourceName = string;
 export interface DeviceUnderTest {
-  thingArn?: string;
-  certificateArn?: string;
-  deviceRoleArn?: string;
+  thingArn?: string | undefined;
+  certificateArn?: string | undefined;
+  deviceRoleArn?: string | undefined;
 }
 export type DeviceUnderTestList = DeviceUnderTest[];
 export type IntendedForQualificationBoolean = boolean;
@@ -135,29 +136,29 @@ export type Protocol =
   | "MqttV5_OverWebSocket"
   | (string & {});
 export interface SuiteDefinitionConfiguration {
-  suiteDefinitionName?: string;
-  devices?: DeviceUnderTest[];
-  intendedForQualification?: boolean;
-  isLongDurationTest?: boolean;
-  rootGroup?: string;
-  devicePermissionRoleArn?: string;
-  protocol?: Protocol;
+  suiteDefinitionName?: string | undefined;
+  devices?: DeviceUnderTest[] | undefined;
+  intendedForQualification?: boolean | undefined;
+  isLongDurationTest?: boolean | undefined;
+  rootGroup?: string | undefined;
+  devicePermissionRoleArn?: string | undefined;
+  protocol?: Protocol | undefined;
 }
 export type String128 = string;
 export type String256 = string;
 export type TagMap = { [key: string]: string | undefined };
 export type ClientToken = string;
 export interface CreateSuiteDefinitionRequest {
-  suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  suiteDefinitionConfiguration?: SuiteDefinitionConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type UUID = string;
 export interface CreateSuiteDefinitionResponse {
-  suiteDefinitionId?: string;
-  suiteDefinitionArn?: string;
-  suiteDefinitionName?: string;
-  createdAt?: Date;
+  suiteDefinitionId?: string | undefined;
+  suiteDefinitionArn?: string | undefined;
+  suiteDefinitionName?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export interface DeleteSuiteDefinitionRequest {
   suiteDefinitionId: string;
@@ -165,33 +166,35 @@ export interface DeleteSuiteDefinitionRequest {
 export interface DeleteSuiteDefinitionResponse {}
 export type AuthenticationMethod = "X509ClientCertificate" | "SignatureVersion4" | (string & {});
 export interface GetEndpointRequest {
-  thingArn?: string;
-  certificateArn?: string;
-  deviceRoleArn?: string;
-  authenticationMethod?: AuthenticationMethod;
+  thingArn?: string | undefined;
+  certificateArn?: string | undefined;
+  deviceRoleArn?: string | undefined;
+  authenticationMethod?: AuthenticationMethod | undefined;
 }
 export type Endpoint = string;
 export interface GetEndpointResponse {
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 export type SuiteDefinitionVersion = string;
 export interface GetSuiteDefinitionRequest {
   suiteDefinitionId: string;
-  suiteDefinitionVersion?: string;
+  suiteDefinitionVersion?: string | undefined;
 }
 export interface GetSuiteDefinitionResponse {
-  suiteDefinitionId?: string;
-  suiteDefinitionArn?: string;
-  suiteDefinitionVersion?: string;
-  latestVersion?: string;
-  suiteDefinitionConfiguration?: SuiteDefinitionConfiguration & {
-    suiteDefinitionName: SuiteDefinitionName;
-    rootGroup: RootGroup;
-    devicePermissionRoleArn: AmazonResourceName;
-  };
-  createdAt?: Date;
-  lastModifiedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  suiteDefinitionId?: string | undefined;
+  suiteDefinitionArn?: string | undefined;
+  suiteDefinitionVersion?: string | undefined;
+  latestVersion?: string | undefined;
+  suiteDefinitionConfiguration?:
+    | (SuiteDefinitionConfiguration & {
+        suiteDefinitionName: SuiteDefinitionName;
+        rootGroup: RootGroup;
+        devicePermissionRoleArn: AmazonResourceName;
+      })
+    | undefined;
+  createdAt?: Date | undefined;
+  lastModifiedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSuiteRunRequest {
   suiteDefinitionId: string;
@@ -200,9 +203,9 @@ export interface GetSuiteRunRequest {
 export type SelectedTestList = string[];
 export type ParallelRun = boolean;
 export interface SuiteRunConfiguration {
-  primaryDevice?: DeviceUnderTest;
-  selectedTestList?: string[];
-  parallelRun?: boolean;
+  primaryDevice?: DeviceUnderTest | undefined;
+  selectedTestList?: string[] | undefined;
+  parallelRun?: boolean | undefined;
 }
 export type GroupName = string;
 export type TestCaseDefinitionName = string;
@@ -235,34 +238,34 @@ export type TestCaseScenarioStatus =
   | (string & {});
 export type SystemMessage = string;
 export interface TestCaseScenario {
-  testCaseScenarioId?: string;
-  testCaseScenarioType?: TestCaseScenarioType;
-  status?: TestCaseScenarioStatus;
-  failure?: string;
-  systemMessage?: string;
+  testCaseScenarioId?: string | undefined;
+  testCaseScenarioType?: TestCaseScenarioType | undefined;
+  status?: TestCaseScenarioStatus | undefined;
+  failure?: string | undefined;
+  systemMessage?: string | undefined;
 }
 export type TestCaseScenariosList = TestCaseScenario[];
 export interface TestCaseRun {
-  testCaseRunId?: string;
-  testCaseDefinitionId?: string;
-  testCaseDefinitionName?: string;
-  status?: Status;
-  startTime?: Date;
-  endTime?: Date;
-  logUrl?: string;
-  warnings?: string;
-  failure?: string;
-  testScenarios?: TestCaseScenario[];
+  testCaseRunId?: string | undefined;
+  testCaseDefinitionId?: string | undefined;
+  testCaseDefinitionName?: string | undefined;
+  status?: Status | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  logUrl?: string | undefined;
+  warnings?: string | undefined;
+  failure?: string | undefined;
+  testScenarios?: TestCaseScenario[] | undefined;
 }
 export type TestCaseRuns = TestCaseRun[];
 export interface GroupResult {
-  groupId?: string;
-  groupName?: string;
-  tests?: TestCaseRun[];
+  groupId?: string | undefined;
+  groupName?: string | undefined;
+  tests?: TestCaseRun[] | undefined;
 }
 export type GroupResultList = GroupResult[];
 export interface TestResult {
-  groups?: GroupResult[];
+  groups?: GroupResult[] | undefined;
 }
 export type SuiteRunStatus =
   | "PASS"
@@ -277,17 +280,17 @@ export type SuiteRunStatus =
   | (string & {});
 export type ErrorReason = string;
 export interface GetSuiteRunResponse {
-  suiteDefinitionId?: string;
-  suiteDefinitionVersion?: string;
-  suiteRunId?: string;
-  suiteRunArn?: string;
-  suiteRunConfiguration?: SuiteRunConfiguration & { primaryDevice: DeviceUnderTest };
-  testResult?: TestResult;
-  startTime?: Date;
-  endTime?: Date;
-  status?: SuiteRunStatus;
-  errorReason?: string;
-  tags?: { [key: string]: string | undefined };
+  suiteDefinitionId?: string | undefined;
+  suiteDefinitionVersion?: string | undefined;
+  suiteRunId?: string | undefined;
+  suiteRunArn?: string | undefined;
+  suiteRunConfiguration?: (SuiteRunConfiguration & { primaryDevice: DeviceUnderTest }) | undefined;
+  testResult?: TestResult | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  status?: SuiteRunStatus | undefined;
+  errorReason?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetSuiteRunReportRequest {
   suiteDefinitionId: string;
@@ -295,69 +298,69 @@ export interface GetSuiteRunReportRequest {
 }
 export type QualificationReportDownloadUrl = string;
 export interface GetSuiteRunReportResponse {
-  qualificationReportDownloadUrl?: string;
+  qualificationReportDownloadUrl?: string | undefined;
 }
 export type MaxResults = number;
 export type Token = string;
 export interface ListSuiteDefinitionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SuiteDefinitionInformation {
-  suiteDefinitionId?: string;
-  suiteDefinitionName?: string;
-  defaultDevices?: DeviceUnderTest[];
-  intendedForQualification?: boolean;
-  isLongDurationTest?: boolean;
-  protocol?: Protocol;
-  createdAt?: Date;
+  suiteDefinitionId?: string | undefined;
+  suiteDefinitionName?: string | undefined;
+  defaultDevices?: DeviceUnderTest[] | undefined;
+  intendedForQualification?: boolean | undefined;
+  isLongDurationTest?: boolean | undefined;
+  protocol?: Protocol | undefined;
+  createdAt?: Date | undefined;
 }
 export type SuiteDefinitionInformationList = SuiteDefinitionInformation[];
 export interface ListSuiteDefinitionsResponse {
-  suiteDefinitionInformationList?: SuiteDefinitionInformation[];
-  nextToken?: string;
+  suiteDefinitionInformationList?: SuiteDefinitionInformation[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSuiteRunsRequest {
-  suiteDefinitionId?: string;
-  suiteDefinitionVersion?: string;
-  maxResults?: number;
-  nextToken?: string;
+  suiteDefinitionId?: string | undefined;
+  suiteDefinitionVersion?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SuiteRunResultCount = number;
 export interface SuiteRunInformation {
-  suiteDefinitionId?: string;
-  suiteDefinitionVersion?: string;
-  suiteDefinitionName?: string;
-  suiteRunId?: string;
-  createdAt?: Date;
-  startedAt?: Date;
-  endAt?: Date;
-  status?: SuiteRunStatus;
-  passed?: number;
-  failed?: number;
+  suiteDefinitionId?: string | undefined;
+  suiteDefinitionVersion?: string | undefined;
+  suiteDefinitionName?: string | undefined;
+  suiteRunId?: string | undefined;
+  createdAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  endAt?: Date | undefined;
+  status?: SuiteRunStatus | undefined;
+  passed?: number | undefined;
+  failed?: number | undefined;
 }
 export type SuiteRunsList = SuiteRunInformation[];
 export interface ListSuiteRunsResponse {
-  suiteRunsList?: SuiteRunInformation[];
-  nextToken?: string;
+  suiteRunsList?: SuiteRunInformation[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartSuiteRunRequest {
   suiteDefinitionId: string;
-  suiteDefinitionVersion?: string;
-  suiteRunConfiguration?: SuiteRunConfiguration;
-  tags?: { [key: string]: string | undefined };
+  suiteDefinitionVersion?: string | undefined;
+  suiteRunConfiguration?: SuiteRunConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartSuiteRunResponse {
-  suiteRunId?: string;
-  suiteRunArn?: string;
-  createdAt?: Date;
-  endpoint?: string;
+  suiteRunId?: string | undefined;
+  suiteRunArn?: string | undefined;
+  createdAt?: Date | undefined;
+  endpoint?: string | undefined;
 }
 export interface StopSuiteRunRequest {
   suiteDefinitionId: string;
@@ -366,26 +369,26 @@ export interface StopSuiteRunRequest {
 export interface StopSuiteRunResponse {}
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
   resourceArn: string;
-  tagKeys?: string[];
+  tagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateSuiteDefinitionRequest {
   suiteDefinitionId: string;
-  suiteDefinitionConfiguration?: SuiteDefinitionConfiguration;
+  suiteDefinitionConfiguration?: SuiteDefinitionConfiguration | undefined;
 }
 export interface UpdateSuiteDefinitionResponse {
-  suiteDefinitionId?: string;
-  suiteDefinitionArn?: string;
-  suiteDefinitionName?: string;
-  suiteDefinitionVersion?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  suiteDefinitionId?: string | undefined;
+  suiteDefinitionArn?: string | undefined;
+  suiteDefinitionName?: string | undefined;
+  suiteDefinitionVersion?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type Message = string;
 export type CreateSuiteDefinitionError =
@@ -398,7 +401,7 @@ export type CreateSuiteDefinitionError =
  * Requires permission to access the CreateSuiteDefinition action.
  */
 export const createSuiteDefinition: API.OperationMethod<
-  CreateSuiteDefinitionRequest,
+  CreateSuiteDefinitionRequest & RegionInput,
   CreateSuiteDefinitionResponse,
   CreateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -423,7 +426,7 @@ export type DeleteSuiteDefinitionError =
  * Requires permission to access the DeleteSuiteDefinition action.
  */
 export const deleteSuiteDefinition: API.OperationMethod<
-  DeleteSuiteDefinitionRequest,
+  DeleteSuiteDefinitionRequest & RegionInput,
   DeleteSuiteDefinitionResponse,
   DeleteSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -447,7 +450,7 @@ export type GetEndpointError =
  * Gets information about an Device Advisor endpoint.
  */
 export const getEndpoint: API.OperationMethod<
-  GetEndpointRequest,
+  GetEndpointRequest & RegionInput,
   GetEndpointResponse,
   GetEndpointError,
   Credentials | HttpClient.HttpClient
@@ -473,7 +476,7 @@ export type GetSuiteDefinitionError =
  * Requires permission to access the GetSuiteDefinition action.
  */
 export const getSuiteDefinition: API.OperationMethod<
-  GetSuiteDefinitionRequest,
+  GetSuiteDefinitionRequest & RegionInput,
   GetSuiteDefinitionResponse,
   GetSuiteDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -499,7 +502,7 @@ export type GetSuiteRunError =
  * Requires permission to access the GetSuiteRun action.
  */
 export const getSuiteRun: API.OperationMethod<
-  GetSuiteRunRequest,
+  GetSuiteRunRequest & RegionInput,
   GetSuiteRunResponse,
   GetSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -525,7 +528,7 @@ export type GetSuiteRunReportError =
  * Requires permission to access the GetSuiteRunReport action.
  */
 export const getSuiteRunReport: API.OperationMethod<
-  GetSuiteRunReportRequest,
+  GetSuiteRunReportRequest & RegionInput,
   GetSuiteRunReportResponse,
   GetSuiteRunReportError,
   Credentials | HttpClient.HttpClient
@@ -550,7 +553,7 @@ export type ListSuiteDefinitionsError =
  * Requires permission to access the ListSuiteDefinitions action.
  */
 export const listSuiteDefinitions: API.PaginatedOperationMethod<
-  ListSuiteDefinitionsRequest,
+  ListSuiteDefinitionsRequest & RegionInput,
   ListSuiteDefinitionsResponse,
   ListSuiteDefinitionsError,
   Credentials | HttpClient.HttpClient,
@@ -579,7 +582,7 @@ export type ListSuiteRunsError = InternalServerException | ValidationException |
  * Requires permission to access the ListSuiteRuns action.
  */
 export const listSuiteRuns: API.PaginatedOperationMethod<
-  ListSuiteRunsRequest,
+  ListSuiteRunsRequest & RegionInput,
   ListSuiteRunsResponse,
   ListSuiteRunsError,
   Credentials | HttpClient.HttpClient,
@@ -611,7 +614,7 @@ export type ListTagsForResourceError =
  * Requires permission to access the ListTagsForResource action.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -637,7 +640,7 @@ export type StartSuiteRunError =
  * Requires permission to access the StartSuiteRun action.
  */
 export const startSuiteRun: API.OperationMethod<
-  StartSuiteRunRequest,
+  StartSuiteRunRequest & RegionInput,
   StartSuiteRunResponse,
   StartSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -663,7 +666,7 @@ export type StopSuiteRunError =
  * Requires permission to access the StopSuiteRun action.
  */
 export const stopSuiteRun: API.OperationMethod<
-  StopSuiteRunRequest,
+  StopSuiteRunRequest & RegionInput,
   StopSuiteRunResponse,
   StopSuiteRunError,
   Credentials | HttpClient.HttpClient
@@ -689,7 +692,7 @@ export type TagResourceError =
  * Requires permission to access the TagResource action.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -715,7 +718,7 @@ export type UntagResourceError =
  * Requires permission to access the UntagResource action.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -740,7 +743,7 @@ export type UpdateSuiteDefinitionError =
  * Requires permission to access the UpdateSuiteDefinition action.
  */
 export const updateSuiteDefinition: API.OperationMethod<
-  UpdateSuiteDefinitionRequest,
+  UpdateSuiteDefinitionRequest & RegionInput,
   UpdateSuiteDefinitionResponse,
   UpdateSuiteDefinitionError,
   Credentials | HttpClient.HttpClient

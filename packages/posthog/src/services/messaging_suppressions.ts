@@ -26,10 +26,10 @@ const TELEMETRY = {
 export interface GetMessagingSuppressionsSuppressionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  page?: number;
-  page_size?: number;
+  page?: number | undefined;
+  page_size?: number | undefined;
   /** Case-insensitive substring match on the recipient email address. */
-  search?: string;
+  search?: string | undefined;
 }
 /** * `BOUNCE` - Bounce * `MANUAL` - Manual * `COMPLAINT` - Complaint */
 export type SuppressionSourceEnum = "BOUNCE" | "MANUAL" | "COMPLAINT";
@@ -74,11 +74,33 @@ export interface MessagingSuppressionsAddSuppressionCreateRequest {
   /** The email address to suppress. Will not receive any messages until removed. */
   identifier: string;
 }
+/** The email addresses to remove, at most 100 per request. */
+export type MessagingSuppressionsBulkRemoveSuppressionsCreateRequestIdentifiersList = Array<string>;
+export interface MessagingSuppressionsBulkRemoveSuppressionsCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The email addresses to remove, at most 100 per request. */
+  identifiers: MessagingSuppressionsBulkRemoveSuppressionsCreateRequestIdentifiersList;
+  /** Set to true to remove addresses that are suppressed because the recipient reported a message as spam. Mailing them again can hurt your sender reputation. Without it, a request that includes one removes nothing and returns 400. */
+  confirm_complaints?: boolean | undefined;
+}
+/** Addresses removed from the suppression list. */
+export type BulkRemoveSuppressionsResponseRemovedList = Array<string>;
+/** Addresses that were not on the suppression list. */
+export type BulkRemoveSuppressionsResponseNotFoundList = Array<string>;
+export interface BulkRemoveSuppressionsResponse {
+  /** Addresses removed from the suppression list. */
+  removed: BulkRemoveSuppressionsResponseRemovedList;
+  /** Addresses that were not on the suppression list. */
+  not_found: BulkRemoveSuppressionsResponseNotFoundList;
+}
 export interface MessagingSuppressionsRemoveSuppressionCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** The email address to suppress. Will not receive any messages until removed. */
+  /** The email address to remove. */
   identifier: string;
+  /** Set to true to remove addresses that are suppressed because the recipient reported a message as spam. Mailing them again can hurt your sender reputation. Without it, a request that includes one removes nothing and returns 400. */
+  confirm_complaints?: boolean | undefined;
 }
 export interface MessagingSuppressionsRemoveSuppressionCreateResponse {}
 export type GetMessagingSuppressionsSuppressionError = PosthogOpError;
@@ -115,6 +137,27 @@ export const messagingSuppressionsAddSuppressionCreate: API.OperationMethod<
   span: "MessagingSuppressionsAddSuppressionCreate",
 }));
 
+export type MessagingSuppressionsBulkRemoveSuppressionsCreateError = PosthogOpError;
+/** Remove several email addresses from the suppression list Remove up to 100 addresses from the suppression list so they can receive messages again. */
+export const messagingSuppressionsBulkRemoveSuppressionsCreate: API.OperationMethod<
+  MessagingSuppressionsBulkRemoveSuppressionsCreateRequest,
+  BulkRemoveSuppressionsResponse,
+  MessagingSuppressionsBulkRemoveSuppressionsCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    13,
+    __c3,
+    1,
+  ) as any as S.Schema<MessagingSuppressionsBulkRemoveSuppressionsCreateRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<BulkRemoveSuppressionsResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MessagingSuppressionsBulkRemoveSuppressionsCreate",
+}));
+
 export type MessagingSuppressionsRemoveSuppressionCreateError = PosthogOpError;
 /** Remove an email address from the suppression list Remove an address from the suppression list so it can receive messages again. */
 export const messagingSuppressionsRemoveSuppressionCreate: API.OperationMethod<
@@ -123,8 +166,8 @@ export const messagingSuppressionsRemoveSuppressionCreate: API.OperationMethod<
   MessagingSuppressionsRemoveSuppressionCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateResponse>,
+  input: __S(16, __c4, 0) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<MessagingSuppressionsRemoveSuppressionCreateResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -203,10 +246,38 @@ function __c2(j: number): any {
 function __c3(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          identifiers: __S(12, __c3, 0),
+          confirm_complaints: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/messaging_suppressions/bulk_remove_suppressions/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "MessagingSuppressionsBulkRemoveSuppressionsCreateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          removed: __S(12, __c3, 0),
+          not_found: __S(12, __c3, 0),
+        }),
+      ).annotate({ identifier: "BulkRemoveSuppressionsResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           identifier: S.String,
+          confirm_complaints: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",

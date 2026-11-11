@@ -52,11 +52,11 @@ export interface ConfirmDedicatedCephTerminationRequest {
   /** Service name */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** All future uses you can provide for a service termination */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** All reasons you can provide for a service termination */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -74,11 +74,11 @@ export interface CreateDedicatedCephChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateDedicatedCephChangeContactResponseBodyList = Array<number>;
 export type CreateDedicatedCephChangeContactResponse =
@@ -124,17 +124,17 @@ export type CreateDedicatedCephUserResponse = string;
 /** List of permissions */
 export interface DedicatedCephUserPoolPermSetAllPermissions {
   /** Class read permission */
-  classRead?: boolean;
+  classRead?: boolean | undefined;
   /** Class write permission */
-  classWrite?: boolean;
+  classWrite?: boolean | undefined;
   /** Execute permission */
-  execute?: boolean;
+  execute?: boolean | undefined;
   /** Name of Ceph pool */
-  poolName?: string;
+  poolName?: string | undefined;
   /** Read permission */
-  read?: boolean;
+  read?: boolean | undefined;
   /** Write permission */
-  write?: boolean;
+  write?: boolean | undefined;
 }
 /** Permissions */
 export type CreateDedicatedCephUserPoolRequestPermissionsList =
@@ -145,7 +145,7 @@ export interface CreateDedicatedCephUserPoolRequest {
   /** User name */
   userName: string;
   /** Permissions */
-  permissions?: CreateDedicatedCephUserPoolRequestPermissionsList;
+  permissions?: CreateDedicatedCephUserPoolRequestPermissionsList | undefined;
 }
 export type CreateDedicatedCephUserPoolResponse = string;
 export interface DeleteDedicatedCephAclRequest {
@@ -220,13 +220,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** State of cluster */
 export type DedicatedCephClusterGetResponseStateEnum = "ACTIVE" | "SUSPENDED";
@@ -240,29 +240,29 @@ export type DedicatedCephClusterGetResponseStatusEnum =
 /** Details about ceph cluster */
 export interface DedicatedCephClusterGetResponseWithIAM {
   /** List of CEPH monitor IPs */
-  cephMons?: DedicatedCephClusterGetResponseWithIAMCephMonsList;
+  cephMons?: DedicatedCephClusterGetResponseWithIAMCephMonsList | undefined;
   /** Used version of ceph */
-  cephVersion?: string;
+  cephVersion?: string | undefined;
   /** Creation date */
-  createDate?: string;
+  createDate?: string | undefined;
   /** Tunables of cluster */
-  crushTunables?: DedicatedCephClusterGetResponseCrushTunablesEnum;
+  crushTunables?: DedicatedCephClusterGetResponseCrushTunablesEnum | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Name of cluster */
-  label?: string;
+  label?: string | undefined;
   /** Name of region where cluster is located */
-  region?: string;
+  region?: string | undefined;
   /** ID of cluster */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Size of cluster in TB */
-  size?: number;
+  size?: number | undefined;
   /** State of cluster */
-  state?: DedicatedCephClusterGetResponseStateEnum;
+  state?: DedicatedCephClusterGetResponseStateEnum | undefined;
   /** Status of cluster */
-  status?: DedicatedCephClusterGetResponseStatusEnum;
+  status?: DedicatedCephClusterGetResponseStatusEnum | undefined;
   /** Last update date */
-  updateDate?: string;
+  updateDate?: string | undefined;
 }
 export interface GetDedicatedCephAclRequest {
   /** Service name */
@@ -275,13 +275,13 @@ export type DedicatedCephAclGetResponseFamilyEnum = "IPV4" | "IPV6";
 /** IP ACL */
 export interface DedicatedCephAclGetResponse {
   /** Family of IP ACL */
-  family?: DedicatedCephAclGetResponseFamilyEnum;
+  family?: DedicatedCephAclGetResponseFamilyEnum | undefined;
   /** ID of IP ACL */
-  id?: number;
+  id?: number | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  netmask?: string;
+  netmask?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  network?: string;
+  network?: string | undefined;
 }
 export interface GetDedicatedCephCephfRequest {
   /** Service name */
@@ -292,9 +292,9 @@ export interface GetDedicatedCephCephfRequest {
 /** CephFS filesystem data */
 export interface DedicatedCephCephfsGetResponse {
   /** Filesystem state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filesystem name */
-  fsName?: string;
+  fsName?: string | undefined;
 }
 export interface GetDedicatedCephHealthRequest {
   /** Service name */
@@ -303,17 +303,17 @@ export interface GetDedicatedCephHealthRequest {
 /** Health of ceph cluster */
 export interface DedicatedCephClusterHealthResponse {
   /** All available space in bytes */
-  availableBytes?: number;
+  availableBytes?: number | undefined;
   /** True or False */
-  healthy?: boolean;
+  healthy?: boolean | undefined;
   /** ID of cluster */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Status of ceph cluster */
-  status?: string;
+  status?: string | undefined;
   /** Total cluster space in bytes */
-  totalBytes?: number;
+  totalBytes?: number | undefined;
   /** Used cluster space in bytes */
-  usedBytes?: number;
+  usedBytes?: number | undefined;
 }
 export interface GetDedicatedCephPoolRequest {
   /** Service name */
@@ -326,17 +326,17 @@ export type DedicatedCephPoolGetResponsePoolTypeEnum = "ERASURE_CODED" | "REPLIC
 /** Ceph pool */
 export interface DedicatedCephPoolGetResponse {
   /** Determine if pool should be backuped */
-  backup?: boolean;
+  backup?: boolean | undefined;
   /** Minimum active replicas */
-  minActiveReplicas?: number;
+  minActiveReplicas?: number | undefined;
   /** Name of the pool */
-  name?: string;
+  name?: string | undefined;
   /** Type of pool */
-  poolType?: DedicatedCephPoolGetResponsePoolTypeEnum;
+  poolType?: DedicatedCephPoolGetResponsePoolTypeEnum | undefined;
   /** Number of replica */
-  replicaCount?: number;
+  replicaCount?: number | undefined;
   /** ID of cluster */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface GetDedicatedCephRadosGatewayRequest {
   /** Service name */
@@ -347,9 +347,9 @@ export interface GetDedicatedCephRadosGatewayRequest {
 /** Ceph Rados Gateway data */
 export interface DedicatedCephRgwResponse {
   /** Determines whether RGW instance is enabled or disabled. Only disabled instance can be deleted */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Name of RGW instance */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetDedicatedCephServiceInfosRequest {
   /** Service name */
@@ -360,15 +360,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -390,21 +390,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetDedicatedCephTaskRequest {
   /** Service name */
@@ -417,15 +417,15 @@ export type DedicatedCephTaskGetResponseStateEnum = "DONE" | "FAILED" | "IN PROG
 /** List of task subtasks */
 export interface DedicatedCephTaskGetResponse {
   /** Creation date of the task */
-  createDate?: string;
+  createDate?: string | undefined;
   /** Finish date of the task */
-  finishDate?: string | null;
+  finishDate?: string | null | undefined;
   /** Name of the task */
-  name?: string;
+  name?: string | undefined;
   /** State of the task */
-  state?: DedicatedCephTaskGetResponseStateEnum;
+  state?: DedicatedCephTaskGetResponseStateEnum | undefined;
   /** Type of the task */
-  type?: string;
+  type?: string | undefined;
 }
 export type GetDedicatedCephTaskResponseBodyList = Array<DedicatedCephTaskGetResponse>;
 export type GetDedicatedCephTaskResponse = GetDedicatedCephTaskResponseBodyList;
@@ -438,17 +438,17 @@ export interface GetDedicatedCephUserRequest {
 /** Ceph user */
 export interface DedicatedCephUserGetResponse {
   /** Key of user to connect into cluster */
-  key?: string;
+  key?: string | undefined;
   /** Capabilities of user on MDS */
-  mdsCaps?: string | null;
+  mdsCaps?: string | null | undefined;
   /** Capabilities of user on MON */
-  monCaps?: string;
+  monCaps?: string | undefined;
   /** Name of ceph user */
-  name?: string;
+  name?: string | undefined;
   /** Capabilities of user on OSD */
-  osdCaps?: string;
+  osdCaps?: string | undefined;
   /** ID of cluster */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -458,7 +458,7 @@ export type ListDedicatedCephRequestIamTagsMap = {
 };
 export interface ListDedicatedCephRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListDedicatedCephRequestIamTagsMap;
+  iamTags?: ListDedicatedCephRequestIamTagsMap | undefined;
 }
 export type ListDedicatedCephResponseBodyList = Array<string>;
 export type ListDedicatedCephResponse = ListDedicatedCephResponseBodyList;
@@ -499,9 +499,9 @@ export interface ListDedicatedCephTaskRequest {
 /** List of active tasks */
 export interface DedicatedCephTaskListResponse {
   /** ID of task */
-  id?: string;
+  id?: string | undefined;
   /** Name of task */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListDedicatedCephTaskResponseBodyList = Array<DedicatedCephTaskListResponse>;
 export type ListDedicatedCephTaskResponse = ListDedicatedCephTaskResponseBodyList;
@@ -562,7 +562,7 @@ export interface PutDedicatedCephServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutDedicatedCephServiceInfosResponse {}
 export interface PutDedicatedCephUserPoolRequest {

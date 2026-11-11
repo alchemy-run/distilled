@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -173,7 +174,7 @@ export type GrafanaToken = string;
 export interface AssociateLicenseRequest {
   workspaceId: string;
   licenseType: string;
-  grafanaToken?: string;
+  grafanaToken?: string | undefined;
 }
 export type AccountAccessType = string;
 export type DataSourceType = string;
@@ -196,7 +197,7 @@ export type AuthenticationProviders = string[];
 export type SamlConfigurationStatus = string;
 export interface AuthenticationSummary {
   providers: string[];
-  samlConfigurationStatus?: string;
+  samlConfigurationStatus?: string | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -221,34 +222,34 @@ export type IPAddressType = string;
 export type KmsKeyId = string;
 export type DegradedWorkspaceReason = string;
 export interface WorkspaceDescription {
-  accountAccessType?: string;
+  accountAccessType?: string | undefined;
   created: Date;
   dataSources: string[];
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   endpoint: string;
   grafanaVersion: string;
   id: string;
   modified: Date;
-  name?: string | redacted.Redacted<string>;
-  organizationRoleName?: string | redacted.Redacted<string>;
-  notificationDestinations?: string[];
-  organizationalUnits?: string[];
-  permissionType?: string;
-  stackSetName?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  organizationRoleName?: string | redacted.Redacted<string> | undefined;
+  notificationDestinations?: string[] | undefined;
+  organizationalUnits?: string[] | undefined;
+  permissionType?: string | undefined;
+  stackSetName?: string | undefined;
   status: string;
-  workspaceRoleArn?: string | redacted.Redacted<string>;
-  licenseType?: string;
-  freeTrialConsumed?: boolean;
-  licenseExpiration?: Date;
-  freeTrialExpiration?: Date;
+  workspaceRoleArn?: string | redacted.Redacted<string> | undefined;
+  licenseType?: string | undefined;
+  freeTrialConsumed?: boolean | undefined;
+  licenseExpiration?: Date | undefined;
+  freeTrialExpiration?: Date | undefined;
   authentication: AuthenticationSummary;
-  tags?: { [key: string]: string | undefined };
-  vpcConfiguration?: VpcConfiguration;
-  networkAccessControl?: NetworkAccessConfiguration;
-  grafanaToken?: string;
-  ipAddressType?: string;
-  kmsKeyId?: string;
-  degradedWorkspaceReason?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  vpcConfiguration?: VpcConfiguration | undefined;
+  networkAccessControl?: NetworkAccessConfiguration | undefined;
+  grafanaToken?: string | undefined;
+  ipAddressType?: string | undefined;
+  kmsKeyId?: string | undefined;
+  degradedWorkspaceReason?: string | undefined;
 }
 export interface AssociateLicenseResponse {
   workspace: WorkspaceDescription;
@@ -257,24 +258,24 @@ export type ClientToken = string;
 export type OverridableConfigurationJson = string;
 export interface CreateWorkspaceRequest {
   accountAccessType: string;
-  clientToken?: string;
-  organizationRoleName?: string | redacted.Redacted<string>;
+  clientToken?: string | undefined;
+  organizationRoleName?: string | redacted.Redacted<string> | undefined;
   permissionType: string;
-  stackSetName?: string;
-  workspaceDataSources?: string[];
-  workspaceDescription?: string | redacted.Redacted<string>;
-  workspaceName?: string | redacted.Redacted<string>;
-  workspaceNotificationDestinations?: string[];
-  workspaceOrganizationalUnits?: string[];
-  workspaceRoleArn?: string | redacted.Redacted<string>;
+  stackSetName?: string | undefined;
+  workspaceDataSources?: string[] | undefined;
+  workspaceDescription?: string | redacted.Redacted<string> | undefined;
+  workspaceName?: string | redacted.Redacted<string> | undefined;
+  workspaceNotificationDestinations?: string[] | undefined;
+  workspaceOrganizationalUnits?: string[] | undefined;
+  workspaceRoleArn?: string | redacted.Redacted<string> | undefined;
   authenticationProviders: string[];
-  tags?: { [key: string]: string | undefined };
-  vpcConfiguration?: VpcConfiguration;
-  configuration?: string;
-  networkAccessControl?: NetworkAccessConfiguration;
-  grafanaVersion?: string;
-  ipAddressType?: string;
-  kmsKeyId?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  vpcConfiguration?: VpcConfiguration | undefined;
+  configuration?: string | undefined;
+  networkAccessControl?: NetworkAccessConfiguration | undefined;
+  grafanaVersion?: string | undefined;
+  ipAddressType?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface CreateWorkspaceResponse {
   workspace: WorkspaceDescription;
@@ -365,44 +366,44 @@ export interface DescribeWorkspaceAuthenticationRequest {
   workspaceId: string;
 }
 export type IdpMetadataUrl = string;
-export type IdpMetadata = { url: string; xml?: never } | { url?: never; xml: string };
+export type IdpMetadata = { url: string; xml?: undefined } | { url?: undefined; xml: string };
 export type AssertionAttribute = string;
 export interface AssertionAttributes {
-  name?: string;
-  login?: string;
-  email?: string;
-  groups?: string;
-  role?: string;
-  org?: string;
+  name?: string | undefined;
+  login?: string | undefined;
+  email?: string | undefined;
+  groups?: string | undefined;
+  role?: string | undefined;
+  org?: string | undefined;
 }
 export type RoleValue = string;
 export type RoleValueList = string[];
 export interface RoleValues {
-  editor?: string[];
-  admin?: string[];
+  editor?: string[] | undefined;
+  admin?: string[] | undefined;
 }
 export type AllowedOrganization = string;
 export type AllowedOrganizations = string[];
 export type LoginValidityDuration = number;
 export interface SamlConfiguration {
   idpMetadata: IdpMetadata;
-  assertionAttributes?: AssertionAttributes;
-  roleValues?: RoleValues;
-  allowedOrganizations?: string[];
-  loginValidityDuration?: number;
+  assertionAttributes?: AssertionAttributes | undefined;
+  roleValues?: RoleValues | undefined;
+  allowedOrganizations?: string[] | undefined;
+  loginValidityDuration?: number | undefined;
 }
 export interface SamlAuthentication {
   status: string;
-  configuration?: SamlConfiguration;
+  configuration?: SamlConfiguration | undefined;
 }
 export type SSOClientId = string;
 export interface AwsSsoAuthentication {
-  ssoClientId?: string;
+  ssoClientId?: string | undefined;
 }
 export interface AuthenticationDescription {
   providers: string[];
-  saml?: SamlAuthentication;
-  awsSso?: AwsSsoAuthentication;
+  saml?: SamlAuthentication | undefined;
+  awsSso?: AwsSsoAuthentication | undefined;
 }
 export interface DescribeWorkspaceAuthenticationResponse {
   authentication: AuthenticationDescription;
@@ -412,7 +413,7 @@ export interface DescribeWorkspaceConfigurationRequest {
 }
 export interface DescribeWorkspaceConfigurationResponse {
   configuration: string;
-  grafanaVersion?: string;
+  grafanaVersion?: string | undefined;
 }
 export interface DisassociateLicenseRequest {
   workspaceId: string;
@@ -425,11 +426,11 @@ export type PaginationToken = string;
 export type UserType = string;
 export type SsoId = string;
 export interface ListPermissionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  userType?: string;
-  userId?: string;
-  groupId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  userType?: string | undefined;
+  userId?: string | undefined;
+  groupId?: string | undefined;
   workspaceId: string;
 }
 export interface User {
@@ -442,52 +443,52 @@ export interface PermissionEntry {
 }
 export type PermissionEntryList = PermissionEntry[];
 export interface ListPermissionsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   permissions: PermissionEntry[];
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListVersionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  workspaceId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  workspaceId?: string | undefined;
 }
 export type GrafanaVersionList = string[];
 export interface ListVersionsResponse {
-  nextToken?: string;
-  grafanaVersions?: string[];
+  nextToken?: string | undefined;
+  grafanaVersions?: string[] | undefined;
 }
 export interface ListWorkspacesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface WorkspaceSummary {
   created: Date;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   endpoint: string;
   grafanaVersion: string;
   id: string;
   modified: Date;
-  name?: string | redacted.Redacted<string>;
-  notificationDestinations?: string[];
+  name?: string | redacted.Redacted<string> | undefined;
+  notificationDestinations?: string[] | undefined;
   status: string;
   authentication: AuthenticationSummary;
-  tags?: { [key: string]: string | undefined };
-  licenseType?: string;
-  grafanaToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  licenseType?: string | undefined;
+  grafanaToken?: string | undefined;
 }
 export type WorkspaceList = WorkspaceSummary[];
 export interface ListWorkspacesResponse {
   workspaces: WorkspaceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWorkspaceServiceAccountsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   workspaceId: string;
 }
 export interface ServiceAccountSummary {
@@ -498,13 +499,13 @@ export interface ServiceAccountSummary {
 }
 export type ServiceAccountList = ServiceAccountSummary[];
 export interface ListWorkspaceServiceAccountsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   serviceAccounts: ServiceAccountSummary[];
   workspaceId: string;
 }
 export interface ListWorkspaceServiceAccountTokensRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   serviceAccountId: string;
   workspaceId: string;
 }
@@ -513,11 +514,11 @@ export interface ServiceAccountTokenSummary {
   name: string;
   createdAt: Date;
   expiresAt: Date;
-  lastUsedAt?: Date;
+  lastUsedAt?: Date | undefined;
 }
 export type ServiceAccountTokenList = ServiceAccountTokenSummary[];
 export interface ListWorkspaceServiceAccountTokensResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   serviceAccountTokens: ServiceAccountTokenSummary[];
   serviceAccountId: string;
   workspaceId: string;
@@ -555,22 +556,22 @@ export interface UpdatePermissionsResponse {
   errors: UpdateError[];
 }
 export interface UpdateWorkspaceRequest {
-  accountAccessType?: string;
-  organizationRoleName?: string | redacted.Redacted<string>;
-  permissionType?: string;
-  stackSetName?: string;
-  workspaceDataSources?: string[];
-  workspaceDescription?: string | redacted.Redacted<string>;
+  accountAccessType?: string | undefined;
+  organizationRoleName?: string | redacted.Redacted<string> | undefined;
+  permissionType?: string | undefined;
+  stackSetName?: string | undefined;
+  workspaceDataSources?: string[] | undefined;
+  workspaceDescription?: string | redacted.Redacted<string> | undefined;
   workspaceId: string;
-  workspaceName?: string | redacted.Redacted<string>;
-  workspaceNotificationDestinations?: string[];
-  workspaceOrganizationalUnits?: string[];
-  workspaceRoleArn?: string | redacted.Redacted<string>;
-  vpcConfiguration?: VpcConfiguration;
-  removeVpcConfiguration?: boolean;
-  networkAccessControl?: NetworkAccessConfiguration;
-  removeNetworkAccessConfiguration?: boolean;
-  ipAddressType?: string;
+  workspaceName?: string | redacted.Redacted<string> | undefined;
+  workspaceNotificationDestinations?: string[] | undefined;
+  workspaceOrganizationalUnits?: string[] | undefined;
+  workspaceRoleArn?: string | redacted.Redacted<string> | undefined;
+  vpcConfiguration?: VpcConfiguration | undefined;
+  removeVpcConfiguration?: boolean | undefined;
+  networkAccessControl?: NetworkAccessConfiguration | undefined;
+  removeNetworkAccessConfiguration?: boolean | undefined;
+  ipAddressType?: string | undefined;
 }
 export interface UpdateWorkspaceResponse {
   workspace: WorkspaceDescription;
@@ -578,7 +579,7 @@ export interface UpdateWorkspaceResponse {
 export interface UpdateWorkspaceAuthenticationRequest {
   workspaceId: string;
   authenticationProviders: string[];
-  samlConfiguration?: SamlConfiguration;
+  samlConfiguration?: SamlConfiguration | undefined;
 }
 export interface UpdateWorkspaceAuthenticationResponse {
   authentication: AuthenticationDescription;
@@ -586,7 +587,7 @@ export interface UpdateWorkspaceAuthenticationResponse {
 export interface UpdateWorkspaceConfigurationRequest {
   configuration: string;
   workspaceId: string;
-  grafanaVersion?: string;
+  grafanaVersion?: string | undefined;
 }
 export interface UpdateWorkspaceConfigurationResponse {}
 export type ValidationExceptionReason = string;
@@ -606,7 +607,7 @@ export type AssociateLicenseError =
  * Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use `ENTERPRISE` for the `licenseType`, and pass in a valid Grafana Labs token for the `grafanaToken`. Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
  */
 export const associateLicense: API.OperationMethod<
-  AssociateLicenseRequest,
+  AssociateLicenseRequest & RegionInput,
   AssociateLicenseResponse,
   AssociateLicenseError,
   Credentials | HttpClient.HttpClient
@@ -641,7 +642,7 @@ export type CreateWorkspaceError =
  * Don't use `CreateWorkspace` to modify an existing workspace. Instead, use UpdateWorkspace.
  */
 export const createWorkspace: API.OperationMethod<
-  CreateWorkspaceRequest,
+  CreateWorkspaceRequest & RegionInput,
   CreateWorkspaceResponse,
   CreateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -673,12 +674,12 @@ export type CreateWorkspaceApiKeyError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
+ * Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See for available APIs and example requests.
  *
  * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
 export const createWorkspaceApiKey: API.OperationMethod<
-  CreateWorkspaceApiKeyRequest,
+  CreateWorkspaceApiKeyRequest & RegionInput,
   CreateWorkspaceApiKeyResponse,
   CreateWorkspaceApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -715,12 +716,12 @@ export type CreateWorkspaceServiceAccountError =
  *
  * You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.
  *
- * For more information about service accounts, see Service accounts in the *Amazon Managed Grafana User Guide*.
+ * For more information about service accounts, see Service accounts in the * Amazon Managed Grafana User Guide*.
  *
- * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the *Amazon Managed Grafana User Guide*.
+ * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the * Amazon Managed Grafana User Guide*.
  */
 export const createWorkspaceServiceAccount: API.OperationMethod<
-  CreateWorkspaceServiceAccountRequest,
+  CreateWorkspaceServiceAccountRequest & RegionInput,
   CreateWorkspaceServiceAccountResponse,
   CreateWorkspaceServiceAccountError,
   Credentials | HttpClient.HttpClient
@@ -762,7 +763,7 @@ export type CreateWorkspaceServiceAccountTokenError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const createWorkspaceServiceAccountToken: API.OperationMethod<
-  CreateWorkspaceServiceAccountTokenRequest,
+  CreateWorkspaceServiceAccountTokenRequest & RegionInput,
   CreateWorkspaceServiceAccountTokenResponse,
   CreateWorkspaceServiceAccountTokenError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +798,7 @@ export type DeleteWorkspaceError =
  * Deletes an Amazon Managed Grafana workspace.
  */
 export const deleteWorkspace: API.OperationMethod<
-  DeleteWorkspaceRequest,
+  DeleteWorkspaceRequest & RegionInput,
   DeleteWorkspaceResponse,
   DeleteWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -833,7 +834,7 @@ export type DeleteWorkspaceApiKeyError =
  * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
 export const deleteWorkspaceApiKey: API.OperationMethod<
-  DeleteWorkspaceApiKeyRequest,
+  DeleteWorkspaceApiKeyRequest & RegionInput,
   DeleteWorkspaceApiKeyResponse,
   DeleteWorkspaceApiKeyError,
   Credentials | HttpClient.HttpClient
@@ -871,7 +872,7 @@ export type DeleteWorkspaceServiceAccountError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const deleteWorkspaceServiceAccount: API.OperationMethod<
-  DeleteWorkspaceServiceAccountRequest,
+  DeleteWorkspaceServiceAccountRequest & RegionInput,
   DeleteWorkspaceServiceAccountResponse,
   DeleteWorkspaceServiceAccountError,
   Credentials | HttpClient.HttpClient
@@ -909,7 +910,7 @@ export type DeleteWorkspaceServiceAccountTokenError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const deleteWorkspaceServiceAccountToken: API.OperationMethod<
-  DeleteWorkspaceServiceAccountTokenRequest,
+  DeleteWorkspaceServiceAccountTokenRequest & RegionInput,
   DeleteWorkspaceServiceAccountTokenResponse,
   DeleteWorkspaceServiceAccountTokenError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +943,7 @@ export type DescribeWorkspaceError =
  * Displays information about one Amazon Managed Grafana workspace.
  */
 export const describeWorkspace: API.OperationMethod<
-  DescribeWorkspaceRequest,
+  DescribeWorkspaceRequest & RegionInput,
   DescribeWorkspaceResponse,
   DescribeWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -975,7 +976,7 @@ export type DescribeWorkspaceAuthenticationError =
  * Displays information about the authentication methods used in one Amazon Managed Grafana workspace.
  */
 export const describeWorkspaceAuthentication: API.OperationMethod<
-  DescribeWorkspaceAuthenticationRequest,
+  DescribeWorkspaceAuthenticationRequest & RegionInput,
   DescribeWorkspaceAuthenticationResponse,
   DescribeWorkspaceAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -1007,7 +1008,7 @@ export type DescribeWorkspaceConfigurationError =
  * Gets the current configuration string for the given workspace.
  */
 export const describeWorkspaceConfiguration: API.OperationMethod<
-  DescribeWorkspaceConfigurationRequest,
+  DescribeWorkspaceConfigurationRequest & RegionInput,
   DescribeWorkspaceConfigurationResponse,
   DescribeWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1038,7 +1039,7 @@ export type DisassociateLicenseError =
  * Removes the Grafana Enterprise license from a workspace.
  */
 export const disassociateLicense: API.OperationMethod<
-  DisassociateLicenseRequest,
+  DisassociateLicenseRequest & RegionInput,
   DisassociateLicenseResponse,
   DisassociateLicenseError,
   Credentials | HttpClient.HttpClient
@@ -1070,7 +1071,7 @@ export type ListPermissionsError =
  * Lists the users and groups who have the Grafana `Admin` and `Editor` roles in this workspace. If you use this operation without specifying `userId` or `groupId`, the operation returns the roles of all users and groups. If you specify a `userId` or a `groupId`, only the roles for that user or group are returned. If you do this, you can specify only one `userId` or one `groupId`.
  */
 export const listPermissions: API.PaginatedOperationMethod<
-  ListPermissionsRequest,
+  ListPermissionsRequest & RegionInput,
   ListPermissionsResponse,
   ListPermissionsError,
   Credentials | HttpClient.HttpClient,
@@ -1109,7 +1110,7 @@ export type ListTagsForResourceError =
  * The `ListTagsForResource` operation returns the tags that are associated with the Amazon Managed Service for Grafana resource specified by the `resourceArn`. Currently, the only resource that can be tagged is a workspace.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1141,7 +1142,7 @@ export type ListVersionsError =
  * Lists available versions of Grafana. These are available when calling `CreateWorkspace`. Optionally, include a workspace to list the versions to which it can be upgraded.
  */
 export const listVersions: API.PaginatedOperationMethod<
-  ListVersionsRequest,
+  ListVersionsRequest & RegionInput,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1178,7 +1179,7 @@ export type ListWorkspacesError =
  * Returns a list of Amazon Managed Grafana workspaces in the account, with some information about each workspace. For more complete information about one workspace, use DescribeWorkspace.
  */
 export const listWorkspaces: API.PaginatedOperationMethod<
-  ListWorkspacesRequest,
+  ListWorkspacesRequest & RegionInput,
   ListWorkspacesResponse,
   ListWorkspacesError,
   Credentials | HttpClient.HttpClient,
@@ -1214,7 +1215,7 @@ export type ListWorkspaceServiceAccountsError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const listWorkspaceServiceAccounts: API.PaginatedOperationMethod<
-  ListWorkspaceServiceAccountsRequest,
+  ListWorkspaceServiceAccountsRequest & RegionInput,
   ListWorkspaceServiceAccountsResponse,
   ListWorkspaceServiceAccountsError,
   Credentials | HttpClient.HttpClient,
@@ -1259,7 +1260,7 @@ export type ListWorkspaceServiceAccountTokensError =
  * Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
  */
 export const listWorkspaceServiceAccountTokens: API.PaginatedOperationMethod<
-  ListWorkspaceServiceAccountTokensRequest,
+  ListWorkspaceServiceAccountTokensRequest & RegionInput,
   ListWorkspaceServiceAccountTokensResponse,
   ListWorkspaceServiceAccountTokensError,
   Credentials | HttpClient.HttpClient,
@@ -1301,7 +1302,7 @@ export type TagResourceError =
  * If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1333,7 +1334,7 @@ export type UntagResourceError =
  * The `UntagResource` operation removes the association of the tag with the Amazon Managed Grafana resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1365,7 +1366,7 @@ export type UpdatePermissionsError =
  * Updates which users in a workspace have the Grafana `Admin` or `Editor` roles.
  */
 export const updatePermissions: API.OperationMethod<
-  UpdatePermissionsRequest,
+  UpdatePermissionsRequest & RegionInput,
   UpdatePermissionsResponse,
   UpdatePermissionsError,
   Credentials | HttpClient.HttpClient
@@ -1402,7 +1403,7 @@ export type UpdateWorkspaceError =
  * To modify which users in the workspace have the `Admin` and `Editor` Grafana roles, use UpdatePermissions.
  */
 export const updateWorkspace: API.OperationMethod<
-  UpdateWorkspaceRequest,
+  UpdateWorkspaceRequest & RegionInput,
   UpdateWorkspaceResponse,
   UpdateWorkspaceError,
   Credentials | HttpClient.HttpClient
@@ -1438,7 +1439,7 @@ export type UpdateWorkspaceAuthenticationError =
  * Changes to the authentication method for a workspace may take a few minutes to take effect.
  */
 export const updateWorkspaceAuthentication: API.OperationMethod<
-  UpdateWorkspaceAuthenticationRequest,
+  UpdateWorkspaceAuthenticationRequest & RegionInput,
   UpdateWorkspaceAuthenticationResponse,
   UpdateWorkspaceAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -1472,7 +1473,7 @@ export type UpdateWorkspaceConfigurationError =
  * Updates the configuration string for the given workspace
  */
 export const updateWorkspaceConfiguration: API.OperationMethod<
-  UpdateWorkspaceConfigurationRequest,
+  UpdateWorkspaceConfigurationRequest & RegionInput,
   UpdateWorkspaceConfigurationResponse,
   UpdateWorkspaceConfigurationError,
   Credentials | HttpClient.HttpClient

@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   HTTP_STATUS_MAP,
   InternalServerError,
@@ -18,6 +17,7 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
  * StackitProtocol -- the shared bearer-REST protocol instantiated for STACKIT.
@@ -58,7 +58,8 @@ export type StackitOpError =
   | StackitParseError
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated STACKIT operation. */
 export type StackitOpContext = Credentials | HttpClient.HttpClient;
@@ -105,16 +106,16 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
-const baseUrlFor = (creds: Config, inputAst: AST.AST): string => {
+const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
   if (creds.apiBaseUrl !== undefined && creds.apiBaseUrl !== "") {
     return creds.apiBaseUrl;
   }
   const http = getAnn(inputAst, httpSymbol) as StackitHttpTrait | undefined;
   const specUrl = http?.baseUrl;
   if (typeof specUrl !== "string" || specUrl === "") {
-    throw new Error(
-      "STACKIT operation is missing T.Http({ baseUrl }) \u2014 regenerate from convert",
-    );
+    return new SdkError({
+      message: "STACKIT operation is missing T.Http({ baseUrl }) -- regenerate from convert",
+    });
   }
   return applyRegion(specUrl, creds.region);
 };
@@ -126,10 +127,12 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
       Effect.gen(function* () {
         const resolve = yield* Credentials;
         const creds = yield* resolve;
+        const baseUrl = baseUrlFor(creds, inputAst);
+        if (baseUrl instanceof SdkError) return yield* baseUrl;
         return yield* buildRequest({
           input: unwrapRedactedDeep(input),
           inputAst,
-          baseUrl: baseUrlFor(creds, inputAst),
+          baseUrl,
           headers: {
             Authorization: `Bearer ${Redacted.value(creds.token)}`,
           },
@@ -146,9 +149,6 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
     }) =>
       Effect.gen(function* () {
         const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-        if (debugHttp()) {
-          console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-        }
         let json: unknown;
         let nonJson = false;
         if (text.trim().length > 0) {

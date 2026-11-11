@@ -17,8 +17,6 @@ import * as AwsCredentials from "@distilled.cloud/aws/Credentials";
 import * as DynamoDB from "@distilled.cloud/aws/dynamodb";
 import * as AwsEndpoint from "@distilled.cloud/aws/Endpoint";
 import * as EventBridge from "@distilled.cloud/aws/eventbridge";
-import { encodeEvent } from "@distilled.cloud/aws/eventstream/codec";
-import { serializeInputEvent } from "@distilled.cloud/aws/eventstream/serializer";
 import * as Lambda from "@distilled.cloud/aws/lambda";
 import * as Region from "@distilled.cloud/aws/Region";
 import * as S3 from "@distilled.cloud/aws/s3";
@@ -42,6 +40,8 @@ import * as GitHubRepos from "@distilled.cloud/github/repos";
 import * as NeonCredentials from "@distilled.cloud/neon/Credentials";
 import * as Neon from "@distilled.cloud/neon/neon";
 import { CredentialsFromToken, GraphQLLive, Railway } from "@distilled.cloud/railway";
+import { encodeEvent } from "@distilled.cloud/s3/eventstream/codec";
+import { serializeInputEvent } from "@distilled.cloud/s3/eventstream/serializer";
 import * as SlackChat from "@distilled.cloud/slack/chat";
 import * as SlackCredentials from "@distilled.cloud/slack/Credentials";
 import * as StripeCredentials from "@distilled.cloud/stripe/Credentials";
@@ -722,7 +722,7 @@ const scenarios = (): Scenario[] => [
   {
     id: "bedrock-converse-stream",
     title: "Bedrock ConverseStream, 5 events",
-    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. A GenAI span ends when the response is fully received (GenAI conventions; the OpenTelemetry AWS SDK instrumentations do the same), so the operation span stays open until the caller has read the last event, and gen_ai.response.time_to_first_chunk records when the first event arrived. Debug mode shows the read as distilled.read_stream.",
+    what: "A streamed GenAI response. The headers arrive after 180 ms, the events over the next 400 ms. A GenAI span ends when the response is fully received (GenAI conventions; the OpenTelemetry AWS SDK instrumentations do the same), so the operation span stays open until the caller has read the last event, and gen_ai.response.time_to_first_chunk records when the first event arrived. The messageStop event gives gen_ai.response.finish_reasons and the metadata event gives gen_ai.usage.input_tokens and output_tokens, the attributes Converse reads from its response. Debug mode shows the read as distilled.read_stream.",
     code: `const { stream } = yield* Bedrock.converseStream({
   modelId: "anthropic.claude-sonnet",
   messages: [{ role: "user", content: [{ text: "hi" }] }],

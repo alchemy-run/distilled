@@ -94,26 +94,26 @@ export type DatabaseInstanceStateEnum =
   | "DELETED";
 /** Representation of a Realtime Database instance. Details on interacting with contents of a DatabaseInstance can be found at: https://firebase.google.com/docs/database/rest/start. */
 export interface DatabaseInstance {
-  /** Output only. Output Only. The globally unique hostname of the database. */
-  databaseUrl?: string;
-  /** Output only. The resource name of the project this instance belongs to. For example: `projects/{project-number}`. */
-  project?: string;
   /** Immutable. The database instance type. On creation only USER_DATABASE is allowed, which is also the default when omitted. */
-  type?: DatabaseInstanceTypeEnum | (string & {});
-  /** The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}`. */
-  name?: string;
+  type?: DatabaseInstanceTypeEnum | (string & {}) | undefined;
   /** Output only. The database's lifecycle state. Read-only. */
-  state?: DatabaseInstanceStateEnum | (string & {});
+  state?: DatabaseInstanceStateEnum | (string & {}) | undefined;
+  /** The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}`. */
+  name?: string | undefined;
+  /** Output only. The resource name of the project this instance belongs to. For example: `projects/{project-number}`. */
+  project?: string | undefined;
+  /** Output only. Output Only. The globally unique hostname of the database. */
+  databaseUrl?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest {
-  /** The globally unique identifier of the database instance. */
-  databaseId?: string;
   /** Required. The parent project for which to create a database instance, in the form: `projects/{project-number}/locations/{location-id}`. */
   parent: string;
   /** When set to true, the request will be validated but not submitted. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
+  /** The globally unique identifier of the database instance. */
+  databaseId?: string | undefined;
   /** Request body */
-  body?: DatabaseInstance;
+  body?: DatabaseInstance | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
@@ -125,29 +125,29 @@ export interface DisableProjectsLocationsInstancesRequest {
   /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
   name: string;
   /** Request body */
-  body?: DisableDatabaseInstanceRequest;
+  body?: DisableDatabaseInstanceRequest | undefined;
 }
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}`. `database-id` is a globally unique identifier across all parent collections. For convenience, this method allows you to supply `-` as a wildcard character in place of specific collections under `projects` and `locations`. The resulting wildcarding form of the method is: `projects/-/locations/-/instances/{database-id}`. */
   name: string;
 }
 export interface ListProjectsLocationsInstancesRequest {
-  /** The maximum number of database instances to return in the response. The server may return fewer than this at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. */
-  pageSize?: number;
+  /** Indicate that DatabaseInstances in the `DELETED` state should also be returned. */
+  showDeleted?: boolean | undefined;
   /** Required. The parent project for which to list database instances, in the form: `projects/{project-number}/locations/{location-id}` To list across all locations, use a parent in the form: `projects/{project-number}/locations/-` */
   parent: string;
   /** Token returned from a previous call to `ListDatabaseInstances` indicating where in the set of database instances to resume listing. */
-  pageToken?: string;
-  /** Indicate that DatabaseInstances in the `DELETED` state should also be returned. */
-  showDeleted?: boolean;
+  pageToken?: string | undefined;
+  /** The maximum number of database instances to return in the response. The server may return fewer than this at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. */
+  pageSize?: number | undefined;
 }
 export type DatabaseInstanceList = Array<DatabaseInstance>;
 /** The response from the ListDatabaseInstances method. */
 export interface ListDatabaseInstancesResponse {
   /** List of each DatabaseInstance that is in the parent Firebase project. */
-  instances?: DatabaseInstanceList;
+  instances?: DatabaseInstanceList | undefined;
   /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent call to `ListDatabaseInstances` to find the next group of database instances. Page tokens are short-lived and should not be persisted. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** The request sent to the ReenableDatabaseInstance method. */
 export type ReenableDatabaseInstanceRequest = DisableDatabaseInstanceRequest;
@@ -155,7 +155,7 @@ export interface ReenableProjectsLocationsInstancesRequest {
   /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
   name: string;
   /** Request body */
-  body?: DisableDatabaseInstanceRequest;
+  body?: DisableDatabaseInstanceRequest | undefined;
 }
 /** The request sent to UndeleteDatabaseInstance method. */
 export type UndeleteDatabaseInstanceRequest = DisableDatabaseInstanceRequest;
@@ -163,7 +163,7 @@ export interface UndeleteProjectsLocationsInstancesRequest {
   /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
   name: string;
   /** Request body */
-  body?: DisableDatabaseInstanceRequest;
+  body?: DisableDatabaseInstanceRequest | undefined;
 }
 export type CreateProjectsLocationsInstancesError =
   | NotFound
@@ -334,9 +334,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          databaseId: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+          databaseId: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(8, __c2, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -353,11 +353,11 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          databaseUrl: S.optional(S.String),
-          project: S.optional(S.String),
           type: S.optional(S.String),
-          name: S.optional(S.String),
           state: S.optional(S.String),
+          name: S.optional(S.String),
+          project: S.optional(S.String),
+          databaseUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseInstance" });
   }
@@ -424,10 +424,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          showDeleted: S.optional(S.Boolean.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -141,7 +142,7 @@ export class LimitExceededException
 export class MalformedQueryException
   extends /*@__PURE__*/ S.TaggedError<MalformedQueryException>()("MalformedQueryException", {
     queryCompileError: /*@__PURE__*/ S.optional(
-      /*@__PURE__*/ S.suspend(() => __S(3969, __c124, 1)).annotate({
+      /*@__PURE__*/ S.suspend(() => __S(4001, __c125, 1)).annotate({
         identifier: "QueryCompileError",
       }),
     ),
@@ -196,9 +197,9 @@ export type LogGroupName = string;
 export type KmsKeyId = string;
 export type ResourceIdentifier = string;
 export interface AssociateKmsKeyRequest {
-  logGroupName?: string;
+  logGroupName?: string | undefined;
   kmsKeyId: string;
-  resourceIdentifier?: string;
+  resourceIdentifier?: string | undefined;
 }
 export interface AssociateKmsKeyResponse {}
 export type Arn = string;
@@ -206,7 +207,7 @@ export type DataSourceName = string;
 export type DataSourceType = string;
 export interface DataSource {
   name: string;
-  type?: string;
+  type?: string | undefined;
 }
 export interface AssociateSourceToS3TableIntegrationRequest {
   integrationArn: string;
@@ -214,7 +215,7 @@ export interface AssociateSourceToS3TableIntegrationRequest {
 }
 export type S3TableIntegrationSourceIdentifier = string;
 export interface AssociateSourceToS3TableIntegrationResponse {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type ExportTaskId = string;
 export interface CancelExportTaskRequest {
@@ -227,15 +228,15 @@ export interface CancelImportTaskRequest {
 }
 export type StoredBytes = number;
 export interface ImportStatistics {
-  bytesImported?: number;
+  bytesImported?: number | undefined;
 }
 export type ImportStatus = "IN_PROGRESS" | "CANCELLED" | "COMPLETED" | "FAILED" | (string & {});
 export interface CancelImportTaskResponse {
-  importId?: string;
-  importStatistics?: ImportStatistics;
-  importStatus?: ImportStatus;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  importId?: string | undefined;
+  importStatistics?: ImportStatistics | undefined;
+  importStatus?: ImportStatus | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type DeliverySourceName = string;
 export type FieldHeader = string;
@@ -243,8 +244,8 @@ export type RecordFields = string[];
 export type FieldDelimiter = string;
 export type DeliverySuffixPath = string;
 export interface S3DeliveryConfiguration {
-  suffixPath?: string;
-  enableHiveCompatiblePath?: boolean;
+  suffixPath?: string | undefined;
+  enableHiveCompatiblePath?: boolean | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -252,57 +253,57 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateDeliveryRequest {
   deliverySourceName: string;
   deliveryDestinationArn: string;
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: { [key: string]: string | undefined };
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeliveryId = string;
 export type DeliveryDestinationType = "S3" | "CWL" | "FH" | "XRAY" | (string & {});
 export interface Delivery {
-  id?: string;
-  arn?: string;
-  deliverySourceName?: string;
-  deliveryDestinationArn?: string;
-  deliveryDestinationType?: DeliveryDestinationType;
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  deliverySourceName?: string | undefined;
+  deliveryDestinationArn?: string | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDeliveryResponse {
-  delivery?: Delivery;
+  delivery?: Delivery | undefined;
 }
 export type ExportTaskName = string;
 export type LogStreamName = string;
 export type ExportDestinationBucket = string;
 export type ExportDestinationPrefix = string;
 export interface CreateExportTaskRequest {
-  taskName?: string;
+  taskName?: string | undefined;
   logGroupName: string;
-  logStreamNamePrefix?: string;
+  logStreamNamePrefix?: string | undefined;
   from: number;
   to: number;
   destination: string;
-  destinationPrefix?: string;
+  destinationPrefix?: string | undefined;
 }
 export interface CreateExportTaskResponse {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export type RoleArn = string;
 export interface ImportFilter {
-  startEventTime?: number;
-  endEventTime?: number;
+  startEventTime?: number | undefined;
+  endEventTime?: number | undefined;
 }
 export interface CreateImportTaskRequest {
   importSourceArn: string;
   importRoleArn: string;
-  importFilter?: ImportFilter;
+  importFilter?: ImportFilter | undefined;
 }
 export interface CreateImportTaskResponse {
-  importId?: string;
-  importDestinationArn?: string;
-  creationTime?: number;
+  importId?: string | undefined;
+  importDestinationArn?: string | undefined;
+  creationTime?: number | undefined;
 }
 export type LogGroupArn = string;
 export type LogGroupArnList = string[];
@@ -320,25 +321,30 @@ export type DetectorKmsKeyArn = string;
 export type AnomalyVisibilityTime = number;
 export interface CreateLogAnomalyDetectorRequest {
   logGroupArnList: string[];
-  detectorName?: string;
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  kmsKeyId?: string;
-  anomalyVisibilityTime?: number;
-  tags?: { [key: string]: string | undefined };
+  detectorName?: string | undefined;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  kmsKeyId?: string | undefined;
+  anomalyVisibilityTime?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AnomalyDetectorArn = string;
 export interface CreateLogAnomalyDetectorResponse {
-  anomalyDetectorArn?: string;
+  anomalyDetectorArn?: string | undefined;
 }
-export type LogGroupClass = "STANDARD" | "INFREQUENT_ACCESS" | "DELIVERY" | (string & {});
+export type LogGroupClass =
+  | "STANDARD"
+  | "INFREQUENT_ACCESS"
+  | "DELIVERY"
+  | "ESSENTIALS"
+  | (string & {});
 export type DeletionProtectionEnabled = boolean;
 export interface CreateLogGroupRequest {
   logGroupName: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
-  logGroupClass?: LogGroupClass;
-  deletionProtectionEnabled?: boolean;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
 }
 export interface CreateLogGroupResponse {}
 export interface CreateLogStreamRequest {
@@ -352,15 +358,15 @@ export type TableBody = string;
 export type QueryId = string;
 export interface CreateLookupTableRequest {
   lookupTableName: string;
-  description?: string;
-  tableBody?: string;
-  queryId?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tableBody?: string | undefined;
+  queryId?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateLookupTableResponse {
-  lookupTableArn?: string;
-  createdAt?: number;
+  lookupTableArn?: string | undefined;
+  createdAt?: number | undefined;
 }
 export type ScheduledQueryName = string;
 export type ScheduledQueryDescription = string;
@@ -377,41 +383,41 @@ export type AccountId = string;
 export interface S3Configuration {
   destinationIdentifier: string;
   roleArn: string;
-  ownerAccountId?: string;
-  kmsKeyId?: string;
+  ownerAccountId?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface LookupTableConfiguration {
   tableName: string;
   roleArn: string;
-  description?: string;
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DestinationConfiguration {
-  s3Configuration?: S3Configuration;
-  lookupTableConfiguration?: LookupTableConfiguration;
+  s3Configuration?: S3Configuration | undefined;
+  lookupTableConfiguration?: LookupTableConfiguration | undefined;
 }
 export type ScheduledQueryState = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateScheduledQueryRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   queryLanguage: QueryLanguage;
   queryString: string;
-  logGroupIdentifiers?: string[];
+  logGroupIdentifiers?: string[] | undefined;
   scheduleExpression: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
   executionRoleArn: string;
-  state?: ScheduledQueryState;
-  tags?: { [key: string]: string | undefined };
+  state?: ScheduledQueryState | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateScheduledQueryResponse {
-  scheduledQueryArn?: string;
-  state?: ScheduledQueryState;
+  scheduledQueryArn?: string | undefined;
+  state?: ScheduledQueryState | undefined;
 }
 export type PolicyName = string;
 export type PolicyType =
@@ -420,12 +426,34 @@ export type PolicyType =
   | "FIELD_INDEX_POLICY"
   | "TRANSFORMER_POLICY"
   | "METRIC_EXTRACTION_POLICY"
+  | "RETENTION_POLICY"
   | (string & {});
+export type DryRun = boolean;
 export interface DeleteAccountPolicyRequest {
   policyName: string;
   policyType: PolicyType;
+  dryRun?: boolean | undefined;
 }
-export interface DeleteAccountPolicyResponse {}
+export type DryRunCount = number;
+export type RetentionValue = string;
+export interface LogGroupImpact {
+  logGroupName?: string | undefined;
+  currentRetention?: string | undefined;
+  proposedRetention?: string | undefined;
+  storedBytes?: number | undefined;
+}
+export type LogGroupImpacts = LogGroupImpact[];
+export interface DryRunResult {
+  totalMatchedLogGroups?: number | undefined;
+  increasedRetentionLogGroupCount?: number | undefined;
+  decreasedRetentionLogGroupCount?: number | undefined;
+  unchangedRetentionLogGroupCount?: number | undefined;
+  failedAnalysisCount?: number | undefined;
+  topLogGroupsImpacted?: LogGroupImpact[] | undefined;
+}
+export interface DeleteAccountPolicyResponse {
+  dryRunResult?: DryRunResult | undefined;
+}
 export interface DeleteDataProtectionPolicyRequest {
   logGroupIdentifier: string;
 }
@@ -460,7 +488,7 @@ export type IntegrationName = string;
 export type Force = boolean;
 export interface DeleteIntegrationRequest {
   integrationName: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteIntegrationResponse {}
 export interface DeleteLogAnomalyDetectorRequest {
@@ -491,13 +519,13 @@ export interface DeleteQueryDefinitionRequest {
 }
 export type Success = boolean;
 export interface DeleteQueryDefinitionResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export type ExpectedRevisionId = string;
 export interface DeleteResourcePolicyRequest {
-  policyName?: string;
-  resourceArn?: string;
-  expectedRevisionId?: string;
+  policyName?: string | undefined;
+  resourceArn?: string | undefined;
+  expectedRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteRetentionPolicyRequest {
@@ -517,7 +545,7 @@ export interface DeleteSubscriptionFilterResponse {}
 export type VpcEndpointId = string;
 export interface DeleteSyslogConfigurationRequest {
   logGroupIdentifier: string;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export interface DeleteSyslogConfigurationResponse {}
 export interface DeleteTransformerRequest {
@@ -528,26 +556,26 @@ export type AccountIds = string[];
 export type NextToken = string;
 export interface DescribeAccountPoliciesRequest {
   policyType: PolicyType;
-  policyName?: string;
-  accountIdentifiers?: string[];
-  nextToken?: string;
+  policyName?: string | undefined;
+  accountIdentifiers?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountPolicyDocument = string;
 export type Scope = "ALL" | (string & {});
 export type SelectionCriteria = string;
 export interface AccountPolicy {
-  policyName?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
-  policyType?: PolicyType;
-  scope?: Scope;
-  selectionCriteria?: string;
-  accountId?: string;
+  policyName?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
+  policyType?: PolicyType | undefined;
+  scope?: Scope | undefined;
+  selectionCriteria?: string | undefined;
+  accountId?: string | undefined;
 }
 export type AccountPolicies = AccountPolicy[];
 export interface DescribeAccountPoliciesResponse {
-  accountPolicies?: AccountPolicy[];
-  nextToken?: string;
+  accountPolicies?: AccountPolicy[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Service = string;
 export type LogType = string;
@@ -557,21 +585,21 @@ export type ResourceTypes = string[];
 export type DeliveryDestinationTypes = DeliveryDestinationType[];
 export type DescribeLimit = number;
 export interface DescribeConfigurationTemplatesRequest {
-  service?: string;
-  logTypes?: string[];
-  resourceTypes?: string[];
-  deliveryDestinationTypes?: DeliveryDestinationType[];
-  nextToken?: string;
-  limit?: number;
+  service?: string | undefined;
+  logTypes?: string[] | undefined;
+  resourceTypes?: string[] | undefined;
+  deliveryDestinationTypes?: DeliveryDestinationType[] | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ConfigurationTemplateDeliveryConfigValues {
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
 }
 export interface RecordField {
-  name?: string;
-  mandatory?: boolean;
+  name?: string | undefined;
+  mandatory?: boolean | undefined;
 }
 export type AllowedFields = RecordField[];
 export type OutputFormat = "json" | "plain" | "w3c" | "raw" | "parquet" | (string & {});
@@ -592,69 +620,75 @@ export interface DeliverySourceConfigurationSchema {
   keyName: string;
   valueType: DeliverySourceConfigurationSchemaValueType;
   defaultValue: string;
-  supportedValues?: string[];
-  minValue?: number;
-  maxValue?: number;
+  supportedValues?: string[] | undefined;
+  minValue?: number | undefined;
+  maxValue?: number | undefined;
 }
 export type DeliverySourceConfigurationSchemas = DeliverySourceConfigurationSchema[];
 export type S3TablesDatasourceName = string;
 export type S3TablesDatasourceType = string;
 export interface S3TablesIntegration {
-  datasourceName?: string;
-  datasourceType?: string;
+  datasourceName?: string | undefined;
+  datasourceType?: string | undefined;
 }
 export interface ConfigurationTemplate {
-  service?: string;
-  logType?: string;
-  resourceType?: string;
-  deliveryDestinationType?: DeliveryDestinationType;
-  defaultDeliveryConfigValues?: ConfigurationTemplateDeliveryConfigValues;
-  allowedFields?: RecordField[];
-  allowedOutputFormats?: OutputFormat[];
-  allowedActionForAllowVendedLogsDeliveryForResource?: string;
-  allowedFieldDelimiters?: string[];
-  allowedSuffixPathFields?: string[];
-  deliverySourceConfiguration?: DeliverySourceConfigurationSchema[];
-  s3TablesIntegration?: S3TablesIntegration;
+  service?: string | undefined;
+  logType?: string | undefined;
+  resourceType?: string | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  defaultDeliveryConfigValues?: ConfigurationTemplateDeliveryConfigValues | undefined;
+  allowedFields?: RecordField[] | undefined;
+  allowedOutputFormats?: OutputFormat[] | undefined;
+  allowedActionForAllowVendedLogsDeliveryForResource?: string | undefined;
+  allowedFieldDelimiters?: string[] | undefined;
+  allowedSuffixPathFields?: string[] | undefined;
+  deliverySourceConfiguration?: DeliverySourceConfigurationSchema[] | undefined;
+  s3TablesIntegration?: S3TablesIntegration | undefined;
 }
 export type ConfigurationTemplates = ConfigurationTemplate[];
 export interface DescribeConfigurationTemplatesResponse {
-  configurationTemplates?: ConfigurationTemplate[];
-  nextToken?: string;
+  configurationTemplates?: ConfigurationTemplate[] | undefined;
+  nextToken?: string | undefined;
 }
+export type DeliverySourceNames = string[];
 export interface DescribeDeliveriesRequest {
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  deliverySourceNames?: string[] | undefined;
 }
 export type Deliveries = Delivery[];
 export interface DescribeDeliveriesResponse {
-  deliveries?: Delivery[];
-  nextToken?: string;
+  deliveries?: Delivery[] | undefined;
+  nextToken?: string | undefined;
 }
+export type DeliveryDestinationNames = string[];
 export interface DescribeDeliveryDestinationsRequest {
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  names?: string[] | undefined;
 }
 export interface DeliveryDestinationConfiguration {
   destinationResourceArn: string;
 }
 export interface DeliveryDestination {
-  name?: string;
-  arn?: string;
-  deliveryDestinationType?: DeliveryDestinationType;
-  outputFormat?: OutputFormat;
-  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  arn?: string | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  outputFormat?: OutputFormat | undefined;
+  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration | undefined;
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeliveryDestinations = DeliveryDestination[];
 export interface DescribeDeliveryDestinationsResponse {
-  deliveryDestinations?: DeliveryDestination[];
-  nextToken?: string;
+  deliveryDestinations?: DeliveryDestination[] | undefined;
+  nextToken?: string | undefined;
 }
+export type FilterResourceArns = string[];
 export interface DescribeDeliverySourcesRequest {
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  resourceArns?: string[] | undefined;
 }
 export type ResourceArns = string[];
 export type DeliverySourceConfigurationKey = string;
@@ -663,40 +697,40 @@ export type DeliverySourceConfiguration = { [key: string]: string | undefined };
 export type DeliverySourceStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export type DeliverySourceStatusReason = "RESOURCE_DELETED" | (string & {});
 export interface DeliverySource {
-  name?: string;
-  arn?: string;
-  resourceArns?: string[];
-  service?: string;
-  logType?: string;
-  tags?: { [key: string]: string | undefined };
-  deliverySourceConfiguration?: { [key: string]: string | undefined };
-  status?: DeliverySourceStatus;
-  statusReason?: DeliverySourceStatusReason;
+  name?: string | undefined;
+  arn?: string | undefined;
+  resourceArns?: string[] | undefined;
+  service?: string | undefined;
+  logType?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  deliverySourceConfiguration?: { [key: string]: string | undefined } | undefined;
+  status?: DeliverySourceStatus | undefined;
+  statusReason?: DeliverySourceStatusReason | undefined;
 }
 export type DeliverySources = DeliverySource[];
 export interface DescribeDeliverySourcesResponse {
-  deliverySources?: DeliverySource[];
-  nextToken?: string;
+  deliverySources?: DeliverySource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeDestinationsRequest {
-  DestinationNamePrefix?: string;
-  nextToken?: string;
-  limit?: number;
+  DestinationNamePrefix?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type TargetArn = string;
 export type AccessPolicy = string;
 export interface Destination {
-  destinationName?: string;
-  targetArn?: string;
-  roleArn?: string;
-  accessPolicy?: string;
-  arn?: string;
-  creationTime?: number;
+  destinationName?: string | undefined;
+  targetArn?: string | undefined;
+  roleArn?: string | undefined;
+  accessPolicy?: string | undefined;
+  arn?: string | undefined;
+  creationTime?: number | undefined;
 }
 export type Destinations = Destination[];
 export interface DescribeDestinationsResponse {
-  destinations?: Destination[];
-  nextToken?: string;
+  destinations?: Destination[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ExportTaskStatusCode =
   | "CANCELLED"
@@ -707,135 +741,135 @@ export type ExportTaskStatusCode =
   | "RUNNING"
   | (string & {});
 export interface DescribeExportTasksRequest {
-  taskId?: string;
-  statusCode?: ExportTaskStatusCode;
-  nextToken?: string;
-  limit?: number;
+  taskId?: string | undefined;
+  statusCode?: ExportTaskStatusCode | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type ExportTaskStatusMessage = string;
 export interface ExportTaskStatus {
-  code?: ExportTaskStatusCode;
-  message?: string;
+  code?: ExportTaskStatusCode | undefined;
+  message?: string | undefined;
 }
 export interface ExportTaskExecutionInfo {
-  creationTime?: number;
-  completionTime?: number;
+  creationTime?: number | undefined;
+  completionTime?: number | undefined;
 }
 export interface ExportTask {
-  taskId?: string;
-  taskName?: string;
-  logGroupName?: string;
-  from?: number;
-  to?: number;
-  destination?: string;
-  destinationPrefix?: string;
-  status?: ExportTaskStatus;
-  executionInfo?: ExportTaskExecutionInfo;
+  taskId?: string | undefined;
+  taskName?: string | undefined;
+  logGroupName?: string | undefined;
+  from?: number | undefined;
+  to?: number | undefined;
+  destination?: string | undefined;
+  destinationPrefix?: string | undefined;
+  status?: ExportTaskStatus | undefined;
+  executionInfo?: ExportTaskExecutionInfo | undefined;
 }
 export type ExportTasks = ExportTask[];
 export interface DescribeExportTasksResponse {
-  exportTasks?: ExportTask[];
-  nextToken?: string;
+  exportTasks?: ExportTask[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeFieldIndexesLogGroupIdentifiers = string[];
 export type IndexCategory = "DEFAULT" | "CUSTOM" | "AUTO" | "INACTIVE" | (string & {});
 export type IndexCategories = IndexCategory[];
 export interface DescribeFieldIndexesRequest {
   logGroupIdentifiers: string[];
-  indexCategories?: IndexCategory[];
-  nextToken?: string;
+  indexCategories?: IndexCategory[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FieldIndexName = string;
 export type IndexType = "FACET" | "FIELD_INDEX" | (string & {});
 export interface FieldIndex {
-  logGroupIdentifier?: string;
-  fieldIndexName?: string;
-  lastScanTime?: number;
-  firstEventTime?: number;
-  lastEventTime?: number;
-  type?: IndexType;
-  indexCategory?: IndexCategory;
+  logGroupIdentifier?: string | undefined;
+  fieldIndexName?: string | undefined;
+  lastScanTime?: number | undefined;
+  firstEventTime?: number | undefined;
+  lastEventTime?: number | undefined;
+  type?: IndexType | undefined;
+  indexCategory?: IndexCategory | undefined;
 }
 export type FieldIndexes = FieldIndex[];
 export interface DescribeFieldIndexesResponse {
-  fieldIndexes?: FieldIndex[];
-  nextToken?: string;
+  fieldIndexes?: FieldIndex[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ImportStatusList = ImportStatus[];
 export interface DescribeImportTaskBatchesRequest {
   importId: string;
-  batchImportStatus?: ImportStatus[];
-  limit?: number;
-  nextToken?: string;
+  batchImportStatus?: ImportStatus[] | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type BatchId = string;
 export type ErrorMessage = string;
 export interface ImportBatch {
   batchId: string;
   status: ImportStatus;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type ImportBatchList = ImportBatch[];
 export interface DescribeImportTaskBatchesResponse {
-  importSourceArn?: string;
-  importId?: string;
-  importBatches?: ImportBatch[];
-  nextToken?: string;
+  importSourceArn?: string | undefined;
+  importId?: string | undefined;
+  importBatches?: ImportBatch[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeImportTasksRequest {
-  importId?: string;
-  importStatus?: ImportStatus;
-  importSourceArn?: string;
-  limit?: number;
-  nextToken?: string;
+  importId?: string | undefined;
+  importStatus?: ImportStatus | undefined;
+  importSourceArn?: string | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Import {
-  importId?: string;
-  importSourceArn?: string;
-  importStatus?: ImportStatus;
-  importDestinationArn?: string;
-  importStatistics?: ImportStatistics;
-  importFilter?: ImportFilter;
-  creationTime?: number;
-  lastUpdatedTime?: number;
-  errorMessage?: string;
+  importId?: string | undefined;
+  importSourceArn?: string | undefined;
+  importStatus?: ImportStatus | undefined;
+  importDestinationArn?: string | undefined;
+  importStatistics?: ImportStatistics | undefined;
+  importFilter?: ImportFilter | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
+  errorMessage?: string | undefined;
 }
 export type ImportList = Import[];
 export interface DescribeImportTasksResponse {
-  imports?: Import[];
-  nextToken?: string;
+  imports?: Import[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeIndexPoliciesLogGroupIdentifiers = string[];
 export interface DescribeIndexPoliciesRequest {
   logGroupIdentifiers: string[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type PolicyDocument = string;
 export type IndexSource = "ACCOUNT" | "LOG_GROUP" | (string & {});
 export interface IndexPolicy {
-  logGroupIdentifier?: string;
-  lastUpdateTime?: number;
-  policyDocument?: string;
-  policyName?: string;
-  source?: IndexSource;
+  logGroupIdentifier?: string | undefined;
+  lastUpdateTime?: number | undefined;
+  policyDocument?: string | undefined;
+  policyName?: string | undefined;
+  source?: IndexSource | undefined;
 }
 export type IndexPolicies = IndexPolicy[];
 export interface DescribeIndexPoliciesResponse {
-  indexPolicies?: IndexPolicy[];
-  nextToken?: string;
+  indexPolicies?: IndexPolicy[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LogGroupNamePattern = string;
 export type IncludeLinkedAccounts = boolean;
 export type DescribeLogGroupsLogGroupIdentifiers = string[];
 export interface DescribeLogGroupsRequest {
-  accountIdentifiers?: string[];
-  logGroupNamePrefix?: string;
-  logGroupNamePattern?: string;
-  nextToken?: string;
-  limit?: number;
-  includeLinkedAccounts?: boolean;
-  logGroupClass?: LogGroupClass;
-  logGroupIdentifiers?: string[];
+  accountIdentifiers?: string[] | undefined;
+  logGroupNamePrefix?: string | undefined;
+  logGroupNamePattern?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  includeLinkedAccounts?: boolean | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  logGroupIdentifiers?: string[] | undefined;
 }
 export type Days = number;
 export type FilterCount = number;
@@ -849,84 +883,85 @@ export type InheritedProperty = "ACCOUNT_DATA_PROTECTION" | (string & {});
 export type InheritedProperties = InheritedProperty[];
 export type BearerTokenAuthenticationEnabled = boolean;
 export interface LogGroup {
-  logGroupName?: string;
-  creationTime?: number;
-  retentionInDays?: number;
-  metricFilterCount?: number;
-  arn?: string;
-  storedBytes?: number;
-  kmsKeyId?: string;
-  dataProtectionStatus?: DataProtectionStatus;
-  inheritedProperties?: InheritedProperty[];
-  logGroupClass?: LogGroupClass;
-  logGroupArn?: string;
-  deletionProtectionEnabled?: boolean;
-  bearerTokenAuthenticationEnabled?: boolean;
+  logGroupName?: string | undefined;
+  creationTime?: number | undefined;
+  retentionInDays?: number | undefined;
+  metricFilterCount?: number | undefined;
+  arn?: string | undefined;
+  storedBytes?: number | undefined;
+  kmsKeyId?: string | undefined;
+  dataProtectionStatus?: DataProtectionStatus | undefined;
+  inheritedProperties?: InheritedProperty[] | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  logGroupArn?: string | undefined;
+  deletionProtectionEnabled?: boolean | undefined;
+  bearerTokenAuthenticationEnabled?: boolean | undefined;
+  retentionPolicyName?: string | undefined;
 }
 export type LogGroups = LogGroup[];
 export interface DescribeLogGroupsResponse {
-  logGroups?: LogGroup[];
-  nextToken?: string;
+  logGroups?: LogGroup[] | undefined;
+  nextToken?: string | undefined;
 }
 export type OrderBy = "LogStreamName" | "LastEventTime" | (string & {});
 export type Descending = boolean;
 export interface DescribeLogStreamsRequest {
-  logGroupName?: string;
-  logGroupIdentifier?: string;
-  logStreamNamePrefix?: string;
-  orderBy?: OrderBy;
-  descending?: boolean;
-  nextToken?: string;
-  limit?: number;
+  logGroupName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
+  logStreamNamePrefix?: string | undefined;
+  orderBy?: OrderBy | undefined;
+  descending?: boolean | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type SequenceToken = string;
 export interface LogStream {
-  logStreamName?: string;
-  creationTime?: number;
-  firstEventTimestamp?: number;
-  lastEventTimestamp?: number;
-  lastIngestionTime?: number;
-  uploadSequenceToken?: string;
-  arn?: string;
-  storedBytes?: number;
+  logStreamName?: string | undefined;
+  creationTime?: number | undefined;
+  firstEventTimestamp?: number | undefined;
+  lastEventTimestamp?: number | undefined;
+  lastIngestionTime?: number | undefined;
+  uploadSequenceToken?: string | undefined;
+  arn?: string | undefined;
+  storedBytes?: number | undefined;
 }
 export type LogStreams = LogStream[];
 export interface DescribeLogStreamsResponse {
-  logStreams?: LogStream[];
-  nextToken?: string;
+  logStreams?: LogStream[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DescribeLookupTablesMaxResults = number;
 export interface DescribeLookupTablesRequest {
-  lookupTableNamePrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  lookupTableNamePrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type TableFields = string[];
 export type RecordsCount = number;
 export interface LookupTable {
-  lookupTableArn?: string;
-  lookupTableName?: string;
-  description?: string;
-  tableFields?: string[];
-  recordsCount?: number;
-  sizeBytes?: number;
-  lastUpdatedTime?: number;
-  kmsKeyId?: string;
+  lookupTableArn?: string | undefined;
+  lookupTableName?: string | undefined;
+  description?: string | undefined;
+  tableFields?: string[] | undefined;
+  recordsCount?: number | undefined;
+  sizeBytes?: number | undefined;
+  lastUpdatedTime?: number | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type LookupTables = LookupTable[];
 export interface DescribeLookupTablesResponse {
-  lookupTables?: LookupTable[];
-  nextToken?: string;
+  lookupTables?: LookupTable[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MetricName = string;
 export type MetricNamespace = string;
 export interface DescribeMetricFiltersRequest {
-  logGroupName?: string;
-  filterNamePrefix?: string;
-  nextToken?: string;
-  limit?: number;
-  metricName?: string;
-  metricNamespace?: string;
+  logGroupName?: string | undefined;
+  filterNamePrefix?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  metricName?: string | undefined;
+  metricNamespace?: string | undefined;
 }
 export type MetricValue = string;
 export type DefaultValue = number;
@@ -966,9 +1001,9 @@ export interface MetricTransformation {
   metricName: string;
   metricNamespace: string;
   metricValue: string;
-  defaultValue?: number;
-  dimensions?: { [key: string]: string | undefined };
-  unit?: StandardUnit;
+  defaultValue?: number | undefined;
+  dimensions?: { [key: string]: string | undefined } | undefined;
+  unit?: StandardUnit | undefined;
 }
 export type MetricTransformations = MetricTransformation[];
 export type ApplyOnTransformedLogs = boolean;
@@ -976,19 +1011,19 @@ export type FieldSelectionCriteria = string;
 export type SystemField = string;
 export type EmitSystemFields = string[];
 export interface MetricFilter {
-  filterName?: string;
-  filterPattern?: string;
-  metricTransformations?: MetricTransformation[];
-  creationTime?: number;
-  logGroupName?: string;
-  applyOnTransformedLogs?: boolean;
-  fieldSelectionCriteria?: string;
-  emitSystemFieldDimensions?: string[];
+  filterName?: string | undefined;
+  filterPattern?: string | undefined;
+  metricTransformations?: MetricTransformation[] | undefined;
+  creationTime?: number | undefined;
+  logGroupName?: string | undefined;
+  applyOnTransformedLogs?: boolean | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFieldDimensions?: string[] | undefined;
 }
 export type MetricFilters = MetricFilter[];
 export interface DescribeMetricFiltersResponse {
-  metricFilters?: MetricFilter[];
-  nextToken?: string;
+  metricFilters?: MetricFilter[] | undefined;
+  nextToken?: string | undefined;
 }
 export type QueryStatus =
   | "Scheduled"
@@ -1001,38 +1036,38 @@ export type QueryStatus =
   | (string & {});
 export type DescribeQueriesMaxResults = number;
 export interface DescribeQueriesRequest {
-  logGroupName?: string;
-  status?: QueryStatus;
-  maxResults?: number;
-  nextToken?: string;
-  queryLanguage?: QueryLanguage;
+  logGroupName?: string | undefined;
+  status?: QueryStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  queryLanguage?: QueryLanguage | undefined;
 }
 export type QueryDuration = number;
 export type BytesScannedValue = number;
 export type UserIdentity = string;
 export interface QueryInfo {
-  queryLanguage?: QueryLanguage;
-  queryId?: string;
-  queryString?: string;
-  status?: QueryStatus;
-  createTime?: number;
-  logGroupName?: string;
-  queryDuration?: number;
-  bytesScanned?: number;
-  userIdentity?: string;
+  queryLanguage?: QueryLanguage | undefined;
+  queryId?: string | undefined;
+  queryString?: string | undefined;
+  status?: QueryStatus | undefined;
+  createTime?: number | undefined;
+  logGroupName?: string | undefined;
+  queryDuration?: number | undefined;
+  bytesScanned?: number | undefined;
+  userIdentity?: string | undefined;
 }
 export type QueryInfoList = QueryInfo[];
 export interface DescribeQueriesResponse {
-  queries?: QueryInfo[];
-  nextToken?: string;
+  queries?: QueryInfo[] | undefined;
+  nextToken?: string | undefined;
 }
 export type QueryDefinitionName = string;
 export type QueryListMaxResults = number;
 export interface DescribeQueryDefinitionsRequest {
-  queryLanguage?: QueryLanguage;
-  queryDefinitionNamePrefix?: string;
-  maxResults?: number;
-  nextToken?: string;
+  queryLanguage?: QueryLanguage | undefined;
+  queryDefinitionNamePrefix?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type QueryDefinitionString = string;
 export type LogGroupNames = string[];
@@ -1041,79 +1076,79 @@ export type QueryParameterDefaultValue = string;
 export type QueryParameterDescription = string;
 export interface QueryParameter {
   name: string;
-  defaultValue?: string;
-  description?: string;
+  defaultValue?: string | undefined;
+  description?: string | undefined;
 }
 export type QueryParameterList = QueryParameter[];
 export interface QueryDefinition {
-  queryLanguage?: QueryLanguage;
-  queryDefinitionId?: string;
-  name?: string;
-  queryString?: string;
-  lastModified?: number;
-  logGroupNames?: string[];
-  parameters?: QueryParameter[];
+  queryLanguage?: QueryLanguage | undefined;
+  queryDefinitionId?: string | undefined;
+  name?: string | undefined;
+  queryString?: string | undefined;
+  lastModified?: number | undefined;
+  logGroupNames?: string[] | undefined;
+  parameters?: QueryParameter[] | undefined;
 }
 export type QueryDefinitionList = QueryDefinition[];
 export interface DescribeQueryDefinitionsResponse {
-  queryDefinitions?: QueryDefinition[];
-  nextToken?: string;
+  queryDefinitions?: QueryDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export type PolicyScope = "ACCOUNT" | "RESOURCE" | (string & {});
 export interface DescribeResourcePoliciesRequest {
-  nextToken?: string;
-  limit?: number;
-  resourceArn?: string;
-  policyScope?: PolicyScope;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  resourceArn?: string | undefined;
+  policyScope?: PolicyScope | undefined;
 }
 export interface ResourcePolicy {
-  policyName?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
-  policyScope?: PolicyScope;
-  resourceArn?: string;
-  revisionId?: string;
+  policyName?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
+  policyScope?: PolicyScope | undefined;
+  resourceArn?: string | undefined;
+  revisionId?: string | undefined;
 }
 export type ResourcePolicies = ResourcePolicy[];
 export interface DescribeResourcePoliciesResponse {
-  resourcePolicies?: ResourcePolicy[];
-  nextToken?: string;
+  resourcePolicies?: ResourcePolicy[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeSubscriptionFiltersRequest {
   logGroupName: string;
-  filterNamePrefix?: string;
-  nextToken?: string;
-  limit?: number;
+  filterNamePrefix?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type DestinationArn = string;
 export type Distribution = "Random" | "ByLogStream" | (string & {});
 export interface SubscriptionFilter {
-  filterName?: string;
-  logGroupName?: string;
-  filterPattern?: string;
-  destinationArn?: string;
-  roleArn?: string;
-  distribution?: Distribution;
-  applyOnTransformedLogs?: boolean;
-  creationTime?: number;
-  fieldSelectionCriteria?: string;
-  emitSystemFields?: string[];
+  filterName?: string | undefined;
+  logGroupName?: string | undefined;
+  filterPattern?: string | undefined;
+  destinationArn?: string | undefined;
+  roleArn?: string | undefined;
+  distribution?: Distribution | undefined;
+  applyOnTransformedLogs?: boolean | undefined;
+  creationTime?: number | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFields?: string[] | undefined;
 }
 export type SubscriptionFilters = SubscriptionFilter[];
 export interface DescribeSubscriptionFiltersResponse {
-  subscriptionFilters?: SubscriptionFilter[];
-  nextToken?: string;
+  subscriptionFilters?: SubscriptionFilter[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DisassociateKmsKeyRequest {
-  logGroupName?: string;
-  resourceIdentifier?: string;
+  logGroupName?: string | undefined;
+  resourceIdentifier?: string | undefined;
 }
 export interface DisassociateKmsKeyResponse {}
 export interface DisassociateSourceFromS3TableIntegrationRequest {
   identifier: string;
 }
 export interface DisassociateSourceFromS3TableIntegrationResponse {
-  identifier?: string;
+  identifier?: string | undefined;
 }
 export type InputLogStreamNames = string[];
 export type EventsLimit = number;
@@ -1121,76 +1156,76 @@ export type StartFromHead = boolean;
 export type Interleaved = boolean;
 export type Unmask = boolean;
 export interface FilterLogEventsRequest {
-  logGroupName?: string;
-  logGroupIdentifier?: string;
-  logStreamNames?: string[];
-  logStreamNamePrefix?: string;
-  startTime?: number;
-  endTime?: number;
-  filterPattern?: string;
-  nextToken?: string;
-  limit?: number;
-  startFromHead?: boolean;
-  interleaved?: boolean;
-  unmask?: boolean;
+  logGroupName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
+  logStreamNames?: string[] | undefined;
+  logStreamNamePrefix?: string | undefined;
+  startTime?: number | undefined;
+  endTime?: number | undefined;
+  filterPattern?: string | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  startFromHead?: boolean | undefined;
+  interleaved?: boolean | undefined;
+  unmask?: boolean | undefined;
 }
 export type EventMessage = string;
 export type EventId = string;
 export interface FilteredLogEvent {
-  logStreamName?: string;
-  timestamp?: number;
-  message?: string;
-  ingestionTime?: number;
-  eventId?: string;
+  logStreamName?: string | undefined;
+  timestamp?: number | undefined;
+  message?: string | undefined;
+  ingestionTime?: number | undefined;
+  eventId?: string | undefined;
 }
 export type FilteredLogEvents = FilteredLogEvent[];
 export type LogStreamSearchedCompletely = boolean;
 export interface SearchedLogStream {
-  logStreamName?: string;
-  searchedCompletely?: boolean;
+  logStreamName?: string | undefined;
+  searchedCompletely?: boolean | undefined;
 }
 export type SearchedLogStreams = SearchedLogStream[];
 export interface FilterLogEventsResponse {
-  events?: FilteredLogEvent[];
-  searchedLogStreams?: SearchedLogStream[];
-  nextToken?: string;
+  events?: FilteredLogEvent[] | undefined;
+  searchedLogStreams?: SearchedLogStream[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetDataProtectionPolicyRequest {
   logGroupIdentifier: string;
 }
 export type DataProtectionPolicyDocument = string;
 export interface GetDataProtectionPolicyResponse {
-  logGroupIdentifier?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
+  logGroupIdentifier?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface GetDeliveryRequest {
   id: string;
 }
 export interface GetDeliveryResponse {
-  delivery?: Delivery;
+  delivery?: Delivery | undefined;
 }
 export interface GetDeliveryDestinationRequest {
   name: string;
 }
 export interface GetDeliveryDestinationResponse {
-  deliveryDestination?: DeliveryDestination;
+  deliveryDestination?: DeliveryDestination | undefined;
 }
 export interface GetDeliveryDestinationPolicyRequest {
   deliveryDestinationName: string;
 }
 export type DeliveryDestinationPolicy = string;
 export interface Policy {
-  deliveryDestinationPolicy?: string;
+  deliveryDestinationPolicy?: string | undefined;
 }
 export interface GetDeliveryDestinationPolicyResponse {
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface GetDeliverySourceRequest {
   name: string;
 }
 export interface GetDeliverySourceResponse {
-  deliverySource?: DeliverySource;
+  deliverySource?: DeliverySource | undefined;
 }
 export interface GetIntegrationRequest {
   integrationName: string;
@@ -1201,65 +1236,65 @@ export type OpenSearchDataSourceName = string;
 export type OpenSearchResourceStatusType = "ACTIVE" | "NOT_FOUND" | "ERROR" | (string & {});
 export type IntegrationStatusMessage = string;
 export interface OpenSearchResourceStatus {
-  status?: OpenSearchResourceStatusType;
-  statusMessage?: string;
+  status?: OpenSearchResourceStatusType | undefined;
+  statusMessage?: string | undefined;
 }
 export interface OpenSearchDataSource {
-  dataSourceName?: string;
-  status?: OpenSearchResourceStatus;
+  dataSourceName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchApplicationEndpoint = string;
 export type OpenSearchApplicationId = string;
 export interface OpenSearchApplication {
-  applicationEndpoint?: string;
-  applicationArn?: string;
-  applicationId?: string;
-  status?: OpenSearchResourceStatus;
+  applicationEndpoint?: string | undefined;
+  applicationArn?: string | undefined;
+  applicationId?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchCollectionEndpoint = string;
 export interface OpenSearchCollection {
-  collectionEndpoint?: string;
-  collectionArn?: string;
-  status?: OpenSearchResourceStatus;
+  collectionEndpoint?: string | undefined;
+  collectionArn?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchWorkspaceId = string;
 export interface OpenSearchWorkspace {
-  workspaceId?: string;
-  status?: OpenSearchResourceStatus;
+  workspaceId?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export type OpenSearchPolicyName = string;
 export interface OpenSearchEncryptionPolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchNetworkPolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchDataAccessPolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchLifecyclePolicy {
-  policyName?: string;
-  status?: OpenSearchResourceStatus;
+  policyName?: string | undefined;
+  status?: OpenSearchResourceStatus | undefined;
 }
 export interface OpenSearchIntegrationDetails {
-  dataSource?: OpenSearchDataSource;
-  application?: OpenSearchApplication;
-  collection?: OpenSearchCollection;
-  workspace?: OpenSearchWorkspace;
-  encryptionPolicy?: OpenSearchEncryptionPolicy;
-  networkPolicy?: OpenSearchNetworkPolicy;
-  accessPolicy?: OpenSearchDataAccessPolicy;
-  lifecyclePolicy?: OpenSearchLifecyclePolicy;
+  dataSource?: OpenSearchDataSource | undefined;
+  application?: OpenSearchApplication | undefined;
+  collection?: OpenSearchCollection | undefined;
+  workspace?: OpenSearchWorkspace | undefined;
+  encryptionPolicy?: OpenSearchEncryptionPolicy | undefined;
+  networkPolicy?: OpenSearchNetworkPolicy | undefined;
+  accessPolicy?: OpenSearchDataAccessPolicy | undefined;
+  lifecyclePolicy?: OpenSearchLifecyclePolicy | undefined;
 }
 export type IntegrationDetails = { openSearchIntegrationDetails: OpenSearchIntegrationDetails };
 export interface GetIntegrationResponse {
-  integrationName?: string;
-  integrationType?: IntegrationType;
-  integrationStatus?: IntegrationStatus;
-  integrationDetails?: IntegrationDetails;
+  integrationName?: string | undefined;
+  integrationType?: IntegrationType | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
+  integrationDetails?: IntegrationDetails | undefined;
 }
 export interface GetLogAnomalyDetectorRequest {
   anomalyDetectorArn: string;
@@ -1274,37 +1309,37 @@ export type AnomalyDetectorStatus =
   | (string & {});
 export type EpochMillis = number;
 export interface GetLogAnomalyDetectorResponse {
-  detectorName?: string;
-  logGroupArnList?: string[];
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  anomalyDetectorStatus?: AnomalyDetectorStatus;
-  kmsKeyId?: string;
-  creationTimeStamp?: number;
-  lastModifiedTimeStamp?: number;
-  anomalyVisibilityTime?: number;
+  detectorName?: string | undefined;
+  logGroupArnList?: string[] | undefined;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  anomalyDetectorStatus?: AnomalyDetectorStatus | undefined;
+  kmsKeyId?: string | undefined;
+  creationTimeStamp?: number | undefined;
+  lastModifiedTimeStamp?: number | undefined;
+  anomalyVisibilityTime?: number | undefined;
 }
 export interface GetLogEventsRequest {
-  logGroupName?: string;
-  logGroupIdentifier?: string;
+  logGroupName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
   logStreamName: string;
-  startTime?: number;
-  endTime?: number;
-  nextToken?: string;
-  limit?: number;
-  startFromHead?: boolean;
-  unmask?: boolean;
+  startTime?: number | undefined;
+  endTime?: number | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  startFromHead?: boolean | undefined;
+  unmask?: boolean | undefined;
 }
 export interface OutputLogEvent {
-  timestamp?: number;
-  message?: string;
-  ingestionTime?: number;
+  timestamp?: number | undefined;
+  message?: string | undefined;
+  ingestionTime?: number | undefined;
 }
 export type OutputLogEvents = OutputLogEvent[];
 export interface GetLogEventsResponse {
-  events?: OutputLogEvent[];
-  nextForwardToken?: string;
-  nextBackwardToken?: string;
+  events?: OutputLogEvent[] | undefined;
+  nextForwardToken?: string | undefined;
+  nextBackwardToken?: string | undefined;
 }
 export interface GetLogFieldsRequest {
   dataSourceName: string;
@@ -1313,105 +1348,105 @@ export interface GetLogFieldsRequest {
 export type LogFieldName = string;
 export type DataType = string;
 export interface LogFieldType {
-  type?: string;
-  element?: LogFieldType;
-  fields?: LogFieldsListItem[];
+  type?: string | undefined;
+  element?: LogFieldType | undefined;
+  fields?: LogFieldsListItem[] | undefined;
 }
 export interface LogFieldsListItem {
-  logFieldName?: string;
-  logFieldType?: LogFieldType;
+  logFieldName?: string | undefined;
+  logFieldType?: LogFieldType | undefined;
 }
 export type LogFieldsList = LogFieldsListItem[];
 export interface GetLogFieldsResponse {
-  logFields?: LogFieldsListItem[];
+  logFields?: LogFieldsListItem[] | undefined;
 }
 export interface GetLogGroupFieldsRequest {
-  logGroupName?: string;
-  time?: number;
-  logGroupIdentifier?: string;
+  logGroupName?: string | undefined;
+  time?: number | undefined;
+  logGroupIdentifier?: string | undefined;
 }
 export type Field = string;
 export type Percentage = number;
 export interface LogGroupField {
-  name?: string;
-  percent?: number;
+  name?: string | undefined;
+  percent?: number | undefined;
 }
 export type LogGroupFieldList = LogGroupField[];
 export interface GetLogGroupFieldsResponse {
-  logGroupFields?: LogGroupField[];
+  logGroupFields?: LogGroupField[] | undefined;
 }
 export type LogObjectPointer = string;
 export interface GetLogObjectRequest {
-  unmask?: boolean;
+  unmask?: boolean | undefined;
   logObjectPointer: string;
 }
 export type Data = Uint8Array;
 export interface FieldsData {
-  data?: Uint8Array;
+  data?: Uint8Array | undefined;
 }
 export type Message = string;
 export interface InternalStreamingException {
-  message?: string;
+  message?: string | undefined;
 }
 export type GetLogObjectResponseStream =
-  | { fields: FieldsData; InternalStreamingException?: never }
-  | { fields?: never; InternalStreamingException: InternalStreamingException };
+  | { fields: FieldsData; InternalStreamingException?: undefined }
+  | { fields?: undefined; InternalStreamingException: InternalStreamingException };
 export interface GetLogObjectResponse {
-  fieldStream?: stream.Stream<GetLogObjectResponseStream, Error, never>;
+  fieldStream?: stream.Stream<GetLogObjectResponseStream, Error, never> | undefined;
 }
 export type LogRecordPointer = string;
 export interface GetLogRecordRequest {
   logRecordPointer: string;
-  unmask?: boolean;
+  unmask?: boolean | undefined;
 }
 export type Value = string;
 export type LogRecord = { [key: string]: string | undefined };
 export interface GetLogRecordResponse {
-  logRecord?: { [key: string]: string | undefined };
+  logRecord?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLookupTableRequest {
   lookupTableArn: string;
 }
 export interface GetLookupTableResponse {
-  lookupTableArn?: string;
-  lookupTableName?: string;
-  description?: string;
-  tableBody?: string;
-  sizeBytes?: number;
-  lastUpdatedTime?: number;
-  kmsKeyId?: string;
+  lookupTableArn?: string | undefined;
+  lookupTableName?: string | undefined;
+  description?: string | undefined;
+  tableBody?: string | undefined;
+  sizeBytes?: number | undefined;
+  lastUpdatedTime?: number | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type GetQueryResultsNextToken = string;
 export type GetQueryResultsMaxItems = number;
 export interface GetQueryResultsRequest {
   queryId: string;
-  nextToken?: string;
-  maxItems?: number;
+  nextToken?: string | undefined;
+  maxItems?: number | undefined;
 }
 export interface ResultField {
-  field?: string;
-  value?: string;
+  field?: string | undefined;
+  value?: string | undefined;
 }
 export type ResultRows = ResultField[];
 export type QueryResults = ResultField[][];
 export type StatsValue = number;
 export interface QueryStatistics {
-  recordsMatched?: number;
-  recordsScanned?: number;
-  estimatedRecordsSkipped?: number;
-  bytesScanned?: number;
-  estimatedBytesSkipped?: number;
-  logGroupsScanned?: number;
-  resultCount?: number;
+  recordsMatched?: number | undefined;
+  recordsScanned?: number | undefined;
+  estimatedRecordsSkipped?: number | undefined;
+  bytesScanned?: number | undefined;
+  estimatedBytesSkipped?: number | undefined;
+  logGroupsScanned?: number | undefined;
+  resultCount?: number | undefined;
 }
 export type EncryptionKey = string;
 export interface GetQueryResultsResponse {
-  queryLanguage?: QueryLanguage;
-  results?: ResultField[][];
-  statistics?: QueryStatistics;
-  status?: QueryStatus;
-  encryptionKey?: string;
-  nextToken?: string;
+  queryLanguage?: QueryLanguage | undefined;
+  results?: ResultField[][] | undefined;
+  statistics?: QueryStatistics | undefined;
+  status?: QueryStatus | undefined;
+  encryptionKey?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetScheduledQueryRequest {
   identifier: string;
@@ -1425,26 +1460,26 @@ export type ExecutionStatus =
   | "Timeout"
   | (string & {});
 export interface GetScheduledQueryResponse {
-  scheduledQueryArn?: string;
-  name?: string;
-  description?: string;
-  queryLanguage?: QueryLanguage;
-  queryString?: string;
-  logGroupIdentifiers?: string[];
-  scheduleExpression?: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
-  lastTriggeredTime?: number;
-  lastExecutionStatus?: ExecutionStatus;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
-  executionRoleArn?: string;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  scheduledQueryArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  queryLanguage?: QueryLanguage | undefined;
+  queryString?: string | undefined;
+  logGroupIdentifiers?: string[] | undefined;
+  scheduleExpression?: string | undefined;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
+  lastTriggeredTime?: number | undefined;
+  lastExecutionStatus?: ExecutionStatus | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
+  executionRoleArn?: string | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type ExecutionStatusList = ExecutionStatus[];
 export type GetScheduledQueryHistoryMaxResults = number;
@@ -1452,39 +1487,39 @@ export interface GetScheduledQueryHistoryRequest {
   identifier: string;
   startTime: number;
   endTime: number;
-  executionStatuses?: ExecutionStatus[];
-  maxResults?: number;
-  nextToken?: string;
+  executionStatuses?: ExecutionStatus[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ScheduledQueryDestinationType = "S3" | "LOOKUP_TABLE" | (string & {});
 export type ActionStatus = "IN_PROGRESS" | "CLIENT_ERROR" | "FAILED" | "COMPLETE" | (string & {});
 export interface ScheduledQueryDestination {
-  destinationType?: ScheduledQueryDestinationType;
-  destinationIdentifier?: string;
-  status?: ActionStatus;
-  processedIdentifier?: string;
-  errorMessage?: string;
+  destinationType?: ScheduledQueryDestinationType | undefined;
+  destinationIdentifier?: string | undefined;
+  status?: ActionStatus | undefined;
+  processedIdentifier?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type ScheduledQueryDestinationList = ScheduledQueryDestination[];
 export interface TriggerHistoryRecord {
-  queryId?: string;
-  executionStatus?: ExecutionStatus;
-  triggeredTimestamp?: number;
-  errorMessage?: string;
-  destinations?: ScheduledQueryDestination[];
+  queryId?: string | undefined;
+  executionStatus?: ExecutionStatus | undefined;
+  triggeredTimestamp?: number | undefined;
+  errorMessage?: string | undefined;
+  destinations?: ScheduledQueryDestination[] | undefined;
 }
 export type TriggerHistoryRecordList = TriggerHistoryRecord[];
 export interface GetScheduledQueryHistoryResponse {
-  name?: string;
-  scheduledQueryArn?: string;
-  triggerHistory?: TriggerHistoryRecord[];
-  nextToken?: string;
+  name?: string | undefined;
+  scheduledQueryArn?: string | undefined;
+  triggerHistory?: TriggerHistoryRecord[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetStorageTierPolicyRequest {}
 export type StorageTier = "STANDARD" | "INTELLIGENT_TIERING" | (string & {});
 export interface GetStorageTierPolicyResponse {
-  storageTier?: StorageTier;
-  lastUpdatedTime?: number;
+  storageTier?: StorageTier | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface GetTransformerRequest {
   logGroupIdentifier: string;
@@ -1495,7 +1530,7 @@ export type OverwriteIfExists = boolean;
 export interface AddKeyEntry {
   key: string;
   value: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type AddKeyEntries = AddKeyEntry[];
 export interface AddKeys {
@@ -1506,7 +1541,7 @@ export type Target = string;
 export interface CopyValueEntry {
   source: string;
   target: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type CopyValueEntries = CopyValueEntry[];
 export interface CopyValue {
@@ -1518,11 +1553,11 @@ export type Column = string;
 export type Columns = string[];
 export type DestinationField = string;
 export interface CSV {
-  quoteCharacter?: string;
-  delimiter?: string;
-  columns?: string[];
-  source?: string;
-  destination?: string;
+  quoteCharacter?: string | undefined;
+  delimiter?: string | undefined;
+  columns?: string[] | undefined;
+  source?: string | undefined;
+  destination?: string | undefined;
 }
 export type TargetFormat = string;
 export type MatchPattern = string;
@@ -1533,11 +1568,11 @@ export type Locale = string;
 export interface DateTimeConverter {
   source: string;
   target: string;
-  targetFormat?: string;
+  targetFormat?: string | undefined;
   matchPatterns: string[];
-  sourceTimezone?: string;
-  targetTimezone?: string;
-  locale?: string;
+  sourceTimezone?: string | undefined;
+  targetTimezone?: string | undefined;
+  locale?: string | undefined;
 }
 export type WithKey = string;
 export type DeleteWithKeys = string[];
@@ -1546,7 +1581,7 @@ export interface DeleteKeys {
 }
 export type GrokMatch = string;
 export interface Grok {
-  source?: string;
+  source?: string | undefined;
   match: string;
 }
 export type ValueKey = string;
@@ -1555,10 +1590,10 @@ export type FlattenedElement = "first" | "last" | (string & {});
 export interface ListToMap {
   source: string;
   key: string;
-  valueKey?: string;
-  target?: string;
-  flatten?: boolean;
-  flattenedElement?: FlattenedElement;
+  valueKey?: string | undefined;
+  target?: string | undefined;
+  flatten?: boolean | undefined;
+  flattenedElement?: FlattenedElement | undefined;
 }
 export type LowerCaseStringWithKeys = string[];
 export interface LowerCaseString {
@@ -1567,34 +1602,34 @@ export interface LowerCaseString {
 export interface MoveKeyEntry {
   source: string;
   target: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type MoveKeyEntries = MoveKeyEntry[];
 export interface MoveKeys {
   entries: MoveKeyEntry[];
 }
 export interface ParseCloudfront {
-  source?: string;
+  source?: string | undefined;
 }
 export interface ParseJSON {
-  source?: string;
-  destination?: string;
+  source?: string | undefined;
+  destination?: string | undefined;
 }
 export type ParserFieldDelimiter = string;
 export type KeyValueDelimiter = string;
 export type KeyPrefix = string;
 export type NonMatchValue = string;
 export interface ParseKeyValue {
-  source?: string;
-  destination?: string;
-  fieldDelimiter?: string;
-  keyValueDelimiter?: string;
-  keyPrefix?: string;
-  nonMatchValue?: string;
-  overwriteIfExists?: boolean;
+  source?: string | undefined;
+  destination?: string | undefined;
+  fieldDelimiter?: string | undefined;
+  keyValueDelimiter?: string | undefined;
+  keyPrefix?: string | undefined;
+  nonMatchValue?: string | undefined;
+  overwriteIfExists?: boolean | undefined;
 }
 export interface ParseRoute53 {
-  source?: string;
+  source?: string | undefined;
 }
 export type EventSource =
   | "CloudTrail"
@@ -1606,25 +1641,25 @@ export type EventSource =
 export type OCSFVersion = "V1.1" | "V1.5" | (string & {});
 export type MappingVersion = string;
 export interface ParseToOCSF {
-  source?: string;
+  source?: string | undefined;
   eventSource: EventSource;
   ocsfVersion: OCSFVersion;
-  mappingVersion?: string;
+  mappingVersion?: string | undefined;
 }
 export interface ParsePostgres {
-  source?: string;
+  source?: string | undefined;
 }
 export interface ParseVPC {
-  source?: string;
+  source?: string | undefined;
 }
 export interface ParseWAF {
-  source?: string;
+  source?: string | undefined;
 }
 export type RenameTo = string;
 export interface RenameKeyEntry {
   key: string;
   renameTo: string;
-  overwriteIfExists?: boolean;
+  overwriteIfExists?: boolean | undefined;
 }
 export type RenameKeyEntries = RenameKeyEntry[];
 export interface RenameKeys {
@@ -1668,41 +1703,41 @@ export interface UpperCaseString {
   withKeys: string[];
 }
 export interface Processor {
-  addKeys?: AddKeys;
-  copyValue?: CopyValue;
-  csv?: CSV;
-  dateTimeConverter?: DateTimeConverter;
-  deleteKeys?: DeleteKeys;
-  grok?: Grok;
-  listToMap?: ListToMap;
-  lowerCaseString?: LowerCaseString;
-  moveKeys?: MoveKeys;
-  parseCloudfront?: ParseCloudfront;
-  parseJSON?: ParseJSON;
-  parseKeyValue?: ParseKeyValue;
-  parseRoute53?: ParseRoute53;
-  parseToOCSF?: ParseToOCSF;
-  parsePostgres?: ParsePostgres;
-  parseVPC?: ParseVPC;
-  parseWAF?: ParseWAF;
-  renameKeys?: RenameKeys;
-  splitString?: SplitString;
-  substituteString?: SubstituteString;
-  trimString?: TrimString;
-  typeConverter?: TypeConverter;
-  upperCaseString?: UpperCaseString;
+  addKeys?: AddKeys | undefined;
+  copyValue?: CopyValue | undefined;
+  csv?: CSV | undefined;
+  dateTimeConverter?: DateTimeConverter | undefined;
+  deleteKeys?: DeleteKeys | undefined;
+  grok?: Grok | undefined;
+  listToMap?: ListToMap | undefined;
+  lowerCaseString?: LowerCaseString | undefined;
+  moveKeys?: MoveKeys | undefined;
+  parseCloudfront?: ParseCloudfront | undefined;
+  parseJSON?: ParseJSON | undefined;
+  parseKeyValue?: ParseKeyValue | undefined;
+  parseRoute53?: ParseRoute53 | undefined;
+  parseToOCSF?: ParseToOCSF | undefined;
+  parsePostgres?: ParsePostgres | undefined;
+  parseVPC?: ParseVPC | undefined;
+  parseWAF?: ParseWAF | undefined;
+  renameKeys?: RenameKeys | undefined;
+  splitString?: SplitString | undefined;
+  substituteString?: SubstituteString | undefined;
+  trimString?: TrimString | undefined;
+  typeConverter?: TypeConverter | undefined;
+  upperCaseString?: UpperCaseString | undefined;
 }
 export type Processors = Processor[];
 export interface GetTransformerResponse {
-  logGroupIdentifier?: string;
-  creationTime?: number;
-  lastModifiedTime?: number;
-  transformerConfig?: Processor[];
+  logGroupIdentifier?: string | undefined;
+  creationTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  transformerConfig?: Processor[] | undefined;
 }
 export type LogGroupNameRegexPattern = string;
 export interface DataSourceFilter {
   name: string;
-  type?: string;
+  type?: string | undefined;
 }
 export type DataSourceFilters = DataSourceFilter[];
 export type ListAggregateLogGroupSummariesGroupBy =
@@ -1711,39 +1746,39 @@ export type ListAggregateLogGroupSummariesGroupBy =
   | (string & {});
 export type ListLogGroupsRequestLimit = number;
 export interface ListAggregateLogGroupSummariesRequest {
-  accountIdentifiers?: string[];
-  includeLinkedAccounts?: boolean;
-  logGroupClass?: LogGroupClass;
-  logGroupNamePattern?: string;
-  dataSources?: DataSourceFilter[];
+  accountIdentifiers?: string[] | undefined;
+  includeLinkedAccounts?: boolean | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  logGroupNamePattern?: string | undefined;
+  dataSources?: DataSourceFilter[] | undefined;
   groupBy: ListAggregateLogGroupSummariesGroupBy;
-  nextToken?: string;
-  limit?: number;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
 }
 export type LogGroupCount = number;
 export type GroupingIdentifierKey = string;
 export type GroupingIdentifierValue = string;
 export interface GroupingIdentifier {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type GroupingIdentifiers = GroupingIdentifier[];
 export interface AggregateLogGroupSummary {
-  logGroupCount?: number;
-  groupingIdentifiers?: GroupingIdentifier[];
+  logGroupCount?: number | undefined;
+  groupingIdentifiers?: GroupingIdentifier[] | undefined;
 }
 export type AggregateLogGroupSummaries = AggregateLogGroupSummary[];
 export interface ListAggregateLogGroupSummariesResponse {
-  aggregateLogGroupSummaries?: AggregateLogGroupSummary[];
-  nextToken?: string;
+  aggregateLogGroupSummaries?: AggregateLogGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SuppressionState = "SUPPRESSED" | "UNSUPPRESSED" | (string & {});
 export type ListAnomaliesLimit = number;
 export interface ListAnomaliesRequest {
-  anomalyDetectorArn?: string;
-  suppressionState?: SuppressionState;
-  limit?: number;
-  nextToken?: string;
+  anomalyDetectorArn?: string | undefined;
+  suppressionState?: SuppressionState | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AnomalyId = string;
 export type PatternId = string;
@@ -1755,8 +1790,8 @@ export type State = "Active" | "Suppressed" | "Baseline" | (string & {});
 export type Count = number;
 export type Histogram = { [key: string]: number | undefined };
 export interface LogEvent {
-  timestamp?: number;
-  message?: string;
+  timestamp?: number | undefined;
+  message?: string | undefined;
 }
 export type LogSamples = LogEvent[];
 export type DynamicTokenPosition = number;
@@ -1765,11 +1800,11 @@ export type TokenValue = number;
 export type Enumerations = { [key: string]: number | undefined };
 export type InferredTokenName = string;
 export interface PatternToken {
-  dynamicTokenPosition?: number;
-  isDynamic?: boolean;
-  tokenString?: string;
-  enumerations?: { [key: string]: number | undefined };
-  inferredTokenName?: string;
+  dynamicTokenPosition?: number | undefined;
+  isDynamic?: boolean | undefined;
+  tokenString?: string | undefined;
+  enumerations?: { [key: string]: number | undefined } | undefined;
+  inferredTokenName?: string | undefined;
 }
 export type PatternTokens = PatternToken[];
 export interface Anomaly {
@@ -1777,8 +1812,8 @@ export interface Anomaly {
   patternId: string;
   anomalyDetectorArn: string;
   patternString: string;
-  patternRegex?: string;
-  priority?: string;
+  patternRegex?: string | undefined;
+  priority?: string | undefined;
   firstSeen: number;
   lastSeen: number;
   description: string;
@@ -1788,53 +1823,53 @@ export interface Anomaly {
   logSamples: LogEvent[];
   patternTokens: PatternToken[];
   logGroupArnList: string[];
-  suppressed?: boolean;
-  suppressedDate?: number;
-  suppressedUntil?: number;
-  isPatternLevelSuppression?: boolean;
+  suppressed?: boolean | undefined;
+  suppressedDate?: number | undefined;
+  suppressedUntil?: number | undefined;
+  isPatternLevelSuppression?: boolean | undefined;
 }
 export type Anomalies = Anomaly[];
 export interface ListAnomaliesResponse {
-  anomalies?: Anomaly[];
-  nextToken?: string;
+  anomalies?: Anomaly[] | undefined;
+  nextToken?: string | undefined;
 }
 export type IntegrationNamePrefix = string;
 export interface ListIntegrationsRequest {
-  integrationNamePrefix?: string;
-  integrationType?: IntegrationType;
-  integrationStatus?: IntegrationStatus;
+  integrationNamePrefix?: string | undefined;
+  integrationType?: IntegrationType | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
 }
 export interface IntegrationSummary {
-  integrationName?: string;
-  integrationType?: IntegrationType;
-  integrationStatus?: IntegrationStatus;
+  integrationName?: string | undefined;
+  integrationType?: IntegrationType | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
 }
 export type IntegrationSummaries = IntegrationSummary[];
 export interface ListIntegrationsResponse {
-  integrationSummaries?: IntegrationSummary[];
+  integrationSummaries?: IntegrationSummary[] | undefined;
 }
 export type ListLogAnomalyDetectorsLimit = number;
 export interface ListLogAnomalyDetectorsRequest {
-  filterLogGroupArn?: string;
-  limit?: number;
-  nextToken?: string;
+  filterLogGroupArn?: string | undefined;
+  limit?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AnomalyDetector {
-  anomalyDetectorArn?: string;
-  detectorName?: string;
-  logGroupArnList?: string[];
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  anomalyDetectorStatus?: AnomalyDetectorStatus;
-  kmsKeyId?: string;
-  creationTimeStamp?: number;
-  lastModifiedTimeStamp?: number;
-  anomalyVisibilityTime?: number;
+  anomalyDetectorArn?: string | undefined;
+  detectorName?: string | undefined;
+  logGroupArnList?: string[] | undefined;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  anomalyDetectorStatus?: AnomalyDetectorStatus | undefined;
+  kmsKeyId?: string | undefined;
+  creationTimeStamp?: number | undefined;
+  lastModifiedTimeStamp?: number | undefined;
+  anomalyVisibilityTime?: number | undefined;
 }
 export type AnomalyDetectors = AnomalyDetector[];
 export interface ListLogAnomalyDetectorsResponse {
-  anomalyDetectors?: AnomalyDetector[];
-  nextToken?: string;
+  anomalyDetectors?: AnomalyDetector[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListLimit = number;
 export type FieldIndexNames = string[];
@@ -1843,71 +1878,71 @@ export type TagFilterValue = string;
 export type TagFilterValues = string[];
 export interface TagFilter {
   key: string;
-  values?: string[];
+  values?: string[] | undefined;
 }
 export type TagFilters = TagFilter[];
 export interface ListLogGroupsRequest {
-  logGroupNamePattern?: string;
-  logGroupClass?: LogGroupClass;
-  includeLinkedAccounts?: boolean;
-  accountIdentifiers?: string[];
-  nextToken?: string;
-  limit?: number;
-  dataSources?: DataSourceFilter[];
-  fieldIndexNames?: string[];
-  logGroupTags?: TagFilter[];
+  logGroupNamePattern?: string | undefined;
+  logGroupClass?: LogGroupClass | undefined;
+  includeLinkedAccounts?: boolean | undefined;
+  accountIdentifiers?: string[] | undefined;
+  nextToken?: string | undefined;
+  limit?: number | undefined;
+  dataSources?: DataSourceFilter[] | undefined;
+  fieldIndexNames?: string[] | undefined;
+  logGroupTags?: TagFilter[] | undefined;
 }
 export interface LogGroupSummary {
-  logGroupName?: string;
-  logGroupArn?: string;
-  logGroupClass?: LogGroupClass;
+  logGroupName?: string | undefined;
+  logGroupArn?: string | undefined;
+  logGroupClass?: LogGroupClass | undefined;
 }
 export type LogGroupSummaries = LogGroupSummary[];
 export interface ListLogGroupsResponse {
-  logGroups?: LogGroupSummary[];
-  nextToken?: string;
+  logGroups?: LogGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListLogGroupsForQueryMaxResults = number;
 export interface ListLogGroupsForQueryRequest {
   queryId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type LogGroupIdentifiers = string[];
 export interface ListLogGroupsForQueryResponse {
-  logGroupIdentifiers?: string[];
-  nextToken?: string;
+  logGroupIdentifiers?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListScheduledQueriesMaxResults = number;
 export interface ListScheduledQueriesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
 }
 export interface ScheduledQuerySummary {
-  scheduledQueryArn?: string;
-  name?: string;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
-  lastTriggeredTime?: number;
-  lastExecutionStatus?: ExecutionStatus;
-  scheduleExpression?: string;
-  timezone?: string;
-  destinationConfiguration?: DestinationConfiguration;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  scheduledQueryArn?: string | undefined;
+  name?: string | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
+  lastTriggeredTime?: number | undefined;
+  lastExecutionStatus?: ExecutionStatus | undefined;
+  scheduleExpression?: string | undefined;
+  timezone?: string | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type ScheduledQuerySummaryList = ScheduledQuerySummary[];
 export interface ListScheduledQueriesResponse {
-  nextToken?: string;
-  scheduledQueries?: ScheduledQuerySummary[];
+  nextToken?: string | undefined;
+  scheduledQueries?: ScheduledQuerySummary[] | undefined;
 }
 export type ListSourcesForS3TableIntegrationMaxResults = number;
 export interface ListSourcesForS3TableIntegrationRequest {
   integrationArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type S3TableIntegrationSourceStatus =
   | "ACTIVE"
@@ -1917,59 +1952,61 @@ export type S3TableIntegrationSourceStatus =
   | (string & {});
 export type S3TableIntegrationSourceStatusReason = string;
 export interface S3TableIntegrationSource {
-  identifier?: string;
-  dataSource?: DataSource;
-  status?: S3TableIntegrationSourceStatus;
-  statusReason?: string;
-  createdTimeStamp?: number;
-  parentSourceIdentifier?: string;
+  identifier?: string | undefined;
+  dataSource?: DataSource | undefined;
+  status?: S3TableIntegrationSourceStatus | undefined;
+  statusReason?: string | undefined;
+  createdTimeStamp?: number | undefined;
+  parentSourceIdentifier?: string | undefined;
 }
 export type S3TableIntegrationSources = S3TableIntegrationSource[];
 export interface ListSourcesForS3TableIntegrationResponse {
-  sources?: S3TableIntegrationSource[];
-  nextToken?: string;
+  sources?: S3TableIntegrationSource[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListSyslogConfigurationsMaxResults = number;
 export interface ListSyslogConfigurationsRequest {
-  logGroupIdentifier?: string;
-  vpcEndpointId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  logGroupIdentifier?: string | undefined;
+  vpcEndpointId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SyslogSourceType = "VPCE" | (string & {});
 export interface SyslogConfiguration {
-  logGroupArn?: string;
-  sourceType?: SyslogSourceType;
-  vpcEndpointId?: string;
-  createdAt?: number;
+  logGroupArn?: string | undefined;
+  sourceType?: SyslogSourceType | undefined;
+  vpcEndpointId?: string | undefined;
+  createdAt?: number | undefined;
 }
 export type SyslogConfigurations = SyslogConfiguration[];
 export interface ListSyslogConfigurationsResponse {
-  syslogConfigurations?: SyslogConfiguration[];
-  nextToken?: string;
+  syslogConfigurations?: SyslogConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTagsLogGroupRequest {
   logGroupName: string;
 }
 export interface ListTagsLogGroupResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutAccountPolicyRequest {
   policyName: string;
   policyDocument: string;
   policyType: PolicyType;
-  scope?: Scope;
-  selectionCriteria?: string;
+  scope?: Scope | undefined;
+  selectionCriteria?: string | undefined;
+  dryRun?: boolean | undefined;
 }
 export interface PutAccountPolicyResponse {
-  accountPolicy?: AccountPolicy;
+  accountPolicy?: AccountPolicy | undefined;
+  dryRunResult?: DryRunResult | undefined;
 }
 export interface PutBearerTokenAuthenticationRequest {
   logGroupIdentifier: string;
@@ -1981,52 +2018,52 @@ export interface PutDataProtectionPolicyRequest {
   policyDocument: string;
 }
 export interface PutDataProtectionPolicyResponse {
-  logGroupIdentifier?: string;
-  policyDocument?: string;
-  lastUpdatedTime?: number;
+  logGroupIdentifier?: string | undefined;
+  policyDocument?: string | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface PutDeliveryDestinationRequest {
   name: string;
-  outputFormat?: OutputFormat;
-  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration;
-  deliveryDestinationType?: DeliveryDestinationType;
-  roleArn?: string;
-  tags?: { [key: string]: string | undefined };
+  outputFormat?: OutputFormat | undefined;
+  deliveryDestinationConfiguration?: DeliveryDestinationConfiguration | undefined;
+  deliveryDestinationType?: DeliveryDestinationType | undefined;
+  roleArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDeliveryDestinationResponse {
-  deliveryDestination?: DeliveryDestination;
+  deliveryDestination?: DeliveryDestination | undefined;
 }
 export interface PutDeliveryDestinationPolicyRequest {
   deliveryDestinationName: string;
   deliveryDestinationPolicy: string;
 }
 export interface PutDeliveryDestinationPolicyResponse {
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface PutDeliverySourceRequest {
   name: string;
   resourceArn: string;
   logType: string;
-  tags?: { [key: string]: string | undefined };
-  deliverySourceConfiguration?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
+  deliverySourceConfiguration?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDeliverySourceResponse {
-  deliverySource?: DeliverySource;
+  deliverySource?: DeliverySource | undefined;
 }
 export interface PutDestinationRequest {
   destinationName: string;
   targetArn: string;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutDestinationResponse {
-  destination?: Destination;
+  destination?: Destination | undefined;
 }
 export type ForceUpdate = boolean;
 export interface PutDestinationPolicyRequest {
   destinationName: string;
   accessPolicy: string;
-  forceUpdate?: boolean;
+  forceUpdate?: boolean | undefined;
 }
 export interface PutDestinationPolicyResponse {}
 export interface PutIndexPolicyRequest {
@@ -2034,15 +2071,15 @@ export interface PutIndexPolicyRequest {
   policyDocument: string;
 }
 export interface PutIndexPolicyResponse {
-  indexPolicy?: IndexPolicy;
+  indexPolicy?: IndexPolicy | undefined;
 }
 export type DashboardViewerPrincipals = string[];
 export type CollectionRetentionDays = number;
 export interface OpenSearchResourceConfig {
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   dataSourceRoleArn: string;
   dashboardViewerPrincipals: string[];
-  applicationArn?: string;
+  applicationArn?: string | undefined;
   retentionDays: number;
 }
 export type ResourceConfig = { openSearchResourceConfig: OpenSearchResourceConfig };
@@ -2052,8 +2089,8 @@ export interface PutIntegrationRequest {
   integrationType: IntegrationType;
 }
 export interface PutIntegrationResponse {
-  integrationName?: string;
-  integrationStatus?: IntegrationStatus;
+  integrationName?: string | undefined;
+  integrationStatus?: IntegrationStatus | undefined;
 }
 export interface InputLogEvent {
   timestamp: number;
@@ -2067,21 +2104,21 @@ export type EntityAttributesKey = string;
 export type EntityAttributesValue = string;
 export type EntityAttributes = { [key: string]: string | undefined };
 export interface Entity {
-  keyAttributes?: { [key: string]: string | undefined };
-  attributes?: { [key: string]: string | undefined };
+  keyAttributes?: { [key: string]: string | undefined } | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutLogEventsRequest {
   logGroupName: string;
   logStreamName: string;
   logEvents: InputLogEvent[];
-  sequenceToken?: string;
-  entity?: Entity;
+  sequenceToken?: string | undefined;
+  entity?: Entity | undefined;
 }
 export type LogEventIndex = number;
 export interface RejectedLogEventsInfo {
-  tooNewLogEventStartIndex?: number;
-  tooOldLogEventEndIndex?: number;
-  expiredLogEventEndIndex?: number;
+  tooNewLogEventStartIndex?: number | undefined;
+  tooOldLogEventEndIndex?: number | undefined;
+  expiredLogEventEndIndex?: number | undefined;
 }
 export type EntityRejectionErrorType =
   | "InvalidEntity"
@@ -2096,9 +2133,9 @@ export interface RejectedEntityInfo {
   errorType: EntityRejectionErrorType;
 }
 export interface PutLogEventsResponse {
-  nextSequenceToken?: string;
-  rejectedLogEventsInfo?: RejectedLogEventsInfo;
-  rejectedEntityInfo?: RejectedEntityInfo;
+  nextSequenceToken?: string | undefined;
+  rejectedLogEventsInfo?: RejectedLogEventsInfo | undefined;
+  rejectedEntityInfo?: RejectedEntityInfo | undefined;
 }
 export interface PutLogGroupDeletionProtectionRequest {
   logGroupIdentifier: string;
@@ -2110,33 +2147,33 @@ export interface PutMetricFilterRequest {
   filterName: string;
   filterPattern: string;
   metricTransformations: MetricTransformation[];
-  applyOnTransformedLogs?: boolean;
-  fieldSelectionCriteria?: string;
-  emitSystemFieldDimensions?: string[];
+  applyOnTransformedLogs?: boolean | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFieldDimensions?: string[] | undefined;
 }
 export interface PutMetricFilterResponse {}
 export type ClientToken = string;
 export interface PutQueryDefinitionRequest {
-  queryLanguage?: QueryLanguage;
+  queryLanguage?: QueryLanguage | undefined;
   name: string;
-  queryDefinitionId?: string;
-  logGroupNames?: string[];
+  queryDefinitionId?: string | undefined;
+  logGroupNames?: string[] | undefined;
   queryString: string;
-  clientToken?: string;
-  parameters?: QueryParameter[];
+  clientToken?: string | undefined;
+  parameters?: QueryParameter[] | undefined;
 }
 export interface PutQueryDefinitionResponse {
-  queryDefinitionId?: string;
+  queryDefinitionId?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
-  policyName?: string;
-  policyDocument?: string;
-  resourceArn?: string;
-  expectedRevisionId?: string;
+  policyName?: string | undefined;
+  policyDocument?: string | undefined;
+  resourceArn?: string | undefined;
+  expectedRevisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  resourcePolicy?: ResourcePolicy;
-  revisionId?: string;
+  resourcePolicy?: ResourcePolicy | undefined;
+  revisionId?: string | undefined;
 }
 export interface PutRetentionPolicyRequest {
   logGroupName: string;
@@ -2147,24 +2184,24 @@ export interface PutStorageTierPolicyRequest {
   storageTier: StorageTier;
 }
 export interface PutStorageTierPolicyResponse {
-  storageTier?: StorageTier;
-  lastUpdatedTime?: number;
+  storageTier?: StorageTier | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface PutSubscriptionFilterRequest {
   logGroupName: string;
   filterName: string;
   filterPattern: string;
   destinationArn: string;
-  roleArn?: string;
-  distribution?: Distribution;
-  applyOnTransformedLogs?: boolean;
-  fieldSelectionCriteria?: string;
-  emitSystemFields?: string[];
+  roleArn?: string | undefined;
+  distribution?: Distribution | undefined;
+  applyOnTransformedLogs?: boolean | undefined;
+  fieldSelectionCriteria?: string | undefined;
+  emitSystemFields?: string[] | undefined;
 }
 export interface PutSubscriptionFilterResponse {}
 export interface PutSyslogConfigurationRequest {
   logGroupIdentifier: string;
-  vpcEndpointId?: string;
+  vpcEndpointId?: string | undefined;
 }
 export interface PutSyslogConfigurationResponse {}
 export interface PutTransformerRequest {
@@ -2175,89 +2212,89 @@ export interface PutTransformerResponse {}
 export type StartLiveTailLogGroupIdentifiers = string[];
 export interface StartLiveTailRequest {
   logGroupIdentifiers: string[];
-  logStreamNames?: string[];
-  logStreamNamePrefixes?: string[];
-  logEventFilterPattern?: string;
+  logStreamNames?: string[] | undefined;
+  logStreamNamePrefixes?: string[] | undefined;
+  logEventFilterPattern?: string | undefined;
 }
 export type RequestId = string;
 export type SessionId = string;
 export interface LiveTailSessionStart {
-  requestId?: string;
-  sessionId?: string;
-  logGroupIdentifiers?: string[];
-  logStreamNames?: string[];
-  logStreamNamePrefixes?: string[];
-  logEventFilterPattern?: string;
+  requestId?: string | undefined;
+  sessionId?: string | undefined;
+  logGroupIdentifiers?: string[] | undefined;
+  logStreamNames?: string[] | undefined;
+  logStreamNamePrefixes?: string[] | undefined;
+  logEventFilterPattern?: string | undefined;
 }
 export type IsSampled = boolean;
 export interface LiveTailSessionMetadata {
-  sampled?: boolean;
+  sampled?: boolean | undefined;
 }
 export interface LiveTailSessionLogEvent {
-  logStreamName?: string;
-  logGroupIdentifier?: string;
-  message?: string;
-  timestamp?: number;
-  ingestionTime?: number;
+  logStreamName?: string | undefined;
+  logGroupIdentifier?: string | undefined;
+  message?: string | undefined;
+  timestamp?: number | undefined;
+  ingestionTime?: number | undefined;
 }
 export type LiveTailSessionResults = LiveTailSessionLogEvent[];
 export interface LiveTailSessionUpdate {
-  sessionMetadata?: LiveTailSessionMetadata;
-  sessionResults?: LiveTailSessionLogEvent[];
+  sessionMetadata?: LiveTailSessionMetadata | undefined;
+  sessionResults?: LiveTailSessionLogEvent[] | undefined;
 }
 export interface SessionTimeoutException {
-  message?: string;
+  message?: string | undefined;
 }
 export interface SessionStreamingException {
-  message?: string;
+  message?: string | undefined;
 }
 export type StartLiveTailResponseStream =
   | {
       sessionStart: LiveTailSessionStart;
-      sessionUpdate?: never;
-      SessionTimeoutException?: never;
-      SessionStreamingException?: never;
+      sessionUpdate?: undefined;
+      SessionTimeoutException?: undefined;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
+      sessionStart?: undefined;
       sessionUpdate: LiveTailSessionUpdate;
-      SessionTimeoutException?: never;
-      SessionStreamingException?: never;
+      SessionTimeoutException?: undefined;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
-      sessionUpdate?: never;
+      sessionStart?: undefined;
+      sessionUpdate?: undefined;
       SessionTimeoutException: SessionTimeoutException;
-      SessionStreamingException?: never;
+      SessionStreamingException?: undefined;
     }
   | {
-      sessionStart?: never;
-      sessionUpdate?: never;
-      SessionTimeoutException?: never;
+      sessionStart?: undefined;
+      sessionUpdate?: undefined;
+      SessionTimeoutException?: undefined;
       SessionStreamingException: SessionStreamingException;
     };
 export interface StartLiveTailResponse {
-  responseStream?: stream.Stream<StartLiveTailResponseStream, Error, never>;
+  responseStream?: stream.Stream<StartLiveTailResponseStream, Error, never> | undefined;
 }
 export type EventsLimitStartQuery = number;
 export interface StartQueryRequest {
-  queryLanguage?: QueryLanguage;
-  logGroupName?: string;
-  logGroupNames?: string[];
-  logGroupIdentifiers?: string[];
+  queryLanguage?: QueryLanguage | undefined;
+  logGroupName?: string | undefined;
+  logGroupNames?: string[] | undefined;
+  logGroupIdentifiers?: string[] | undefined;
   startTime: number;
   endTime: number;
   queryString: string;
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface StartQueryResponse {
-  queryId?: string;
+  queryId?: string | undefined;
 }
 export interface StopQueryRequest {
   queryId: string;
 }
 export interface StopQueryResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface TagLogGroupRequest {
   logGroupName: string;
@@ -2278,13 +2315,13 @@ export type EventNumber = number;
 export type Token = string;
 export type ExtractedValues = { [key: string]: string | undefined };
 export interface MetricFilterMatchRecord {
-  eventNumber?: number;
-  eventMessage?: string;
-  extractedValues?: { [key: string]: string | undefined };
+  eventNumber?: number | undefined;
+  eventMessage?: string | undefined;
+  extractedValues?: { [key: string]: string | undefined } | undefined;
 }
 export type MetricFilterMatches = MetricFilterMatchRecord[];
 export interface TestMetricFilterResponse {
-  matches?: MetricFilterMatchRecord[];
+  matches?: MetricFilterMatchRecord[] | undefined;
 }
 export interface TestTransformerRequest {
   transformerConfig: Processor[];
@@ -2292,13 +2329,13 @@ export interface TestTransformerRequest {
 }
 export type TransformedEventMessage = string;
 export interface TransformedLogRecord {
-  eventNumber?: number;
-  eventMessage?: string;
-  transformedEventMessage?: string;
+  eventNumber?: number | undefined;
+  eventMessage?: string | undefined;
+  transformedEventMessage?: string | undefined;
 }
 export type TransformedLogs = TransformedLogRecord[];
 export interface TestTransformerResponse {
-  transformedLogs?: TransformedLogRecord[];
+  transformedLogs?: TransformedLogRecord[] | undefined;
 }
 export type TagList = string[];
 export interface UntagLogGroupRequest {
@@ -2315,91 +2352,91 @@ export interface UntagResourceResponse {}
 export type SuppressionType = "LIMITED" | "INFINITE" | (string & {});
 export type SuppressionUnit = "SECONDS" | "MINUTES" | "HOURS" | (string & {});
 export interface SuppressionPeriod {
-  value?: number;
-  suppressionUnit?: SuppressionUnit;
+  value?: number | undefined;
+  suppressionUnit?: SuppressionUnit | undefined;
 }
 export type Baseline = boolean;
 export interface UpdateAnomalyRequest {
-  anomalyId?: string;
-  patternId?: string;
+  anomalyId?: string | undefined;
+  patternId?: string | undefined;
   anomalyDetectorArn: string;
-  suppressionType?: SuppressionType;
-  suppressionPeriod?: SuppressionPeriod;
-  baseline?: boolean;
+  suppressionType?: SuppressionType | undefined;
+  suppressionPeriod?: SuppressionPeriod | undefined;
+  baseline?: boolean | undefined;
 }
 export interface UpdateAnomalyResponse {}
 export interface UpdateDeliveryConfigurationRequest {
   id: string;
-  recordFields?: string[];
-  fieldDelimiter?: string;
-  s3DeliveryConfiguration?: S3DeliveryConfiguration;
+  recordFields?: string[] | undefined;
+  fieldDelimiter?: string | undefined;
+  s3DeliveryConfiguration?: S3DeliveryConfiguration | undefined;
 }
 export interface UpdateDeliveryConfigurationResponse {}
 export interface UpdateLogAnomalyDetectorRequest {
   anomalyDetectorArn: string;
-  evaluationFrequency?: EvaluationFrequency;
-  filterPattern?: string;
-  anomalyVisibilityTime?: number;
+  evaluationFrequency?: EvaluationFrequency | undefined;
+  filterPattern?: string | undefined;
+  anomalyVisibilityTime?: number | undefined;
   enabled: boolean;
 }
 export interface UpdateLogAnomalyDetectorResponse {}
 export interface UpdateLookupTableRequest {
   lookupTableArn: string;
-  description?: string;
-  tableBody?: string;
-  queryId?: string;
-  kmsKeyId?: string;
+  description?: string | undefined;
+  tableBody?: string | undefined;
+  queryId?: string | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface UpdateLookupTableResponse {
-  lookupTableArn?: string;
-  lastUpdatedTime?: number;
+  lookupTableArn?: string | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export interface UpdateScheduledQueryRequest {
   identifier: string;
-  description?: string;
+  description?: string | undefined;
   queryLanguage: QueryLanguage;
   queryString: string;
-  logGroupIdentifiers?: string[];
+  logGroupIdentifiers?: string[] | undefined;
   scheduleExpression: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
   executionRoleArn: string;
-  state?: ScheduledQueryState;
+  state?: ScheduledQueryState | undefined;
 }
 export interface UpdateScheduledQueryResponse {
-  scheduledQueryArn?: string;
-  name?: string;
-  description?: string;
-  queryLanguage?: QueryLanguage;
-  queryString?: string;
-  logGroupIdentifiers?: string[];
-  scheduleExpression?: string;
-  timezone?: string;
-  startTimeOffset?: number;
-  endTimeOffset?: number;
-  destinationConfiguration?: DestinationConfiguration;
-  state?: ScheduledQueryState;
-  scheduleType?: ScheduleType;
-  lastTriggeredTime?: number;
-  lastExecutionStatus?: ExecutionStatus;
-  scheduleStartTime?: number;
-  scheduleEndTime?: number;
-  executionRoleArn?: string;
-  creationTime?: number;
-  lastUpdatedTime?: number;
+  scheduledQueryArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  queryLanguage?: QueryLanguage | undefined;
+  queryString?: string | undefined;
+  logGroupIdentifiers?: string[] | undefined;
+  scheduleExpression?: string | undefined;
+  timezone?: string | undefined;
+  startTimeOffset?: number | undefined;
+  endTimeOffset?: number | undefined;
+  destinationConfiguration?: DestinationConfiguration | undefined;
+  state?: ScheduledQueryState | undefined;
+  scheduleType?: ScheduleType | undefined;
+  lastTriggeredTime?: number | undefined;
+  lastExecutionStatus?: ExecutionStatus | undefined;
+  scheduleStartTime?: number | undefined;
+  scheduleEndTime?: number | undefined;
+  executionRoleArn?: string | undefined;
+  creationTime?: number | undefined;
+  lastUpdatedTime?: number | undefined;
 }
 export type QueryCharOffset = number;
 export interface QueryCompileErrorLocation {
-  startCharOffset?: number;
-  endCharOffset?: number;
+  startCharOffset?: number | undefined;
+  endCharOffset?: number | undefined;
 }
 export interface QueryCompileError {
-  location?: QueryCompileErrorLocation;
-  message?: string;
+  location?: QueryCompileErrorLocation | undefined;
+  message?: string | undefined;
 }
 export type AssociateKmsKeyError =
   | InvalidParameterException
@@ -2456,7 +2493,7 @@ export type AssociateKmsKeyError =
  * `InvalidParameterException` error.
  */
 export const associateKmsKey: API.OperationMethod<
-  AssociateKmsKeyRequest,
+  AssociateKmsKeyRequest & RegionInput,
   AssociateKmsKeyResponse,
   AssociateKmsKeyError,
   Credentials | HttpClient.HttpClient
@@ -2489,7 +2526,7 @@ export type AssociateSourceToS3TableIntegrationError =
  * Amazon Athena, Amazon Redshift, and Apache Spark.
  */
 export const associateSourceToS3TableIntegration: API.OperationMethod<
-  AssociateSourceToS3TableIntegrationRequest,
+  AssociateSourceToS3TableIntegrationRequest & RegionInput,
   AssociateSourceToS3TableIntegrationResponse,
   AssociateSourceToS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -2522,7 +2559,7 @@ export type CancelExportTaskError =
  * The task must be in the `PENDING` or `RUNNING` state.
  */
 export const cancelExportTask: API.OperationMethod<
-  CancelExportTaskRequest,
+  CancelExportTaskRequest & RegionInput,
   CancelExportTaskResponse,
   CancelExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2553,7 +2590,7 @@ export type CancelImportTaskError =
  * Cancels an active import task and stops importing data from the CloudTrail Lake Event Data Store.
  */
 export const cancelImportTask: API.OperationMethod<
-  CancelImportTaskRequest,
+  CancelImportTaskRequest & RegionInput,
   CancelImportTaskResponse,
   CancelImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2616,7 +2653,7 @@ export type CreateDeliveryError =
  * To update an existing delivery configuration, use UpdateDeliveryConfiguration.
  */
 export const createDelivery: API.OperationMethod<
-  CreateDeliveryRequest,
+  CreateDeliveryRequest & RegionInput,
   CreateDeliveryResponse,
   CreateDeliveryError,
   Credentials | HttpClient.HttpClient
@@ -2678,7 +2715,7 @@ export type CreateExportTaskError =
  * can sort the exported log field data by using Linux utilities.
  */
 export const createExportTask: API.OperationMethod<
-  CreateExportTaskRequest,
+  CreateExportTaskRequest & RegionInput,
   CreateExportTaskResponse,
   CreateExportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2747,7 +2784,7 @@ export type CreateImportTaskError =
  * - The data being imported must be within the specified source's retention period.
  */
 export const createImportTask: API.OperationMethod<
-  CreateImportTaskRequest,
+  CreateImportTaskRequest & RegionInput,
   CreateImportTaskResponse,
   CreateImportTaskError,
   Credentials | HttpClient.HttpClient
@@ -2808,7 +2845,7 @@ export type CreateLogAnomalyDetectorError =
  * data with masking.
  */
 export const createLogAnomalyDetector: API.OperationMethod<
-  CreateLogAnomalyDetectorRequest,
+  CreateLogAnomalyDetectorRequest & RegionInput,
   CreateLogAnomalyDetectorResponse,
   CreateLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -2870,7 +2907,7 @@ export type CreateLogGroupError =
  * Symmetric and Asymmetric Keys.
  */
 export const createLogGroup: API.OperationMethod<
-  CreateLogGroupRequest,
+  CreateLogGroupRequest & RegionInput,
   CreateLogGroupResponse,
   CreateLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -2915,7 +2952,7 @@ export type CreateLogStreamError =
  * - Don't use ':' (colon) or '*' (asterisk) characters.
  */
 export const createLogStream: API.OperationMethod<
-  CreateLogStreamRequest,
+  CreateLogStreamRequest & RegionInput,
   CreateLogStreamResponse,
   CreateLogStreamError,
   Credentials | HttpClient.HttpClient
@@ -2954,7 +2991,7 @@ export type CreateLookupTableError =
  * UTF-8 encoding, and not exceed 10 MB.
  */
 export const createLookupTable: API.OperationMethod<
-  CreateLookupTableRequest,
+  CreateLookupTableRequest & RegionInput,
   CreateLookupTableResponse,
   CreateLookupTableError,
   Credentials | HttpClient.HttpClient
@@ -2992,7 +3029,7 @@ export type CreateScheduledQueryError =
  * or further processing.
  */
 export const createScheduledQuery: API.OperationMethod<
-  CreateScheduledQueryRequest,
+  CreateScheduledQueryRequest & RegionInput,
   CreateScheduledQueryResponse,
   CreateScheduledQueryError,
   Credentials | HttpClient.HttpClient
@@ -3025,6 +3062,9 @@ export type DeleteAccountPolicyError =
  * Deletes a CloudWatch Logs account policy. This stops the account-wide policy from
  * applying to log groups or data sources in the account. If you delete a data protection policy
  * or subscription filter policy, any log-group level policies of those types remain in effect.
+ * If you delete a retention policy, the log groups that it applied to use their own retention
+ * setting, unless another retention policy applies to them. Deleting a retention policy does not
+ * restore log events that CloudWatch Logs has already deleted.
  * This operation supports deletion of data source-based field index policies, including facet
  * configurations, in addition to log group-based policies.
  *
@@ -3049,18 +3089,24 @@ export type DeleteAccountPolicyError =
  * will no longer be available for interactive exploration in the CloudWatch Logs Insights
  * console. However, facet data is retained for up to 30 days.
  *
+ * - To delete a retention policy, you must have the
+ * `logs:DeleteRetentionPolicy` and `logs:DeleteAccountPolicy`
+ * permissions. To preview the impact of deleting a retention policy, specify
+ * `true` for `dryRun`. A dry run requires the same
+ * permissions as the operation that it previews, and no additional permissions.
+ *
  * If you delete a field index policy, the indexing of the log events that happened before
  * you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs
  * Insights queries.
  */
 export const deleteAccountPolicy: API.OperationMethod<
-  DeleteAccountPolicyRequest,
+  DeleteAccountPolicyRequest & RegionInput,
   DeleteAccountPolicyResponse,
   DeleteAccountPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<DeleteAccountPolicyRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteAccountPolicyResponse>,
+  output: __S(1921, __c60, 1) as any as S.Schema<DeleteAccountPolicyResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -3086,12 +3132,12 @@ export type DeleteDataProtectionPolicyError =
  * For more information about data protection policies, see PutDataProtectionPolicy.
  */
 export const deleteDataProtectionPolicy: API.OperationMethod<
-  DeleteDataProtectionPolicyRequest,
+  DeleteDataProtectionPolicyRequest & RegionInput,
   DeleteDataProtectionPolicyResponse,
   DeleteDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DeleteDataProtectionPolicyRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteDataProtectionPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDataProtectionPolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3122,12 +3168,12 @@ export type DeleteDeliveryError =
  * source.
  */
 export const deleteDelivery: API.OperationMethod<
-  DeleteDeliveryRequest,
+  DeleteDeliveryRequest & RegionInput,
   DeleteDeliveryResponse,
   DeleteDeliveryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DeleteDeliveryRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeleteDeliveryRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliveryResponse>,
   errors: [
     ConflictException,
@@ -3162,12 +3208,12 @@ export type DeleteDeliveryDestinationError =
  * field in the results.
  */
 export const deleteDeliveryDestination: API.OperationMethod<
-  DeleteDeliveryDestinationRequest,
+  DeleteDeliveryDestinationRequest & RegionInput,
   DeleteDeliveryDestinationResponse,
   DeleteDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DeleteDeliveryDestinationRequest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteDeliveryDestinationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliveryDestinationResponse>,
   errors: [
     ConflictException,
@@ -3195,12 +3241,12 @@ export type DeleteDeliveryDestinationPolicyError =
  * PutDeliveryDestinationPolicy.
  */
 export const deleteDeliveryDestinationPolicy: API.OperationMethod<
-  DeleteDeliveryDestinationPolicyRequest,
+  DeleteDeliveryDestinationPolicyRequest & RegionInput,
   DeleteDeliveryDestinationPolicyResponse,
   DeleteDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DeleteDeliveryDestinationPolicyRequest>,
+  input: __S(2080, __c65, 0) as any as S.Schema<DeleteDeliveryDestinationPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliveryDestinationPolicyResponse>,
   errors: [
     ConflictException,
@@ -3233,12 +3279,12 @@ export type DeleteDeliverySourceError =
  * the results.
  */
 export const deleteDeliverySource: API.OperationMethod<
-  DeleteDeliverySourceRequest,
+  DeleteDeliverySourceRequest & RegionInput,
   DeleteDeliverySourceResponse,
   DeleteDeliverySourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DeleteDeliverySourceRequest>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DeleteDeliverySourceRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliverySourceResponse>,
   errors: [
     ConflictException,
@@ -3267,12 +3313,12 @@ export type DeleteDestinationError =
  * destination.
  */
 export const deleteDestination: API.OperationMethod<
-  DeleteDestinationRequest,
+  DeleteDestinationRequest & RegionInput,
   DeleteDestinationResponse,
   DeleteDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DeleteDestinationRequest>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DeleteDestinationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDestinationResponse>,
   errors: [
     InvalidParameterException,
@@ -3312,12 +3358,12 @@ export type DeleteIndexPolicyError =
  * the log group.
  */
 export const deleteIndexPolicy: API.OperationMethod<
-  DeleteIndexPolicyRequest,
+  DeleteIndexPolicyRequest & RegionInput,
   DeleteIndexPolicyResponse,
   DeleteIndexPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DeleteIndexPolicyRequest>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DeleteIndexPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteIndexPolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3348,12 +3394,12 @@ export type DeleteIntegrationError =
  * longer be accessible.
  */
 export const deleteIntegration: API.OperationMethod<
-  DeleteIntegrationRequest,
+  DeleteIntegrationRequest & RegionInput,
   DeleteIntegrationResponse,
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DeleteIntegrationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteIntegrationResponse>,
   errors: [
     InvalidParameterException,
@@ -3378,12 +3424,12 @@ export type DeleteLogAnomalyDetectorError =
  * Deletes the specified CloudWatch Logs anomaly detector.
  */
 export const deleteLogAnomalyDetector: API.OperationMethod<
-  DeleteLogAnomalyDetectorRequest,
+  DeleteLogAnomalyDetectorRequest & RegionInput,
   DeleteLogAnomalyDetectorResponse,
   DeleteLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DeleteLogAnomalyDetectorRequest>,
+  input: __S(2240, __c70, 0) as any as S.Schema<DeleteLogAnomalyDetectorRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLogAnomalyDetectorResponse>,
   errors: [
     InvalidParameterException,
@@ -3410,12 +3456,12 @@ export type DeleteLogGroupError =
  * associated with the log group.
  */
 export const deleteLogGroup: API.OperationMethod<
-  DeleteLogGroupRequest,
+  DeleteLogGroupRequest & RegionInput,
   DeleteLogGroupResponse,
   DeleteLogGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeleteLogGroupRequest>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DeleteLogGroupRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLogGroupResponse>,
   errors: [
     InvalidParameterException,
@@ -3443,12 +3489,12 @@ export type DeleteLogStreamError =
  * associated with the log stream.
  */
 export const deleteLogStream: API.OperationMethod<
-  DeleteLogStreamRequest,
+  DeleteLogStreamRequest & RegionInput,
   DeleteLogStreamResponse,
   DeleteLogStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteLogStreamRequest>,
+  input: __S(2304, __c72, 0) as any as S.Schema<DeleteLogStreamRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLogStreamResponse>,
   errors: [
     InvalidParameterException,
@@ -3477,12 +3523,12 @@ export type DeleteLookupTableError =
  * table, review any saved queries or dashboards that may reference it.
  */
 export const deleteLookupTable: API.OperationMethod<
-  DeleteLookupTableRequest,
+  DeleteLookupTableRequest & RegionInput,
   DeleteLookupTableResponse,
   DeleteLookupTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DeleteLookupTableRequest>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeleteLookupTableRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLookupTableResponse>,
   errors: [
     AccessDeniedException,
@@ -3507,12 +3553,12 @@ export type DeleteMetricFilterError =
  * Deletes the specified metric filter.
  */
 export const deleteMetricFilter: API.OperationMethod<
-  DeleteMetricFilterRequest,
+  DeleteMetricFilterRequest & RegionInput,
   DeleteMetricFilterResponse,
   DeleteMetricFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<DeleteMetricFilterRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeleteMetricFilterRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteMetricFilterResponse>,
   errors: [
     InvalidParameterException,
@@ -3542,13 +3588,13 @@ export type DeleteQueryDefinitionError =
  * this operation.
  */
 export const deleteQueryDefinition: API.OperationMethod<
-  DeleteQueryDefinitionRequest,
+  DeleteQueryDefinitionRequest & RegionInput,
   DeleteQueryDefinitionResponse,
   DeleteQueryDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<DeleteQueryDefinitionRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DeleteQueryDefinitionResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<DeleteQueryDefinitionRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteQueryDefinitionResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3568,12 +3614,12 @@ export type DeleteResourcePolicyError =
  * in that policy to put log events to this account.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3599,14 +3645,18 @@ export type DeleteRetentionPolicyError =
  *
  * Log events do not expire if they belong to log groups without a retention
  * policy.
+ *
+ * If an account-level retention policy applies to this log group, the log group uses
+ * the retention period from that policy. For more information about account-level retention
+ * policies, see PutAccountPolicy.
  */
 export const deleteRetentionPolicy: API.OperationMethod<
-  DeleteRetentionPolicyRequest,
+  DeleteRetentionPolicyRequest & RegionInput,
   DeleteRetentionPolicyResponse,
   DeleteRetentionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<DeleteRetentionPolicyRequest>,
+  input: __S(2496, __c78, 0) as any as S.Schema<DeleteRetentionPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteRetentionPolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3633,12 +3683,12 @@ export type DeleteScheduledQueryError =
  * configured actions and associated resources.
  */
 export const deleteScheduledQuery: API.OperationMethod<
-  DeleteScheduledQueryRequest,
+  DeleteScheduledQueryRequest & RegionInput,
   DeleteScheduledQueryResponse,
   DeleteScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<DeleteScheduledQueryRequest>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteScheduledQueryRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
@@ -3664,12 +3714,12 @@ export type DeleteSubscriptionFilterError =
  * Deletes the specified subscription filter.
  */
 export const deleteSubscriptionFilter: API.OperationMethod<
-  DeleteSubscriptionFilterRequest,
+  DeleteSubscriptionFilterRequest & RegionInput,
   DeleteSubscriptionFilterResponse,
   DeleteSubscriptionFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeleteSubscriptionFilterRequest>,
+  input: __S(2560, __c80, 0) as any as S.Schema<DeleteSubscriptionFilterRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteSubscriptionFilterResponse>,
   errors: [
     InvalidParameterException,
@@ -3698,12 +3748,12 @@ export type DeleteSyslogConfigurationError =
  * longer ingested through the specified VPC endpoint.
  */
 export const deleteSyslogConfiguration: API.OperationMethod<
-  DeleteSyslogConfigurationRequest,
+  DeleteSyslogConfigurationRequest & RegionInput,
   DeleteSyslogConfigurationResponse,
   DeleteSyslogConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<DeleteSyslogConfigurationRequest>,
+  input: __S(2592, __c81, 0) as any as S.Schema<DeleteSyslogConfigurationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteSyslogConfigurationResponse>,
   errors: [
     AccessDeniedException,
@@ -3738,12 +3788,12 @@ export type DeleteTransformerError =
  * that relied on the transformed versions of the log events.
  */
 export const deleteTransformer: API.OperationMethod<
-  DeleteTransformerRequest,
+  DeleteTransformerRequest & RegionInput,
   DeleteTransformerResponse,
   DeleteTransformerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<DeleteTransformerRequest>,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteTransformerRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteTransformerResponse>,
   errors: [
     InvalidOperationException,
@@ -3784,15 +3834,18 @@ export type DescribeAccountPoliciesError =
  *
  * - To see field index policies, you must have the `logs:DescribeIndexPolicies`
  * and `logs:DescribeAccountPolicies` permissions.
+ *
+ * - To see retention policies, you must have the `logs:DescribeAccountPolicies`
+ * permission.
  */
 export const describeAccountPolicies: API.OperationMethod<
-  DescribeAccountPoliciesRequest,
+  DescribeAccountPoliciesRequest & RegionInput,
   DescribeAccountPoliciesResponse,
   DescribeAccountPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<DescribeAccountPoliciesRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<DescribeAccountPoliciesResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<DescribeAccountPoliciesRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<DescribeAccountPoliciesResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -3818,14 +3871,14 @@ export type DescribeConfigurationTemplatesError =
  * deliveries, see CreateDelivery.
  */
 export const describeConfigurationTemplates: API.PaginatedOperationMethod<
-  DescribeConfigurationTemplatesRequest,
+  DescribeConfigurationTemplatesRequest & RegionInput,
   DescribeConfigurationTemplatesResponse,
   DescribeConfigurationTemplatesError,
   Credentials | HttpClient.HttpClient,
   ConfigurationTemplate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<DescribeConfigurationTemplatesRequest>,
-  output: __S(2697, __c84, 9) as any as S.Schema<DescribeConfigurationTemplatesResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DescribeConfigurationTemplatesRequest>,
+  output: __S(2729, __c85, 9) as any as S.Schema<DescribeConfigurationTemplatesResponse>,
   errors: [
     ResourceNotFoundException,
     ServiceUnavailableException,
@@ -3867,14 +3920,14 @@ export type DescribeDeliveriesError =
  * Amazon Web Services services.
  */
 export const describeDeliveries: API.PaginatedOperationMethod<
-  DescribeDeliveriesRequest,
+  DescribeDeliveriesRequest & RegionInput,
   DescribeDeliveriesResponse,
   DescribeDeliveriesError,
   Credentials | HttpClient.HttpClient,
   Delivery
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DescribeDeliveriesRequest>,
-  output: __S(2754, __c86, 2) as any as S.Schema<DescribeDeliveriesResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<DescribeDeliveriesRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<DescribeDeliveriesResponse>,
   errors: [
     ServiceQuotaExceededException,
     ServiceUnavailableException,
@@ -3905,14 +3958,14 @@ export type DescribeDeliveryDestinationsError =
  * account.
  */
 export const describeDeliveryDestinations: API.PaginatedOperationMethod<
-  DescribeDeliveryDestinationsRequest,
+  DescribeDeliveryDestinationsRequest & RegionInput,
   DescribeDeliveryDestinationsResponse,
   DescribeDeliveryDestinationsError,
   Credentials | HttpClient.HttpClient,
   DeliveryDestination
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<DescribeDeliveryDestinationsRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<DescribeDeliveryDestinationsResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<DescribeDeliveryDestinationsRequest>,
+  output: __S(2818, __c88, 2) as any as S.Schema<DescribeDeliveryDestinationsResponse>,
   errors: [
     ServiceQuotaExceededException,
     ServiceUnavailableException,
@@ -3942,14 +3995,14 @@ export type DescribeDeliverySourcesError =
  * Retrieves a list of the delivery sources that have been created in the account.
  */
 export const describeDeliverySources: API.PaginatedOperationMethod<
-  DescribeDeliverySourcesRequest,
+  DescribeDeliverySourcesRequest & RegionInput,
   DescribeDeliverySourcesResponse,
   DescribeDeliverySourcesError,
   Credentials | HttpClient.HttpClient,
   DeliverySource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<DescribeDeliverySourcesRequest>,
-  output: __S(2850, __c89, 2) as any as S.Schema<DescribeDeliverySourcesResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<DescribeDeliverySourcesRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<DescribeDeliverySourcesResponse>,
   errors: [
     ServiceQuotaExceededException,
     ServiceUnavailableException,
@@ -3978,14 +4031,14 @@ export type DescribeDestinationsError =
  * name.
  */
 export const describeDestinations: API.PaginatedOperationMethod<
-  DescribeDestinationsRequest,
+  DescribeDestinationsRequest & RegionInput,
   DescribeDestinationsResponse,
   DescribeDestinationsError,
   Credentials | HttpClient.HttpClient,
   Destination
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DescribeDestinationsRequest>,
-  output: __S(2914, __c91, 2) as any as S.Schema<DescribeDestinationsResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DescribeDestinationsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<DescribeDestinationsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4009,13 +4062,13 @@ export type DescribeExportTasksError =
  * results based on task ID or task status.
  */
 export const describeExportTasks: API.OperationMethod<
-  DescribeExportTasksRequest,
+  DescribeExportTasksRequest & RegionInput,
   DescribeExportTasksResponse,
   DescribeExportTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<DescribeExportTasksRequest>,
-  output: __S(2981, __c93, 5) as any as S.Schema<DescribeExportTasksResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<DescribeExportTasksRequest>,
+  output: __S(3013, __c94, 5) as any as S.Schema<DescribeExportTasksResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4039,13 +4092,13 @@ export type DescribeFieldIndexesError =
  * For more information about field index policies, see PutIndexPolicy.
  */
 export const describeFieldIndexes: API.OperationMethod<
-  DescribeFieldIndexesRequest,
+  DescribeFieldIndexesRequest & RegionInput,
   DescribeFieldIndexesResponse,
   DescribeFieldIndexesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<DescribeFieldIndexesRequest>,
-  output: __S(3011, __c94, 3) as any as S.Schema<DescribeFieldIndexesResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<DescribeFieldIndexesRequest>,
+  output: __S(3043, __c95, 3) as any as S.Schema<DescribeFieldIndexesResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -4072,13 +4125,13 @@ export type DescribeImportTaskBatchesError =
  * For CloudTrail Event Data Store sources, a batch refers to a subset of stored events grouped by their eventTime.
  */
 export const describeImportTaskBatches: API.OperationMethod<
-  DescribeImportTaskBatchesRequest,
+  DescribeImportTaskBatchesRequest & RegionInput,
   DescribeImportTaskBatchesResponse,
   DescribeImportTaskBatchesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<DescribeImportTaskBatchesRequest>,
-  output: __S(3043, __c95, 3) as any as S.Schema<DescribeImportTaskBatchesResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DescribeImportTaskBatchesRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<DescribeImportTaskBatchesResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -4104,13 +4157,13 @@ export type DescribeImportTasksError =
  * Lists and describes import tasks, with optional filtering by import status and source ARN.
  */
 export const describeImportTasks: API.OperationMethod<
-  DescribeImportTasksRequest,
+  DescribeImportTasksRequest & RegionInput,
   DescribeImportTasksResponse,
   DescribeImportTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DescribeImportTasksRequest>,
-  output: __S(3075, __c96, 3) as any as S.Schema<DescribeImportTasksResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DescribeImportTasksRequest>,
+  output: __S(3107, __c97, 3) as any as S.Schema<DescribeImportTasksResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -4145,13 +4198,13 @@ export type DescribeIndexPoliciesError =
  * To find information about only account-level policies, use DescribeAccountPolicies instead.
  */
 export const describeIndexPolicies: API.OperationMethod<
-  DescribeIndexPoliciesRequest,
+  DescribeIndexPoliciesRequest & RegionInput,
   DescribeIndexPoliciesResponse,
   DescribeIndexPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DescribeIndexPoliciesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<DescribeIndexPoliciesResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DescribeIndexPoliciesRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<DescribeIndexPoliciesResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -4175,6 +4228,10 @@ export type DescribeLogGroupsError =
  * group. You can return all your log groups or filter the results by prefix. The results are
  * ASCII-sorted by log group name.
  *
+ * If an account-level retention policy applies to a log group, `retentionInDays`
+ * shows the retention period from that policy, and `retentionPolicyName` shows the
+ * name of the policy.
+ *
  * CloudWatch Logs doesn't support IAM policies that control access to the
  * `DescribeLogGroups` action by using the
  * aws:ResourceTag/*key-name*
@@ -4190,14 +4247,14 @@ export type DescribeLogGroupsError =
  * see CloudWatch cross-account observability.
  */
 export const describeLogGroups: API.PaginatedOperationMethod<
-  DescribeLogGroupsRequest,
+  DescribeLogGroupsRequest & RegionInput,
   DescribeLogGroupsResponse,
   DescribeLogGroupsError,
   Credentials | HttpClient.HttpClient,
   LogGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DescribeLogGroupsRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<DescribeLogGroupsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DescribeLogGroupsRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<DescribeLogGroupsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4233,14 +4290,14 @@ export type DescribeLogStreamsError =
  * see CloudWatch cross-account observability.
  */
 export const describeLogStreams: API.PaginatedOperationMethod<
-  DescribeLogStreamsRequest,
+  DescribeLogStreamsRequest & RegionInput,
   DescribeLogStreamsResponse,
   DescribeLogStreamsError,
   Credentials | HttpClient.HttpClient,
   LogStream
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DescribeLogStreamsRequest>,
-  output: __S(3203, __c100, 3) as any as S.Schema<DescribeLogStreamsResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DescribeLogStreamsRequest>,
+  output: __S(3235, __c101, 3) as any as S.Schema<DescribeLogStreamsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4266,13 +4323,13 @@ export type DescribeLookupTablesError =
  * results by table name prefix. Results are sorted by table name in ascending order.
  */
 export const describeLookupTables: API.OperationMethod<
-  DescribeLookupTablesRequest,
+  DescribeLookupTablesRequest & RegionInput,
   DescribeLookupTablesResponse,
   DescribeLookupTablesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<DescribeLookupTablesRequest>,
-  output: __S(3235, __c101, 3) as any as S.Schema<DescribeLookupTablesResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DescribeLookupTablesRequest>,
+  output: __S(3267, __c102, 3) as any as S.Schema<DescribeLookupTablesResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -4297,14 +4354,14 @@ export type DescribeMetricFiltersError =
  * ASCII-sorted by filter name.
  */
 export const describeMetricFilters: API.PaginatedOperationMethod<
-  DescribeMetricFiltersRequest,
+  DescribeMetricFiltersRequest & RegionInput,
   DescribeMetricFiltersResponse,
   DescribeMetricFiltersError,
   Credentials | HttpClient.HttpClient,
   MetricFilter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<DescribeMetricFiltersRequest>,
-  output: __S(3267, __c102, 3) as any as S.Schema<DescribeMetricFiltersResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DescribeMetricFiltersRequest>,
+  output: __S(3299, __c103, 3) as any as S.Schema<DescribeMetricFiltersResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4335,13 +4392,13 @@ export type DescribeQueriesError =
  * your account.
  */
 export const describeQueries: API.OperationMethod<
-  DescribeQueriesRequest,
+  DescribeQueriesRequest & RegionInput,
   DescribeQueriesResponse,
   DescribeQueriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<DescribeQueriesRequest>,
-  output: __S(3331, __c104, 3) as any as S.Schema<DescribeQueriesResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DescribeQueriesRequest>,
+  output: __S(3363, __c105, 3) as any as S.Schema<DescribeQueriesResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4363,13 +4420,13 @@ export type DescribeQueryDefinitionsError =
  * only the query definitions that have names that start with a certain string.
  */
 export const describeQueryDefinitions: API.OperationMethod<
-  DescribeQueryDefinitionsRequest,
+  DescribeQueryDefinitionsRequest & RegionInput,
   DescribeQueryDefinitionsResponse,
   DescribeQueryDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DescribeQueryDefinitionsRequest>,
-  output: __S(3363, __c105, 3) as any as S.Schema<DescribeQueryDefinitionsResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DescribeQueryDefinitionsRequest>,
+  output: __S(3395, __c106, 3) as any as S.Schema<DescribeQueryDefinitionsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4386,13 +4443,13 @@ export type DescribeResourcePoliciesError =
  * Lists the resource policies in this account.
  */
 export const describeResourcePolicies: API.OperationMethod<
-  DescribeResourcePoliciesRequest,
+  DescribeResourcePoliciesRequest & RegionInput,
   DescribeResourcePoliciesResponse,
   DescribeResourcePoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<DescribeResourcePoliciesRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<DescribeResourcePoliciesResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DescribeResourcePoliciesRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<DescribeResourcePoliciesResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4412,14 +4469,14 @@ export type DescribeSubscriptionFiltersError =
  * name.
  */
 export const describeSubscriptionFilters: API.PaginatedOperationMethod<
-  DescribeSubscriptionFiltersRequest,
+  DescribeSubscriptionFiltersRequest & RegionInput,
   DescribeSubscriptionFiltersResponse,
   DescribeSubscriptionFiltersError,
   Credentials | HttpClient.HttpClient,
   SubscriptionFilter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DescribeSubscriptionFiltersRequest>,
-  output: __S(3491, __c109, 3) as any as S.Schema<DescribeSubscriptionFiltersResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DescribeSubscriptionFiltersRequest>,
+  output: __S(3523, __c110, 3) as any as S.Schema<DescribeSubscriptionFiltersResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4464,12 +4521,12 @@ export type DisassociateKmsKeyError =
  * It can take up to 5 minutes for this operation to take effect.
  */
 export const disassociateKmsKey: API.OperationMethod<
-  DisassociateKmsKeyRequest,
+  DisassociateKmsKeyRequest & RegionInput,
   DisassociateKmsKeyResponse,
   DisassociateKmsKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<DisassociateKmsKeyRequest>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DisassociateKmsKeyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DisassociateKmsKeyResponse>,
   errors: [
     InvalidParameterException,
@@ -4496,12 +4553,12 @@ export type DisassociateSourceFromS3TableIntegrationError =
  * deleting all associated data from the integration.
  */
 export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
-  DisassociateSourceFromS3TableIntegrationRequest,
+  DisassociateSourceFromS3TableIntegrationRequest & RegionInput,
   DisassociateSourceFromS3TableIntegrationResponse,
   DisassociateSourceFromS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<DisassociateSourceFromS3TableIntegrationRequest>,
+  input: __S(3584, __c112, 0) as any as S.Schema<DisassociateSourceFromS3TableIntegrationRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DisassociateSourceFromS3TableIntegrationResponse>,
   errors: [
     AccessDeniedException,
@@ -4572,14 +4629,14 @@ export type FilterLogEventsError =
  * query.
  */
 export const filterLogEvents: API.PaginatedOperationMethod<
-  FilterLogEventsRequest,
+  FilterLogEventsRequest & RegionInput,
   FilterLogEventsResponse,
   FilterLogEventsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<FilterLogEventsRequest>,
-  output: __S(3589, __c112, 5) as any as S.Schema<FilterLogEventsResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<FilterLogEventsRequest>,
+  output: __S(3621, __c113, 5) as any as S.Schema<FilterLogEventsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4599,13 +4656,13 @@ export type GetDataProtectionPolicyError =
  * Returns information about a log group data protection policy.
  */
 export const getDataProtectionPolicy: API.OperationMethod<
-  GetDataProtectionPolicyRequest,
+  GetDataProtectionPolicyRequest & RegionInput,
   GetDataProtectionPolicyResponse,
   GetDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetDataProtectionPolicyRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<GetDataProtectionPolicyResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetDataProtectionPolicyRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<GetDataProtectionPolicyResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -4644,12 +4701,12 @@ export type GetDeliveryError =
  * of the deliveries in your account with the DescribeDeliveries operation.
  */
 export const getDelivery: API.OperationMethod<
-  GetDeliveryRequest,
+  GetDeliveryRequest & RegionInput,
   GetDeliveryResponse,
   GetDeliveryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetDeliveryRequest>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetDeliveryRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetDeliveryResponse>,
   errors: [
     ResourceNotFoundException,
@@ -4676,13 +4733,13 @@ export type GetDeliveryDestinationError =
  * Retrieves complete information about one delivery destination.
  */
 export const getDeliveryDestination: API.OperationMethod<
-  GetDeliveryDestinationRequest,
+  GetDeliveryDestinationRequest & RegionInput,
   GetDeliveryDestinationResponse,
   GetDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetDeliveryDestinationRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<GetDeliveryDestinationResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetDeliveryDestinationRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<GetDeliveryDestinationResponse>,
   errors: [
     ResourceNotFoundException,
     ServiceQuotaExceededException,
@@ -4707,13 +4764,13 @@ export type GetDeliveryDestinationPolicyError =
  * specify. For more information about delivery destinations and their policies, see PutDeliveryDestinationPolicy.
  */
 export const getDeliveryDestinationPolicy: API.OperationMethod<
-  GetDeliveryDestinationPolicyRequest,
+  GetDeliveryDestinationPolicyRequest & RegionInput,
   GetDeliveryDestinationPolicyResponse,
   GetDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetDeliveryDestinationPolicyRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<GetDeliveryDestinationPolicyResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetDeliveryDestinationPolicyRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GetDeliveryDestinationPolicyResponse>,
   errors: [ResourceNotFoundException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4733,13 +4790,13 @@ export type GetDeliverySourceError =
  * Retrieves complete information about one delivery source.
  */
 export const getDeliverySource: API.OperationMethod<
-  GetDeliverySourceRequest,
+  GetDeliverySourceRequest & RegionInput,
   GetDeliverySourceResponse,
   GetDeliverySourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetDeliverySourceRequest>,
-  output: __S(3872, __c121, 0) as any as S.Schema<GetDeliverySourceResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetDeliverySourceRequest>,
+  output: __S(3904, __c122, 0) as any as S.Schema<GetDeliverySourceResponse>,
   errors: [
     ResourceNotFoundException,
     ServiceQuotaExceededException,
@@ -4763,13 +4820,13 @@ export type GetIntegrationError =
  * Returns information about one integration between CloudWatch Logs and OpenSearch Service.
  */
 export const getIntegration: API.OperationMethod<
-  GetIntegrationRequest,
+  GetIntegrationRequest & RegionInput,
   GetIntegrationResponse,
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(3913, __c122, 9) as any as S.Schema<GetIntegrationResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(3945, __c123, 9) as any as S.Schema<GetIntegrationResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4788,13 +4845,13 @@ export type GetLogAnomalyDetectorError =
  * Retrieves information about the log anomaly detector that you specify. The KMS key ARN detected is valid.
  */
 export const getLogAnomalyDetector: API.OperationMethod<
-  GetLogAnomalyDetectorRequest,
+  GetLogAnomalyDetectorRequest & RegionInput,
   GetLogAnomalyDetectorResponse,
   GetLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetLogAnomalyDetectorRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<GetLogAnomalyDetectorResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetLogAnomalyDetectorRequest>,
+  output: __S(3969, __c124, 1) as any as S.Schema<GetLogAnomalyDetectorResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -4849,14 +4906,14 @@ export type GetLogEventsError =
  * query.
  */
 export const getLogEvents: API.PaginatedOperationMethod<
-  GetLogEventsRequest,
+  GetLogEventsRequest & RegionInput,
   GetLogEventsResponse,
   GetLogEventsError,
   Credentials | HttpClient.HttpClient,
   OutputLogEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetLogEventsRequest>,
-  output: __S(4003, __c125, 3) as any as S.Schema<GetLogEventsResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetLogEventsRequest>,
+  output: __S(4035, __c126, 3) as any as S.Schema<GetLogEventsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4882,13 +4939,13 @@ export type GetLogFieldsError =
  * field modifications introduced through pipelines, such as new fields or changed field types.
  */
 export const getLogFields: API.OperationMethod<
-  GetLogFieldsRequest,
+  GetLogFieldsRequest & RegionInput,
   GetLogFieldsResponse,
   GetLogFieldsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetLogFieldsRequest>,
-  output: __S(4036, __c126, 4) as any as S.Schema<GetLogFieldsResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetLogFieldsRequest>,
+  output: __S(4068, __c127, 4) as any as S.Schema<GetLogFieldsResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -4933,13 +4990,13 @@ export type GetLogGroupFieldsError =
  * see CloudWatch cross-account observability.
  */
 export const getLogGroupFields: API.OperationMethod<
-  GetLogGroupFieldsRequest,
+  GetLogGroupFieldsRequest & RegionInput,
   GetLogGroupFieldsResponse,
   GetLogGroupFieldsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetLogGroupFieldsRequest>,
-  output: __S(4067, __c127, 3) as any as S.Schema<GetLogGroupFieldsResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetLogGroupFieldsRequest>,
+  output: __S(4099, __c128, 3) as any as S.Schema<GetLogGroupFieldsResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -4979,13 +5036,13 @@ export type GetLogObjectError =
  * .
  */
 export const getLogObject: API.OperationMethod<
-  GetLogObjectRequest,
+  GetLogObjectRequest & RegionInput,
   GetLogObjectResponse,
   GetLogObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetLogObjectRequest>,
-  output: __S(4099, __c128, 3) as any as S.Schema<GetLogObjectResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetLogObjectRequest>,
+  output: __S(4131, __c129, 3) as any as S.Schema<GetLogObjectResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -5015,13 +5072,13 @@ export type GetLogRecordError =
  * The full unparsed log event is returned within `@message`.
  */
 export const getLogRecord: API.OperationMethod<
-  GetLogRecordRequest,
+  GetLogRecordRequest & RegionInput,
   GetLogRecordResponse,
   GetLogRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetLogRecordRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<GetLogRecordResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetLogRecordRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<GetLogRecordResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -5045,13 +5102,13 @@ export type GetLookupTableError =
  * Retrieves the full content of a lookup table, including the CSV data.
  */
 export const getLookupTable: API.OperationMethod<
-  GetLookupTableRequest,
+  GetLookupTableRequest & RegionInput,
   GetLookupTableResponse,
   GetLookupTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetLookupTableRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetLookupTableResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetLookupTableRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetLookupTableResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -5101,13 +5158,13 @@ export type GetQueryResultsError =
  * CloudWatch cross-account observability.
  */
 export const getQueryResults: API.OperationMethod<
-  GetQueryResultsRequest,
+  GetQueryResultsRequest & RegionInput,
   GetQueryResultsResponse,
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetQueryResultsRequest>,
-  output: __S(4229, __c132, 5) as any as S.Schema<GetQueryResultsResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetQueryResultsRequest>,
+  output: __S(4261, __c133, 5) as any as S.Schema<GetQueryResultsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5128,13 +5185,13 @@ export type GetScheduledQueryError =
  * status, and metadata.
  */
 export const getScheduledQuery: API.OperationMethod<
-  GetScheduledQueryRequest,
+  GetScheduledQueryRequest & RegionInput,
   GetScheduledQueryResponse,
   GetScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetScheduledQueryRequest>,
-  output: __S(4288, __c134, 0) as any as S.Schema<GetScheduledQueryResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetScheduledQueryRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<GetScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5161,14 +5218,14 @@ export type GetScheduledQueryHistoryError =
  * including query results and destination processing status.
  */
 export const getScheduledQueryHistory: API.PaginatedOperationMethod<
-  GetScheduledQueryHistoryRequest,
+  GetScheduledQueryHistoryRequest & RegionInput,
   GetScheduledQueryHistoryResponse,
   GetScheduledQueryHistoryError,
   Credentials | HttpClient.HttpClient,
   TriggerHistoryRecord
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetScheduledQueryHistoryRequest>,
-  output: __S(4325, __c135, 5) as any as S.Schema<GetScheduledQueryHistoryResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetScheduledQueryHistoryRequest>,
+  output: __S(4357, __c136, 5) as any as S.Schema<GetScheduledQueryHistoryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5200,13 +5257,13 @@ export type GetStorageTierPolicyError =
  * Returns the storage tier policy for the account.
  */
 export const getStorageTierPolicy: API.OperationMethod<
-  GetStorageTierPolicyRequest,
+  GetStorageTierPolicyRequest & RegionInput,
   GetStorageTierPolicyResponse,
   GetStorageTierPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetStorageTierPolicyRequest>,
-  output: __S(4384, __c137, 0) as any as S.Schema<GetStorageTierPolicyResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetStorageTierPolicyRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<GetStorageTierPolicyResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -5234,13 +5291,13 @@ export type GetTransformerError =
  * information for an account-level transformer, use DescribeAccountPolicies.
  */
 export const getTransformer: API.OperationMethod<
-  GetTransformerRequest,
+  GetTransformerRequest & RegionInput,
   GetTransformerResponse,
   GetTransformerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetTransformerRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<GetTransformerResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetTransformerRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<GetTransformerResponse>,
   errors: [
     InvalidOperationException,
     InvalidParameterException,
@@ -5274,14 +5331,14 @@ export type ListAggregateLogGroupSummariesError =
  * results.
  */
 export const listAggregateLogGroupSummaries: API.PaginatedOperationMethod<
-  ListAggregateLogGroupSummariesRequest,
+  ListAggregateLogGroupSummariesRequest & RegionInput,
   ListAggregateLogGroupSummariesResponse,
   ListAggregateLogGroupSummariesError,
   Credentials | HttpClient.HttpClient,
   AggregateLogGroupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListAggregateLogGroupSummariesRequest>,
-  output: __S(4485, __c140, 5) as any as S.Schema<ListAggregateLogGroupSummariesResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListAggregateLogGroupSummariesRequest>,
+  output: __S(4517, __c141, 5) as any as S.Schema<ListAggregateLogGroupSummariesResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5308,14 +5365,14 @@ export type ListAnomaliesError =
  * section.
  */
 export const listAnomalies: API.PaginatedOperationMethod<
-  ListAnomaliesRequest,
+  ListAnomaliesRequest & RegionInput,
   ListAnomaliesResponse,
   ListAnomaliesError,
   Credentials | HttpClient.HttpClient,
   Anomaly
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListAnomaliesRequest>,
-  output: __S(4552, __c142, 8) as any as S.Schema<ListAnomaliesResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListAnomaliesRequest>,
+  output: __S(4584, __c143, 8) as any as S.Schema<ListAnomaliesResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -5345,13 +5402,13 @@ export type ListIntegrationsError =
  * must be with OpenSearch Service.
  */
 export const listIntegrations: API.OperationMethod<
-  ListIntegrationsRequest,
+  ListIntegrationsRequest & RegionInput,
   ListIntegrationsResponse,
   ListIntegrationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(4579, __c143, 3) as any as S.Schema<ListIntegrationsResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(4611, __c144, 3) as any as S.Schema<ListIntegrationsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5370,14 +5427,14 @@ export type ListLogAnomalyDetectorsError =
  * Retrieves a list of the log anomaly detectors in the account.
  */
 export const listLogAnomalyDetectors: API.PaginatedOperationMethod<
-  ListLogAnomalyDetectorsRequest,
+  ListLogAnomalyDetectorsRequest & RegionInput,
   ListLogAnomalyDetectorsResponse,
   ListLogAnomalyDetectorsError,
   Credentials | HttpClient.HttpClient,
   AnomalyDetector
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListLogAnomalyDetectorsRequest>,
-  output: __S(4611, __c144, 3) as any as S.Schema<ListLogAnomalyDetectorsResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListLogAnomalyDetectorsRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<ListLogAnomalyDetectorsResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -5416,13 +5473,13 @@ export type ListLogGroupsError =
  * results, and includes a token to use in a subsequent operation to return more results.
  */
 export const listLogGroups: API.OperationMethod<
-  ListLogGroupsRequest,
+  ListLogGroupsRequest & RegionInput,
   ListLogGroupsResponse,
   ListLogGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4642, __c145, 2) as any as S.Schema<ListLogGroupsRequest>,
-  output: __S(4645, __c145, 5) as any as S.Schema<ListLogGroupsResponse>,
+  input: __S(4674, __c146, 2) as any as S.Schema<ListLogGroupsRequest>,
+  output: __S(4677, __c146, 5) as any as S.Schema<ListLogGroupsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5447,14 +5504,14 @@ export type ListLogGroupsForQueryError =
  * to improve query performance and reduce costs.
  */
 export const listLogGroupsForQuery: API.PaginatedOperationMethod<
-  ListLogGroupsForQueryRequest,
+  ListLogGroupsForQueryRequest & RegionInput,
   ListLogGroupsForQueryResponse,
   ListLogGroupsForQueryError,
   Credentials | HttpClient.HttpClient,
   LogGroupIdentifier
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<ListLogGroupsForQueryRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<ListLogGroupsForQueryResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<ListLogGroupsForQueryRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<ListLogGroupsForQueryResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -5485,14 +5542,14 @@ export type ListScheduledQueriesError =
  * show only enabled or disabled queries.
  */
 export const listScheduledQueries: API.PaginatedOperationMethod<
-  ListScheduledQueriesRequest,
+  ListScheduledQueriesRequest & RegionInput,
   ListScheduledQueriesResponse,
   ListScheduledQueriesError,
   Credentials | HttpClient.HttpClient,
   ScheduledQuerySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ListScheduledQueriesRequest>,
-  output: __S(4707, __c147, 3) as any as S.Schema<ListScheduledQueriesResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<ListScheduledQueriesRequest>,
+  output: __S(4739, __c148, 3) as any as S.Schema<ListScheduledQueriesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5524,14 +5581,14 @@ export type ListSourcesForS3TableIntegrationError =
  * which data sources are currently associated for query access.
  */
 export const listSourcesForS3TableIntegration: API.PaginatedOperationMethod<
-  ListSourcesForS3TableIntegrationRequest,
+  ListSourcesForS3TableIntegrationRequest & RegionInput,
   ListSourcesForS3TableIntegrationResponse,
   ListSourcesForS3TableIntegrationError,
   Credentials | HttpClient.HttpClient,
   S3TableIntegrationSource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ListSourcesForS3TableIntegrationRequest>,
-  output: __S(4739, __c148, 3) as any as S.Schema<ListSourcesForS3TableIntegrationResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<ListSourcesForS3TableIntegrationRequest>,
+  output: __S(4771, __c149, 3) as any as S.Schema<ListSourcesForS3TableIntegrationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5565,13 +5622,13 @@ export type ListSyslogConfigurationsError =
  * group or VPC endpoint.
  */
 export const listSyslogConfigurations: API.OperationMethod<
-  ListSyslogConfigurationsRequest,
+  ListSyslogConfigurationsRequest & RegionInput,
   ListSyslogConfigurationsResponse,
   ListSyslogConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<ListSyslogConfigurationsRequest>,
-  output: __S(4771, __c149, 3) as any as S.Schema<ListSyslogConfigurationsResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<ListSyslogConfigurationsRequest>,
+  output: __S(4803, __c150, 3) as any as S.Schema<ListSyslogConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -5597,7 +5654,7 @@ export type ListTagsForResourceError =
  * destinations support tagging.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -5623,7 +5680,7 @@ export type ListTagsLogGroupError =
  * Lists the tags for the specified log group.
  */
 export const listTagsLogGroup: API.OperationMethod<
-  ListTagsLogGroupRequest,
+  ListTagsLogGroupRequest & RegionInput,
   ListTagsLogGroupResponse,
   ListTagsLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -5646,8 +5703,9 @@ export type PutAccountPolicyError =
   | CommonErrors;
 /**
  * Creates an account-level data protection policy, subscription filter policy, field index
- * policy, transformer policy, or metric extraction policy that applies to all log groups, a
- * subset of log groups, or a data source name and type combination in the account. Account-level
+ * policy, transformer policy, metric extraction policy, or retention policy that applies to all
+ * log groups, a subset of log groups, or a data source name and type combination in the
+ * account. Account-level
  * policies are Region-specific: a policy applies only to log groups in the Region where you
  * create it. To apply a policy across multiple Regions, create the policy separately in each
  * Region.
@@ -5686,6 +5744,9 @@ export type PutAccountPolicyError =
  * account-level only and have no log-group-level equivalent, so no conflict resolution
  * applies.
  *
+ * - *Retention policies* -- An account-level retention policy overrides
+ * the retention setting of the log group.
+ *
  * For field index policies, you can configure indexed fields as *facets*
  * to enable interactive exploration of your logs. Facets provide value distributions and counts
  * for indexed fields in the CloudWatch Logs Insights console without requiring query
@@ -5716,6 +5777,10 @@ export type PutAccountPolicyError =
  * - To create a metric extraction policy, you must have the
  * `logs:PutMetricExtractionPolicy` and `logs:PutAccountPolicy`
  * permissions.
+ *
+ * - To create a retention policy, you must have the `logs:PutRetentionPolicy`
+ * and `logs:PutAccountPolicy` permissions. A dry run requires the same
+ * permissions as the operation that it previews, and no additional permissions.
  *
  * **Data protection policy**
  *
@@ -6000,9 +6065,52 @@ export type PutAccountPolicyError =
  * cannot create an `IN` policy for prefix `"/aws"` because the set of
  * log groups matching `"/aws"` is not a subset of the log groups matching
  * `"/aws/lambda"`.
+ *
+ * **Retention policy**
+ *
+ * A retention policy sets the retention period for log groups in your account. You can use an
+ * account-level retention policy to set a default retention period for all log groups in the
+ * account, or for a subset of log groups that you specify with the
+ * `selectionCriteria` parameter. CloudWatch Logs automatically deletes log events
+ * that are older than the retention period.
+ *
+ * Each account can have up to 20 account-level retention policies in each Region. To scope a
+ * retention policy to a subset of log groups, use `LogGroupNamePrefix` in
+ * `selectionCriteria`. Retention policies support log group name prefixes only. If
+ * you omit `selectionCriteria`, the policy applies
+ * to all log groups in the account.
+ *
+ * Unlike other account-level policy types, retention policies can have overlapping selection
+ * criteria. When more than one retention policy applies to a log group, the policy with the
+ * longest retention period is used. A policy that specifies `NEVER_EXPIRE` is treated
+ * as the longest retention period. This lets you set a baseline retention period for the account,
+ * apply longer retention periods to specific log groups, and exempt specific log groups from
+ * expiring at all. If two policies that apply to the same log group specify the same retention
+ * period, the policy that was created first is the one reported in
+ * `retentionPolicyName`.
+ *
+ * Account-level retention policies require a minimum retention period of 30 days.
+ *
+ * A retention policy takes effect 24 hours after you create it. If you update a policy, the
+ * new retention period takes effect 24 hours after the update, and the previous retention
+ * period stays in effect until then. During this period, `DescribeLogGroups` and log
+ * event expiration use the retention period that is currently in effect, but a dry run reports
+ * the impact as if the policy were already in effect.
+ *
+ * Before you create, update, or delete a retention policy, you can specify
+ * `true` for `dryRun` to preview how many log groups would have a longer,
+ * shorter, or unchanged retention period. For more information, see DryRunResult.
+ *
+ * An account-level retention policy replaces the retention period set on a log group,
+ * including when the log group's own retention period is longer. For example, if a log group is
+ * set to retain log events for 10 years and you create a retention policy that sets a 90-day
+ * retention period for that log group, CloudWatch Logs deletes the log events in that log group
+ * that are older than 90 days. Specify `true` for `dryRun` to see which
+ * log groups would have a shorter retention period before you create or update the
+ * policy.
  */
 export const putAccountPolicy: API.OperationMethod<
-  PutAccountPolicyRequest,
+  PutAccountPolicyRequest & RegionInput,
   PutAccountPolicyResponse,
   PutAccountPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6038,7 +6146,7 @@ export type PutBearerTokenAuthenticationError =
  * For information about the parameters that are common to all actions, see Common Parameters.
  */
 export const putBearerTokenAuthentication: API.OperationMethod<
-  PutBearerTokenAuthenticationRequest,
+  PutBearerTokenAuthenticationRequest & RegionInput,
   PutBearerTokenAuthenticationResponse,
   PutBearerTokenAuthenticationError,
   Credentials | HttpClient.HttpClient
@@ -6094,13 +6202,13 @@ export type PutDataProtectionPolicyError =
  * specified in either policy is masked.
  */
 export const putDataProtectionPolicy: API.OperationMethod<
-  PutDataProtectionPolicyRequest,
+  PutDataProtectionPolicyRequest & RegionInput,
   PutDataProtectionPolicyResponse,
   PutDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PutDataProtectionPolicyRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<PutDataProtectionPolicyResponse>,
+  output: __S(3680, __c115, 0) as any as S.Schema<PutDataProtectionPolicyResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -6160,13 +6268,13 @@ export type PutDeliveryDestinationError =
  * specify.
  */
 export const putDeliveryDestination: API.OperationMethod<
-  PutDeliveryDestinationRequest,
+  PutDeliveryDestinationRequest & RegionInput,
   PutDeliveryDestinationResponse,
   PutDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<PutDeliveryDestinationRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<PutDeliveryDestinationResponse>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PutDeliveryDestinationResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -6215,13 +6323,13 @@ export type PutDeliveryDestinationPolicyError =
  * needed policies.
  */
 export const putDeliveryDestinationPolicy: API.OperationMethod<
-  PutDeliveryDestinationPolicyRequest,
+  PutDeliveryDestinationPolicyRequest & RegionInput,
   PutDeliveryDestinationPolicyResponse,
   PutDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<PutDeliveryDestinationPolicyRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<PutDeliveryDestinationPolicyResponse>,
+  output: __S(3841, __c120, 1) as any as S.Schema<PutDeliveryDestinationPolicyResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -6276,13 +6384,13 @@ export type PutDeliverySourceError =
  * source parameters are overwritten with the new parameter values that you specify.
  */
 export const putDeliverySource: API.OperationMethod<
-  PutDeliverySourceRequest,
+  PutDeliverySourceRequest & RegionInput,
   PutDeliverySourceResponse,
   PutDeliverySourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<PutDeliverySourceRequest>,
-  output: __S(3872, __c121, 0) as any as S.Schema<PutDeliverySourceResponse>,
+  output: __S(3904, __c122, 0) as any as S.Schema<PutDeliverySourceResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -6320,7 +6428,7 @@ export type PutDestinationError =
  * `iam:PassRole` permission.
  */
 export const putDestination: API.OperationMethod<
-  PutDestinationRequest,
+  PutDestinationRequest & RegionInput,
   PutDestinationResponse,
   PutDestinationError,
   Credentials | HttpClient.HttpClient
@@ -6347,7 +6455,7 @@ export type PutDestinationPolicyError =
  * against a given destination.
  */
 export const putDestinationPolicy: API.OperationMethod<
-  PutDestinationPolicyRequest,
+  PutDestinationPolicyRequest & RegionInput,
   PutDestinationPolicyResponse,
   PutDestinationPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6433,7 +6541,7 @@ export type PutIndexPolicyError =
  * policies may still apply.
  */
 export const putIndexPolicy: API.OperationMethod<
-  PutIndexPolicyRequest,
+  PutIndexPolicyRequest & RegionInput,
   PutIndexPolicyResponse,
   PutIndexPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6473,7 +6581,7 @@ export type PutIntegrationError =
  * integration.
  */
 export const putIntegration: API.OperationMethod<
-  PutIntegrationRequest,
+  PutIntegrationRequest & RegionInput,
   PutIntegrationResponse,
   PutIntegrationError,
   Credentials | HttpClient.HttpClient
@@ -6545,7 +6653,7 @@ export type PutLogEventsError =
  * likely cause is a non-valid Amazon Web Services access key ID or secret key.
  */
 export const putLogEvents: API.OperationMethod<
-  PutLogEventsRequest,
+  PutLogEventsRequest & RegionInput,
   PutLogEventsResponse,
   PutLogEventsError,
   Credentials | HttpClient.HttpClient
@@ -6583,7 +6691,7 @@ export type PutLogGroupDeletionProtectionError =
  * For information about the parameters that are common to all actions, see Common Parameters.
  */
 export const putLogGroupDeletionProtection: API.OperationMethod<
-  PutLogGroupDeletionProtectionRequest,
+  PutLogGroupDeletionProtectionRequest & RegionInput,
   PutLogGroupDeletionProtectionResponse,
   PutLogGroupDeletionProtectionError,
   Credentials | HttpClient.HttpClient
@@ -6643,7 +6751,7 @@ export type PutMetricFilterError =
  * Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
  */
 export const putMetricFilter: API.OperationMethod<
-  PutMetricFilterRequest,
+  PutMetricFilterRequest & RegionInput,
   PutMetricFilterResponse,
   PutMetricFilterError,
   Credentials | HttpClient.HttpClient
@@ -6687,7 +6795,7 @@ export type PutQueryDefinitionError =
  * this operation.
  */
 export const putQueryDefinition: API.OperationMethod<
-  PutQueryDefinitionRequest,
+  PutQueryDefinitionRequest & RegionInput,
   PutQueryDefinitionResponse,
   PutQueryDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -6724,7 +6832,7 @@ export type PutResourcePolicyError =
  *
  * - **Supported principals** - Policy only applies when
  * operations are invoked by Amazon Web Services service principals (not IAM
- * users, roles, or cross-account principals
+ * users, roles, or cross-account principals)
  *
  * - **Policy limits** - An account can have a maximum of 10
  * policies without resourceARN and one per LogGroup resourceARN
@@ -6735,7 +6843,7 @@ export type PutResourcePolicyError =
  * policies.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -6767,6 +6875,15 @@ export type PutRetentionPolicyError =
  * configure the number of days for which to retain log events in the specified log
  * group.
  *
+ * Account-level retention policies created with PutAccountPolicy override the retention that you
+ * set with `PutRetentionPolicy`. If an account-level retention policy applies to the
+ * log group, this operation succeeds and CloudWatch Logs saves the retention period that you
+ * specify, but the retention period from the account-level policy continues to determine when
+ * log events in the log group expire. `DescribeLogGroups` returns the retention period
+ * from the policy in `retentionInDays` and the name of the policy in
+ * `retentionPolicyName`. The retention period that you set with this operation takes
+ * effect if the account-level policy no longer applies to the log group.
+ *
  * CloudWatch Logs doesn't immediately delete log events when they reach their retention
  * setting. It typically takes up to 72 hours after that before log events are deleted, but in
  * rare situations might take longer.
@@ -6786,7 +6903,7 @@ export type PutRetentionPolicyError =
  * bytes a log group is storing.
  */
 export const putRetentionPolicy: API.OperationMethod<
-  PutRetentionPolicyRequest,
+  PutRetentionPolicyRequest & RegionInput,
   PutRetentionPolicyResponse,
   PutRetentionPolicyError,
   Credentials | HttpClient.HttpClient
@@ -6819,13 +6936,13 @@ export type PutStorageTierPolicyError =
  * cost-effective storage tier based on access frequency.
  */
 export const putStorageTierPolicy: API.OperationMethod<
-  PutStorageTierPolicyRequest,
+  PutStorageTierPolicyRequest & RegionInput,
   PutStorageTierPolicyResponse,
   PutStorageTierPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<PutStorageTierPolicyRequest>,
-  output: __S(4384, __c137, 0) as any as S.Schema<PutStorageTierPolicyResponse>,
+  output: __S(4416, __c138, 0) as any as S.Schema<PutStorageTierPolicyResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -6884,7 +7001,7 @@ export type PutSubscriptionFilterError =
  * permission.
  */
 export const putSubscriptionFilter: API.OperationMethod<
-  PutSubscriptionFilterRequest,
+  PutSubscriptionFilterRequest & RegionInput,
   PutSubscriptionFilterResponse,
   PutSubscriptionFilterError,
   Credentials | HttpClient.HttpClient
@@ -6920,7 +7037,7 @@ export type PutSyslogConfigurationError =
  * syslog data through the specified VPC endpoint into the log group.
  */
 export const putSyslogConfiguration: API.OperationMethod<
-  PutSyslogConfigurationRequest,
+  PutSyslogConfigurationRequest & RegionInput,
   PutSyslogConfigurationResponse,
   PutSyslogConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -6985,7 +7102,7 @@ export type PutTransformerError =
  * account-level transformer.
  */
 export const putTransformer: API.OperationMethod<
-  PutTransformerRequest,
+  PutTransformerRequest & RegionInput,
   PutTransformerResponse,
   PutTransformerError,
   Credentials | HttpClient.HttpClient
@@ -7060,7 +7177,7 @@ export type StartLiveTailError =
  * a Live Tail session using an Amazon Web Services SDK.
  */
 export const startLiveTail: API.OperationMethod<
-  StartLiveTailRequest,
+  StartLiveTailRequest & RegionInput,
   StartLiveTailResponse,
   StartLiveTailError,
   Credentials | HttpClient.HttpClient
@@ -7138,7 +7255,7 @@ export type StartQueryError =
  * that have been added to dashboards.
  */
 export const startQuery: API.OperationMethod<
-  StartQueryRequest,
+  StartQueryRequest & RegionInput,
   StartQueryResponse,
   StartQueryError,
   Credentials | HttpClient.HttpClient
@@ -7175,13 +7292,13 @@ export type StopQueryError =
  * itself.
  */
 export const stopQuery: API.OperationMethod<
-  StopQueryRequest,
+  StopQueryRequest & RegionInput,
   StopQueryResponse,
   StopQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<StopQueryRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<StopQueryResponse>,
+  output: __S(2432, __c76, 0) as any as S.Schema<StopQueryResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7210,7 +7327,7 @@ export type TagLogGroupError = InvalidParameterException | ResourceNotFoundExcep
  * access, see Controlling access to Amazon Web Services resources using tags.
  */
 export const tagLogGroup: API.OperationMethod<
-  TagLogGroupRequest,
+  TagLogGroupRequest & RegionInput,
   TagLogGroupResponse,
   TagLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -7251,7 +7368,7 @@ export type TagResourceError =
  * You can associate as many as 50 tags with a CloudWatch Logs resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7280,7 +7397,7 @@ export type TestMetricFilterError =
  * can use this operation to validate the correctness of a metric filter pattern.
  */
 export const testMetricFilter: API.OperationMethod<
-  TestMetricFilterRequest,
+  TestMetricFilterRequest & RegionInput,
   TestMetricFilterResponse,
   TestMetricFilterError,
   Credentials | HttpClient.HttpClient
@@ -7306,7 +7423,7 @@ export type TestTransformerError =
  * original log events and the transformed versions.
  */
 export const testTransformer: API.OperationMethod<
-  TestTransformerRequest,
+  TestTransformerRequest & RegionInput,
   TestTransformerResponse,
   TestTransformerError,
   Credentials | HttpClient.HttpClient
@@ -7335,7 +7452,7 @@ export type UntagLogGroupError = ResourceNotFoundException | CommonErrors;
  * to restrict which tags users can assign.
  */
 export const untagLogGroup: API.OperationMethod<
-  UntagLogGroupRequest,
+  UntagLogGroupRequest & RegionInput,
   UntagLogGroupResponse,
   UntagLogGroupError,
   Credentials | HttpClient.HttpClient
@@ -7359,7 +7476,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -7395,7 +7512,7 @@ export type UpdateAnomalyError =
  * `suppressionType` and `suppressionPeriod` parameters.
  */
 export const updateAnomaly: API.OperationMethod<
-  UpdateAnomalyRequest,
+  UpdateAnomalyRequest & RegionInput,
   UpdateAnomalyResponse,
   UpdateAnomalyError,
   Credentials | HttpClient.HttpClient
@@ -7429,7 +7546,7 @@ export type UpdateDeliveryConfigurationError =
  * to change the source or destination of the delivery.
  */
 export const updateDeliveryConfiguration: API.OperationMethod<
-  UpdateDeliveryConfigurationRequest,
+  UpdateDeliveryConfigurationRequest & RegionInput,
   UpdateDeliveryConfigurationResponse,
   UpdateDeliveryConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -7461,7 +7578,7 @@ export type UpdateLogAnomalyDetectorError =
  * Updates an existing log anomaly detector.
  */
 export const updateLogAnomalyDetector: API.OperationMethod<
-  UpdateLogAnomalyDetectorRequest,
+  UpdateLogAnomalyDetectorRequest & RegionInput,
   UpdateLogAnomalyDetectorResponse,
   UpdateLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
@@ -7497,7 +7614,7 @@ export type UpdateLookupTableError =
  * either `tableBody` or `queryId`, but not both.
  */
 export const updateLookupTable: API.OperationMethod<
-  UpdateLookupTableRequest,
+  UpdateLookupTableRequest & RegionInput,
   UpdateLookupTableResponse,
   UpdateLookupTableError,
   Credentials | HttpClient.HttpClient
@@ -7531,13 +7648,13 @@ export type UpdateScheduledQueryError =
  * semantics, allowing modification of query parameters, schedule, and destinations.
  */
 export const updateScheduledQuery: API.OperationMethod<
-  UpdateScheduledQueryRequest,
+  UpdateScheduledQueryRequest & RegionInput,
   UpdateScheduledQueryResponse,
   UpdateScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateScheduledQueryRequest>,
-  output: __S(4288, __c134, 0) as any as S.Schema<UpdateScheduledQueryResponse>,
+  output: __S(4320, __c135, 0) as any as S.Schema<UpdateScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7592,11 +7709,15 @@ function __c3(j: number): any {
           policyType: S.String,
           scope: S.optional(S.String),
           selectionCriteria: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutAccountPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ accountPolicy: S.optional(__S(2656, __c83, 0)) }).pipe(ns),
+        S.Struct({
+          accountPolicy: S.optional(__S(2688, __c84, 0)),
+          dryRunResult: S.optional(__S(1954, __c61, 2)),
+        }).pipe(ns),
       ).annotate({ identifier: "PutAccountPolicyResponse" });
   }
 }
@@ -7628,7 +7749,7 @@ function __c6(j: number): any {
         S.Struct({
           name: S.String,
           outputFormat: S.optional(S.String),
-          deliveryDestinationConfiguration: S.optional(__S(2816, __c88, 0)),
+          deliveryDestinationConfiguration: S.optional(__S(2848, __c89, 0)),
           deliveryDestinationType: S.optional(S.String),
           roleArn: S.optional(S.String),
           tags: S.optional(__S(1472, __c46, 0)),
@@ -7673,7 +7794,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PutDestinationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ destination: S.optional(__S(2944, __c92, 0)) }).pipe(ns),
+        S.Struct({ destination: S.optional(__S(2976, __c93, 0)) }).pipe(ns),
       ).annotate({ identifier: "PutDestinationResponse" });
   }
 }
@@ -7699,7 +7820,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PutIndexPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ indexPolicy: S.optional(__S(3136, __c98, 0)) }).pipe(ns),
+        S.Struct({ indexPolicy: S.optional(__S(3168, __c99, 0)) }).pipe(ns),
       ).annotate({ identifier: "PutIndexPolicyResponse" });
   }
 }
@@ -7799,7 +7920,7 @@ function __c15(j: number): any {
           logGroupName: S.String,
           filterName: S.String,
           filterPattern: S.String,
-          metricTransformations: __S(3297, __c103, 1),
+          metricTransformations: __S(3329, __c104, 1),
           applyOnTransformedLogs: S.optional(S.Boolean),
           fieldSelectionCriteria: S.optional(S.String),
           emitSystemFieldDimensions: S.optional(__S(1504, __c47, 0)),
@@ -7818,7 +7939,7 @@ function __c16(j: number): any {
           logGroupNames: S.optional(__S(1504, __c47, 0)),
           queryString: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          parameters: S.optional(__S(3393, __c106, 1)),
+          parameters: S.optional(__S(3425, __c107, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutQueryDefinitionRequest" });
     case 1:
@@ -7841,7 +7962,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourcePolicy: S.optional(__S(3456, __c108, 0)),
+          resourcePolicy: S.optional(__S(3488, __c109, 0)),
           revisionId: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "PutResourcePolicyResponse" });
@@ -7899,7 +8020,7 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ logGroupIdentifier: S.String, transformerConfig: __S(4476, __c139, 28) }).pipe(
+        S.Struct({ logGroupIdentifier: S.String, transformerConfig: __S(4508, __c140, 28) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutTransformerRequest" });
@@ -7955,8 +8076,8 @@ function __c23(j: number): any {
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.Struct({ sessionStart: __S(737, __c23, 1) }),
           /*@__PURE__*/ S.Struct({ sessionUpdate: __S(741, __c23, 5) }),
-          /*@__PURE__*/ S.Struct({ SessionTimeoutException: __S(4128, __c129, 0) }),
-          /*@__PURE__*/ S.Struct({ SessionStreamingException: __S(4128, __c129, 0) }),
+          /*@__PURE__*/ S.Struct({ SessionTimeoutException: __S(4160, __c130, 0) }),
+          /*@__PURE__*/ S.Struct({ SessionStreamingException: __S(4160, __c130, 0) }),
         ]),
       );
     case 7:
@@ -8045,7 +8166,7 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          transformerConfig: __S(4476, __c139, 28),
+          transformerConfig: __S(4508, __c140, 28),
           logEventMessages: __S(1504, __c47, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "TestTransformerRequest" });
@@ -8498,13 +8619,45 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ policyName: S.String, policyType: S.String }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          policyName: S.String,
+          policyType: S.String,
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeleteAccountPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ dryRunResult: S.optional(__S(1954, __c61, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteAccountPolicyResponse" });
   }
 }
 function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          logGroupName: S.optional(S.String),
+          currentRetention: S.optional(S.String),
+          proposedRetention: S.optional(S.String),
+          storedBytes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LogGroupImpact" });
+    case 1:
+      return S.Array(__S(1952, __c61, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          totalMatchedLogGroups: S.optional(S.Number),
+          increasedRetentionLogGroupCount: S.optional(S.Number),
+          decreasedRetentionLogGroupCount: S.optional(S.Number),
+          unchangedRetentionLogGroupCount: S.optional(S.Number),
+          failedAnalysisCount: S.optional(S.Number),
+          topLogGroupsImpacted: S.optional(__S(1953, __c61, 1)),
+        }),
+      ).annotate({ identifier: "DryRunResult" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8514,7 +8667,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteDataProtectionPolicyRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8524,7 +8677,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeleteDeliveryRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8534,7 +8687,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteDeliveryDestinationRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8544,7 +8697,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeleteDeliveryDestinationPolicyRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8554,7 +8707,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeleteDeliverySourceRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8564,7 +8717,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8574,7 +8727,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "DeleteIndexPolicyRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8584,7 +8737,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8594,7 +8747,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteLogAnomalyDetectorRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8604,7 +8757,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeleteLogGroupRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8614,7 +8767,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeleteLogStreamRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8624,7 +8777,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeleteLookupTableRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8634,7 +8787,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteMetricFilterRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8644,7 +8797,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeleteQueryDefinitionRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ success: S.optional(S.Boolean) }).pipe(ns)).annotate({
@@ -8652,7 +8805,7 @@ function __c75(j: number): any {
       });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8664,7 +8817,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8674,7 +8827,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DeleteRetentionPolicyRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8684,7 +8837,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeleteScheduledQueryRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8694,7 +8847,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionFilterRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8704,7 +8857,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DeleteSyslogConfigurationRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8714,7 +8867,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeleteTransformerRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8726,17 +8879,17 @@ function __c82(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeAccountPoliciesRequest" });
     case 1:
-      return S.Array(__S(2656, __c83, 0));
+      return S.Array(__S(2688, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accountPolicies: S.optional(__S(2625, __c82, 1)),
+          accountPolicies: S.optional(__S(2657, __c83, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAccountPoliciesResponse" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8752,7 +8905,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "AccountPolicy" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8760,7 +8913,7 @@ function __c84(j: number): any {
           service: S.optional(S.String),
           logTypes: S.optional(__S(1504, __c47, 0)),
           resourceTypes: S.optional(__S(1504, __c47, 0)),
-          deliveryDestinationTypes: S.optional(__S(2720, __c85, 0)),
+          deliveryDestinationTypes: S.optional(__S(2752, __c86, 0)),
           nextToken: S.optional(S.String),
           limit: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -8778,7 +8931,7 @@ function __c84(j: number): any {
         S.Struct({ name: S.optional(S.String), mandatory: S.optional(S.Boolean) }),
       ).annotate({ identifier: "RecordField" });
     case 3:
-      return S.Array(__S(2690, __c84, 2));
+      return S.Array(__S(2722, __c85, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8791,7 +8944,7 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "DeliverySourceConfigurationSchema" });
     case 5:
-      return S.Array(__S(2692, __c84, 4));
+      return S.Array(__S(2724, __c85, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({ datasourceName: S.optional(S.String), datasourceType: S.optional(S.String) }),
@@ -8803,72 +8956,76 @@ function __c84(j: number): any {
           logType: S.optional(S.String),
           resourceType: S.optional(S.String),
           deliveryDestinationType: S.optional(S.String),
-          defaultDeliveryConfigValues: S.optional(__S(2689, __c84, 1)),
-          allowedFields: S.optional(__S(2691, __c84, 3)),
-          allowedOutputFormats: S.optional(__S(2720, __c85, 0)),
+          defaultDeliveryConfigValues: S.optional(__S(2721, __c85, 1)),
+          allowedFields: S.optional(__S(2723, __c85, 3)),
+          allowedOutputFormats: S.optional(__S(2752, __c86, 0)),
           allowedActionForAllowVendedLogsDeliveryForResource: S.optional(S.String),
           allowedFieldDelimiters: S.optional(__S(1504, __c47, 0)),
           allowedSuffixPathFields: S.optional(__S(1504, __c47, 0)),
-          deliverySourceConfiguration: S.optional(__S(2693, __c84, 5)),
-          s3TablesIntegration: S.optional(__S(2694, __c84, 6)),
+          deliverySourceConfiguration: S.optional(__S(2725, __c85, 5)),
+          s3TablesIntegration: S.optional(__S(2726, __c85, 6)),
         }),
       ).annotate({ identifier: "ConfigurationTemplate" });
     case 8:
-      return S.Array(__S(2695, __c84, 7));
+      return S.Array(__S(2727, __c85, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          configurationTemplates: S.optional(__S(2696, __c84, 8)),
+          configurationTemplates: S.optional(__S(2728, __c85, 8)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeConfigurationTemplatesResponse" });
   }
 }
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), limit: S.optional(S.Number) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "DescribeDeliveriesRequest" });
-    case 1:
-      return S.Array(__S(1568, __c49, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          deliveries: S.optional(__S(2753, __c86, 1)),
-          nextToken: S.optional(S.String),
-        }).pipe(ns),
-      ).annotate({ identifier: "DescribeDeliveriesResponse" });
+      return S.Array(S.String);
   }
 }
 function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), limit: S.optional(S.Number) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "DescribeDeliveryDestinationsRequest" });
+        S.Struct({
+          nextToken: S.optional(S.String),
+          limit: S.optional(S.Number),
+          deliverySourceNames: S.optional(__S(1504, __c47, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeDeliveriesRequest" });
     case 1:
-      return S.Array(__S(2817, __c88, 1));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deliveryDestinations: S.optional(__S(2785, __c87, 1)),
+          deliveries: S.optional(__S(2785, __c87, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDeliveriesResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String),
+          limit: S.optional(S.Number),
+          names: S.optional(__S(1504, __c47, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeDeliveryDestinationsRequest" });
+    case 1:
+      return S.Array(__S(2849, __c89, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          deliveryDestinations: S.optional(__S(2817, __c88, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliveryDestinationsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ destinationResourceArn: S.String })).annotate({
@@ -8881,33 +9038,35 @@ function __c88(j: number): any {
           arn: S.optional(S.String),
           deliveryDestinationType: S.optional(S.String),
           outputFormat: S.optional(S.String),
-          deliveryDestinationConfiguration: S.optional(__S(2816, __c88, 0)),
+          deliveryDestinationConfiguration: S.optional(__S(2848, __c89, 0)),
           roleArn: S.optional(S.String),
           tags: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "DeliveryDestination" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), limit: S.optional(S.Number) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          nextToken: S.optional(S.String),
+          limit: S.optional(S.Number),
+          resourceArns: S.optional(__S(1504, __c47, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeDeliverySourcesRequest" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2912, __c91, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deliverySources: S.optional(__S(2849, __c89, 1)),
+          deliverySources: S.optional(__S(2881, __c90, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliverySourcesResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8925,7 +9084,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeliverySource" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8936,17 +9095,17 @@ function __c91(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeDestinationsRequest" });
     case 1:
-      return S.Array(__S(2944, __c92, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(2913, __c91, 1)),
+          destinations: S.optional(__S(2945, __c92, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeDestinationsResponse" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8961,7 +9120,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "Destination" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8990,28 +9149,28 @@ function __c93(j: number): any {
           to: S.optional(S.Number),
           destination: S.optional(S.String),
           destinationPrefix: S.optional(S.String),
-          status: S.optional(__S(2977, __c93, 1)),
-          executionInfo: S.optional(__S(2978, __c93, 2)),
+          status: S.optional(__S(3009, __c94, 1)),
+          executionInfo: S.optional(__S(3010, __c94, 2)),
         }),
       ).annotate({ identifier: "ExportTask" });
     case 4:
-      return S.Array(__S(2979, __c93, 3));
+      return S.Array(__S(3011, __c94, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          exportTasks: S.optional(__S(2980, __c93, 4)),
+          exportTasks: S.optional(__S(3012, __c94, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeExportTasksResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logGroupIdentifiers: __S(1504, __c47, 0),
-          indexCategories: S.optional(__S(2720, __c85, 0)),
+          indexCategories: S.optional(__S(2752, __c86, 0)),
           nextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeFieldIndexesRequest" });
@@ -9028,23 +9187,23 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "FieldIndex" });
     case 2:
-      return S.Array(__S(3009, __c94, 1));
+      return S.Array(__S(3041, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fieldIndexes: S.optional(__S(3010, __c94, 2)),
+          fieldIndexes: S.optional(__S(3042, __c95, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeFieldIndexesResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           importId: S.String,
-          batchImportStatus: S.optional(__S(2720, __c85, 0)),
+          batchImportStatus: S.optional(__S(2752, __c86, 0)),
           limit: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -9054,19 +9213,19 @@ function __c95(j: number): any {
         S.Struct({ batchId: S.String, status: S.String, errorMessage: S.optional(S.String) }),
       ).annotate({ identifier: "ImportBatch" });
     case 2:
-      return S.Array(__S(3041, __c95, 1));
+      return S.Array(__S(3073, __c96, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           importSourceArn: S.optional(S.String),
           importId: S.optional(S.String),
-          importBatches: S.optional(__S(3042, __c95, 2)),
+          importBatches: S.optional(__S(3074, __c96, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImportTaskBatchesResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9093,17 +9252,17 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "Import" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(3105, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          imports: S.optional(__S(3074, __c96, 2)),
+          imports: S.optional(__S(3106, __c97, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImportTasksResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9113,17 +9272,17 @@ function __c97(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeIndexPoliciesRequest" });
     case 1:
-      return S.Array(__S(3136, __c98, 0));
+      return S.Array(__S(3168, __c99, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          indexPolicies: S.optional(__S(3105, __c97, 1)),
+          indexPolicies: S.optional(__S(3137, __c98, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeIndexPoliciesResponse" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9137,7 +9296,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "IndexPolicy" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9163,25 +9322,26 @@ function __c99(j: number): any {
           storedBytes: S.optional(S.Number),
           kmsKeyId: S.optional(S.String),
           dataProtectionStatus: S.optional(S.String),
-          inheritedProperties: S.optional(__S(2720, __c85, 0)),
+          inheritedProperties: S.optional(__S(2752, __c86, 0)),
           logGroupClass: S.optional(S.String),
           logGroupArn: S.optional(S.String),
           deletionProtectionEnabled: S.optional(S.Boolean),
           bearerTokenAuthenticationEnabled: S.optional(S.Boolean),
+          retentionPolicyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogGroup" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logGroups: S.optional(__S(3170, __c99, 2)),
+          logGroups: S.optional(__S(3202, __c100, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLogGroupsResponse" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9209,17 +9369,17 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "LogStream" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3233, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logStreams: S.optional(__S(3202, __c100, 2)),
+          logStreams: S.optional(__S(3234, __c101, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLogStreamsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9243,17 +9403,17 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "LookupTable" });
     case 2:
-      return S.Array(__S(3233, __c101, 1));
+      return S.Array(__S(3265, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          lookupTables: S.optional(__S(3234, __c101, 2)),
+          lookupTables: S.optional(__S(3266, __c102, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLookupTablesResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9271,7 +9431,7 @@ function __c102(j: number): any {
         S.Struct({
           filterName: S.optional(S.String),
           filterPattern: S.optional(S.String),
-          metricTransformations: S.optional(__S(3297, __c103, 1)),
+          metricTransformations: S.optional(__S(3329, __c104, 1)),
           creationTime: S.optional(S.Number),
           logGroupName: S.optional(S.String),
           applyOnTransformedLogs: S.optional(S.Boolean),
@@ -9280,17 +9440,17 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "MetricFilter" });
     case 2:
-      return S.Array(__S(3265, __c102, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metricFilters: S.optional(__S(3266, __c102, 2)),
+          metricFilters: S.optional(__S(3298, __c103, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMetricFiltersResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9304,10 +9464,10 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "MetricTransformation" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3328, __c104, 0));
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9334,17 +9494,17 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "QueryInfo" });
     case 2:
-      return S.Array(__S(3329, __c104, 1));
+      return S.Array(__S(3361, __c105, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          queries: S.optional(__S(3330, __c104, 2)),
+          queries: S.optional(__S(3362, __c105, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeQueriesResponse" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9364,21 +9524,21 @@ function __c105(j: number): any {
           queryString: S.optional(S.String),
           lastModified: S.optional(S.Number),
           logGroupNames: S.optional(__S(1504, __c47, 0)),
-          parameters: S.optional(__S(3393, __c106, 1)),
+          parameters: S.optional(__S(3425, __c107, 1)),
         }),
       ).annotate({ identifier: "QueryDefinition" });
     case 2:
-      return S.Array(__S(3361, __c105, 1));
+      return S.Array(__S(3393, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          queryDefinitions: S.optional(__S(3362, __c105, 2)),
+          queryDefinitions: S.optional(__S(3394, __c106, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeQueryDefinitionsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9389,10 +9549,10 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "QueryParameter" });
     case 1:
-      return S.Array(__S(3392, __c106, 0));
+      return S.Array(__S(3424, __c107, 0));
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9404,17 +9564,17 @@ function __c107(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeResourcePoliciesRequest" });
     case 1:
-      return S.Array(__S(3456, __c108, 0));
+      return S.Array(__S(3488, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourcePolicies: S.optional(__S(3425, __c107, 1)),
+          resourcePolicies: S.optional(__S(3457, __c108, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeResourcePoliciesResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9429,7 +9589,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ResourcePolicy" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9456,17 +9616,17 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "SubscriptionFilter" });
     case 2:
-      return S.Array(__S(3489, __c109, 1));
+      return S.Array(__S(3521, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          subscriptionFilters: S.optional(__S(3490, __c109, 2)),
+          subscriptionFilters: S.optional(__S(3522, __c110, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeSubscriptionFiltersResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9477,7 +9637,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DisassociateKmsKeyRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9487,7 +9647,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DisassociateSourceFromS3TableIntegrationRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9517,7 +9677,7 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "FilteredLogEvent" });
     case 2:
-      return S.Array(__S(3585, __c112, 1));
+      return S.Array(__S(3617, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9526,18 +9686,18 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "SearchedLogStream" });
     case 4:
-      return S.Array(__S(3587, __c112, 3));
+      return S.Array(__S(3619, __c113, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(3586, __c112, 2)),
-          searchedLogStreams: S.optional(__S(3588, __c112, 4)),
+          events: S.optional(__S(3618, __c113, 2)),
+          searchedLogStreams: S.optional(__S(3620, __c113, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "FilterLogEventsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9547,7 +9707,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetDataProtectionPolicyRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9559,7 +9719,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetDataProtectionPolicyResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9569,7 +9729,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetDeliveryRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9579,15 +9739,15 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetDeliveryDestinationRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ deliveryDestination: S.optional(__S(2817, __c88, 1)) }).pipe(ns),
+        S.Struct({ deliveryDestination: S.optional(__S(2849, __c89, 1)) }).pipe(ns),
       ).annotate({ identifier: "GetDeliveryDestinationResponse" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9597,7 +9757,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetDeliveryDestinationPolicyRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9605,11 +9765,11 @@ function __c119(j: number): any {
       ).annotate({ identifier: "Policy" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ policy: S.optional(__S(3808, __c119, 0)) }).pipe(ns),
+        S.Struct({ policy: S.optional(__S(3840, __c120, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetDeliveryDestinationPolicyResponse" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9619,15 +9779,15 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetDeliverySourceRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ deliverySource: S.optional(__S(2880, __c90, 0)) }).pipe(ns),
+        S.Struct({ deliverySource: S.optional(__S(2912, __c91, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetDeliverySourceResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9643,7 +9803,7 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dataSourceName: S.optional(S.String),
-          status: S.optional(__S(3905, __c122, 1)),
+          status: S.optional(__S(3937, __c123, 1)),
         }),
       ).annotate({ identifier: "OpenSearchDataSource" });
     case 3:
@@ -9652,7 +9812,7 @@ function __c122(j: number): any {
           applicationEndpoint: S.optional(S.String),
           applicationArn: S.optional(S.String),
           applicationId: S.optional(S.String),
-          status: S.optional(__S(3905, __c122, 1)),
+          status: S.optional(__S(3937, __c123, 1)),
         }),
       ).annotate({ identifier: "OpenSearchApplication" });
     case 4:
@@ -9660,33 +9820,33 @@ function __c122(j: number): any {
         S.Struct({
           collectionEndpoint: S.optional(S.String),
           collectionArn: S.optional(S.String),
-          status: S.optional(__S(3905, __c122, 1)),
+          status: S.optional(__S(3937, __c123, 1)),
         }),
       ).annotate({ identifier: "OpenSearchCollection" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ workspaceId: S.optional(S.String), status: S.optional(__S(3905, __c122, 1)) }),
+        S.Struct({ workspaceId: S.optional(S.String), status: S.optional(__S(3937, __c123, 1)) }),
       ).annotate({ identifier: "OpenSearchWorkspace" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ policyName: S.optional(S.String), status: S.optional(__S(3905, __c122, 1)) }),
+        S.Struct({ policyName: S.optional(S.String), status: S.optional(__S(3937, __c123, 1)) }),
       ).annotate({ identifier: "OpenSearchEncryptionPolicy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.optional(__S(3906, __c122, 2)),
-          application: S.optional(__S(3907, __c122, 3)),
-          collection: S.optional(__S(3908, __c122, 4)),
-          workspace: S.optional(__S(3909, __c122, 5)),
-          encryptionPolicy: S.optional(__S(3910, __c122, 6)),
-          networkPolicy: S.optional(__S(3910, __c122, 6)),
-          accessPolicy: S.optional(__S(3910, __c122, 6)),
-          lifecyclePolicy: S.optional(__S(3910, __c122, 6)),
+          dataSource: S.optional(__S(3938, __c123, 2)),
+          application: S.optional(__S(3939, __c123, 3)),
+          collection: S.optional(__S(3940, __c123, 4)),
+          workspace: S.optional(__S(3941, __c123, 5)),
+          encryptionPolicy: S.optional(__S(3942, __c123, 6)),
+          networkPolicy: S.optional(__S(3942, __c123, 6)),
+          accessPolicy: S.optional(__S(3942, __c123, 6)),
+          lifecyclePolicy: S.optional(__S(3942, __c123, 6)),
         }),
       ).annotate({ identifier: "OpenSearchIntegrationDetails" });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ openSearchIntegrationDetails: __S(3911, __c122, 7) }),
+        /*@__PURE__*/ S.Struct({ openSearchIntegrationDetails: __S(3943, __c123, 7) }),
       ]);
     case 9:
       return S.suspend(() =>
@@ -9694,12 +9854,12 @@ function __c122(j: number): any {
           integrationName: S.optional(S.String),
           integrationType: S.optional(S.String),
           integrationStatus: S.optional(S.String),
-          integrationDetails: S.optional(__S(3912, __c122, 8)),
+          integrationDetails: S.optional(__S(3944, __c123, 8)),
         }).pipe(ns),
       ).annotate({ identifier: "GetIntegrationResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9723,7 +9883,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetLogAnomalyDetectorResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9731,11 +9891,11 @@ function __c124(j: number): any {
       ).annotate({ identifier: "QueryCompileErrorLocation" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ location: S.optional(__S(3968, __c124, 0)), message: S.optional(S.String) }),
+        S.Struct({ location: S.optional(__S(4000, __c125, 0)), message: S.optional(S.String) }),
       ).annotate({ identifier: "QueryCompileError" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9760,18 +9920,18 @@ function __c125(j: number): any {
         }),
       ).annotate({ identifier: "OutputLogEvent" });
     case 2:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4033, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(4002, __c125, 2)),
+          events: S.optional(__S(4034, __c126, 2)),
           nextForwardToken: S.optional(S.String),
           nextBackwardToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetLogEventsResponse" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9784,12 +9944,12 @@ function __c126(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           element: S.optional(
-            S.suspend((): S.Schema<LogFieldType> => __S(4033, __c126, 1)).annotate({
+            S.suspend((): S.Schema<LogFieldType> => __S(4065, __c127, 1)).annotate({
               identifier: "LogFieldType",
             }),
           ),
           fields: S.optional(
-            S.suspend(() => __S(4035, __c126, 3)).annotate({ identifier: "LogFieldsList" }),
+            S.suspend(() => __S(4067, __c127, 3)).annotate({ identifier: "LogFieldsList" }),
           ),
         }),
       ).annotate({ identifier: "LogFieldType" });
@@ -9798,7 +9958,7 @@ function __c126(j: number): any {
         S.Struct({
           logFieldName: S.optional(S.String),
           logFieldType: S.optional(
-            S.suspend((): S.Schema<LogFieldType> => __S(4033, __c126, 1)).annotate({
+            S.suspend((): S.Schema<LogFieldType> => __S(4065, __c127, 1)).annotate({
               identifier: "LogFieldType",
             }),
           ),
@@ -9806,17 +9966,17 @@ function __c126(j: number): any {
       ).annotate({ identifier: "LogFieldsListItem" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<LogFieldsListItem> => __S(4034, __c126, 2)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<LogFieldsListItem> => __S(4066, __c127, 2)).annotate({
           identifier: "LogFieldsListItem",
         }),
       );
     case 4:
       return S.suspend(() =>
-        S.Struct({ logFields: S.optional(__S(4035, __c126, 3)) }).pipe(ns),
+        S.Struct({ logFields: S.optional(__S(4067, __c127, 3)) }).pipe(ns),
       ).annotate({ identifier: "GetLogFieldsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9831,14 +9991,14 @@ function __c127(j: number): any {
         S.Struct({ name: S.optional(S.String), percent: S.optional(S.Number) }),
       ).annotate({ identifier: "LogGroupField" });
     case 2:
-      return S.Array(__S(4065, __c127, 1));
+      return S.Array(__S(4097, __c128, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ logGroupFields: S.optional(__S(4066, __c127, 2)) }).pipe(ns),
+        S.Struct({ logGroupFields: S.optional(__S(4098, __c128, 2)) }).pipe(ns),
       ).annotate({ identifier: "GetLogGroupFieldsResponse" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9853,17 +10013,17 @@ function __c128(j: number): any {
     case 2:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ fields: __S(4097, __c128, 1) }),
-          /*@__PURE__*/ S.Struct({ InternalStreamingException: __S(4128, __c129, 0) }),
+          /*@__PURE__*/ S.Struct({ fields: __S(4129, __c129, 1) }),
+          /*@__PURE__*/ S.Struct({ InternalStreamingException: __S(4160, __c130, 0) }),
         ]),
       );
     case 3:
       return S.suspend(() =>
-        S.Struct({ fieldStream: S.optional(__S(4098, __c128, 2)) }).pipe(ns),
+        S.Struct({ fieldStream: S.optional(__S(4130, __c129, 2)) }).pipe(ns),
       ).annotate({ identifier: "GetLogObjectResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ message: S.optional(S.String) })).annotate({
@@ -9871,7 +10031,7 @@ function __c129(j: number): any {
       });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9885,7 +10045,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetLogRecordResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9907,7 +10067,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetLookupTableResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9922,9 +10082,9 @@ function __c132(j: number): any {
         S.Struct({ field: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "ResultField" });
     case 2:
-      return S.Array(__S(4225, __c132, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
-      return S.Array(__S(4226, __c132, 2));
+      return S.Array(__S(4258, __c133, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9941,8 +10101,8 @@ function __c132(j: number): any {
       return S.suspend(() =>
         S.Struct({
           queryLanguage: S.optional(S.String),
-          results: S.optional(__S(4227, __c132, 3)),
-          statistics: S.optional(__S(4228, __c132, 4)),
+          results: S.optional(__S(4259, __c133, 3)),
+          statistics: S.optional(__S(4260, __c133, 4)),
           status: S.optional(S.String),
           encryptionKey: S.optional(S.String),
           nextToken: S.optional(S.String),
@@ -9950,7 +10110,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetQueryResultsResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9960,7 +10120,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetScheduledQueryRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9989,7 +10149,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetScheduledQueryResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9997,7 +10157,7 @@ function __c135(j: number): any {
           identifier: S.String,
           startTime: S.Number,
           endTime: S.Number,
-          executionStatuses: S.optional(__S(2720, __c85, 0)),
+          executionStatuses: S.optional(__S(2752, __c86, 0)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -10013,7 +10173,7 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledQueryDestination" });
     case 2:
-      return S.Array(__S(4321, __c135, 1));
+      return S.Array(__S(4353, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10021,23 +10181,23 @@ function __c135(j: number): any {
           executionStatus: S.optional(S.String),
           triggeredTimestamp: S.optional(S.Number),
           errorMessage: S.optional(S.String),
-          destinations: S.optional(__S(4322, __c135, 2)),
+          destinations: S.optional(__S(4354, __c136, 2)),
         }),
       ).annotate({ identifier: "TriggerHistoryRecord" });
     case 4:
-      return S.Array(__S(4323, __c135, 3));
+      return S.Array(__S(4355, __c136, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           scheduledQueryArn: S.optional(S.String),
-          triggerHistory: S.optional(__S(4324, __c135, 4)),
+          triggerHistory: S.optional(__S(4356, __c136, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetScheduledQueryHistoryResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10047,7 +10207,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetStorageTierPolicyRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10057,7 +10217,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetStorageTierPolicyResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10071,21 +10231,21 @@ function __c138(j: number): any {
           logGroupIdentifier: S.optional(S.String),
           creationTime: S.optional(S.Number),
           lastModifiedTime: S.optional(S.Number),
-          transformerConfig: S.optional(__S(4476, __c139, 28)),
+          transformerConfig: S.optional(__S(4508, __c140, 28)),
         }).pipe(ns),
       ).annotate({ identifier: "GetTransformerResponse" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ key: S.String, value: S.String, overwriteIfExists: S.optional(S.Boolean) }),
       ).annotate({ identifier: "AddKeyEntry" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4480, __c140, 0));
     case 2:
-      return S.suspend(() => S.Struct({ entries: __S(4449, __c139, 1) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4481, __c140, 1) })).annotate({
         identifier: "AddKeys",
       });
     case 3:
@@ -10093,9 +10253,9 @@ function __c139(j: number): any {
         S.Struct({ source: S.String, target: S.String, overwriteIfExists: S.optional(S.Boolean) }),
       ).annotate({ identifier: "CopyValueEntry" });
     case 4:
-      return S.Array(__S(4451, __c139, 3));
+      return S.Array(__S(4483, __c140, 3));
     case 5:
-      return S.suspend(() => S.Struct({ entries: __S(4452, __c139, 4) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4484, __c140, 4) })).annotate({
         identifier: "CopyValue",
       });
     case 6:
@@ -10173,9 +10333,9 @@ function __c139(j: number): any {
         S.Struct({ key: S.String, renameTo: S.String, overwriteIfExists: S.optional(S.Boolean) }),
       ).annotate({ identifier: "RenameKeyEntry" });
     case 16:
-      return S.Array(__S(4463, __c139, 15));
+      return S.Array(__S(4495, __c140, 15));
     case 17:
-      return S.suspend(() => S.Struct({ entries: __S(4464, __c139, 16) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4496, __c140, 16) })).annotate({
         identifier: "RenameKeys",
       });
     case 18:
@@ -10183,9 +10343,9 @@ function __c139(j: number): any {
         identifier: "SplitStringEntry",
       });
     case 19:
-      return S.Array(__S(4466, __c139, 18));
+      return S.Array(__S(4498, __c140, 18));
     case 20:
-      return S.suspend(() => S.Struct({ entries: __S(4467, __c139, 19) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4499, __c140, 19) })).annotate({
         identifier: "SplitString",
       });
     case 21:
@@ -10193,9 +10353,9 @@ function __c139(j: number): any {
         { identifier: "SubstituteStringEntry" },
       );
     case 22:
-      return S.Array(__S(4469, __c139, 21));
+      return S.Array(__S(4501, __c140, 21));
     case 23:
-      return S.suspend(() => S.Struct({ entries: __S(4470, __c139, 22) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4502, __c140, 22) })).annotate({
         identifier: "SubstituteString",
       });
     case 24:
@@ -10203,44 +10363,44 @@ function __c139(j: number): any {
         identifier: "TypeConverterEntry",
       });
     case 25:
-      return S.Array(__S(4472, __c139, 24));
+      return S.Array(__S(4504, __c140, 24));
     case 26:
-      return S.suspend(() => S.Struct({ entries: __S(4473, __c139, 25) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4505, __c140, 25) })).annotate({
         identifier: "TypeConverter",
       });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          addKeys: S.optional(__S(4450, __c139, 2)),
-          copyValue: S.optional(__S(4453, __c139, 5)),
-          csv: S.optional(__S(4454, __c139, 6)),
-          dateTimeConverter: S.optional(__S(4455, __c139, 7)),
-          deleteKeys: S.optional(__S(4456, __c139, 8)),
-          grok: S.optional(__S(4457, __c139, 9)),
-          listToMap: S.optional(__S(4458, __c139, 10)),
-          lowerCaseString: S.optional(__S(4456, __c139, 8)),
-          moveKeys: S.optional(__S(4453, __c139, 5)),
-          parseCloudfront: S.optional(__S(4459, __c139, 11)),
-          parseJSON: S.optional(__S(4460, __c139, 12)),
-          parseKeyValue: S.optional(__S(4461, __c139, 13)),
-          parseRoute53: S.optional(__S(4459, __c139, 11)),
-          parseToOCSF: S.optional(__S(4462, __c139, 14)),
-          parsePostgres: S.optional(__S(4459, __c139, 11)),
-          parseVPC: S.optional(__S(4459, __c139, 11)),
-          parseWAF: S.optional(__S(4459, __c139, 11)),
-          renameKeys: S.optional(__S(4465, __c139, 17)),
-          splitString: S.optional(__S(4468, __c139, 20)),
-          substituteString: S.optional(__S(4471, __c139, 23)),
-          trimString: S.optional(__S(4456, __c139, 8)),
-          typeConverter: S.optional(__S(4474, __c139, 26)),
-          upperCaseString: S.optional(__S(4456, __c139, 8)),
+          addKeys: S.optional(__S(4482, __c140, 2)),
+          copyValue: S.optional(__S(4485, __c140, 5)),
+          csv: S.optional(__S(4486, __c140, 6)),
+          dateTimeConverter: S.optional(__S(4487, __c140, 7)),
+          deleteKeys: S.optional(__S(4488, __c140, 8)),
+          grok: S.optional(__S(4489, __c140, 9)),
+          listToMap: S.optional(__S(4490, __c140, 10)),
+          lowerCaseString: S.optional(__S(4488, __c140, 8)),
+          moveKeys: S.optional(__S(4485, __c140, 5)),
+          parseCloudfront: S.optional(__S(4491, __c140, 11)),
+          parseJSON: S.optional(__S(4492, __c140, 12)),
+          parseKeyValue: S.optional(__S(4493, __c140, 13)),
+          parseRoute53: S.optional(__S(4491, __c140, 11)),
+          parseToOCSF: S.optional(__S(4494, __c140, 14)),
+          parsePostgres: S.optional(__S(4491, __c140, 11)),
+          parseVPC: S.optional(__S(4491, __c140, 11)),
+          parseWAF: S.optional(__S(4491, __c140, 11)),
+          renameKeys: S.optional(__S(4497, __c140, 17)),
+          splitString: S.optional(__S(4500, __c140, 20)),
+          substituteString: S.optional(__S(4503, __c140, 23)),
+          trimString: S.optional(__S(4488, __c140, 8)),
+          typeConverter: S.optional(__S(4506, __c140, 26)),
+          upperCaseString: S.optional(__S(4488, __c140, 8)),
         }),
       ).annotate({ identifier: "Processor" });
     case 28:
-      return S.Array(__S(4475, __c139, 27));
+      return S.Array(__S(4507, __c140, 27));
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10249,7 +10409,7 @@ function __c140(j: number): any {
           includeLinkedAccounts: S.optional(S.Boolean),
           logGroupClass: S.optional(S.String),
           logGroupNamePattern: S.optional(S.String),
-          dataSources: S.optional(__S(4512, __c141, 0)),
+          dataSources: S.optional(__S(4544, __c142, 0)),
           groupBy: S.String,
           nextToken: S.optional(S.String),
           limit: S.optional(S.Number),
@@ -10260,32 +10420,32 @@ function __c140(j: number): any {
         S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "GroupingIdentifier" });
     case 2:
-      return S.Array(__S(4481, __c140, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logGroupCount: S.optional(S.Number),
-          groupingIdentifiers: S.optional(__S(4482, __c140, 2)),
+          groupingIdentifiers: S.optional(__S(4514, __c141, 2)),
         }),
       ).annotate({ identifier: "AggregateLogGroupSummary" });
     case 4:
-      return S.Array(__S(4483, __c140, 3));
+      return S.Array(__S(4515, __c141, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          aggregateLogGroupSummaries: S.optional(__S(4484, __c140, 4)),
+          aggregateLogGroupSummaries: S.optional(__S(4516, __c141, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAggregateLogGroupSummariesResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1312, __c41, 0));
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10303,19 +10463,19 @@ function __c142(j: number): any {
         S.Struct({ timestamp: S.optional(S.Number), message: S.optional(S.String) }),
       ).annotate({ identifier: "LogEvent" });
     case 3:
-      return S.Array(__S(4546, __c142, 2));
+      return S.Array(__S(4578, __c143, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           dynamicTokenPosition: S.optional(S.Number),
           isDynamic: S.optional(S.Boolean),
           tokenString: S.optional(S.String),
-          enumerations: S.optional(__S(4545, __c142, 1)),
+          enumerations: S.optional(__S(4577, __c143, 1)),
           inferredTokenName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PatternToken" });
     case 5:
-      return S.Array(__S(4548, __c142, 4));
+      return S.Array(__S(4580, __c143, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -10330,9 +10490,9 @@ function __c142(j: number): any {
           description: S.String,
           active: S.Boolean,
           state: S.String,
-          histogram: __S(4545, __c142, 1),
-          logSamples: __S(4547, __c142, 3),
-          patternTokens: __S(4549, __c142, 5),
+          histogram: __S(4577, __c143, 1),
+          logSamples: __S(4579, __c143, 3),
+          patternTokens: __S(4581, __c143, 5),
           logGroupArnList: __S(1504, __c47, 0),
           suppressed: S.optional(S.Boolean),
           suppressedDate: S.optional(S.Number),
@@ -10341,17 +10501,17 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "Anomaly" });
     case 7:
-      return S.Array(__S(4550, __c142, 6));
+      return S.Array(__S(4582, __c143, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          anomalies: S.optional(__S(4551, __c142, 7)),
+          anomalies: S.optional(__S(4583, __c143, 7)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAnomaliesResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10370,14 +10530,14 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationSummary" });
     case 2:
-      return S.Array(__S(4577, __c143, 1));
+      return S.Array(__S(4609, __c144, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ integrationSummaries: S.optional(__S(4578, __c143, 2)) }).pipe(ns),
+        S.Struct({ integrationSummaries: S.optional(__S(4610, __c144, 2)) }).pipe(ns),
       ).annotate({ identifier: "ListIntegrationsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10403,24 +10563,24 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "AnomalyDetector" });
     case 2:
-      return S.Array(__S(4609, __c144, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          anomalyDetectors: S.optional(__S(4610, __c144, 2)),
+          anomalyDetectors: S.optional(__S(4642, __c145, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListLogAnomalyDetectorsResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ key: S.String, values: S.optional(__S(1504, __c47, 0)) }),
       ).annotate({ identifier: "TagFilter" });
     case 1:
-      return S.Array(__S(4640, __c145, 0));
+      return S.Array(__S(4672, __c146, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10430,9 +10590,9 @@ function __c145(j: number): any {
           accountIdentifiers: S.optional(__S(1504, __c47, 0)),
           nextToken: S.optional(S.String),
           limit: S.optional(S.Number),
-          dataSources: S.optional(__S(4512, __c141, 0)),
+          dataSources: S.optional(__S(4544, __c142, 0)),
           fieldIndexNames: S.optional(__S(1504, __c47, 0)),
-          logGroupTags: S.optional(__S(4641, __c145, 1)),
+          logGroupTags: S.optional(__S(4673, __c146, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListLogGroupsRequest" });
     case 3:
@@ -10444,17 +10604,17 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "LogGroupSummary" });
     case 4:
-      return S.Array(__S(4643, __c145, 3));
+      return S.Array(__S(4675, __c146, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          logGroups: S.optional(__S(4644, __c145, 4)),
+          logGroups: S.optional(__S(4676, __c146, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListLogGroupsResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10473,7 +10633,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "ListLogGroupsForQueryResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10501,17 +10661,17 @@ function __c147(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledQuerySummary" });
     case 2:
-      return S.Array(__S(4705, __c147, 1));
+      return S.Array(__S(4737, __c148, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          scheduledQueries: S.optional(__S(4706, __c147, 2)),
+          scheduledQueries: S.optional(__S(4738, __c148, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ListScheduledQueriesResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10533,17 +10693,17 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "S3TableIntegrationSource" });
     case 2:
-      return S.Array(__S(4737, __c148, 1));
+      return S.Array(__S(4769, __c149, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(4738, __c148, 2)),
+          sources: S.optional(__S(4770, __c149, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListSourcesForS3TableIntegrationResponse" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10564,11 +10724,11 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "SyslogConfiguration" });
     case 2:
-      return S.Array(__S(4769, __c149, 1));
+      return S.Array(__S(4801, __c150, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          syslogConfigurations: S.optional(__S(4770, __c149, 2)),
+          syslogConfigurations: S.optional(__S(4802, __c150, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListSyslogConfigurationsResponse" });

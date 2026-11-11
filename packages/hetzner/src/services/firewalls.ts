@@ -37,17 +37,17 @@ export type CreateFirewallRequestRulesItemDestinationIpsList = Array<string>;
 export type CreateFirewallRequestRulesItemProtocol = "tcp" | "udp" | "icmp" | "esp" | "gre";
 export interface CreateFirewallRequestRulesItem {
   /** Description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic direction in which the rule should be applied to. Use `source_ips` for direction `in` and `destination_ips` for direction `out` to specify IPs. */
   direction: CreateFirewallRequestRulesItemDirection | (string & {});
   /** List of permitted IPv4/IPv6 addresses for incoming traffic. The `direction` must be set to `in`. IPs must be provided in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
-  source_ips?: CreateFirewallRequestRulesItemSourceIpsList;
+  source_ips?: CreateFirewallRequestRulesItemSourceIpsList | undefined;
   /** List of permitted IPv4/IPv6 addresses for outgoing traffic. The `direction` must be set to `out`. IPs must be in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
-  destination_ips?: CreateFirewallRequestRulesItemDestinationIpsList;
+  destination_ips?: CreateFirewallRequestRulesItemDestinationIpsList | undefined;
   /** Network protocol to apply the rule for. */
   protocol: CreateFirewallRequestRulesItemProtocol | (string & {});
   /** Port or port range to apply the rule for. Only applicable for protocols `tcp` and `udp`. A port range can be specified by separating lower and upper bounds with a dash. `1024-5000` will include all ports starting from 1024 up to port 5000. */
-  port?: string;
+  port?: string | undefined;
 }
 /** Array of rules. Rules are limited to 50 entries per [Firewall](#tag/firewalls) and [500 effective rules](https://docs.hetzner.com/cloud/firewalls/overview#limits). */
 export type CreateFirewallRequestRulesList = Array<CreateFirewallRequestRulesItem>;
@@ -67,9 +67,9 @@ export interface CreateFirewallRequestApplyToItem {
   /** Type of the resource. */
   type: CreateFirewallRequestApplyToItemType | (string & {});
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
   /** [Label Selector](#description/label-selector) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `label_selector`, otherwise `null`. */
-  label_selector?: CreateFirewallRequestApplyToItemLabelSelector;
+  label_selector?: CreateFirewallRequestApplyToItemLabelSelector | undefined;
 }
 /** Resources to apply the [Firewall](#tag/firewalls) to. Resources added directly are taking precedence over those added via a [Label Selector](#description/label-selector). */
 export type CreateFirewallRequestApplyToList = Array<CreateFirewallRequestApplyToItem>;
@@ -77,11 +77,11 @@ export interface CreateFirewallRequest {
   /** Name of the [Firewall](#tag/firewalls). Must be unique per Project. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateFirewallRequestLabelsMap;
+  labels?: CreateFirewallRequestLabelsMap | undefined;
   /** Array of rules. Rules are limited to 50 entries per [Firewall](#tag/firewalls) and [500 effective rules](https://docs.hetzner.com/cloud/firewalls/overview#limits). */
-  rules?: CreateFirewallRequestRulesList;
+  rules?: CreateFirewallRequestRulesList | undefined;
   /** Resources to apply the [Firewall](#tag/firewalls) to. Resources added directly are taking precedence over those added via a [Label Selector](#description/label-selector). */
-  apply_to?: CreateFirewallRequestApplyToList;
+  apply_to?: CreateFirewallRequestApplyToList | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type CreateFirewallResponseFirewallLabelsMap = { [key: string]: string | undefined };
@@ -100,7 +100,7 @@ export type CreateFirewallResponseFirewallRulesItemProtocol =
   | "gre";
 export interface CreateFirewallResponseFirewallRulesItem {
   /** Description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic direction in which the rule should be applied to. Use `source_ips` for direction `in` and `destination_ips` for direction `out` to specify IPs. */
   direction: CreateFirewallResponseFirewallRulesItemDirection;
   /** List of permitted IPv4/IPv6 addresses for incoming traffic. The `direction` must be set to `in`. IPs must be provided in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
@@ -129,9 +129,9 @@ export type CreateFirewallResponseFirewallAppliedToItemAppliedToResourcesItemSer
   CreateFirewallRequestApplyToItemServer;
 export interface CreateFirewallResponseFirewallAppliedToItemAppliedToResourcesItem {
   /** Type of resource. */
-  type?: CreateFirewallResponseFirewallAppliedToItemAppliedToResourcesItemType;
+  type?: CreateFirewallResponseFirewallAppliedToItemAppliedToResourcesItemType | undefined;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
 }
 /** Resources applied to via this [Label Selector](#description/label-selector). */
 export type CreateFirewallResponseFirewallAppliedToItemAppliedToResourcesList =
@@ -140,11 +140,13 @@ export interface CreateFirewallResponseFirewallAppliedToItem {
   /** The type of resource to apply. */
   type: CreateFirewallResponseFirewallAppliedToItemType;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
   /** [Label Selector](#description/label-selector) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `label_selector`, otherwise `null`. */
-  label_selector?: CreateFirewallRequestApplyToItemLabelSelector;
+  label_selector?: CreateFirewallRequestApplyToItemLabelSelector | undefined;
   /** Resources applied to via this [Label Selector](#description/label-selector). */
-  applied_to_resources?: CreateFirewallResponseFirewallAppliedToItemAppliedToResourcesList;
+  applied_to_resources?:
+    | CreateFirewallResponseFirewallAppliedToItemAppliedToResourcesList
+    | undefined;
 }
 export type CreateFirewallResponseFirewallAppliedToList =
   Array<CreateFirewallResponseFirewallAppliedToItem>;
@@ -154,7 +156,7 @@ export interface CreateFirewallResponseFirewall {
   /** Name of the [Firewall](#tag/firewalls). Must be unique per Project. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateFirewallResponseFirewallLabelsMap;
+  labels?: CreateFirewallResponseFirewallLabelsMap | undefined;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   created: string;
   rules: CreateFirewallResponseFirewallRulesList;
@@ -198,8 +200,8 @@ export interface CreateFirewallResponseActionsItem {
 }
 export type CreateFirewallResponseActionsList = Array<CreateFirewallResponseActionsItem>;
 export interface CreateFirewallResponse {
-  firewall?: CreateFirewallResponseFirewall;
-  actions?: CreateFirewallResponseActionsList;
+  firewall?: CreateFirewallResponseFirewall | undefined;
+  actions?: CreateFirewallResponseActionsList | undefined;
 }
 export interface DeleteFirewallRequest {
   /** ID of the Firewall. */
@@ -222,7 +224,7 @@ export type GetFirewallResponseFirewallRulesItemDestinationIpsList = Array<strin
 export type GetFirewallResponseFirewallRulesItemProtocol = "tcp" | "udp" | "icmp" | "esp" | "gre";
 export interface GetFirewallResponseFirewallRulesItem {
   /** Description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic direction in which the rule should be applied to. Use `source_ips` for direction `in` and `destination_ips` for direction `out` to specify IPs. */
   direction: GetFirewallResponseFirewallRulesItemDirection;
   /** List of permitted IPv4/IPv6 addresses for incoming traffic. The `direction` must be set to `in`. IPs must be provided in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
@@ -249,9 +251,9 @@ export type GetFirewallResponseFirewallAppliedToItemAppliedToResourcesItemServer
   CreateFirewallRequestApplyToItemServer;
 export interface GetFirewallResponseFirewallAppliedToItemAppliedToResourcesItem {
   /** Type of resource. */
-  type?: GetFirewallResponseFirewallAppliedToItemAppliedToResourcesItemType;
+  type?: GetFirewallResponseFirewallAppliedToItemAppliedToResourcesItemType | undefined;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
 }
 /** Resources applied to via this [Label Selector](#description/label-selector). */
 export type GetFirewallResponseFirewallAppliedToItemAppliedToResourcesList =
@@ -260,11 +262,11 @@ export interface GetFirewallResponseFirewallAppliedToItem {
   /** The type of resource to apply. */
   type: GetFirewallResponseFirewallAppliedToItemType;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
   /** [Label Selector](#description/label-selector) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `label_selector`, otherwise `null`. */
-  label_selector?: CreateFirewallRequestApplyToItemLabelSelector;
+  label_selector?: CreateFirewallRequestApplyToItemLabelSelector | undefined;
   /** Resources applied to via this [Label Selector](#description/label-selector). */
-  applied_to_resources?: GetFirewallResponseFirewallAppliedToItemAppliedToResourcesList;
+  applied_to_resources?: GetFirewallResponseFirewallAppliedToItemAppliedToResourcesList | undefined;
 }
 export type GetFirewallResponseFirewallAppliedToList =
   Array<GetFirewallResponseFirewallAppliedToItem>;
@@ -274,7 +276,7 @@ export interface GetFirewallResponseFirewall {
   /** Name of the [Firewall](#tag/firewalls). Must be unique per Project. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: GetFirewallResponseFirewallLabelsMap;
+  labels?: GetFirewallResponseFirewallLabelsMap | undefined;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   created: string;
   rules: GetFirewallResponseFirewallRulesList;
@@ -296,15 +298,15 @@ export type ListFirewallsRequestSortItem =
 export type ListFirewallsRequestSortList = Array<ListFirewallsRequestSortItem | (string & {})>;
 export interface ListFirewallsRequest {
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListFirewallsRequestSortList;
+  sort?: ListFirewallsRequestSortList | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type ListFirewallsResponseFirewallsItemLabelsMap = { [key: string]: string | undefined };
@@ -323,7 +325,7 @@ export type ListFirewallsResponseFirewallsItemRulesItemProtocol =
   | "gre";
 export interface ListFirewallsResponseFirewallsItemRulesItem {
   /** Description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic direction in which the rule should be applied to. Use `source_ips` for direction `in` and `destination_ips` for direction `out` to specify IPs. */
   direction: ListFirewallsResponseFirewallsItemRulesItemDirection;
   /** List of permitted IPv4/IPv6 addresses for incoming traffic. The `direction` must be set to `in`. IPs must be provided in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
@@ -352,9 +354,9 @@ export type ListFirewallsResponseFirewallsItemAppliedToItemAppliedToResourcesIte
   CreateFirewallRequestApplyToItemServer;
 export interface ListFirewallsResponseFirewallsItemAppliedToItemAppliedToResourcesItem {
   /** Type of resource. */
-  type?: ListFirewallsResponseFirewallsItemAppliedToItemAppliedToResourcesItemType;
+  type?: ListFirewallsResponseFirewallsItemAppliedToItemAppliedToResourcesItemType | undefined;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
 }
 /** Resources applied to via this [Label Selector](#description/label-selector). */
 export type ListFirewallsResponseFirewallsItemAppliedToItemAppliedToResourcesList =
@@ -363,11 +365,13 @@ export interface ListFirewallsResponseFirewallsItemAppliedToItem {
   /** The type of resource to apply. */
   type: ListFirewallsResponseFirewallsItemAppliedToItemType;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
   /** [Label Selector](#description/label-selector) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `label_selector`, otherwise `null`. */
-  label_selector?: CreateFirewallRequestApplyToItemLabelSelector;
+  label_selector?: CreateFirewallRequestApplyToItemLabelSelector | undefined;
   /** Resources applied to via this [Label Selector](#description/label-selector). */
-  applied_to_resources?: ListFirewallsResponseFirewallsItemAppliedToItemAppliedToResourcesList;
+  applied_to_resources?:
+    | ListFirewallsResponseFirewallsItemAppliedToItemAppliedToResourcesList
+    | undefined;
 }
 export type ListFirewallsResponseFirewallsItemAppliedToList =
   Array<ListFirewallsResponseFirewallsItemAppliedToItem>;
@@ -377,7 +381,7 @@ export interface ListFirewallsResponseFirewallsItem {
   /** Name of the [Firewall](#tag/firewalls). Must be unique per Project. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: ListFirewallsResponseFirewallsItemLabelsMap;
+  labels?: ListFirewallsResponseFirewallsItemLabelsMap | undefined;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   created: string;
   rules: ListFirewallsResponseFirewallsItemRulesList;
@@ -413,9 +417,9 @@ export interface UpdateFirewallRequest {
   /** ID of the Firewall. */
   id: number;
   /** Name of the [Firewall](#tag/firewalls). Must be unique per Project. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateFirewallRequestLabelsMap;
+  labels?: UpdateFirewallRequestLabelsMap | undefined;
 }
 /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
 export type UpdateFirewallResponseFirewallLabelsMap = { [key: string]: string | undefined };
@@ -434,7 +438,7 @@ export type UpdateFirewallResponseFirewallRulesItemProtocol =
   | "gre";
 export interface UpdateFirewallResponseFirewallRulesItem {
   /** Description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic direction in which the rule should be applied to. Use `source_ips` for direction `in` and `destination_ips` for direction `out` to specify IPs. */
   direction: UpdateFirewallResponseFirewallRulesItemDirection;
   /** List of permitted IPv4/IPv6 addresses for incoming traffic. The `direction` must be set to `in`. IPs must be provided in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
@@ -463,9 +467,9 @@ export type UpdateFirewallResponseFirewallAppliedToItemAppliedToResourcesItemSer
   CreateFirewallRequestApplyToItemServer;
 export interface UpdateFirewallResponseFirewallAppliedToItemAppliedToResourcesItem {
   /** Type of resource. */
-  type?: UpdateFirewallResponseFirewallAppliedToItemAppliedToResourcesItemType;
+  type?: UpdateFirewallResponseFirewallAppliedToItemAppliedToResourcesItemType | undefined;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
 }
 /** Resources applied to via this [Label Selector](#description/label-selector). */
 export type UpdateFirewallResponseFirewallAppliedToItemAppliedToResourcesList =
@@ -474,11 +478,13 @@ export interface UpdateFirewallResponseFirewallAppliedToItem {
   /** The type of resource to apply. */
   type: UpdateFirewallResponseFirewallAppliedToItemType;
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: CreateFirewallRequestApplyToItemServer;
+  server?: CreateFirewallRequestApplyToItemServer | undefined;
   /** [Label Selector](#description/label-selector) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `label_selector`, otherwise `null`. */
-  label_selector?: CreateFirewallRequestApplyToItemLabelSelector;
+  label_selector?: CreateFirewallRequestApplyToItemLabelSelector | undefined;
   /** Resources applied to via this [Label Selector](#description/label-selector). */
-  applied_to_resources?: UpdateFirewallResponseFirewallAppliedToItemAppliedToResourcesList;
+  applied_to_resources?:
+    | UpdateFirewallResponseFirewallAppliedToItemAppliedToResourcesList
+    | undefined;
 }
 export type UpdateFirewallResponseFirewallAppliedToList =
   Array<UpdateFirewallResponseFirewallAppliedToItem>;
@@ -488,7 +494,7 @@ export interface UpdateFirewallResponseFirewall {
   /** Name of the [Firewall](#tag/firewalls). Must be unique per Project. */
   name: string;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateFirewallResponseFirewallLabelsMap;
+  labels?: UpdateFirewallResponseFirewallLabelsMap | undefined;
   /** Point in time when the Resource was created (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
   created: string;
   rules: UpdateFirewallResponseFirewallRulesList;

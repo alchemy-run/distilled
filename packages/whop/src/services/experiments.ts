@@ -56,11 +56,11 @@ export interface ActivateExperimentRequest {
   /** The experiment identifier -- the `expt_` id or the flag_key handle. */
   id: string;
   /** Owning account or internal. Required when id is a flag key; optional for an expt_ ID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Reporting window length in days. Omit to use the default. This does not automatically end the experiment. */
-  duration_days?: number | null;
+  duration_days?: number | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Randomization unit -- `user` buckets each user independently, `account` buckets whole accounts (every user of an account gets the same arm). `null` for feature flags. */
 export type ExperimentBucketBy = "user" | "account" | "anonymous";
@@ -71,7 +71,7 @@ export interface ExperimentResourceReference {
   object: ExperimentResourceReferenceObject | (string & {});
 }
 export interface ExperimentControl {
-  related_resource?: ExperimentResourceReference | null;
+  related_resource?: ExperimentResourceReference | null | undefined;
 }
 /** Lifecycle state. `draft` -- not yet live; `active` -- currently running; `paused` -- traffic paused; `ended` -- concluded. */
 export type ExperimentStatus = "draft" | "active" | "paused" | "ended";
@@ -89,7 +89,7 @@ export type ExperimentTargetingRulesItemConditionsItemOperator =
 export type ExperimentTargetingRulesItemConditionsItemType = "user_id" | "account_id" | "property";
 export interface ExperimentTargetingRulesItemConditionsItem {
   /** Property name to read from the user context. Present when `type` is `property`. */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Comparison to apply. */
   operator: ExperimentTargetingRulesItemConditionsItemOperator;
   /** What the condition matches on: the user ID, the account ID, or a named user property. */
@@ -106,7 +106,7 @@ export interface ExperimentTargetingRulesItem {
   /** Conditions within this rule, all of which must match. */
   conditions: ExperimentTargetingRulesItemConditionsList;
   /** `include` -- users matching this rule qualify; `exclude` -- users matching this rule are always excluded, overriding any include rule. */
-  type?: ExperimentTargetingRulesItemType;
+  type?: ExperimentTargetingRulesItemType | undefined;
 }
 /** Rules gating who is in the experiment at all. Conditions within a rule are AND-ed, rules are OR-ed, and `exclude` rules always win. Empty means everyone qualifies. */
 export type ExperimentTargetingRulesList = Array<ExperimentTargetingRulesItem>;
@@ -117,8 +117,8 @@ export interface ExperimentVariantsItem {
   /** Treatment identifier. `control` is reserved -- it is the implicit remainder. */
   name: string;
   /** Granted bucket ranges (1% units, end-exclusive) recording this arm's allocation history. Server-managed; ranges are only ever appended, which is what keeps assignments permanent. */
-  ranges?: ExperimentVariantsItemRangesList;
-  related_resource?: ExperimentResourceReference | null;
+  ranges?: ExperimentVariantsItemRangesList | undefined;
+  related_resource?: ExperimentResourceReference | null | undefined;
   /** Percentage of all users assigned to this treatment, 1-100. All weights together sum to at most 100; the remainder is control. */
   weight: number;
 }
@@ -130,31 +130,31 @@ export interface Experiment {
   /** Assignment hashes UTF-8 seed + subject ID with CRC32 modulo 100 and selects the stored end-exclusive range. */
   assignment_seed: string;
   /** Randomization unit -- `user` buckets each user independently, `account` buckets whole accounts (every user of an account gets the same arm). `null` for feature flags. */
-  bucket_by?: ExperimentBucketBy | null;
+  bucket_by?: ExperimentBucketBy | null | undefined;
   /** Revision of the serving configuration. Does not change the assignment seed. */
   configuration_revision: number;
   control: ExperimentControl;
   /** When the experiment was created, as an ISO 8601 timestamp. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** ID of the user who created the experiment, prefixed `user_`. `null` for experiments created before creators were recorded. */
-  created_by?: string | null;
+  created_by?: string | null | undefined;
   /** When the experiment stopped collecting data, as an ISO 8601 timestamp. `null` while still running. */
-  ended_at?: string | null;
+  ended_at?: string | null | undefined;
   /** `true` when this was created as a feature flag rather than a full experiment. Feature flags share the same evaluation API but do not collect metric results. */
-  feature_flag_only?: boolean | null;
+  feature_flag_only?: boolean | null | undefined;
   /** What was learned and why this outcome, recorded when the experiment was ended. `null` until then. */
-  findings?: string | null;
+  findings?: string | null | undefined;
   /** Developer-chosen handle referenced from code. Anywhere the API takes an experiment identifier, the `expt_` id and the flag_key are interchangeable. */
   flag_key: string;
   /** Hypothesis for this experiment. `null` when none is set, and always `null` for feature flags. */
-  hypothesis?: string | null;
+  hypothesis?: string | null | undefined;
   /** Unique identifier for the experiment, prefixed `expt_`. */
   id: string;
   /** Human-readable display name. */
   name: string;
   related_resource: ExperimentResourceReference | null;
   /** When the experiment began collecting data, as an ISO 8601 timestamp. `null` for drafts. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** Lifecycle state. `draft` -- not yet live; `active` -- currently running; `paused` -- traffic paused; `ended` -- concluded. */
   status: ExperimentStatus;
   /** Rules gating who is in the experiment at all. Conditions within a rule are AND-ed, rules are OR-ed, and `exclude` rules always win. Empty means everyone qualifies. */
@@ -163,7 +163,7 @@ export interface Experiment {
   /** Treatment arms. Users outside every arm's allocation form the implicit `control` group. Weights only ever grow and arms are never removed, so a user moves from control into a treatment at most once. */
   variants: ExperimentVariantsList;
   /** The treatment that won, set when the experiment was ended. Once set, every evaluation returns this arm to every caller regardless of targeting or allocation, and no further exposures are recorded. `null` means control won -- an ended experiment with no winning arm evaluates to `control` for everyone. Always `null` for feature flags, which simply evaluate to disabled once ended. */
-  winning_arm?: string | null;
+  winning_arm?: string | null | undefined;
 }
 /** Randomization unit, and the only identity the assignment is keyed on -- evaluation fails rather than falling back to another. `user` (default) uses `subject[user_id]` for account experiments and the signed-in user for internal experiments; `account` uses `subject[account_id]`, so every user of an account gets the same arm; `anonymous` uses the anonymous id and survives sign-in. Fixed after creation. */
 export type CreateExperimentRequestBucketBy = "user" | "account" | "anonymous";
@@ -185,7 +185,7 @@ export type CreateExperimentRequestTargetingRulesItemConditionsItemType =
   | "property";
 export interface CreateExperimentRequestTargetingRulesItemConditionsItem {
   /** Property name to read from the user context. Required when `type` is `property`. */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Comparison to apply: `any`/`none` -- inclusion/exclusion list; `eq`/`neq` -- equality; `gt`/`gte`/`lt`/`lte` -- numeric range. */
   operator: CreateExperimentRequestTargetingRulesItemConditionsItemOperator | (string & {});
   /** `user_id` -- match on subject user ID; `account_id` -- match on account ID (prefixed `biz_`); `property` -- match on a named user property (requires `field`). */
@@ -202,7 +202,7 @@ export interface CreateExperimentRequestTargetingRulesItem {
   /** Conditions within this rule. Must be non-empty. All conditions must be satisfied for the rule to match (AND logic). Rules are OR-ed together. */
   conditions: CreateExperimentRequestTargetingRulesItemConditionsList;
   /** `include` -- users matching this rule qualify; `exclude` -- users matching this rule are always excluded, overriding any include rule. Defaults to `include`. */
-  type?: CreateExperimentRequestTargetingRulesItemType | (string & {});
+  type?: CreateExperimentRequestTargetingRulesItemType | (string & {}) | undefined;
 }
 /** Rules that determine which subjects qualify for the experiment. */
 export type CreateExperimentRequestTargetingRulesList =
@@ -210,7 +210,7 @@ export type CreateExperimentRequestTargetingRulesList =
 export interface CreateExperimentRequestVariantsItem {
   /** Treatment identifier. `control` is reserved for the implicit remainder. */
   name: string;
-  related_resource?: ExperimentResourceReference | null;
+  related_resource?: ExperimentResourceReference | null | undefined;
   /** Percentage of all subjects assigned to this treatment. The remainder is control. */
   weight: number;
 }
@@ -220,64 +220,64 @@ export interface CreateExperimentRequest {
   /** Owning account tag or internal. Required; ownership cannot change. */
   account_id: string;
   /** Randomization unit, and the only identity the assignment is keyed on -- evaluation fails rather than falling back to another. `user` (default) uses `subject[user_id]` for account experiments and the signed-in user for internal experiments; `account` uses `subject[account_id]`, so every user of an account gets the same arm; `anonymous` uses the anonymous id and survives sign-in. Fixed after creation. */
-  bucket_by?: CreateExperimentRequestBucketBy | (string & {});
-  control?: ExperimentControl;
+  bucket_by?: CreateExperimentRequestBucketBy | (string & {}) | undefined;
+  control?: ExperimentControl | undefined;
   /** When `true`, creates a binary feature flag rather than a full experiment. Feature flags expose the same evaluation API but do not collect metric results. Defaults to `false`. */
-  feature_flag_only?: boolean;
+  feature_flag_only?: boolean | undefined;
   /** Developer-chosen handle referenced from code, used in evaluation and results calls. Interchangeable with the returned `expt_` id anywhere the API takes an experiment identifier. */
   flag_key: string;
   /** Required for full experiments; rejected on feature flags. Structure it as "If we [change] for [cohort], then [measurable behavior] will [increase/decrease], resulting in [business outcome], because [evidence]. Created by [name]." Evidence should be something real -- a baseline number, a funnel breakdown -- not a guess, and [name] is you, not something to leave blank. */
-  hypothesis?: string | null;
+  hypothesis?: string | null | undefined;
   /** Human-readable display name. Defaults to `flag_key` when omitted. */
-  name?: string;
-  related_resource?: ExperimentResourceReference | null;
+  name?: string | undefined;
+  related_resource?: ExperimentResourceReference | null | undefined;
   /** Rules that determine which subjects qualify for the experiment. */
-  targeting_rules?: CreateExperimentRequestTargetingRulesList;
+  targeting_rules?: CreateExperimentRequestTargetingRulesList | undefined;
   /** Treatment arms to create. Users outside every arm form the implicit `control` group. Required unless `feature_flag_only` is `true`. */
-  variants?: CreateExperimentRequestVariantsList;
+  variants?: CreateExperimentRequestVariantsList | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface EndExperimentRequest {
   /** The experiment identifier -- the `expt_` id or the flag_key handle. */
   id: string;
   /** Owning account or internal. Required when id is a flag key; optional for an expt_ ID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** What you learned and why you chose this outcome. Required. */
   findings: string;
   /** The treatment that won. Setting it rolls that arm out: every later evaluation returns it to every caller, ignoring targeting and allocation, and exposures stop being recorded. Omit it when control won -- an ended experiment with no winning arm evaluates to `control` for everyone, so ending again without one also reverts a rollout recorded by mistake. Not accepted on feature flags, which evaluate to disabled once ended. */
-  winning_arm?: string | null;
+  winning_arm?: string | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface EvaluateExperimentExposuresRequestSubject {
-  account_id?: string;
-  anonymous_id?: string;
-  user_id?: string;
+  account_id?: string | undefined;
+  anonymous_id?: string | undefined;
+  user_id?: string | undefined;
 }
 export interface EvaluateExperimentExposuresRequest {
   /** Bucketing subject. Ownership is the top-level account_id. Account experiments accept caller-supplied subject IDs; internal experiments derive the user from the session. */
-  subject?: EvaluateExperimentExposuresRequestSubject;
+  subject?: EvaluateExperimentExposuresRequestSubject | undefined;
   /** Restricts batch evaluation to this related resource; omitted batches contain only unbound experiments. */
-  related_resource?: ExperimentResourceReference;
+  related_resource?: ExperimentResourceReference | undefined;
   /** Flag or experiment to evaluate -- the flag_key handle or the `expt_` id. Omit to return all flags the caller qualifies for. */
-  flag_key?: string;
+  flag_key?: string | undefined;
   /** Owning account ID or internal. Required when evaluating by flag_key or in a batch; optional for an expt_ ID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** JSON-encoded scalar values that property targeting conditions match against. Numeric and boolean strings are coerced. Nested query keys such as properties[plan]=pro remain accepted for existing callers. For internal experiments, is_internal_user is derived from the session and cannot be overridden. */
-  properties?: string;
+  properties?: string | undefined;
   /** Set false to evaluate without recording an exposure. Omitted records it. */
-  log_exposure?: boolean;
+  log_exposure?: boolean | undefined;
 }
 export interface ExperimentExposure {
-  configuration_revision?: number;
+  configuration_revision?: number | undefined;
   /** Whether the subject receives a treatment or enabled feature flag. */
   enabled: boolean;
   /** Unique experiment ID, included for account experiments. */
-  experiment_id?: string;
+  experiment_id?: string | undefined;
   /** Present when evaluating a single experiment. */
-  flag_key?: string;
-  related_resource?: ExperimentResourceReference | null;
+  flag_key?: string | undefined;
+  related_resource?: ExperimentResourceReference | null | undefined;
   /** Treatment name, control, or null for an inactive flag or excluded subject. */
   variant: string | null;
 }
@@ -291,30 +291,30 @@ export interface GetExperimentRequest {
   /** The experiment identifier -- the `expt_` id or the flag_key handle. */
   id: string;
   /** Owning account or internal. Required when id is a flag key; optional for an expt_ ID. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 export type ListExperimentsRequestStatus = "draft" | "active" | "paused" | "ended";
 export type ListExperimentsRequestOrder = "created_at" | "flag_key";
 export type ListExperimentsRequestDirection = "asc" | "desc";
 export interface ListExperimentsRequest {
   /** Owning account ID. Omit or pass internal for Whop internal experiments; internal access is required. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Filter by related resource; requires account_id. */
-  related_resource?: ExperimentResourceReference;
+  related_resource?: ExperimentResourceReference | undefined;
   /** Only experiments with this status. */
-  status?: ListExperimentsRequestStatus | (string & {});
+  status?: ListExperimentsRequestStatus | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort experiments by. */
-  order?: ListExperimentsRequestOrder | (string & {});
+  order?: ListExperimentsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListExperimentsRequestDirection | (string & {});
+  direction?: ListExperimentsRequestDirection | (string & {}) | undefined;
 }
 export type ListExperimentsResponseDataList = Array<Experiment>;
 export interface ListExperimentsResponsePageInfo {
@@ -331,9 +331,9 @@ export interface PauseExperimentRequest {
   /** The experiment identifier -- the `expt_` id or the flag_key handle. */
   id: string;
   /** Owning account or internal. Required when id is a flag key; optional for an expt_ ID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type UpdateExperimentRequestControl = ExperimentControl;
 /** Comparison to apply: `any`/`none` -- inclusion/exclusion list; `eq`/`neq` -- equality; `gt`/`gte`/`lt`/`lte` -- numeric range. */
@@ -353,7 +353,7 @@ export type UpdateExperimentRequestTargetingRulesItemConditionsItemType =
   | "property";
 export interface UpdateExperimentRequestTargetingRulesItemConditionsItem {
   /** Property name to read from the user context. Required when `type` is `property`. */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Comparison to apply: `any`/`none` -- inclusion/exclusion list; `eq`/`neq` -- equality; `gt`/`gte`/`lt`/`lte` -- numeric range. */
   operator: UpdateExperimentRequestTargetingRulesItemConditionsItemOperator | (string & {});
   /** `user_id` -- match on subject user ID; `account_id` -- match on account ID (prefixed `biz_`); `property` -- match on a named user property (requires `field`). */
@@ -370,7 +370,7 @@ export interface UpdateExperimentRequestTargetingRulesItem {
   /** Conditions within this rule. Must be non-empty. All conditions must be satisfied for the rule to match (AND logic). Rules are OR-ed together. */
   conditions: UpdateExperimentRequestTargetingRulesItemConditionsList;
   /** `include` -- users matching this rule qualify; `exclude` -- users matching this rule are always excluded, overriding any include rule. Defaults to `include`. */
-  type?: UpdateExperimentRequestTargetingRulesItemType | (string & {});
+  type?: UpdateExperimentRequestTargetingRulesItemType | (string & {}) | undefined;
 }
 /** Replace the targeting rules with this set. Omit to leave unchanged. */
 export type UpdateExperimentRequestTargetingRulesList =
@@ -378,9 +378,9 @@ export type UpdateExperimentRequestTargetingRulesList =
 export interface UpdateExperimentRequestVariantsItem {
   /** Treatment name. Pass every existing treatment (weights equal or higher); append new names to add arms. `control` is reserved. */
   name: string;
-  related_resource?: ExperimentResourceReference | null;
+  related_resource?: ExperimentResourceReference | null | undefined;
   /** Percentage assigned to treatment; allocation may only grow. */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** Grow treatment allocation. Pass every existing treatment with an equal-or-higher weight; append new names to add arms. Weights never decrease and arms are never removed. Omit to leave unchanged. */
 export type UpdateExperimentRequestVariantsList = Array<UpdateExperimentRequestVariantsItem>;
@@ -388,15 +388,15 @@ export interface UpdateExperimentRequest {
   /** The experiment identifier -- the `expt_` id or the flag_key handle. */
   id: string;
   /** Owning account or internal. Required when id is a flag key; optional for an expt_ ID. */
-  account_id?: string;
-  control?: ExperimentControl;
+  account_id?: string | undefined;
+  control?: ExperimentControl | undefined;
   /** Omit to leave unchanged. Send an empty string to clear it. Not accepted on feature flags. When setting it, structure it as "If we [change] for [cohort], then [measurable behavior] will [increase/decrease], resulting in [business outcome], because [evidence]. Created by [name]." same as on create. */
-  hypothesis?: string | null;
-  related_resource?: ExperimentResourceReference | null;
+  hypothesis?: string | null | undefined;
+  related_resource?: ExperimentResourceReference | null | undefined;
   /** Replace the targeting rules with this set. Omit to leave unchanged. */
-  targeting_rules?: UpdateExperimentRequestTargetingRulesList;
+  targeting_rules?: UpdateExperimentRequestTargetingRulesList | undefined;
   /** Grow treatment allocation. Pass every existing treatment with an equal-or-higher weight; append new names to add arms. Weights never decrease and arms are never removed. Omit to leave unchanged. */
-  variants?: UpdateExperimentRequestVariantsList;
+  variants?: UpdateExperimentRequestVariantsList | undefined;
 }
 export type ActivateExperimentError = BadRequest | Conflict | WhopOpError;
 /** Activate Experiment Starts (or resumes) an experiment or feature flag so evaluation begins serving it. Activating a draft stamps `started_at`; resuming a paused experiment keeps the original start. Only drafts and paused experiments can be activated. Requires the corresponding experiment permission on the owning account, or Whop internal access for internal experiments. */

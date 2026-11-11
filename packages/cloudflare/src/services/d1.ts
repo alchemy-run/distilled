@@ -163,11 +163,11 @@ export interface CreateDatabaseRequest {
   /** D1 database name. */
   name: string;
   /** Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
-  jurisdiction?: DatabaseCreateRequestJurisdiction | (string & {});
+  jurisdiction?: DatabaseCreateRequestJurisdiction | (string & {}) | undefined;
   /** Specify the region to create the D1 primary, if available. If this option is omitted, the D1 will be created as close as possible to the current user. */
-  primaryLocationHint?: DatabaseCreateRequestPrimaryLocationHint | (string & {});
+  primaryLocationHint?: DatabaseCreateRequestPrimaryLocationHint | (string & {}) | undefined;
   /** Configuration for D1 read replication. */
-  readReplication?: DatabaseCreateRequestReadReplication;
+  readReplication?: DatabaseCreateRequestReadReplication | undefined;
 }
 export type DatabaseCreateResponseJurisdiction = "eu" | "fedramp" | "us";
 export type DatabaseCreateResponseReadReplicationMode = "auto" | "disabled";
@@ -178,20 +178,20 @@ export interface DatabaseCreateResponseReadReplication {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDatabaseResponse {
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The D1 database's size, in bytes. */
-  fileSize?: number | null;
+  fileSize?: number | null | undefined;
   /** Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
-  jurisdiction?: DatabaseCreateResponseJurisdiction | null;
+  jurisdiction?: DatabaseCreateResponseJurisdiction | null | undefined;
   /** D1 database name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
-  numTables?: number | null;
+  numTables?: number | null | undefined;
   /** Configuration for D1 read replication. */
-  readReplication?: DatabaseCreateResponseReadReplication | null;
+  readReplication?: DatabaseCreateResponseReadReplication | null | undefined;
   /** D1 database identifier (UUID). */
-  uuid?: string | null;
-  version?: string | null;
+  uuid?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** Account identifier tag. */
@@ -201,14 +201,17 @@ export interface DeleteDatabaseRequest {
 }
 export type DeleteDatabaseResponse = unknown;
 export type DatabaseExportRequestOutputFormat = "polling";
+export type DatabaseExportRequestDumpOptionsCompatibility = "d1" | "sqlite3_cli_only";
 export type DatabaseExportRequestDumpOptionsTablesList = Array<string>;
 export interface DatabaseExportRequestDumpOptions {
+  /** Dump format. `d1` (the default) gives a dump that D1 can import. `sqlite3_cli_only` matches the output of the `sqlite3 .dump` command, including virtual tables such as FTS5 or R*Tree tables, but cannot be imported back into D1. */
+  compatibility?: DatabaseExportRequestDumpOptionsCompatibility | (string & {}) | undefined;
   /** Export only the table definitions, not their contents */
-  noData?: boolean;
+  noData?: boolean | undefined;
   /** Export only each table's contents, not its definition */
-  noSchema?: boolean;
+  noSchema?: boolean | undefined;
   /** Filter the export to just one or more tables. Passing an empty array is the same as not passing anything and means: export all tables. */
-  tables?: DatabaseExportRequestDumpOptionsTablesList;
+  tables?: DatabaseExportRequestDumpOptionsTablesList | undefined;
 }
 export interface ExportDatabaseRequest {
   /** Account identifier tag. */
@@ -218,31 +221,31 @@ export interface ExportDatabaseRequest {
   /** Specifies that you will poll this endpoint until the export completes */
   outputFormat: DatabaseExportRequestOutputFormat | (string & {});
   /** To poll an in-progress export, provide the current bookmark (returned by your first polling response) */
-  currentBookmark?: string;
-  dumpOptions?: DatabaseExportRequestDumpOptions;
+  currentBookmark?: string | undefined;
+  dumpOptions?: DatabaseExportRequestDumpOptions | undefined;
 }
 export type DatabaseExportResponseMessagesList = Array<string>;
 export interface DatabaseExportResponseResult {
   /** The generated SQL filename. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** The URL to download the exported SQL. Available for one hour. */
-  signedUrl?: string | null;
+  signedUrl?: string | null | undefined;
 }
 export type DatabaseExportResponseStatus = "complete" | "error";
 export type DatabaseExportResponseType = "export";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ExportDatabaseResponse {
   /** The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the export task. */
-  atBookmark?: string | null;
+  atBookmark?: string | null | undefined;
   /** Only present when status = 'error'. Contains the error message. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Logs since the last time you polled */
-  messages?: DatabaseExportResponseMessagesList | null;
+  messages?: DatabaseExportResponseMessagesList | null | undefined;
   /** Only present when status = 'complete' */
-  result?: DatabaseExportResponseResult | null;
-  status?: DatabaseExportResponseStatus | null;
-  success?: boolean | null;
-  type?: DatabaseExportResponseType | null;
+  result?: DatabaseExportResponseResult | null | undefined;
+  status?: DatabaseExportResponseStatus | null | undefined;
+  success?: boolean | null | undefined;
+  type?: DatabaseExportResponseType | null | undefined;
 }
 export interface GetBookmarkDatabaseTimeTravelRequest {
   /** Account identifier tag. */
@@ -250,12 +253,12 @@ export interface GetBookmarkDatabaseTimeTravelRequest {
   /** D1 database identifier (UUID). */
   databaseId: string;
   /** An optional ISO 8601 timestamp. If provided, returns the nearest available bookmark at or before this timestamp. If omitted, returns the current bookmark. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBookmarkDatabaseTimeTravelResponse {
   /** A bookmark representing a specific state of the database at a specific point in time. */
-  bookmark?: string | null;
+  bookmark?: string | null | undefined;
 }
 export type DatabaseGetRequestFields =
   | "uuid"
@@ -274,7 +277,7 @@ export interface GetDatabaseRequest {
   /** D1 database identifier (UUID). */
   databaseId: string;
   /** Comma-separated list of fields to include in the response. When omitted, all fields are returned. */
-  fields?: DatabaseGetRequestFieldsList;
+  fields?: DatabaseGetRequestFieldsList | undefined;
 }
 export type DatabaseGetResponseJurisdiction = "eu" | "fedramp" | "us";
 export type DatabaseGetResponseReadReplicationMode = "auto" | "disabled";
@@ -285,20 +288,20 @@ export interface DatabaseGetResponseReadReplication {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDatabaseResponse {
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The D1 database's size, in bytes. */
-  fileSize?: number | null;
+  fileSize?: number | null | undefined;
   /** Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
-  jurisdiction?: DatabaseGetResponseJurisdiction | null;
+  jurisdiction?: DatabaseGetResponseJurisdiction | null | undefined;
   /** D1 database name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
-  numTables?: number | null;
+  numTables?: number | null | undefined;
   /** Configuration for D1 read replication. */
-  readReplication?: DatabaseGetResponseReadReplication | null;
+  readReplication?: DatabaseGetResponseReadReplication | null | undefined;
   /** D1 database identifier (UUID). */
-  uuid?: string | null;
-  version?: string | null;
+  uuid?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type DatabaseImportRequestAction = "init" | "ingest" | "poll";
 export interface ImportDatabaseRequest {
@@ -309,11 +312,11 @@ export interface ImportDatabaseRequest {
   /** Indicates you have a new SQL file to upload. */
   action: DatabaseImportRequestAction | (string & {});
   /** Required when action is 'init' or 'ingest'. An md5 hash of the file you're uploading. Used to check if it already exists, and validate its contents before ingesting. */
-  etag?: string;
+  etag?: string | undefined;
   /** The filename you have successfully uploaded. */
-  filename?: string;
+  filename?: string | undefined;
   /** This identifies the currently-running import, checking its status. */
-  currentBookmark?: string;
+  currentBookmark?: string | undefined;
 }
 export type DatabaseImportResponseMessagesList = Array<string>;
 export type DatabaseImportResponseResultMetaServedByRegion =
@@ -325,87 +328,87 @@ export type DatabaseImportResponseResultMetaServedByRegion =
   | "OC";
 export interface DatabaseImportResponseResultMetaTimings {
   /** The duration of the SQL query execution inside the database. Does not include any network communication. */
-  sqlDurationMs?: number | null;
+  sqlDurationMs?: number | null | undefined;
 }
 export interface DatabaseImportResponseResultMeta {
   /** Denotes if the database has been altered in some way, like deleting rows. */
-  changedDb?: boolean | null;
+  changedDb?: boolean | null | undefined;
   /** Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`. */
-  changes?: number | null;
+  changes?: number | null | undefined;
   /** The duration of the SQL query execution inside the database. Does not include any network communication. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this. */
-  lastRowId?: number | null;
+  lastRowId?: number | null | undefined;
   /** Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned). */
-  rowsRead?: number | null;
+  rowsRead?: number | null | undefined;
   /** Number of rows written during the SQL query execution, including indices. */
-  rowsWritten?: number | null;
+  rowsWritten?: number | null | undefined;
   /** The three letters airport code of the colo that handled the query. */
-  servedByColo?: string | null;
+  servedByColo?: string | null | undefined;
   /** Denotes if the query has been handled by the database primary instance. */
-  servedByPrimary?: boolean | null;
+  servedByPrimary?: boolean | null | undefined;
   /** Region location hint of the database instance that handled the query. */
-  servedByRegion?: DatabaseImportResponseResultMetaServedByRegion | null;
+  servedByRegion?: DatabaseImportResponseResultMetaServedByRegion | null | undefined;
   /** Size of the database after the query committed, in bytes. */
-  sizeAfter?: number | null;
+  sizeAfter?: number | null | undefined;
   /** Various durations for the query. */
-  timings?: DatabaseImportResponseResultMetaTimings | null;
+  timings?: DatabaseImportResponseResultMetaTimings | null | undefined;
 }
 export interface DatabaseImportResponseResult {
   /** The time-travel bookmark if you need restore your D1 to directly after the import succeeded. */
-  finalBookmark?: string | null;
-  meta?: DatabaseImportResponseResultMeta | null;
+  finalBookmark?: string | null | undefined;
+  meta?: DatabaseImportResponseResultMeta | null | undefined;
   /** The total number of queries that were executed during the import. */
-  numQueries?: number | null;
+  numQueries?: number | null | undefined;
 }
 export type DatabaseImportResponseStatus = "complete" | "error";
 export type DatabaseImportResponseType = "import";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ImportDatabaseResponse {
   /** The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the import. Only returned if an import process is currently running or recently finished. */
-  atBookmark?: string | null;
+  atBookmark?: string | null | undefined;
   /** Only present when status = 'error'. Contains the error message that prevented the import from succeeding. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Derived from the database ID and etag, to use in avoiding repeated uploads. Only returned when for the 'init' action. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** Logs since the last time you polled */
-  messages?: DatabaseImportResponseMessagesList | null;
+  messages?: DatabaseImportResponseMessagesList | null | undefined;
   /** Only present when status = 'complete' */
-  result?: DatabaseImportResponseResult | null;
-  status?: DatabaseImportResponseStatus | null;
-  success?: boolean | null;
-  type?: DatabaseImportResponseType | null;
+  result?: DatabaseImportResponseResult | null | undefined;
+  status?: DatabaseImportResponseStatus | null | undefined;
+  success?: boolean | null | undefined;
+  type?: DatabaseImportResponseType | null | undefined;
   /** The R2 presigned URL to use for uploading. Only returned when for the 'init' action. */
-  uploadUrl?: string | null;
+  uploadUrl?: string | null | undefined;
 }
 export interface ListDatabasesRequest {
   /** Account identifier tag. */
   accountId: string;
   /** a database name to search for. */
-  name?: string;
+  name?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type DatabaseListResultItemJurisdiction = "eu" | "fedramp" | "us";
 export interface DatabaseListResultItem {
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
-  jurisdiction?: DatabaseListResultItemJurisdiction | null;
+  jurisdiction?: DatabaseListResultItemJurisdiction | null | undefined;
   /** D1 database name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** D1 database identifier (UUID). */
-  uuid?: string | null;
-  version?: string | null;
+  uuid?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type DatabaseListResultList = Array<DatabaseListResultItem>;
 export interface ListDatabasesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatabaseListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DatabaseEditRequestReadReplicationMode = "auto" | "disabled";
 export interface DatabaseEditRequestReadReplication {
@@ -418,7 +421,7 @@ export interface PatchDatabaseRequest {
   /** D1 database identifier (UUID). */
   databaseId: string;
   /** Configuration for D1 read replication. */
-  readReplication?: DatabaseEditRequestReadReplication;
+  readReplication?: DatabaseEditRequestReadReplication | undefined;
 }
 export type DatabaseEditResponseJurisdiction = "eu" | "fedramp" | "us";
 export type DatabaseEditResponseReadReplicationMode = "auto" | "disabled";
@@ -429,27 +432,27 @@ export interface DatabaseEditResponseReadReplication {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchDatabaseResponse {
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The D1 database's size, in bytes. */
-  fileSize?: number | null;
+  fileSize?: number | null | undefined;
   /** Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
-  jurisdiction?: DatabaseEditResponseJurisdiction | null;
+  jurisdiction?: DatabaseEditResponseJurisdiction | null | undefined;
   /** D1 database name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
-  numTables?: number | null;
+  numTables?: number | null | undefined;
   /** Configuration for D1 read replication. */
-  readReplication?: DatabaseEditResponseReadReplication | null;
+  readReplication?: DatabaseEditResponseReadReplication | null | undefined;
   /** D1 database identifier (UUID). */
-  uuid?: string | null;
-  version?: string | null;
+  uuid?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type DatabaseQueryRequestParamsList = Array<unknown>;
 export type DatabaseQueryRequestBatchItemParamsList = Array<unknown>;
 export interface DatabaseQueryRequestBatchItem {
   /** Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch. */
   sql: string;
-  params?: DatabaseQueryRequestBatchItemParamsList;
+  params?: DatabaseQueryRequestBatchItemParamsList | undefined;
 }
 export type DatabaseQueryRequestBatchList = Array<DatabaseQueryRequestBatchItem>;
 export interface QueryDatabaseRequest {
@@ -458,9 +461,9 @@ export interface QueryDatabaseRequest {
   /** D1 database identifier (UUID). */
   databaseId: string;
   /** Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch. */
-  sql?: string;
-  params?: DatabaseQueryRequestParamsList;
-  batch?: DatabaseQueryRequestBatchList;
+  sql?: string | undefined;
+  params?: DatabaseQueryRequestParamsList | undefined;
+  batch?: DatabaseQueryRequestBatchList | undefined;
 }
 export type DatabaseQueryResultItemMetaServedByRegion =
   | "WNAM"
@@ -472,47 +475,47 @@ export type DatabaseQueryResultItemMetaServedByRegion =
 export type DatabaseQueryResultItemMetaTimings = DatabaseImportResponseResultMetaTimings;
 export interface DatabaseQueryResultItemMeta {
   /** Denotes if the database has been altered in some way, like deleting rows. */
-  changedDb?: boolean | null;
+  changedDb?: boolean | null | undefined;
   /** Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`. */
-  changes?: number | null;
+  changes?: number | null | undefined;
   /** The duration of the SQL query execution inside the database. Does not include any network communication. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this. */
-  lastRowId?: number | null;
+  lastRowId?: number | null | undefined;
   /** Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned). */
-  rowsRead?: number | null;
+  rowsRead?: number | null | undefined;
   /** Number of rows written during the SQL query execution, including indices. */
-  rowsWritten?: number | null;
+  rowsWritten?: number | null | undefined;
   /** The three letters airport code of the colo that handled the query. */
-  servedByColo?: string | null;
+  servedByColo?: string | null | undefined;
   /** Denotes if the query has been handled by the database primary instance. */
-  servedByPrimary?: boolean | null;
+  servedByPrimary?: boolean | null | undefined;
   /** Region location hint of the database instance that handled the query. */
-  servedByRegion?: DatabaseQueryResultItemMetaServedByRegion | null;
+  servedByRegion?: DatabaseQueryResultItemMetaServedByRegion | null | undefined;
   /** Size of the database after the query committed, in bytes. */
-  sizeAfter?: number | null;
+  sizeAfter?: number | null | undefined;
   /** Various durations for the query. */
-  timings?: DatabaseImportResponseResultMetaTimings | null;
+  timings?: DatabaseImportResponseResultMetaTimings | null | undefined;
 }
 export type DatabaseQueryResultItemResultsList = Array<unknown>;
 export interface DatabaseQueryResultItem {
-  meta?: DatabaseQueryResultItemMeta | null;
-  results?: DatabaseQueryResultItemResultsList | null;
-  success?: boolean | null;
+  meta?: DatabaseQueryResultItemMeta | null | undefined;
+  results?: DatabaseQueryResultItemResultsList | null | undefined;
+  success?: boolean | null | undefined;
 }
 export type DatabaseQueryResultList = Array<DatabaseQueryResultItem>;
 export interface QueryDatabaseResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatabaseQueryResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type DatabaseRawRequestParamsList = Array<unknown>;
 export type DatabaseRawRequestBatchItemParamsList = Array<unknown>;
 export interface DatabaseRawRequestBatchItem {
   /** Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch. */
   sql: string;
-  params?: DatabaseRawRequestBatchItemParamsList;
+  params?: DatabaseRawRequestBatchItemParamsList | undefined;
 }
 export type DatabaseRawRequestBatchList = Array<DatabaseRawRequestBatchItem>;
 export interface RawDatabaseRequest {
@@ -521,9 +524,9 @@ export interface RawDatabaseRequest {
   /** D1 database identifier (UUID). */
   databaseId: string;
   /** Your SQL query. Supports multiple statements, joined by semicolons, which will be executed as a batch. */
-  sql?: string;
-  params?: DatabaseRawRequestParamsList;
-  batch?: DatabaseRawRequestBatchList;
+  sql?: string | undefined;
+  params?: DatabaseRawRequestParamsList | undefined;
+  batch?: DatabaseRawRequestBatchList | undefined;
 }
 export type DatabaseRawResultItemMetaServedByRegion =
   | "WNAM"
@@ -535,45 +538,45 @@ export type DatabaseRawResultItemMetaServedByRegion =
 export type DatabaseRawResultItemMetaTimings = DatabaseImportResponseResultMetaTimings;
 export interface DatabaseRawResultItemMeta {
   /** Denotes if the database has been altered in some way, like deleting rows. */
-  changedDb?: boolean | null;
+  changedDb?: boolean | null | undefined;
   /** Rough indication of how many rows were modified by the query, as provided by SQLite's `sqlite3_total_changes()`. */
-  changes?: number | null;
+  changes?: number | null | undefined;
   /** The duration of the SQL query execution inside the database. Does not include any network communication. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** The row ID of the last inserted row in a table with an `INTEGER PRIMARY KEY` as provided by SQLite. Tables created with `WITHOUT ROWID` do not populate this. */
-  lastRowId?: number | null;
+  lastRowId?: number | null | undefined;
   /** Number of rows read during the SQL query execution, including indices (not all rows are necessarily returned). */
-  rowsRead?: number | null;
+  rowsRead?: number | null | undefined;
   /** Number of rows written during the SQL query execution, including indices. */
-  rowsWritten?: number | null;
+  rowsWritten?: number | null | undefined;
   /** The three letters airport code of the colo that handled the query. */
-  servedByColo?: string | null;
+  servedByColo?: string | null | undefined;
   /** Denotes if the query has been handled by the database primary instance. */
-  servedByPrimary?: boolean | null;
+  servedByPrimary?: boolean | null | undefined;
   /** Region location hint of the database instance that handled the query. */
-  servedByRegion?: DatabaseRawResultItemMetaServedByRegion | null;
+  servedByRegion?: DatabaseRawResultItemMetaServedByRegion | null | undefined;
   /** Size of the database after the query committed, in bytes. */
-  sizeAfter?: number | null;
+  sizeAfter?: number | null | undefined;
   /** Various durations for the query. */
-  timings?: DatabaseImportResponseResultMetaTimings | null;
+  timings?: DatabaseImportResponseResultMetaTimings | null | undefined;
 }
 export type DatabaseRawResultItemResultsColumnsList = Array<string>;
 export type DatabaseRawResultItemResultsRowsList = Array<unknown>;
 export interface DatabaseRawResultItemResults {
-  columns?: DatabaseRawResultItemResultsColumnsList | null;
-  rows?: DatabaseRawResultItemResultsRowsList | null;
+  columns?: DatabaseRawResultItemResultsColumnsList | null | undefined;
+  rows?: DatabaseRawResultItemResultsRowsList | null | undefined;
 }
 export interface DatabaseRawResultItem {
-  meta?: DatabaseRawResultItemMeta | null;
-  results?: DatabaseRawResultItemResults | null;
-  success?: boolean | null;
+  meta?: DatabaseRawResultItemMeta | null | undefined;
+  results?: DatabaseRawResultItemResults | null | undefined;
+  success?: boolean | null | undefined;
 }
 export type DatabaseRawResultList = Array<DatabaseRawResultItem>;
 export interface RawDatabaseResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatabaseRawResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface RestoreDatabaseTimeTravelRequest {
   /** Account identifier tag. */
@@ -581,18 +584,18 @@ export interface RestoreDatabaseTimeTravelRequest {
   /** D1 database identifier (UUID). */
   databaseId: string;
   /** A bookmark to restore the database to. Required if `timestamp` is not provided. */
-  bookmark?: string;
+  bookmark?: string | undefined;
   /** An ISO 8601 timestamp to restore the database to. Required if `bookmark` is not provided. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RestoreDatabaseTimeTravelResponse {
   /** The new bookmark representing the state of the database after the restore operation. */
-  bookmark?: string | null;
+  bookmark?: string | null | undefined;
   /** A message describing the result of the restore operation. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed. */
-  previousBookmark?: string | null;
+  previousBookmark?: string | null | undefined;
 }
 export interface UndeleteDatabaseRequest {
   /** Account identifier tag. */
@@ -600,7 +603,7 @@ export interface UndeleteDatabaseRequest {
   /** D1 database identifier (UUID). */
   databaseId: string;
   /** Restore the database with this name instead of the name it had when it was deleted. Required if another database in the account already uses that name. */
-  newName?: string;
+  newName?: string | undefined;
 }
 export type UndeleteDatabaseResponseJurisdiction = "eu" | "fedramp" | "us";
 export type UndeleteDatabaseResponseReadReplicationMode = "auto" | "disabled";
@@ -611,20 +614,20 @@ export interface UndeleteDatabaseResponseReadReplication {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UndeleteDatabaseResponse {
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The D1 database's size, in bytes. */
-  fileSize?: number | null;
+  fileSize?: number | null | undefined;
   /** Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
-  jurisdiction?: UndeleteDatabaseResponseJurisdiction | null;
+  jurisdiction?: UndeleteDatabaseResponseJurisdiction | null | undefined;
   /** D1 database name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
-  numTables?: number | null;
+  numTables?: number | null | undefined;
   /** Configuration for D1 read replication. */
-  readReplication?: UndeleteDatabaseResponseReadReplication | null;
+  readReplication?: UndeleteDatabaseResponseReadReplication | null | undefined;
   /** D1 database identifier (UUID). */
-  uuid?: string | null;
-  version?: string | null;
+  uuid?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type DatabaseUpdateRequestReadReplicationMode = "auto" | "disabled";
 export interface DatabaseUpdateRequestReadReplication {
@@ -648,20 +651,20 @@ export interface DatabaseUpdateResponseReadReplication {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateDatabaseResponse {
   /** Specifies the timestamp the resource was created as an ISO8601 string. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The D1 database's size, in bytes. */
-  fileSize?: number | null;
+  fileSize?: number | null | undefined;
   /** Specify the location to restrict the D1 database to run and store data. If this option is present, the location hint is ignored. */
-  jurisdiction?: DatabaseUpdateResponseJurisdiction | null;
+  jurisdiction?: DatabaseUpdateResponseJurisdiction | null | undefined;
   /** D1 database name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The number of tables in the D1 database. This count is no longer accurate and should not be relied upon. */
-  numTables?: number | null;
+  numTables?: number | null | undefined;
   /** Configuration for D1 read replication. */
-  readReplication?: DatabaseUpdateResponseReadReplication | null;
+  readReplication?: DatabaseUpdateResponseReadReplication | null | undefined;
   /** D1 database identifier (UUID). */
-  uuid?: string | null;
-  version?: string | null;
+  uuid?: string | null | undefined;
+  version?: string | null | undefined;
 }
 export type CreateDatabaseError =
   | InvalidObjectIdentifier
@@ -1018,6 +1021,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          compatibility: S.optional(S.String),
           noData: S.optional(S.Boolean.pipe(T.Body("no_data"))),
           noSchema: S.optional(S.Boolean.pipe(T.Body("no_schema"))),
           tables: S.optional(__S(16, __c2, 0)),

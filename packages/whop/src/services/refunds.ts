@@ -132,27 +132,27 @@ export type ListRefundsRequestOrder = "created_at";
 export type ListRefundsRequestDirection = "asc" | "desc";
 export interface ListRefundsRequest {
   /** Only refunds issued by this account, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only refunds of this payment, prefixed `pay_`. */
-  payment_id?: string;
+  payment_id?: string | undefined;
   /** Only refunds to this buyer, prefixed `user_`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Only refunds requested before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only refunds requested after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** The field to sort by. */
-  order?: ListRefundsRequestOrder | (string & {});
+  order?: ListRefundsRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListRefundsRequestDirection | (string & {});
+  direction?: ListRefundsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListRefundsResponseDataList = Array<Refund>;
 export interface ListRefundsResponsePageInfo {

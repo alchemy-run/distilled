@@ -48,37 +48,39 @@ export type MCPAuthTypeEnum = "api_key" | "oauth";
 export interface CreateMcpServerInstallationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  display_name?: string;
-  url?: string;
-  auth_type?: MCPAuthTypeEnum | (string & {});
-  is_enabled?: boolean;
+  display_name?: string | undefined;
+  url?: string | undefined;
+  auth_type?: MCPAuthTypeEnum | (string & {}) | undefined;
+  is_enabled?: boolean | undefined;
 }
 /** * `personal` - Personal * `shared` - Shared */
 export type MCPServerInstallationScopeEnum = "personal" | "shared";
 export interface MCPServerInstallation {
-  id?: string;
-  template_id?: string | null;
-  name?: string;
+  id?: string | undefined;
+  template_id?: string | null | undefined;
+  /** ID of the MCP server this connection belongs to. The MCP server page takes this ID, not the connection id. Null for older connections that are not linked to a server yet. */
+  gateway_server_id: string | null;
+  name?: string | undefined;
   /** Deprecated: use icon_domain instead. Lowercase key from the linked template for clients that still render bundled icon assets. Empty if custom install (no template). */
-  icon_key?: string;
+  icon_key?: string | undefined;
   /** Brand domain from the linked template, rendered via the logo.dev icon proxy. Empty if custom install (no template). */
-  icon_domain?: string;
-  display_name?: string;
-  url?: string;
+  icon_domain?: string | undefined;
+  display_name?: string | undefined;
+  url?: string | undefined;
   /** Installation description, falling back to the linked template description. */
-  description?: string;
-  auth_type?: MCPAuthTypeEnum;
-  is_enabled?: boolean;
-  scope?: MCPServerInstallationScopeEnum;
+  description?: string | undefined;
+  auth_type?: MCPAuthTypeEnum | undefined;
+  is_enabled?: boolean | undefined;
+  scope?: MCPServerInstallationScopeEnum | undefined;
   /** True when the requesting user owns this installation. Lets clients gate owner-only controls instead of surfacing 403s. */
-  is_owner?: boolean;
-  needs_reauth?: boolean;
-  pending_oauth?: boolean;
-  proxy_url?: string;
+  is_owner?: boolean | undefined;
+  needs_reauth?: boolean | undefined;
+  pending_oauth?: boolean | undefined;
+  proxy_url?: string | undefined;
   /** Number of live (non-removed) tools exposed by this installation. */
-  tool_count?: number;
-  created_at?: string;
-  updated_at?: string | null;
+  tool_count?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
 }
 /** Arguments object passed straight to the tool, matching its input schema. */
 export type CreateMcpServerInstallationsCallToolRequestArgumentsMap = {
@@ -92,7 +94,7 @@ export interface CreateMcpServerInstallationsCallToolRequest {
   /** Name of the tool to invoke, exactly as the upstream server reports it. */
   tool_name: string;
   /** Arguments object passed straight to the tool, matching its input schema. */
-  arguments?: CreateMcpServerInstallationsCallToolRequestArgumentsMap;
+  arguments?: CreateMcpServerInstallationsCallToolRequestArgumentsMap | undefined;
 }
 export type CallToolResponseContentItemMap = { [key: string]: unknown | undefined };
 /** MCP content blocks the tool returned, in upstream order. */
@@ -105,17 +107,17 @@ export interface CallToolResponse {
   /** True when the tool itself reported failure (for example bad arguments). The call reached the server; read `content` for the reason. */
   is_error: boolean;
   /** Structured result the tool returned alongside `content`, when it provides one. */
-  structured_content?: CallToolResponseStructuredContentMap | null;
+  structured_content?: CallToolResponseStructuredContentMap | null | undefined;
 }
 export interface CreateMcpServerInstallationsProxyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this mcp server installation. */
   id: string;
-  display_name?: string;
-  url?: string;
-  auth_type?: MCPAuthTypeEnum | (string & {});
-  is_enabled?: boolean;
+  display_name?: string | undefined;
+  url?: string | undefined;
+  auth_type?: MCPAuthTypeEnum | (string & {}) | undefined;
+  is_enabled?: boolean | undefined;
 }
 export interface CreateMcpServerInstallationsProxyResponse {}
 export interface CreateMcpServerInstallationsShareRequest {
@@ -177,45 +179,45 @@ export interface GetMcpServerInstallationsToolRequest {
   id: string;
 }
 export interface MCPServerInstallationTool {
-  id?: string;
-  tool_name?: string;
-  display_name?: string;
-  description?: string;
-  input_schema?: unknown;
+  id?: string | undefined;
+  tool_name?: string | undefined;
+  display_name?: string | undefined;
+  description?: string | undefined;
+  input_schema?: unknown | undefined;
   /** Effective state after applying the team ceiling. */
-  approval_state?: MCPToolApprovalStateEnum;
+  approval_state?: MCPToolApprovalStateEnum | undefined;
   /** Team-admin ceiling for this tool. Null when the team imposes no ceiling. */
-  team_state?: MCPToolApprovalStateEnum | null;
+  team_state?: MCPToolApprovalStateEnum | null | undefined;
   /** True when a rule or Blocked team ceiling leaves no editable state. */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** Policy layer that decided the effective state. */
-  decided_by?: string;
-  last_seen_at?: string;
-  removed_at?: string | null;
-  created_at?: string;
-  updated_at?: string | null;
+  decided_by?: string | undefined;
+  last_seen_at?: string | undefined;
+  removed_at?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
 }
 export type PaginatedMCPServerInstallationToolListResultsList = Array<MCPServerInstallationTool>;
 export interface PaginatedMCPServerInstallationToolList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedMCPServerInstallationToolListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedMCPServerInstallationToolListResultsList | undefined;
 }
 export interface ListMcpServerInstallationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedMCPServerInstallationListResultsList = Array<MCPServerInstallation>;
 export interface PaginatedMCPServerInstallationList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedMCPServerInstallationListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedMCPServerInstallationListResultsList | undefined;
 }
 export type McpServerInstallationsAuthorizeRetrieveRequestInstallSource =
   | "posthog"
@@ -224,12 +226,15 @@ export interface McpServerInstallationsAuthorizeRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** * `posthog` - posthog * `posthog-code` - posthog-code */
-  install_source?: McpServerInstallationsAuthorizeRetrieveRequestInstallSource | (string & {});
-  installation_id?: string;
-  posthog_code_callback_url?: string;
+  install_source?:
+    | McpServerInstallationsAuthorizeRetrieveRequestInstallSource
+    | (string & {})
+    | undefined;
+  installation_id?: string | undefined;
+  posthog_code_callback_url?: string | undefined;
   /** In-app path to land back on after the OAuth round-trip. Must be a same-app relative path. */
-  return_path?: string;
-  template_id?: string;
+  return_path?: string | undefined;
+  template_id?: string | undefined;
 }
 export interface McpServerInstallationsAuthorizeRetrieveResponse {}
 export interface McpServerInstallationsDestroyRequest {
@@ -250,52 +255,52 @@ export type MCPAgentGrantScopeEnum = "personal" | "team";
 export interface McpServerInstallationsInstallCustomCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string;
-  url?: string;
-  auth_type?: InstallCustomAuthTypeEnum | (string & {});
-  api_key?: string | Redacted.Redacted<string>;
-  description?: string;
-  client_id?: string;
-  client_secret?: string | Redacted.Redacted<string>;
-  install_source?: InstallSourceEnum | (string & {});
-  posthog_code_callback_url?: string;
+  name?: string | undefined;
+  url?: string | undefined;
+  auth_type?: InstallCustomAuthTypeEnum | (string & {}) | undefined;
+  api_key?: string | Redacted.Redacted<string> | undefined;
+  description?: string | undefined;
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  install_source?: InstallSourceEnum | (string & {}) | undefined;
+  posthog_code_callback_url?: string | undefined;
   /** 'personal' is per-user; 'shared' makes the credential available to project members. PostHog agents get access to the connection automatically; see agent_scope. * `personal` - personal * `shared` - shared */
-  scope?: MCPInstallationScopeEnum | (string & {});
+  scope?: MCPInstallationScopeEnum | (string & {}) | undefined;
   /** Whether the server starts enabled for the whole team. Non-default values are admin-only. */
-  team_enabled?: boolean;
+  team_enabled?: boolean | undefined;
   /** How far the automatic agent grants for this connection reach. 'personal' (the default) lets PostHog agents use it only on runs for you; 'team' lets every agent run in the project use it. Grants are created when the caller may manage agent access: project admins always, members when team settings allow it. Sending a value without that permission is rejected. * `personal` - Personal * `team` - Team */
-  agent_scope?: MCPAgentGrantScopeEnum | (string & {});
+  agent_scope?: MCPAgentGrantScopeEnum | (string & {}) | undefined;
   /** In-app path to land back on after the OAuth round-trip. Must be a same-app relative path. */
-  return_path?: string;
+  return_path?: string | undefined;
 }
 export interface OAuthRedirectResponse {
-  redirect_url?: string;
+  redirect_url?: string | undefined;
 }
 export interface McpServerInstallationsInstallTemplateCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  template_id?: string;
-  api_key?: string | Redacted.Redacted<string>;
-  install_source?: InstallSourceEnum | (string & {});
-  posthog_code_callback_url?: string;
+  template_id?: string | undefined;
+  api_key?: string | Redacted.Redacted<string> | undefined;
+  install_source?: InstallSourceEnum | (string & {}) | undefined;
+  posthog_code_callback_url?: string | undefined;
   /** 'personal' is per-user; 'shared' makes the credential available to project members. PostHog agents get access to the connection automatically; see agent_scope. * `personal` - personal * `shared` - shared */
-  scope?: MCPInstallationScopeEnum | (string & {});
+  scope?: MCPInstallationScopeEnum | (string & {}) | undefined;
   /** Whether the server starts enabled for the whole team. Non-default values are admin-only. */
-  team_enabled?: boolean;
+  team_enabled?: boolean | undefined;
   /** How far the automatic agent grants for this connection reach. 'personal' (the default) lets PostHog agents use it only on runs for you; 'team' lets every agent run in the project use it. Grants are created when the caller may manage agent access: project admins always, members when team settings allow it. Sending a value without that permission is rejected. * `personal` - Personal * `team` - Team */
-  agent_scope?: MCPAgentGrantScopeEnum | (string & {});
+  agent_scope?: MCPAgentGrantScopeEnum | (string & {}) | undefined;
   /** In-app path to land back on after the OAuth round-trip. Must be a same-app relative path. */
-  return_path?: string;
+  return_path?: string | undefined;
 }
 export interface McpServerInstallationsToolsRefreshCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this mcp server installation. */
   id: string;
-  display_name?: string;
-  url?: string;
-  auth_type?: MCPAuthTypeEnum | (string & {});
-  is_enabled?: boolean;
+  display_name?: string | undefined;
+  url?: string | undefined;
+  auth_type?: MCPAuthTypeEnum | (string & {}) | undefined;
+  is_enabled?: boolean | undefined;
 }
 export interface McpServerInstallationsUnshareCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -308,19 +313,19 @@ export interface UpdateMcpServerInstallationRequest {
   project_id: string;
   /** A UUID string identifying this mcp server installation. */
   id: string;
-  display_name?: string;
-  url?: string;
-  auth_type?: MCPAuthTypeEnum | (string & {});
-  is_enabled?: boolean;
+  display_name?: string | undefined;
+  url?: string | undefined;
+  auth_type?: MCPAuthTypeEnum | (string & {}) | undefined;
+  is_enabled?: boolean | undefined;
 }
 export interface UpdateMcpServerInstallationsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this mcp server installation. */
   id: string;
-  display_name?: string;
-  description?: string;
-  is_enabled?: boolean;
+  display_name?: string | undefined;
+  description?: string | undefined;
+  is_enabled?: boolean | undefined;
 }
 /** * `approved` - approved * `needs_approval` - needs_approval * `do_not_use` - do_not_use */
 export type ToolApprovalUpdateApprovalStateEnum = "approved" | "needs_approval" | "do_not_use";
@@ -330,7 +335,7 @@ export interface UpdateMcpServerInstallationsToolsPartialRequest {
   /** A UUID string identifying this mcp server installation. */
   id: string;
   tool_name: string;
-  approval_state?: ToolApprovalUpdateApprovalStateEnum | (string & {});
+  approval_state?: ToolApprovalUpdateApprovalStateEnum | (string & {}) | undefined;
 }
 export type CreateMcpServerInstallationError = PosthogOpError;
 export const createMcpServerInstallation: API.OperationMethod<
@@ -836,6 +841,7 @@ function __c11(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           template_id: S.optional(S.NullOr(S.String)),
+          gateway_server_id: S.NullOr(S.String),
           name: S.optional(S.String),
           icon_key: S.optional(S.String),
           icon_domain: S.optional(S.String),

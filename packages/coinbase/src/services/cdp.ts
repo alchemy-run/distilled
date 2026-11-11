@@ -36,9 +36,9 @@ export interface EndUserEvmAccount {
   /** The date and time when the account was created, in ISO 8601 format. */
   createdAt: string;
   /** The date and time when the account's private key was first exported, in ISO 8601 format. This is set on the first export and preserved on subsequent exports; it is not updated on re-export. */
-  exportedAt?: string | null;
+  exportedAt?: string | null | undefined;
   /** The date and time when the account's key was ejected (marked for deletion), in ISO 8601 format. Populated when the account has been ejected. The account record remains queryable after this timestamp is set; it reflects when ejection was requested, not when the key material is purged. */
-  ejectedAt?: string | null;
+  ejectedAt?: string | null | undefined;
 }
 export interface AddEndUserEvmAccountResponse {
   evmAccount: EndUserEvmAccount;
@@ -47,7 +47,7 @@ export interface AddEndUserEvmSmartAccountRequest {
   /** The ID of the end user to add the smart account to. */
   userId: string;
   /** If true, enables spend permissions for the EVM smart account. */
-  enableSpendPermissions?: boolean;
+  enableSpendPermissions?: boolean | undefined;
 }
 /** The addresses of the EVM EOA accounts that own this smart account. Smart accounts can have multiple owners, such as when spend permissions are enabled. */
 export type EndUserEvmSmartAccountOwnerAddressesList = Array<string>;
@@ -74,9 +74,9 @@ export interface EndUserSolanaAccount {
   /** The date and time when the account was created, in ISO 8601 format. */
   createdAt: string;
   /** The date and time when the account's private key was first exported, in ISO 8601 format. This is set on the first export and preserved on subsequent exports; it is not updated on re-export. */
-  exportedAt?: string | null;
+  exportedAt?: string | null | undefined;
   /** The date and time when the account's key was ejected (marked for deletion), in ISO 8601 format. Populated when the account has been ejected. The account record remains queryable after this timestamp is set; it reflects when ejection was requested, not when the key material is purged. */
-  ejectedAt?: string | null;
+  ejectedAt?: string | null | undefined;
 }
 export interface AddEndUserSolanaAccountResponse {
   solanaAccount: EndUserSolanaAccount;
@@ -89,24 +89,24 @@ export interface AdjustBorrowPositionWithEndUserAccountRequest {
   /** The address of the EVM Smart Account to adjust the borrow position for. */
   address: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   borrowProductId: string;
   /** The amount of collateral to add to the position, as a decimal string in standard unit denomination of the collateral token (i.e. "1" for 1 cbBTC). Must not be combined with `removeCollateralAmount` or `repayLoanAmount`. */
-  addCollateralAmount?: string;
+  addCollateralAmount?: string | undefined;
   /** The amount of collateral to withdraw from the position, as a decimal string in standard unit denomination of the collateral token (i.e. "1" for 1 cbBTC). Must not be combined with `addCollateralAmount` or `borrowLoanAmount`. */
-  removeCollateralAmount?: string;
+  removeCollateralAmount?: string | undefined;
   /** The amount of the loan token to repay, as a decimal string in standard unit denomination of the loan token (i.e. "100" for 100 USDC). Must not be combined with `borrowLoanAmount` or `addCollateralAmount`. */
-  repayLoanAmount?: string;
+  repayLoanAmount?: string | undefined;
   /** The amount of the loan token to borrow, as a decimal string in standard unit denomination of the loan token (i.e. "100" for 100 USDC). Must not be combined with `repayLoanAmount` or `removeCollateralAmount`. */
-  borrowLoanAmount?: string;
+  borrowLoanAmount?: string | undefined;
   /** The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth header. */
   walletSecretId: string;
   /** Whether to use the CDP Paymaster for the user operation. When `true`, `paymasterUrl` must not be set. */
   useCdpPaymaster: boolean;
   /** Paymaster URL to use for the user operation. Must not be set when `useCdpPaymaster` is `true`. If `useCdpPaymaster` is `false` and no `paymasterUrl` is set, the smart account must have sufficient funds to cover network fees. */
-  paymasterUrl?: string;
+  paymasterUrl?: string | undefined;
   /** Optional paymaster metadata forwarded to the configured paymaster service. Valid only when a paymaster is configured via `useCdpPaymaster: true` or a `paymasterUrl`. */
-  paymasterContext?: PaymasterContext;
+  paymasterContext?: PaymasterContext | undefined;
 }
 /** The network the user operation is for. */
 export type EvmUserOperationNetwork =
@@ -128,7 +128,7 @@ export interface EvmCall {
   /** The call data to send. This is the hex-encoded data of the function call consisting of the method selector and the function arguments. */
   data: string;
   /** The override gas limit to use for the call instead of the bundler's estimated gas limit. */
-  overrideGasLimit?: string;
+  overrideGasLimit?: string | undefined;
 }
 /** The list of calls in the user operation. */
 export type EvmUserOperationCallsList = Array<EvmCall>;
@@ -149,15 +149,15 @@ export interface UserOperationReceiptRevert {
 }
 /** The receipt that contains information about the execution of user operation. */
 export interface UserOperationReceipt {
-  revert?: UserOperationReceiptRevert;
+  revert?: UserOperationReceiptRevert | undefined;
   /** The hash of this transaction as 0x-prefixed string. */
-  transactionHash?: string;
+  transactionHash?: string | undefined;
   /** The block hash of the block including the transaction as 0x-prefixed string. */
-  blockHash?: string;
+  blockHash?: string | undefined;
   /** The block height (number) of the block including the transaction. */
-  blockNumber?: number;
+  blockNumber?: number | undefined;
   /** The gas used for landing this user operation. */
-  gasUsed?: string;
+  gasUsed?: string | undefined;
 }
 /** The list of receipts associated with the user operation. */
 export type EvmUserOperationReceiptsList = Array<UserOperationReceipt>;
@@ -171,39 +171,34 @@ export interface EvmUserOperation {
   /** The status of the user operation. */
   status: EvmUserOperationStatus;
   /** The hash of the transaction that included this particular user operation. This gets set after the user operation is broadcasted and the transaction is included in a block. */
-  transactionHash?: string;
+  transactionHash?: string | undefined;
   /** The list of receipts associated with the user operation. */
-  receipts?: EvmUserOperationReceiptsList;
+  receipts?: EvmUserOperationReceiptsList | undefined;
   /** The timestamp at which the prepared user operation expires. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
 }
+/** A processed onchain payload containing the payload ID and the payer's signature or transaction hash. The `signature` value depends on the original payload `type`: - `eip3009` / `permit2` / `spend_permission` -- a hex-encoded signature from `eth_signTypedData_v4`. - `erc20_approval` -- a hex-encoded transaction hash from `eth_sendTransaction`. - `solana_subscription` -- the 64-byte ed25519 signature for the payer that signed, extracted from the signed Solana transaction and base58-encoded. Not the signed transaction bytes, and not `0x`-prefixed hex. */
+export interface OnchainSignedPayload {
+  /** The unique identifier of the signed payload. */
+  payloadId?: string | undefined;
+  /** The output from processing the payload. For `eip3009`, `permit2`, and `spend_permission` types, this is the cryptographic signature returned by `eth_signTypedData_v4`. For `erc20_approval` types, this is the transaction hash returned by `eth_sendTransaction`. For `solana_subscription`, this is the payer's 64-byte ed25519 signature extracted from the signed Solana transaction and base58-encoded, not the signed transaction bytes or `0x`-prefixed hex. */
+  signature?: string | undefined;
+}
+/** The processed payloads from the customer, corresponding to the payloads in the selected option. */
+export type ApproveWalletMandateRequestSignedPayloadsList = Array<OnchainSignedPayload>;
 /** Optional metadata as key-value pairs. Use this to store additional structured information on a resource, such as customer IDs, order references, or any application-specific data. Up to 10 key/value pairs may be provided. Keys and values are both strings. Keys must be <= 40 characters; values must be <= 500 characters. */
 export type Metadata = { [key: string]: string | undefined };
-/** Customer-facing display data for a payment operation, shown to the payer. */
-export interface OperationCustomerDisplay {
-  /** A short reference code for this payment operation, visible to the payer. */
-  referenceCode?: string;
+export interface ApproveWalletMandateRequest {
+  /** The unique identifier of the mandate to approve. */
+  mandateId: string;
+  /** The identifier of the chosen option. Must match an `optionId` from the **Get wallet approval options** response. */
+  optionId: string;
+  /** The processed payloads from the customer, corresponding to the payloads in the selected option. */
+  signedPayloads: ApproveWalletMandateRequestSignedPayloadsList;
+  metadata?: Metadata | undefined;
 }
-export interface AuthorizeCoinbasePaymentSessionRequest {
-  /** The unique identifier of the payment session to authorize via Coinbase. */
-  paymentSessionId: string;
-  metadata?: Metadata;
-  /** Optional customer-facing display data for this authorization, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
-  customerDisplay?: OperationCustomerDisplay;
-  /** An optional merchant-provided internal identifier for this Coinbase authorization, from the merchant's own system--not visible to the payer. */
-  externalReferenceId?: string;
-}
-/** The current status of a payment action (authorization, capture, void, or refund). */
-export type PaymentActionStatus = "pending" | "succeeded" | "failed";
-/** An error that occurred during a payment operation. */
-export interface PaymentError {
-  /** A machine-readable error code. */
-  code?: string;
-  /** A human-readable description of the error. */
-  message?: string;
-  /** The UTC ISO 8601 timestamp at which the error occurred. */
-  occurredAt?: string;
-}
+/** The status of an approval attempt: - `pending`: the submitted source is being bound and verified. - `succeeded`: the mandate's `source` is attached and its status becomes `approval_succeeded`. - `failed`: the attempt could not be completed (see `error`). The mandate's status becomes `approval_failed`; submit a new approval to retry (which moves it back to `approval_pending`). */
+export type ApprovalStatus = "pending" | "succeeded" | "failed";
 /** The blockchain network supported for payment session sources. Testnet networks are only available in sandbox environments. */
 export type PaymentSourceNetwork =
   | "arbitrum"
@@ -216,15 +211,78 @@ export type PaymentSourceNetwork =
   | "optimism"
   | "optimism-sepolia"
   | "polygon"
-  | "polygon-amoy";
+  | "polygon-amoy"
+  | "solana"
+  | "solana-devnet";
+/** A blockchain wallet the mandate draws funds from. Extends the shared payment source wallet, requiring `network` and `asset` alongside `address` (the `asset` is what debits against the mandate are drawn in). */
+export interface MandateSourceWallet {
+  /** The blockchain address of the payer. */
+  address: string;
+  /** The blockchain network for the payment. */
+  network: PaymentSourceNetwork;
+  /** The asset used for the payment. */
+  asset: string;
+}
+/** An onchain transaction associated with a payment action. */
+export interface OnchainTransaction {
+  /** The blockchain transaction hash. */
+  transactionHash: string;
+  /** The blockchain network the transaction occurred on. */
+  network: PaymentSourceNetwork;
+}
+/** Network transactions that grant the spending allowance on-chain. Empty until the approval has been submitted to the network. */
+export type ApprovalOnchainTransactionsList = Array<OnchainTransaction>;
+/** An error that occurred during a payment operation. */
+export interface PaymentError {
+  /** A machine-readable error code. */
+  code?: string | undefined;
+  /** A human-readable description of the error. */
+  message?: string | undefined;
+  /** The UTC ISO 8601 timestamp at which the error occurred. */
+  occurredAt?: string | undefined;
+}
+/** An attempt to attach a funding source to a mandate and make it usable. A successful approval sets the mandate's `source` and moves the mandate to `approval_succeeded`; a failed one moves the mandate to `approval_failed` and can be retried by submitting a new approval. A mandate holds at most one active source, so at most one approval ever succeeds. The network transactions that grant the spending allowance are on `onchainTransactions`. */
+export interface Approval {
+  /** The unique identifier of the approval. */
+  approvalId: string;
+  /** The current status of the approval attempt. */
+  status: ApprovalStatus;
+  /** The funding source this approval binds to the mandate. Present once the source has been determined from the customer's submission. */
+  source?: MandateSourceWallet | undefined;
+  /** Network transactions that grant the spending allowance on-chain. Empty until the approval has been submitted to the network. */
+  onchainTransactions?: ApprovalOnchainTransactionsList | undefined;
+  /** Details of why the approval failed. Only present when `status` is `failed`. */
+  error?: PaymentError | undefined;
+  metadata?: Metadata | undefined;
+  /** The UTC ISO 8601 timestamp at which the approval was created. */
+  createdAt: string;
+  /** The UTC ISO 8601 timestamp at which the approval was last updated. */
+  updatedAt: string;
+}
+/** Customer-facing display information for a payment operation. */
+export interface OperationCustomerDisplay {
+  /** A short customer-facing reference code for this payment operation. */
+  referenceCode?: string | undefined;
+}
+export interface AuthorizeCoinbasePaymentSessionRequest {
+  /** The unique identifier of the payment session to authorize via Coinbase. */
+  paymentSessionId: string;
+  metadata?: Metadata | undefined;
+  /** Optional customer-facing display data for this authorization, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
+  customerDisplay?: OperationCustomerDisplay | undefined;
+  /** An optional merchant-provided internal identifier for this Coinbase authorization, from the merchant's own system--not visible to the payer. */
+  externalReferenceId?: string | undefined;
+}
+/** The current status of a payment action (authorization, capture, void, or refund). */
+export type PaymentActionStatus = "pending" | "succeeded" | "failed";
 /** A blockchain wallet address used as a payment source. */
 export interface PaymentSourceWallet {
   /** The blockchain address of the payer. */
   address: string;
   /** The blockchain network for the payment. */
-  network?: PaymentSourceNetwork;
+  network?: PaymentSourceNetwork | undefined;
   /** The asset used for the payment. */
-  asset?: string;
+  asset?: string | undefined;
 }
 /** A Coinbase account authenticated via OAuth, used as a payment source. */
 export interface PaymentSourceCoinbase {
@@ -233,48 +291,45 @@ export interface PaymentSourceCoinbase {
 }
 /** The source of the payment. Can be either an onchain wallet address or a Coinbase account authenticated via OAuth. */
 export type PaymentSessionSource = PaymentSourceWallet | PaymentSourceCoinbase;
-/** An onchain transaction associated with a payment action. */
-export interface OnchainTransaction {
-  /** The blockchain transaction hash. */
-  transactionHash: string;
-  /** The blockchain network the transaction occurred on. */
-  network: PaymentSourceNetwork;
-}
 /** The onchain transactions associated with this authorization. */
 export type AuthorizationOnchainTransactionsList = Array<OnchainTransaction>;
 /** A hold placed on the payer's funds. Once authorized, the merchant can capture (collect) the funds. Only one authorization is allowed per session. */
 export interface Authorization {
   /** The unique identifier of the authorization. */
-  authorizationId?: string;
+  authorizationId?: string | undefined;
   /** The ID of the payment session this authorization belongs to. */
-  paymentSessionId?: string;
+  paymentSessionId?: string | undefined;
   /** The current status of the authorization. */
-  status?: PaymentActionStatus;
+  status?: PaymentActionStatus | undefined;
   /** A decimal representation of the authorized amount, denominated in the session's `asset`. */
-  amount?: string;
-  error?: PaymentError;
+  amount?: string | undefined;
+  error?: PaymentError | undefined;
   /** A human-readable message describing the outcome or status for display. Returned for x402 authorizations; omitted for other authorization flows unless documented otherwise. */
-  message?: string;
-  metadata?: Metadata;
+  message?: string | undefined;
+  metadata?: Metadata | undefined;
   /** A merchant-provided internal identifier for this authorization, from the merchant's own system--not visible to the payer. Present only when supplied on the authorization request. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** Customer-facing display data for this authorization, shown to the payer. Present when supplied on the authorization request or when the session's `orderCode` fallback applies; otherwise omitted. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
   /** The payer for this authorization. For wallet authorizations, this is the blockchain address that signed the payloads. For Coinbase authorizations, this is the authenticated Coinbase account. This value is also reflected on the parent payment session's `source` field after a successful authorization. */
-  source?: PaymentSessionSource;
+  source?: PaymentSessionSource | undefined;
   /** The onchain transactions associated with this authorization. */
-  onchainTransactions?: AuthorizationOnchainTransactionsList;
+  onchainTransactions?: AuthorizationOnchainTransactionsList | undefined;
   /** The UTC ISO 8601 timestamp at which the authorization was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the authorization was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
-/** A processed onchain payload containing the payload ID and the payer's signature or transaction hash. The `signature` value depends on the original payload `type`: - `eip3009` / `permit2` / `spend_permission` -- a hex-encoded signature from `eth_signTypedData_v4`. - `erc20_approval` -- a hex-encoded transaction hash from `eth_sendTransaction`. */
-export interface OnchainSignedPayload {
-  /** The unique identifier of the signed payload. */
-  payloadId?: string;
-  /** The hex-encoded output from processing the payload. For `eip3009`, `permit2`, and `spend_permission` types, this is the cryptographic signature returned by `eth_signTypedData_v4`. For `erc20_approval` types, this is the transaction hash returned by `eth_sendTransaction`. */
-  signature?: string;
+export interface AuthorizeMandatePaymentSessionRequest {
+  /** The unique identifier of the payment session to authorize. */
+  paymentSessionId: string;
+  /** The ID of the mandate to authorize against. Must be in `approval_succeeded` status. */
+  mandateId: string;
+  metadata?: Metadata | undefined;
+  /** Optional customer-facing display data for this authorization, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
+  customerDisplay?: OperationCustomerDisplay | undefined;
+  /** An optional merchant-provided internal identifier for this mandate authorization, from the merchant's own system--not visible to the payer. */
+  externalReferenceId?: string | undefined;
 }
 /** The processed payloads from the payer, corresponding to the payloads in the selected authorization option. */
 export type AuthorizeWalletPaymentSessionRequestSignedPayloadsList = Array<OnchainSignedPayload>;
@@ -285,21 +340,101 @@ export interface AuthorizeWalletPaymentSessionRequest {
   optionId: string;
   /** The processed payloads from the payer, corresponding to the payloads in the selected authorization option. */
   signedPayloads: AuthorizeWalletPaymentSessionRequestSignedPayloadsList;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** Optional customer-facing display data for this authorization, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
   /** An optional merchant-provided internal identifier for this wallet authorization, from the merchant's own system--not visible to the payer. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
 }
 export interface AuthorizeX402PaymentSessionRequest {
   /** The unique identifier of the payment session to authorize with x402. */
   paymentSessionId: string;
 }
+export interface CancelMandateRequest {
+  /** The unique identifier of the mandate to cancel. */
+  mandateId: string;
+  /** An optional human-readable reason for canceling the mandate. */
+  reason?: string | undefined;
+}
+/** The rolling window that `maxPerPeriod.amount` applies over. It is a fixed duration measured back from now, not a calendar window. For example, `month` means the trailing 30 days, not the current calendar month. */
+export type MandatePolicyPeriod = "day" | "week" | "month" | "year";
+/** One rolling cap over `period` (a trailing window, not a calendar period). Send both `amount` and `period`, or omit the object. The stored amount is capped at the Coinbase ceiling for that period. Enforced atomically at authorization so concurrent charges cannot exceed the cap. */
+export interface MandatePolicyPeriodCap {
+  /** Max total authorizable in the rolling `period`. Capped at the Coinbase ceiling for `period`. */
+  amount: string;
+  period: MandatePolicyPeriod | (string & {});
+}
+/** Debit caps in the mandate's `asset`. Omit `policy` or send `{}` to default to a Coinbase-configured monthly max. Supplied amounts are capped at Coinbase ceilings. If you set `maxPerPeriod`, include both `amount` and `period`. */
+export interface MandatePolicy {
+  /** Max amount for one authorization. Omit to use the Coinbase default. Capped at the Coinbase ceiling. */
+  maxPerAuthorization?: string | undefined;
+  /** One rolling cap. Omit to use a Coinbase-configured monthly max. If set, both `amount` and `period` are required. Amount is capped at that period's ceiling. */
+  maxPerPeriod?: MandatePolicyPeriodCap | undefined;
+  /** Optional minimum available balance the payer must have to set up the mandate, denominated in the mandate's `asset`. When set, the mandate can only be approved if the payer's available balance is at least this amount; an approval attempted while the balance is below it is rejected with a `422` (`mandate_policy_violation`). This does not dictate the amount debited: the payment session amount remains the source of truth for what is debited. Omit to use the Coinbase-configured default. */
+  minSetupBalance?: string | undefined;
+}
+/** The most recent action on the mandate. `status` is an informational indicator of the latest transition; it is not the source of truth for what has durably happened. Read the timestamps for that: `approvedAt`, `canceledAt`, and `revokedAt` each record a durable milestone independently of `status`. - `created`: the mandate exists but no approval has been attempted. No source attached. Not usable. - `approval_pending`: an approval is in flight. Not usable. Emits `acceptance.mandate.approval_initiated`. - `approval_succeeded`: the mandate has a source and is usable. - `approval_failed`: the last approval attempt failed. Not usable. Submit a new approval to retry. - `revocation_pending`: a wallet revocation is being confirmed on the network. Emits `acceptance.mandate.revocation_initiated`. Resolves to `revocation_succeeded` on success or `revocation_failed` on failure. - `revocation_succeeded`: a wallet revocation removed the spending allowance on-chain (`revokedAt` is set). Terminal. - `revocation_failed`: the last wallet revocation attempt did not complete. The spending allowance was not removed, so the mandate remains usable if it was usable before. Submit a new revocation to retry. - `canceled`: the merchant ended the mandate off-chain (`canceledAt` is set). The on-chain spending allowance may still be live; a later wallet revocation can still move `status` through the `revocation_*` values and set `revokedAt`. **Usable when** `approvedAt` is set, `canceledAt` is null, `revokedAt` is null, and `expiresAt` is null or in the future. Usability is derived from these timestamps, not from `status`: a failed revocation, for example, leaves `status` at `revocation_failed` but the mandate stays usable because the allowance was never removed. Authorization checks the durable conditions in order, and the first match wins: an in-flight approval or revocation returns `409` (`mandate_action_pending`); `revokedAt` set returns `422` (`mandate_revoked`); `canceledAt` set returns `422` (`mandate_canceled`); a past `expiresAt` returns `400` (`mandate_expired`); any other status returns `422` (`mandate_invalid_status`). Approve a mandate and get wallet approval options use that same order for the in-flight, revoked, canceled, and expired checks. Any other status except `created` or `approval_failed` returns `422` (`mandate_invalid_status`). Those rejections do not change the timestamps. Debit limits are enforced at authorization time. */
+export type MandateStatus =
+  | "created"
+  | "approval_pending"
+  | "approval_succeeded"
+  | "approval_failed"
+  | "revocation_pending"
+  | "revocation_succeeded"
+  | "revocation_failed"
+  | "canceled";
+/** Redirect URLs used to direct the payer after a web-based payment flow completes or fails. */
+export interface PaymentRedirect {
+  /** The URL to redirect the payer to on payment failure. */
+  failureUrl?: string | undefined;
+  /** The URL to redirect the payer to on payment success. */
+  successUrl?: string | undefined;
+}
+/** Merchant-provided display data shown to the customer on the hosted mandate pages. All fields are informational only. They are stored and returned as-is and do not affect mandate approval, authorization, or policy enforcement. */
+export interface MandateCustomerDisplay {
+  /** The merchant name to display on the hosted mandate pages. When provided, this overrides the default name derived from the entity's profile. Useful when a merchant operates multiple storefronts or brands under a single entity. */
+  merchantName?: string | undefined;
+}
+/** A durable, revocable standing authorization to debit a funding `source` without the customer present each time, within its `policy` caps. Payment sessions draw against it by referencing its `mandateId`. `source` is set once an approval succeeds. `status` reflects the most recent action; the `approvedAt`, `canceledAt`, and `revokedAt` timestamps are the durable record of what has happened. Ending one mandate does not affect other mandates on the same `source`. */
+export interface Mandate {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+  /** The unit of account the mandate's `policy` caps are denominated in (e.g., `500` means 500 of this asset). Fixed at creation. This is only the denomination for the limits; the funding `source` may hold a different asset (for example, limits in `usdc` against a `usdt` source). Each authorization's amount is converted into this asset at authorization time to evaluate the caps, so the caps are always enforced in a single denomination. */
+  asset: string;
+  /** The funding source the mandate draws against. Set when an approval succeeds. Not present before the mandate is `approval_succeeded`. */
+  source?: MandateSourceWallet | undefined;
+  /** Debit caps. Always present. If you omitted `policy` at create, this is a Coinbase-configured monthly max. */
+  policy: MandatePolicy;
+  /** The current status of the mandate. */
+  status: MandateStatus;
+  /** The UTC ISO 8601 timestamp after which the mandate can no longer be authorized against. Authorization attempts after this time return `422`; `status` does not change. Omit for no expiry. */
+  expiresAt?: string | undefined;
+  /** Hosted page where the customer approves this mandate. Present only before the mandate reaches `approval_succeeded`; complemented by `revocationUrl` afterward. */
+  url?: string | undefined;
+  /** Hosted page where the customer can remove their spending allowance for this mandate. Present once the mandate has a `source` (from `approval_succeeded` onward); absent before approval, when there is nothing to revoke. */
+  revocationUrl?: string | undefined;
+  /** Optional merchant URLs used by the hosted mandate approval flow. The approval page redirects to `successUrl` when approval succeeds, or `failureUrl` when it fails. When omitted, the approval page keeps the customer on the Coinbase-hosted experience. */
+  approvalRedirect?: PaymentRedirect | undefined;
+  /** Optional merchant URLs used by the hosted mandate revocation flow. The revocation page redirects to `successUrl` when revocation succeeds, or `failureUrl` when it fails. When omitted, the revocation page keeps the customer on the Coinbase-hosted experience. */
+  revocationRedirect?: PaymentRedirect | undefined;
+  customerDisplay?: MandateCustomerDisplay | undefined;
+  /** The UTC ISO 8601 timestamp at which an approval succeeded and the mandate became usable. Present only once the mandate has been approved; set once, on the successful approval, and unchanged by later transitions. Its presence is the durable signal that the mandate was approved, independent of `status`. */
+  approvedAt?: string | undefined;
+  /** The UTC ISO 8601 timestamp at which the merchant canceled the mandate off-chain. Present only once the mandate has been canceled. Canceling does not touch the on-chain spending allowance; check `revokedAt` for that. */
+  canceledAt?: string | undefined;
+  /** The UTC ISO 8601 timestamp at which the spending allowance was removed on-chain by a wallet revocation. Present only once that has happened. Its presence is the single signal that the allowance is gone, independent of `status` (for example, it can be set on a `canceled` mandate whose allowance was later cleaned up). */
+  revokedAt?: string | undefined;
+  metadata?: Metadata | undefined;
+  /** The UTC ISO 8601 timestamp at which the mandate was created. */
+  createdAt: string;
+  /** The UTC ISO 8601 timestamp at which the mandate was last updated. */
+  updatedAt: string;
+}
 export interface CancelPaymentSessionRequest {
   /** The unique identifier of the payment session to cancel. */
   paymentSessionId: string;
   /** The reason for cancelling the payment session. */
-  cancellationReason?: string;
+  cancellationReason?: string | undefined;
 }
 /** The blockchain network supported for payment session targets. Testnet networks are only available in sandbox environments. */
 export type PaymentTargetNetwork = "base" | "base-sepolia";
@@ -308,7 +443,7 @@ export interface PaymentTargetWallet {
   /** The blockchain address of the recipient. */
   address: string;
   /** The blockchain network for the payment. */
-  network?: PaymentTargetNetwork | (string & {});
+  network?: PaymentTargetNetwork | (string & {}) | undefined;
 }
 /** The Account specific details for the transfer. */
 export interface TransfersAccount {
@@ -322,11 +457,11 @@ export type PaymentSessionTarget = PaymentTargetWallet | TransfersAccount;
 /** Deadlines for each stage of the payment session lifecycle. All fields are optional; when omitted from a create request, the following defaults apply: `authorizationExpiresAt` = now + 1 day, `captureExpiresAt` = now + 7 days, `refundExpiresAt` = now + 30 days. Expiries must satisfy `authorizationExpiresAt` <= `captureExpiresAt` <= `refundExpiresAt`. The API returns a 400 error if this constraint is violated. Each deadline acts as a guard -- after it passes, the corresponding action is rejected, but the session remains in its current status. No automatic state transitions occur; the merchant must take explicit action (e.g., cancel or void) to move the session to a terminal state. */
 export interface PaymentExpiries {
   /** The UTC ISO 8601 timestamp after which authorization attempts are rejected. Defaults to now + 1 day if omitted. The session remains in its current pre-authorization status; the merchant must explicitly cancel the session. */
-  authorizationExpiresAt?: string;
+  authorizationExpiresAt?: string | undefined;
   /** The UTC ISO 8601 timestamp after which capture attempts are rejected. Defaults to now + 7 days if omitted. The session remains in its current status; the merchant must explicitly void to release uncaptured funds. */
-  captureExpiresAt?: string;
+  captureExpiresAt?: string | undefined;
   /** The UTC ISO 8601 timestamp after which refund attempts are rejected. Defaults to now + 30 days if omitted. The session remains in its current status; the refund window is simply closed. */
-  refundExpiresAt?: string;
+  refundExpiresAt?: string | undefined;
 }
 /** The most recent meaningful event on the payment session. For session-level milestones the value is one of `created` or `canceled`. For action outcomes the value follows the pattern `{action}_{result}` -- e.g. `authorization_succeeded`, `capture_pending`, `refund_failed`. */
 export type PaymentSessionStatus =
@@ -347,13 +482,13 @@ export type PaymentSessionStatus =
 /** Running totals tracking how funds move through the session. All amounts are decimal representations denominated in the session's `asset`. */
 export interface PaymentSessionBalances {
   /** Authorized funds not yet captured or voided. Decreases with each capture or void. */
-  capturable?: string;
+  capturable?: string | undefined;
   /** Total funds captured across all captures. */
-  captured?: string;
+  captured?: string | undefined;
   /** Captured funds not yet refunded. Equals `captured` minus `refunded`. */
-  refundable?: string;
+  refundable?: string | undefined;
   /** Total funds refunded across all refunds. */
-  refunded?: string;
+  refunded?: string | undefined;
 }
 /** The authorizations for this payment session. */
 export type PaymentSessionAuthorizationsList = Array<Authorization>;
@@ -362,27 +497,27 @@ export type CaptureOnchainTransactionsList = Array<OnchainTransaction>;
 /** A collection of authorized funds. Multiple partial captures are allowed up to the authorized amount. Each capture settles funds to the merchant's target. */
 export interface Capture {
   /** The unique identifier of the capture. */
-  captureId?: string;
+  captureId?: string | undefined;
   /** The ID of the payment session this capture belongs to. */
-  paymentSessionId?: string;
+  paymentSessionId?: string | undefined;
   /** The current status of the capture. */
-  status?: PaymentActionStatus;
+  status?: PaymentActionStatus | undefined;
   /** A decimal representation of the captured amount, denominated in the session's `asset`. */
-  amount?: string;
+  amount?: string | undefined;
   /** When `true`, this capture is treated as the final one for the authorization. Any remaining capturable balance is released back to the payer immediately after the capture settles. When `false`, the remaining capturable balance stays held and is available for subsequent partial captures (subject to `captureExpiresAt`). Has no effect if `amount` equals the full capturable balance, since no remaining balance exists to release. */
   finalCapture: boolean;
-  error?: PaymentError;
-  metadata?: Metadata;
+  error?: PaymentError | undefined;
+  metadata?: Metadata | undefined;
   /** A merchant-provided internal identifier for this capture, from the merchant's own system--not visible to the payer. A manual capture uses the caller-provided value; an auto-capture reuses the authorization's value and omits it when the authorization omitted it. It never falls back to `PaymentSession.externalReferenceId`. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** Customer-facing display data for this capture, shown to the payer. A manual capture falls back to the session's `orderCode` when `referenceCode` is omitted; an auto-capture reuses the authorization's `referenceCode`. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
   /** The onchain transactions associated with this capture. */
-  onchainTransactions?: CaptureOnchainTransactionsList;
+  onchainTransactions?: CaptureOnchainTransactionsList | undefined;
   /** The UTC ISO 8601 timestamp at which the capture was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the capture was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** The captures for this payment session. */
 export type PaymentSessionCapturesList = Array<Capture>;
@@ -391,25 +526,25 @@ export type VoidOnchainTransactionsList = Array<OnchainTransaction>;
 /** A release of uncaptured authorized funds back to the payer. Voids release all remaining capturable funds in a single operation, including after partial refunds as long as a capturableAmount remains. */
 export interface Void {
   /** The unique identifier of the void. */
-  voidId?: string;
+  voidId?: string | undefined;
   /** The ID of the payment session this void belongs to. */
-  paymentSessionId?: string;
+  paymentSessionId?: string | undefined;
   /** The current status of the void. */
-  status?: PaymentActionStatus;
+  status?: PaymentActionStatus | undefined;
   /** A decimal representation of the voided amount, denominated in the session's `asset`. */
-  amount?: string;
-  error?: PaymentError;
-  metadata?: Metadata;
+  amount?: string | undefined;
+  error?: PaymentError | undefined;
+  metadata?: Metadata | undefined;
   /** A merchant-provided internal identifier for this void, from the merchant's own system--not visible to the payer. Present only when supplied on the create void request. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** Customer-facing display data for this void, shown to the payer. Present when supplied on the create void request or when the session's `orderCode` fallback applies; otherwise omitted. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
   /** The onchain transactions associated with this void. */
-  onchainTransactions?: VoidOnchainTransactionsList;
+  onchainTransactions?: VoidOnchainTransactionsList | undefined;
   /** The UTC ISO 8601 timestamp at which the void was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the void was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** The voids for this payment session. */
 export type PaymentSessionVoidsList = Array<Void>;
@@ -425,39 +560,32 @@ export type RefundOnchainTransactionsList = Array<OnchainTransaction>;
 /** A return of previously captured funds to the payer. Multiple partial refunds are allowed up to the total captured amount. */
 export interface Refund {
   /** The unique identifier of the refund. */
-  refundId?: string;
+  refundId?: string | undefined;
   /** The ID of the payment session this refund belongs to. */
-  paymentSessionId?: string;
+  paymentSessionId?: string | undefined;
   /** The source from which the refund is funded. Can be a CDP account or an onchain address. */
-  source?: RefundSource;
+  source?: RefundSource | undefined;
   /** The current status of the refund. */
-  status?: PaymentActionStatus;
+  status?: PaymentActionStatus | undefined;
   /** A decimal representation of the refunded amount, denominated in the session's `asset`. */
-  amount?: string;
+  amount?: string | undefined;
   /** The reason for the refund. */
-  reason?: string;
-  error?: PaymentError;
-  metadata?: Metadata;
+  reason?: string | undefined;
+  error?: PaymentError | undefined;
+  metadata?: Metadata | undefined;
   /** A merchant-provided internal identifier for this refund, from the merchant's own system--not visible to the payer. Present only when supplied on the create refund request. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** Customer-facing display data for this refund, shown to the payer. Present when supplied on the create refund request or when the session's `orderCode` fallback applies; otherwise omitted. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
   /** The onchain transactions associated with this refund. */
-  onchainTransactions?: RefundOnchainTransactionsList;
+  onchainTransactions?: RefundOnchainTransactionsList | undefined;
   /** The UTC ISO 8601 timestamp at which the refund was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the refund was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** The refunds for this payment session. */
 export type PaymentSessionRefundsList = Array<Refund>;
-/** Redirect URLs used to direct the payer after a web-based payment flow completes or fails. */
-export interface PaymentRedirect {
-  /** The URL to redirect the payer to on payment failure. */
-  failureUrl?: string;
-  /** The URL to redirect the payer to on payment success. */
-  successUrl?: string;
-}
 /** The amount to present to the payer, which may differ from the authoritative settlement amount and asset. Commonly used when the payer's local currency differs from the settlement currency (e.g., charging in USD but displaying the equivalent in CAD). Stored and returned as-is -- no cross-validation is performed against the authoritative `amount` and `asset`. Both `amount` and `currency` must be provided together. */
 export interface CustomerDisplayDisplayAmount {
   /** The display amount as a decimal string (e.g., `"1.37"`). */
@@ -468,68 +596,68 @@ export interface CustomerDisplayDisplayAmount {
 /** Merchant-provided display data shown to the payer during checkout. All fields are informational only -- stored and returned as-is, with no effect on payment processing, settlement, or validation. */
 export interface CustomerDisplay {
   /** The merchant name to display on the payment UI. When provided, this overrides the default name derived from the entity's profile. Useful when a merchant operates multiple storefronts or brands under a single entity. */
-  merchantName?: string;
+  merchantName?: string | undefined;
   /** The amount to present to the payer, which may differ from the authoritative settlement amount and asset. Commonly used when the payer's local currency differs from the settlement currency (e.g., charging in USD but displaying the equivalent in CAD). Stored and returned as-is -- no cross-validation is performed against the authoritative `amount` and `asset`. Both `amount` and `currency` must be provided together. */
-  displayAmount?: CustomerDisplayDisplayAmount;
+  displayAmount?: CustomerDisplayDisplayAmount | undefined;
   /** A customer-visible code for the overall order. When omitted, CDP generates one and returns it. It must not contain personally identifiable information (PII) or payment credentials. */
-  orderCode?: string;
+  orderCode?: string | undefined;
 }
 /** Tracks the full lifecycle of a payment from creation through settlement. Typical flow: **Create** -> **Authorize** (via payment method) -> **Capture**. Optional: **Void** to release uncaptured funds, or **Refund** to return captured funds. */
 export interface PaymentSession {
   /** The unique identifier of the payment session. */
-  paymentSessionId?: string;
+  paymentSessionId?: string | undefined;
   /** The ID of the entity that owns the payment session. */
-  entityId?: string;
+  entityId?: string | undefined;
   /** A decimal representation of the payment amount, denominated in `asset`. */
-  amount?: string;
+  amount?: string | undefined;
   /** The symbol of the asset for the payment amount. */
-  asset?: string;
+  asset?: string | undefined;
   /** The target of the payment session. */
-  target?: PaymentSessionTarget;
+  target?: PaymentSessionTarget | undefined;
   /** When true, a capture is automatically created after a successful authorization. When false or omitted, the merchant must create captures manually via the captures endpoint. */
-  autoCapture?: boolean;
-  expiries?: PaymentExpiries;
+  autoCapture?: boolean | undefined;
+  expiries?: PaymentExpiries | undefined;
   /** The source of the payment session. Set after a successful authorization. Not present before authorization. */
-  source?: PaymentSessionSource;
+  source?: PaymentSessionSource | undefined;
   /** The most recent meaningful event on the payment session. */
-  status?: PaymentSessionStatus;
-  balances?: PaymentSessionBalances;
+  status?: PaymentSessionStatus | undefined;
+  balances?: PaymentSessionBalances | undefined;
   /** The authorizations for this payment session. */
-  authorizations?: PaymentSessionAuthorizationsList;
+  authorizations?: PaymentSessionAuthorizationsList | undefined;
   /** The captures for this payment session. */
-  captures?: PaymentSessionCapturesList;
+  captures?: PaymentSessionCapturesList | undefined;
   /** The voids for this payment session. */
-  voids?: PaymentSessionVoidsList;
+  voids?: PaymentSessionVoidsList | undefined;
   /** The refunds for this payment session. */
-  refunds?: PaymentSessionRefundsList;
+  refunds?: PaymentSessionRefundsList | undefined;
   /** A URL to the hosted payment page where the payer can complete this payment session. */
-  url?: string;
+  url?: string | undefined;
   /** URL for the hosted x402 payment flow. This endpoint expects an HTTP **POST** request (for example, submitting the x402 payment via request headers); do not treat it as a page opened with GET alone. Only present when the payment target supports a wallet source. */
-  x402Url?: string;
-  redirect?: PaymentRedirect;
-  customerDisplay?: CustomerDisplay;
-  metadata?: Metadata;
+  x402Url?: string | undefined;
+  redirect?: PaymentRedirect | undefined;
+  customerDisplay?: CustomerDisplay | undefined;
+  metadata?: Metadata | undefined;
   /** A merchant-provided internal identifier for this payment session, from the merchant's own system--not visible to the payer. It must not contain personally identifiable information (PII) or payment credentials. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** The reason the payment session was canceled. Only present when the session has been canceled. */
-  cancellationReason?: string;
+  cancellationReason?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the payment session was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the payment session was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface CapturePaymentSessionRequest {
   /** The unique identifier of the payment session. */
   paymentSessionId: string;
   /** A decimal representation of the amount to capture, denominated in the session's `asset`. If omitted, the full remaining capturable amount is captured. */
-  amount?: string;
+  amount?: string | undefined;
   /** When `true`, this capture is treated as the final one for the authorization. Any remaining capturable balance is released back to the payer immediately after the capture settles. When `false`, the remaining capturable balance stays held and is available for subsequent partial captures (subject to `captureExpiresAt`). Has no effect if `amount` equals the full capturable balance, since no remaining balance exists to release. */
   finalCapture: boolean;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** An optional merchant-provided internal identifier for this manual capture, from the merchant's own system--not visible to the payer. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** Optional customer-facing display data for this manual capture, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
 }
 export interface CloseBorrowPositionWithEndUserAccountRequest {
   /** The ID of the end user. */
@@ -537,16 +665,16 @@ export interface CloseBorrowPositionWithEndUserAccountRequest {
   /** The address of the EVM Smart Account that holds the borrow position. */
   address: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   borrowProductId: string;
   /** The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth header. */
   walletSecretId: string;
   /** Whether to use the CDP Paymaster for the user operation. When `true`, `paymasterUrl` must not be set. */
   useCdpPaymaster: boolean;
   /** Paymaster URL to use for the user operation. Must not be set when `useCdpPaymaster` is `true`. If `useCdpPaymaster` is `false` and no `paymasterUrl` is set, the smart account must have sufficient funds to cover network fees. */
-  paymasterUrl?: string;
+  paymasterUrl?: string | undefined;
   /** Optional paymaster metadata forwarded to the configured paymaster service. Valid only when a paymaster is configured via `useCdpPaymaster: true` or a `paymasterUrl`. */
-  paymasterContext?: PaymasterContext;
+  paymasterContext?: PaymasterContext | undefined;
 }
 export interface CreateBorrowPositionWithEndUserAccountRequest {
   /** The ID of the end user. */
@@ -554,7 +682,7 @@ export interface CreateBorrowPositionWithEndUserAccountRequest {
   /** The address of the EVM Smart Account to open the borrow position from. */
   address: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   borrowProductId: string;
   /** The amount of collateral to post, as a decimal string in standard unit denomination of the collateral token (i.e. "1" for 1 cbBTC). */
   collateralAmount: string;
@@ -565,9 +693,9 @@ export interface CreateBorrowPositionWithEndUserAccountRequest {
   /** Whether to use the CDP Paymaster for the user operation. When `true`, `paymasterUrl` must not be set. */
   useCdpPaymaster: boolean;
   /** Paymaster URL to use for the user operation. Must not be set when `useCdpPaymaster` is `true`. If `useCdpPaymaster` is `false` and no `paymasterUrl` is set, the smart account must have sufficient funds to cover network fees. */
-  paymasterUrl?: string;
+  paymasterUrl?: string | undefined;
   /** Optional paymaster metadata forwarded to the configured paymaster service. Valid only when a paymaster is configured via `useCdpPaymaster: true` or a `paymasterUrl`. */
-  paymasterContext?: PaymasterContext;
+  paymasterContext?: PaymasterContext | undefined;
 }
 /** The type of the customer. Required on create; accepted but ignored on update. */
 export type CustomerType = "individual";
@@ -579,45 +707,45 @@ export interface CapabilityInput {
 /** The capabilities to request for a Customer. Each capability can be individually requested. The requirements to enable each capability will be returned in the response. */
 export interface CapabilitiesMapInput {
   /** Hold cryptocurrency in a Coinbase custodial account. */
-  custodyCrypto?: CapabilityInput;
+  custodyCrypto?: CapabilityInput | undefined;
   /** Hold fiat currency in a Coinbase custodial account. */
-  custodyFiat?: CapabilityInput;
+  custodyFiat?: CapabilityInput | undefined;
   /** Hold stablecoin in a Coinbase custodial account. */
-  custodyStablecoin?: CapabilityInput;
+  custodyStablecoin?: CapabilityInput | undefined;
   /** Trade cryptocurrency. */
-  tradeCrypto?: CapabilityInput;
+  tradeCrypto?: CapabilityInput | undefined;
   /** Trade stablecoin. */
-  tradeStablecoin?: CapabilityInput;
+  tradeStablecoin?: CapabilityInput | undefined;
   /** Transfer cryptocurrency to another party. */
-  transferCrypto?: CapabilityInput;
+  transferCrypto?: CapabilityInput | undefined;
   /** Transfer fiat currency to another party. */
-  transferFiat?: CapabilityInput;
+  transferFiat?: CapabilityInput | undefined;
   /** Transfer stablecoin to another party. */
-  transferStablecoin?: CapabilityInput;
+  transferStablecoin?: CapabilityInput | undefined;
 }
 /** Primary residential address. Only US addresses are currently supported. Non-US `countryCode` values are rejected with a 400. */
 export interface IndividualInputAddress {
   /** Primary street address. */
-  line1?: string;
+  line1?: string | undefined;
   /** Secondary address information. */
-  line2?: string;
+  line2?: string | undefined;
   /** City or locality. */
-  city?: string;
+  city?: string | undefined;
   /** State, province, or region. */
-  state?: string;
+  state?: string | undefined;
   /** Postal or ZIP code. */
-  postCode?: string;
+  postCode?: string | undefined;
   /** ISO 3166-1 alpha-2 country code (2 characters). See https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes. */
-  countryCode?: string;
+  countryCode?: string | undefined;
 }
 /** Date of birth with lenient formatting. Accepts both zero-padded ("04", "07") and single-digit ("4", "7") values for day and month. */
 export interface DateOfBirthLenient {
   /** Day of birth (1-31). Both single-digit ("7") and zero-padded ("07") formats are accepted. */
-  day?: string;
+  day?: string | undefined;
   /** Month of birth (1-12). Both single-digit ("4") and zero-padded ("04") formats are accepted. */
-  month?: string;
+  month?: string | undefined;
   /** Year of birth (four digits). */
-  year?: string;
+  year?: string | undefined;
 }
 /** Primary purpose for using Coinbase services. */
 export type IndividualInputPurposeOfAccount =
@@ -729,33 +857,33 @@ export type IndividualInputExpectedVolume =
 /** Individual customer data submitted on create / update requests. Fields are organized by the capabilities they unlock; not all are required for all customers (the requirements depend on which capabilities are requested). Read responses return the narrower `Individual` object (only `firstName`, `lastName`, and `email`), not this full request shape. */
 export interface IndividualInput {
   /** First name (given name). */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name (family name/surname). */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Primary residential address. Only US addresses are currently supported. Non-US `countryCode` values are rejected with a 400. */
-  address?: IndividualInputAddress;
+  address?: IndividualInputAddress | undefined;
   /** Last 4 digits of the Social Security Number (US only). Used for identity verification. */
-  ssnLast4?: string;
+  ssnLast4?: string | undefined;
   /** Date of birth. */
-  dateOfBirth?: DateOfBirthLenient;
+  dateOfBirth?: DateOfBirthLenient | undefined;
   /** Full Social Security Number (US only). */
-  fullSsn?: string;
+  fullSsn?: string | undefined;
   /** ISO 3166-1 alpha-2 country code representing the customer's citizenship. */
-  citizenship?: string;
+  citizenship?: string | undefined;
   /** Email address for the customer. */
-  email?: string;
+  email?: string | undefined;
   /** Phone number in [E.164](https://en.wikipedia.org/wiki/E.164) format. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Primary purpose for using Coinbase services. */
-  purposeOfAccount?: IndividualInputPurposeOfAccount | (string & {});
+  purposeOfAccount?: IndividualInputPurposeOfAccount | (string & {}) | undefined;
   /** Primary source of funds for the account. */
-  sourceOfFunds?: IndividualInputSourceOfFunds | (string & {});
+  sourceOfFunds?: IndividualInputSourceOfFunds | (string & {}) | undefined;
   /** Current employment status. */
-  employmentStatus?: IndividualInputEmploymentStatus | (string & {});
+  employmentStatus?: IndividualInputEmploymentStatus | (string & {}) | undefined;
   /** Industry or occupation. */
-  occupation?: IndividualInputOccupation | (string & {});
+  occupation?: IndividualInputOccupation | (string & {}) | undefined;
   /** Expected annual volume of activity on the account, expressed as a dollar range. Use the dollar-honest ids below: - `under_1k`: $0 - $1,000 - `1k_to_10k`: $1,000 - $10,000 - `10k_to_100k`: $10,000 - $100,000 - `100k_to_250k`: $100,000 - $250,000 - `250k_to_750k`: $250,000 - $750,000 - `750k_to_1_5m`: $750,000 - $1.5M - `1_5m_plus`: $1.5M+ */
-  expectedVolume?: IndividualInputExpectedVolume | (string & {});
+  expectedVolume?: IndividualInputExpectedVolume | (string & {}) | undefined;
 }
 /** The project IDs that this customer is associated with. */
 export type CreateCustomerRequestProjectIdsList = Array<string>;
@@ -788,22 +916,22 @@ export type CreateCustomerRequestTaxAttestationsList = Array<UsW9Attestation>;
 /** Compliance context for a request. Carries per-request compliance signals, such as the IP address of the individual (i.e., end-customer) that initiated the request. This object is request-only -- it is never echoed back in responses. Inner fields are write-only. */
 export interface Compliance {
   /** IPv4 or IPv6 address of the individual (i.e., end-customer) that initiated this request. NOT the IP of the partner server making the API call. */
-  requesterIpAddress?: string;
+  requesterIpAddress?: string | undefined;
 }
 export interface CreateCustomerRequest {
   /** The type of the customer. Required on create; accepted but ignored on update. */
   type: CustomerType | (string & {});
   /** Capabilities to request for the customer. */
-  capabilities?: CapabilitiesMapInput;
+  capabilities?: CapabilitiesMapInput | undefined;
   /** Information about an Individual customer. Not all fields are required for all customers; the requirements depend on which capabilities are requested. Submit only fields that are required by the capabilities that have been requested. */
-  individual?: IndividualInput;
+  individual?: IndividualInput | undefined;
   /** The project IDs that this customer is associated with. */
-  projectIds?: CreateCustomerRequestProjectIdsList;
+  projectIds?: CreateCustomerRequestProjectIdsList | undefined;
   /** Terms of Service acceptances to record on the customer. Submit one entry per required version surfaced inline on `requirements.tos.tosVersions[]` (returned by `Get Customer`, `Create Customer`, and `Update Customer` whenever a `tos` requirement is unsatisfied). The server rejects each acceptance whose `language` is not listed under `languages` on the matching required version with `errorType: "unsupported_tos_language"`. When new required Terms of Service versions are published, only the new `versionId`s appear in `requirements.tos.tosVersions[]`; submit acceptances for only those new version(s). Omit `tosAcceptances` on a partial update to leave previously recorded acceptances unchanged. Sending `tosAcceptances: []` is invalid (`errorType: "invalid_request"`) because it would clear all acceptances without replacing them; omit the field entirely when you are not updating Terms of Service acceptances. */
-  tosAcceptances?: CreateCustomerRequestTosAcceptancesList;
+  tosAcceptances?: CreateCustomerRequestTosAcceptancesList | undefined;
   /** Tax attestations to record on the customer. Submit one entry per required form surfaced inline on `requirements.taxAttestation.taxForms[]` (returned by `Get Customer`, `Create Customer`, and `Update Customer` whenever a `taxAttestation` requirement is unsatisfied). The required fields per entry depend on `form`; see `TaxAttestation`. This field is ingestion-only and is never returned on read. Omit `taxAttestations` on a partial update to leave previously recorded attestations unchanged. Sending `taxAttestations: []` is invalid (`errorType: "invalid_request"`) because it would clear all attestations without replacing them; omit the field entirely when you are not updating tax attestations. */
-  taxAttestations?: CreateCustomerRequestTaxAttestationsList;
-  compliance?: Compliance;
+  taxAttestations?: CreateCustomerRequestTaxAttestationsList | undefined;
+  compliance?: Compliance | undefined;
 }
 /** The status of a capability. Based on recoverability: - `unrequested`: Capability has not been requested by the customer - `pending`: Customer can take action to resolve (requirements `due` or `rejected`) - `active`: Capability is enabled and can be used - `inactive`: Permanently blocked - no customer action possible */
 export type CapabilityStatus = "unrequested" | "pending" | "active" | "inactive";
@@ -817,21 +945,21 @@ export interface Capability {
 /** The current state of each capability for a Customer. Each capability shows whether it has been requested and its current status. */
 export interface CapabilitiesMap {
   /** Hold cryptocurrency in a Coinbase custodial account. */
-  custodyCrypto?: Capability;
+  custodyCrypto?: Capability | undefined;
   /** Hold fiat currency in a Coinbase custodial account. */
-  custodyFiat?: Capability;
+  custodyFiat?: Capability | undefined;
   /** Hold stablecoin in a Coinbase custodial account. */
-  custodyStablecoin?: Capability;
+  custodyStablecoin?: Capability | undefined;
   /** Trade cryptocurrency. */
-  tradeCrypto?: Capability;
+  tradeCrypto?: Capability | undefined;
   /** Trade stablecoin. */
-  tradeStablecoin?: Capability;
+  tradeStablecoin?: Capability | undefined;
   /** Transfer cryptocurrency to another party. */
-  transferCrypto?: Capability;
+  transferCrypto?: Capability | undefined;
   /** Transfer fiat currency to another party. */
-  transferFiat?: Capability;
+  transferFiat?: Capability | undefined;
   /** Transfer stablecoin to another party. */
-  transferStablecoin?: Capability;
+  transferStablecoin?: Capability | undefined;
 }
 /** The current status of a requirement: - `due`: Must be submitted and no set deadline has passed - `past_due`: Must be submitted and a set deadline has passed - `pending`: Submitted, awaiting verification - `rejected`: Verification failed - customer must resubmit For a Terms of Service requirement, `past_due` applies if any unaccepted version has a deadline set in the past. Otherwise the status is `due`, including when a version has no deadline and requires immediate acceptance, or when every set deadline is in the future and acceptance is in grace. When verification passes, the requirement disappears from the response entirely. */
 export type RequirementStatus = "due" | "past_due" | "pending" | "rejected";
@@ -854,7 +982,7 @@ export interface TermsOfService {
   /** Stable identifier for this Terms of Service document. Submit this value as `versionId` on a `TosAcceptance` to record acceptance. */
   versionId: string;
   /** Optional deadline by which the Customer must accept this Terms of Service version, in ISO 8601 / RFC 3339 format. A future deadline is non-blocking grace with requirement status `due`; an elapsed deadline produces `past_due`. When omitted, acceptance is required immediately and the requirement status remains `due`. */
-  deadline?: string;
+  deadline?: string | undefined;
   /** BCP 47 language tags this Terms of Service document can be viewed and accepted in. The list is non-empty (every published document carries at least one language). Append the chosen tag to `url` as `?lang=<tag>` to fetch the localized document, and submit the same tag as `language` on the corresponding `TosAcceptance` to record which translation the Customer reviewed. */
   languages: TermsOfServiceLanguagesList;
   /** Canonical, language-agnostic URL where the Terms of Service document is hosted (for example, `https://www.coinbase.com/legal/user-agreements-third-party-provider`). Append `?lang=<tag>` (where `<tag>` is one of `languages`) to retrieve a specific translation; without the parameter, the documentation site renders a default translation. */
@@ -870,24 +998,24 @@ export type RequirementTaxFormsList = Array<TaxForm>;
 export interface Requirement {
   status: RequirementStatus;
   /** Optional aggregate deadline by which this requirement must be satisfied. For the `tos` requirement, this is the earliest set deadline among the unaccepted required Terms of Service versions listed in `tosVersions`. It is omitted only when none of the unaccepted versions has a deadline. Do not infer `past_due` or whether the requirement blocks from this aggregate field alone; inspect each version's deadline. */
-  deadline?: string;
+  deadline?: string | undefined;
   /** List of capabilities affected by this requirement, sorted alphabetically. Only present for `due`, `past_due`, `pending`, or `rejected` statuses. */
-  impact?: RequirementImpactList;
+  impact?: RequirementImpactList | undefined;
   /** Required Terms of Service versions the Customer has not yet accepted, with the metadata needed to render an acceptance UI (each entry carries a stable `versionId`, the BCP 47 `languages` the version is published in, an optional per-version `deadline`, and a language-agnostic `url`). A missing deadline means acceptance is required immediately while the requirement status remains `due`; only a set deadline in the past produces `past_due`. This field appears only under the requirement key `tos`; do not infer meaning from `tosVersions` on other requirement keys. Only populated for the `tos` requirement; omitted on every other requirement key. Submit each `versionId` back via `tosAcceptances[].versionId` on `Update Customer` (or `Create Customer`) together with `language` and `acceptedAt` to clear the requirement. */
-  tosVersions?: RequirementTosVersionsList;
+  tosVersions?: RequirementTosVersionsList | undefined;
   /** Required tax attestation forms the Customer has not yet completed. This field appears only under the requirement key `taxAttestation`. Submit each `form` back via `taxAttestations[].form` on `Update Customer` (or `Create Customer`) together with the other fields required for that form to clear the requirement. */
-  taxForms?: RequirementTaxFormsList;
+  taxForms?: RequirementTaxFormsList | undefined;
 }
 /** Map of requirements to be submitted. Each key is the field name (e.g., "ssnLast4"), with values to describe its state. Requirements are only shown for requested capabilities. When a requirement is verified, it disappears from this map. For the `tos` key, each entry in `tosVersions[]` has its own optional deadline. The requirement-level `deadline` is an aggregate of those rows: the earliest set deadline among unaccepted versions, not a separate clock. A version with no deadline requires immediate acceptance but keeps the aggregate status `due`. A future deadline is also `due` and represents non-blocking grace. The aggregate status is `past_due` only when at least one unaccepted version has a deadline set in the past. Do not infer status or blocking behavior from omission of the aggregate deadline. */
 export type RequirementsMap = { [key: string]: Requirement | undefined };
 /** Individual customer data returned on read -- the `individual` object on Get / Create / Update Customer responses. Only contact-identity fields are echoed back; every other field accepted on the `IndividualInput` object (`address`, `ssnLast4`, `dateOfBirth`, `fullSsn`, `citizenship`, `phoneNumber`, and the CDD fields) is ingestion-only and never returned. */
 export interface Individual {
   /** First name (given name). */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name (family name/surname). */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Email address for the customer. */
-  email?: string;
+  email?: string | undefined;
 }
 /** The project IDs that this customer is associated with. */
 export type CustomerProjectIdsList = Array<string>;
@@ -902,14 +1030,14 @@ export interface Customer {
   /** Map of requirements to be submitted. Each key is the field name, with values to describe its state. Requirements are only shown for requested capabilities. When a requirement is fulfilled, it disappears from this map. */
   requirements: RequirementsMap;
   /** Timestamp when the customer was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Timestamp when the customer was last updated. */
-  updatedAt?: string;
-  individual?: Individual;
+  updatedAt?: string | undefined;
+  individual?: Individual | undefined;
   /** The project IDs that this customer is associated with. */
-  projectIds?: CustomerProjectIdsList;
+  projectIds?: CustomerProjectIdsList | undefined;
   /** Terms of Service acceptances recorded for the customer. */
-  tosAcceptances?: CustomerTosAcceptancesList;
+  tosAcceptances?: CustomerTosAcceptancesList | undefined;
 }
 export interface CreateDelegationForEndUserAccountRequest {
   /** The ID of the end user. */
@@ -917,7 +1045,7 @@ export interface CreateDelegationForEndUserAccountRequest {
   /** The blockchain address of the end user account to scope this delegation to. Format varies by network (e.g., 0x-prefixed for EVM, base58 for Solana). For EVM addresses, matching is case-insensitive. */
   address: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The date until which the delegation is valid. */
   expiresAt: string;
   /** The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
@@ -934,7 +1062,7 @@ export type DepositDestinationType = DepositDestinationTypeCase0 | DepositDestin
 /** The account and asset where incoming deposits should be credited. */
 export interface DepositDestinationTargetAccount {
   /** The ID of the CDP Account to which deposited funds should be transferred. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The symbol of the asset that should land in the target account. */
   asset: string;
 }
@@ -955,7 +1083,7 @@ export interface OnchainAddress {
   address: string;
   network: PaymentNetwork | (string & {});
   /** The destination tag of the onchain address. Destination tags are used by certain networks (primarily XRP/Ripple) to identify specific recipients when multiple users share a single address. The tag ensures funds are credited to the correct account within the shared address. Examples by network: - XRP/Ripple: Numeric values like "1234567890" or "123456" - Stellar (XLM): Memos which can be text, ID, or hash format Note: Most networks (Ethereum, Bitcoin, Solana) do not use destination tags. */
-  destinationTag?: string;
+  destinationTag?: string | undefined;
   /** Asset symbol of the payment received by the recipient. Supported values are `usdc` and `eurc`. */
   asset: string;
 }
@@ -970,9 +1098,9 @@ export interface CreateCryptoDepositDestinationRequest {
   /** The ID of the Account, which is a UUID prefixed by the string `account_`, that owns the deposit destination. */
   accountId: string;
   type: DepositDestinationType;
-  target?: DepositDestinationTarget;
-  metadata?: Metadata;
-  compliance?: Compliance;
+  target?: DepositDestinationTarget | undefined;
+  metadata?: Metadata | undefined;
+  compliance?: Compliance | undefined;
   /** Crypto-specific details. Required when `type` is `crypto`. */
   crypto: CreateDepositDestinationCrypto;
 }
@@ -985,15 +1113,15 @@ export interface CreateDepositDestinationFiat {
   /** The fiat currency for the deposit destination. */
   currency: CreateDepositDestinationFiatCurrency | (string & {});
   /** Optional. The desired payment rail. When omitted, the server provisions the default banking partner and returns all rails the account supports. When specified, the server selects a banking partner that supports the requested rail. */
-  paymentRail?: DepositDestinationPaymentRail | (string & {});
+  paymentRail?: DepositDestinationPaymentRail | (string & {}) | undefined;
 }
 export interface CreateFiatDepositDestinationRequest {
   /** The ID of the Account, which is a UUID prefixed by the string `account_`, that owns the deposit destination. */
   accountId: string;
   type: DepositDestinationType;
-  target?: DepositDestinationTarget;
-  metadata?: Metadata;
-  compliance?: Compliance;
+  target?: DepositDestinationTarget | undefined;
+  metadata?: Metadata | undefined;
+  compliance?: Compliance | undefined;
   /** Fiat-specific details. Required when `type` is `fiat`. */
   fiat: CreateDepositDestinationFiat;
 }
@@ -1021,9 +1149,9 @@ export interface CryptoDepositDestination {
   type: CryptoDepositDestinationType;
   /** Crypto-specific details for this deposit destination. Always populated in responses. Contains the network and address. */
   crypto: DepositDestinationCrypto;
-  target?: DepositDestinationTarget;
+  target?: DepositDestinationTarget | undefined;
   status: DepositDestinationStatus;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** The timestamp when the deposit destination was created. */
   createdAt: string;
   /** The timestamp when the deposit destination was last updated. */
@@ -1051,9 +1179,9 @@ export interface BankAccountUS {
   routingNumber: string;
   accountNumber: string;
   /** The address of the bank. Present when required by the receiving institution. */
-  bankAddress?: string;
+  bankAddress?: string | undefined;
   /** A reference code that must be included in the payment memo or reference field so the receiving institution can route the deposit to the correct account. Only present when required by the receiving institution. */
-  referenceCode?: string;
+  referenceCode?: string | undefined;
   /** The payment rails this account can receive deposits on. */
   supportedRails: BankAccountUSSupportedRailsList;
 }
@@ -1064,9 +1192,9 @@ export interface FiatDepositDestination {
   /** The type of deposit destination. */
   type: FiatDepositDestinationType;
   fiat: BankAccountUS;
-  target?: DepositDestinationTarget;
+  target?: DepositDestinationTarget | undefined;
   status: DepositDestinationStatus;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** The timestamp when the deposit destination was created. */
   createdAt: string;
   /** The timestamp when the deposit destination was last updated. */
@@ -1075,7 +1203,7 @@ export interface FiatDepositDestination {
 /** A deposit destination for receiving funds to an account. */
 export type DepositDestination = CryptoDepositDestination | FiatDepositDestination;
 export type CreateDepositDestinationResponse = DepositDestination;
-/** A Coinbase-user target for the disbursement. */
+/** A Coinbase user account that receives the disbursement. */
 export interface DisbursementCoinbaseTarget {
   /** The unique identifier of the recipient within Coinbase. */
   coinbaseUserId: string;
@@ -1092,30 +1220,37 @@ export type Network =
   | "polygon"
   | "world"
   | "world-sepolia";
-/** An onchain address target for the disbursement. */
+/** An onchain address that receives the disbursement. */
 export interface DisbursementWalletTarget {
   /** The onchain crypto address of the recipient. */
   address: string;
   /** The blockchain network on which the target receives funds. */
   network: Network | (string & {});
 }
-/** The target of the disbursement. Can be either a Coinbase user account or an onchain blockchain address. */
+/** The recipient of the disbursement: a Coinbase user account or an onchain address. */
 export type DisbursementTarget = DisbursementCoinbaseTarget | DisbursementWalletTarget;
+/** Display information shown to the recipient for this disbursement. If `referenceCode` is omitted, one is generated. */
+export interface CreateDisbursementRequestCustomerDisplay {
+  /** A short customer-facing reference code for this payment operation. */
+  referenceCode?: string | undefined;
+  /** The merchant name to display to the recipient. When provided, this overrides the default merchant name configured for your entity. If omitted or empty, the default name is used. Useful when a merchant operates multiple storefronts or brands under a single entity. */
+  merchantName?: string | undefined;
+}
 /** A physical address with standard address components including street, city, state/province, postal code, and country. */
 export type PhysicalAddress = IndividualInputAddress;
 /** A natural person, identified by name and physical address. */
 export interface Person {
   /** Full legal name of the person. */
-  name?: string;
+  name?: string | undefined;
   /** Physical address of the person. */
-  address?: IndividualInputAddress;
+  address?: IndividualInputAddress | undefined;
 }
 /** Compliance context for a disbursement request. Extends the base Compliance schema with recipient information required for travel rule obligations. This object is request-only -- it is never echoed back in responses. */
 export interface DisbursementCompliance {
   /** IPv4 or IPv6 address of the individual (i.e., end-customer) that initiated this request. NOT the IP of the partner server making the API call. */
-  requesterIpAddress?: string;
+  requesterIpAddress?: string | undefined;
   /** Information about the person receiving this disbursement. Required by some entity configurations to meet regulatory requirements for fund transfers. When required, omitting this field or leaving required sub-fields empty returns a 400 listing the specific fields needed. */
-  recipient?: Person;
+  recipient?: Person | undefined;
 }
 export interface CreateDisbursementRequest {
   /** The source from which to fund the disbursement. */
@@ -1127,18 +1262,25 @@ export interface CreateDisbursementRequest {
   /** The symbol of the asset for the disbursement amount. */
   asset: string;
   /** Human-readable reason for the disbursement. */
-  reason?: string;
-  /** A merchant-provided internal identifier for this disbursement, from the merchant's own system--not visible to the payer. It must not contain personally identifiable information (PII) or payment credentials. */
-  externalReferenceId?: string;
-  /** Optional customer-facing display data for this disbursement, shown to the payer. If `referenceCode` is omitted, one is auto-generated -- disbursements have no payment session to fall back to, unlike every other action type. */
-  customerDisplay?: OperationCustomerDisplay;
-  metadata?: Metadata;
+  reason?: string | undefined;
+  /** An identifier from your system for tracking this disbursement. Not shown to the recipient. Must not contain personally identifiable information (PII) or payment credentials. */
+  externalReferenceId?: string | undefined;
+  /** Display information shown to the recipient for this disbursement. If `referenceCode` is omitted, one is generated. */
+  customerDisplay?: CreateDisbursementRequestCustomerDisplay | undefined;
+  metadata?: Metadata | undefined;
   /** Compliance context for this disbursement. Carries recipient information required by some entity configurations to meet regulatory requirements. */
-  compliance?: DisbursementCompliance;
+  compliance?: DisbursementCompliance | undefined;
+}
+/** Display information shown to the recipient for this disbursement. If `referenceCode` was omitted when creating the disbursement, a generated code is returned. */
+export interface DisbursementCustomerDisplay {
+  /** A short customer-facing reference code for this payment operation. */
+  referenceCode?: string | undefined;
+  /** The merchant name displayed to the recipient. Reflects the supplied `merchantName` or the default merchant name configured for your entity. */
+  merchantName?: string | undefined;
 }
 /** The onchain transactions associated with this disbursement. */
 export type DisbursementOnchainTransactionsList = Array<OnchainTransaction>;
-/** A Disbursement represents a merchant-initiated payment of funds from a CDP account they own to a Coinbase account or onchain address. Used for standalone refunds, goodwill disbursements, rebates, and other merchant-driven payouts that are not tied to a specific payment session. Disbursements are asynchronous: the resource is returned in `pending` status and transitions to `succeeded` (with associated `onchainTransactions`) or `failed` (with `error`). */
+/** A payment from a CDP account you own to a Coinbase user account or an onchain address, independent of a payment session. */
 export interface Disbursement {
   /** The unique identifier of the disbursement. */
   disbursementId: string;
@@ -1153,16 +1295,16 @@ export interface Disbursement {
   /** The current status of the disbursement. */
   status: PaymentActionStatus;
   /** Human-readable reason for the disbursement. */
-  reason?: string;
-  /** A merchant-provided internal identifier for this disbursement, from the merchant's own system--not visible to the payer. It must not contain personally identifiable information (PII) or payment credentials. */
-  externalReferenceId?: string;
-  /** Customer-facing display data for this disbursement, shown to the payer. Always present: if the create request omits `referenceCode`, one is auto-generated, since disbursements have no payment session to fall back to. */
-  customerDisplay?: OperationCustomerDisplay;
-  metadata?: Metadata;
+  reason?: string | undefined;
+  /** An identifier from your system for tracking this disbursement. Not shown to the recipient. Must not contain personally identifiable information (PII) or payment credentials. */
+  externalReferenceId?: string | undefined;
+  /** Display information shown to the recipient for this disbursement. If `referenceCode` was omitted when creating the disbursement, a generated code is returned. */
+  customerDisplay?: DisbursementCustomerDisplay | undefined;
+  metadata?: Metadata | undefined;
   /** Error details, present only when the disbursement failed. */
-  error?: PaymentError;
+  error?: PaymentError | undefined;
   /** The onchain transactions associated with this disbursement. */
-  onchainTransactions?: DisbursementOnchainTransactionsList;
+  onchainTransactions?: DisbursementOnchainTransactionsList | undefined;
   /** The UTC ISO 8601 timestamp at which the disbursement was created. */
   createdAt: string;
   /** The UTC ISO 8601 timestamp at which the disbursement was last updated. */
@@ -1205,11 +1347,11 @@ export interface OAuth2Authentication {
   /** The unique identifier for the end user that is captured in the `sub` claim of the JWT. */
   sub: string;
   /** The email address of the end user contained within the user's ID token, if available from third-party OAuth2 provider's token exchange. */
-  email?: string;
+  email?: string | undefined;
   /** The full name of the end user if available from third-party OAuth2 provider's token exchange. */
-  name?: string;
+  name?: string | undefined;
   /** The username of the end user if available from third-party OAuth2 provider's token exchange. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Information about an end user who authenticates using Telegram. */
 export interface TelegramAuthentication {
@@ -1217,15 +1359,15 @@ export interface TelegramAuthentication {
   /** The Telegram ID for the end user. */
   id: number;
   /** The Telegram user's first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The Telegram user's last name. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The Telegram user's profile picture. */
-  photoUrl?: string;
+  photoUrl?: string | undefined;
   /** The Telegram user's last login as a Unix timestamp. */
   authDate: number;
   /** The Telegram user's username. */
-  username?: string;
+  username?: string | undefined;
 }
 /** The type of authentication information. */
 export type SiweAuthenticationType = "siwe";
@@ -1249,23 +1391,23 @@ export type AuthenticationMethods = Array<AuthenticationMethod>;
 /** Configuration for creating an EVM account for the end user. */
 export interface CreateEndUserRequestEvmAccount {
   /** If true, creates an EVM smart account and a default EVM EOA account as the owner. If false, only a EVM EOA account is created. */
-  createSmartAccount?: boolean;
+  createSmartAccount?: boolean | undefined;
   /** If true, enables spend permissions for the EVM smart account. */
-  enableSpendPermissions?: boolean;
+  enableSpendPermissions?: boolean | undefined;
 }
 /** Configuration for creating a Solana account for the end user. */
 export interface CreateEndUserRequestSolanaAccount {
   /** Only false is a valid option since currently smart accounts on Solana are not supported. */
-  createSmartAccount?: boolean;
+  createSmartAccount?: boolean | undefined;
 }
 export interface CreateEndUserRequest {
   /** A stable, unique identifier for the end user. The `userId` must be unique across all end users in the developer's CDP Project. It must be between 1 and 100 characters long and can only contain alphanumeric characters and hyphens. If `userId` is not provided in the request, the server will generate a random UUID. */
-  userId?: string;
+  userId?: string | undefined;
   authenticationMethods: AuthenticationMethods;
   /** Configuration for creating an EVM account for the end user. */
-  evmAccount?: CreateEndUserRequestEvmAccount;
+  evmAccount?: CreateEndUserRequestEvmAccount | undefined;
   /** Configuration for creating a Solana account for the end user. */
-  solanaAccount?: CreateEndUserRequestSolanaAccount;
+  solanaAccount?: CreateEndUserRequestSolanaAccount | undefined;
 }
 /** An object containing information about the end user's TOTP enrollment. */
 export interface MFAMethodsTotp {
@@ -1277,11 +1419,11 @@ export type MFAMethodsSms = MFAMethodsTotp;
 /** Information about the end user's MFA enrollments. */
 export interface MFAMethods {
   /** The date and time when the end user was prompted for MFA enrollment, in ISO 8601 format. If the this field exists, and the user has no other enrolled MFA methods, then the user skipped MFA enrollment. */
-  enrollmentPromptedAt?: string;
+  enrollmentPromptedAt?: string | undefined;
   /** An object containing information about the end user's TOTP enrollment. */
-  totp?: MFAMethodsTotp;
+  totp?: MFAMethodsTotp | undefined;
   /** An object containing information about the end user's SMS MFA enrollment. */
-  sms?: MFAMethodsTotp;
+  sms?: MFAMethodsTotp | undefined;
 }
 /** **DEPRECATED**: Use `evmAccountObjects` instead for richer account information. The list of EVM account addresses associated with the end user. End users can have up to 10 EVM accounts. */
 export type EndUserEvmAccountsList = Array<string>;
@@ -1300,7 +1442,7 @@ export interface EndUser {
   /** A stable, unique identifier for the end user. The `userId` must be unique across all end users in the developer's CDP Project. It must be between 1 and 100 characters long and can only contain alphanumeric characters and hyphens. */
   userId: string;
   authenticationMethods: AuthenticationMethods;
-  mfaMethods?: MFAMethods;
+  mfaMethods?: MFAMethods | undefined;
   /** **DEPRECATED**: Use `evmAccountObjects` instead for richer account information. The list of EVM account addresses associated with the end user. End users can have up to 10 EVM accounts. */
   evmAccounts: EndUserEvmAccountsList;
   /** The list of EVM accounts associated with the end user. End users can have up to 10 EVM accounts. */
@@ -1318,9 +1460,9 @@ export interface EndUser {
 }
 export interface CreateEvmAccountRequest {
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the account-level policy to apply to the account. */
-  accountPolicy?: string;
+  accountPolicy?: string | undefined;
 }
 /** The list of policy IDs that apply to the account. This will include both the project-level policy and the account-level policy, if one exists. */
 export type EvmAccountPoliciesList = Array<string>;
@@ -1328,13 +1470,13 @@ export interface EvmAccount {
   /** The 0x-prefixed, checksum EVM address. */
   address: string;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names are guaranteed to be unique across all EVM accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The list of policy IDs that apply to the account. This will include both the project-level policy and the account-level policy, if one exists. */
-  policies?: EvmAccountPoliciesList;
+  policies?: EvmAccountPoliciesList | undefined;
   /** The UTC ISO 8601 timestamp at which the account was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the account was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** The network for the EIP-7702 delegation. */
 export type EvmEip7702DelegationNetwork =
@@ -1350,7 +1492,7 @@ export interface CreateEvmEip7702DelegationRequest {
   address: string;
   network: EvmEip7702DelegationNetwork | (string & {});
   /** Whether to configure spend permissions for the upgraded, delegated account. When enabled, the account can grant permissions for third parties to spend on its behalf. */
-  enableSpendPermissions?: boolean;
+  enableSpendPermissions?: boolean | undefined;
 }
 export interface CreateEvmEip7702DelegationResponse {
   /** The unique identifier for the delegation operation. Use this to poll the operation status. */
@@ -1360,14 +1502,14 @@ export interface CreateEvmEip7702DelegationWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The 0x-prefixed address of the EVM account to delegate. */
   address: string;
   network: EvmEip7702DelegationNetwork | (string & {});
   /** Whether to configure spend permissions for the upgraded, delegated account. When enabled, the account can grant permissions for third parties to spend on its behalf. */
-  enableSpendPermissions?: boolean;
+  enableSpendPermissions?: boolean | undefined;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface CreateEvmEip7702DelegationWithEndUserAccountResponse {
   /** The unique identifier for the delegation operation. Use this to poll the operation status. */
@@ -1379,7 +1521,7 @@ export interface CreateEvmSmartAccountRequest {
   /** Today, only a single owner can be set for a Smart Account, but this is an array to allow setting multiple owners in the future. */
   owners: CreateEvmSmartAccountRequestOwnersList;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Today, only a single owner can be set for a Smart Account, but this is an array to allow having multiple owners in the future. The address is a 0x-prefixed, checksum address. */
 export type EvmSmartAccountOwnersList = Array<string>;
@@ -1391,13 +1533,13 @@ export interface EvmSmartAccount {
   /** Today, only a single owner can be set for a Smart Account, but this is an array to allow having multiple owners in the future. The address is a 0x-prefixed, checksum address. */
   owners: EvmSmartAccountOwnersList;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names are guaranteed to be unique across all Smart Accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The list of policy IDs that apply to the smart account. This will include both the project-level policy and the account-level policy, if one exists. */
-  policies?: EvmSmartAccountPoliciesList;
+  policies?: EvmSmartAccountPoliciesList | undefined;
   /** The UTC ISO 8601 timestamp at which the account was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The UTC ISO 8601 timestamp at which the account was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** The network on which to perform the swap. */
 export type EvmSwapsNetwork = "base" | "ethereum" | "arbitrum" | "optimism" | "polygon";
@@ -1412,24 +1554,24 @@ export interface CreateEvmSwapQuoteRequest {
   /** The 0x-prefixed address that holds the `fromToken` balance and has the `Permit2` allowance set for the swap. */
   taker: string;
   /** The 0x-prefixed Externally Owned Account (EOA) address that will sign the `Permit2` EIP-712 permit message. This is only needed if `taker` is a smart contract. */
-  signerAddress?: string;
+  signerAddress?: string | undefined;
   /** The target gas price for the swap transaction, in Wei. For EIP-1559 transactions, this value should be seen as the `maxFeePerGas` value. If not provided, the API will use an estimate based on the current network conditions. */
-  gasPrice?: string;
+  gasPrice?: string | undefined;
   /** The maximum acceptable slippage of the `toToken` in basis points. If this parameter is set to 0, no slippage will be tolerated. If not provided, the default slippage tolerance is 100 bps (i.e., 1%). */
-  slippageBps?: number;
+  slippageBps?: number | undefined;
 }
 /** The domain of the EIP-712 typed data. */
 export interface EIP712Domain {
   /** The name of the DApp or protocol. */
-  name?: string;
+  name?: string | undefined;
   /** The version of the DApp or protocol. */
-  version?: string;
+  version?: string | undefined;
   /** The chain ID of the EVM network. */
-  chainId?: number;
+  chainId?: number | undefined;
   /** The 0x-prefixed EVM address of the verifying smart contract. */
-  verifyingContract?: string;
+  verifyingContract?: string | undefined;
   /** The optional 32-byte 0x-prefixed hex salt for domain separation. */
-  salt?: string;
+  salt?: string | undefined;
 }
 /** The message to sign using EIP-712. */
 export interface EIP712Message {
@@ -1527,9 +1669,10 @@ export type CreateSwapQuoteResponseWrapper = CreateSwapQuoteResponse | SwapUnava
 export type CreateEvmSwapQuoteResponse = CreateSwapQuoteResponseWrapper;
 export interface CreateFoundationAccountRequest {
   /** The Owner of the Account to create. * If omitted, the account will be owned by the Entity making the request. * If the account is for a customer, the value will be a Customer ID, e.g. `customer_af2937b0-9846-4fe7-bfe9-ccc22d935114`. * Further, the corresponding Customer must have all of the following capabilities enabled: - `custodyCrypto` - `custodyFiat` - `custodyStablecoin`. */
-  owner?: string;
-  name?: string;
-  compliance?: Compliance;
+  owner?: string | undefined;
+  name?: string | undefined;
+  /** Required when `owner` is a Customer ID; omit for Entity-owned accounts. */
+  compliance?: Compliance | undefined;
 }
 /** The type of the Account. - `prime`: a linked Coinbase Prime account. - `business`: a linked Coinbase Business account. - `cdp`: a CDP-native account created via this API. Used for accounts created on behalf of an Entity and for Customer-owned accounts. */
 export type AccountType = "prime" | "business" | "cdp";
@@ -1537,11 +1680,99 @@ export interface Account {
   accountId: string;
   type: AccountType;
   owner: string;
-  name?: string;
+  name?: string | undefined;
   /** The timestamp when the account was created. */
   createdAt: string;
   /** The timestamp when the account was last updated. */
   updatedAt: string;
+}
+export interface CreateMandateRequest {
+  /** The unit of account the mandate's `policy` caps are denominated in (e.g., `500` means 500 of this asset). Fixed at creation. This is only the denomination for the limits; the funding `source` may hold a different asset (for example, limits in `usdc` against a `usdt` source). Each authorization's amount is converted into this asset at authorization time to evaluate the caps, so the caps are always enforced in a single denomination. */
+  asset: string;
+  /** Optional. Omit or send `{}` to default to a Coinbase-configured monthly max. If you set `maxPerPeriod`, include both `amount` and `period`. */
+  policy?: MandatePolicy | undefined;
+  /** The UTC ISO 8601 timestamp after which this mandate can no longer be authorized against. Omit for a mandate with no expiry. */
+  expiresAt?: string | undefined;
+  /** Optional merchant URLs used by the hosted mandate approval flow. The approval page redirects to `successUrl` when approval succeeds, or `failureUrl` when it fails. Omit to keep the customer on the Coinbase-hosted experience. */
+  approvalRedirect?: PaymentRedirect | undefined;
+  /** Optional merchant URLs used by the hosted mandate revocation flow. The revocation page redirects to `successUrl` when revocation succeeds, or `failureUrl` when it fails. Omit to keep the customer on the Coinbase-hosted experience. */
+  revocationRedirect?: PaymentRedirect | undefined;
+  customerDisplay?: MandateCustomerDisplay | undefined;
+  metadata?: Metadata | undefined;
+}
+export interface CreateOnrampIosAttestationChallengeRequest {}
+/** A cryptographic challenge for iOS App Attest attestation. Used only by iOS clients - Android uses a different flow with Play Integrity Standard API tokens. */
+export interface IosAttestationChallenge {
+  /** Base64-encoded cryptographically secure random challenge (32 bytes). This challenge is one-time use and must be included in the iOS attestation request. */
+  challenge: string;
+  /** Timestamp when the challenge expires. Challenges are valid for 5 minutes. */
+  expiresAt: string;
+}
+/** The type of payment method used to generate the onramp quote. */
+export type OnrampQuotePaymentMethodTypeId =
+  | "CARD"
+  | "ACH"
+  | "APPLE_PAY"
+  | "PAYPAL"
+  | "FIAT_WALLET"
+  | "CRYPTO_WALLET";
+export interface CreateOnrampMobileChallengeRequest {
+  /** The ticker (e.g. `BTC`, `USDC`, `SOL`) or the Coinbase UUID (e.g. `d85dce9b-5b73-5c3c-8978-522ce1d1c1b4`) of the crypto asset to be purchased. Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported purchase currencies for your user's location. */
+  purchaseCurrency: string;
+  /** The name of the crypto network the purchased currency will be sent on. Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported networks for your user's location. */
+  destinationNetwork: string;
+  /** The address the purchased crypto will be sent to. */
+  destinationAddress: string;
+  /** A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using this parameter, the returned quote will be inclusive of fees i.e. the user will pay this exact amount of the payment currency. */
+  paymentAmount?: string | undefined;
+  /** A string representing the amount of crypto the user wishes to purchase. When using this parameter, the returned quote will be exclusive of fees i.e. the user will receive this exact amount of the purchase currency. */
+  purchaseAmount?: string | undefined;
+  /** The fiat currency to be converted to crypto. */
+  paymentCurrency?: string | undefined;
+  paymentMethod?: OnrampQuotePaymentMethodTypeId | (string & {}) | undefined;
+  /** The ISO 3166-1 two letter country code (e.g. US). */
+  country?: string | undefined;
+  /** The ISO 3166-2 two letter state code (e.g. NY). Only required for US. */
+  subdivision?: string | undefined;
+  /** URI to redirect the user to after they complete or dismiss the transaction. Embedded in the returned onramp URL as a query parameter. */
+  redirectUrl: string;
+  /** The IP address of the end user requesting the onramp transaction. */
+  clientIp?: string | undefined;
+  /** A unique string that represents the user in your app. This can be used to link individual transactions together so you can retrieve the transaction history for your users. Prefix this string with "sandbox-" (e.g. "sandbox-user-1234") to perform a sandbox transaction which will allow you to test your integration without any real transfer of funds. This value can be used with the [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user. */
+  partnerUserRef?: string | undefined;
+}
+/** A server-issued challenge for platform attestation in an App2App onramp handoff. */
+export interface OnrampMobileChallenge {
+  /** An opaque server-issued token to be used with platform attestation (iOS App Attest or Android Play Integrity Standard). Treat it as an opaque string -- do not attempt to parse its contents. Pass this value along with the attestation payload to the [Create Onramp Mobile Session](#operation/createOnrampMobileSession) endpoint to complete the App2App handoff. **iOS**: pass this value directly to `DCAppAttestService.generateAssertion(keyId, clientDataHash: SHA256(challenge))`. **Android**: compute `requestHash = base64url(SHA256(challenge))` and pass it to `StandardIntegrityManager.requestToken(requestHash)`. */
+  challenge: string;
+  /** The time at which the challenge expires. Challenges are short-lived; submit the attestation to [Create Onramp Mobile Session](#operation/createOnrampMobileSession) before this time or request a new challenge. */
+  expiresAt: string;
+}
+/** iOS App Attest assertion payload for verifying a signed challenge. */
+export interface IosAssertionPayload {
+  /** The key identifier of the iOS App Attest key previously registered via the attestation registration endpoint. This is the `keyId` returned by `DCAppAttestService.generateKey()`. */
+  keyId: string;
+  /** Base64-encoded App Attest assertion generated by `DCAppAttestService.generateAssertion(keyId, clientDataHash: SHA256(challenge))`. */
+  assertion: string;
+}
+/** Android Play Integrity Standard API payload for verifying a signed challenge. */
+export interface AndroidIntegrityPayload {
+  /** Play Integrity token (JWT) obtained from `StandardIntegrityManager.requestToken()`, proving this request originates from a genuine, unmodified installation of the partner app. The token must have been requested with `requestHash = base64url(SHA256(challenge))`, where `challenge` is the opaque token issued by the [Create Onramp Mobile Challenge](#operation/createOnrampMobileChallenge) endpoint. */
+  integrityToken: string;
+}
+export interface CreateOnrampMobileSessionRequest {
+  /** The challenge returned by the [Create Onramp Mobile Challenge](#operation/createOnrampMobileChallenge) endpoint. Must be passed back exactly as received -- do not decode or modify. */
+  challenge: string;
+  ios?: IosAssertionPayload | undefined;
+  android?: AndroidIntegrityPayload | undefined;
+}
+/** An onramp session containing a ready-to-use onramp URL. */
+export interface OnrampSession {
+  /** Ready-to-use onramp URL. */
+  onrampUrl: string;
+}
+export interface CreateOnrampMobileSessionResponse {
+  session: OnrampSession;
 }
 /** The type of payment method to be used to complete an onramp order. */
 export type OnrampOrderPaymentMethodTypeId =
@@ -1549,44 +1780,44 @@ export type OnrampOrderPaymentMethodTypeId =
   | "GUEST_CHECKOUT_GOOGLE_PAY";
 export interface CreateOnrampOrderRequest {
   /** The timestamp of when the user acknowledged that by using Coinbase Onramp they are accepting the Coinbase Terms (https://www.coinbase.com/legal/guest-checkout/us), User Agreement (https://www.coinbase.com/legal/user_agreement), and Privacy Policy (https://www.coinbase.com/legal/privacy). */
-  agreementAcceptedAt?: string;
+  agreementAcceptedAt?: string | undefined;
   /** The address the purchased crypto will be sent to. */
   destinationAddress: string;
   /** The name of the crypto network the purchased currency will be sent on. Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported networks for your user's location. */
   destinationNetwork: string;
   /** The verified email address of the user requesting the onramp transaction. This email must be verified by your app (via OTP) before being used with the Onramp API. */
-  email?: string;
+  email?: string | undefined;
   /** If true, this API will return a quote without creating any transaction. */
-  isQuote?: boolean;
+  isQuote?: boolean | undefined;
   /** Optional partner order reference ID. */
-  partnerOrderRef?: string;
+  partnerOrderRef?: string | undefined;
   /** A unique string that represents the user in your app. This can be used to link individual transactions together so you can retrieve the transaction history for your users. Prefix this string with "sandbox-" (e.g. "sandbox-user-1234") to perform a sandbox transaction which will allow you to test your integration without any real transfer of funds. This value can be used with the [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user. */
   partnerUserRef: string;
   /** A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using this parameter, the returned quote will be inclusive of fees i.e. the user will pay this exact amount of the payment currency. */
-  paymentAmount?: string;
+  paymentAmount?: string | undefined;
   /** The fiat currency to be converted to crypto. */
   paymentCurrency: string;
   paymentMethod: OnrampOrderPaymentMethodTypeId | (string & {});
   /** The phone number of the user requesting the onramp transaction in E.164 format. This phone number must be verified by your app (via OTP) before being used with the Onramp API. Please refer to the [Onramp docs](https://docs.cdp.coinbase.com/onramp/headless-onramp/overview) for more details on phone number verification requirements and best practices. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Timestamp of when the user's phone number was verified via OTP. User phone number must be verified every 60 days. If this timestamp is older than 60 days, an error will be returned. */
-  phoneNumberVerifiedAt?: string;
+  phoneNumberVerifiedAt?: string | undefined;
   /** The SMS verification ID returned by the Submit Onramp Verification endpoint after verifying the user's phone number. When provided, Onramp validates the server-side verification record instead of trusting `phoneNumberVerifiedAt`. */
-  smsVerificationId?: string;
+  smsVerificationId?: string | undefined;
   /** The email verification ID returned by the Submit Onramp Verification endpoint after verifying the user's email address. */
-  emailVerificationId?: string;
+  emailVerificationId?: string | undefined;
   /** A string representing the amount of crypto the user wishes to purchase. When using this parameter the returned quote will be exclusive of fees i.e. the user will receive this exact amount of the purchase currency. */
-  purchaseAmount?: string;
+  purchaseAmount?: string | undefined;
   /** The ticker (e.g. `BTC`, `USDC`, `SOL`) or the Coinbase UUID (e.g. `d85dce9b-5b73-5c3c-8978-522ce1d1c1b4`) of the crypto asset to be purchased. Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported purchase currencies for your user's location. */
   purchaseCurrency: string;
   /** The IP address of the end user requesting the onramp transaction. */
-  clientIp?: string;
+  clientIp?: string | undefined;
   /** The domain that the Apple Pay or Google Pay button will be rendered on. Required when using the `GUEST_CHECKOUT_APPLE_PAY` or `GUEST_CHECKOUT_GOOGLE_PAY` payment method and embedding the payment link in an iframe. Omit this field entirely for mobile iOS Apple Pay via WebView integration. */
-  domain?: string;
+  domain?: string | undefined;
   /** Optional [BCP-47](https://www.rfc-editor.org/info/bcp47) locale tag (e.g. `es-ES`, `pt-BR`, `en`) used to localize the hosted payment page. When provided, it is appended to the returned `paymentLink` URL and mapped to the closest locale supported by the Apple Pay and Google Pay buttons; unsupported locales fall back to the user's browser language. Any well-formed BCP-47 tag is accepted. */
-  locale?: string;
+  locale?: string | undefined;
   /** Optional. A reusable token returned by a previous verified order. When provided, a returning user checking out to the same wallet is taken straight to the pay button, skipping OTP (best-effort -- an invalid, expired, or different-wallet token still requires verification). */
-  userAuthToken?: string;
+  userAuthToken?: string | undefined;
 }
 /** The type of fee. */
 export type OnrampOrderFeeType = "FEE_TYPE_NETWORK" | "FEE_TYPE_EXCHANGE";
@@ -1634,13 +1865,15 @@ export interface OnrampOrder {
   destinationNetwork: string;
   status: OnrampOrderStatus;
   /** The transaction hash of the order (only available once crypto has been sent). */
-  txHash?: string;
+  txHash?: string | undefined;
   /** The date and time the order was created. */
   createdAt: string;
   /** The date and time the order was last updated. */
   updatedAt: string;
   /** The partner user reference ID. */
-  partnerUserRef?: string;
+  partnerUserRef?: string | undefined;
+  /** The Onramp-issued identifier of the end partner this order was scoped to via the X-Onramp-Partner-Id header. Only present for orders created by an aggregator on behalf of a registered end partner. */
+  partnerId?: string | undefined;
 }
 /** The type of payment link. */
 export type OnrampPaymentLinkType =
@@ -1655,18 +1888,10 @@ export interface OnrampPaymentLink {
 }
 export interface CreateOnrampOrderResponse {
   order: OnrampOrder;
-  paymentLink?: OnrampPaymentLink;
+  paymentLink?: OnrampPaymentLink | undefined;
   /** Present for embedded orders once the user has verified. Store this and pass it on future orders for the same user to skip OTP verification. Valid for 60 days. */
-  userAuthToken?: string;
+  userAuthToken?: string | undefined;
 }
-/** The type of payment method used to generate the onramp quote. */
-export type OnrampQuotePaymentMethodTypeId =
-  | "CARD"
-  | "ACH"
-  | "APPLE_PAY"
-  | "PAYPAL"
-  | "FIAT_WALLET"
-  | "CRYPTO_WALLET";
 export interface CreateOnrampSessionRequest {
   /** The ticker (e.g. `BTC`, `USDC`, `SOL`) or the Coinbase UUID (e.g. `d85dce9b-5b73-5c3c-8978-522ce1d1c1b4`) of the crypto asset to be purchased. Use the [Onramp Buy Options API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-buy-options) to discover the supported purchase currencies for your user's location. */
   purchaseCurrency: string;
@@ -1675,27 +1900,22 @@ export interface CreateOnrampSessionRequest {
   /** The address the purchased crypto will be sent to. */
   destinationAddress: string;
   /** A string representing the amount of fiat the user wishes to pay in exchange for crypto. When using this parameter, the returned quote will be inclusive of fees i.e. the user will pay this exact amount of the payment currency. */
-  paymentAmount?: string;
+  paymentAmount?: string | undefined;
   /** A string representing the amount of crypto the user wishes to purchase. When using this parameter, the returned quote will be exclusive of fees i.e. the user will receive this exact amount of the purchase currency. */
-  purchaseAmount?: string;
+  purchaseAmount?: string | undefined;
   /** The fiat currency to be converted to crypto. */
-  paymentCurrency?: string;
-  paymentMethod?: OnrampQuotePaymentMethodTypeId | (string & {});
+  paymentCurrency?: string | undefined;
+  paymentMethod?: OnrampQuotePaymentMethodTypeId | (string & {}) | undefined;
   /** The ISO 3166-1 two letter country code (e.g. US). */
-  country?: string;
+  country?: string | undefined;
   /** The ISO 3166-2 two letter state code (e.g. NY). Only required for US. */
-  subdivision?: string;
+  subdivision?: string | undefined;
   /** URI to redirect the user to after they complete or dismiss the transaction. Embedded in the returned onramp URL as a query parameter. */
-  redirectUrl?: string;
+  redirectUrl?: string | undefined;
   /** The IP address of the end user requesting the onramp transaction. */
-  clientIp?: string;
+  clientIp?: string | undefined;
   /** A unique string that represents the user in your app. This can be used to link individual transactions together so you can retrieve the transaction history for your users. Prefix this string with "sandbox-" (e.g. "sandbox-user-1234") to perform a sandbox transaction which will allow you to test your integration without any real transfer of funds. This value can be used with the [Onramp User Transactions API](https://docs.cdp.coinbase.com/api-reference/rest-api/onramp-offramp/get-onramp-transactions-by-id) to retrieve all transactions created by the user. */
-  partnerUserRef?: string;
-}
-/** An onramp session containing a ready-to-use onramp URL. */
-export interface OnrampSession {
-  /** Ready-to-use onramp URL. */
-  onrampUrl: string;
+  partnerUserRef?: string | undefined;
 }
 /** The fees associated with the quote. */
 export type OnrampQuoteFeesList = Array<OnrampOrderFee>;
@@ -1720,14 +1940,14 @@ export interface OnrampQuote {
 }
 export interface CreateOnrampSessionResponse {
   session: OnrampSession;
-  quote?: OnrampQuote;
+  quote?: OnrampQuote | undefined;
 }
 /** Compliance context for a payment session request. Extends the base Compliance schema with buyer information required for travel rule obligations. This object is request-only -- it is never echoed back in responses. */
 export interface PaymentSessionCompliance {
   /** IPv4 or IPv6 address of the individual (i.e., end-customer) that initiated this request. NOT the IP of the partner server making the API call. */
-  requesterIpAddress?: string;
+  requesterIpAddress?: string | undefined;
   /** Information about the person paying. Required by some entity configurations to meet regulatory requirements for fund transfers. When required, omitting this field or leaving required sub-fields empty returns a 400 listing the specific fields needed. */
-  buyer?: Person;
+  buyer?: Person | undefined;
 }
 export interface CreatePaymentSessionRequest {
   /** A decimal representation of the payment amount, denominated in `asset`. */
@@ -1736,16 +1956,16 @@ export interface CreatePaymentSessionRequest {
   asset: string;
   /** The target of the payment session. */
   target: PaymentSessionTarget;
-  expiries?: PaymentExpiries;
-  redirect?: PaymentRedirect;
+  expiries?: PaymentExpiries | undefined;
+  redirect?: PaymentRedirect | undefined;
   /** When true, a capture is automatically created after a successful authorization. When false or omitted, the merchant must create captures manually via the captures endpoint. */
-  autoCapture?: boolean;
+  autoCapture?: boolean | undefined;
   /** A merchant-provided internal identifier for this payment session, from the merchant's own system--not visible to the payer. It must not contain personally identifiable information (PII) or payment credentials. */
-  externalReferenceId?: string;
-  customerDisplay?: CustomerDisplay;
-  metadata?: Metadata;
+  externalReferenceId?: string | undefined;
+  customerDisplay?: CustomerDisplay | undefined;
+  metadata?: Metadata | undefined;
   /** Compliance context for this payment session. Carries buyer information required by some entity configurations to meet regulatory requirements. */
-  compliance?: PaymentSessionCompliance;
+  compliance?: PaymentSessionCompliance | undefined;
 }
 /** The scope of the policy. */
 export type CreatePolicyRequestScope = "project" | "account";
@@ -1792,13 +2012,13 @@ export type AbiParameterComponentsList = Array<AbiParameter>;
 /** Parameter definition for ABI functions, errors, and constructors. */
 export interface AbiParameter {
   /** The name of the parameter. */
-  name?: string;
+  name?: string | undefined;
   /** The canonical type of the parameter. */
   type: string;
   /** The internal Solidity type used by the compiler. */
-  internalType?: string;
+  internalType?: string | undefined;
   /** Used for tuple types. */
-  components?: AbiParameterComponentsList;
+  components?: AbiParameterComponentsList | undefined;
 }
 /** The list of ABI parameters used for this function. */
 export type AbiFunctionInputsList = Array<AbiParameter>;
@@ -1817,12 +2037,12 @@ export interface AbiFunction {
   /** The values returned by this function. */
   outputs: AbiFunctionOutputsList;
   /** Deprecated. Use pure or view from stateMutability instead. */
-  constant?: boolean;
+  constant?: boolean | undefined;
   /** Deprecated. Use payable or nonpayable from `stateMutability` instead. */
-  payable?: boolean;
+  payable?: boolean | undefined;
   stateMutability: AbiStateMutability | (string & {});
   /** Deprecated. Vyper used to provide gas estimates. */
-  gas?: number;
+  gas?: number | undefined;
 }
 /** The type of the ABI item. */
 export type AbiInputType = "constructor" | "error" | "event" | "fallback" | "receive";
@@ -1831,7 +2051,7 @@ export interface AbiInput {
   /** The type of the ABI item. */
   type: AbiInputType | (string & {});
   /** For additional information on the ABI JSON specification, see [the Solidity documentation](https://docs.soliditylang.org/en/latest/abi-spec.html#json). */
-  additionalProperties?: unknown;
+  additionalProperties?: unknown | undefined;
 }
 export type AbiItem = AbiFunction | AbiInput;
 /** Contract ABI Specification following Solidity's external JSON interface format. */
@@ -1869,7 +2089,7 @@ export interface EvmDataCondition {
   /** The name of a smart contract function being called. */
   function: string;
   /** An optional list of parameter conditions to apply against encoded arguments in the transaction's `data` field. */
-  params?: EvmDataConditionParamsList;
+  params?: EvmDataConditionParamsList | undefined;
 }
 /** A list of conditions to apply against the function and encoded arguments in the transaction's `data` field. Each condition must be met in order for this policy to be accepted or rejected. */
 export type EvmDataCriterionConditionsList = Array<EvmDataCondition>;
@@ -1969,7 +2189,7 @@ export type EvmMessageCriterionType = "evmMessage";
 /** A schema for specifying a criterion for the message being signed. */
 export interface EvmMessageCriterion {
   /** The type of criterion to use. This should be `evmMessage`. */
-  type: EvmMessageCriterionType | (string & {});
+  type: EvmMessageCriterionType;
   /** A regular expression the message is matched against. Accepts valid regular expression syntax described by [RE2](https://github.com/google/re2/wiki/Syntax). */
   match: string;
 }
@@ -1990,9 +2210,9 @@ export type SignEvmTypedDataRuleOperation = "signEvmTypedData";
 export type SignEvmTypedDataFieldCriterionType = "evmTypedDataField";
 export interface SignEvmTypedDataFieldCriterionTypesTypesValueItem {
   /** The name of a key within an EIP-712 data structure. */
-  name?: string;
+  name?: string | undefined;
   /** The Solidity type of a value within an EIP-712 data structure. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Object containing names and types for fields within structured data. */
 export type SignEvmTypedDataFieldCriterionTypesTypesValueList =
@@ -2174,9 +2394,9 @@ export interface IdlInstructionsItemAccountsItem {
   /** The account name. */
   name: string;
   /** Whether the account is writable. */
-  writable?: boolean;
+  writable?: boolean | undefined;
   /** Whether the account must be a signer. */
-  signer?: boolean;
+  signer?: boolean | undefined;
 }
 /** Optional list of accounts required by the instruction. */
 export type IdlInstructionsItemAccountsList = Array<IdlInstructionsItemAccountsItem>;
@@ -2188,18 +2408,18 @@ export interface IdlInstructionsItem {
   /** List of instruction arguments. */
   args: IdlInstructionsItemArgsList;
   /** Optional list of accounts required by the instruction. */
-  accounts?: IdlInstructionsItemAccountsList;
+  accounts?: IdlInstructionsItemAccountsList | undefined;
 }
 /** List of program instructions. */
 export type IdlInstructionsList = Array<IdlInstructionsItem>;
 /** Optional metadata about the IDL. */
 export interface IdlMetadata {
   /** The program name. */
-  name?: string;
+  name?: string | undefined;
   /** The program version. */
-  version?: string;
+  version?: string | undefined;
   /** The IDL specification version. */
-  spec?: string;
+  spec?: string | undefined;
 }
 /** Optional type definitions for custom data structures used in the program. */
 export type IdlTypesList = Array<unknown>;
@@ -2210,9 +2430,9 @@ export interface Idl {
   /** List of program instructions. */
   instructions: IdlInstructionsList;
   /** Optional metadata about the IDL. */
-  metadata?: IdlMetadata;
+  metadata?: IdlMetadata | undefined;
   /** Optional type definitions for custom data structures used in the program. */
-  types?: IdlTypesList;
+  types?: IdlTypesList | undefined;
 }
 export type SolDataCriterionIdlsItem = KnownIdlType | Idl;
 /** List of IDL specifications. Can contain known program names (strings) or custom IDL objects. */
@@ -2250,7 +2470,7 @@ export interface SolDataCondition {
   /** The instruction name. */
   instruction: string;
   /** Parameter conditions for the instruction. */
-  params?: SolDataConditionParamsList;
+  params?: SolDataConditionParamsList | undefined;
 }
 /** A list of conditions to apply against the transaction instruction. Only one condition must evaluate to true for this criterion to be met. */
 export type SolDataCriterionConditionsList = Array<SolDataCondition>;
@@ -2345,7 +2565,7 @@ export type SolMessageCriterionType = "solMessage";
 /** The criterion for the message of a Solana transaction. */
 export interface SolMessageCriterion {
   /** The type of criterion to use. This should be `solMessage`. */
-  type: SolMessageCriterionType | (string & {});
+  type: SolMessageCriterionType;
   /** A regular expression the field is matched against. */
   match: string;
 }
@@ -2639,18 +2859,26 @@ export interface CreatePolicyRequest {
   /** The scope of the policy. */
   scope: CreatePolicyRequestScope | (string & {});
   /** An optional human-readable description for the policy. Policy descriptions can consist of alphanumeric characters, spaces, commas, and periods, and be 50 characters or less. */
-  description?: string;
+  description?: string | undefined;
   rules: PolicyRules;
 }
 /** The scope of the policy. Only one project-level policy can exist at any time. */
 export type PolicyScope = "project" | "account";
+/** The current evaluation status of the policy. */
+export type PolicyStatus = "active" | "paused";
 export interface Policy {
   /** The unique identifier for the policy. */
   id: string;
   /** An optional human-readable description of the policy. Policy descriptions can consist of alphanumeric characters, spaces, commas, and periods, and be 50 characters or less. */
-  description?: string;
+  description?: string | undefined;
   /** The scope of the policy. Only one project-level policy can exist at any time. */
   scope: PolicyScope;
+  /** The current evaluation status of the policy. */
+  status?: PolicyStatus | undefined;
+  /** When the policy was paused. Present only when status is paused. */
+  pausedAt?: string | undefined;
+  /** When a paused policy resumes automatically. Absent for an indefinite pause. */
+  resumeAt?: string | undefined;
   rules: PolicyRules;
   /** The ISO 8601 timestamp at which the Policy was created. */
   createdAt: string;
@@ -2659,9 +2887,9 @@ export interface Policy {
 }
 export interface CreateSolanaAccountRequest {
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all Solana accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the account-level policy to apply to the account. */
-  accountPolicy?: string;
+  accountPolicy?: string | undefined;
 }
 /** The list of policy IDs that apply to the account. This will include both the project-level policy and the account-level policy, if one exists. */
 export type SolanaAccountPoliciesList = Array<string>;
@@ -2669,13 +2897,13 @@ export interface SolanaAccount {
   /** The base58 encoded Solana address. */
   address: string;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names are guaranteed to be unique across all Solana accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The list of policy IDs that apply to the account. This will include both the project-level policy and the account-level policy, if one exists. */
-  policies?: SolanaAccountPoliciesList;
+  policies?: SolanaAccountPoliciesList | undefined;
   /** The ISO 8601 UTC timestamp at which the account was created. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The ISO 8601 UTC timestamp at which the account was last updated. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** The network the spend permission is on. */
 export type SpendPermissionNetwork =
@@ -2704,11 +2932,51 @@ export interface CreateSpendPermissionRequest {
   /** The expiration time for this spend permission, in Unix seconds. */
   end: string;
   /** An arbitrary salt to differentiate unique spend permissions with otherwise identical data. */
-  salt?: string;
+  salt?: string | undefined;
   /** Arbitrary data to include in the permission. */
-  extraData?: string;
+  extraData?: string | undefined;
   /** The paymaster URL of the spend permission. */
-  paymasterUrl?: string;
+  paymasterUrl?: string | undefined;
+}
+/** Display details supplied for the hosted Top-Up page. Only the merchant name is supported. Unrecognized fields are allowed and ignored. */
+export interface TopUpCustomerDisplayInput {
+  /** The merchant name to display on the hosted Top-Up page. The limit counts Unicode code points in the supplied value, including surrounding whitespace. Surrounding whitespace is removed before storage. When omitted or empty after trimming, the entity's profile name is used. */
+  merchantName?: string | undefined;
+}
+export interface CreateTopUpLinkRequest {
+  /** The merchant-provided initial suggested net amount to add, denominated in `asset`. The suggestion remains fixed on the created link and is not recomputed from `orderTotalAmount` or the payer's current available balance. The payer can adjust the amount they add in the hosted flow. Fiat fees are outside this value. Positive and nonzero, with at most two fractional digits. */
+  topUpAmount: unknown;
+  /** The total balance, denominated in `asset`, that the merchant expects the payer to need to complete the order. When supplied, the hosted Top-Up page shows the order total and the payer's current available balance, and computes the remaining shortfall from those values. This live shortfall is presentation context: it is separate from `topUpAmount` and does not replace, change, or limit that fixed suggestion. */
+  orderTotalAmount?: unknown | undefined;
+  /** The asset credited by the Top-Up Link. Currently, only `usdc` is supported. */
+  asset: unknown;
+  /** Optional absolute HTTPS URL to which the payer is redirected after the top-up completes. The URL's origin must exactly match one of the entity's configured allowed origins: the HTTPS scheme, hostname (case-insensitive), and effective port (with the default HTTPS port normalized to `443`) are compared, while the path, query, and fragment are ignored. Wildcard or suffix/subdomain matching is not supported. Existing query parameters and the fragment are preserved. The URL must not contain a percent-decoded query key exactly equal to `toppedUpAmount`; every occurrence is rejected, including duplicates, while other casing is allowed. This value can contain sensitive merchant parameters; treat it as secret and do not log it. */
+  redirectUrl?: string | undefined;
+  customerDisplay?: TopUpCustomerDisplayInput | undefined;
+}
+/** Display details resolved at creation and stored on the immutable Top-Up Link. These details are returned in the create response and creation webhook. */
+export interface TopUpCustomerDisplay {
+  /** The stored merchant name displayed on the hosted Top-Up page. This is the supplied name with surrounding whitespace removed, or the entity's profile name when no nonempty override was supplied. The stored name does not change when the entity's profile changes. The supplied-name length limit does not constrain the profile-name fallback. */
+  merchantName: string;
+}
+/** A shareable link that lets a payer add funds to their balance through a hosted Top-Up flow. The resource is immutable once created. The link expires 24 hours after creation and funds a single purchase: once a purchase succeeds, the link is spent and cannot be used again. A purchase that fails does not consume the link, so the payer can retry until it expires. A link is not bound to a specific payer. `orderTotalAmount` and `redirectUrl` are omitted from the response when they were not supplied at creation; they are never returned as null. `customerDisplay` contains the resolved merchant name stored at creation, including the entity's profile name when no nonempty override was supplied. The response and creation webhook always include `customerDisplay` and its `merchantName`. */
+export interface TopUpLink {
+  topUpLinkId: string;
+  /** The merchant-provided initial suggested net amount to add for the link's single purchase, denominated in `asset`. The suggestion remains fixed on the link and is not recomputed from `orderTotalAmount` or the payer's current available balance. The payer can adjust the amount they add in the hosted flow. Fiat fees are outside this value. */
+  topUpAmount: unknown;
+  /** The asset credited by the Top-Up Link. Currently, only `usdc` is supported. */
+  asset: unknown;
+  /** The total balance, denominated in `asset`, that the merchant expects the payer to need to complete the order, as supplied at creation. When present, the hosted Top-Up page shows the order total and the payer's current available balance, and computes the remaining shortfall from those values. This live shortfall is separate from `topUpAmount` and does not replace or change that fixed suggestion. It does not limit the amount the payer can add. Omitted when not supplied at creation. */
+  orderTotalAmount?: unknown | undefined;
+  /** The absolute HTTPS URL to which the payer is redirected after the top-up completes, as supplied at creation. Omitted when not supplied at creation. This value can contain sensitive merchant parameters; treat it as secret and do not log it. */
+  redirectUrl?: string | undefined;
+  customerDisplay: TopUpCustomerDisplay;
+  /** The hosted Top-Up page URL. Share this URL only with the intended payer. The URL identifies the Top-Up Link but does not authorize a purchase; the payer must authenticate and approve the purchase. */
+  topUpUrl: string;
+  /** The UTC ISO 8601 timestamp after which the link can no longer be used, 24 hours after creation. A link that has already funded a purchase is spent before this time. */
+  expiresAt: string;
+  /** The UTC ISO 8601 timestamp at which the Top-Up Link was created. */
+  createdAt: string;
 }
 /** The Payment Method specific details for the transfer. */
 export interface PaymentMethod {
@@ -2731,56 +2999,56 @@ export type CreateTransferRequestAmountType = "target" | "source";
 /** Information about the originating Virtual Asset Service Provider (VASP) that handles cryptocurrency or other virtual assets on behalf of customers. */
 export interface TravelRuleOriginatorVirtualAssetServiceProvider {
   /** The Legal Entity Identifier of the originating Virtual Asset Service Provider (VASP). */
-  identifier?: string;
+  identifier?: string | undefined;
   /** The name of the originating Virtual Asset Service Provider (VASP). */
-  name?: string;
+  name?: string | undefined;
   /** The address of the originating Virtual Asset Service Provider (VASP). */
-  address?: IndividualInputAddress;
+  address?: IndividualInputAddress | undefined;
 }
 /** Date of birth. */
 export interface DateOfBirth {
   /** Day of birth (01-31). */
-  day?: string;
+  day?: string | undefined;
   /** Month of birth (01-12). */
-  month?: string;
+  month?: string | undefined;
   /** Year of birth (four digits). */
-  year?: string;
+  year?: string | undefined;
 }
 /** Originator (sender) party. */
 export interface TravelRuleOriginator {
   /** Full name of the party. */
-  name?: string;
-  address?: IndividualInputAddress;
+  name?: string | undefined;
+  address?: IndividualInputAddress | undefined;
   /** Name of the financial institution. */
-  financialInstitution?: string;
+  financialInstitution?: string | undefined;
   /** Information about the originating Virtual Asset Service Provider (VASP) that handles cryptocurrency or other virtual assets on behalf of customers. */
-  virtualAssetServiceProvider?: TravelRuleOriginatorVirtualAssetServiceProvider;
+  virtualAssetServiceProvider?: TravelRuleOriginatorVirtualAssetServiceProvider | undefined;
   /** Personal identifier for travel rule compliance. For individuals: passport number, national ID, or driver's license. For institutions: LEI (Legal Entity Identifier). */
-  personalId?: string;
+  personalId?: string | undefined;
   /** Date of birth of the originator. Required by certain jurisdictions (such as Coinbase Luxembourg) to satisfy Travel Rule reporting obligations. */
-  dateOfBirth?: DateOfBirth;
+  dateOfBirth?: DateOfBirth | undefined;
 }
 /** The type of the beneficiary's wallet. */
 export type TravelRuleBeneficiaryWalletType = "custodial" | "self_custody";
 /** Beneficiary (receiver) party. */
 export interface TravelRuleBeneficiary {
   /** Full name of the party. */
-  name?: string;
-  address?: IndividualInputAddress;
+  name?: string | undefined;
+  address?: IndividualInputAddress | undefined;
   /** Name of the financial institution. */
-  financialInstitution?: string;
+  financialInstitution?: string | undefined;
   /** The type of the beneficiary's wallet. */
-  walletType?: TravelRuleBeneficiaryWalletType | (string & {});
+  walletType?: TravelRuleBeneficiaryWalletType | (string & {}) | undefined;
 }
 /** Required Travel Rule fields differ by region. These requirements are determined based on which Coinbase entity the customer has signed the service agreement for. */
 export interface TravelRule {
   /** Indicates whether the user attests that the receiving wallet belongs to them. */
-  isSelf?: boolean;
-  isIntermediary?: boolean;
+  isSelf?: boolean | undefined;
+  isIntermediary?: boolean | undefined;
   /** When `true`, you attest that the beneficiary's wallet ownership has been verified out-of-band. Instructs Coinbase to skip the wallet verification check for this transfer. **Only valid when `isIntermediary` is `true`.** You can only attest to the beneficiary's wallet ownership when your organization is acting as the originating VASP on behalf of your end customer, and Coinbase is acting as the intermediary VASP. Returns a `400` error if set to `true` when `isIntermediary` is `false` or omitted. */
-  attestVerifiedWalletOwnership?: boolean;
-  originator?: TravelRuleOriginator;
-  beneficiary?: TravelRuleBeneficiary;
+  attestVerifiedWalletOwnership?: boolean | undefined;
+  originator?: TravelRuleOriginator | undefined;
+  beneficiary?: TravelRuleBeneficiary | undefined;
 }
 export interface CreateTransferRequest {
   source: TransfersAccount;
@@ -2790,14 +3058,14 @@ export interface CreateTransferRequest {
   /** The symbol of the asset for the amount. This must be one of the assets of the source or target. */
   asset: string;
   /** Specifies whether the given amount is to be received by the target or taken from the source. - `target`: The transfer `target` receives the exact value specified in `amount`. Fees are added to the amount taken from the transfer `source`. - `source`: The transfer `target` receives the value specified in `amount`, minus any fees. */
-  amountType?: CreateTransferRequestAmountType | (string & {});
+  amountType?: CreateTransferRequestAmountType | (string & {}) | undefined;
   /** If true, validates the transfer without initiating it. If the request is valid, a 2xx will be returned. If the request is invalid, a 4xx error will be returned. The response will include an errorType, for e.g. invalid_target if the specified target cannot receive funds. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Whether to immediately execute the transfer. If false, the transfer will be created in quoted status and must be executed manually via the /execute endpoint. */
   execute: boolean;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** Travel Rule compliance information for this transfer. Required for transfers to external wallets above regulatory thresholds. Fields required differ by region and Coinbase contracting entity. */
-  travelRule?: TravelRule;
+  travelRule?: TravelRule | undefined;
 }
 /** The current status of the transfer, indicating what action you need to take next. Required when validateOnly is false. */
 export type TransferStatus = "quoted" | "processing" | "completed" | "failed";
@@ -2810,7 +3078,7 @@ export interface AchDepositSource {
   /** The company entry description from the ACH batch header record. */
   companyEntryDescription: string;
   /** The individual identification number from the ACH entry detail record. For Person-to-Person WEB credit Entries, this field is required and contains the name of the consumer Originator. Masked on webhook payloads. */
-  individualIdentificationNumber?: string;
+  individualIdentificationNumber?: string | undefined;
 }
 /** The Originator to Beneficiary Information (OBI) lines from the Fedwire message. Up to 4 lines, each up to 35 characters. Free-form and may contain identifying information about the originator. Masked on webhook payloads. */
 export type FedwireDepositSourceOriginatorToBeneficiaryList = Array<string>;
@@ -2825,7 +3093,7 @@ export interface FedwireDepositSource {
   /** The name of the originator. Masked on webhook payloads. */
   originatorName: string;
   /** The Originator to Beneficiary Information (OBI) lines from the Fedwire message. Up to 4 lines, each up to 35 characters. Free-form and may contain identifying information about the originator. Masked on webhook payloads. */
-  originatorToBeneficiary?: FedwireDepositSourceOriginatorToBeneficiaryList;
+  originatorToBeneficiary?: FedwireDepositSourceOriginatorToBeneficiaryList | undefined;
 }
 /** The source of the transfer. */
 export type TransferSource =
@@ -2859,13 +3127,13 @@ export type TransferFees = Array<TransferFee>;
 /** Captures estimated values for transfers where amounts can't be guaranteed (e.g., USDC -> EURC). The values in `estimate` are not modified after a transfer is executed. They are preserved as an immutable record of the original pre-execution snapshot. The actual executed values are populated in the `transfer` resource post-execution. */
 export interface TransferEstimate {
   /** The estimated exchange rate at the time this estimate was captured. */
-  exchangeRate?: TransferExchangeRate;
+  exchangeRate?: TransferExchangeRate | undefined;
   /** Estimated amount of the target asset that will be received, as a decimal string in standard unit denomination. */
-  targetAmount?: string;
+  targetAmount?: string | undefined;
   /** The asset symbol of the estimated target amount. */
-  targetAsset?: string;
+  targetAsset?: string | undefined;
   /** The estimated fees at the time this estimate was captured. */
-  fees?: TransferFees;
+  fees?: TransferFees | undefined;
   /** The date and time when this estimate was captured. */
   estimatedAt: string;
 }
@@ -2885,52 +3153,52 @@ export type TransferDetailsOnchainTransactionsList = Array<TransferDetailsOnchai
 export type TravelRuleStatus = "incomplete" | "completed";
 /** Travel rule compliance status for deposit transfers. Present when the transfer requires travel rule information. */
 export interface TransferDetailsTravelRule {
-  status?: TravelRuleStatus;
+  status?: TravelRuleStatus | undefined;
   /** Additional details about the current travel rule status. For example, when status is `incomplete`, this may indicate the specific missing information required to proceed. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
 }
 /** Additional details about the transfer. For example, if the transfer was sent to a deposit destination, the information about that destination will be included in this field. */
 export interface TransferDetails {
-  depositDestination?: DepositDestinationReference;
+  depositDestination?: DepositDestinationReference | undefined;
   /** The onchain transactions associated with the transfer. */
-  onchainTransactions?: TransferDetailsOnchainTransactionsList;
+  onchainTransactions?: TransferDetailsOnchainTransactionsList | undefined;
   /** Travel rule compliance status for deposit transfers. Present when the transfer requires travel rule information. */
-  travelRule?: TransferDetailsTravelRule;
+  travelRule?: TransferDetailsTravelRule | undefined;
 }
 /** A Transfer represents all the information needed to execute a transfer and tracks the lifecycle of a transfer from initiation through completion or failure. */
 export interface Transfer {
   /** The ID of the transfer. Required when validateOnly is false. */
-  transferId?: string;
-  status?: TransferStatus;
+  transferId?: string | undefined;
+  status?: TransferStatus | undefined;
   source: TransferSource;
   target: TransferTarget;
   /** The amount of the source asset that will be transferred out, as a decimal string in standard unit denomination. */
-  sourceAmount?: string;
+  sourceAmount?: string | undefined;
   /** The asset symbol of the source amount. */
-  sourceAsset?: string;
+  sourceAsset?: string | undefined;
   /** The amount of the target asset received, as a decimal string in standard unit denomination. May be omitted in the `quoted` state if the value cannot be guaranteed; see `estimate.targetAmount` for the expected value. Populated with the actual executed amount once the transfer completes. */
-  targetAmount?: string;
+  targetAmount?: string | undefined;
   /** The asset symbol of the target amount. */
-  targetAsset?: string;
+  targetAsset?: string | undefined;
   /** Exchange rate information for currency conversion. The rate indicates how much of the target asset is equivalent to one unit of the source asset. May be omitted in the `quoted` state if the rate cannot be guaranteed; see `estimate.exchangeRate` for the expected rate. Populated with the actual executed rate once the transfer completes. */
-  exchangeRate?: TransferExchangeRate;
+  exchangeRate?: TransferExchangeRate | undefined;
   /** The fees associated with this transfer. Different transfer types have different fee structures. May be omitted in the `quoted` state if the fees cannot be guaranteed; see `estimate.fees` for the expected fees. Populated with the actual fees once the transfer completes. */
-  fees?: TransferFees;
-  estimate?: TransferEstimate;
+  fees?: TransferFees | undefined;
+  estimate?: TransferEstimate | undefined;
   /** The date and time the transfer was completed. */
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** The reason for failure, if the transfer failed. Only present when status is `failed`. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** The date and time when this transfer will expire if not executed. Only present for `quoted` status. A new transfer must be created to obtain an updated quote after expiration. Required when validateOnly is false. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** The date and time the transfer was executed and moved to processing. Only present when status has progressed beyond `quoted`. */
-  executedAt?: string;
+  executedAt?: string | undefined;
   /** The date and time the transfer was created. Required when validateOnly is false. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The date and time the transfer was last updated. Required when validateOnly is false. */
-  updatedAt?: string;
-  metadata?: Metadata;
-  details?: TransferDetails;
+  updatedAt?: string | undefined;
+  metadata?: Metadata | undefined;
+  details?: TransferDetails | undefined;
 }
 /** A webhook event type identifier following dot-separated format: `<domain>.<entity>.<verb>` (e.g., "onchain.activity.detected"). */
 export type EventType =
@@ -2978,47 +3246,59 @@ export type EventType =
   | "acceptance.payment_session.void_pending"
   | "acceptance.payment_session.void_succeeded"
   | "acceptance.payment_session.void_failed"
+  | "acceptance.mandate.created"
+  | "acceptance.mandate.canceled"
+  | "acceptance.mandate.approval_initiated"
+  | "acceptance.mandate.approval_succeeded"
+  | "acceptance.mandate.approval_failed"
+  | "acceptance.mandate.revocation_initiated"
+  | "acceptance.mandate.revocation_succeeded"
+  | "acceptance.mandate.revocation_failed"
   | "acceptance.disbursement.pending"
   | "acceptance.disbursement.succeeded"
   | "acceptance.disbursement.failed"
+  | "acceptance.top_up_link.created"
+  | "acceptance.top_up_link.funds_added"
   | "health.status.updated"
   | "health.maintenance.scheduled"
   | "health.maintenance.started"
   | "health.maintenance.completed"
   | "health.maintenance.canceled"
   | "customers.capability.changed"
-  | "customers.customer.deleted";
+  | "customers.customer.deleted"
+  | "customers.requirement.changed";
 /** Types of events to subscribe to. Event types follow a dot-separated format: service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created", "acceptance.payment_session.authorization_succeeded"). The subscription will only receive events matching these types AND the label filter(s). */
 export type CreateWebhookSubscriptionRequestEventTypesList = Array<EventType | (string & {})>;
 /** Additional headers to include in webhook requests. */
 export type WebhookTargetHeadersMap = { [key: string]: string | undefined };
 /** Target configuration for webhook delivery. Specifies the destination URL and any custom headers to include in webhook requests. */
 export interface WebhookTarget {
-  /** The webhook URL to deliver events to. */
+  /** The webhook URL to deliver events to. Must be a publicly accessible HTTPS URL that responds to HEAD requests with a 200 status code. If the URL is not publicly accessible or doesn't respond to HEAD requests with a 200 status code, the URL will be rejected with a 400. */
   url: string;
   /** Additional headers to include in webhook requests. */
-  headers?: WebhookTargetHeadersMap;
+  headers?: WebhookTargetHeadersMap | undefined;
 }
 /** Optional subscription metadata. Up to 10 key/value pairs may be provided. Keys and values must each contain between 1 and 50 characters. */
 export type WebhookMetadata = { [key: string]: string | undefined };
 /** String-valued filters supplied when creating or updating a webhook subscription. The subscription's `eventTypes` determine whether labels are required and which label keys are accepted. A subscription accepts at most 20 client-supplied labels. #### Label Behavior An event must match ALL labels to fire to your subscription `targetURL`. When multiple labels are supplied, the event must match ALL labels to fire to your subscription `targetURL`. */
 export type WebhookRequestLabels = { [key: string]: string | undefined };
 export interface CreateWebhookSubscriptionRequest {
-  description?: string;
+  description?: string | undefined;
   /** Types of events to subscribe to. Event types follow a dot-separated format: service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created", "acceptance.payment_session.authorization_succeeded"). The subscription will only receive events matching these types AND the label filter(s). */
   eventTypes: CreateWebhookSubscriptionRequestEventTypesList;
   /** Whether the subscription is enabled. */
   isEnabled: boolean;
   target: WebhookTarget;
-  metadata?: WebhookMetadata;
-  labels?: WebhookRequestLabels;
+  metadata?: WebhookMetadata | undefined;
+  labels?: WebhookRequestLabels | undefined;
 }
 /** Types of events to subscribe to. Event types follow a dot-separated format: service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created", "acceptance.payment_session.authorization_succeeded"). */
 export type WebhookSubscriptionResponseEventTypesList = Array<EventType>;
 /** Additional metadata for the subscription. */
 export interface WebhookSubscriptionResponseMetadata {
   /** Use the root-level `secret` field instead. Maintained for backward compatibility only. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
+  [key: string]: unknown;
 }
 /** Effective filters stored on the webhook subscription. The response includes client-supplied labels plus labels defaulted or injected by the server. * `onchain.activity.detected`, `wallet.activity.detected`, and `wallet.activity.multi` include `network`. It defaults to `base-mainnet` when omitted from the request. * `wallet.activity.multi` includes the requested comma-separated `wallet_addresses`. * `health.*` includes the requested `service`. * Project-scoped events include the authenticated `project`. * Entity-scoped events include the authenticated `entity`. * User-scoped events include the authenticated `user_uuid` and a `sandbox` value. */
 export type WebhookResponseLabels = { [key: string]: string | undefined };
@@ -3027,20 +3307,20 @@ export interface WebhookSubscriptionResponse {
   /** When the subscription was created. */
   createdAt: string;
   /** When the subscription was last updated. */
-  updatedAt?: string;
-  description?: string;
+  updatedAt?: string | undefined;
+  description?: string | undefined;
   /** Types of events to subscribe to. Event types follow a dot-separated format: service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created", "acceptance.payment_session.authorization_succeeded"). */
   eventTypes: WebhookSubscriptionResponseEventTypesList;
   /** Whether the subscription is enabled. */
   isEnabled: boolean;
   /** Additional metadata for the subscription. */
-  metadata?: WebhookSubscriptionResponseMetadata;
+  metadata?: WebhookSubscriptionResponseMetadata | undefined;
   /** Secret for webhook signature validation. */
   secret: string | Redacted.Redacted<string>;
   /** Unique identifier for the subscription. */
   subscriptionId: string;
   target: WebhookTarget;
-  labels?: WebhookResponseLabels;
+  labels?: WebhookResponseLabels | undefined;
 }
 /** JSON-RPC version, must be "2.0". */
 export type CreateX402DiscoveryMcpRequestJsonrpc = "2.0";
@@ -3052,11 +3332,11 @@ export interface CreateX402DiscoveryMcpRequest {
   /** JSON-RPC version, must be "2.0". */
   jsonrpc: CreateX402DiscoveryMcpRequestJsonrpc | (string & {});
   /** Request identifier. */
-  id?: CreateX402DiscoveryMcpRequestId;
+  id?: CreateX402DiscoveryMcpRequestId | undefined;
   /** The MCP method to invoke. */
   method: string;
   /** Optional parameters for the method. */
-  params?: CreateX402DiscoveryMcpRequestParamsMap;
+  params?: CreateX402DiscoveryMcpRequestParamsMap | undefined;
 }
 /** JSON-RPC version. */
 export type X402McpResponseJsonrpc = "2.0";
@@ -3073,17 +3353,17 @@ export interface X402McpError {
   /** Error message. */
   message: string;
   /** Additional error data. */
-  data?: X402McpErrorDataMap;
+  data?: X402McpErrorDataMap | undefined;
 }
 /** A JSON-RPC 2.0 response for the Model Context Protocol. */
 export interface X402McpResponse {
   /** JSON-RPC version. */
   jsonrpc: X402McpResponseJsonrpc;
   /** Request identifier (matches the request ID, null for notifications). */
-  id?: X402McpResponseId | null;
+  id?: X402McpResponseId | null | undefined;
   /** The result of the method call (present on success). */
-  result?: X402McpResponseResultMap;
-  error?: X402McpError;
+  result?: X402McpResponseResultMap | undefined;
+  error?: X402McpError | undefined;
 }
 export interface DeleteCustomerRequest {
   /** The ID of the customer. */
@@ -3187,16 +3467,16 @@ export interface GetCustomerRequirementsRequest {
   /** The capabilities the hypothetical customer would request. Repeat the parameter to specify multiple capabilities, for example `capabilities=custodyCrypto&capabilities=transferCrypto`. */
   capabilities: GetCustomerRequirementsRequestCapabilitiesList;
   /** The hypothetical customer's country of residence. At least one of `countryCode` or `citizenship` is required. When both are present, `countryCode` takes precedence. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The hypothetical customer's citizenship. At least one of `countryCode` or `citizenship` is required. */
-  citizenship?: string;
+  citizenship?: string | undefined;
 }
 export type GetCustomerRequirementsResponse = RequirementsMap;
 export interface GetDelegationForEndUserRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
 }
 export interface GetDelegationForEndUserResponse {
   /** The date until which the delegation is valid. */
@@ -3208,7 +3488,7 @@ export interface GetDelegationForEndUserAccountRequest {
   /** The blockchain address of the end user account to query. For EVM addresses, matching is case-insensitive. */
   address: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
 }
 export interface GetDelegationForEndUserAccountResponse {
   /** The date until which the delegation is valid. */
@@ -3239,7 +3519,7 @@ export interface GetEvmBorrowProductRequest {
   /** The globally unique ID of the borrow product. */
   borrowProductId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
 }
 /** The name of the EVM network that a borrow product is deployed on. */
 export type BorrowProductNetwork = "base";
@@ -3348,10 +3628,10 @@ export interface EvmEip7702DelegationOperation {
   /** The current status of the delegation operation. UNSPECIFIED means the status has not been set. PENDING means the operation has been created but not yet submitted. SUBMITTED means the operation has been submitted to the network. COMPLETED means the operation has completed successfully. FAILED means the operation has failed. */
   status: EvmEip7702DelegationOperationStatus;
   /** The hash of the delegation transaction, if available. Present once the transaction has been submitted to the network. */
-  transactionHash?: string;
+  transactionHash?: string | undefined;
   network: EvmEip7702DelegationNetwork;
   /** The address the account has delegated to, if any. Only present when the account has an active delegation. */
-  delegateAddress?: string;
+  delegateAddress?: string | undefined;
 }
 export interface GetEvmSmartAccountRequest {
   /** The 0x-prefixed address of the Smart Account. */
@@ -3367,9 +3647,9 @@ export interface GetEvmSwapPriceRequest {
   fromToken: string;
   fromAmount: string;
   taker: string;
-  signerAddress?: string;
-  gasPrice?: string;
-  slippageBps?: number;
+  signerAddress?: string | undefined;
+  gasPrice?: string | undefined;
+  slippageBps?: number | undefined;
 }
 /** The estimated fees for the swap. */
 export type GetSwapPriceResponseFees = CreateSwapQuoteResponseFees;
@@ -3406,6 +3686,44 @@ export interface GetFoundationAccountByIdRequest {
   /** The ID of the account to retrieve. */
   accountId: string;
 }
+export interface GetMandateRequest {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+}
+export interface GetMandateApprovalRequest {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+  /** The unique identifier of the approval. */
+  approvalId: string;
+}
+export interface GetMandateRevocationRequest {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+  /** The unique identifier of the revocation. */
+  revocationId: string;
+}
+/** The status of a wallet revocation attempt: - `pending`: awaiting network confirmation. - `succeeded`: the spending allowance has been removed on-chain. - `failed`: the revocation did not complete (see `error`). */
+export type RevocationStatus = "pending" | "succeeded" | "failed";
+/** Network transactions that remove the spending allowance on-chain. Empty until the revocation has been submitted to the network. */
+export type RevocationOnchainTransactionsList = Array<OnchainTransaction>;
+/** A record of a wallet revocation: the customer removing the mandate's spending allowance on-chain (see `onchainTransactions`). While it is confirming, the mandate's `status` is `revocation_pending`; on success it becomes `revocation_succeeded` and the mandate's `revokedAt` is set, and on failure it becomes `revocation_failed`. This applies regardless of whether the mandate was previously canceled: a revocation on an already-canceled mandate still moves `status` through the `revocation_*` values and sets `revokedAt`. To check whether the spending allowance is still active, read the mandate: `revokedAt` is set once the allowance has been removed. */
+export interface Revocation {
+  /** The unique identifier of the revocation. */
+  revocationId: string;
+  /** The unique identifier of the mandate this revocation applies to. */
+  mandateId: string;
+  /** The current status of the revocation attempt. */
+  status: RevocationStatus;
+  /** Network transactions that remove the spending allowance on-chain. Empty until the revocation has been submitted to the network. */
+  onchainTransactions?: RevocationOnchainTransactionsList | undefined;
+  /** Details of why the revocation failed. Only present when `status` is `failed`. */
+  error?: PaymentError | undefined;
+  metadata?: Metadata | undefined;
+  /** The UTC ISO 8601 timestamp at which the revocation was created. */
+  createdAt: string;
+  /** The UTC ISO 8601 timestamp at which the revocation was last updated. */
+  updatedAt: string;
+}
 export interface GetOnrampOrderRequest {
   /** The ID of the onramp order to retrieve. */
   orderId: string;
@@ -3427,7 +3745,7 @@ export type OnrampLimitType = "weekly_spending" | "lifetime_transactions";
 export interface OnrampUserLimit {
   limitType: OnrampLimitType;
   /** The currency of the limit amounts. Only present for spending limits, not for count-based limits. */
-  currency?: string;
+  currency?: string | undefined;
   /** The maximum limit value. */
   limit: string;
   /** The remaining amount or count available. */
@@ -3468,7 +3786,7 @@ export interface GetOnrampUserLimitsResponse {
   /** The list of limits applicable to the user. */
   limits: GetOnrampUserLimitsResponseLimitsList;
   /** The user's limit upgrade status and associated upgrade details. Omitted when limit upgrades are not available for the calling app or user. Use the [Request Limit Upgrade](https://docs.cdp.coinbase.com/api-reference/v2/rest-api/onramp/request-limits-upgrade) endpoint to request a limit upgrade. */
-  limitUpgradeOptions?: GetOnrampUserLimitsResponseLimitUpgradeOptionsList;
+  limitUpgradeOptions?: GetOnrampUserLimitsResponseLimitUpgradeOptionsList | undefined;
 }
 export interface GetPaymentMethodRequest {
   /** The unique identifier of the payment method. */
@@ -3512,7 +3830,7 @@ export interface SwiftDetails {
   /** The last 4 characters of the account identifier. For IBAN-based accounts (e.g., EU), this is the last 4 characters of the IBAN. For account number-based accounts (e.g., US), this is the last 4 digits of the account number. */
   accountLast4: string;
   /** Deprecated: use `accountLast4` instead. The last 4 characters of the account identifier. */
-  ibanLast4?: string;
+  ibanLast4?: string | undefined;
   /** The Bank Identifier Code (BIC) / SWIFT code. */
   bic: string;
 }
@@ -3608,40 +3926,40 @@ export type GetSQLGrammarResponse = string;
 export type GetSQLSchemaRequestDatabase = "base" | "base_sepolia" | "solana" | "hyperevm";
 export interface GetSQLSchemaRequest {
   /** The name of the database to query. Defaults to "base" when not specified. */
-  database?: GetSQLSchemaRequestDatabase | (string & {});
+  database?: GetSQLSchemaRequestDatabase | (string & {}) | undefined;
   /** Get the schema for a specific table. */
-  table?: string;
+  table?: string | undefined;
 }
 /** Schema definition for a table column. */
 export interface OnchainDataColumnSchema {
   /** Column name. */
-  name?: string;
+  name?: string | undefined;
   /** Column data type. */
-  type?: string;
+  type?: string | undefined;
   /** Whether this column can contain NULL values. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** Human-readable description of the column. */
-  description?: string;
+  description?: string | undefined;
   /** The order of the column in the index. A lower number means the column is more important for the index and should be first in the query. */
-  indexOrder?: number;
+  indexOrder?: number | undefined;
 }
 /** Column definitions for this table. */
 export type OnchainDataTableSchemaColumnsList = Array<OnchainDataColumnSchema>;
 /** Schema definition for a data table. */
 export interface OnchainDataTableSchema {
   /** The blockchain network database this table belongs to. */
-  database?: string;
+  database?: string | undefined;
   /** Table name. */
-  table?: string;
+  table?: string | undefined;
   /** Column definitions for this table. */
-  columns?: OnchainDataTableSchemaColumnsList;
+  columns?: OnchainDataTableSchemaColumnsList | undefined;
 }
 /** List of available tables. */
 export type OnchainDataSchemaResponseTablesList = Array<OnchainDataTableSchema>;
 /** Schema information for available blockchain data tables. */
 export interface OnchainDataSchemaResponse {
   /** List of available tables. */
-  tables?: OnchainDataSchemaResponseTablesList;
+  tables?: OnchainDataSchemaResponseTablesList | undefined;
 }
 export interface GetTransferRequest {
   /** The unique identifier of the transfer. */
@@ -3661,7 +3979,179 @@ export interface GetUserOperationWithEndUserAccountRequest {
   /** The hash of the user operation to fetch. */
   userOpHash: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
+}
+export interface GetVaultRequest {
+  /** The ID of the vault to retrieve. */
+  vaultId: string;
+}
+/** The network on which the lend resource (catalog vault or vault) is deployed. */
+export type LendNetwork = "base";
+/** The lifecycle status of the vault. A vault is `pending` from creation until its deployment user operation succeeds onchain, then `active`. If the deployment user operation fails onchain, then the status is `failed`. */
+export type VaultStatus = "pending" | "active" | "failed";
+/** The current performance metrics of a vault. */
+export interface VaultMetrics {
+  /** The trailing 30-day net APY, in basis points, after all applicable performance fees. For example, `500` equates to 5%. Only present once sufficient history has been observed. */
+  apyBps?: number | undefined;
+  /** The time the APY metrics were last updated, in RFC 3339 format. Only present when `apyBps` is present. */
+  apyUpdatedAt?: string | undefined;
+  /** The total value locked in the vault, equivalent to the amount of funds deposited. It is expressed as a decimal string in standard unit denomination of the underlying asset. For example, `1000` equates to 1000 USDC. Only present once a TVL snapshot has been observed for the vault. */
+  tvl?: string | undefined;
+  /** The time the TVL metrics were last updated, in RFC 3339 format. Only present when `tvl` is present. */
+  tvlUpdatedAt?: string | undefined;
+}
+/** A vault created on top of a catalog vault. */
+export interface Vault {
+  vaultId: string;
+  /** The 0x-prefixed onchain address of the vault. The address is deterministic and known at creation; the vault deploys at this address once the deployment user operation is included onchain. */
+  address: string;
+  catalogVaultId: string;
+  /** Your performance fee, in basis points. CDP charges an additional fee equal to currently 10% (1000 bps) of your fee. */
+  performanceFeeBps: number;
+  /** The 0x-prefixed address that receives the vault's performance fees. */
+  feeRecipientAddress: string;
+  network: LendNetwork;
+  status: VaultStatus;
+  /** The time the vault was created, in RFC 3339 format. */
+  createdAt: string;
+  /** The symbol of the vault's underlying asset. */
+  underlyingAsset: string;
+  /** The vault's current metrics. Only present once at least one metrics snapshot has been observed for the vault. */
+  metrics?: VaultMetrics | undefined;
+}
+export type GetWalletApprovalOptionsRequestAddressesList = Array<string>;
+export interface GetWalletApprovalOptionsRequest {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+  /** The customer's wallet addresses to generate approval options for. Provide between 1 and 5 unique addresses, comma-separated (e.g. `?addresses=0xA,0xB`). Each returned option's `source.address` identifies which requested address it applies to. If a requested address has no eligible approval options, it appears in `ineligibleAddresses` with a `code` explaining why. */
+  addresses: GetWalletApprovalOptionsRequestAddressesList;
+  /** Optional filter to restrict options to a specific blockchain network. */
+  network?: PaymentSourceNetwork | (string & {}) | undefined;
+  /** Filter options by asset. Currently, only `usdc` and `usdt` return results. */
+  asset?: string | undefined;
+}
+/** The payload type. */
+export type EIP2612PayloadType = "eip2612";
+/** An EIP-2612 Permit typed-data payload. The payer must pass `data` to `eth_signTypedData_v4` and return the resulting signature. Used to set up a mandate's reusable credential; the permit stands in for a live per-authorization signature on later authorizations. */
+export interface EIP2612Payload {
+  /** The unique identifier of the payload. */
+  payloadId: string;
+  /** The payload type. */
+  type: EIP2612PayloadType;
+  /** EIP-712 typed data for an EIP-2612 Permit. Pass to `eth_signTypedData_v4`. */
+  data: EIP712Message;
+}
+/** The payload type. */
+export type Permit2AllowancePayloadType = "permit2";
+/** A Permit2 `PermitSingle` (AllowanceTransfer) typed-data payload. It grants the spender a reusable allowance through the canonical Permit2 contract, so it can back repeated charges rather than a single transfer. The payer must pass `data` to `eth_signTypedData_v4` and return the resulting signature. A one-time ERC-20 approval of the Permit2 contract (an `erc20_approval` payload) is required first if the wallet has not yet approved Permit2 for this asset. */
+export interface Permit2AllowancePayload {
+  /** The unique identifier of the payload. */
+  payloadId: string;
+  /** The payload type. */
+  type: Permit2AllowancePayloadType;
+  /** EIP-712 typed data for a Permit2 `PermitSingle`. Pass to `eth_signTypedData_v4`. */
+  data: EIP712Message;
+}
+/** The payload type. */
+export type Erc20ApprovalPayloadType = "erc20_approval";
+/** An EVM transaction object. Send via `eth_sendTransaction`. */
+export interface Erc20ApprovalPayloadData {
+  /** The EVM chain ID for the transaction. */
+  chainId: number;
+  /** The 0x-prefixed address of the ERC-20 token contract to approve. */
+  to: string;
+  /** The ABI-encoded `approve()` calldata. */
+  data: string;
+  /** The native token value to send (always `"0"` for approvals). */
+  value: string;
+  /** The estimated gas limit for the transaction. */
+  gas?: string | undefined;
+  /** The maximum fee per gas unit (EIP-1559). */
+  maxFeePerGas?: string | undefined;
+  /** The maximum priority fee per gas unit (EIP-1559). */
+  maxPriorityFeePerGas?: string | undefined;
+}
+/** An ERC-20 approval transaction payload. The payer must send `data` as an EVM transaction via `eth_sendTransaction` and return the resulting transaction hash. */
+export interface Erc20ApprovalPayload {
+  /** The unique identifier of the payload. */
+  payloadId: string;
+  /** The payload type. */
+  type: Erc20ApprovalPayloadType;
+  /** An EVM transaction object. Send via `eth_sendTransaction`. */
+  data: Erc20ApprovalPayloadData;
+}
+/** The payload type. */
+export type SolanaSubscriptionPayloadType = "solana_subscription";
+/** The unsigned Solana transaction the payer signs to approve or revoke a mandate on a Solana wallet source. Decode `transaction` and pass it to the Solana Wallet Standard `signTransaction` method. Submit only the extracted per-signer signature, not the signed transaction. */
+export interface SolanaSubscriptionPayloadData {
+  /** The unsigned Solana transaction, serialized to bytes and encoded as base64. Pass the decoded bytes to the Solana Wallet Standard `signTransaction` method. Do not POST this field (or the signed transaction bytes) as `OnchainSignedPayload.signature`. */
+  transaction: string;
+}
+/** An unsigned Solana transaction the payer must sign to approve or revoke a mandate on a Solana wallet source. Decode `data.transaction` from base64 and pass the bytes to the Solana Wallet Standard `signTransaction` method (never `signAndSendTransaction`). Do not submit the signed transaction bytes. From the signed transaction, take the 64-byte ed25519 signature for the payer that signed, base58-encode those 64 bytes, and return that string as `OnchainSignedPayload.signature`. */
+export interface SolanaSubscriptionPayload {
+  /** The unique identifier of the payload. */
+  payloadId: string;
+  /** The payload type. */
+  type: SolanaSubscriptionPayloadType;
+  data: SolanaSubscriptionPayloadData;
+}
+/** A single payload the customer signs to approve a mandate on a wallet source. Mandates support allowance-style credentials only, since a mandate must be reusable for later debits when the customer is not present. Inspect `type` to determine how to handle `data`: - `eip2612`: pass `data` to `eth_signTypedData_v4`, return the signature. - `permit2`: a Permit2 `PermitSingle` (AllowanceTransfer) granting a reusable allowance; pass `data` to `eth_signTypedData_v4`, return the signature. Preceded by a one-time `erc20_approval` of the Permit2 contract when the wallet has not yet approved Permit2 for this asset. - `erc20_approval`: send `data` via `eth_sendTransaction`, return the transaction hash. - `solana_subscription`: decode `data.transaction` from base64 and pass the bytes to the Solana Wallet Standard `signTransaction` method (never `signAndSendTransaction`). From the signed transaction, extract the 64-byte ed25519 signature for the payer that signed, base58-encode it, and return that string as `OnchainSignedPayload.signature`. Do not submit the signed transaction bytes. */
+export type ApprovalPayload =
+  | EIP2612Payload
+  | Permit2AllowancePayload
+  | Erc20ApprovalPayload
+  | SolanaSubscriptionPayload;
+/** The payloads the customer must sign to approve this source. */
+export type WalletMandateApprovalOptionPayloadsList = Array<ApprovalPayload>;
+/** An option for approving a mandate on a wallet source. Specifies the source (address, network, asset) and the payloads the customer must sign to approve the mandate on that source. */
+export interface WalletMandateApprovalOption {
+  /** The unique identifier of the wallet mandate approval option. */
+  optionId: string;
+  /** The source this option would attach to the mandate. */
+  source: MandateSourceWallet;
+  /** The payloads the customer must sign to approve this source. */
+  payloads: WalletMandateApprovalOptionPayloadsList;
+}
+/** The available wallet mandate approval options. */
+export type WalletMandateApprovalOptionsResponseOptionsList = Array<WalletMandateApprovalOption>;
+/** A machine-readable code indicating why this address has no eligible mandate approval option. The enum is closed; any value the server returns must be listed below. Adding a new code is a deliberate, coordinated API change; clients receiving an undocumented value should treat it as a server violating the spec. */
+export type IneligibleWalletMandateApprovalAddressesCode =
+  | "insufficient_funds"
+  | "superseded_by_preferred_option";
+/** Describes, for one enabled (network, asset) combination, what the customer would need to fund a source address with so that it becomes eligible to approve the mandate. Appears in the `fundsRequired` list of an ineligible address whose `code` is `insufficient_funds`. All amounts are human-readable decimal strings. */
+export interface WalletMandateApprovalFundsRequirement {
+  /** The symbol of the asset the customer would fund on this network. */
+  asset: string;
+  /** The blockchain network this funding requirement applies to. */
+  network: PaymentSourceNetwork;
+  /** A decimal representation of the address's current balance of `asset` on this `network`. */
+  currentBalance: string;
+  /** A decimal representation of the balance of `asset` the customer must hold on this `network` to become eligible to approve the mandate. */
+  requiredBalance: string;
+}
+/** The funding options for this address, one entry per (network, asset) combination the customer could fund to become eligible. Only present when `code` is `insufficient_funds`, and honors the request's `network` and `asset` filters. May be an empty array. */
+export type IneligibleWalletMandateApprovalAddressesFundsRequiredList =
+  Array<WalletMandateApprovalFundsRequirement>;
+/** A requested customer wallet address that has no eligible mandate approval option, along with a machine- and human-readable reason. */
+export interface IneligibleWalletMandateApprovalAddresses {
+  /** The requested customer wallet address that has no eligible mandate approval option. */
+  address: string;
+  /** A machine-readable code indicating why this address has no eligible mandate approval option. The enum is closed; any value the server returns must be listed below. Adding a new code is a deliberate, coordinated API change; clients receiving an undocumented value should treat it as a server violating the spec. */
+  code: IneligibleWalletMandateApprovalAddressesCode;
+  /** A human-readable, English-language description of why this address has no eligible mandate approval option. Suitable for surfacing in product UIs; does not contain personally identifiable information or internal infrastructure details. Clients that need localized strings should dispatch on `code` and provide their own translations. */
+  message: string;
+  /** The funding options for this address, one entry per (network, asset) combination the customer could fund to become eligible. Only present when `code` is `insufficient_funds`, and honors the request's `network` and `asset` filters. May be an empty array. */
+  fundsRequired?: IneligibleWalletMandateApprovalAddressesFundsRequiredList | undefined;
+}
+/** Requested customer addresses that have no eligible mandate approval option, each with a `code` explaining why. Empty when every requested address can approve the mandate. */
+export type WalletMandateApprovalOptionsResponseIneligibleAddressesList =
+  Array<IneligibleWalletMandateApprovalAddresses>;
+/** The available options for approving this mandate on a wallet source, one per eligible asset the address can back. Present them to the customer, have them sign the chosen option's payloads, then call **Approve a mandate with a wallet**. Requested addresses with no eligible option appear in `ineligibleAddresses` with a `code` explaining why. This is a stateless read operation and does not modify the mandate. */
+export interface WalletMandateApprovalOptionsResponse {
+  /** The available wallet mandate approval options. */
+  options: WalletMandateApprovalOptionsResponseOptionsList;
+  /** Requested customer addresses that have no eligible mandate approval option, each with a `code` explaining why. Empty when every requested address can approve the mandate. */
+  ineligibleAddresses: WalletMandateApprovalOptionsResponseIneligibleAddressesList;
 }
 export type GetWalletAuthorizationOptionsRequestAddressesList = Array<string>;
 export interface GetWalletAuthorizationOptionsRequest {
@@ -3670,9 +4160,9 @@ export interface GetWalletAuthorizationOptionsRequest {
   /** The payer wallet addresses to generate authorization options for. Provide between 1 and 5 unique addresses, comma-separated (e.g. `?addresses=0xA,0xB`). Each returned option's `source.address` identifies which requested address it applies to. If a requested address has no eligible authorization options, it appears in `ineligibleAddresses` with a `code` explaining why. */
   addresses: GetWalletAuthorizationOptionsRequestAddressesList;
   /** Optional filter to restrict options to a specific blockchain network. */
-  network?: PaymentSourceNetwork | (string & {});
+  network?: PaymentSourceNetwork | (string & {}) | undefined;
   /** Filter options by asset. Currently, only `usdc` and `usdt` return results. */
-  asset?: string;
+  asset?: string | undefined;
 }
 /** The payload type. */
 export type EIP3009PayloadType = "eip3009";
@@ -3695,34 +4185,6 @@ export interface Permit2Payload {
   type: Permit2PayloadType;
   /** EIP-712 typed data for a Permit2 PermitTransferFrom. Pass to `eth_signTypedData_v4`. */
   data: EIP712Message;
-}
-/** The payload type. */
-export type Erc20ApprovalPayloadType = "erc20_approval";
-/** An EVM transaction object. Send via `eth_sendTransaction`. */
-export interface Erc20ApprovalPayloadData {
-  /** The EVM chain ID for the transaction. */
-  chainId: number;
-  /** The 0x-prefixed address of the ERC-20 token contract to approve. */
-  to: string;
-  /** The ABI-encoded `approve()` calldata. */
-  data: string;
-  /** The native token value to send (always `"0"` for approvals). */
-  value: string;
-  /** The estimated gas limit for the transaction. */
-  gas?: string;
-  /** The maximum fee per gas unit (EIP-1559). */
-  maxFeePerGas?: string;
-  /** The maximum priority fee per gas unit (EIP-1559). */
-  maxPriorityFeePerGas?: string;
-}
-/** An ERC-20 approval transaction payload. The payer must send `data` as an EVM transaction via `eth_sendTransaction` and return the resulting transaction hash. */
-export interface Erc20ApprovalPayload {
-  /** The unique identifier of the payload. */
-  payloadId: string;
-  /** The payload type. */
-  type: Erc20ApprovalPayloadType;
-  /** An EVM transaction object. Send via `eth_sendTransaction`. */
-  data: Erc20ApprovalPayloadData;
 }
 /** The payload type. */
 export type SpendPermissionPayloadType = "spend_permission";
@@ -3787,7 +4249,7 @@ export interface IneligibleWalletAuthorizationAddress {
   /** A human-readable, English-language description of why this address has no eligible authorization option. Suitable for surfacing in product UIs -- does not contain personally identifiable information or internal infrastructure details. Clients that need localized strings should dispatch on `code` and provide their own translations. */
   message: string;
   /** The funding options for this address, one entry per (network, asset) combination the payer could fund to become eligible. Only present when `code` is `insufficient_funds`, and honors the request's `network` and `asset` filters. May be an empty array. */
-  fundsRequired?: IneligibleWalletAuthorizationAddressFundsRequiredList;
+  fundsRequired?: IneligibleWalletAuthorizationAddressFundsRequiredList | undefined;
 }
 /** Requested payer addresses that have no eligible authorization option, each with a `code` explaining why. Empty when every requested address can authorize the payment. */
 export type WalletAuthorizationOptionsResponseIneligibleAddressesList =
@@ -3798,6 +4260,35 @@ export interface WalletAuthorizationOptionsResponse {
   options: WalletAuthorizationOptionsResponseOptionsList;
   /** Requested payer addresses that have no eligible authorization option, each with a `code` explaining why. Empty when every requested address can authorize the payment. */
   ineligibleAddresses: WalletAuthorizationOptionsResponseIneligibleAddressesList;
+}
+export interface GetWalletRevocationOptionsRequest {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+}
+/** A single payload the customer signs to remove the mandate's spending allowance on-chain. Each payload sets the allowance to zero using the same credential type that granted it. Inspect `type` to determine how to handle `data`: - `eip2612`: an EIP-2612 `Permit` with `value` of `0`; pass `data` to `eth_signTypedData_v4`, return the signature. - `permit2`: a Permit2 `PermitSingle` with `amount` of `0`; pass `data` to `eth_signTypedData_v4`, return the signature. - `erc20_approval`: an ERC-20 `approve` of `0`; send `data` via `eth_sendTransaction`, return the transaction hash. - `solana_subscription`: decode `data.transaction` from base64 and pass the bytes to the Solana Wallet Standard `signTransaction` method (never `signAndSendTransaction`). The transaction is `revokeDelegation`. From the signed transaction, extract the 64-byte ed25519 signature for the payer that signed, base58-encode it, and return that string as `OnchainSignedPayload.signature`. */
+export type RevocationPayload =
+  | EIP2612Payload
+  | Permit2AllowancePayload
+  | Erc20ApprovalPayload
+  | SolanaSubscriptionPayload;
+/** The payloads the customer must sign to remove the spending allowance. */
+export type WalletMandateRevocationOptionPayloadsList = Array<RevocationPayload>;
+/** One way the customer can remove the mandate's spending allowance on-chain: a source and the payloads to sign for it. */
+export interface WalletMandateRevocationOption {
+  /** The unique identifier of the wallet mandate revocation option. */
+  optionId: string;
+  /** The funding source whose spending allowance this option removes. */
+  source: MandateSourceWallet;
+  /** The payloads the customer must sign to remove the spending allowance. */
+  payloads: WalletMandateRevocationOptionPayloadsList;
+}
+/** The available revocation options. At least one is present; when there is no active spending allowance to remove, the request fails with a `422` instead. */
+export type WalletMandateRevocationOptionsResponseOptionsList =
+  Array<WalletMandateRevocationOption>;
+/** The ways the customer can remove this mandate's spending allowance on-chain. */
+export interface WalletMandateRevocationOptionsResponse {
+  /** The available revocation options. At least one is present; when there is no active spending allowance to remove, the request fails with a `422` instead. */
+  options: WalletMandateRevocationOptionsResponseOptionsList;
 }
 export interface GetWebhookSubscriptionRequest {
   /** Unique identifier for the webhook subscription. */
@@ -3813,12 +4304,13 @@ export type X402DiscoveryResourceType = "http" | "mcp";
 export type X402Version = 1 | 2;
 /** The scheme of the payment protocol to use. Supported schemes are `exact`, `upto`, and `batch-settlement`. */
 export type X402V2PaymentRequirementsScheme = "exact" | "upto" | "batch-settlement";
-/** The x402 v2 network identifier in CAIP-2 format. x402 v2 identifies networks by their CAIP-2 chain ID (e.g. `eip155:<chainId>` for EVM networks, `solana:<genesisHash>` for Solana). Supported networks: Base, Polygon, Arbitrum One, World Chain (EVM), and Solana. */
+/** The x402 v2 network identifier in CAIP-2 format. x402 v2 identifies networks by their CAIP-2 chain ID (e.g. `eip155:<chainId>` for EVM networks, `solana:<genesisHash>` for Solana). Supported networks: Base, Polygon, Arbitrum One, World Chain (EVM), Monad (EVM), and Solana. */
 export type X402V2Network =
   | "eip155:8453"
   | "eip155:84532"
   | "eip155:137"
   | "eip155:42161"
+  | "eip155:143"
   | "eip155:480"
   | "eip155:4801"
   | "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
@@ -3840,7 +4332,7 @@ export interface X402V2PaymentRequirements {
   /** The maximum time in seconds for the resource server to respond. */
   maxTimeoutSeconds: number;
   /** The optional additional scheme-specific payment info. */
-  extra?: X402V2PaymentRequirementsExtraMap;
+  extra?: X402V2PaymentRequirementsExtraMap | undefined;
 }
 /** The scheme of the payment protocol to use. Currently, the only supported scheme is `exact`. */
 export type X402V1PaymentRequirementsScheme = "exact";
@@ -3865,7 +4357,7 @@ export interface X402V1PaymentRequirements {
   /** The MIME type of the resource response. */
   mimeType: string;
   /** The optional JSON schema describing the resource output. */
-  outputSchema?: X402V1PaymentRequirementsOutputSchemaMap;
+  outputSchema?: X402V1PaymentRequirementsOutputSchemaMap | undefined;
   /** The destination to pay value to. For EVM networks, payTo will be a 0x-prefixed, checksum EVM address. For Solana-based networks, payTo will be a base58-encoded Solana address. */
   payTo: string;
   /** The maximum time in seconds for the resource server to respond. */
@@ -3873,7 +4365,7 @@ export interface X402V1PaymentRequirements {
   /** The asset to pay with. For EVM networks, the asset will be a 0x-prefixed, checksum EVM address. For Solana-based networks, the asset will be a base58-encoded Solana address. */
   asset: string;
   /** The optional additional scheme-specific payment info. */
-  extra?: X402V1PaymentRequirementsExtraMap;
+  extra?: X402V1PaymentRequirementsExtraMap | undefined;
 }
 /** The x402 protocol payment requirements that the resource server expects the client's payment payload to meet. */
 export type X402PaymentRequirements = X402V2PaymentRequirements | X402V1PaymentRequirements;
@@ -3884,11 +4376,11 @@ export type X402DiscoveryResourceExtensionsMap = { [key: string]: unknown | unde
 /** Quality metrics for a discovered x402 resource. */
 export interface X402ResourceQuality {
   /** Total number of paid calls to a resource in the last 30 days. */
-  l30DaysTotalCalls?: number;
+  l30DaysTotalCalls?: number | undefined;
   /** Number of unique payers to a resource in the last 30 days. */
-  l30DaysUniquePayers?: number;
+  l30DaysUniquePayers?: number | undefined;
   /** Timestamp of the most recent paid call to a resource. */
-  lastCalledAt?: string;
+  lastCalledAt?: string | undefined;
 }
 /** Low-cardinality string labels associated with the resource for client-side filtering and display. Values are free-form (no controlled vocabulary) and case-sensitive. Order is not significant and duplicates are not expected. */
 export type X402DiscoveryResourceTagsList = Array<string>;
@@ -3899,29 +4391,29 @@ export interface X402DiscoveryResource {
   /** The URL of the resource. */
   resource: string;
   /** A human-readable description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Communication protocol (e.g., "http", "mcp"). */
   type: X402DiscoveryResourceType;
   x402Version: X402Version;
   /** Timestamp of the last update. */
-  lastUpdated?: string;
+  lastUpdated?: string | undefined;
   /** Payment requirements accepted by the resource. */
-  accepts?: X402DiscoveryResourceAcceptsList;
+  accepts?: X402DiscoveryResourceAcceptsList | undefined;
   /** Map of x402 protocol extensions supported by the resource, keyed by extension name. */
-  extensions?: X402DiscoveryResourceExtensionsMap;
-  quality?: X402ResourceQuality;
+  extensions?: X402DiscoveryResourceExtensionsMap | undefined;
+  quality?: X402ResourceQuality | undefined;
   /** Display name of the service this resource belongs to. This is a free-form label for grouping and presentation only -- it is not a stable identifier, and two resources sharing the same `serviceName` are not guaranteed to belong to the same logical service. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Low-cardinality string labels associated with the resource for client-side filtering and display. Values are free-form (no controlled vocabulary) and case-sensitive. Order is not significant and duplicates are not expected. */
-  tags?: X402DiscoveryResourceTagsList;
+  tags?: X402DiscoveryResourceTagsList | undefined;
   /** Slugs of the curated x402 bundles this resource belongs to. A bundle is an ordered, named grouping of curated resources covering a common agent workflow. Present only for Coinbase-curated resources (`curated: true`); omitted when the resource is not curated or is not a member of any bundle. */
-  bundleSlugs?: X402DiscoveryResourceBundleSlugsList;
+  bundleSlugs?: X402DiscoveryResourceBundleSlugsList | undefined;
   /** URL of a square icon representing the service this resource belongs to. Distinct from a brand logo: this is intended for compact, list-view rendering (favicon-style) and is normalized to a square aspect ratio at ingestion. The image is moderated and re-hosted by Coinbase, so the URL is stable and safe to render directly in clients. Omitted when the provider did not supply an icon, when the supplied icon failed moderation, or when image processing was unavailable at ingestion time. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** Whether this resource is a Coinbase-curated endpoint. Curated endpoints have passed the partner-admission and verification bar and surface higher in search and listing results. Omitted (treated as `false`) when the resource is not curated. */
-  curated?: boolean;
+  curated?: boolean | undefined;
   /** URL of the SKILL.md document describing how to use this resource. Omitted when the resource has no associated skill document. */
-  skillUrl?: string;
+  skillUrl?: string | undefined;
 }
 /** The bundle's member resources in bundle-defined order. Each entry is the full discovery metadata for a curated endpoint belonging to this bundle. Bundle membership is capped at 50 resources. */
 export type GetX402BundleResponseResourcesList = Array<X402DiscoveryResource>;
@@ -3931,7 +4423,7 @@ export interface GetX402BundleResponse {
   /** The human-readable display name of the bundle. */
   name: string;
   /** A human-readable description of the workflow the bundle covers. */
-  description?: string;
+  description?: string | undefined;
   /** The bundle's member resources in bundle-defined order. Each entry is the full discovery metadata for a curated endpoint belonging to this bundle. Bundle membership is capped at 50 resources. */
   resources: GetX402BundleResponseResourcesList;
 }
@@ -3950,15 +4442,15 @@ export interface ImportEvmAccountRequest {
   /** The base64-encoded, encrypted private key of the EVM account. The private key must be encrypted using the CDP SDK's encryption scheme. */
   encryptedPrivateKey: string;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the account-level policy to apply to the account. */
-  accountPolicy?: string;
+  accountPolicy?: string | undefined;
 }
 export interface ImportSolanaAccountRequest {
   /** The base64-encoded, encrypted 32-byte private key of the Solana account. The private key must be encrypted using the CDP SDK's encryption scheme. */
   encryptedPrivateKey: string;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The OTP delivery channel. */
 export type InitiateOnrampVerificationRequestChannel = "sms" | "email";
@@ -3979,9 +4471,9 @@ export interface ListBalancesRequest {
   /** The unique identifier of the account. */
   accountId: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of balances. */
 export type ListBalancesResponseBalancesList = Array<Balance>;
@@ -3989,7 +4481,7 @@ export interface ListBalancesResponse {
   /** The list of balances. */
   balances: ListBalancesResponseBalancesList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListBorrowPositionsWithEndUserAccountRequest {
   /** The ID of the end user. */
@@ -3997,11 +4489,11 @@ export interface ListBorrowPositionsWithEndUserAccountRequest {
   /** The address of the EVM Smart Account to list borrow positions for. */
   address: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
 }
 /** The lending protocol that operates the borrow product. */
 export type BorrowProductProtocol = "morpho_blue";
@@ -4025,7 +4517,7 @@ export interface BorrowPositionDebt {
   /** The token balance as a decimal string in the token's standard unit denomination (i.e. "5000" for 5000 mGLO). */
   amount: string;
   /** The current annualized borrow rate for the debt, expressed in basis points. For example, `525` represents a borrow APY of 5.25%. Omitted when the rate is unavailable. */
-  borrowApyBps?: number;
+  borrowApyBps?: number | undefined;
 }
 /** The non-zero debt balances owed by the position. */
 export type MorphoBlueOnchainStateDebtList = Array<BorrowPositionDebt>;
@@ -4040,11 +4532,11 @@ export interface MorphoBlueOnchainState {
   /** The non-zero debt balances owed by the position. */
   debt: MorphoBlueOnchainStateDebtList;
   /** The position's liquidation headroom as a decimal string, where `1.0` is the liquidation boundary and higher is safer. For example, `1.79` means the position's weighted collateral is 1.79x its debt. Omitted when the position has no debt. */
-  healthFactor?: string;
+  healthFactor?: string | undefined;
   /** The position's current loan-to-value, expressed in basis points. For example, `5000` represents a current LTV of 50%. Omitted when the position has no debt. */
-  currentLtvBps?: number;
+  currentLtvBps?: number | undefined;
   /** The loan-to-value at which the position becomes eligible for liquidation, expressed in basis points. For example, `8250` represents 82.5%. Omitted when the position has no debt. */
-  liquidationThresholdBps?: number;
+  liquidationThresholdBps?: number | undefined;
   healthStatus: BorrowPositionHealthStatus;
 }
 /** A borrow position held by a smart account in a borrow product, together with its live onchain state read at a point-in-time snapshot. */
@@ -4063,21 +4555,13 @@ export interface ListBorrowPositionsWithEndUserAccountResponse {
   /** The borrow positions held by the smart account. */
   borrowPositions: ListBorrowPositionsWithEndUserAccountResponseBorrowPositionsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
-}
-export interface ListCoinbaseAccountBalancesRequest {}
-/** The list of balances. */
-export type BalancesBalancesList = Array<Balance>;
-/** A list of balances for an account. */
-export interface Balances {
-  /** The list of balances. */
-  balances: BalancesBalancesList;
+  nextPageToken?: string | undefined;
 }
 export interface ListCustomersRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of customers. */
 export type ListCustomersResponseCustomersList = Array<Customer>;
@@ -4085,19 +4569,25 @@ export interface ListCustomersResponse {
   /** The list of customers. */
   customers: ListCustomersResponseCustomersList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** The name of the supported EVM networks in human-readable format. */
-export type ListDataTokenBalancesRequestNetwork = "base" | "base-sepolia" | "ethereum";
+export type ListDataTokenBalancesRequestNetwork =
+  | "base"
+  | "base-sepolia"
+  | "ethereum"
+  | "arbitrum"
+  | "polygon"
+  | "optimism";
 export interface ListDataTokenBalancesRequest {
   /** The human-readable network name to get the balances for. */
   network: ListDataTokenBalancesRequestNetwork | (string & {});
   /** The 0x-prefixed EVM address to get balances for. The address does not need to be checksummed. */
   address: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Amount of a given token. */
 export interface TokenAmount {
@@ -4107,14 +4597,20 @@ export interface TokenAmount {
   decimals: number;
 }
 /** The name of the supported EVM networks in human-readable format. */
-export type ListEvmTokenBalancesNetwork = "base" | "base-sepolia" | "ethereum";
+export type ListEvmTokenBalancesNetwork =
+  | "base"
+  | "base-sepolia"
+  | "ethereum"
+  | "arbitrum"
+  | "polygon"
+  | "optimism";
 /** General information about a token. Includes the type, the network, and other identifying information. */
 export interface Token {
   network: ListEvmTokenBalancesNetwork;
   /** The symbol of this token (ex: SOL, ETH, USDC). The token symbol is not unique. It is possible for two different tokens to have the same symbol. For native gas tokens, this symbol is defined via convention. As an example, for ETH on Ethereum mainnet, the symbol is "ETH". For ERC-20 tokens, this symbol is defined via configuration. `symbol` will be the string returned by `function symbol() public view returns (string)` on the underlying token contract. Not all tokens have a symbol, as this function is [optional in the ERC-20 specification](https://eips.ethereum.org/EIPS/eip-20#symbol). This field will only be populated when the token's underlying ERC-20 contract has a `symbol()` function. Further, this endpoint will only populate this value for a small subset of whitelisted ERC-20 tokens at this time. We intend to improve coverage in the future. */
-  symbol?: string;
+  symbol?: string | undefined;
   /** The name of this token (ex: "Solana", "Ether", "USD Coin"). The token name is not unique. It is possible for two different tokens to have the same name. For native gas tokens, this name is defined via convention. As an example, for ETH on Ethereum mainnet, the name is "Ether". For ERC-20 tokens, this name is defined via configuration. `name` will be the string returned by `function name() public view returns (string)` on the underlying token contract. Not all tokens have a name, as this function is [optional in the ERC-20 specification](https://eips.ethereum.org/EIPS/eip-20#name). This field will only be populated when the token's underlying ERC-20 contract has a `name()` function. Further, this endpoint will only populate this value for a small subset of whitelisted ERC-20 tokens at this time. We intend to improve coverage in the future. */
-  name?: string;
+  name?: string | undefined;
   /** The contract address of the token. For Ether, the contract address is `0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE` per [EIP-7528](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7528.md). For ERC-20 tokens, this is the contract address where the token is deployed. */
   contractAddress: string;
 }
@@ -4128,21 +4624,23 @@ export interface ListDataTokenBalancesResponse {
   /** The list of EVM token balances. */
   balances: ListDataTokenBalancesResponseBalancesList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListDepositDestinationsRequest {
   /** Filter deposit destinations by account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Filter deposit destinations by the cryptocurrency address. */
-  address?: string;
+  address?: string | undefined;
   /** Filter deposit destinations by type. */
-  type?: DepositDestinationType;
+  type?: DepositDestinationType | undefined;
   /** Filter deposit destinations by network. */
-  network?: string;
+  network?: string | undefined;
+  /** Filter deposit destinations by status. */
+  status?: DepositDestinationStatus | (string & {}) | undefined;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of deposit destinations. */
 export type ListDepositDestinationsResponseDepositDestinationsList = Array<DepositDestination>;
@@ -4150,19 +4648,19 @@ export interface ListDepositDestinationsResponse {
   /** The list of deposit destinations. */
   depositDestinations: ListDepositDestinationsResponseDepositDestinationsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListDisbursementsRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter disbursements by status. */
-  status?: PaymentActionStatus | (string & {});
+  status?: PaymentActionStatus | (string & {}) | undefined;
   /** Filter disbursements by the source CDP account ID. */
-  sourceAccountId?: string;
+  sourceAccountId?: string | undefined;
   /** Filter disbursements by the client-supplied external reference ID. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
 }
 /** The list of disbursements. */
 export type ListDisbursementsResponseDisbursementsList = Array<Disbursement>;
@@ -4170,17 +4668,17 @@ export interface ListDisbursementsResponse {
   /** The list of disbursements. */
   disbursements: ListDisbursementsResponseDisbursementsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListEndUsersRequestSortItem = "createdAt=asc" | "createdAt=desc";
 export type ListEndUsersRequestSortList = Array<ListEndUsersRequestSortItem | (string & {})>;
 export interface ListEndUsersRequest {
   /** The number of end users to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the desired page of end users. Will be empty if there are no more end users to fetch. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Sort end users. Defaults to ascending order (oldest first). */
-  sort?: ListEndUsersRequestSortList;
+  sort?: ListEndUsersRequestSortList | undefined;
 }
 /** The list of end users. */
 export type ListEndUsersResponseEndUsersList = Array<EndUser>;
@@ -4188,13 +4686,13 @@ export interface ListEndUsersResponse {
   /** The list of end users. */
   endUsers: ListEndUsersResponseEndUsersList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListEvmAccountsRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of EVM accounts. */
 export type ListEvmAccountsResponseAccountsList = Array<EvmAccount>;
@@ -4202,19 +4700,19 @@ export interface ListEvmAccountsResponse {
   /** The list of EVM accounts. */
   accounts: ListEvmAccountsResponseAccountsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListEvmBorrowProductsRequest {
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The EVM network name to list borrow products for. */
-  network?: BorrowProductNetwork | (string & {});
+  network?: BorrowProductNetwork | (string & {}) | undefined;
   /** The lending protocol whose borrow products to list. */
-  protocol?: BorrowProductProtocol | (string & {});
+  protocol?: BorrowProductProtocol | (string & {}) | undefined;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of borrow products, optionally filtered by the supplied network and/or protocol. */
 export type ListEvmBorrowProductsResponseBorrowProductsList = Array<BorrowProduct>;
@@ -4222,13 +4720,13 @@ export interface ListEvmBorrowProductsResponse {
   /** The list of borrow products, optionally filtered by the supplied network and/or protocol. */
   borrowProducts: ListEvmBorrowProductsResponseBorrowProductsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListEvmSmartAccountsRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of Smart Accounts. */
 export type ListEvmSmartAccountsResponseAccountsList = Array<EvmSmartAccount>;
@@ -4236,19 +4734,25 @@ export interface ListEvmSmartAccountsResponse {
   /** The list of Smart Accounts. */
   accounts: ListEvmSmartAccountsResponseAccountsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** The name of the supported EVM networks in human-readable format. */
-export type ListEvmTokenBalancesRequestNetwork = "base" | "base-sepolia" | "ethereum";
+export type ListEvmTokenBalancesRequestNetwork =
+  | "base"
+  | "base-sepolia"
+  | "ethereum"
+  | "arbitrum"
+  | "polygon"
+  | "optimism";
 export interface ListEvmTokenBalancesRequest {
   /** The human-readable network name to get the balances for. */
   network: ListEvmTokenBalancesRequestNetwork | (string & {});
   /** The 0x-prefixed EVM address to get balances for. The address does not need to be checksummed. */
   address: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of EVM token balances. */
 export type ListEvmTokenBalancesResponseBalancesList = Array<TokenBalance>;
@@ -4256,18 +4760,18 @@ export interface ListEvmTokenBalancesResponse {
   /** The list of EVM token balances. */
   balances: ListEvmTokenBalancesResponseBalancesList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListFoundationAccountsRequestOwnerList = Array<string>;
 export interface ListFoundationAccountsRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter accounts by owner. Values can be specific Owner IDs or owner type wildcards. Multiple values can be combined as a comma-separated list. **Specific Owner IDs:** * `entity_<uuid>` - Accounts owned by a specific entity * `customer_<uuid>` - Accounts owned by a specific customer **Owner type wildcards:** * `entity` - All entity-owned accounts * `customer` - All customer-owned accounts **Examples:** * `owner=customer_af29...` - A specific customer's accounts * `owner=customer` - All customer accounts * `owner=entity,customer_af29...` - Entity accounts and a specific customer's accounts * When omitted, accounts with any owner are returned. */
-  owner?: ListFoundationAccountsRequestOwnerList;
+  owner?: ListFoundationAccountsRequestOwnerList | undefined;
   /** Filter accounts by account type. When omitted, accounts of any type are returned. Combined with `owner` using AND. */
-  type?: AccountType | (string & {});
+  type?: AccountType | (string & {}) | undefined;
 }
 /** The list of accounts. */
 export type ListFoundationAccountsResponseAccountsList = Array<Account>;
@@ -4275,13 +4779,65 @@ export interface ListFoundationAccountsResponse {
   /** The list of accounts. */
   accounts: ListFoundationAccountsResponseAccountsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+}
+export interface ListMandateApprovalsRequest {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+  /** The number of resources to return per page. */
+  pageSize?: number | undefined;
+  /** The token for the next page of resources, if any. */
+  pageToken?: string | undefined;
+}
+/** The list of approvals for the mandate, most recent first. */
+export type ListMandateApprovalsResponseApprovalsList = Array<Approval>;
+export interface ListMandateApprovalsResponse {
+  /** The list of approvals for the mandate, most recent first. */
+  approvals: ListMandateApprovalsResponseApprovalsList;
+  /** The token for the next page of items, if any. */
+  nextPageToken?: string | undefined;
+}
+export interface ListMandateRevocationsRequest {
+  /** The unique identifier of the mandate. */
+  mandateId: string;
+  /** The number of resources to return per page. */
+  pageSize?: number | undefined;
+  /** The token for the next page of resources, if any. */
+  pageToken?: string | undefined;
+}
+/** The list of revocations for the mandate, most recent first. */
+export type ListMandateRevocationsResponseRevocationsList = Array<Revocation>;
+export interface ListMandateRevocationsResponse {
+  /** The list of revocations for the mandate, most recent first. */
+  revocations: ListMandateRevocationsResponseRevocationsList;
+  /** The token for the next page of items, if any. */
+  nextPageToken?: string | undefined;
+}
+export interface ListMandatesRequest {
+  /** Filter mandates by the customer's wallet address. */
+  address?: string | undefined;
+  /** Filter mandates by the customer's wallet network. Only applies when `address` is also provided. */
+  network?: PaymentSourceNetwork | (string & {}) | undefined;
+  /** Filter mandates by their latest action, e.g. `approval_succeeded` for mandates whose most recent transition was a successful approval. Note that `status` tracks the latest action, not usability; usability is derived from the `approvedAt`, `canceledAt`, and `revokedAt` timestamps. */
+  status?: MandateStatus | (string & {}) | undefined;
+  /** The number of resources to return per page. */
+  pageSize?: number | undefined;
+  /** The token for the next page of resources, if any. */
+  pageToken?: string | undefined;
+}
+/** The list of mandates. */
+export type ListMandatesResponseMandatesList = Array<Mandate>;
+export interface ListMandatesResponse {
+  /** The list of mandates. */
+  mandates: ListMandatesResponseMandatesList;
+  /** The token for the next page of items, if any. */
+  nextPageToken?: string | undefined;
 }
 export interface ListPaymentMethodsRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of payment methods. */
 export type ListPaymentMethodsResponsePaymentMethodsList = Array<PaymentMethodsPaymentMethod>;
@@ -4289,15 +4845,15 @@ export interface ListPaymentMethodsResponse {
   /** The list of payment methods. */
   paymentMethods: ListPaymentMethodsResponsePaymentMethodsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPaymentSessionAuthorizationsRequest {
   /** The unique identifier of the payment session. */
   paymentSessionId: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of authorizations. */
 export type ListPaymentSessionAuthorizationsResponseAuthorizationsList = Array<Authorization>;
@@ -4305,15 +4861,15 @@ export interface ListPaymentSessionAuthorizationsResponse {
   /** The list of authorizations. */
   authorizations: ListPaymentSessionAuthorizationsResponseAuthorizationsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPaymentSessionCapturesRequest {
   /** The unique identifier of the payment session. */
   paymentSessionId: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of captures. */
 export type ListPaymentSessionCapturesResponseCapturesList = Array<Capture>;
@@ -4321,15 +4877,15 @@ export interface ListPaymentSessionCapturesResponse {
   /** The list of captures. */
   captures: ListPaymentSessionCapturesResponseCapturesList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPaymentSessionRefundsRequest {
   /** The unique identifier of the payment session. */
   paymentSessionId: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of refunds. */
 export type ListPaymentSessionRefundsResponseRefundsList = Array<Refund>;
@@ -4337,13 +4893,13 @@ export interface ListPaymentSessionRefundsResponse {
   /** The list of refunds. */
   refunds: ListPaymentSessionRefundsResponseRefundsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPaymentSessionsRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of payment sessions. */
 export type ListPaymentSessionsResponsePaymentSessionsList = Array<PaymentSession>;
@@ -4351,15 +4907,15 @@ export interface ListPaymentSessionsResponse {
   /** The list of payment sessions. */
   paymentSessions: ListPaymentSessionsResponsePaymentSessionsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPaymentSessionVoidsRequest {
   /** The unique identifier of the payment session. */
   paymentSessionId: string;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of voids. */
 export type ListPaymentSessionVoidsResponseVoidsList = Array<Void>;
@@ -4367,16 +4923,16 @@ export interface ListPaymentSessionVoidsResponse {
   /** The list of voids. */
   voids: ListPaymentSessionVoidsResponseVoidsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListPoliciesRequestScope = "project" | "account";
 export interface ListPoliciesRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The scope of the policies to return. If `project`, the response will include exactly one policy, which is the project-level policy. If `account`, the response will include all account-level policies for the developer's CDP Project. */
-  scope?: ListPoliciesRequestScope | (string & {});
+  scope?: ListPoliciesRequestScope | (string & {}) | undefined;
 }
 /** The list of policies. */
 export type ListPoliciesResponsePoliciesList = Array<Policy>;
@@ -4384,13 +4940,13 @@ export interface ListPoliciesResponse {
   /** The list of policies. */
   policies: ListPoliciesResponsePoliciesList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListSolanaAccountsRequest {
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of Solana accounts. */
 export type ListSolanaAccountsResponseAccountsList = Array<SolanaAccount>;
@@ -4398,7 +4954,7 @@ export interface ListSolanaAccountsResponse {
   /** The list of Solana accounts. */
   accounts: ListSolanaAccountsResponseAccountsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** The name of the supported Solana networks in human-readable format. */
 export type ListSolanaTokenBalancesRequestNetwork = "solana" | "solana-devnet";
@@ -4408,9 +4964,9 @@ export interface ListSolanaTokenBalancesRequest {
   /** The base58 encoded Solana address to get balances for. */
   address: string;
   /** The number of balances to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of balances. Will be empty if there are no more balances to fetch. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Amount of a given Solana token. */
 export interface SolanaTokenAmount {
@@ -4422,9 +4978,9 @@ export interface SolanaTokenAmount {
 /** General information about a Solana token. Includes the mint address, and other identifying information. */
 export interface SolanaToken {
   /** The symbol of this token (ex: SOL, USDC, RAY). The token symbol is not unique. It is possible for two different tokens to have the same symbol. For the native SOL token, this symbol is "SOL". For SPL tokens, this symbol is defined in the token's metadata. Not all tokens have a symbol. This field will only be populated when the token has metadata available. */
-  symbol?: string;
+  symbol?: string | undefined;
   /** The name of this token (ex: "Solana", "USD Coin", "Raydium"). The token name is not unique. It is possible for two different tokens to have the same name. For the native SOL token, this name is "Solana". For SPL tokens, this name is defined in the token's metadata. Not all tokens have a name. This field will only be populated when the token has metadata available. */
-  name?: string;
+  name?: string | undefined;
   /** The mint address of the token. For native SOL, the mint address is `So11111111111111111111111111111111111111111`. For SPL tokens, this is the mint address where the token is defined. */
   mintAddress: string;
 }
@@ -4438,15 +4994,15 @@ export interface ListSolanaTokenBalancesResponse {
   /** The list of Solana token balances. */
   balances: ListSolanaTokenBalancesResponseBalancesList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListSpendPermissionsRequest {
   /** The address of the Smart account to list spend permissions for. */
   address: string;
   /** The number of spend permissions to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of spend permissions. Will be empty if there are no more spend permissions to fetch. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The core spend permission. */
 export interface SpendPermission {
@@ -4476,7 +5032,7 @@ export interface SpendPermissionResponseObject {
   /** Whether this permission has been revoked. */
   revoked: boolean;
   /** The UTC ISO 8601 timestamp when the permission was revoked (if applicable). */
-  revokedAt?: string;
+  revokedAt?: string | undefined;
   /** The UTC ISO 8601 timestamp when the permission was created. */
   createdAt: string;
   network: SpendPermissionNetwork;
@@ -4487,7 +5043,7 @@ export interface ListSpendPermissionsResponse {
   /** The spend permissions for the smart account. */
   spendPermissions: ListSpendPermissionsResponseSpendPermissionsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListTokensForAccountRequestNetwork = "base" | "base-sepolia";
 export interface ListTokensForAccountRequest {
@@ -4501,45 +5057,45 @@ export type AccountTokenAddressesResponseTokenAddressesList = Array<string>;
 /** Response containing token addresses that an account has received. */
 export interface AccountTokenAddressesResponse {
   /** The account address that was queried. */
-  accountAddress?: string;
+  accountAddress?: string | undefined;
   /** List of token contract addresses that the account has received. */
-  tokenAddresses?: AccountTokenAddressesResponseTokenAddressesList;
+  tokenAddresses?: AccountTokenAddressesResponseTokenAddressesList | undefined;
   /** Total number of unique token addresses discovered. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface ListTransfersRequest {
   /** Filter transfers by status. Useful for building dashboards, monitoring active transfers, or finding transfers needing action. */
-  status?: TransferStatus | (string & {});
-  /** Filter transfers by account ID. Returns transfers where the specified account is either the source or target (OR semantics). Cannot be combined with `sourceAccountId` or `targetAccountId`. */
-  accountId?: string;
-  /** Filter transfers by source account ID. Returns only transfers where the specified account is the source. Cannot be combined with `accountId`. */
-  sourceAccountId?: string;
-  /** Filter transfers by target account ID. Returns only transfers where the specified account is the target. Cannot be combined with `accountId`. */
-  targetAccountId?: string;
+  status?: TransferStatus | (string & {}) | undefined;
+  /** Filter transfers by account ID. Returns transfers where the specified account is either the source or target (OR semantics). Cannot be combined with `sourceAccountId`, `targetAccountId`, `sourceAddress`, `targetAddress`, or `targetEmail`. */
+  accountId?: string | undefined;
+  /** Filter transfers by source account ID. Returns only transfers where the specified account is the source. Cannot be combined with `accountId` or `sourceAddress`. */
+  sourceAccountId?: string | undefined;
+  /** Filter transfers by target account ID. Returns only transfers where the specified account is the target. Cannot be combined with `accountId`, `targetAddress`, or `targetEmail`. */
+  targetAccountId?: string | undefined;
   /** Filter transfers to those created at or after this datetime (inclusive). ISO 8601 format. */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter transfers to those created at or before this datetime (inclusive). ISO 8601 format. */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter transfers to those updated at or after this datetime (inclusive). ISO 8601 format. Useful for incremental sync -- poll for transfers that changed state since your last check. */
-  updatedAfter?: string;
+  updatedAfter?: string | undefined;
   /** Filter transfers to those updated at or before this datetime (inclusive). ISO 8601 format. */
-  updatedBefore?: string;
+  updatedBefore?: string | undefined;
   /** Filter transfers by source asset symbol (e.g., `usd`, `usdc`, `eurc`, `eur`). */
-  sourceAsset?: string;
+  sourceAsset?: string | undefined;
   /** Filter transfers by target asset symbol (e.g., `usdc`, `eurc`, `usd`, `eur`). */
-  targetAsset?: string;
-  /** Filter transfers by the on-chain address of the source. */
-  sourceAddress?: string;
-  /** Filter transfers by the on-chain destination address of the target. */
-  targetAddress?: string;
-  /** Filter transfers by the email address of the target recipient. */
-  targetEmail?: string;
-  /** Filter to a specific transfer by ID. When provided, returns only the matching transfer and bypasses pagination. */
-  transferId?: string;
+  targetAsset?: string | undefined;
+  /** Filter transfers by the on-chain address of the source. Cannot be combined with `accountId` or `sourceAccountId`. */
+  sourceAddress?: string | undefined;
+  /** Filter transfers by the on-chain destination address of the target. Cannot be combined with `accountId`, `targetAccountId`, or `targetEmail`. */
+  targetAddress?: string | undefined;
+  /** Filter transfers by the email address of the target recipient. Cannot be combined with `accountId`, `targetAccountId`, or `targetAddress`. */
+  targetEmail?: string | undefined;
+  /** Filter to a specific transfer by ID. When provided, returns only the matching transfer and bypasses pagination. Cannot be combined with any other filter. */
+  transferId?: string | undefined;
   /** The number of resources to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of resources, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of transfers. */
 export type ListTransfersResponseTransfersList = Array<Transfer>;
@@ -4547,19 +5103,33 @@ export interface ListTransfersResponse {
   /** The list of transfers. */
   transfers: ListTransfersResponseTransfersList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+}
+export interface ListVaultsRequest {
+  /** The number of vaults to return per page. */
+  pageSize?: number | undefined;
+  /** The token for the next page of resources, if any. */
+  pageToken?: string | undefined;
+}
+/** The list of vaults created by the project. */
+export type ListVaultsResponseVaultsList = Array<Vault>;
+export interface ListVaultsResponse {
+  /** The list of vaults created by the project. */
+  vaults: ListVaultsResponseVaultsList;
+  /** The token for the next page of items, if any. */
+  nextPageToken?: string | undefined;
 }
 export interface ListWebhookSubscriptionEventsRequest {
   /** Unique identifier for the webhook subscription. */
   subscriptionId: string;
   /** Filter by a specific event ID. */
-  eventId?: string;
+  eventId?: string | undefined;
   /** Filter events created at or after this timestamp (RFC 3339 format). */
-  minCreatedAt?: string;
+  minCreatedAt?: string | undefined;
   /** Filter events created at or before this timestamp (RFC 3339 format). */
-  maxCreatedAt?: string;
+  maxCreatedAt?: string | undefined;
   /** Filter by event type names (comma-separated). */
-  eventTypeNames?: string;
+  eventTypeNames?: string | undefined;
 }
 /** Current delivery status of the event. */
 export type WebhookEventResponseStatus =
@@ -4571,13 +5141,13 @@ export type WebhookEventResponseStatus =
 /** Details of the HTTP response received from the webhook target. */
 export interface WebhookEventResponseDetail {
   /** HTTP status code returned by the webhook target. */
-  httpCode?: number;
+  httpCode?: number | undefined;
   /** Round-trip time of the webhook delivery in milliseconds. */
-  elapsedTimeMs?: number;
+  elapsedTimeMs?: number | undefined;
   /** Response body returned by the webhook target. */
-  body?: string;
+  body?: string | undefined;
   /** Error name if the delivery failed (e.g., timeout, connection_refused). */
-  errorName?: string;
+  errorName?: string | undefined;
 }
 /** Details of a webhook event delivery attempt for a subscription. */
 export interface WebhookEventResponse {
@@ -4590,10 +5160,10 @@ export interface WebhookEventResponse {
   /** Timestamp when the event delivery attempt was created. */
   createdAt: string;
   /** Timestamp when the event was successfully delivered. Only present if status is "succeeded". */
-  succeededAt?: string;
+  succeededAt?: string | undefined;
   /** Number of delivery retry attempts so far. */
   retryCount: number;
-  response?: WebhookEventResponseDetail;
+  response?: WebhookEventResponseDetail | undefined;
 }
 /** The list of webhook event delivery attempts. */
 export type WebhookEventListResponseEventsList = Array<WebhookEventResponse>;
@@ -4604,9 +5174,9 @@ export interface WebhookEventListResponse {
 }
 export interface ListWebhookSubscriptionsRequest {
   /** The number of subscriptions to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The token for the next page of subscriptions, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** The list of webhook subscriptions. */
 export type ListWebhookSubscriptionsResponseSubscriptionsList = Array<WebhookSubscriptionResponse>;
@@ -4614,7 +5184,7 @@ export interface ListWebhookSubscriptionsResponse {
   /** The list of webhook subscriptions. */
   subscriptions: ListWebhookSubscriptionsResponseSubscriptionsList;
   /** The token for the next page of items, if any. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListX402BundlesRequest {}
 /** A curated workflow bundle: an ordered, named grouping of curated x402 resources that together cover a common agent workflow. This metadata shape is returned by the bundle list endpoint; the per-bundle detail endpoint additionally returns the joined member resources. */
@@ -4624,7 +5194,7 @@ export interface X402Bundle {
   /** The human-readable display name of the bundle. */
   name: string;
   /** A human-readable description of the workflow the bundle covers. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The list of available curated bundles. This list is empty when no bundles are defined. */
 export type X402BundlesResponseBundlesList = Array<X402Bundle>;
@@ -4637,20 +5207,20 @@ export interface ListX402DiscoveryMerchantRequest {
   /** The merchant's payment address to look up. This is the onchain address that payment requirements route funds to. */
   payTo: string;
   /** The number of resources to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The offset of the first resource to return. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** List of discovered x402 resources associated with the merchant's payTo address. This list is empty when no active resources are found. */
 export type X402DiscoveryMerchantResponseResourcesList = Array<X402DiscoveryResource>;
 /** Pagination information for the response. */
 export interface X402DiscoveryMerchantResponsePagination {
   /** The number of resources returned per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The offset of the first resource returned. */
-  offset?: number;
+  offset?: number | undefined;
   /** The total number of resources associated with the merchant's payTo address. */
-  total?: number;
+  total?: number | undefined;
 }
 /** Response containing x402 resources associated with a merchant payment address. The resources list is empty when no active resources are found. */
 export interface X402DiscoveryMerchantResponse {
@@ -4663,22 +5233,22 @@ export interface X402DiscoveryMerchantResponse {
 }
 export interface ListX402DiscoveryResourcesRequest {
   /** Filter by protocol type (e.g., "http", "mcp"). Currently, the only supported protocol type is "http". */
-  type?: string;
+  type?: string | undefined;
   /** The number of discovered x402 resources to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The offset of the first discovered x402 resource to return. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** List of discovered x402 resources. */
 export type X402DiscoveryResourcesResponseItemsList = Array<X402DiscoveryResource>;
 /** Pagination information for the response. */
 export interface X402DiscoveryResourcesResponsePagination {
   /** The number of discovered x402 resources to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The offset of the first discovered x402 resource to return. */
-  offset?: number;
+  offset?: number | undefined;
   /** The total number of discovered x402 resources. */
-  total?: number;
+  total?: number | undefined;
 }
 /** Response containing discovered x402 resources. */
 export interface X402DiscoveryResourcesResponse {
@@ -4690,21 +5260,27 @@ export interface X402DiscoveryResourcesResponse {
 }
 export interface LookupEndUserRequest {
   /** The email address to search for across all email-based authentication methods. */
-  email?: string;
+  email?: string | undefined;
   /** The OAuth provider to search by. Must be provided together with oauthSubject. */
-  oauthProvider?: OAuth2ProviderType | (string & {});
+  oauthProvider?: OAuth2ProviderType | (string & {}) | undefined;
   /** The OAuth subject (the `sub` claim from the provider's ID token). Must be provided together with oauthProvider. */
-  oauthSubject?: string;
+  oauthSubject?: string | undefined;
   /** The E.164-formatted phone number to search for. Must be URL-encoded when passed as a query parameter (e.g. `+14155552671` -> `%2B14155552671`). */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** The ERC-55 checksummed Ethereum address to search for. Looks up a user by the address they authenticated with via Sign In With Ethereum (EIP-4361). */
-  siweAddress?: string;
+  siweAddress?: string | undefined;
 }
 /** The list of end users matching the lookup. */
 export type LookupEndUserResponseEndUsersList = Array<EndUser>;
 export interface LookupEndUserResponse {
   /** The list of end users matching the lookup. */
   endUsers: LookupEndUserResponseEndUsersList;
+}
+export interface PausePolicyRequest {
+  /** The ID of the policy to pause. */
+  policyId: string;
+  /** Optional future time at which the policy resumes automatically, at most 30 days from the request. If omitted, the policy stays paused until resumed. */
+  resumeAt?: string | undefined;
 }
 /** The list of calls to make from the Smart Account. */
 export type PrepareAndSendUserOperationRequestCallsList = Array<EvmCall>;
@@ -4715,8 +5291,8 @@ export interface PrepareAndSendUserOperationRequest {
   /** The list of calls to make from the Smart Account. */
   calls: PrepareAndSendUserOperationRequestCallsList;
   /** The URL of the paymaster to use for the user operation. */
-  paymasterUrl?: string;
-  paymasterContext?: PaymasterContext;
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
 }
 /** The list of calls to make from the Smart Account. */
 export type PrepareUserOperationRequestCallsList = Array<EvmCall>;
@@ -4727,10 +5303,39 @@ export interface PrepareUserOperationRequest {
   /** The list of calls to make from the Smart Account. */
   calls: PrepareUserOperationRequestCallsList;
   /** The URL of the paymaster to use for the user operation. */
-  paymasterUrl?: string;
-  paymasterContext?: PaymasterContext;
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
   /** The EIP-8021 data suffix (hex-encoded) that enables transaction attribution for the user operation. */
-  dataSuffix?: string;
+  dataSuffix?: string | undefined;
+}
+export interface RedeemVaultFeesWithEvmAccountRequest {
+  /** The 0x-prefixed address of the EVM account that is the vault's fee recipient. */
+  address: string;
+  vaultId: string;
+  /** The maximum share-price movement tolerated between calldata construction and onchain execution, in basis points. Defaults to 100 bps (1%) when omitted. */
+  maxSlippageBps?: number | undefined;
+}
+/** The result of a vault fee redemption from an EVM account after broadcast. */
+export interface EoaVaultRedeemFeesResponse {
+  /** The hash of the broadcast fee redemption transaction, as a 0x-prefixed hex string. */
+  transactionHash: string;
+}
+export interface RedeemVaultFeesWithEvmSmartAccountRequest {
+  /** The 0x-prefixed address of the EVM Smart Account that is the vault's fee recipient. */
+  address: string;
+  vaultId: string;
+  /** The maximum share-price movement tolerated between calldata construction and onchain execution, in basis points. Defaults to 100 bps (1%) when omitted. */
+  maxSlippageBps?: number | undefined;
+  /** Whether to use CDP Paymaster to sponsor gas fees. When true, the user operation gas will be paid by the Paymaster, allowing the account to redeem fees without holding native gas tokens. Cannot be used together with `paymasterUrl`. */
+  useCdpPaymaster?: boolean | undefined;
+  /** Optional custom Paymaster URL to use for gas sponsorship. This allows you to use your own Paymaster service instead of CDP's Paymaster. Cannot be used together with `useCdpPaymaster`. */
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
+}
+/** The result of a vault fee redemption from an EVM Smart Account after broadcast. */
+export interface SmartAccountVaultRedeemFeesResponse {
+  /** The hash of the user operation executing the fee redemption, as a 0x-prefixed hex string. Poll `getUserOperation` for the operation's status. */
+  userOpHash: string;
 }
 export interface RefundPaymentSessionRequest {
   /** The unique identifier of the payment session. */
@@ -4738,14 +5343,40 @@ export interface RefundPaymentSessionRequest {
   /** The source from which to fund the refund. Can be a CDP account or an onchain address. */
   source: RefundSource;
   /** A decimal representation of the amount to refund, denominated in the session's `asset`. If omitted, the full remaining refundable amount is refunded. */
-  amount?: string;
+  amount?: string | undefined;
   /** The reason for the refund. */
-  reason?: string;
-  metadata?: Metadata;
+  reason?: string | undefined;
+  metadata?: Metadata | undefined;
   /** An optional merchant-provided internal identifier for this refund, from the merchant's own system--not visible to the payer. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** Optional customer-facing display data for this refund, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
+}
+/** iOS App Attest payload for verification. */
+export interface IosAttestationPayload {
+  /** The key identifier generated by DCAppAttestService. */
+  keyId: string;
+  /** Base64-encoded attestation object from DCAppAttestService.attestKey(). */
+  attestation: string;
+  bundleId: string;
+}
+export interface RegisterOnrampIosAttestationRequest {
+  /** The challenge received from the challenge endpoint. */
+  challenge: string;
+  ios: IosAttestationPayload;
+}
+/** The mobile platform that was attested (iOS only). */
+export type IosAttestationRegistrationResponsePlatform = "ios";
+/** Response confirming successful attestation verification and device key registration. The device public key is now stored for validating future assertion signatures. */
+export interface IosAttestationRegistrationResponse {
+  /** The key identifier that was registered. Include this value in subsequent [Create Onramp Mobile Session](#operation/createOnrampMobileSession) requests as `ios.keyId`. */
+  keyId: string;
+  /** The mobile platform that was attested (iOS only). */
+  platform: IosAttestationRegistrationResponsePlatform;
+  /** The verified Apple application identifier in `teamID.bundleID` format. This is not a CDP project ID. */
+  appId: string;
+  /** Timestamp when the attestation was performed. */
+  attestedAt: string;
 }
 /** The network to request funds from. */
 export type RequestEvmFaucetRequestNetwork = "base-sepolia" | "ethereum-sepolia" | "ethereum-hoodi";
@@ -4768,18 +5399,18 @@ export type OnrampLimitUpgradeInteractionMode = "api" | "embedded";
 /** Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`. */
 export interface OnrampLimitUpgradeIdentityFields {
   /** Last 4 digits of the Social Security Number (no dashes or spaces). */
-  ssnLast4?: string;
+  ssnLast4?: string | undefined;
   /** Date of birth. */
-  dateOfBirth?: DateOfBirth;
+  dateOfBirth?: DateOfBirth | undefined;
 }
 export interface RequestLimitsUpgradeRequest {
   /** The user identifier value. For `phone_number` type, this must be in E.164 format. */
   userId: string;
   userIdType: OnrampUserIdType | (string & {});
   /** The interaction mode for the limit upgrade request. Defaults to `api`. */
-  interactionMode?: OnrampLimitUpgradeInteractionMode | (string & {});
+  interactionMode?: OnrampLimitUpgradeInteractionMode | (string & {}) | undefined;
   /** Populate the properties that correspond to the `fields` array from the user's `OnrampLimitUpgradeOption`. Required in `api` mode. Omit in `embedded` mode -- the user enters their identity information on the Coinbase-hosted upgrade page (see `interactionMode`), so any value sent here is rejected. */
-  fields?: OnrampLimitUpgradeIdentityFields;
+  fields?: OnrampLimitUpgradeIdentityFields | undefined;
 }
 /** A Coinbase-hosted URL for collecting limit upgrade identity fields. */
 export interface OnrampLimitUpgradeEmbeddedResponse {
@@ -4800,13 +5431,17 @@ export interface RequestSolanaFaucetResponse {
   /** The signature identifying the transaction that requested the funds. */
   transactionSignature: string;
 }
+export interface ResumePolicyRequest {
+  /** The ID of the policy to resume. */
+  policyId: string;
+}
 export interface RevokeDelegationForEndUserRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface RevokeDelegationForEndUserResponse {}
 export interface RevokeDelegationForEndUserAccountRequest {
@@ -4815,9 +5450,9 @@ export interface RevokeDelegationForEndUserAccountRequest {
   /** The blockchain address of the end user account whose delegation should be revoked. For EVM addresses, matching is case-insensitive. */
   address: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** When revoking with a wallet authentication scheme, the ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface RevokeDelegationForEndUserAccountResponse {}
 export interface RevokeSpendPermissionRequest {
@@ -4827,18 +5462,31 @@ export interface RevokeSpendPermissionRequest {
   /** The hash of the spend permission to revoke. */
   permissionHash: string;
   /** The paymaster URL of the spend permission. */
-  paymasterUrl?: string;
+  paymasterUrl?: string | undefined;
+}
+/** The processed payloads from the customer, corresponding to the payloads in the selected option. */
+export type RevokeWalletMandateRequestSignedPayloadsList = Array<OnchainSignedPayload>;
+export interface RevokeWalletMandateRequest {
+  /** The unique identifier of the mandate to revoke. */
+  mandateId: string;
+  /** The identifier of the chosen option. Must match an `optionId` from the **Get wallet revocation options** response. */
+  optionId: string;
+  /** The processed payloads from the customer, corresponding to the payloads in the selected option. */
+  signedPayloads: RevokeWalletMandateRequestSignedPayloadsList;
+  /** An optional human-readable reason for revoking the spending allowance. */
+  reason?: string | undefined;
+  metadata?: Metadata | undefined;
 }
 /** Enables control over how often queries need to be fully re-executed on the backing store. This can be useful in scenarios where API calls might be made frequently, API latency is critical, and some freshness lag (ex: 750ms, 2s, 5s) is tolerable. By default, each query result is returned from cache so long as the result is from an identical query and less than 500ms old. This freshness tolerance can be modified upwards, to a maximum of 900000ms (i.e. 900s, 15m). */
 export interface RunSQLQueryRequestCache {
   /** The maximum tolerable staleness of the query result cache in milliseconds. If a previous execution result of an identical query is older than this age, the query will be re-executed. If the data is less than this age, the result will be returned from cache. */
-  maxAgeMs?: number;
+  maxAgeMs?: number | undefined;
 }
 export interface RunSQLQueryRequest {
   /** SQL query to execute against the indexed blockchain data. */
   sql: string;
   /** Enables control over how often queries need to be fully re-executed on the backing store. This can be useful in scenarios where API calls might be made frequently, API latency is critical, and some freshness lag (ex: 750ms, 2s, 5s) is tolerable. By default, each query result is returned from cache so long as the result is from an identical query and less than 500ms old. This freshness tolerance can be modified upwards, to a maximum of 900000ms (i.e. 900s, 15m). */
-  cache?: RunSQLQueryRequestCache;
+  cache?: RunSQLQueryRequestCache | undefined;
 }
 /** Row data with column names as keys. */
 export type OnchainDataResultResultItemMap = { [key: string]: unknown | undefined };
@@ -4868,65 +5516,65 @@ export type OnchainDataResultSchemaColumnsItemType =
   | "UUID";
 export interface OnchainDataResultSchemaColumnsItem {
   /** Column name. */
-  name?: string;
+  name?: string | undefined;
   /** Column data type (ClickHouse types). */
-  type?: OnchainDataResultSchemaColumnsItemType;
+  type?: OnchainDataResultSchemaColumnsItemType | undefined;
 }
 /** Column definitions. */
 export type OnchainDataResultSchemaColumnsList = Array<OnchainDataResultSchemaColumnsItem>;
 /** Schema information for the query result. This is a derived schema from the query result, so types may not match the underlying table. */
 export interface OnchainDataResultSchema {
   /** Column definitions. */
-  columns?: OnchainDataResultSchemaColumnsList;
+  columns?: OnchainDataResultSchemaColumnsList | undefined;
 }
 /** Metadata about query execution. */
 export interface OnchainDataResultMetadata {
   /** Whether the result was served from the query result cache. */
-  cached?: boolean;
+  cached?: boolean | undefined;
   /** When the query result was executed against the backing store in RFC 3339 format. */
-  executionTimestamp?: string;
+  executionTimestamp?: string | undefined;
   /** Query execution time in milliseconds. */
-  executionTimeMs?: number;
+  executionTimeMs?: number | undefined;
   /** Number of rows returned. */
-  rowCount?: number;
+  rowCount?: number | undefined;
 }
 /** Result of executing a SQL query. */
 export interface OnchainDataResult {
   /** Query result as an array of objects representing rows. */
-  result?: OnchainDataResultResultList;
+  result?: OnchainDataResultResultList | undefined;
   /** Schema information for the query result. This is a derived schema from the query result, so types may not match the underlying table. */
-  schema?: OnchainDataResultSchema;
+  schema?: OnchainDataResultSchema | undefined;
   /** Metadata about query execution. */
-  metadata?: OnchainDataResultMetadata;
+  metadata?: OnchainDataResultMetadata | undefined;
 }
 export type SearchX402ResourcesRequestExtensionsList = Array<string>;
 export type SearchX402ResourcesRequestTagsList = Array<string>;
 export type SearchX402ResourcesRequestBundleSlugsList = Array<string>;
 export interface SearchX402ResourcesRequest {
   /** Full-text or semantic search query to find matching resources. */
-  query?: string;
+  query?: string | undefined;
   /** Filter results by network in CAIP-2 format (e.g., `eip155:8453`) or legacy name (e.g., `base`, `base-sepolia`, `solana`). Legacy names are normalized to their CAIP-2 equivalents before filtering. */
-  network?: string;
+  network?: string | undefined;
   /** Filter results by asset address. For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address. Matching is case-insensitive. */
-  asset?: string;
+  asset?: string | undefined;
   /** Filter results by payment scheme (e.g., `exact`). */
-  scheme?: string;
+  scheme?: string | undefined;
   /** Filter results by the merchant's payment address. For EVM networks, provide a 0x-prefixed EVM address. For Solana networks, provide a base58-encoded address. */
-  payTo?: string;
+  payTo?: string | undefined;
   /** Filter results to resources whose URL contains this value (case-insensitive substring match against the resource URL). Useful for narrowing results to a specific domain, subdomain, or path segment. Combine with `query` to perform semantic search restricted to a URL subset. Tip: include enough of the URL to disambiguate (e.g. `api.example.com` rather than `example`) -- a short substring may also match resources whose path contains the same string. */
-  urlSubstring?: string;
+  urlSubstring?: string | undefined;
   /** Filter results to resources with a USD price at or below this value. */
-  maxUsdPrice?: string;
+  maxUsdPrice?: string | undefined;
   /** Filter results to resources that support the specified protocol extensions. Can be specified multiple times to filter by multiple extensions. */
-  extensions?: SearchX402ResourcesRequestExtensionsList;
+  extensions?: SearchX402ResourcesRequestExtensionsList | undefined;
   /** Filter results to resources published with any of the specified provider tags (case-sensitive exact match). Can be specified multiple times to filter by multiple tags; a resource matches if it carries at least one of the supplied tags (OR). */
-  tags?: SearchX402ResourcesRequestTagsList;
+  tags?: SearchX402ResourcesRequestTagsList | undefined;
   /** Filter results to resources that belong to any of the specified curated bundles (by bundle slug). Can be specified multiple times to filter by multiple bundles; a resource matches if it belongs to at least one of the supplied bundles (OR). */
-  bundleSlugs?: SearchX402ResourcesRequestBundleSlugsList;
+  bundleSlugs?: SearchX402ResourcesRequestBundleSlugsList | undefined;
   /** When `true`, restrict results to Coinbase-curated resources (those with `curated: true`). When `false` or omitted, both curated and non-curated resources are returned. */
-  curatedOnly?: boolean;
+  curatedOnly?: boolean | undefined;
   /** Maximum number of resources to return. Must be a positive integer no greater than 20. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** List of x402 resources matching the search query and filters. */
 export type X402SearchResourcesResponseResourcesList = Array<X402DiscoveryResource>;
@@ -4939,7 +5587,7 @@ export interface X402SearchResourcesResponse {
   /** Indicates whether the result set was truncated because there were more results than the requested limit. */
   partialResults: boolean;
   /** The search method used to retrieve the results (e.g., "text", "vector", "hybrid"). */
-  searchMethod?: X402SearchResourcesResponseSearchMethod;
+  searchMethod?: X402SearchResourcesResponseSearchMethod | undefined;
   x402Version: X402Version;
 }
 /** The EVM network to send USDC on. */
@@ -4963,7 +5611,7 @@ export interface SendEvmAssetWithEndUserAccountRequest {
   /** The asset to send. Currently only "usdc" is supported. */
   asset: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The 0x-prefixed address of the recipient. */
   to: string;
   /** The amount of USDC to send as a decimal string (e.g., "1.5" or "25.50"). */
@@ -4971,18 +5619,18 @@ export interface SendEvmAssetWithEndUserAccountRequest {
   /** The EVM network to send USDC on. */
   network: SendEvmAssetWithEndUserAccountRequestNetwork | (string & {});
   /** Whether to use CDP Paymaster to sponsor gas fees. Only applicable for EVM Smart Accounts. When true, the transaction gas will be paid by the Paymaster, allowing users to send USDC without holding native gas tokens. Ignored for EOA accounts. Cannot be used together with `paymasterUrl`. */
-  useCdpPaymaster?: boolean;
+  useCdpPaymaster?: boolean | undefined;
   /** Optional custom Paymaster URL to use for gas sponsorship. Only applicable for EVM Smart Accounts. This allows you to use your own Paymaster service instead of CDP's Paymaster. Cannot be used together with `useCdpPaymaster`. */
-  paymasterUrl?: string;
-  paymasterContext?: PaymasterContext;
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface SendEvmAssetWithEndUserAccountResponse {
   /** The hash of the transaction, as a 0x-prefixed hex string. Populated for EOA accounts. Null for Smart Accounts (use userOpHash instead). */
-  transactionHash?: string | null;
+  transactionHash?: string | null | undefined;
   /** The hash of the user operation, as a 0x-prefixed hex string. Populated for Smart Accounts. Null for EOA accounts (use transactionHash instead). */
-  userOpHash?: string | null;
+  userOpHash?: string | null | undefined;
 }
 /** The network to send the transaction to. */
 export type SendEvmTransactionRequestNetwork =
@@ -5026,13 +5674,13 @@ export interface SendEvmTransactionWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The 0x-prefixed address of the EVM account belonging to the end user. */
   address: string;
   /** The network to send the transaction to. */
   network: SendEvmTransactionWithEndUserAccountRequestNetwork | (string & {});
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
   /** The RLP-encoded transaction to sign and send, as a 0x-prefixed hex string. */
   transaction: string;
 }
@@ -5050,7 +5698,7 @@ export interface SendSolanaAssetWithEndUserAccountRequest {
   /** The asset to send. Currently only "usdc" is supported. */
   asset: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The base58 encoded address of the recipient. */
   to: string;
   /** The amount of USDC to send as a decimal string (e.g., "1.5" or "25.50"). */
@@ -5058,11 +5706,11 @@ export interface SendSolanaAssetWithEndUserAccountRequest {
   /** The Solana network to send USDC on. */
   network: SendSolanaAssetWithEndUserAccountRequestNetwork | (string & {});
   /** Whether to automatically create an Associated Token Account (ATA) for the recipient if it doesn't exist. When true, the sender pays the rent-exempt minimum to create the recipient's USDC ATA. When false, the transaction will fail if the recipient doesn't have a USDC ATA. */
-  createRecipientAta?: boolean;
+  createRecipientAta?: boolean | undefined;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
   /** Whether transaction fees should be sponsored by CDP. When true, CDP sponsors the transaction fees on behalf of the end user. When false, the end user is responsible for paying the transaction fees. */
-  useCdpSponsor?: boolean;
+  useCdpSponsor?: boolean | undefined;
 }
 export interface SendSolanaAssetWithEndUserAccountResponse {
   /** The base58 encoded transaction signature. */
@@ -5076,7 +5724,7 @@ export interface SendSolanaTransactionRequest {
   /** The base64 encoded transaction to sign and send. This transaction can contain multiple instructions for native Solana batching. */
   transaction: string;
   /** Whether transaction fees should be sponsored by CDP. When true, CDP sponsors the transaction fees on behalf of the server wallet. When false, the server wallet is responsible for paying the transaction fees. */
-  useCdpSponsor?: boolean;
+  useCdpSponsor?: boolean | undefined;
 }
 export interface SendSolanaTransactionResponse {
   /** The base58 encoded transaction signature. */
@@ -5088,17 +5736,17 @@ export interface SendSolanaTransactionWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The base58 encoded address of the Solana account belonging to the end user. */
   address: string;
   /** The Solana network to send the transaction to. */
   network: SendSolanaTransactionWithEndUserAccountRequestNetwork | (string & {});
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
   /** The base64 encoded transaction to sign and send. This transaction can contain multiple instructions for native Solana batching. */
   transaction: string;
   /** Whether transaction fees should be sponsored by CDP. When true, CDP sponsors the transaction fees on behalf of the end user. When false, the end user is responsible for paying the transaction fees. */
-  useCdpSponsor?: boolean;
+  useCdpSponsor?: boolean | undefined;
 }
 export interface SendSolanaTransactionWithEndUserAccountResponse {
   /** The base58 encoded transaction signature. */
@@ -5120,19 +5768,19 @@ export interface SendUserOperationWithEndUserAccountRequest {
   /** The address of the EVM Smart Account to execute the user operation from. */
   address: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   network: EvmUserOperationNetwork | (string & {});
   /** The list of calls to make from the Smart Account. */
   calls: SendUserOperationWithEndUserAccountRequestCallsList;
   /** Whether to use the CDP Paymaster for the user operation. */
   useCdpPaymaster: boolean;
   /** The URL of the paymaster to use for the user operation. If using the CDP Paymaster, use the `useCdpPaymaster` option. */
-  paymasterUrl?: string;
-  paymasterContext?: PaymasterContext;
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
   /** The EIP-8021 data suffix (hex-encoded) that enables transaction attribution for the user operation. */
-  dataSuffix?: string;
+  dataSuffix?: string | undefined;
 }
 /** The authorization data for the ERC-3009 authorization message. */
 export interface X402ExactEvmPayloadAuthorization {
@@ -5170,7 +5818,7 @@ export interface X402ExactEvmPermit2PayloadPermit2AuthorizationWitness {
   /** The unix timestamp after which the payment is valid. */
   validAfter: string;
   /** Optional hex-encoded extra data. */
-  extra?: string;
+  extra?: string | undefined;
 }
 /** The authorization data for the Permit2 PermitWitnessTransferFrom message. */
 export interface X402ExactEvmPermit2PayloadPermit2Authorization {
@@ -5279,7 +5927,9 @@ export interface X402BatchSettlementDepositPayloadDepositAuthorizationErc3009Aut
 /** The asset-transfer authorization for the deposit. Currently only ERC-3009 is supported. */
 export interface X402BatchSettlementDepositPayloadDepositAuthorization {
   /** An ERC-3009 receiveWithAuthorization message authorizing the channel-funding transfer. */
-  erc3009Authorization?: X402BatchSettlementDepositPayloadDepositAuthorizationErc3009Authorization;
+  erc3009Authorization?:
+    | X402BatchSettlementDepositPayloadDepositAuthorizationErc3009Authorization
+    | undefined;
 }
 /** The deposit amount and asset-transfer authorization that funds the channel. */
 export interface X402BatchSettlementDepositPayloadDeposit {
@@ -5332,15 +5982,15 @@ export interface X402BatchSettlementRefundPayload {
   channelConfig: X402BatchSettlementChannelConfig;
   voucher: X402BatchSettlementVoucher;
   /** The refund amount in atomic units of `channelConfig.token`. Optional in the client-emitted shape (defaults to the full remaining channel balance). Required when the payload is enriched by a mediating server. */
-  amount?: string;
+  amount?: string | undefined;
   /** The on-chain refund nonce for replay protection (uint256 as decimal string). Only present on the server-enriched shape. */
-  refundNonce?: string;
+  refundNonce?: string | undefined;
   /** Voucher claims to include atomically with the refund. Only present on the server-enriched shape. */
-  claims?: X402BatchSettlementRefundPayloadClaimsList;
+  claims?: X402BatchSettlementRefundPayloadClaimsList | undefined;
   /** Optional EIP-712 signature from the receiver authorizer over the refund. When omitted, the facilitator auto-signs. */
-  refundAuthorizerSignature?: string;
+  refundAuthorizerSignature?: string | undefined;
   /** Optional EIP-712 signature from the receiver authorizer over the included claims. When omitted, the facilitator auto-signs. */
-  claimAuthorizerSignature?: string;
+  claimAuthorizerSignature?: string | undefined;
 }
 /** The payload-type discriminator. Must be `"claim"` for a server-to-facilitator on-chain claim batch request. */
 export type X402BatchSettlementClaimPayloadType = "claim";
@@ -5353,7 +6003,7 @@ export interface X402BatchSettlementClaimPayload {
   /** The list of voucher claims to batch in a single on-chain `claim` call. */
   claims: X402BatchSettlementClaimPayloadClaimsList;
   /** Optional EIP-712 signature from the receiver authorizer over the claim batch. When omitted, the facilitator auto-signs. */
-  claimAuthorizerSignature?: string;
+  claimAuthorizerSignature?: string | undefined;
 }
 /** The payload-type discriminator. Must be `"settle"` for a server-to-facilitator request to move claimed funds to the receiver. */
 export type X402BatchSettlementSettlePayloadType = "settle";
@@ -5383,11 +6033,11 @@ export type X402V2PaymentPayloadPayload =
 /** Describes the resource being accessed in x402 protocol. */
 export interface X402ResourceInfo {
   /** The URL of the resource. */
-  url?: string;
+  url?: string | undefined;
   /** A human-readable description of the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The MIME type of the resource response. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 /** Optional protocol extensions. */
 export type X402V2PaymentPayloadExtensionsMap = { [key: string]: unknown | undefined };
@@ -5398,9 +6048,9 @@ export interface X402V2PaymentPayload {
   /** The payload of the payment depending on the x402Version, scheme, and network. Discriminated by scheme-specific fields: exact-EVM/upto-EVM payloads carry a `signature`; exact-Solana carries a `transaction`; batch-settlement carries a `type` discriminator. See `x402BatchSettlementEvmPayload` for the documented batch-settlement variants. */
   payload: X402V2PaymentPayloadPayload;
   accepted: X402V2PaymentRequirements;
-  resource?: X402ResourceInfo;
+  resource?: X402ResourceInfo | undefined;
   /** Optional protocol extensions. */
-  extensions?: X402V2PaymentPayloadExtensionsMap;
+  extensions?: X402V2PaymentPayloadExtensionsMap | undefined;
 }
 /** The scheme of the payment protocol to use. Currently, the only supported scheme is `exact`. */
 export type X402V1PaymentPayloadScheme = "exact";
@@ -5649,9 +6299,9 @@ export type SettleX402PaymentResponseExtraMap = { [key: string]: unknown | undef
 export interface SettleX402PaymentResponse {
   /** Indicates whether the payment settlement is successful. */
   success: boolean;
-  errorReason?: X402SettleErrorReason;
+  errorReason?: X402SettleErrorReason | undefined;
   /** The message describing the error reason. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The onchain address of the client that is paying for the resource. For EVM networks, the payer will be a 0x-prefixed, checksum EVM address. For Solana-based networks, the payer will be a base58-encoded Solana address. */
   payer: string;
   /** The transaction of the settlement. For EVM networks, the transaction will be a 0x-prefixed, EVM transaction hash. For Solana-based networks, the transaction will be a base58-encoded Solana signature. */
@@ -5659,9 +6309,9 @@ export interface SettleX402PaymentResponse {
   /** The network where the settlement occurred. */
   network: string;
   /** The amount that was settled, in atomic units. */
-  amount?: string;
+  amount?: string | undefined;
   /** Optional scheme-specific success metadata returned by the facilitator. */
-  extra?: SettleX402PaymentResponseExtraMap;
+  extra?: SettleX402PaymentResponseExtraMap | undefined;
 }
 export interface SignEvmHashRequest {
   /** The 0x-prefixed address of the EVM account. */
@@ -5687,13 +6337,13 @@ export interface SignEvmMessageWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The 0x-prefixed address of the EVM account belonging to the end user. */
   address: string;
   /** The message to sign. */
   message: string;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface SignEvmMessageWithEndUserAccountResponse {
   /** The signature of the message, as a 0x-prefixed hex string. */
@@ -5713,13 +6363,13 @@ export interface SignEvmTransactionWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The 0x-prefixed address of the EVM account belonging to the end user. */
   address: string;
   /** The RLP-encoded transaction to sign, as a 0x-prefixed hex string. */
   transaction: string;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface SignEvmTransactionWithEndUserAccountResponse {
   /** The RLP-encoded signed transaction, as a 0x-prefixed hex string. */
@@ -5743,12 +6393,12 @@ export interface SignEvmTypedDataWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The 0x-prefixed address of the EVM account belonging to the end user. */
   address: string;
   typedData: EIP712Message;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface SignEvmTypedDataWithEndUserAccountResponse {
   /** The signature of the typed data, as a 0x-prefixed hex string. */
@@ -5762,7 +6412,7 @@ export interface SignSolanaMessageRequest {
   /** The arbitrary message to sign. */
   message: string;
   /** The encoding of the message. Use `utf8` to sign the literal UTF-8 bytes of the message, or `base64` to decode an RFC 4648 standard Base64 string before signing. Base64 input must use the standard `+` and `/` alphabet with `=` padding where required. If omitted, the message is interpreted as UTF-8. */
-  encoding?: SignSolanaMessageRequestEncoding | (string & {});
+  encoding?: SignSolanaMessageRequestEncoding | (string & {}) | undefined;
 }
 export interface SignSolanaMessageResponse {
   /** The signature of the message, as a base58 encoded string. */
@@ -5772,13 +6422,13 @@ export interface SignSolanaMessageWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The base58 encoded address of the Solana account belonging to the end user. */
   address: string;
   /** The base64 encoded arbitrary message to sign. */
   message: string;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface SignSolanaMessageWithEndUserAccountResponse {
   /** The signature of the message, as a base58 encoded string. */
@@ -5790,7 +6440,7 @@ export interface SignSolanaTransactionRequest {
   /** The base58 encoded address of the Solana account. */
   address: string;
   /** The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise. */
-  network?: SignSolanaTransactionRequestNetwork | (string & {});
+  network?: SignSolanaTransactionRequestNetwork | (string & {}) | undefined;
   /** The base64 encoded transaction to sign. */
   transaction: string;
 }
@@ -5804,15 +6454,15 @@ export interface SignSolanaTransactionWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The base58 encoded address of the Solana account belonging to the end user. */
   address: string;
   /** The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise. */
-  network?: SignSolanaTransactionWithEndUserAccountRequestNetwork | (string & {});
+  network?: SignSolanaTransactionWithEndUserAccountRequestNetwork | (string & {}) | undefined;
   /** The base64 encoded transaction to sign. */
   transaction: string;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface SignSolanaTransactionWithEndUserAccountResponse {
   /** The base64 encoded signed transaction. */
@@ -5829,17 +6479,17 @@ export interface X402PaymentRequired {
   /** The list of payment options the resource server accepts. At least one option must be present. */
   accepts: X402PaymentRequiredAcceptsList;
   /** Optional metadata about the resource being paid for. */
-  resource?: X402ResourceInfo;
+  resource?: X402ResourceInfo | undefined;
   /** An optional error message from the resource server describing why payment is required. */
-  error?: string;
+  error?: string | undefined;
   /** Optional protocol extensions. Unknown keys are forwarded as-is into the signed payment payload. */
-  extensions?: X402PaymentRequiredExtensionsMap;
+  extensions?: X402PaymentRequiredExtensionsMap | undefined;
 }
 export interface SignSolanaX402PaymentWithEndUserAccountRequest {
   /** The ID of the end user. */
   userId: string;
   /** The ID of the CDP Project. Required for end users authenticated using custom auth (i.e. a non-CDP JWT provider). */
-  projectID?: string;
+  projectID?: string | undefined;
   /** The complete x402 payment required response body from the resource server. Top-level fields (x402Version, resource, error, extensions) are preserved in the signed payment payload; acceptsIndex selects which entry from accepts is signed as paymentPayload.accepted. */
   paymentRequired: X402PaymentRequired;
   /** Zero-based index into paymentRequired.accepts selecting which payment option to sign. Must be less than the length of accepts. The entry at this index must be a Solana network payment option for this endpoint. */
@@ -5847,53 +6497,810 @@ export interface SignSolanaX402PaymentWithEndUserAccountRequest {
   /** The base58 encoded address of the end user's Solana account to sign with. */
   address: string;
   /** Required when not using delegated signing. The ID of the Temporary Wallet Secret that was used to sign the X-Wallet-Auth Header. */
-  walletSecretId?: string;
+  walletSecretId?: string | undefined;
 }
 export interface SignSolanaX402PaymentWithEndUserAccountResponse {
   /** The signed x402 payment payload. Base64-encode this and send it in the PAYMENT-SIGNATURE header of the resource request. */
   paymentPayload: X402PaymentPayload;
 }
+/** Rule operation to simulate. */
+export type SignEvmTransactionSimulationInputOperation = "signEvmTransaction";
+export interface SignEvmTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEvmTransactionSimulationInputOperation;
+  /** The 0x-prefixed address of the EVM account. */
+  address: string;
+  /** The RLP-encoded transaction to evaluate, as a 0x-prefixed hex string. */
+  transaction: string;
+}
+/** Rule operation to simulate. */
+export type SendEvmTransactionSimulationInputOperation = "sendEvmTransaction";
+/** The network to send the transaction to. */
+export type SendEvmTransactionSimulationInputNetwork =
+  | "base"
+  | "base-sepolia"
+  | "ethereum"
+  | "ethereum-sepolia"
+  | "avalanche"
+  | "polygon"
+  | "optimism"
+  | "arbitrum"
+  | "arbitrum-sepolia"
+  | "world"
+  | "world-sepolia";
+export interface SendEvmTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendEvmTransactionSimulationInputOperation;
+  /** The 0x-prefixed address of the EVM account. */
+  address: string;
+  /** The RLP-encoded transaction to evaluate, as a 0x-prefixed hex string. */
+  transaction: string;
+  /** The network to send the transaction to. */
+  network: SendEvmTransactionSimulationInputNetwork | (string & {});
+}
+/** Rule operation to simulate. */
+export type SignEvmHashSimulationInputOperation = "signEvmHash";
+export interface SignEvmHashSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEvmHashSimulationInputOperation;
+  /** The 0x-prefixed address of the EVM account. */
+  address: string;
+  /** The arbitrary 32 byte hash to evaluate. */
+  hash: string;
+}
+/** Rule operation to simulate. */
+export type SignEvmMessageSimulationInputOperation = "signEvmMessage";
+export interface SignEvmMessageSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEvmMessageSimulationInputOperation;
+  /** The 0x-prefixed address of the EVM account. */
+  address: string;
+  /** The message to evaluate. */
+  message: string;
+}
+/** Rule operation to simulate. */
+export type SignEvmTypedDataSimulationInputOperation = "signEvmTypedData";
+export interface SignEvmTypedDataSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEvmTypedDataSimulationInputOperation;
+  /** The 0x-prefixed address of the EVM account. */
+  address: string;
+  domain: EIP712Domain;
+  types: unknown;
+  /** The primary type of the message. This is the name of the struct in the `types` object that is the root of the message. */
+  primaryType: string;
+  /** The message to evaluate. The structure of this message must match the `primaryType` struct in the `types` object. */
+  message: unknown;
+}
+/** Rule operation to simulate. */
+export type PrepareUserOperationSimulationInputOperation = "prepareUserOperation";
+/** The list of calls to make from the Smart Account. */
+export type PrepareUserOperationSimulationInputCallsList = Array<EvmCall>;
+export interface PrepareUserOperationSimulationInput {
+  /** Rule operation to simulate. */
+  operation: PrepareUserOperationSimulationInputOperation;
+  /** The Smart Account address. */
+  address: string;
+  network: EvmUserOperationNetwork | (string & {});
+  /** The list of calls to make from the Smart Account. */
+  calls: PrepareUserOperationSimulationInputCallsList;
+  /** The URL of the paymaster to use for the user operation. */
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
+  /** The EIP-8021 data suffix (hex-encoded) that enables transaction attribution for the user operation. */
+  dataSuffix?: string | undefined;
+}
+/** Rule operation to simulate. */
+export type SendUserOperationSimulationInputOperation = "sendUserOperation";
+export interface SendUserOperationSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendUserOperationSimulationInputOperation;
+  /** The Smart Account address. */
+  address: string;
+  /** The hash of the prepared user operation. */
+  userOpHash: string;
+}
+/** Rule operation to simulate. */
+export type SignSolTransactionSimulationInputOperation = "signSolTransaction";
+/** The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise. */
+export type SignSolTransactionSimulationInputNetwork = "solana" | "solana-devnet";
+export interface SignSolTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignSolTransactionSimulationInputOperation;
+  /** The base58 encoded address of the Solana account. */
+  address: string;
+  /** The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise. */
+  network?: SignSolTransactionSimulationInputNetwork | (string & {}) | undefined;
+  /** The base64 encoded transaction to evaluate. */
+  transaction: string;
+}
+/** Rule operation to simulate. */
+export type SendSolTransactionSimulationInputOperation = "sendSolTransaction";
+/** The Solana network to send the transaction to. */
+export type SendSolTransactionSimulationInputNetwork = "solana" | "solana-devnet";
+export interface SendSolTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendSolTransactionSimulationInputOperation;
+  /** The Solana network to send the transaction to. */
+  network: SendSolTransactionSimulationInputNetwork | (string & {});
+  /** The base64 encoded transaction to evaluate. This transaction can contain multiple instructions for native Solana batching. */
+  transaction: string;
+  /** Whether transaction fees should be sponsored by CDP. When true, CDP sponsors the transaction fees on behalf of the server wallet. When false, the server wallet is responsible for paying the transaction fees. */
+  useCdpSponsor?: boolean | undefined;
+}
+/** Rule operation to simulate. */
+export type SignSolMessageSimulationInputOperation = "signSolMessage";
+/** The encoding of the message. Use `utf8` to evaluate the literal UTF-8 bytes of the message, or `base64` to decode an RFC 4648 standard Base64 string before evaluating. Base64 input must use the standard `+` and `/` alphabet with `=` padding where required. If omitted, the message is interpreted as UTF-8. */
+export type SignSolMessageSimulationInputEncoding = "utf8" | "base64";
+export interface SignSolMessageSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignSolMessageSimulationInputOperation;
+  /** The base58 encoded address of the Solana account. */
+  address: string;
+  /** The arbitrary message to evaluate. */
+  message: string;
+  /** The encoding of the message. Use `utf8` to evaluate the literal UTF-8 bytes of the message, or `base64` to decode an RFC 4648 standard Base64 string before evaluating. Base64 input must use the standard `+` and `/` alphabet with `=` padding where required. If omitted, the message is interpreted as UTF-8. */
+  encoding?: SignSolMessageSimulationInputEncoding | (string & {}) | undefined;
+}
+/** Rule operation to simulate. */
+export type SignEndUserEvmHashSimulationInputOperation = "signEndUserEvmHash";
+export interface SignEndUserEvmHashSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEndUserEvmHashSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The 0x-prefixed address of the EVM account belonging to the end user. */
+  address: string;
+  /** The arbitrary 32 byte hash to evaluate. */
+  hash: string;
+}
+/** Rule operation to simulate. */
+export type SignEndUserEvmTransactionSimulationInputOperation = "signEndUserEvmTransaction";
+export interface SignEndUserEvmTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEndUserEvmTransactionSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The 0x-prefixed address of the EVM account belonging to the end user. */
+  address: string;
+  /** The RLP-encoded transaction to evaluate, as a 0x-prefixed hex string. */
+  transaction: string;
+}
+/** Rule operation to simulate. */
+export type SendEndUserEvmTransactionSimulationInputOperation = "sendEndUserEvmTransaction";
+/** The network to send the transaction to. */
+export type SendEndUserEvmTransactionSimulationInputNetwork =
+  | "base"
+  | "base-sepolia"
+  | "ethereum"
+  | "ethereum-sepolia"
+  | "avalanche"
+  | "polygon"
+  | "optimism"
+  | "arbitrum"
+  | "arbitrum-sepolia"
+  | "world"
+  | "world-sepolia";
+export interface SendEndUserEvmTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendEndUserEvmTransactionSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The 0x-prefixed address of the EVM account belonging to the end user. */
+  address: string;
+  /** The network to send the transaction to. */
+  network: SendEndUserEvmTransactionSimulationInputNetwork | (string & {});
+  /** The RLP-encoded transaction to evaluate, as a 0x-prefixed hex string. */
+  transaction: string;
+}
+/** Rule operation to simulate. */
+export type SignEndUserEvmMessageSimulationInputOperation = "signEndUserEvmMessage";
+export interface SignEndUserEvmMessageSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEndUserEvmMessageSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The 0x-prefixed address of the EVM account belonging to the end user. */
+  address: string;
+  /** The message to evaluate. */
+  message: string;
+}
+/** Rule operation to simulate. */
+export type SignEndUserEvmTypedDataSimulationInputOperation = "signEndUserEvmTypedData";
+export interface SignEndUserEvmTypedDataSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEndUserEvmTypedDataSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The 0x-prefixed address of the EVM account belonging to the end user. */
+  address: string;
+  typedData: EIP712Message;
+}
+/** Rule operation to simulate. */
+export type SendEndUserOperationSimulationInputOperation = "sendEndUserOperation";
+/** The list of calls to make from the Smart Account. */
+export type SendEndUserOperationSimulationInputCallsList = Array<EvmCall>;
+export interface SendEndUserOperationSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendEndUserOperationSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The Smart Account address. */
+  address: string;
+  network: EvmUserOperationNetwork | (string & {});
+  /** The list of calls to make from the Smart Account. */
+  calls: SendEndUserOperationSimulationInputCallsList;
+  /** Whether to use the CDP Paymaster for the user operation. */
+  useCdpPaymaster: boolean;
+  /** The URL of the paymaster to use for the user operation. If using the CDP Paymaster, use the useCdpPaymaster option. */
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
+  /** The EIP-8021 data suffix (hex-encoded) that enables transaction attribution for the user operation. */
+  dataSuffix?: string | undefined;
+}
+/** Rule operation to simulate. */
+export type SignEndUserSolTransactionSimulationInputOperation = "signEndUserSolTransaction";
+/** The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise. */
+export type SignEndUserSolTransactionSimulationInputNetwork = "solana" | "solana-devnet";
+export interface SignEndUserSolTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEndUserSolTransactionSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The base58 encoded address of the Solana account belonging to the end user. */
+  address: string;
+  /** The Solana network the transaction targets. Required when using versioned transactions that reference address lookup tables, since resolving those tables requires querying a specific network. Optional otherwise. */
+  network?: SignEndUserSolTransactionSimulationInputNetwork | (string & {}) | undefined;
+  /** The base64 encoded transaction to evaluate. */
+  transaction: string;
+}
+/** Rule operation to simulate. */
+export type SendEndUserSolTransactionSimulationInputOperation = "sendEndUserSolTransaction";
+/** The Solana network to send the transaction to. */
+export type SendEndUserSolTransactionSimulationInputNetwork = "solana" | "solana-devnet";
+export interface SendEndUserSolTransactionSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendEndUserSolTransactionSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The base58 encoded address of the Solana account belonging to the end user. */
+  address: string;
+  /** The Solana network to send the transaction to. */
+  network: SendEndUserSolTransactionSimulationInputNetwork | (string & {});
+  /** The base64 encoded transaction to evaluate. This transaction can contain multiple instructions for native Solana batching. */
+  transaction: string;
+  /** Whether transaction fees should be sponsored by CDP. When true, CDP sponsors the transaction fees on behalf of the end user. When false, the end user is responsible for paying the transaction fees. */
+  useCdpSponsor?: boolean | undefined;
+}
+/** Rule operation to simulate. */
+export type SignEndUserSolMessageSimulationInputOperation = "signEndUserSolMessage";
+export interface SignEndUserSolMessageSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SignEndUserSolMessageSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The base58 encoded address of the Solana account belonging to the end user. */
+  address: string;
+  /** The base64 encoded arbitrary message to evaluate. */
+  message: string;
+}
+/** Rule operation to simulate. */
+export type SendEndUserEvmAssetSimulationInputOperation = "sendEndUserEvmAsset";
+/** The EVM network to send USDC on. */
+export type SendEndUserEvmAssetSimulationInputNetwork =
+  | "base"
+  | "base-sepolia"
+  | "ethereum"
+  | "ethereum-sepolia"
+  | "avalanche"
+  | "polygon"
+  | "optimism"
+  | "arbitrum"
+  | "arbitrum-sepolia"
+  | "world"
+  | "world-sepolia";
+export interface SendEndUserEvmAssetSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendEndUserEvmAssetSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The EVM account address to send USDC from. */
+  address: string;
+  /** The asset to send. */
+  asset: string;
+  /** The 0x-prefixed address of the recipient. */
+  to: string;
+  /** The amount of USDC to send as a decimal string (e.g. "1.5" or "25.50"). */
+  amount: string;
+  /** The EVM network to send USDC on. */
+  network: SendEndUserEvmAssetSimulationInputNetwork | (string & {});
+  /** Whether to use CDP Paymaster for gas sponsorship on Smart Accounts. Ignored for EOAs; cannot be used with paymasterUrl. */
+  useCdpPaymaster?: boolean | undefined;
+  /** Optional custom Paymaster URL for gas sponsorship on Smart Accounts. Cannot be used with useCdpPaymaster. */
+  paymasterUrl?: string | undefined;
+  paymasterContext?: PaymasterContext | undefined;
+}
+/** Rule operation to simulate. */
+export type SendEndUserSolAssetSimulationInputOperation = "sendEndUserSolAsset";
+/** The Solana network to send USDC on. */
+export type SendEndUserSolAssetSimulationInputNetwork = "solana" | "solana-devnet";
+export interface SendEndUserSolAssetSimulationInput {
+  /** Rule operation to simulate. */
+  operation: SendEndUserSolAssetSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The Solana account address to send USDC from. */
+  address: string;
+  /** The asset to send. */
+  asset: string;
+  /** The base58 encoded address of the recipient. */
+  to: string;
+  /** The amount of USDC to send as a decimal string (e.g. "1.5" or "25.50"). */
+  amount: string;
+  /** The Solana network to send USDC on. */
+  network: SendEndUserSolAssetSimulationInputNetwork | (string & {});
+  /** Whether to automatically create an Associated Token Account (ATA) for the recipient if it doesn't exist. When true, the sender pays the rent-exempt minimum to create the recipient's USDC ATA. When false, the transaction will fail if the recipient doesn't have a USDC ATA. */
+  createRecipientAta?: boolean | undefined;
+  /** Whether transaction fees should be sponsored by CDP. When true, CDP sponsors the transaction fees on behalf of the end user. When false, the end user is responsible for paying the transaction fees. */
+  useCdpSponsor?: boolean | undefined;
+}
+/** Rule operation to simulate. */
+export type CreateEndUserEvmSwapSimulationInputOperation = "createEndUserEvmSwap";
+export interface CreateEndUserEvmSwapSimulationInput {
+  /** Rule operation to simulate. */
+  operation: CreateEndUserEvmSwapSimulationInputOperation;
+  /** The ID of the end user. */
+  userId: string;
+  /** The end user's EVM address (EOA or smart account) that will send fromToken. Must belong to this end user. */
+  taker: string;
+  network: EvmSwapsNetwork | (string & {});
+  /** The 0x-prefixed contract address of the token to sell. */
+  fromToken: string;
+  /** The 0x-prefixed contract address of the token to buy. */
+  toToken: string;
+  /** The amount of `fromToken` to sell, in atomic units. For example, `100000000000000000` when selling WETH equates to 0.1 WETH. */
+  fromAmount: string;
+  /** Maximum slippage in basis points (100 = 1%). Sets the minimum output floor baked into the transaction calldata. If the onchain price moves beyond this tolerance, the transaction reverts. Default is 100 (1%). */
+  slippageBps?: number | undefined;
+  /** Whether to use the CDP Paymaster for the user operation. */
+  useCdpPaymaster?: boolean | undefined;
+  /** The URL of the paymaster to use for the user operation. If using the CDP Paymaster, use the useCdpPaymaster option. */
+  paymasterUrl?: string | undefined;
+}
+/** Inputs for one operation, without signing credentials. `operation` is the policy rule operation name (for example `signSolTransaction`), not the HTTP operation ID (`signSolanaTransaction`). */
+export type SimulatePoliciesRequest =
+  | SignEvmTransactionSimulationInput
+  | SendEvmTransactionSimulationInput
+  | SignEvmHashSimulationInput
+  | SignEvmMessageSimulationInput
+  | SignEvmTypedDataSimulationInput
+  | PrepareUserOperationSimulationInput
+  | SendUserOperationSimulationInput
+  | SignSolTransactionSimulationInput
+  | SendSolTransactionSimulationInput
+  | SignSolMessageSimulationInput
+  | SignEndUserEvmHashSimulationInput
+  | SignEndUserEvmTransactionSimulationInput
+  | SendEndUserEvmTransactionSimulationInput
+  | SignEndUserEvmMessageSimulationInput
+  | SignEndUserEvmTypedDataSimulationInput
+  | SendEndUserOperationSimulationInput
+  | SignEndUserSolTransactionSimulationInput
+  | SendEndUserSolTransactionSimulationInput
+  | SignEndUserSolMessageSimulationInput
+  | SendEndUserEvmAssetSimulationInput
+  | SendEndUserSolAssetSimulationInput
+  | CreateEndUserEvmSwapSimulationInput;
+export interface SimulatePoliciesRequest2 {
+  body: SimulatePoliciesRequest;
+}
+/** Whether the real operation would be accepted or rejected. */
+export type PolicySimulationResultAction = "accept" | "reject";
+/** Why the operation got its `action`. Each value implies exactly one `action`. Within a policy, a matching `reject` rule overrides any matching `accept` rule, regardless of rule order. With `accept`: `rule_accepted` means `matchedRule` matched all of its criteria, its action is `accept`, and no `reject` rule in the same policy matched. `no_rule_for_operation` means no rule targeted the operation, so it was accepted by default. With `reject`: `rule_rejected` means `matchedRule` matched all of its criteria and its action is `reject`, so the rejection is caused by the entire rule. `no_rule_matched` means at least one rule targeted the operation but none matched, so it was rejected by default; `unmatchedRules` shows the criterion that disqualified each one. */
+export type PolicySimulationResultReason =
+  | "rule_accepted"
+  | "rule_rejected"
+  | "no_rule_matched"
+  | "no_rule_for_operation";
+/** The scope of the policy. */
+export type EvaluatedPolicyScope = "project" | "account";
+/** A policy consulted during evaluation, at the version evaluated. */
+export interface EvaluatedPolicy {
+  /** The ID of the policy. */
+  id: string;
+  /** The scope of the policy. */
+  scope: EvaluatedPolicyScope;
+  /** The version of the policy evaluated. Rule and criterion indices refer to this version. */
+  updatedAt: string;
+}
+/** The criterion type. */
+export type EthValueObservationType = "ethValue";
+/** The transaction `value` an `ethValue` criterion compared. */
+export interface EthValueObservation {
+  /** The criterion type. */
+  type: EthValueObservationType;
+  /** The transaction `value`, in wei. `0` when the transaction transfers no ETH. */
+  ethValue: string;
+}
+/** The criterion type. */
+export type EvmAddressObservationType = "evmAddress";
+/** The transaction `to` address an `evmAddress` criterion compared. For a token transfer, this is the token contract, not the token recipient; use an `evmData` criterion to constrain the recipient. */
+export interface EvmAddressObservation {
+  /** The criterion type. */
+  type: EvmAddressObservationType;
+  /** The transaction `to` address. Omitted for a contract-creation transaction, which has none. */
+  address?: string | undefined;
+}
+/** The criterion type. */
+export type EvmNetworkObservationType = "evmNetwork";
+/** The network an `evmNetwork` criterion compared. */
+export interface EvmNetworkObservation {
+  /** The criterion type. */
+  type: EvmNetworkObservationType;
+  /** The network the operation targets, from the request's `network` or derived from the transaction's chain ID. Omitted when the chain ID is not a supported network. */
+  network?: string | undefined;
+  /** The chain ID from the transaction. Omitted when the network came from the request's `network`. */
+  chainId?: number | undefined;
+}
+/** The criterion type. */
+export type EvmDataObservationType = "evmData";
+/** A decoded function or instruction argument. */
+export interface ObservedArgument {
+  /** The argument name from the ABI or IDL. Empty when the ABI leaves it unnamed. */
+  name: string;
+  /** The argument type from the ABI or IDL. */
+  type: string;
+  /** The decoded value as text: integers in decimal base units, EVM addresses 0x-prefixed, Solana public keys in base58, bytes 0x-prefixed hex, booleans `true` or `false`, strings as-is, and arrays, tuples, and structs as compact JSON. */
+  value: string;
+  /** Whether `value` was cut to its first 256 characters. */
+  truncated: boolean;
+}
+/** The decoded arguments of `function`, in ABI order. Empty when `function` is omitted. Only the first 32 arguments are returned. */
+export type EvmDataObservationArgumentsList = Array<ObservedArgument>;
+/** The call an `evmData` criterion decoded from the transaction `data` with the criterion's `abi`. Parameters are checked against the first of the criterion's `conditions` whose `function` equals `function`. */
+export interface EvmDataObservation {
+  /** The criterion type. */
+  type: EvmDataObservationType;
+  /** The 4-byte function selector. Omitted when `data` is shorter than 4 bytes. */
+  selector?: string | undefined;
+  /** The name of the ABI function with this selector. Omitted when no function in the `abi` has it. */
+  function?: string | undefined;
+  /** The decoded arguments of `function`, in ABI order. Empty when `function` is omitted. Only the first 32 arguments are returned. */
+  arguments: EvmDataObservationArgumentsList;
+}
+/** The criterion type. */
+export type EvmMessageObservationType = "evmMessage";
+/** How `message` represents the matched bytes: `utf8` for the text itself, or `hex` for a 0x-prefixed hex string when the bytes are not valid UTF-8. */
+export type ObservedMessageEncoding = "utf8" | "hex";
+/** The message an `evmMessage` criterion matched its `match` expression against. */
+export interface EvmMessageObservation {
+  /** The criterion type. */
+  type: EvmMessageObservationType;
+  message: string;
+  encoding: ObservedMessageEncoding;
+  /** Whether `message` was cut to its first 2048 characters. The expression was matched against the whole message. */
+  truncated: boolean;
+}
+/** The criterion type. */
+export type EvmTypedDataFieldObservationType = "evmTypedDataField";
+/** The value an `evmTypedDataField` condition read from the typed data message. */
+export interface ObservedTypedDataField {
+  /** Zero-based index into the criterion's `conditions`. */
+  conditionIndex: number;
+  /** The value at the condition's `path`, as text in the same format as `ObservedArgument.value`. Omitted when the message has no value at that path. */
+  value?: string | undefined;
+  /** Whether `value` was cut to its first 256 characters. */
+  truncated: boolean;
+}
+/** The fields that decided the criterion. When the criterion is unmet, this is the field of the first failing condition only. When it is met, this is the field of every condition, in `conditions` order. */
+export type EvmTypedDataFieldObservationFieldsList = Array<ObservedTypedDataField>;
+/** The typed data fields an `evmTypedDataField` criterion compared. The message's types must match the criterion's `types` before any condition is checked. */
+export interface EvmTypedDataFieldObservation {
+  /** The criterion type. */
+  type: EvmTypedDataFieldObservationType;
+  /** Whether the message's types matched the criterion's `types`. When `false`, no condition was checked and `fields` is empty. */
+  typesMatched: boolean;
+  /** The fields that decided the criterion. When the criterion is unmet, this is the field of the first failing condition only. When it is met, this is the field of every condition, in `conditions` order. */
+  fields: EvmTypedDataFieldObservationFieldsList;
+}
+/** The criterion type. */
+export type EvmTypedDataVerifyingContractObservationType = "evmTypedDataVerifyingContract";
+/** The domain `verifyingContract` an `evmTypedDataVerifyingContract` criterion compared. */
+export interface EvmTypedDataVerifyingContractObservation {
+  /** The criterion type. */
+  type: EvmTypedDataVerifyingContractObservationType;
+  /** The domain's `verifyingContract`. Omitted when the domain has none. */
+  address?: string | undefined;
+}
+/** The criterion type. */
+export type NetUSDChangeObservationType = "netUSDChange";
+/** The simulated net USD change a `netUSDChange` criterion compared. */
+export interface NetUSDChangeObservation {
+  /** The criterion type. */
+  type: NetUSDChangeObservationType;
+  /** Whether simulation was skipped because the operation targets a testnet. A skipped criterion is treated as met, as in the real operation, and `changeCents` is omitted. */
+  skipped: boolean;
+  /** The net USD change, in cents, of the transaction's asset transfers and exposure, as simulated at evaluation time. Present exactly when `skipped` is `false`. */
+  changeCents?: number | undefined;
+}
+/** The criterion type. */
+export type SolAddressObservationType = "solAddress";
+/** The recipient of each System Program transfer, in instruction order. Empty when the transaction has none. */
+export type SolAddressObservationAddressesList = Array<string>;
+/** The native SOL transfer recipients a `solAddress` criterion compared. */
+export interface SolAddressObservation {
+  /** The criterion type. */
+  type: SolAddressObservationType;
+  /** The recipient of each System Program transfer, in instruction order. Empty when the transaction has none. */
+  addresses: SolAddressObservationAddressesList;
+}
+/** The criterion type. */
+export type SolValueObservationType = "solValue";
+/** The amount of each System Program transfer, in lamports, in instruction order. Empty when the transaction has none. */
+export type SolValueObservationSolValuesList = Array<string>;
+/** The native SOL transfer amounts a `solValue` criterion compared. */
+export interface SolValueObservation {
+  /** The criterion type. */
+  type: SolValueObservationType;
+  /** The amount of each System Program transfer, in lamports, in instruction order. Empty when the transaction has none. */
+  solValues: SolValueObservationSolValuesList;
+}
+/** The criterion type. */
+export type SplAddressObservationType = "splAddress";
+/** The recipient of each SPL token transfer, in instruction order. Empty when the transaction has none. */
+export type SplAddressObservationAddressesList = Array<string>;
+/** The SPL token transfer recipients an `splAddress` criterion compared. For a raw transaction these are the recipients' token accounts (usually associated token accounts), not their wallet addresses. For `sendEndUserSolAsset` they are wallet addresses. */
+export interface SplAddressObservation {
+  /** The criterion type. */
+  type: SplAddressObservationType;
+  /** The recipient of each SPL token transfer, in instruction order. Empty when the transaction has none. */
+  addresses: SplAddressObservationAddressesList;
+}
+/** The criterion type. */
+export type SplValueObservationType = "splValue";
+/** The amount of each `TransferChecked` instruction, in the token's atomic units (not scaled by decimals), in instruction order. Empty when the transaction has none. */
+export type SplValueObservationSplValuesList = Array<string>;
+/** The SPL token transfer amounts an `splValue` criterion compared. */
+export interface SplValueObservation {
+  /** The criterion type. */
+  type: SplValueObservationType;
+  /** The amount of each `TransferChecked` instruction, in the token's atomic units (not scaled by decimals), in instruction order. Empty when the transaction has none. */
+  splValues: SplValueObservationSplValuesList;
+}
+/** The criterion type. */
+export type MintAddressObservationType = "mintAddress";
+/** The mint of each SPL token transfer, in instruction order. Empty when the transaction has none. */
+export type MintAddressObservationAddressesList = Array<string>;
+/** The token mints of the SPL token transfers a `mintAddress` criterion compared. */
+export interface MintAddressObservation {
+  /** The criterion type. */
+  type: MintAddressObservationType;
+  /** The mint of each SPL token transfer, in instruction order. Empty when the transaction has none. */
+  addresses: MintAddressObservationAddressesList;
+}
+/** The criterion type. */
+export type SolDataObservationType = "solData";
+/** The decoded arguments, in IDL order. Empty when `instruction` is omitted. Only the first 32 arguments are returned. */
+export type ObservedInstructionArgumentsList = Array<ObservedArgument>;
+/** A Solana instruction as decoded by a `solData` criterion. */
+export interface ObservedInstruction {
+  /** Zero-based index of the instruction in the transaction. */
+  index: number;
+  /** The program the instruction invokes. */
+  programId: string;
+  /** The instruction name from the IDL. Omitted when no IDL in the criterion decodes the instruction. */
+  instruction?: string | undefined;
+  /** The decoded arguments, in IDL order. Empty when `instruction` is omitted. Only the first 32 arguments are returned. */
+  arguments: ObservedInstructionArgumentsList;
+}
+/** The instructions that decided the criterion. When the criterion is unmet, this is the first instruction that matched no condition, only. When it is met, this is every instruction, in transaction order. */
+export type SolDataObservationInstructionsList = Array<ObservedInstruction>;
+/** The instructions a `solData` criterion decoded with the criterion's `idls`. The criterion is met when every instruction matches at least one of its `conditions`. */
+export interface SolDataObservation {
+  /** The criterion type. */
+  type: SolDataObservationType;
+  /** The instructions that decided the criterion. When the criterion is unmet, this is the first instruction that matched no condition, only. When it is met, this is every instruction, in transaction order. */
+  instructions: SolDataObservationInstructionsList;
+  /** Whether `instructions` was cut to its first 64 entries. */
+  truncated: boolean;
+}
+/** The criterion type. */
+export type SolMessageObservationType = "solMessage";
+/** The message a `solMessage` criterion matched its `match` expression against, after decoding the request's base64 `message` when its `encoding` is `base64`. */
+export interface SolMessageObservation {
+  /** The criterion type. */
+  type: SolMessageObservationType;
+  message: string;
+  encoding: ObservedMessageEncoding;
+  /** Whether `message` was cut to its first 2048 characters. The expression was matched against the whole message. */
+  truncated: boolean;
+}
+/** The criterion type. */
+export type ProgramIdObservationType = "programId";
+/** The program ID of each instruction, in instruction order. */
+export type ProgramIdObservationProgramIdsList = Array<string>;
+/** The instruction program IDs a `programId` criterion compared. */
+export interface ProgramIdObservation {
+  /** The criterion type. */
+  type: ProgramIdObservationType;
+  /** The program ID of each instruction, in instruction order. */
+  programIds: ProgramIdObservationProgramIdsList;
+}
+/** The criterion type. */
+export type SolNetworkObservationType = "solNetwork";
+/** The network a `solNetwork` criterion compared. */
+export interface SolNetworkObservation {
+  /** The criterion type. */
+  type: SolNetworkObservationType;
+  /** The request's `network`. Omitted when the request has none, which no `networks` value matches. */
+  network?: string | undefined;
+}
+/** The criterion type. */
+export type RateLimitingObservationType = "rateLimiting";
+/** Whose operations the counter totals. `project` counts operations of every account in the project, not only the account in the request. `end_user` counts operations of the end user in the request. */
+export type RateLimitingObservationScope = "project" | "end_user";
+/** The usage type. */
+export type RateLimitCountUsageType = "count";
+/** Operation counts for a `maxCount` criterion. The criterion is met when `windowCount + pendingCount + 1 <= maxCount` and unmet when the sum exceeds `maxCount`, where `1` is this operation. */
+export interface RateLimitCountUsage {
+  /** The usage type. */
+  type: RateLimitCountUsageType;
+  /** Operations counted in the current `window`. */
+  windowCount: number;
+  /** Operations added by earlier units of this simulation request. They are not persisted. Always `0` when `evaluatedUnit` is absent. */
+  pendingCount: number;
+}
+/** The usage type. */
+export type RateLimitValueUsageType = "value";
+/** USD totals, in cents, for a `maxValueCents` criterion. The criterion is met when `windowCents + pendingCents + operationCents <= maxValueCents` and unmet when the sum exceeds `maxValueCents`. */
+export interface RateLimitValueUsage {
+  /** The usage type. */
+  type: RateLimitValueUsageType;
+  /** USD value, in cents, counted in the current `window`. */
+  windowCents: number;
+  /** USD value, in cents, added by earlier units of this simulation request. It is not persisted. Always `0` when `evaluatedUnit` is absent. */
+  pendingCents: number;
+  /** The absolute USD value, in cents, of this operation. */
+  operationCents: number;
+}
+/** The usage totals the criterion compared, discriminated by `type`: `count` when the criterion sets `maxCount`, `value` when it sets `maxValueCents`. */
+export type RateLimitUsage = RateLimitCountUsage | RateLimitValueUsage;
+/** The rate-limit usage a `rateLimiting` criterion compared, read without being consumed. The criterion is met when the projected usage stays within the limit and unmet when it exceeds the limit. Totals can change before a real call. */
+export interface RateLimitingObservation {
+  /** The criterion type. */
+  type: RateLimitingObservationType;
+  /** Whose operations the counter totals. `project` counts operations of every account in the project, not only the account in the request. `end_user` counts operations of the end user in the request. */
+  scope: RateLimitingObservationScope;
+  usage: RateLimitUsage;
+}
+/** The value taken from the operation that a criterion was compared against, discriminated by the criterion's `type`. Amounts use the criterion's units: integer strings of base units (wei, lamports, or token atomic units) and USD in integer cents, so a unit mistake in a rule shows as a difference in magnitude. A field is omitted when the operation has no such value; each field says when that happens. Values come only from the request, the prepared user operation it names, transaction simulation, and the rate-limit counters the criterion reads. These are never returned: signatures, raw transaction bytes, calldata or instruction data beyond the decoded selector, instruction and arguments, the operations or accounts that make up a rate-limit total, and simulation results other than the net USD change. A string longer than its `maxLength` is cut to its first `maxLength` characters and marked `truncated: true`. */
+export type PolicyCriterionObservation =
+  | EthValueObservation
+  | EvmAddressObservation
+  | EvmNetworkObservation
+  | EvmDataObservation
+  | EvmMessageObservation
+  | EvmTypedDataFieldObservation
+  | EvmTypedDataVerifyingContractObservation
+  | NetUSDChangeObservation
+  | SolAddressObservation
+  | SolValueObservation
+  | SplAddressObservation
+  | SplValueObservation
+  | MintAddressObservation
+  | SolDataObservation
+  | SolMessageObservation
+  | ProgramIdObservation
+  | SolNetworkObservation
+  | RateLimitingObservation;
+/** The value each criterion was compared against, index-aligned with `rule.criteria`: `observations[i]` belongs to `rule.criteria[i]` and has the same `type`. Either every criterion has an entry or the field is omitted. Empty when the rule has no criteria. */
+export type MatchedPolicyRuleObservationsList = Array<PolicyCriterionObservation>;
+/** The rule whose action decided the evaluation. */
+export interface MatchedPolicyRule {
+  policy: EvaluatedPolicy;
+  /** Zero-based index into the policy's `rules`. */
+  ruleIndex: number;
+  /** The full rule as defined at the evaluated policy version (`policy.updatedAt`). */
+  rule: Rule;
+  /** The value each criterion was compared against, index-aligned with `rule.criteria`: `observations[i]` belongs to `rule.criteria[i]` and has the same `type`. Either every criterion has an entry or the field is omitted. Empty when the rule has no criteria. */
+  observations?: MatchedPolicyRuleObservationsList | undefined;
+}
+/** The unmet criterion, exactly as defined in the rule, discriminated by `type`. */
+export type PolicyCriterion =
+  | EthValueCriterion
+  | EvmAddressCriterion
+  | EvmNetworkCriterion
+  | EvmDataCriterion
+  | EvmMessageCriterion
+  | SignEvmTypedDataFieldCriterion
+  | SignEvmTypedDataVerifyingContractCriterion
+  | NetUSDChangeCriterion
+  | SolAddressCriterion
+  | SolValueCriterion
+  | SplAddressCriterion
+  | SplValueCriterion
+  | MintAddressCriterion
+  | SolDataCriterion
+  | SolMessageCriterion
+  | ProgramIdCriterion
+  | SolNetworkCriterion;
+/** A rule that targeted the operation but did not match. Criteria are evaluated in order and evaluation stops at the first unmet one, so later criteria were not evaluated. `observed` is present when the service captured the value `criterion` was compared against. */
+export interface UnmatchedPolicyRule {
+  policy: EvaluatedPolicy;
+  /** Zero-based index into the policy's `rules`. */
+  ruleIndex: number;
+  /** Zero-based index into the rule's `criteria` of the first unmet criterion. */
+  criterionIndex: number;
+  criterion: PolicyCriterion;
+  observed?: PolicyCriterionObservation | undefined;
+}
+/** Rules targeting the operation that were evaluated and did not match. Within a policy, `reject` rules are evaluated before `accept` rules, and evaluation stops at `matchedRule`. Rules that were not evaluated are omitted. When there is no `matchedRule`, every rule that targeted the operation appears here. Among matching rules with the same action, the first in policy order is `matchedRule`. */
+export type PolicySimulationResultUnmatchedRulesList = Array<UnmatchedPolicyRule>;
+/** Policies iterated, in order: the project policy, then the account policy. Evaluation stops at the policy containing `matchedRule`. End-user operations consult only the project policy. */
+export type PolicySimulationResultEvaluatedPoliciesList = Array<EvaluatedPolicy>;
+/** The unit this result describes. Present only when the operation was evaluated as more than one unit: one unit per call for user operations, and one unit per signing account for Solana transactions. Each unit is evaluated against the policies separately, and `matchedRule`, `unmatchedRules`, `evaluatedPolicies`, and every observed value describe this unit only. When `action` is `reject`, this is the first unit that was rejected. When `action` is `accept`, every unit was accepted and this is the last one. */
+export interface EvaluatedUnit {
+  /** Zero-based index of the unit. For user operations, this is the index into the operation's `calls`. */
+  index: number;
+  /** The number of units the operation was split into. */
+  count: number;
+  /** The Solana signing account of the unit. Omitted for user operations. */
+  address?: string | undefined;
+}
+/** The action the real operation would take and why. `matchedRule` is present exactly when `reason` is `rule_accepted` or `rule_rejected`. */
+export interface PolicySimulationResult {
+  /** Whether the real operation would be accepted or rejected. */
+  action: PolicySimulationResultAction;
+  /** Why the operation got its `action`. Each value implies exactly one `action`. Within a policy, a matching `reject` rule overrides any matching `accept` rule, regardless of rule order. With `accept`: `rule_accepted` means `matchedRule` matched all of its criteria, its action is `accept`, and no `reject` rule in the same policy matched. `no_rule_for_operation` means no rule targeted the operation, so it was accepted by default. With `reject`: `rule_rejected` means `matchedRule` matched all of its criteria and its action is `reject`, so the rejection is caused by the entire rule. `no_rule_matched` means at least one rule targeted the operation but none matched, so it was rejected by default; `unmatchedRules` shows the criterion that disqualified each one. */
+  reason: PolicySimulationResultReason;
+  matchedRule?: MatchedPolicyRule | undefined;
+  /** Rules targeting the operation that were evaluated and did not match. Within a policy, `reject` rules are evaluated before `accept` rules, and evaluation stops at `matchedRule`. Rules that were not evaluated are omitted. When there is no `matchedRule`, every rule that targeted the operation appears here. Among matching rules with the same action, the first in policy order is `matchedRule`. */
+  unmatchedRules: PolicySimulationResultUnmatchedRulesList;
+  /** Policies iterated, in order: the project policy, then the account policy. Evaluation stops at the policy containing `matchedRule`. End-user operations consult only the project policy. */
+  evaluatedPolicies: PolicySimulationResultEvaluatedPoliciesList;
+  evaluatedUnit?: EvaluatedUnit | undefined;
+}
 /** Information about the Virtual Asset Service Provider (VASP) for a deposit travel rule submission. */
 export interface DepositTravelRuleVasp {
   /** The Legal Entity Identifier (LEI) of the Virtual Asset Service Provider (VASP). */
-  identifier?: string;
+  identifier?: string | undefined;
   /** The name of the Virtual Asset Service Provider (VASP). */
-  name?: string;
+  name?: string | undefined;
 }
 /** The type of the originator's wallet. */
 export type DepositTravelRuleOriginatorWalletType = "custodial" | "self_custody";
 /** Originator information for a deposit travel rule submission. */
 export interface DepositTravelRuleOriginator {
   /** Full name of the originator. */
-  name?: string;
-  address?: IndividualInputAddress;
+  name?: string | undefined;
+  address?: IndividualInputAddress | undefined;
   /** Name of the financial institution. */
-  financialInstitution?: string;
-  virtualAssetServiceProvider?: DepositTravelRuleVasp;
+  financialInstitution?: string | undefined;
+  virtualAssetServiceProvider?: DepositTravelRuleVasp | undefined;
   /** Personal identifier for travel rule compliance. For individuals: passport number, national ID, or driver's license. For institutions: LEI (Legal Entity Identifier). */
-  personalId?: string;
+  personalId?: string | undefined;
   /** Date of birth of the originator. */
-  dateOfBirth?: DateOfBirth;
+  dateOfBirth?: DateOfBirth | undefined;
   /** The type of the originator's wallet. */
-  walletType?: DepositTravelRuleOriginatorWalletType | (string & {});
+  walletType?: DepositTravelRuleOriginatorWalletType | (string & {}) | undefined;
 }
 /** Beneficiary information for a deposit travel rule submission. */
 export interface DepositTravelRuleBeneficiary {
   /** Full name of the beneficiary. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface SubmitDepositTravelRuleRequest {
   /** The unique identifier of the transfer. */
   transferId: string;
   /** Indicates whether the user attests that the originating wallet belongs to them. */
-  isSelf?: boolean;
-  isIntermediary?: boolean;
+  isSelf?: boolean | undefined;
+  isIntermediary?: boolean | undefined;
   /** When `true`, you attest that the originating wallet's ownership has been verified out-of-band. Instructs Coinbase to skip the wallet verification check for this travel-rule submission. **Only valid when `isIntermediary` is `true`.** You can only attest to the originating wallet's ownership when your organization is acting as the originating VASP on behalf of your end customer, and Coinbase is acting as the intermediary VASP. Returns a `400` error if set to `true` when `isIntermediary` is `false` or omitted. */
-  attestVerifiedWalletOwnership?: boolean;
+  attestVerifiedWalletOwnership?: boolean | undefined;
   /** Originator information for the travel rule submission. */
-  originator?: DepositTravelRuleOriginator;
+  originator?: DepositTravelRuleOriginator | undefined;
   /** Beneficiary information for the travel rule submission. */
-  beneficiary?: DepositTravelRuleBeneficiary;
+  beneficiary?: DepositTravelRuleBeneficiary | undefined;
 }
 /** List of field paths that are still required to complete travel rule compliance. Each entry is a dot-separated path (e.g., "originator.name", "originator.address.countryCode"). Empty when status is "completed". */
 export type DepositTravelRuleResponseMissingFieldsList = Array<string>;
@@ -5901,9 +7308,9 @@ export type DepositTravelRuleResponseMissingFieldsList = Array<string>;
 export interface DepositTravelRuleResponse {
   status: TravelRuleStatus;
   /** List of field paths that are still required to complete travel rule compliance. Each entry is a dot-separated path (e.g., "originator.name", "originator.address.countryCode"). Empty when status is "completed". */
-  missingFields?: DepositTravelRuleResponseMissingFieldsList;
+  missingFields?: DepositTravelRuleResponseMissingFieldsList | undefined;
   /** Additional context about the current status. Present when status is `incomplete` to explain what needs to be fixed before the transfer can proceed. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface SubmitOnrampVerificationRequest {
   /** The verification ID returned by the Initiate Onramp Verification endpoint. */
@@ -5931,6 +7338,7 @@ export type X402SupportedPaymentKindNetwork =
   | "eip155:84532"
   | "eip155:137"
   | "eip155:42161"
+  | "eip155:143"
   | "eip155:480"
   | "eip155:4801"
   | "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"
@@ -5945,7 +7353,7 @@ export interface X402SupportedPaymentKind {
   /** The network of the blockchain. The format corresponds to the `x402Version` of the enclosing `x402SupportedPaymentKind`: v1 uses human-readable names (see `X402V1Network`); v2 uses CAIP-2 chain IDs (see `X402V2Network`). */
   network: X402SupportedPaymentKindNetwork;
   /** The optional additional scheme-specific payment info. Common scheme-specific fields: - `exact` on Solana: `feePayer` -- the base58-encoded Solana address that pays transaction fees. - `upto` on EVM: `name`, `version`, and `facilitatorAddress` -- the EVM address of the facilitator that the client must bind into the Permit2 witness when constructing the payment payload. - `batch-settlement` on EVM: `name`, `version`, `receiverAuthorizer` (the EVM address authorized to sign claim batches), `withdrawDelay` (channel non-cooperative withdraw delay in seconds, 900-2,592,000), and optionally `assetTransferMethod` (e.g., `"eip3009"`). */
-  extra?: X402SupportedPaymentKindExtraMap;
+  extra?: X402SupportedPaymentKindExtraMap | undefined;
 }
 /** The list of supported payment kinds. */
 export type SupportedX402PaymentKindsResponseKindsList = Array<X402SupportedPaymentKind>;
@@ -5974,61 +7382,61 @@ export interface UpdateCustomerByIdRequest {
   /** The ID of the customer. */
   customerId: string;
   /** The type of the customer. Required on create; accepted but ignored on update. */
-  type?: CustomerType | (string & {});
+  type?: CustomerType | (string & {}) | undefined;
   /** Capabilities to request for the customer. */
-  capabilities?: CapabilitiesMapInput;
+  capabilities?: CapabilitiesMapInput | undefined;
   /** Information about an Individual customer. Not all fields are required for all customers; the requirements depend on which capabilities are requested. Submit only fields that are required by the capabilities that have been requested. */
-  individual?: IndividualInput;
+  individual?: IndividualInput | undefined;
   /** The project IDs that this customer is associated with. */
-  projectIds?: UpdateCustomerByIdRequestProjectIdsList;
+  projectIds?: UpdateCustomerByIdRequestProjectIdsList | undefined;
   /** Terms of Service acceptances to record on the customer. Submit one entry per required version surfaced inline on `requirements.tos.tosVersions[]` (returned by `Get Customer`, `Create Customer`, and `Update Customer` whenever a `tos` requirement is unsatisfied). The server rejects each acceptance whose `language` is not listed under `languages` on the matching required version with `errorType: "unsupported_tos_language"`. When new required Terms of Service versions are published, only the new `versionId`s appear in `requirements.tos.tosVersions[]`; submit acceptances for only those new version(s). Omit `tosAcceptances` on a partial update to leave previously recorded acceptances unchanged. Sending `tosAcceptances: []` is invalid (`errorType: "invalid_request"`) because it would clear all acceptances without replacing them; omit the field entirely when you are not updating Terms of Service acceptances. */
-  tosAcceptances?: UpdateCustomerByIdRequestTosAcceptancesList;
+  tosAcceptances?: UpdateCustomerByIdRequestTosAcceptancesList | undefined;
   /** Tax attestations to record on the customer. Submit one entry per required form surfaced inline on `requirements.taxAttestation.taxForms[]` (returned by `Get Customer`, `Create Customer`, and `Update Customer` whenever a `taxAttestation` requirement is unsatisfied). The required fields per entry depend on `form`; see `TaxAttestation`. This field is ingestion-only and is never returned on read. Omit `taxAttestations` on a partial update to leave previously recorded attestations unchanged. Sending `taxAttestations: []` is invalid (`errorType: "invalid_request"`) because it would clear all attestations without replacing them; omit the field entirely when you are not updating tax attestations. */
-  taxAttestations?: UpdateCustomerByIdRequestTaxAttestationsList;
-  compliance?: Compliance;
+  taxAttestations?: UpdateCustomerByIdRequestTaxAttestationsList | undefined;
+  compliance?: Compliance | undefined;
 }
 export interface UpdateEvmAccountRequest {
   /** The 0x-prefixed address of the EVM account. The address does not need to be checksummed. */
   address: string;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the account-level policy to apply to the account, or an empty string to unset attached policy. */
-  accountPolicy?: string;
+  accountPolicy?: string | undefined;
 }
 export interface UpdateEvmSmartAccountRequest {
   /** The 0x-prefixed address of the EVM smart account. The address does not need to be checksummed. */
   address: string;
   /** An optional name for the smart account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all EVM smart accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdatePolicyRequest {
   /** The ID of the policy to update. */
   policyId: string;
   /** An optional human-readable description for the policy. Policy descriptions can consist of alphanumeric characters, spaces, commas, and periods, and be 50 characters or less. */
-  description?: string;
+  description?: string | undefined;
   rules: PolicyRules;
 }
 export interface UpdateSolanaAccountRequest {
   /** The base58 encoded address of the Solana account. */
   address: string;
   /** An optional name for the account. Account names can consist of alphanumeric characters and hyphens, and be between 2 and 36 characters long. Account names must be unique across all Solana accounts in the developer's CDP Project. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the account-level policy to apply to the account, or an empty string to unset attached policy. */
-  accountPolicy?: string;
+  accountPolicy?: string | undefined;
 }
 /** Types of events to subscribe to. Event types follow a three-part dot-separated format: service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created"). */
 export type UpdateWebhookSubscriptionRequestEventTypesList = Array<EventType | (string & {})>;
 export interface UpdateWebhookSubscriptionRequest {
   /** Unique identifier for the webhook subscription. */
   subscriptionId: string;
-  description?: string;
+  description?: string | undefined;
   /** Types of events to subscribe to. Event types follow a three-part dot-separated format: service.resource.verb (e.g., "onchain.activity.detected", "wallet.activity.detected", "onramp.transaction.created"). */
   eventTypes: UpdateWebhookSubscriptionRequestEventTypesList;
   /** Whether the subscription is enabled. */
   isEnabled: boolean;
   target: WebhookTarget;
-  metadata?: WebhookMetadata;
-  labels?: WebhookRequestLabels;
+  metadata?: WebhookMetadata | undefined;
+  labels?: WebhookRequestLabels | undefined;
 }
 export interface ValidateEndUserAccessTokenRequest {
   /** The access token in JWT format to verify. */
@@ -6040,7 +7448,7 @@ export interface ValidateX402ResourceRequest {
   /** HTTPS URL of the x402 endpoint to validate. Must use the `https://` scheme. */
   resource: string;
   /** The HTTP method used to probe the endpoint. Only GET and POST are supported; other verbs are intentionally rejected because x402 resources are expected to respond to these methods. */
-  method?: ValidateX402ResourceRequestMethod | (string & {});
+  method?: ValidateX402ResourceRequestMethod | (string & {}) | undefined;
 }
 /** The name of the preflight check. New values may be added in future versions; clients should handle unknown values gracefully. */
 export type X402ValidateCheckCheck = "reachable" | "returns_402" | "has_bazaar_extension" | "parse";
@@ -6055,9 +7463,9 @@ export interface X402ValidateCheck {
   /** A human-readable explanation of the check result. */
   detail: string;
   /** The value the check expected, when applicable. */
-  expected?: string;
+  expected?: string | undefined;
   /** The value the check observed, when applicable. */
-  actual?: string;
+  actual?: string | undefined;
   /** Whether this check is a hard indexing requirement or a quality recommendation. A `required` check affects validity when it fails. An `advisory` check (for example, a missing output schema) is a suggestion to improve discoverability and does not make the endpoint invalid. */
   severity: X402ValidateCheckSeverity;
 }
@@ -6072,7 +7480,7 @@ export interface X402ValidateSimulation {
   /** The simulated facilitator outcome: `accepted` if the facilitator would index the resource, or `rejected` if it would reject it. */
   outcome: X402ValidateSimulationOutcome;
   /** The reason the resource would be rejected, present only when `outcome` is `rejected`. */
-  rejectionReason?: string;
+  rejectionReason?: string | undefined;
 }
 /** Bazaar index status for a validated x402 endpoint. */
 export interface X402ValidateIndex {
@@ -6081,7 +7489,7 @@ export interface X402ValidateIndex {
   /** When the endpoint was last crawled, or `null` if it has been indexed but not yet crawled. */
   lastCrawledAt: string | null;
   /** Quality metrics for the indexed resource, present only when the endpoint has call history. */
-  quality?: X402ResourceQuality;
+  quality?: X402ResourceQuality | undefined;
 }
 /** Response from validating an x402 endpoint's bazaar-discovery configuration. */
 export interface X402ValidateResponse {
@@ -6302,28 +7710,29 @@ export type X402VerifyInvalidReason =
   | "request_blocked_by_location"
   | "self_send_not_allowed"
   | "invalid_bazaar_extension"
+  | "node_failure"
   | "unknown_error";
 /** Optional scheme-specific verify metadata returned by the facilitator. */
 export type VerifyX402PaymentResponseExtraMap = { [key: string]: unknown | undefined };
 export interface VerifyX402PaymentResponse {
   /** Indicates whether the payment is valid. */
   isValid: boolean;
-  invalidReason?: X402VerifyInvalidReason;
+  invalidReason?: X402VerifyInvalidReason | undefined;
   /** The message describing the invalid reason. */
-  invalidMessage?: string;
+  invalidMessage?: string | undefined;
   /** The onchain address of the client that is paying for the resource. For EVM networks, the payer will be a 0x-prefixed, checksum EVM address. For Solana-based networks, the payer will be a base58-encoded Solana address. */
   payer: string;
   /** Optional scheme-specific verify metadata returned by the facilitator. */
-  extra?: VerifyX402PaymentResponseExtraMap;
+  extra?: VerifyX402PaymentResponseExtraMap | undefined;
 }
 export interface VoidPaymentSessionRequest {
   /** The unique identifier of the payment session. */
   paymentSessionId: string;
-  metadata?: Metadata;
+  metadata?: Metadata | undefined;
   /** An optional merchant-provided internal identifier for this void, from the merchant's own system--not visible to the payer. */
-  externalReferenceId?: string;
+  externalReferenceId?: string | undefined;
   /** Optional customer-facing display data for this void, shown to the payer. Falls back to the session's `orderCode` when `referenceCode` is omitted. */
-  customerDisplay?: OperationCustomerDisplay;
+  customerDisplay?: OperationCustomerDisplay | undefined;
 }
 export type AddEndUserEvmAccountError = CoinbaseOpError;
 /** Add EVM account to end user Adds a new EVM EOA account to an existing end user. End users can have up to 10 EVM accounts. This API is intended to be used by the developer's own backend, and is authenticated using the developer's CDP API key. */
@@ -6367,8 +7776,8 @@ export const addEndUserSolanaAccount: API.OperationMethod<
   AddEndUserSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<AddEndUserSolanaAccountRequest>,
-  output: __S(1457, __c91, 1) as any as S.Schema<AddEndUserSolanaAccountResponse>,
+  input: __S(1936, __c121, 0) as any as S.Schema<AddEndUserSolanaAccountRequest>,
+  output: __S(1937, __c121, 1) as any as S.Schema<AddEndUserSolanaAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6384,13 +7793,30 @@ export const adjustBorrowPositionWithEndUserAccount: API.OperationMethod<
   AdjustBorrowPositionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<AdjustBorrowPositionWithEndUserAccountRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(2224, __c139, 0) as any as S.Schema<AdjustBorrowPositionWithEndUserAccountRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AdjustBorrowPositionWithEndUserAccount",
+}));
+
+export type ApproveWalletMandateError = CoinbaseOpError;
+/** Approve a mandate with a wallet **Customer-initiated.** Approves a mandate on a wallet source using the customer's signed payloads from **Get wallet approval options**. The customer signs the payloads themselves, so this call is unauthenticated. The mandate must be in `created` or `approval_failed` status, not expired, and have no approval or revocation in flight. Returns a `pending` approval and moves the mandate to `approval_pending`. On success the mandate's `source` is set and `status` becomes `approval_succeeded`; it can then be used by **Authorize a payment session with a mandate**. On failure `status` becomes `approval_failed` and a new approval can be submitted. Follow progress with **Get a mandate approval** or the `acceptance.mandate.approval_*` webhooks. */
+export const approveWalletMandate: API.OperationMethod<
+  ApproveWalletMandateRequest,
+  Approval,
+  ApproveWalletMandateError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2496, __c156, 0) as any as S.Schema<ApproveWalletMandateRequest>,
+  output: __S(2560, __c160, 0) as any as S.Schema<Approval>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApproveWalletMandate",
 }));
 
 export type AuthorizeCoinbasePaymentSessionError = CoinbaseOpError;
@@ -6401,13 +7827,30 @@ export const authorizeCoinbasePaymentSession: API.OperationMethod<
   AuthorizeCoinbasePaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<AuthorizeCoinbasePaymentSessionRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Authorization>,
+  input: __S(2800, __c175, 0) as any as S.Schema<AuthorizeCoinbasePaymentSessionRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AuthorizeCoinbasePaymentSession",
+}));
+
+export type AuthorizeMandatePaymentSessionError = CoinbaseOpError;
+/** Authorize a payment session with a mandate **Merchant-initiated.** The merchant draws against a mandate in `approval_succeeded` status using the mandate's existing approval, so no fresh signature is required and the customer does not need to be present. The session must be in `created` status and the mandate must be in `approval_succeeded` status. When more than one mandate condition applies, the first match wins: an in-flight approval or revocation returns `409` (`mandate_action_pending`); `revokedAt` set returns `422` (`mandate_revoked`); `canceledAt` set returns `422` (`mandate_canceled`); a past `expiresAt` returns `400` (`mandate_expired`); any other status returns `422` (`mandate_invalid_status`). It requires API key authentication: unlike the payer-present wallet flow there is no per-call signature to prove consent, so the merchant authenticates as the party entitled to draw against the mandate. The charge must fall within the mandate's `policy`. Exceeding `maxPerAuthorization` or `maxPerPeriod` returns `422` (`mandate_policy_violation`). On authorization, a hold is placed on the payer's funds. The authorization is returned in `pending` status and transitions asynchronously to `succeeded` or `failed`. If `autoCapture` is enabled on the session, a capture is automatically created after a successful authorization. */
+export const authorizeMandatePaymentSession: API.OperationMethod<
+  AuthorizeMandatePaymentSessionRequest,
+  Authorization,
+  AuthorizeMandatePaymentSessionError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3040, __c190, 0) as any as S.Schema<AuthorizeMandatePaymentSessionRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AuthorizeMandatePaymentSession",
 }));
 
 export type AuthorizeWalletPaymentSessionError = CoinbaseOpError;
@@ -6418,8 +7861,8 @@ export const authorizeWalletPaymentSession: API.OperationMethod<
   AuthorizeWalletPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2258, __c141, 2) as any as S.Schema<AuthorizeWalletPaymentSessionRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Authorization>,
+  input: __S(3232, __c202, 0) as any as S.Schema<AuthorizeWalletPaymentSessionRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6435,13 +7878,30 @@ export const authorizeX402PaymentSession: API.OperationMethod<
   AuthorizeX402PaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<AuthorizeX402PaymentSessionRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Authorization>,
+  input: __S(3408, __c213, 0) as any as S.Schema<AuthorizeX402PaymentSessionRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AuthorizeX402PaymentSession",
+}));
+
+export type CancelMandateError = CoinbaseOpError;
+/** Cancel a mandate Ends the mandate off-chain. `status` becomes `canceled`, `canceledAt` is set, and new authorizations are blocked immediately; authorizations already in progress are not affected. Cancel can be called from any status except a fully revoked one (`revokedAt` set); canceling an already canceled mandate is a no-op that returns the mandate unchanged. Canceling does not touch the on-chain spending allowance, which may still be live afterward. The customer removes it separately with **Revoke a mandate with a wallet**; that later revocation sets `revokedAt` while `canceledAt` remains set. */
+export const cancelMandate: API.OperationMethod<
+  CancelMandateRequest,
+  Mandate,
+  CancelMandateError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3664, __c229, 0) as any as S.Schema<CancelMandateRequest>,
+  output: __S(3714, __c232, 2) as any as S.Schema<Mandate>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CancelMandate",
 }));
 
 export type CancelPaymentSessionError = CoinbaseOpError;
@@ -6452,8 +7912,8 @@ export const cancelPaymentSession: API.OperationMethod<
   CancelPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2608, __c163, 0) as any as S.Schema<CancelPaymentSessionRequest>,
-  output: __S(2709, __c169, 5) as any as S.Schema<PaymentSession>,
+  input: __S(80, __c5, 0) as any as S.Schema<CancelPaymentSessionRequest>,
+  output: __S(164, __c10, 4) as any as S.Schema<PaymentSession>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6469,8 +7929,8 @@ export const capturePaymentSession: API.OperationMethod<
   CapturePaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c186, 0) as any as S.Schema<CapturePaymentSessionRequest>,
-  output: __S(2736, __c171, 0) as any as S.Schema<Capture>,
+  input: __S(384, __c24, 0) as any as S.Schema<CapturePaymentSessionRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<Capture>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6486,8 +7946,8 @@ export const closeBorrowPositionWithEndUserAccount: API.OperationMethod<
   CloseBorrowPositionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<CloseBorrowPositionWithEndUserAccountRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(560, __c35, 0) as any as S.Schema<CloseBorrowPositionWithEndUserAccountRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6503,8 +7963,8 @@ export const createBorrowPositionWithEndUserAccount: API.OperationMethod<
   CreateBorrowPositionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<CreateBorrowPositionWithEndUserAccountRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(768, __c48, 0) as any as S.Schema<CreateBorrowPositionWithEndUserAccountRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6520,8 +7980,8 @@ export const createCustomer: API.OperationMethod<
   CreateCustomerError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<CreateCustomerRequest>,
-  output: __S(389, __c24, 5) as any as S.Schema<Customer>,
+  input: __S(960, __c60, 0) as any as S.Schema<CreateCustomerRequest>,
+  output: __S(1077, __c67, 5) as any as S.Schema<Customer>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6537,8 +7997,8 @@ export const createDelegationForEndUserAccount: API.OperationMethod<
   CreateDelegationForEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<CreateDelegationForEndUserAccountRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<CreateDelegationForEndUserAccountResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<CreateDelegationForEndUserAccountRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<CreateDelegationForEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6554,8 +8014,8 @@ export const createDepositDestination: API.OperationMethod<
   CreateDepositDestinationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<CreateDepositDestinationRequest2>,
-  output: __S(816, __c51, 0) as any as S.Schema<CreateDepositDestinationResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<CreateDepositDestinationRequest2>,
+  output: __S(1504, __c94, 0) as any as S.Schema<CreateDepositDestinationResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6564,15 +8024,15 @@ export const createDepositDestination: API.OperationMethod<
 }));
 
 export type CreateDisbursementError = CoinbaseOpError;
-/** Create a disbursement Creates a merchant-initiated payment of funds from a CDP account owned by the merchant to a Coinbase user account or onchain address. Used for standalone refunds, goodwill disbursements, rebates, and other merchant-driven payouts that are not tied to a specific payment session. This is an asynchronous operation. The disbursement is returned in `pending` status and transitions to `succeeded` (with associated `onchainTransactions`) or `failed` (with `error`). */
+/** Create a disbursement Creates a disbursement from a CDP account you own to a Coinbase user account or an onchain address. Returns the disbursement with `pending` status while processing continues asynchronously. */
 export const createDisbursement: API.OperationMethod<
   CreateDisbursementRequest,
   Disbursement,
   CreateDisbursementError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1025, __c64, 1) as any as S.Schema<CreateDisbursementRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<Disbursement>,
+  input: __S(1681, __c105, 1) as any as S.Schema<CreateDisbursementRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<Disbursement>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6588,8 +8048,8 @@ export const createEndUser: API.OperationMethod<
   CreateEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1250, __c78, 2) as any as S.Schema<CreateEndUserRequest>,
-  output: __S(1269, __c79, 5) as any as S.Schema<EndUser>,
+  input: __S(1874, __c117, 2) as any as S.Schema<CreateEndUserRequest>,
+  output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6605,8 +8065,8 @@ export const createEvmAccount: API.OperationMethod<
   CreateEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<CreateEvmAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EvmAccount>,
+  input: __S(1904, __c119, 0) as any as S.Schema<CreateEvmAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6622,8 +8082,8 @@ export const createEvmEip7702Delegation: API.OperationMethod<
   CreateEvmEip7702DelegationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<CreateEvmEip7702DelegationRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<CreateEvmEip7702DelegationResponse>,
+  input: __S(1952, __c122, 0) as any as S.Schema<CreateEvmEip7702DelegationRequest>,
+  output: __S(1968, __c123, 0) as any as S.Schema<CreateEvmEip7702DelegationResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6640,13 +8100,13 @@ export const createEvmEip7702DelegationWithEndUserAccount: API.OperationMethod<
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1408,
-    __c88,
+    1984,
+    __c124,
     0,
   ) as any as S.Schema<CreateEvmEip7702DelegationWithEndUserAccountRequest>,
   output: __S(
-    1392,
-    __c87,
+    1968,
+    __c123,
     0,
   ) as any as S.Schema<CreateEvmEip7702DelegationWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
@@ -6664,8 +8124,8 @@ export const createEvmSmartAccount: API.OperationMethod<
   CreateEvmSmartAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<CreateEvmSmartAccountRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(2000, __c125, 0) as any as S.Schema<CreateEvmSmartAccountRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6681,8 +8141,8 @@ export const createEvmSwapQuote: API.OperationMethod<
   CreateEvmSwapQuoteError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CreateEvmSwapQuoteRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<CreateEvmSwapQuoteResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<CreateEvmSwapQuoteRequest>,
+  output: __S(2033, __c127, 1) as any as S.Schema<CreateEvmSwapQuoteResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6691,20 +8151,88 @@ export const createEvmSwapQuote: API.OperationMethod<
 }));
 
 export type CreateFoundationAccountError = CoinbaseOpError;
-/** Create account Create an account. Two ownership modes are supported: - **Entity-owned**: when `owner` is omitted, the account is owned by the Entity making the request. Returns an account with `owner: entity_<uuid>`. - **Customer-owned**: pass a Customer ID as `owner` (e.g. `customer_af2937b0-9846-4fe7-bfe9-ccc22d935114`). The Customer must have the `custodyCrypto`, `custodyFiat`, and `custodyStablecoin` capabilities enabled, otherwise the request is rejected with `customer_not_authorized` (HTTP 403). */
+/** Create account Create an account. Two ownership modes are supported: - **Entity-owned**: when `owner` is omitted, the account is owned by the Entity making the request. Returns an account with `owner: entity_<uuid>`. Omit `compliance`; it has no effect for Entity-owned accounts. - **Customer-owned**: pass a Customer ID as `owner` (e.g. `customer_af2937b0-9846-4fe7-bfe9-ccc22d935114`). The Customer must have the `custodyCrypto`, `custodyFiat`, and `custodyStablecoin` capabilities enabled, otherwise the request is rejected with `customer_not_authorized` (HTTP 403). `compliance.requesterIpAddress` is required; use the IP address of the end-customer who initiated the request (not the partner server's IP). */
 export const createFoundationAccount: API.OperationMethod<
   CreateFoundationAccountRequest,
   Account,
   CreateFoundationAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<CreateFoundationAccountRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<Account>,
+  input: __S(2048, __c128, 0) as any as S.Schema<CreateFoundationAccountRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<Account>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoundationAccount",
+}));
+
+export type CreateMandateError = CoinbaseOpError;
+/** Create a mandate Creates a mandate denominated in `asset`. Optionally set `policy` to cap debits; if omitted, a Coinbase-configured monthly max applies. The response always includes the resolved `policy`. Returns the mandate in `created` status with no `source`; it is not yet usable. Next step: have the customer approve it with **Get wallet approval options** then **Approve a mandate with a wallet**, which attaches the `source` and moves the mandate to `approval_succeeded`. A mandate's terms can't be modified once created. To change them, cancel the mandate and create a new one. */
+export const createMandate: API.OperationMethod<
+  CreateMandateRequest,
+  Mandate,
+  CreateMandateError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2080, __c130, 0) as any as S.Schema<CreateMandateRequest>,
+  output: __S(3714, __c232, 2) as any as S.Schema<Mandate>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMandate",
+}));
+
+export type CreateOnrampIosAttestationChallengeError = CoinbaseOpError;
+/** Create an onramp iOS attestation challenge Issues a one-time challenge for the iOS App Attest device-key **registration** step. Authenticate with a CDP API key. Call this from the partner backend and pass the challenge to the mobile app; do not embed the API key in the client. The project is identified by the API key JWT. The partner app then passes the challenge to `DCAppAttestService.attestKey(keyId, clientDataHash: SHA256(challenge))` and submits the resulting attestation to [Register Onramp iOS Attestation](#operation/registerOnrampIosAttestation). This is distinct from [Create Onramp Mobile Challenge](#operation/createOnrampMobileChallenge), which issues the per-transaction session challenge. Registration is a one-time, per-device-install operation; iOS-only (Android validates Play Integrity inline per request and has no registration step). */
+export const createOnrampIosAttestationChallenge: API.OperationMethod<
+  CreateOnrampIosAttestationChallengeRequest,
+  IosAttestationChallenge,
+  CreateOnrampIosAttestationChallengeError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2096, __c131, 0) as any as S.Schema<CreateOnrampIosAttestationChallengeRequest>,
+  output: __S(2112, __c132, 0) as any as S.Schema<IosAttestationChallenge>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnrampIosAttestationChallenge",
+}));
+
+export type CreateOnrampMobileChallengeError = CoinbaseOpError;
+/** Create an onramp mobile challenge Issues a challenge for initiating an onramp flow from a partner mobile app. Authenticate this request from the partner backend with a CDP API key; do not embed the API key in the mobile client. The project is identified by the API key JWT. Pass the challenge to the mobile app. The app signs it using platform attestation (iOS App Attest or Android Play Integrity) and submits it to the [Create Onramp Mobile Session](#operation/createOnrampMobileSession) endpoint without CDP API key authentication to obtain a ready-to-use onramp URL. The `redirectUrl` is required so the Coinbase app knows where to return the user after completing or dismissing the transaction. */
+export const createOnrampMobileChallenge: API.OperationMethod<
+  CreateOnrampMobileChallengeRequest,
+  OnrampMobileChallenge,
+  CreateOnrampMobileChallengeError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2128, __c133, 0) as any as S.Schema<CreateOnrampMobileChallengeRequest>,
+  output: __S(2112, __c132, 0) as any as S.Schema<OnrampMobileChallenge>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnrampMobileChallenge",
+}));
+
+export type CreateOnrampMobileSessionError = CoinbaseOpError;
+/** Create an onramp mobile session Verifies the platform attestation for a challenge issued by [Create Onramp Mobile Challenge](#operation/createOnrampMobileChallenge) and returns a ready-to-use onramp URL. The URL embeds the session token as a query parameter so the Coinbase app can populate the handoff screen immediately on launch. This endpoint is idempotent on the challenge token: if the same challenge is submitted again (e.g. due to a lost response), the server returns the original session URL rather than an error. Provide exactly one platform payload: `ios` (App Attest assertion) or `android` (Play Integrity token). */
+export const createOnrampMobileSession: API.OperationMethod<
+  CreateOnrampMobileSessionRequest,
+  CreateOnrampMobileSessionResponse,
+  CreateOnrampMobileSessionError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2146, __c134, 2) as any as S.Schema<CreateOnrampMobileSessionRequest>,
+  output: __S(2147, __c134, 3) as any as S.Schema<CreateOnrampMobileSessionResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateOnrampMobileSession",
 }));
 
 export type CreateOnrampOrderError = CoinbaseOpError;
@@ -6715,8 +8243,8 @@ export const createOnrampOrder: API.OperationMethod<
   CreateOnrampOrderError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<CreateOnrampOrderRequest>,
-  output: __S(1522, __c95, 2) as any as S.Schema<CreateOnrampOrderResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<CreateOnrampOrderRequest>,
+  output: __S(2178, __c136, 2) as any as S.Schema<CreateOnrampOrderResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6732,8 +8260,8 @@ export const createOnrampSession: API.OperationMethod<
   CreateOnrampSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<CreateOnrampSessionRequest>,
-  output: __S(1571, __c98, 3) as any as S.Schema<CreateOnrampSessionResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<CreateOnrampSessionRequest>,
+  output: __S(2274, __c142, 2) as any as S.Schema<CreateOnrampSessionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6749,8 +8277,8 @@ export const createPaymentSession: API.OperationMethod<
   CreatePaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1585, __c99, 1) as any as S.Schema<CreatePaymentSessionRequest>,
-  output: __S(2709, __c169, 5) as any as S.Schema<PaymentSession>,
+  input: __S(2289, __c143, 1) as any as S.Schema<CreatePaymentSessionRequest>,
+  output: __S(164, __c10, 4) as any as S.Schema<PaymentSession>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6766,8 +8294,8 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<Policy>,
+  input: __S(2304, __c144, 0) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6783,8 +8311,8 @@ export const createSolanaAccount: API.OperationMethod<
   CreateSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<CreateSolanaAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(2336, __c146, 0) as any as S.Schema<CreateSolanaAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6800,13 +8328,30 @@ export const createSpendPermission: API.OperationMethod<
   CreateSpendPermissionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<CreateSpendPermissionRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(2352, __c147, 0) as any as S.Schema<CreateSpendPermissionRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSpendPermission",
+}));
+
+export type CreateTopUpLinkError = CoinbaseOpError;
+/** Create a Top-Up Link Creates a Top-Up Link: a shareable hosted URL that lets a payer add funds to their balance. The resource is immutable once created. The link expires 24 hours after creation and funds a single purchase: once a purchase succeeds, the link is spent and cannot be used again. A purchase that fails does not consume the link, so the payer can retry until it expires. A link is not bound to a specific payer. Provide `topUpAmount` and `asset`; `orderTotalAmount`, `redirectUrl`, and `customerDisplay` are optional. When `redirectUrl` is supplied, its origin must exactly match one of the entity's configured allowed origins, and the URL must not contain a percent-decoded query key exactly equal to `toppedUpAmount`. The response includes the hosted `topUpUrl` to share with the payer. Creating a link is signaled to webhook subscribers by the `acceptance.top_up_link.created` event, and the purchase that spends the link emits an `acceptance.top_up_link.funds_added` event. Supply `customerDisplay.merchantName` to override the merchant name on this link's hosted page. The supplied value must not exceed 128 Unicode code points, including surrounding whitespace. Surrounding whitespace is removed before storage. An omitted or empty name after trimming uses the entity's profile name. The create response and creation webhook always return the resolved name stored on the link. */
+export const createTopUpLink: API.OperationMethod<
+  CreateTopUpLinkRequest,
+  TopUpLink,
+  CreateTopUpLinkError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2368, __c148, 0) as any as S.Schema<CreateTopUpLinkRequest>,
+  output: __S(2370, __c148, 2) as any as S.Schema<TopUpLink>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateTopUpLink",
 }));
 
 export type CreateTransferError = CoinbaseOpError;
@@ -6817,8 +8362,8 @@ export const createTransfer: API.OperationMethod<
   CreateTransferError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1668, __c104, 4) as any as S.Schema<CreateTransferRequest>,
-  output: __S(1687, __c105, 7) as any as S.Schema<Transfer>,
+  input: __S(2388, __c149, 4) as any as S.Schema<CreateTransferRequest>,
+  output: __S(2407, __c150, 7) as any as S.Schema<Transfer>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6827,15 +8372,15 @@ export const createTransfer: API.OperationMethod<
 }));
 
 export type CreateWebhookSubscriptionError = CoinbaseOpError;
-/** Create webhook subscription Subscribe to real-time events across CDP products. A webhook subscription provides a `targetURL` and other relevant endpoint configuration to enable receiving webhooks when events occur. ### Webhook Signature Verification All webhooks include an HMAC-SHA256 signed header for security. The signature is signed with the secret that is returned in the `secret` field when creating a subscription. Do not lose the secret, as you will not be able to recreate it. If you lose the secret, you will need to create a new subscription. See the [verification guide](https://docs.cdp.coinbase.com/onramp-&-offramp/webhooks#webhook-signature-verification) for implementation details. */
+/** Create webhook subscription Subscribe to real-time events across CDP products. A webhook subscription provides a `targetURL` and other relevant endpoint configuration to enable receiving webhooks when events occur. An entity can have up to 100 webhook subscriptions. Once this limit is reached, new webhook subscription creation requests return a `400` error with `errorType: subscription_limit_exceeded`. ### Webhook Signature Verification All webhooks include an HMAC-SHA256 signed header for security. The signature is signed with the secret that is returned in the `secret` field when creating a subscription. Do not lose the secret, as you will not be able to recreate it. If you lose the secret, you will need to create a new subscription. See the [verification guide](https://docs.cdp.coinbase.com/onramp-&-offramp/webhooks#webhook-signature-verification) for implementation details. */
 export const createWebhookSubscription: API.OperationMethod<
   CreateWebhookSubscriptionRequest,
   WebhookSubscriptionResponse,
   CreateWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<WebhookSubscriptionResponse>,
+  input: __S(2416, __c151, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
+  output: __S(2434, __c152, 2) as any as S.Schema<WebhookSubscriptionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6851,8 +8396,8 @@ export const createX402DiscoveryMcp: API.OperationMethod<
   CreateX402DiscoveryMcpError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CreateX402DiscoveryMcpRequest>,
-  output: __S(1778, __c111, 2) as any as S.Schema<X402McpResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<CreateX402DiscoveryMcpRequest>,
+  output: __S(2450, __c153, 2) as any as S.Schema<X402McpResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6868,8 +8413,8 @@ export const deleteCustomer: API.OperationMethod<
   DeleteCustomerError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<DeleteCustomerRequest>,
-  output: __S(1808, __c113, 0) as any as S.Schema<DeleteCustomerResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<DeleteCustomerRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<DeleteCustomerResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6885,8 +8430,8 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c114, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(1808, __c113, 0) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6902,8 +8447,8 @@ export const deleteWebhookSubscription: API.OperationMethod<
   DeleteWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
-  output: __S(1808, __c113, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6919,8 +8464,8 @@ export const executeFundTransfer: API.OperationMethod<
   ExecuteFundTransferError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ExecuteFundTransferRequest>,
-  output: __S(1687, __c105, 7) as any as S.Schema<Transfer>,
+  input: __S(2640, __c165, 0) as any as S.Schema<ExecuteFundTransferRequest>,
+  output: __S(2407, __c150, 7) as any as S.Schema<Transfer>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6936,8 +8481,8 @@ export const exportEvmAccount: API.OperationMethod<
   ExportEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ExportEvmAccountRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<ExportEvmAccountResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<ExportEvmAccountRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<ExportEvmAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6953,8 +8498,8 @@ export const exportEvmAccountByName: API.OperationMethod<
   ExportEvmAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ExportEvmAccountByNameRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<ExportEvmAccountByNameResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<ExportEvmAccountByNameRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<ExportEvmAccountByNameResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6970,8 +8515,8 @@ export const exportSolanaAccount: API.OperationMethod<
   ExportSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ExportSolanaAccountRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<ExportSolanaAccountResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<ExportSolanaAccountRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<ExportSolanaAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -6987,8 +8532,8 @@ export const exportSolanaAccountByName: API.OperationMethod<
   ExportSolanaAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<ExportSolanaAccountByNameRequest>,
-  output: __S(1888, __c118, 0) as any as S.Schema<ExportSolanaAccountByNameResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<ExportSolanaAccountByNameRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<ExportSolanaAccountByNameResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7004,8 +8549,8 @@ export const getBalanceByAsset: API.OperationMethod<
   GetBalanceByAssetError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<GetBalanceByAssetRequest>,
-  output: __S(1971, __c123, 3) as any as S.Schema<Balance>,
+  input: __S(2736, __c171, 0) as any as S.Schema<GetBalanceByAssetRequest>,
+  output: __S(2755, __c172, 3) as any as S.Schema<Balance>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7021,8 +8566,8 @@ export const getCustomer: API.OperationMethod<
   GetCustomerError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<GetCustomerRequest>,
-  output: __S(389, __c24, 5) as any as S.Schema<Customer>,
+  input: __S(2768, __c173, 0) as any as S.Schema<GetCustomerRequest>,
+  output: __S(1077, __c67, 5) as any as S.Schema<Customer>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7038,8 +8583,8 @@ export const getCustomerRequirements: API.OperationMethod<
   GetCustomerRequirementsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<GetCustomerRequirementsRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<GetCustomerRequirementsResponse>,
+  input: __S(2784, __c174, 0) as any as S.Schema<GetCustomerRequirementsRequest>,
+  output: __S(2785, __c174, 1) as any as S.Schema<GetCustomerRequirementsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7055,8 +8600,8 @@ export const getDelegationForEndUser: API.OperationMethod<
   GetDelegationForEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<GetDelegationForEndUserRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<GetDelegationForEndUserResponse>,
+  input: __S(2848, __c178, 0) as any as S.Schema<GetDelegationForEndUserRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GetDelegationForEndUserResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7072,8 +8617,8 @@ export const getDelegationForEndUserAccount: API.OperationMethod<
   GetDelegationForEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<GetDelegationForEndUserAccountRequest>,
-  output: __S(608, __c38, 0) as any as S.Schema<GetDelegationForEndUserAccountResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<GetDelegationForEndUserAccountRequest>,
+  output: __S(1264, __c79, 0) as any as S.Schema<GetDelegationForEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7089,8 +8634,8 @@ export const getDepositDestination: API.OperationMethod<
   GetDepositDestinationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<GetDepositDestinationRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<GetDepositDestinationResponse>,
+  input: __S(2880, __c180, 0) as any as S.Schema<GetDepositDestinationRequest>,
+  output: __S(1504, __c94, 0) as any as S.Schema<GetDepositDestinationResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7099,15 +8644,15 @@ export const getDepositDestination: API.OperationMethod<
 }));
 
 export type GetDisbursementError = CoinbaseOpError;
-/** Get a disbursement Retrieves a single disbursement by its ID, including source, target, status, amount, associated onchain transactions, error details (if failed), and timestamps. Only returns the disbursement if the API key has permission to access it. */
+/** Get a disbursement Returns the disbursement identified by `disbursementId`. Your API key must have permission to access the disbursement. */
 export const getDisbursement: API.OperationMethod<
   GetDisbursementRequest,
   Disbursement,
   GetDisbursementError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<GetDisbursementRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<Disbursement>,
+  input: __S(2896, __c181, 0) as any as S.Schema<GetDisbursementRequest>,
+  output: __S(1729, __c108, 1) as any as S.Schema<Disbursement>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7123,8 +8668,8 @@ export const getEndUser: API.OperationMethod<
   GetEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<GetEndUserRequest>,
-  output: __S(1269, __c79, 5) as any as S.Schema<EndUser>,
+  input: __S(2912, __c182, 0) as any as S.Schema<GetEndUserRequest>,
+  output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7140,8 +8685,8 @@ export const getEvmAccount: API.OperationMethod<
   GetEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<GetEvmAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EvmAccount>,
+  input: __S(2928, __c183, 0) as any as S.Schema<GetEvmAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7157,8 +8702,8 @@ export const getEvmAccountByName: API.OperationMethod<
   GetEvmAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<GetEvmAccountByNameRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EvmAccount>,
+  input: __S(2944, __c184, 0) as any as S.Schema<GetEvmAccountByNameRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7174,8 +8719,8 @@ export const getEvmBorrowProduct: API.OperationMethod<
   GetEvmBorrowProductError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<GetEvmBorrowProductRequest>,
-  output: __S(2247, __c140, 7) as any as S.Schema<BorrowProduct>,
+  input: __S(2960, __c185, 0) as any as S.Schema<GetEvmBorrowProductRequest>,
+  output: __S(2983, __c186, 7) as any as S.Schema<BorrowProduct>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7191,8 +8736,8 @@ export const getEvmEip7702DelegationOperation: API.OperationMethod<
   GetEvmEip7702DelegationOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<GetEvmEip7702DelegationOperationRequest>,
-  output: __S(2273, __c142, 1) as any as S.Schema<EvmEip7702DelegationOperation>,
+  input: __S(3008, __c188, 0) as any as S.Schema<GetEvmEip7702DelegationOperationRequest>,
+  output: __S(3009, __c188, 1) as any as S.Schema<EvmEip7702DelegationOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7208,8 +8753,8 @@ export const getEvmSmartAccount: API.OperationMethod<
   GetEvmSmartAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<GetEvmSmartAccountRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetEvmSmartAccountRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7225,8 +8770,8 @@ export const getEvmSmartAccountByName: API.OperationMethod<
   GetEvmSmartAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<GetEvmSmartAccountByNameRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(3056, __c191, 0) as any as S.Schema<GetEvmSmartAccountByNameRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7242,8 +8787,8 @@ export const getEvmSwapPrice: API.OperationMethod<
   GetEvmSwapPriceError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<GetEvmSwapPriceRequest>,
-  output: __S(2321, __c145, 1) as any as S.Schema<GetEvmSwapPriceResponse>,
+  input: __S(3072, __c192, 0) as any as S.Schema<GetEvmSwapPriceRequest>,
+  output: __S(3073, __c192, 1) as any as S.Schema<GetEvmSwapPriceResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7259,13 +8804,64 @@ export const getFoundationAccountById: API.OperationMethod<
   GetFoundationAccountByIdError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c146, 0) as any as S.Schema<GetFoundationAccountByIdRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<Account>,
+  input: __S(3088, __c193, 0) as any as S.Schema<GetFoundationAccountByIdRequest>,
+  output: __S(2064, __c129, 0) as any as S.Schema<Account>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoundationAccountById",
+}));
+
+export type GetMandateError = CoinbaseOpError;
+/** Get a mandate Retrieves a single mandate by its ID, including its current `status`, `policy`, and `source`. */
+export const getMandate: API.OperationMethod<
+  GetMandateRequest,
+  Mandate,
+  GetMandateError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3104, __c194, 0) as any as S.Schema<GetMandateRequest>,
+  output: __S(3714, __c232, 2) as any as S.Schema<Mandate>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMandate",
+}));
+
+export type GetMandateApprovalError = CoinbaseOpError;
+/** Get a mandate approval Retrieves a single approval by its ID, including its current `status`, its `onchainTransactions` once submitted, and, when it failed, its `error`. Poll this after **Approve a mandate with a wallet** to follow a `pending` approval to `succeeded` or `failed`, or consume the mandate webhooks instead. */
+export const getMandateApproval: API.OperationMethod<
+  GetMandateApprovalRequest,
+  Approval,
+  GetMandateApprovalError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3120, __c195, 0) as any as S.Schema<GetMandateApprovalRequest>,
+  output: __S(2560, __c160, 0) as any as S.Schema<Approval>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMandateApproval",
+}));
+
+export type GetMandateRevocationError = CoinbaseOpError;
+/** Get a mandate revocation Retrieves a single revocation by ID. */
+export const getMandateRevocation: API.OperationMethod<
+  GetMandateRevocationRequest,
+  Revocation,
+  GetMandateRevocationError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3136, __c196, 0) as any as S.Schema<GetMandateRevocationRequest>,
+  output: __S(3152, __c197, 0) as any as S.Schema<Revocation>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMandateRevocation",
 }));
 
 export type GetOnrampOrderError = CoinbaseOpError;
@@ -7276,8 +8872,8 @@ export const getOnrampOrder: API.OperationMethod<
   GetOnrampOrderError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<GetOnrampOrderRequest>,
-  output: __S(2353, __c147, 1) as any as S.Schema<GetOnrampOrderResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<GetOnrampOrderRequest>,
+  output: __S(3169, __c198, 1) as any as S.Schema<GetOnrampOrderResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7293,8 +8889,8 @@ export const getOnrampUserLimits: API.OperationMethod<
   GetOnrampUserLimitsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<GetOnrampUserLimitsRequest>,
-  output: __S(2375, __c148, 7) as any as S.Schema<GetOnrampUserLimitsResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<GetOnrampUserLimitsRequest>,
+  output: __S(3191, __c199, 7) as any as S.Schema<GetOnrampUserLimitsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7310,8 +8906,8 @@ export const getPaymentMethod: API.OperationMethod<
   GetPaymentMethodError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<GetPaymentMethodRequest>,
-  output: __S(2385, __c149, 1) as any as S.Schema<GetPaymentMethodResponse>,
+  input: __S(3200, __c200, 0) as any as S.Schema<GetPaymentMethodRequest>,
+  output: __S(3201, __c200, 1) as any as S.Schema<GetPaymentMethodResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7327,8 +8923,8 @@ export const getPaymentSession: API.OperationMethod<
   GetPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c150, 0) as any as S.Schema<GetPaymentSessionRequest>,
-  output: __S(2709, __c169, 5) as any as S.Schema<PaymentSession>,
+  input: __S(3216, __c201, 0) as any as S.Schema<GetPaymentSessionRequest>,
+  output: __S(164, __c10, 4) as any as S.Schema<PaymentSession>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7344,8 +8940,8 @@ export const getPaymentSessionAuthorization: API.OperationMethod<
   GetPaymentSessionAuthorizationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2416, __c151, 0) as any as S.Schema<GetPaymentSessionAuthorizationRequest>,
-  output: __S(2000, __c125, 0) as any as S.Schema<Authorization>,
+  input: __S(3248, __c203, 0) as any as S.Schema<GetPaymentSessionAuthorizationRequest>,
+  output: __S(2832, __c177, 0) as any as S.Schema<Authorization>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7361,8 +8957,8 @@ export const getPaymentSessionCapture: API.OperationMethod<
   GetPaymentSessionCaptureError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<GetPaymentSessionCaptureRequest>,
-  output: __S(2736, __c171, 0) as any as S.Schema<Capture>,
+  input: __S(3264, __c204, 0) as any as S.Schema<GetPaymentSessionCaptureRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<Capture>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7378,8 +8974,8 @@ export const getPaymentSessionRefund: API.OperationMethod<
   GetPaymentSessionRefundError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c154, 0) as any as S.Schema<GetPaymentSessionRefundRequest>,
-  output: __S(2624, __c164, 0) as any as S.Schema<Refund>,
+  input: __S(3280, __c205, 0) as any as S.Schema<GetPaymentSessionRefundRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<Refund>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7395,8 +8991,8 @@ export const getPaymentSessionVoid: API.OperationMethod<
   GetPaymentSessionVoidError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<GetPaymentSessionVoidRequest>,
-  output: __S(2640, __c165, 0) as any as S.Schema<Void>,
+  input: __S(3296, __c206, 0) as any as S.Schema<GetPaymentSessionVoidRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<Void>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7412,8 +9008,8 @@ export const getPolicyById: API.OperationMethod<
   GetPolicyByIdError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<GetPolicyByIdRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<Policy>,
+  input: __S(3312, __c207, 0) as any as S.Schema<GetPolicyByIdRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7429,8 +9025,8 @@ export const getSolanaAccount: API.OperationMethod<
   GetSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2512, __c157, 0) as any as S.Schema<GetSolanaAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(3328, __c208, 0) as any as S.Schema<GetSolanaAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7446,8 +9042,8 @@ export const getSolanaAccountByName: API.OperationMethod<
   GetSolanaAccountByNameError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<GetSolanaAccountByNameRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(3344, __c209, 0) as any as S.Schema<GetSolanaAccountByNameRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7463,8 +9059,8 @@ export const getSQLGrammar: API.OperationMethod<
   GetSQLGrammarError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<GetSQLGrammarRequest>,
-  output: __S(2545, __c159, 1) as any as S.Schema<GetSQLGrammarResponse>,
+  input: __S(3360, __c210, 0) as any as S.Schema<GetSQLGrammarRequest>,
+  output: __S(3361, __c210, 1) as any as S.Schema<GetSQLGrammarResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7480,8 +9076,8 @@ export const getSQLSchema: API.OperationMethod<
   GetSQLSchemaError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<GetSQLSchemaRequest>,
-  output: __S(2565, __c160, 5) as any as S.Schema<OnchainDataSchemaResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<GetSQLSchemaRequest>,
+  output: __S(3381, __c211, 5) as any as S.Schema<OnchainDataSchemaResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7497,8 +9093,8 @@ export const getTransfer: API.OperationMethod<
   GetTransferError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<GetTransferRequest>,
-  output: __S(1687, __c105, 7) as any as S.Schema<Transfer>,
+  input: __S(3392, __c212, 0) as any as S.Schema<GetTransferRequest>,
+  output: __S(2407, __c150, 7) as any as S.Schema<Transfer>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7514,8 +9110,8 @@ export const getUserOperation: API.OperationMethod<
   GetUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c162, 0) as any as S.Schema<GetUserOperationRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(3424, __c214, 0) as any as S.Schema<GetUserOperationRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7531,13 +9127,47 @@ export const getUserOperationWithEndUserAccount: API.OperationMethod<
   GetUserOperationWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<GetUserOperationWithEndUserAccountRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(3440, __c215, 0) as any as S.Schema<GetUserOperationWithEndUserAccountRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUserOperationWithEndUserAccount",
+}));
+
+export type GetVaultError = CoinbaseOpError;
+/** Get a vault Retrieves a vault created by the project, including its current metrics such as APY and TVL. */
+export const getVault: API.OperationMethod<
+  GetVaultRequest,
+  Vault,
+  GetVaultError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3456, __c216, 0) as any as S.Schema<GetVaultRequest>,
+  output: __S(3473, __c217, 1) as any as S.Schema<Vault>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetVault",
+}));
+
+export type GetWalletApprovalOptionsError = CoinbaseOpError;
+/** Get wallet approval options Returns the available wallet approval options for a mandate. The mandate must be in `created` or `approval_failed` status, not expired, and have no approval or revocation in flight. Provide one or more customer wallet addresses as query parameters. Each option specifies the network, asset, and payloads the customer must sign to approve the mandate. Present the options to the customer and let them choose one, then call **Approve a mandate with a wallet** with the selected option and its signed payloads. This is a stateless read operation and does not modify the mandate. The payloads embed fresh on-chain signing data such as a `nonce` and `deadline`, so sign and submit the payloads from a single response rather than caching them. If a requested address has no eligible approval options, it appears in `ineligibleAddresses` with a `code` and `message` instead of being absent from `options`. */
+export const getWalletApprovalOptions: API.OperationMethod<
+  GetWalletApprovalOptionsRequest,
+  WalletMandateApprovalOptionsResponse,
+  GetWalletApprovalOptionsError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3488, __c218, 0) as any as S.Schema<GetWalletApprovalOptionsRequest>,
+  output: __S(3492, __c218, 4) as any as S.Schema<WalletMandateApprovalOptionsResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWalletApprovalOptions",
 }));
 
 export type GetWalletAuthorizationOptionsError = CoinbaseOpError;
@@ -7548,13 +9178,30 @@ export const getWalletAuthorizationOptions: API.OperationMethod<
   GetWalletAuthorizationOptionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2769, __c173, 1) as any as S.Schema<GetWalletAuthorizationOptionsRequest>,
-  output: __S(2777, __c173, 9) as any as S.Schema<WalletAuthorizationOptionsResponse>,
+  input: __S(3521, __c220, 1) as any as S.Schema<GetWalletAuthorizationOptionsRequest>,
+  output: __S(3525, __c220, 5) as any as S.Schema<WalletAuthorizationOptionsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWalletAuthorizationOptions",
+}));
+
+export type GetWalletRevocationOptionsError = CoinbaseOpError;
+/** Get wallet revocation options Returns the payloads the customer must sign to remove the mandate's spending allowance on-chain. The mandate must have an active allowance (approval succeeded, not yet revoked) and no approval or revocation in flight. A canceled mandate can still be revoked while its allowance is live. Present the payloads to the customer to sign, then call **Revoke a mandate with a wallet** with the signed payloads. This is a stateless read operation and does not modify the mandate. The payloads embed fresh signing data on each call, so sign and submit the payloads from a single response rather than caching them. */
+export const getWalletRevocationOptions: API.OperationMethod<
+  GetWalletRevocationOptionsRequest,
+  WalletMandateRevocationOptionsResponse,
+  GetWalletRevocationOptionsError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3536, __c221, 0) as any as S.Schema<GetWalletRevocationOptionsRequest>,
+  output: __S(3540, __c221, 4) as any as S.Schema<WalletMandateRevocationOptionsResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetWalletRevocationOptions",
 }));
 
 export type GetWebhookSubscriptionError = CoinbaseOpError;
@@ -7565,8 +9212,8 @@ export const getWebhookSubscription: API.OperationMethod<
   GetWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<WebhookSubscriptionResponse>,
+  input: __S(3552, __c222, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
+  output: __S(2434, __c152, 2) as any as S.Schema<WebhookSubscriptionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7582,8 +9229,8 @@ export const getX402Bundle: API.OperationMethod<
   GetX402BundleError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<GetX402BundleRequest>,
-  output: __S(2801, __c175, 1) as any as S.Schema<GetX402BundleResponse>,
+  input: __S(3568, __c223, 0) as any as S.Schema<GetX402BundleRequest>,
+  output: __S(3569, __c223, 1) as any as S.Schema<GetX402BundleResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7599,8 +9246,8 @@ export const importEndUser: API.OperationMethod<
   ImportEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2864, __c179, 0) as any as S.Schema<ImportEndUserRequest>,
-  output: __S(1269, __c79, 5) as any as S.Schema<EndUser>,
+  input: __S(3632, __c227, 0) as any as S.Schema<ImportEndUserRequest>,
+  output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7616,8 +9263,8 @@ export const importEvmAccount: API.OperationMethod<
   ImportEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<ImportEvmAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EvmAccount>,
+  input: __S(3648, __c228, 0) as any as S.Schema<ImportEvmAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7633,8 +9280,8 @@ export const importSolanaAccount: API.OperationMethod<
   ImportSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<ImportSolanaAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(3728, __c233, 0) as any as S.Schema<ImportSolanaAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7650,8 +9297,8 @@ export const initiateOnrampVerification: API.OperationMethod<
   InitiateOnrampVerificationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c182, 0) as any as S.Schema<InitiateOnrampVerificationRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<OnrampVerificationInitiation>,
+  input: __S(3744, __c234, 0) as any as S.Schema<InitiateOnrampVerificationRequest>,
+  output: __S(3745, __c234, 1) as any as S.Schema<OnrampVerificationInitiation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7667,8 +9314,8 @@ export const listBalances: API.OperationMethod<
   ListBalancesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2928, __c183, 0) as any as S.Schema<ListBalancesRequest>,
-  output: __S(2929, __c183, 1) as any as S.Schema<ListBalancesResponse>,
+  input: __S(3760, __c235, 0) as any as S.Schema<ListBalancesRequest>,
+  output: __S(3762, __c235, 2) as any as S.Schema<ListBalancesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7684,30 +9331,13 @@ export const listBorrowPositionsWithEndUserAccount: API.OperationMethod<
   ListBorrowPositionsWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2960, __c185, 0) as any as S.Schema<ListBorrowPositionsWithEndUserAccountRequest>,
-  output: __S(2968, __c185, 8) as any as S.Schema<ListBorrowPositionsWithEndUserAccountResponse>,
+  input: __S(3776, __c236, 0) as any as S.Schema<ListBorrowPositionsWithEndUserAccountRequest>,
+  output: __S(3784, __c236, 8) as any as S.Schema<ListBorrowPositionsWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBorrowPositionsWithEndUserAccount",
-}));
-
-export type ListCoinbaseAccountBalancesError = CoinbaseOpError;
-/** List Coinbase account balances Returns the balances held in the Coinbase account. The `available` amount is the immediately spendable balance. The `total` amount also includes funds currently on hold. Both amounts are returned as decimal strings with 2 decimal places (e.g. `"50.00"`). **Authentication:** Requires a Coinbase OAuth Bearer token with the `coinbase:stablecoins:balance-read` scope. **Returned assets:** Currently always returns a single USDC entry. If the payer holds no USDC, the entry is still returned with an `available` and `total` of `"0"` so callers do not need to special-case a missing asset. Additional assets may be returned in the future without a contract change. */
-export const listCoinbaseAccountBalances: API.OperationMethod<
-  ListCoinbaseAccountBalancesRequest,
-  Balances,
-  ListCoinbaseAccountBalancesError,
-  CoinbaseOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<ListCoinbaseAccountBalancesRequest>,
-  output: __S(2993, __c187, 1) as any as S.Schema<Balances>,
-  errors: [UnknownCoinbaseError],
-  protocol: CoinbaseProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListCoinbaseAccountBalances",
 }));
 
 export type ListCustomersError = CoinbaseOpError;
@@ -7718,8 +9348,8 @@ export const listCustomers: API.OperationMethod<
   ListCustomersError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c188, 0) as any as S.Schema<ListCustomersRequest>,
-  output: __S(3010, __c188, 2) as any as S.Schema<ListCustomersResponse>,
+  input: __S(3792, __c237, 0) as any as S.Schema<ListCustomersRequest>,
+  output: __S(3794, __c237, 2) as any as S.Schema<ListCustomersResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7735,8 +9365,8 @@ export const listDataTokenBalances: API.OperationMethod<
   ListDataTokenBalancesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<ListDataTokenBalancesRequest>,
-  output: __S(3043, __c190, 3) as any as S.Schema<ListDataTokenBalancesResponse>,
+  input: __S(3808, __c238, 0) as any as S.Schema<ListDataTokenBalancesRequest>,
+  output: __S(3827, __c239, 3) as any as S.Schema<ListDataTokenBalancesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7745,15 +9375,15 @@ export const listDataTokenBalances: API.OperationMethod<
 }));
 
 export type ListDepositDestinationsError = CoinbaseOpError;
-/** List deposit destinations List deposit destinations. You can optionally filter the results by type, account ID, network, or cryptocurrency address. Results are sorted by creation date in descending order (newest first). */
+/** List deposit destinations List deposit destinations. You can optionally filter the results by type, account ID, network, cryptocurrency address, or status. Results are sorted by creation date in descending order (newest first). */
 export const listDepositDestinations: API.OperationMethod<
   ListDepositDestinationsRequest,
   ListDepositDestinationsResponse,
   ListDepositDestinationsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c192, 0) as any as S.Schema<ListDepositDestinationsRequest>,
-  output: __S(3074, __c192, 2) as any as S.Schema<ListDepositDestinationsResponse>,
+  input: __S(3856, __c241, 0) as any as S.Schema<ListDepositDestinationsRequest>,
+  output: __S(3858, __c241, 2) as any as S.Schema<ListDepositDestinationsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7762,15 +9392,15 @@ export const listDepositDestinations: API.OperationMethod<
 }));
 
 export type ListDisbursementsError = CoinbaseOpError;
-/** List disbursements Returns a paginated list of disbursements created by the merchant. Each disbursement includes its source, target, status, amount, and timestamps. Only disbursements accessible by the current API key are returned. */
+/** List disbursements Returns a paginated list of disbursements accessible to your API key. Filter by `status`, `sourceAccountId`, or `externalReferenceId`. */
 export const listDisbursements: API.OperationMethod<
   ListDisbursementsRequest,
   ListDisbursementsResponse,
   ListDisbursementsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3088, __c193, 0) as any as S.Schema<ListDisbursementsRequest>,
-  output: __S(3090, __c193, 2) as any as S.Schema<ListDisbursementsResponse>,
+  input: __S(3872, __c242, 0) as any as S.Schema<ListDisbursementsRequest>,
+  output: __S(3874, __c242, 2) as any as S.Schema<ListDisbursementsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7786,8 +9416,8 @@ export const listEndUsers: API.OperationMethod<
   ListEndUsersError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<ListEndUsersRequest>,
-  output: __S(3105, __c194, 1) as any as S.Schema<ListEndUsersResponse>,
+  input: __S(3888, __c243, 0) as any as S.Schema<ListEndUsersRequest>,
+  output: __S(3889, __c243, 1) as any as S.Schema<ListEndUsersResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7803,8 +9433,8 @@ export const listEvmAccounts: API.OperationMethod<
   ListEvmAccountsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<ListEvmAccountsRequest>,
-  output: __S(3153, __c197, 1) as any as S.Schema<ListEvmAccountsResponse>,
+  input: __S(3920, __c245, 0) as any as S.Schema<ListEvmAccountsRequest>,
+  output: __S(3937, __c246, 1) as any as S.Schema<ListEvmAccountsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7820,8 +9450,8 @@ export const listEvmBorrowProducts: API.OperationMethod<
   ListEvmBorrowProductsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<ListEvmBorrowProductsRequest>,
-  output: __S(3170, __c198, 2) as any as S.Schema<ListEvmBorrowProductsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListEvmBorrowProductsRequest>,
+  output: __S(226, __c14, 2) as any as S.Schema<ListEvmBorrowProductsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7837,8 +9467,8 @@ export const listEvmSmartAccounts: API.OperationMethod<
   ListEvmSmartAccountsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3184, __c199, 0) as any as S.Schema<ListEvmSmartAccountsRequest>,
-  output: __S(3186, __c199, 2) as any as S.Schema<ListEvmSmartAccountsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListEvmSmartAccountsRequest>,
+  output: __S(242, __c15, 2) as any as S.Schema<ListEvmSmartAccountsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7854,8 +9484,8 @@ export const listEvmTokenBalances: API.OperationMethod<
   ListEvmTokenBalancesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<ListEvmTokenBalancesRequest>,
-  output: __S(3043, __c190, 3) as any as S.Schema<ListEvmTokenBalancesResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListEvmTokenBalancesRequest>,
+  output: __S(3827, __c239, 3) as any as S.Schema<ListEvmTokenBalancesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7871,13 +9501,64 @@ export const listFoundationAccounts: API.OperationMethod<
   ListFoundationAccountsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<ListFoundationAccountsRequest>,
-  output: __S(3234, __c202, 2) as any as S.Schema<ListFoundationAccountsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListFoundationAccountsRequest>,
+  output: __S(274, __c17, 2) as any as S.Schema<ListFoundationAccountsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFoundationAccounts",
+}));
+
+export type ListMandateApprovalsError = CoinbaseOpError;
+/** List mandate approvals Returns the approvals for a mandate, most recent first. Each approval is an attempt to attach a funding `source`; inspect them to see why a mandate is not yet `approval_succeeded`: a `pending` attempt is still in progress, a `failed` one carries an `error`. */
+export const listMandateApprovals: API.OperationMethod<
+  ListMandateApprovalsRequest,
+  ListMandateApprovalsResponse,
+  ListMandateApprovalsError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c18, 0) as any as S.Schema<ListMandateApprovalsRequest>,
+  output: __S(290, __c18, 2) as any as S.Schema<ListMandateApprovalsResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMandateApprovals",
+}));
+
+export type ListMandateRevocationsError = CoinbaseOpError;
+/** List mandate revocations Returns all wallet revocations for the mandate, newest first. Each records an attempt to remove the spending allowance on-chain. A `succeeded` entry means the allowance has been removed. */
+export const listMandateRevocations: API.OperationMethod<
+  ListMandateRevocationsRequest,
+  ListMandateRevocationsResponse,
+  ListMandateRevocationsError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(304, __c19, 0) as any as S.Schema<ListMandateRevocationsRequest>,
+  output: __S(306, __c19, 2) as any as S.Schema<ListMandateRevocationsResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMandateRevocations",
+}));
+
+export type ListMandatesError = CoinbaseOpError;
+/** List mandates Returns a paginated list of mandates that the API key has permission to access. Filter by `address` (the funding `source`), `network`, and `status`. */
+export const listMandates: API.OperationMethod<
+  ListMandatesRequest,
+  ListMandatesResponse,
+  ListMandatesError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c20, 0) as any as S.Schema<ListMandatesRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<ListMandatesResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMandates",
 }));
 
 export type ListPaymentMethodsError = CoinbaseOpError;
@@ -7888,8 +9569,8 @@ export const listPaymentMethods: API.OperationMethod<
   ListPaymentMethodsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3248, __c203, 0) as any as S.Schema<ListPaymentMethodsRequest>,
-  output: __S(3250, __c203, 2) as any as S.Schema<ListPaymentMethodsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListPaymentMethodsRequest>,
+  output: __S(338, __c21, 2) as any as S.Schema<ListPaymentMethodsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7905,8 +9586,8 @@ export const listPaymentSessionAuthorizations: API.OperationMethod<
   ListPaymentSessionAuthorizationsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c204, 0) as any as S.Schema<ListPaymentSessionAuthorizationsRequest>,
-  output: __S(3265, __c204, 1) as any as S.Schema<ListPaymentSessionAuthorizationsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListPaymentSessionAuthorizationsRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<ListPaymentSessionAuthorizationsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7922,8 +9603,8 @@ export const listPaymentSessionCaptures: API.OperationMethod<
   ListPaymentSessionCapturesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3280, __c205, 0) as any as S.Schema<ListPaymentSessionCapturesRequest>,
-  output: __S(3281, __c205, 1) as any as S.Schema<ListPaymentSessionCapturesResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<ListPaymentSessionCapturesRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<ListPaymentSessionCapturesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7939,8 +9620,8 @@ export const listPaymentSessionRefunds: API.OperationMethod<
   ListPaymentSessionRefundsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<ListPaymentSessionRefundsRequest>,
-  output: __S(3297, __c206, 1) as any as S.Schema<ListPaymentSessionRefundsResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListPaymentSessionRefundsRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<ListPaymentSessionRefundsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7956,8 +9637,8 @@ export const listPaymentSessions: API.OperationMethod<
   ListPaymentSessionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<ListPaymentSessionsRequest>,
-  output: __S(3314, __c207, 2) as any as S.Schema<ListPaymentSessionsResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<ListPaymentSessionsRequest>,
+  output: __S(418, __c26, 2) as any as S.Schema<ListPaymentSessionsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7973,8 +9654,8 @@ export const listPaymentSessionVoids: API.OperationMethod<
   ListPaymentSessionVoidsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c208, 0) as any as S.Schema<ListPaymentSessionVoidsRequest>,
-  output: __S(3329, __c208, 1) as any as S.Schema<ListPaymentSessionVoidsResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<ListPaymentSessionVoidsRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<ListPaymentSessionVoidsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -7990,8 +9671,8 @@ export const listPolicies: API.OperationMethod<
   ListPoliciesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(3346, __c209, 2) as any as S.Schema<ListPoliciesResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<ListPoliciesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8007,8 +9688,8 @@ export const listSolanaAccounts: API.OperationMethod<
   ListSolanaAccountsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c210, 0) as any as S.Schema<ListSolanaAccountsRequest>,
-  output: __S(3153, __c197, 1) as any as S.Schema<ListSolanaAccountsResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<ListSolanaAccountsRequest>,
+  output: __S(3937, __c246, 1) as any as S.Schema<ListSolanaAccountsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8024,8 +9705,8 @@ export const listSolanaTokenBalances: API.OperationMethod<
   ListSolanaTokenBalancesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<ListSolanaTokenBalancesRequest>,
-  output: __S(3380, __c211, 4) as any as S.Schema<ListSolanaTokenBalancesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListSolanaTokenBalancesRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<ListSolanaTokenBalancesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8041,8 +9722,8 @@ export const listSpendPermissions: API.OperationMethod<
   ListSpendPermissionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListSpendPermissionsRequest>,
-  output: __S(100, __c6, 4) as any as S.Schema<ListSpendPermissionsResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListSpendPermissionsRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<ListSpendPermissionsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8058,8 +9739,8 @@ export const listTokensForAccount: API.OperationMethod<
   ListTokensForAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ListTokensForAccountRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<AccountTokenAddressesResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListTokensForAccountRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<AccountTokenAddressesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8068,20 +9749,37 @@ export const listTokensForAccount: API.OperationMethod<
 }));
 
 export type ListTransfersError = CoinbaseOpError;
-/** List transfers List transfers for your organization. Use this to view and monitor your transfer activity. **Status Filtering**: Filter by specific status to efficiently manage transfers: * `?status=processing` - Monitor active transfers. * `?status=quoted` - Find transfers awaiting execution. * `?status=failed` - Review failed transfers for troubleshooting. * `?status=completed` - Find completed transfers. **Account Filtering**: Filter by account ID to find transfers involving a specific account: * `?accountId=<ID>` - All transfers where the account is either source or target (OR semantics). * `?sourceAccountId=<ID>` - Only transfers where the account is the source (outbound). * `?targetAccountId=<ID>` - Only transfers where the account is the target (inbound). Providing `accountId` together with `sourceAccountId` or `targetAccountId` is a validation error and returns HTTP 400. **Date Range Filtering**: Filter by creation or last-updated time for reconciliation: * `?createdAfter=2026-01-01T00:00:00Z&createdBefore=2026-01-31T23:59:59Z` - Transfers created within a date range. * `?updatedAfter=2026-01-01T00:00:00Z` - Transfers updated since a given time. Useful for incremental sync. **Asset Filtering**: Filter by source or target asset symbol: * `?sourceAsset=usd` - Transfers funded from a USD account. * `?targetAsset=usdc` - Transfers delivering USDC to the target. Supported asset symbols include `usdc`, `eurc`, `usd`, and `eur`. **Other Filters**: * `?sourceAddress=0x...` - Transfers from a specific on-chain source address. * `?targetAddress=0x...` - Transfers to a specific on-chain destination address. * `?targetEmail=user@example.com` - Transfers to a specific email recipient. * `?transferId=transfer_...` - Look up a single transfer by ID; bypasses pagination. */
+/** List transfers List transfers for your organization. Use this to view and monitor your transfer activity. **Sorting**: Results are sorted by creation time in descending order (newest first). Transfers with the same creation time are returned in a consistent order across pages. **Status Filtering**: Filter by specific status to efficiently manage transfers: * `?status=processing` - Monitor active transfers. * `?status=quoted` - Find transfers awaiting execution. * `?status=failed` - Review failed transfers for troubleshooting. * `?status=completed` - Find completed transfers. **Account Filtering**: Filter by account ID to find transfers involving a specific account: * `?accountId=<ID>` - All transfers where the account is either source or target (OR semantics). * `?sourceAccountId=<ID>` - Only transfers where the account is the source (outbound). * `?targetAccountId=<ID>` - Only transfers where the account is the target (inbound). Providing `accountId` together with `sourceAccountId`, `targetAccountId`, `sourceAddress`, `targetAddress`, or `targetEmail` is a validation error and returns HTTP 400. **Date Range Filtering**: Filter by creation or last-updated time for reconciliation: * `?createdAfter=2026-01-01T00:00:00Z&createdBefore=2026-01-31T23:59:59Z` - Transfers created within a date range. * `?updatedAfter=2026-01-01T00:00:00Z` - Transfers updated since a given time. Useful for incremental sync. **Asset Filtering**: Filter by source or target asset symbol: * `?sourceAsset=usd` - Transfers funded from a USD account. * `?targetAsset=usdc` - Transfers delivering USDC to the target. Supported asset symbols include `usdc`, `eurc`, `usd`, and `eur`. **Other Filters**: * `?sourceAddress=0x...` - Transfers from a specific on-chain source address. * `?targetAddress=0x...` - Transfers to a specific on-chain destination address. * `?targetEmail=user@example.com` - Transfers to a specific email recipient. * `?transferId=transfer_...` - Look up a single transfer by ID; bypasses pagination. **Filter Combinations**: The following combinations are validation errors and return HTTP 400: * `accountId` with any of `sourceAccountId`, `targetAccountId`, `sourceAddress`, `targetAddress`, or `targetEmail`. * `sourceAccountId` with `sourceAddress`. * More than one of `targetAccountId`, `targetAddress`, and `targetEmail`. * `transferId` with any other filter. Pagination parameters are permitted. */
 export const listTransfers: API.OperationMethod<
   ListTransfersRequest,
   ListTransfersResponse,
   ListTransfersError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<ListTransfersRequest>,
-  output: __S(130, __c8, 2) as any as S.Schema<ListTransfersResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListTransfersRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<ListTransfersResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTransfers",
+}));
+
+export type ListVaultsError = CoinbaseOpError;
+/** List vaults Lists the vaults created by the project. Use `pageSize` and `pageToken` to page through the results. Each vault includes its current metrics, when a metrics snapshot has been observed for it. */
+export const listVaults: API.OperationMethod<
+  ListVaultsRequest,
+  ListVaultsResponse,
+  ListVaultsError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c34, 0) as any as S.Schema<ListVaultsRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<ListVaultsResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListVaults",
 }));
 
 export type ListWebhookSubscriptionEventsError = CoinbaseOpError;
@@ -8092,8 +9790,8 @@ export const listWebhookSubscriptionEvents: API.OperationMethod<
   ListWebhookSubscriptionEventsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<ListWebhookSubscriptionEventsRequest>,
-  output: __S(148, __c9, 4) as any as S.Schema<WebhookEventListResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListWebhookSubscriptionEventsRequest>,
+  output: __S(580, __c36, 4) as any as S.Schema<WebhookEventListResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8109,8 +9807,8 @@ export const listWebhookSubscriptions: API.OperationMethod<
   ListWebhookSubscriptionsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<ListWebhookSubscriptionsRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<ListWebhookSubscriptionsResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListWebhookSubscriptionsRequest>,
+  output: __S(594, __c37, 2) as any as S.Schema<ListWebhookSubscriptionsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8126,8 +9824,8 @@ export const listX402Bundles: API.OperationMethod<
   ListX402BundlesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<ListX402BundlesRequest>,
-  output: __S(179, __c11, 3) as any as S.Schema<X402BundlesResponse>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListX402BundlesRequest>,
+  output: __S(611, __c38, 3) as any as S.Schema<X402BundlesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8143,8 +9841,8 @@ export const listX402DiscoveryMerchant: API.OperationMethod<
   ListX402DiscoveryMerchantError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ListX402DiscoveryMerchantRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<X402DiscoveryMerchantResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<ListX402DiscoveryMerchantRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<X402DiscoveryMerchantResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8160,8 +9858,8 @@ export const listX402DiscoveryResources: API.OperationMethod<
   ListX402DiscoveryResourcesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<ListX402DiscoveryResourcesRequest>,
-  output: __S(225, __c14, 1) as any as S.Schema<X402DiscoveryResourcesResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListX402DiscoveryResourcesRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<X402DiscoveryResourcesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8177,13 +9875,30 @@ export const lookupEndUser: API.OperationMethod<
   LookupEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<LookupEndUserRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<LookupEndUserResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<LookupEndUserRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<LookupEndUserResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupEndUser",
+}));
+
+export type PausePolicyError = CoinbaseOpError;
+/** Pause policy Pause a policy so it is skipped during evaluation as if it were not attached. The policy keeps its ID, scope, and rules. If already paused, this returns the policy with the original pausedAt and replaces resumeAt with the requested time, or clears resumeAt if no time is supplied. */
+export const pausePolicy: API.OperationMethod<
+  PausePolicyRequest,
+  Policy,
+  PausePolicyError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(688, __c43, 0) as any as S.Schema<PausePolicyRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PausePolicy",
 }));
 
 export type PrepareAndSendUserOperationError = CoinbaseOpError;
@@ -8194,8 +9909,8 @@ export const prepareAndSendUserOperation: API.OperationMethod<
   PrepareAndSendUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<PrepareAndSendUserOperationRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(704, __c44, 0) as any as S.Schema<PrepareAndSendUserOperationRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8211,13 +9926,47 @@ export const prepareUserOperation: API.OperationMethod<
   PrepareUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<PrepareUserOperationRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(720, __c45, 0) as any as S.Schema<PrepareUserOperationRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PrepareUserOperation",
+}));
+
+export type RedeemVaultFeesWithEvmAccountError = CoinbaseOpError;
+/** Redeem vault fees with an EVM account Redeems every vault share held by the vault's fee recipient EVM account for the vault's underlying asset (e.g. USDC). The account must be the vault's fee recipient. CDP periodically distributes each vault's accrued fees to its fee recipient as vault shares. This API redeems the account's full share balance, including any shares from the account's own deposits into the vault, so use a dedicated fee recipient account. The account signs an EIP-2612 permit over its vault shares, and the share approval and redemption are executed in a single transaction. For fee recipients that are EVM Smart Accounts, use `redeemVaultFeesWithEvmSmartAccount` instead. */
+export const redeemVaultFeesWithEvmAccount: API.OperationMethod<
+  RedeemVaultFeesWithEvmAccountRequest,
+  EoaVaultRedeemFeesResponse,
+  RedeemVaultFeesWithEvmAccountError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(736, __c46, 0) as any as S.Schema<RedeemVaultFeesWithEvmAccountRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<EoaVaultRedeemFeesResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeemVaultFeesWithEvmAccount",
+}));
+
+export type RedeemVaultFeesWithEvmSmartAccountError = CoinbaseOpError;
+/** Redeem vault fees with an EVM Smart Account Redeems every vault share held by the vault's fee recipient EVM Smart Account for the vault's underlying asset (e.g. USDC). The Smart Account must be the vault's fee recipient, and its owner must be a CDP EVM account. CDP periodically distributes each vault's accrued fees to its fee recipient as vault shares. This API redeems the Smart Account's full share balance, including any shares from the Smart Account's own deposits into the vault, so use a dedicated fee recipient Smart Account. The share approval and redemption are batched into a single user operation. For fee recipients that are EVM accounts, use `redeemVaultFeesWithEvmAccount` instead. */
+export const redeemVaultFeesWithEvmSmartAccount: API.OperationMethod<
+  RedeemVaultFeesWithEvmSmartAccountRequest,
+  SmartAccountVaultRedeemFeesResponse,
+  RedeemVaultFeesWithEvmSmartAccountError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(784, __c49, 0) as any as S.Schema<RedeemVaultFeesWithEvmSmartAccountRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<SmartAccountVaultRedeemFeesResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RedeemVaultFeesWithEvmSmartAccount",
 }));
 
 export type RefundPaymentSessionError = CoinbaseOpError;
@@ -8228,13 +9977,30 @@ export const refundPaymentSession: API.OperationMethod<
   RefundPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<RefundPaymentSessionRequest>,
-  output: __S(2624, __c164, 0) as any as S.Schema<Refund>,
+  input: __S(800, __c50, 0) as any as S.Schema<RefundPaymentSessionRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<Refund>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RefundPaymentSession",
+}));
+
+export type RegisterOnrampIosAttestationError = CoinbaseOpError;
+/** Register a device key for iOS App Attest Verifies an iOS App Attest attestation payload and registers the device's public key for future assertion validation. The server checks that the attestation is genuine and signed by Apple, that the bundle ID is in the partner's allowed mobile clients list, and that the challenge issued by [Create Onramp iOS Attestation Challenge](#operation/createOnrampIosAttestationChallenge) is fresh and unused. This is a one-time, per-device-install operation; iOS-only (Android validates Play Integrity inline per request and has no registration step). For security, all client-side verification failures are returned as an opaque `400 invalid_request` -- the response never reveals which specific check failed. The Apple App Attest `keyId` is supplied only in the request body (`ios.keyId`). Do not put `keyId` in the URL -- App Attest key IDs are standard base64 and frequently contain `/`, which breaks path routing at the edge. Idempotency is provided by `ios.keyId` itself: the server upserts the device public key on `(app, keyId)`, so repeating registration for the same key replaces the stored public key rather than creating a duplicate. This endpoint does not accept `X-Idempotency-Key` -- `ios.keyId` is the natural idempotency key for the registration resource. The challenge remains single-use and is claimed on first receipt. The challenge identifies the project; the device does not supply a CDP project ID. */
+export const registerOnrampIosAttestation: API.OperationMethod<
+  RegisterOnrampIosAttestationRequest,
+  IosAttestationRegistrationResponse,
+  RegisterOnrampIosAttestationError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(817, __c51, 1) as any as S.Schema<RegisterOnrampIosAttestationRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<IosAttestationRegistrationResponse>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RegisterOnrampIosAttestation",
 }));
 
 export type RequestEvmFaucetError = CoinbaseOpError;
@@ -8245,8 +10011,8 @@ export const requestEvmFaucet: API.OperationMethod<
   RequestEvmFaucetError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<RequestEvmFaucetRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<RequestEvmFaucetResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<RequestEvmFaucetRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<RequestEvmFaucetResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8262,8 +10028,8 @@ export const requestLimitsUpgrade: API.OperationMethod<
   RequestLimitsUpgradeError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(465, __c29, 1) as any as S.Schema<RequestLimitsUpgradeRequest>,
-  output: __S(466, __c29, 2) as any as S.Schema<OnrampLimitUpgradeEmbeddedResponse>,
+  input: __S(849, __c53, 1) as any as S.Schema<RequestLimitsUpgradeRequest>,
+  output: __S(850, __c53, 2) as any as S.Schema<OnrampLimitUpgradeEmbeddedResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8279,13 +10045,30 @@ export const requestSolanaFaucet: API.OperationMethod<
   RequestSolanaFaucetError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<RequestSolanaFaucetRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<RequestSolanaFaucetResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<RequestSolanaFaucetRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<RequestSolanaFaucetResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RequestSolanaFaucet",
+}));
+
+export type ResumePolicyError = CoinbaseOpError;
+/** Resume policy Resume a paused policy so its existing ID, scope, and rules are immediately enforced again. Resuming an active policy returns it unchanged. */
+export const resumePolicy: API.OperationMethod<
+  ResumePolicyRequest,
+  Policy,
+  ResumePolicyError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(896, __c56, 0) as any as S.Schema<ResumePolicyRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumePolicy",
 }));
 
 export type RevokeDelegationForEndUserError = CoinbaseOpError;
@@ -8296,8 +10079,8 @@ export const revokeDelegationForEndUser: API.OperationMethod<
   RevokeDelegationForEndUserError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<RevokeDelegationForEndUserRequest>,
-  output: __S(1808, __c113, 0) as any as S.Schema<RevokeDelegationForEndUserResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<RevokeDelegationForEndUserRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<RevokeDelegationForEndUserResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8313,8 +10096,8 @@ export const revokeDelegationForEndUserAccount: API.OperationMethod<
   RevokeDelegationForEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<RevokeDelegationForEndUserAccountRequest>,
-  output: __S(1808, __c113, 0) as any as S.Schema<RevokeDelegationForEndUserAccountResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<RevokeDelegationForEndUserAccountRequest>,
+  output: __S(2480, __c155, 0) as any as S.Schema<RevokeDelegationForEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8330,13 +10113,30 @@ export const revokeSpendPermission: API.OperationMethod<
   RevokeSpendPermissionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<RevokeSpendPermissionRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(944, __c59, 0) as any as S.Schema<RevokeSpendPermissionRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeSpendPermission",
+}));
+
+export type RevokeWalletMandateError = CoinbaseOpError;
+/** Revoke a mandate with a wallet **Customer-initiated.** Removes the mandate's spending allowance on-chain using the customer's signed payloads from **Get wallet revocation options**. The customer signs the payloads themselves, so this call is unauthenticated. The mandate must have an active allowance and no approval or revocation in flight. Returns a `pending` revocation and moves the mandate to `revocation_pending`. When the network transaction confirms, `revokedAt` is set and `status` becomes `revocation_succeeded`; if it does not complete, `status` becomes `revocation_failed` and a new revocation can be submitted. Follow progress with **Get a mandate revocation** or the `acceptance.mandate.revocation_*` webhooks. A canceled mandate can still be revoked: the revocation sets `revokedAt` while `canceledAt` remains set. */
+export const revokeWalletMandate: API.OperationMethod<
+  RevokeWalletMandateRequest,
+  Revocation,
+  RevokeWalletMandateError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1088, __c68, 0) as any as S.Schema<RevokeWalletMandateRequest>,
+  output: __S(3152, __c197, 0) as any as S.Schema<Revocation>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeWalletMandate",
 }));
 
 export type RunSQLQueryError = CoinbaseOpError;
@@ -8347,8 +10147,8 @@ export const runSQLQuery: API.OperationMethod<
   RunSQLQueryError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(561, __c35, 1) as any as S.Schema<RunSQLQueryRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<OnchainDataResult>,
+  input: __S(1105, __c69, 1) as any as S.Schema<RunSQLQueryRequest>,
+  output: __S(1111, __c69, 7) as any as S.Schema<OnchainDataResult>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8364,8 +10164,8 @@ export const searchX402Resources: API.OperationMethod<
   SearchX402ResourcesError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<SearchX402ResourcesRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<X402SearchResourcesResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<SearchX402ResourcesRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<X402SearchResourcesResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8381,8 +10181,8 @@ export const sendEvmAssetWithEndUserAccount: API.OperationMethod<
   SendEvmAssetWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<SendEvmAssetWithEndUserAccountRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<SendEvmAssetWithEndUserAccountResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<SendEvmAssetWithEndUserAccountRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<SendEvmAssetWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8398,8 +10198,8 @@ export const sendEvmTransaction: API.OperationMethod<
   SendEvmTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<SendEvmTransactionRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<SendEvmTransactionResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<SendEvmTransactionRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<SendEvmTransactionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8415,8 +10215,8 @@ export const sendEvmTransactionWithEndUserAccount: API.OperationMethod<
   SendEvmTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountRequest>,
+  output: __S(752, __c47, 0) as any as S.Schema<SendEvmTransactionWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8432,8 +10232,8 @@ export const sendSolanaAssetWithEndUserAccount: API.OperationMethod<
   SendSolanaAssetWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<SendSolanaAssetWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8449,8 +10249,8 @@ export const sendSolanaTransaction: API.OperationMethod<
   SendSolanaTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<SendSolanaTransactionRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<SendSolanaTransactionResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<SendSolanaTransactionRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<SendSolanaTransactionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8466,8 +10266,8 @@ export const sendSolanaTransactionWithEndUserAccount: API.OperationMethod<
   SendSolanaTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<SendSolanaTransactionWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8483,8 +10283,8 @@ export const sendUserOperation: API.OperationMethod<
   SendUserOperationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<SendUserOperationRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(1232, __c77, 0) as any as S.Schema<SendUserOperationRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8500,8 +10300,8 @@ export const sendUserOperationWithEndUserAccount: API.OperationMethod<
   SendUserOperationWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<SendUserOperationWithEndUserAccountRequest>,
-  output: __S(1749, __c109, 5) as any as S.Schema<EvmUserOperation>,
+  input: __S(1280, __c80, 0) as any as S.Schema<SendUserOperationWithEndUserAccountRequest>,
+  output: __S(2245, __c140, 5) as any as S.Schema<EvmUserOperation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8517,8 +10317,8 @@ export const settleX402Payment: API.OperationMethod<
   SettleX402PaymentError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<SettleX402PaymentRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<SettleX402PaymentResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<SettleX402PaymentRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<SettleX402PaymentResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8534,8 +10334,8 @@ export const signEvmHash: API.OperationMethod<
   SignEvmHashError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<SignEvmHashRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<SignEvmHashResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<SignEvmHashRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SignEvmHashResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8551,8 +10351,8 @@ export const signEvmMessage: API.OperationMethod<
   SignEvmMessageError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<SignEvmMessageRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<SignEvmMessageResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<SignEvmMessageRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SignEvmMessageResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8568,8 +10368,8 @@ export const signEvmMessageWithEndUserAccount: API.OperationMethod<
   SignEvmMessageWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SignEvmMessageWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8585,8 +10385,8 @@ export const signEvmTransaction: API.OperationMethod<
   SignEvmTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<SignEvmTransactionRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<SignEvmTransactionResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<SignEvmTransactionRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<SignEvmTransactionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8602,8 +10402,8 @@ export const signEvmTransactionWithEndUserAccount: API.OperationMethod<
   SignEvmTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<SignEvmTransactionWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8619,8 +10419,8 @@ export const signEvmTypedData: API.OperationMethod<
   SignEvmTypedDataError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<SignEvmTypedDataRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<SignEvmTypedDataResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<SignEvmTypedDataRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SignEvmTypedDataResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8636,8 +10436,8 @@ export const signEvmTypedDataWithEndUserAccount: API.OperationMethod<
   SignEvmTypedDataWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(945, __c59, 1) as any as S.Schema<SignEvmTypedDataWithEndUserAccountRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<SignEvmTypedDataWithEndUserAccountResponse>,
+  input: __S(1457, __c91, 1) as any as S.Schema<SignEvmTypedDataWithEndUserAccountRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SignEvmTypedDataWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8653,8 +10453,8 @@ export const signSolanaMessage: API.OperationMethod<
   SignSolanaMessageError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<SignSolanaMessageRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<SignSolanaMessageResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<SignSolanaMessageRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SignSolanaMessageResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8670,8 +10470,8 @@ export const signSolanaMessageWithEndUserAccount: API.OperationMethod<
   SignSolanaMessageWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountRequest>,
-  output: __S(784, __c49, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<SignSolanaMessageWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8687,8 +10487,8 @@ export const signSolanaTransaction: API.OperationMethod<
   SignSolanaTransactionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<SignSolanaTransactionRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<SignSolanaTransactionResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<SignSolanaTransactionRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<SignSolanaTransactionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8704,8 +10504,8 @@ export const signSolanaTransactionWithEndUserAccount: API.OperationMethod<
   SignSolanaTransactionWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountRequest>,
-  output: __S(880, __c55, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountRequest>,
+  output: __S(1392, __c87, 0) as any as S.Schema<SignSolanaTransactionWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8721,13 +10521,30 @@ export const signSolanaX402PaymentWithEndUserAccount: API.OperationMethod<
   SignSolanaX402PaymentWithEndUserAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1090, __c68, 2) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountRequest>,
-  output: __S(1091, __c68, 3) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountResponse>,
+  input: __S(1570, __c98, 2) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountRequest>,
+  output: __S(1571, __c98, 3) as any as S.Schema<SignSolanaX402PaymentWithEndUserAccountResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignSolanaX402PaymentWithEndUserAccount",
+}));
+
+export type SimulatePoliciesError = CoinbaseOpError;
+/** Simulate policies Simulates policy evaluation for one operation against the project's current policies and returns the `action` the real operation would take, the rule that decided it, and the first unmet criterion of every rule that did not match. Nothing is signed, broadcast, or persisted, and gas and nonce are not populated: the transaction is evaluated as submitted. Each unmet criterion (`observed`) and each matched-rule criterion (`observations`) can include the value observed in the request, with messages and decoded arguments returned up to their documented size limits. Rate-limiting criteria are read but not consumed. `netUSDChange` criteria run transaction simulation, and pass successfully on testnets, as in the real operation. The result is a snapshot: policies, rate-limit counters, or chain state may change before a real call. A policy rejection returns `200` with `action: reject`; this endpoint never returns `policy_violation`. A criterion that cannot be evaluated for this input returns `422`. */
+export const simulatePolicies: API.OperationMethod<
+  SimulatePoliciesRequest2,
+  PolicySimulationResult,
+  SimulatePoliciesError,
+  CoinbaseOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1584, __c99, 0) as any as S.Schema<SimulatePoliciesRequest2>,
+  output: __S(1592, __c99, 8) as any as S.Schema<PolicySimulationResult>,
+  errors: [UnknownCoinbaseError],
+  protocol: CoinbaseProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SimulatePolicies",
 }));
 
 export type SubmitDepositTravelRuleError = CoinbaseOpError;
@@ -8738,8 +10555,8 @@ export const submitDepositTravelRule: API.OperationMethod<
   SubmitDepositTravelRuleError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1107, __c69, 3) as any as S.Schema<SubmitDepositTravelRuleRequest>,
-  output: __S(1108, __c69, 4) as any as S.Schema<DepositTravelRuleResponse>,
+  input: __S(1603, __c100, 3) as any as S.Schema<SubmitDepositTravelRuleRequest>,
+  output: __S(1604, __c100, 4) as any as S.Schema<DepositTravelRuleResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8755,8 +10572,8 @@ export const submitOnrampVerification: API.OperationMethod<
   SubmitOnrampVerificationError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<SubmitOnrampVerificationRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<OnrampVerificationConfirmation>,
+  input: __S(1616, __c101, 0) as any as S.Schema<SubmitOnrampVerificationRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<OnrampVerificationConfirmation>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8772,8 +10589,8 @@ export const supportedX402PaymentKinds: API.OperationMethod<
   SupportedX402PaymentKindsError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<SupportedX402PaymentKindsRequest>,
-  output: __S(1140, __c71, 4) as any as S.Schema<SupportedX402PaymentKindsResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<SupportedX402PaymentKindsRequest>,
+  output: __S(1636, __c102, 4) as any as S.Schema<SupportedX402PaymentKindsResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8789,8 +10606,8 @@ export const updateCustomerById: API.OperationMethod<
   UpdateCustomerByIdError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<UpdateCustomerByIdRequest>,
-  output: __S(389, __c24, 5) as any as S.Schema<Customer>,
+  input: __S(1648, __c103, 0) as any as S.Schema<UpdateCustomerByIdRequest>,
+  output: __S(1077, __c67, 5) as any as S.Schema<Customer>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8806,8 +10623,8 @@ export const updateEvmAccount: API.OperationMethod<
   UpdateEvmAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<UpdateEvmAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EvmAccount>,
+  input: __S(1664, __c104, 0) as any as S.Schema<UpdateEvmAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<EvmAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8823,8 +10640,8 @@ export const updateEvmSmartAccount: API.OperationMethod<
   UpdateEvmSmartAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<UpdateEvmSmartAccountRequest>,
-  output: __S(1440, __c90, 0) as any as S.Schema<EvmSmartAccount>,
+  input: __S(1744, __c109, 0) as any as S.Schema<UpdateEvmSmartAccountRequest>,
+  output: __S(2016, __c126, 0) as any as S.Schema<EvmSmartAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8840,8 +10657,8 @@ export const updatePolicy: API.OperationMethod<
   UpdatePolicyError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UpdatePolicyRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<Policy>,
+  input: __S(1760, __c110, 0) as any as S.Schema<UpdatePolicyRequest>,
+  output: __S(2321, __c145, 1) as any as S.Schema<Policy>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8857,8 +10674,8 @@ export const updateSolanaAccount: API.OperationMethod<
   UpdateSolanaAccountError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UpdateSolanaAccountRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<SolanaAccount>,
+  input: __S(1776, __c111, 0) as any as S.Schema<UpdateSolanaAccountRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<SolanaAccount>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8874,8 +10691,8 @@ export const updateWebhookSubscription: API.OperationMethod<
   UpdateWebhookSubscriptionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<WebhookSubscriptionResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
+  output: __S(2434, __c152, 2) as any as S.Schema<WebhookSubscriptionResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8891,8 +10708,8 @@ export const validateEndUserAccessToken: API.OperationMethod<
   ValidateEndUserAccessTokenError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ValidateEndUserAccessTokenRequest>,
-  output: __S(1269, __c79, 5) as any as S.Schema<EndUser>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ValidateEndUserAccessTokenRequest>,
+  output: __S(1893, __c118, 5) as any as S.Schema<EndUser>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8908,8 +10725,8 @@ export const validateX402Resource: API.OperationMethod<
   ValidateX402ResourceError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ValidateX402ResourceRequest>,
-  output: __S(1301, __c81, 5) as any as S.Schema<X402ValidateResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ValidateX402ResourceRequest>,
+  output: __S(1829, __c114, 5) as any as S.Schema<X402ValidateResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8925,8 +10742,8 @@ export const verifyX402Payment: API.OperationMethod<
   VerifyX402PaymentError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<VerifyX402PaymentRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<VerifyX402PaymentResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<VerifyX402PaymentRequest>,
+  output: __S(1841, __c115, 1) as any as S.Schema<VerifyX402PaymentResponse>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -8942,8 +10759,8 @@ export const voidPaymentSession: API.OperationMethod<
   VoidPaymentSessionError,
   CoinbaseOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<VoidPaymentSessionRequest>,
-  output: __S(2640, __c165, 0) as any as S.Schema<Void>,
+  input: __S(1856, __c116, 0) as any as S.Schema<VoidPaymentSessionRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<Void>,
   errors: [UnknownCoinbaseError],
   protocol: CoinbaseProtocol,
   retry: Retry.Retry,
@@ -9023,27 +10840,553 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          borrowProductId: S.String,
-          collateralAmount: S.String,
-          loanAmount: S.String,
-          walletSecretId: S.String,
-          useCdpPaymaster: S.Boolean,
-          paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1760, __c110, 0)),
+          paymentSessionId: S.String.pipe(T.Label()),
+          cancellationReason: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions",
+            uri: "/v2/payment-sessions/{paymentSessionId}/cancel",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateBorrowPositionWithEndUserAccountRequest" });
+      ).annotate({ identifier: "CancelPaymentSessionRequest" });
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          captureId: S.optional(S.String),
+          paymentSessionId: S.optional(S.String),
+          status: S.optional(S.String),
+          amount: S.optional(S.String),
+          finalCapture: S.Boolean,
+          error: S.optional(__S(2528, __c158, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
+          createdAt: S.optional(S.String),
+          updatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Capture" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2832, __c177, 0));
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(192, __c12, 0));
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationExpiresAt: S.optional(S.String),
+          captureExpiresAt: S.optional(S.String),
+          refundExpiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PaymentExpiries" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          capturable: S.optional(S.String),
+          captured: S.optional(S.String),
+          refundable: S.optional(S.String),
+          refunded: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PaymentSessionBalances" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.String,
+          currency: S.String,
+        }),
+      ).annotate({ identifier: "CustomerDisplayDisplayAmount" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          merchantName: S.optional(S.String),
+          displayAmount: S.optional(__S(162, __c10, 2)),
+          orderCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomerDisplay" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.optional(S.String),
+          entityId: S.optional(S.String),
+          amount: S.optional(S.String),
+          asset: S.optional(S.String),
+          target: S.optional(S.Unknown),
+          autoCapture: S.optional(S.Boolean),
+          expiries: S.optional(__S(160, __c10, 0)),
+          source: S.optional(S.Unknown),
+          status: S.optional(S.String),
+          balances: S.optional(__S(161, __c10, 1)),
+          authorizations: S.optional(__S(112, __c7, 0)),
+          captures: S.optional(__S(128, __c8, 0)),
+          voids: S.optional(__S(176, __c11, 0)),
+          refunds: S.optional(__S(144, __c9, 0)),
+          url: S.optional(S.String),
+          x402Url: S.optional(S.String),
+          redirect: S.optional(__S(3680, __c230, 0)),
+          customerDisplay: S.optional(__S(163, __c10, 3)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          externalReferenceId: S.optional(S.String),
+          cancellationReason: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          updatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PaymentSession" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(208, __c13, 0));
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          refundId: S.optional(S.String),
+          paymentSessionId: S.optional(S.String),
+          source: S.optional(S.Unknown),
+          status: S.optional(S.String),
+          amount: S.optional(S.String),
+          reason: S.optional(S.String),
+          error: S.optional(__S(2528, __c158, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
+          createdAt: S.optional(S.String),
+          updatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Refund" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          voidId: S.optional(S.String),
+          paymentSessionId: S.optional(S.String),
+          status: S.optional(S.String),
+          amount: S.optional(S.String),
+          error: S.optional(__S(2528, __c158, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
+          createdAt: S.optional(S.String),
+          updatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Void" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectID: S.optional(S.String.pipe(T.Query())),
+          network: S.optional(S.String.pipe(T.Query())),
+          protocol: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v2/embedded-wallet-api/evm/borrow-products", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListEvmBorrowProductsRequest" });
+    case 1:
+      return S.Array(__S(2983, __c186, 7));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          borrowProducts: __S(225, __c14, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListEvmBorrowProductsResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/evm/smart-accounts", code: 200 })),
+      ).annotate({ identifier: "ListEvmSmartAccountsRequest" });
+    case 1:
+      return S.Array(__S(2016, __c126, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accounts: __S(241, __c15, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListEvmSmartAccountsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/v2/evm/token-balances/{network}/{address}", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListEvmTokenBalancesRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          owner: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/accounts", code: 200 })),
+      ).annotate({ identifier: "ListFoundationAccountsRequest" });
+    case 1:
+      return S.Array(__S(2064, __c129, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          accounts: __S(273, __c17, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListFoundationAccountsResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/mandates/{mandateId}/approvals", code: 200 })),
+      ).annotate({ identifier: "ListMandateApprovalsRequest" });
+    case 1:
+      return S.Array(__S(2560, __c160, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          approvals: __S(289, __c18, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMandateApprovalsResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/mandates/{mandateId}/revocations", code: 200 })),
+      ).annotate({ identifier: "ListMandateRevocationsRequest" });
+    case 1:
+      return S.Array(__S(3152, __c197, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          revocations: __S(305, __c19, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMandateRevocationsResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.String.pipe(T.Query())),
+          network: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/mandates", code: 200 })),
+      ).annotate({ identifier: "ListMandatesRequest" });
+    case 1:
+      return S.Array(__S(3714, __c232, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          mandates: __S(321, __c20, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListMandatesResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/payment-methods", code: 200 })),
+      ).annotate({ identifier: "ListPaymentMethodsRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          paymentMethods: __S(337, __c21, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentMethodsResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPaymentSessionAuthorizationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          authorizations: __S(112, __c7, 0),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentSessionAuthorizationsResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/payment-sessions/{paymentSessionId}/captures",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPaymentSessionCapturesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          captures: __S(128, __c8, 0),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentSessionCapturesResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          amount: S.optional(S.String),
+          finalCapture: S.Boolean,
+          metadata: S.optional(__S(2544, __c159, 0)),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/captures",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CapturePaymentSessionRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/payment-sessions/{paymentSessionId}/refunds",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPaymentSessionRefundsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          refunds: __S(144, __c9, 0),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentSessionRefundsResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/payment-sessions", code: 200 })),
+      ).annotate({ identifier: "ListPaymentSessionsRequest" });
+    case 1:
+      return S.Array(__S(164, __c10, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessions: __S(417, __c26, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentSessionsResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/payment-sessions/{paymentSessionId}/voids",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListPaymentSessionVoidsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          voids: __S(176, __c11, 0),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPaymentSessionVoidsResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          scope: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/policy-engine/policies", code: 200 })),
+      ).annotate({ identifier: "ListPoliciesRequest" });
+    case 1:
+      return S.Array(__S(2321, __c145, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          policies: __S(449, __c28, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListPoliciesResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/solana/accounts", code: 200 })),
+      ).annotate({ identifier: "ListSolanaAccountsRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/solana/token-balances/{network}/{address}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListSolanaTokenBalancesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          symbol: S.optional(S.String),
+          name: S.optional(S.String),
+          mintAddress: S.String,
+        }),
+      ).annotate({ identifier: "SolanaToken" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          amount: __S(3840, __c240, 0),
+          token: __S(481, __c30, 1),
+        }),
+      ).annotate({ identifier: "SolanaTokenBalance" });
+    case 3:
+      return S.Array(__S(482, __c30, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          balances: __S(483, __c30, 3),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSolanaTokenBalancesResponse" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9076,7 +11419,7 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          permission: __S(97, __c6, 1),
+          permission: __S(497, __c31, 1),
           permissionHash: S.String,
           revoked: S.Boolean,
           revokedAt: S.optional(S.String),
@@ -9085,17 +11428,17 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "SpendPermissionResponseObject" });
     case 3:
-      return S.Array(__S(98, __c6, 2));
+      return S.Array(__S(498, __c31, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          spendPermissions: __S(99, __c6, 3),
+          spendPermissions: __S(499, __c31, 3),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSpendPermissionsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9120,7 +11463,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "AccountTokenAddressesResponse" });
   }
 }
-function __c8(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9144,17 +11487,60 @@ function __c8(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/transfers", code: 200 })),
       ).annotate({ identifier: "ListTransfersRequest" });
     case 1:
-      return S.Array(__S(1687, __c105, 7));
+      return S.Array(__S(2407, __c150, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          transfers: __S(129, __c8, 1),
+          transfers: __S(529, __c33, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTransfersResponse" });
   }
 }
-function __c9(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/lend/vaults", code: 200 })),
+      ).annotate({ identifier: "ListVaultsRequest" });
+    case 1:
+      return S.Array(__S(3473, __c217, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          vaults: __S(545, __c34, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListVaultsResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          borrowProductId: S.String,
+          walletSecretId: S.String,
+          useCdpPaymaster: S.Boolean,
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions/close",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CloseBorrowPositionWithEndUserAccountRequest" });
+  }
+}
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9190,20 +11576,20 @@ function __c9(j: number): any {
           createdAt: S.String,
           succeededAt: S.optional(S.String),
           retryCount: S.Number,
-          response: S.optional(__S(145, __c9, 1)),
+          response: S.optional(__S(577, __c36, 1)),
         }),
       ).annotate({ identifier: "WebhookEventResponse" });
     case 3:
-      return S.Array(__S(146, __c9, 2));
+      return S.Array(__S(578, __c36, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          events: __S(147, __c9, 3),
+          events: __S(579, __c36, 3),
         }),
       ).annotate({ identifier: "WebhookEventListResponse" });
   }
 }
-function __c10(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9213,17 +11599,17 @@ function __c10(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/data/webhooks/subscriptions", code: 200 })),
       ).annotate({ identifier: "ListWebhookSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(1714, __c107, 2));
+      return S.Array(__S(2434, __c152, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          subscriptions: __S(161, __c10, 1),
+          subscriptions: __S(593, __c37, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWebhookSubscriptionsResponse" });
   }
 }
-function __c11(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9238,16 +11624,16 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "X402Bundle" });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          bundles: __S(178, __c11, 2),
+          bundles: __S(610, __c38, 2),
         }),
       ).annotate({ identifier: "X402BundlesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9262,13 +11648,13 @@ function __c12(j: number): any {
         S.Struct({
           x402Version: S.Number,
           payTo: S.String,
-          resources: __S(2817, __c176, 1),
-          pagination: __S(208, __c13, 0),
+          resources: __S(3585, __c224, 1),
+          pagination: __S(640, __c40, 0),
         }),
       ).annotate({ identifier: "X402DiscoveryMerchantResponse" });
   }
 }
-function __c13(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9280,7 +11666,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "X402DiscoveryMerchantResponsePagination" });
   }
 }
-function __c14(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9294,13 +11680,13 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           x402Version: S.Number,
-          items: __S(2817, __c176, 1),
-          pagination: __S(208, __c13, 0),
+          items: __S(3585, __c224, 1),
+          pagination: __S(640, __c40, 0),
         }),
       ).annotate({ identifier: "X402DiscoveryResourcesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9315,21 +11701,34 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endUsers: __S(3120, __c195, 0),
+          endUsers: __S(3904, __c244, 0),
         }),
       ).annotate({ identifier: "LookupEndUserResponse" });
   }
 }
-function __c16(j: number): any {
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policyId: S.String.pipe(T.Label()),
+          resumeAt: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/policy-engine/policies/{policyId}/pause", code: 200 }),
+        ),
+      ).annotate({ identifier: "PausePolicyRequest" });
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           address: S.String.pipe(T.Label()),
           network: S.String,
-          calls: __S(1745, __c109, 1),
+          calls: __S(2241, __c140, 1),
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1760, __c110, 0)),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -9340,38 +11739,304 @@ function __c16(j: number): any {
       ).annotate({ identifier: "PrepareAndSendUserOperationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          network: S.String,
+          calls: __S(2241, __c140, 1),
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
+          dataSuffix: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/evm/smart-accounts/{address}/user-operations",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PrepareUserOperationRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          vaultId: S.String,
+          maxSlippageBps: S.optional(S.Number),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/evm/accounts/{address}/lend/redeem-fees", code: 200 }),
+        ),
+      ).annotate({ identifier: "RedeemVaultFeesWithEvmAccountRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionHash: S.String,
+        }),
+      ).annotate({ identifier: "EoaVaultRedeemFeesResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          borrowProductId: S.String,
+          collateralAmount: S.String,
+          loanAmount: S.String,
+          walletSecretId: S.String,
+          useCdpPaymaster: S.Boolean,
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateBorrowPositionWithEndUserAccountRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          vaultId: S.String,
+          maxSlippageBps: S.optional(S.Number),
+          useCdpPaymaster: S.optional(S.Boolean),
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/evm/smart-accounts/{address}/lend/redeem-fees",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RedeemVaultFeesWithEvmSmartAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userOpHash: S.String,
+        }),
+      ).annotate({ identifier: "SmartAccountVaultRedeemFeesResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          source: S.Unknown,
+          amount: S.optional(S.String),
+          reason: S.optional(S.String),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/refunds",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RefundPaymentSessionRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keyId: S.String,
+          attestation: S.String,
+          bundleId: S.String,
+        }),
+      ).annotate({ identifier: "IosAttestationPayload" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          challenge: S.String,
+          ios: __S(816, __c51, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/onramp/mobile/attestation/registrations", code: 200 }),
+        ),
+      ).annotate({ identifier: "RegisterOnrampIosAttestationRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          keyId: S.String,
+          platform: S.String,
+          appId: S.String,
+          attestedAt: S.String,
+        }),
+      ).annotate({ identifier: "IosAttestationRegistrationResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.String,
+          address: S.String,
+          token: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/evm/faucet", code: 200 })),
+      ).annotate({ identifier: "RequestEvmFaucetRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ssnLast4: S.optional(S.String),
+          dateOfBirth: S.optional(__S(1024, __c64, 0)),
+        }),
+      ).annotate({ identifier: "OnrampLimitUpgradeIdentityFields" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String,
+          userIdType: S.String,
+          interactionMode: S.optional(S.String),
+          fields: S.optional(__S(848, __c53, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/onramp/limits/upgrade", code: 200 })),
+      ).annotate({ identifier: "RequestLimitsUpgradeRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          upgradeUrl: S.String,
+          expiresAt: S.String,
+        }),
+      ).annotate({ identifier: "OnrampLimitUpgradeEmbeddedResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String,
+          token: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/v2/solana/faucet", code: 200 })),
+      ).annotate({ identifier: "RequestSolanaFaucetRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionSignature: S.String,
+        }),
+      ).annotate({ identifier: "RequestSolanaFaucetResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policyId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/policy-engine/policies/{policyId}/resume",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ResumePolicyRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          walletSecretId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/delegation/revoke",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeDelegationForEndUserRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          walletSecretId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation/revoke",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeDelegationForEndUserAccountRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String.pipe(T.Label()),
+          network: S.String,
+          permissionHash: S.String,
+          paymasterUrl: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/evm/smart-accounts/{address}/spend-permissions/revoke",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeSpendPermissionRequest" });
+  }
+}
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          capabilities: S.optional(__S(305, __c19, 1)),
-          individual: S.optional(__S(306, __c19, 2)),
+          capabilities: S.optional(__S(977, __c61, 1)),
+          individual: S.optional(__S(978, __c61, 2)),
           projectIds: S.optional(__S(48, __c3, 0)),
-          tosAcceptances: S.optional(__S(385, __c24, 1)),
-          taxAttestations: S.optional(__S(308, __c19, 4)),
-          compliance: S.optional(__S(320, __c20, 0)),
+          tosAcceptances: S.optional(__S(1073, __c67, 1)),
+          taxAttestations: S.optional(__S(980, __c61, 4)),
+          compliance: S.optional(__S(1008, __c63, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/customers", code: 200 })),
       ).annotate({ identifier: "CreateCustomerRequest" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          line1: S.optional(S.String),
-          line2: S.optional(S.String),
-          city: S.optional(S.String),
-          state: S.optional(S.String),
-          postCode: S.optional(S.String),
-          countryCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IndividualInputAddress" });
-  }
-}
-function __c19(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9382,14 +12047,14 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          custodyCrypto: S.optional(__S(304, __c19, 0)),
-          custodyFiat: S.optional(__S(304, __c19, 0)),
-          custodyStablecoin: S.optional(__S(304, __c19, 0)),
-          tradeCrypto: S.optional(__S(304, __c19, 0)),
-          tradeStablecoin: S.optional(__S(304, __c19, 0)),
-          transferCrypto: S.optional(__S(304, __c19, 0)),
-          transferFiat: S.optional(__S(304, __c19, 0)),
-          transferStablecoin: S.optional(__S(304, __c19, 0)),
+          custodyCrypto: S.optional(__S(976, __c61, 0)),
+          custodyFiat: S.optional(__S(976, __c61, 0)),
+          custodyStablecoin: S.optional(__S(976, __c61, 0)),
+          tradeCrypto: S.optional(__S(976, __c61, 0)),
+          tradeStablecoin: S.optional(__S(976, __c61, 0)),
+          transferCrypto: S.optional(__S(976, __c61, 0)),
+          transferFiat: S.optional(__S(976, __c61, 0)),
+          transferStablecoin: S.optional(__S(976, __c61, 0)),
         }),
       ).annotate({ identifier: "CapabilitiesMapInput" });
     case 2:
@@ -9397,9 +12062,9 @@ function __c19(j: number): any {
         S.Struct({
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
-          address: S.optional(__S(288, __c18, 0)),
+          address: S.optional(__S(992, __c62, 0)),
           ssnLast4: S.optional(S.String),
-          dateOfBirth: S.optional(__S(336, __c21, 0)),
+          dateOfBirth: S.optional(__S(1024, __c64, 0)),
           fullSsn: S.optional(S.String),
           citizenship: S.optional(S.String),
           email: S.optional(S.String),
@@ -9421,10 +12086,25 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "UsW9Attestation" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(979, __c61, 3));
   }
 }
-function __c20(j: number): any {
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          line1: S.optional(S.String),
+          line2: S.optional(S.String),
+          city: S.optional(S.String),
+          state: S.optional(S.String),
+          postCode: S.optional(S.String),
+          countryCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IndividualInputAddress" });
+  }
+}
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9434,7 +12114,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "Compliance" });
   }
 }
-function __c21(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9446,13 +12126,13 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DateOfBirthLenient" });
   }
 }
-function __c22(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c23(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9464,22 +12144,22 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "TermsOfService" });
     case 1:
-      return S.Array(__S(368, __c23, 0));
+      return S.Array(__S(1056, __c66, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           deadline: S.optional(S.String),
-          impact: S.optional(__S(352, __c22, 0)),
-          tosVersions: S.optional(__S(369, __c23, 1)),
-          taxForms: S.optional(__S(352, __c22, 0)),
+          impact: S.optional(__S(1040, __c65, 0)),
+          tosVersions: S.optional(__S(1057, __c66, 1)),
+          taxForms: S.optional(__S(1040, __c65, 0)),
         }),
       ).annotate({ identifier: "Requirement" });
     case 3:
-      return S.Record(S.String, __S(370, __c23, 2));
+      return S.Record(S.String, __S(1058, __c66, 2));
   }
 }
-function __c24(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9490,7 +12170,7 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "TosAcceptance" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(1072, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -9501,14 +12181,14 @@ function __c24(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          custodyCrypto: S.optional(__S(386, __c24, 2)),
-          custodyFiat: S.optional(__S(386, __c24, 2)),
-          custodyStablecoin: S.optional(__S(386, __c24, 2)),
-          tradeCrypto: S.optional(__S(386, __c24, 2)),
-          tradeStablecoin: S.optional(__S(386, __c24, 2)),
-          transferCrypto: S.optional(__S(386, __c24, 2)),
-          transferFiat: S.optional(__S(386, __c24, 2)),
-          transferStablecoin: S.optional(__S(386, __c24, 2)),
+          custodyCrypto: S.optional(__S(1074, __c67, 2)),
+          custodyFiat: S.optional(__S(1074, __c67, 2)),
+          custodyStablecoin: S.optional(__S(1074, __c67, 2)),
+          tradeCrypto: S.optional(__S(1074, __c67, 2)),
+          tradeStablecoin: S.optional(__S(1074, __c67, 2)),
+          transferCrypto: S.optional(__S(1074, __c67, 2)),
+          transferFiat: S.optional(__S(1074, __c67, 2)),
+          transferStablecoin: S.optional(__S(1074, __c67, 2)),
         }),
       ).annotate({ identifier: "CapabilitiesMap" });
     case 4:
@@ -9524,187 +12204,34 @@ function __c24(j: number): any {
         S.Struct({
           customerId: S.String,
           type: S.String,
-          capabilities: __S(387, __c24, 3),
-          requirements: __S(371, __c23, 3),
+          capabilities: __S(1075, __c67, 3),
+          requirements: __S(1059, __c66, 3),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
-          individual: S.optional(__S(388, __c24, 4)),
+          individual: S.optional(__S(1076, __c67, 4)),
           projectIds: S.optional(__S(48, __c3, 0)),
-          tosAcceptances: S.optional(__S(385, __c24, 1)),
+          tosAcceptances: S.optional(__S(1073, __c67, 1)),
         }),
       ).annotate({ identifier: "Customer" });
   }
 }
-function __c25(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          address: S.String.pipe(T.Label()),
-          network: S.String,
-          calls: __S(1745, __c109, 1),
-          paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1760, __c110, 0)),
-          dataSuffix: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/evm/smart-accounts/{address}/user-operations",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PrepareUserOperationRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          source: S.Unknown,
-          amount: S.optional(S.String),
+          mandateId: S.String.pipe(T.Label()),
+          optionId: S.String,
+          signedPayloads: __S(2577, __c161, 1),
           reason: S.optional(S.String),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/refunds",
-            code: 200,
-          }),
+          T.Http({ method: "POST", uri: "/v2/mandates/{mandateId}/revocations/wallet", code: 200 }),
         ),
-      ).annotate({ identifier: "RefundPaymentSessionRequest" });
+      ).annotate({ identifier: "RevokeWalletMandateRequest" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.String,
-          address: S.String,
-          token: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/evm/faucet", code: 200 })),
-      ).annotate({ identifier: "RequestEvmFaucetRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionHash: S.String,
-        }),
-      ).annotate({ identifier: "RequestEvmFaucetResponse" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ssnLast4: S.optional(S.String),
-          dateOfBirth: S.optional(__S(336, __c21, 0)),
-        }),
-      ).annotate({ identifier: "OnrampLimitUpgradeIdentityFields" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String,
-          userIdType: S.String,
-          interactionMode: S.optional(S.String),
-          fields: S.optional(__S(464, __c29, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/onramp/limits/upgrade", code: 200 })),
-      ).annotate({ identifier: "RequestLimitsUpgradeRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          upgradeUrl: S.String,
-          expiresAt: S.String,
-        }),
-      ).annotate({ identifier: "OnrampLimitUpgradeEmbeddedResponse" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.String,
-          token: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/v2/solana/faucet", code: 200 })),
-      ).annotate({ identifier: "RequestSolanaFaucetRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionSignature: S.String,
-        }),
-      ).annotate({ identifier: "RequestSolanaFaucetResponse" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          walletSecretId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/delegation",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeDelegationForEndUserRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          walletSecretId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeDelegationForEndUserAccountRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.String.pipe(T.Label()),
-          network: S.String,
-          permissionHash: S.String,
-          paymasterUrl: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/evm/smart-accounts/{address}/spend-permissions/revoke",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeSpendPermissionRequest" });
-  }
-}
-function __c35(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9716,11 +12243,11 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sql: S.String,
-          cache: S.optional(__S(560, __c35, 0)),
+          cache: S.optional(__S(1104, __c69, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/data/query/run", code: 200 })),
       ).annotate({ identifier: "RunSQLQueryRequest" });
     case 2:
-      return S.Array(__S(1760, __c110, 0));
+      return S.Array(__S(2256, __c141, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9729,11 +12256,11 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "OnchainDataResultSchemaColumnsItem" });
     case 4:
-      return S.Array(__S(563, __c35, 3));
+      return S.Array(__S(1107, __c69, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          columns: S.optional(__S(564, __c35, 4)),
+          columns: S.optional(__S(1108, __c69, 4)),
         }),
       ).annotate({ identifier: "OnchainDataResultSchema" });
     case 6:
@@ -9748,14 +12275,14 @@ function __c35(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(562, __c35, 2)),
-          schema: S.optional(__S(565, __c35, 5)),
-          metadata: S.optional(__S(566, __c35, 6)),
+          result: S.optional(__S(1106, __c69, 2)),
+          schema: S.optional(__S(1109, __c69, 5)),
+          metadata: S.optional(__S(1110, __c69, 6)),
         }),
       ).annotate({ identifier: "OnchainDataResult" });
   }
 }
-function __c36(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9777,7 +12304,7 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resources: __S(2817, __c176, 1),
+          resources: __S(3585, __c224, 1),
           partialResults: S.Boolean,
           searchMethod: S.optional(S.String),
           x402Version: S.Number,
@@ -9785,37 +12312,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "X402SearchResourcesResponse" });
   }
 }
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          expiresAt: S.String,
-          walletSecretId: S.String,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateDelegationForEndUserAccountRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expiresAt: S.String,
-        }),
-      ).annotate({ identifier: "CreateDelegationForEndUserAccountResponse" });
-  }
-}
-function __c39(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9829,7 +12326,7 @@ function __c39(j: number): any {
           network: S.String,
           useCdpPaymaster: S.optional(S.Boolean),
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1760, __c110, 0)),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
           walletSecretId: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -9848,7 +12345,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "SendEvmAssetWithEndUserAccountResponse" });
   }
 }
-function __c40(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9862,7 +12359,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SendEvmTransactionRequest" });
   }
 }
-function __c41(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9883,7 +12380,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SendEvmTransactionWithEndUserAccountRequest" });
   }
 }
-function __c42(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9908,7 +12405,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "SendSolanaAssetWithEndUserAccountRequest" });
   }
 }
-function __c43(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9920,7 +12417,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "SendSolanaTransactionRequest" });
   }
 }
-function __c44(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9942,7 +12439,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "SendSolanaTransactionWithEndUserAccountRequest" });
   }
 }
-function __c45(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9960,7 +12457,37 @@ function __c45(j: number): any {
       ).annotate({ identifier: "SendUserOperationRequest" });
   }
 }
-function __c46(j: number): any {
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          expiresAt: S.String,
+          walletSecretId: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/address/{address}/delegation",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateDelegationForEndUserAccountRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expiresAt: S.String,
+        }),
+      ).annotate({ identifier: "CreateDelegationForEndUserAccountResponse" });
+  }
+}
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9969,10 +12496,10 @@ function __c46(j: number): any {
           address: S.String.pipe(T.Label()),
           projectID: S.optional(S.String.pipe(T.Query())),
           network: S.String,
-          calls: __S(1745, __c109, 1),
+          calls: __S(2241, __c140, 1),
           useCdpPaymaster: S.Boolean,
           paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1760, __c110, 0)),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
           walletSecretId: S.optional(S.String),
           dataSuffix: S.optional(S.String),
         }).pipe(
@@ -9985,7 +12512,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "SendUserOperationWithEndUserAccountRequest" });
   }
 }
-function __c47(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10005,12 +12532,12 @@ function __c47(j: number): any {
           transaction: S.String,
           network: S.String,
           amount: S.optional(S.String),
-          extra: S.optional(__S(1760, __c110, 0)),
+          extra: S.optional(__S(2256, __c141, 0)),
         }),
       ).annotate({ identifier: "SettleX402PaymentResponse" });
   }
 }
-function __c48(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10021,7 +12548,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "SignEvmHashRequest" });
   }
 }
-function __c49(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10031,25 +12558,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "SignEvmHashResponse" });
   }
 }
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/deposit-destinations", code: 200 })),
-      ).annotate({ identifier: "CreateDepositDestinationRequest2" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateDepositDestinationResponse",
-      });
-  }
-}
-function __c52(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10062,7 +12571,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "SignEvmMessageRequest" });
   }
 }
-function __c53(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10082,7 +12591,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "SignEvmMessageWithEndUserAccountRequest" });
   }
 }
-function __c54(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10095,7 +12604,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "SignEvmTransactionRequest" });
   }
 }
-function __c55(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10105,7 +12614,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "SignEvmTransactionResponse" });
   }
 }
-function __c56(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10125,13 +12634,13 @@ function __c56(j: number): any {
       ).annotate({ identifier: "SignEvmTransactionWithEndUserAccountRequest" });
   }
 }
-function __c57(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           address: S.String.pipe(T.Label()),
-          domain: __S(928, __c58, 0),
+          domain: __S(1440, __c90, 0),
           types: S.Unknown,
           primaryType: S.String,
           message: S.Unknown,
@@ -10141,7 +12650,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "SignEvmTypedDataRequest" });
   }
 }
-function __c58(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10155,12 +12664,12 @@ function __c58(j: number): any {
       ).annotate({ identifier: "EIP712Domain" });
   }
 }
-function __c59(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain: __S(928, __c58, 0),
+          domain: __S(1440, __c90, 0),
           types: S.Unknown,
           primaryType: S.String,
           message: S.Unknown,
@@ -10172,7 +12681,7 @@ function __c59(j: number): any {
           userId: S.String.pipe(T.Label()),
           projectID: S.optional(S.String.pipe(T.Query())),
           address: S.String,
-          typedData: __S(944, __c59, 0),
+          typedData: __S(1456, __c91, 0),
           walletSecretId: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -10184,7 +12693,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "SignEvmTypedDataWithEndUserAccountRequest" });
   }
 }
-function __c60(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10198,7 +12707,25 @@ function __c60(j: number): any {
       ).annotate({ identifier: "SignSolanaMessageRequest" });
   }
 }
-function __c61(j: number): any {
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/deposit-destinations", code: 200 })),
+      ).annotate({ identifier: "CreateDepositDestinationRequest2" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateDepositDestinationResponse",
+      });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10218,7 +12745,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "SignSolanaMessageWithEndUserAccountRequest" });
   }
 }
-function __c62(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10236,7 +12763,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SignSolanaTransactionRequest" });
   }
 }
-function __c63(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10257,77 +12784,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SignSolanaTransactionWithEndUserAccountRequest" });
   }
 }
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          requesterIpAddress: S.optional(S.String),
-          recipient: S.optional(__S(1040, __c65, 0)),
-        }),
-      ).annotate({ identifier: "DisbursementCompliance" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          source: __S(1056, __c66, 0),
-          target: S.Unknown,
-          amount: S.String,
-          asset: S.String,
-          reason: S.optional(S.String),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          compliance: S.optional(__S(1024, __c64, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/disbursements", code: 200 })),
-      ).annotate({ identifier: "CreateDisbursementRequest" });
-  }
-}
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          address: S.optional(__S(288, __c18, 0)),
-        }),
-      ).annotate({ identifier: "Person" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-          asset: S.String,
-        }),
-      ).annotate({ identifier: "TransfersAccount" });
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          disbursementId: S.String,
-          source: __S(1056, __c66, 0),
-          target: S.Unknown,
-          amount: S.String,
-          asset: S.String,
-          status: S.String,
-          reason: S.optional(S.String),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          error: S.optional(__S(2049, __c128, 1)),
-          onchainTransactions: S.optional(__S(2033, __c127, 1)),
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "Disbursement" });
-  }
-}
-function __c68(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10341,10 +12798,10 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           x402Version: S.Number,
-          accepts: __S(2832, __c177, 0),
-          resource: S.optional(__S(1088, __c68, 0)),
+          accepts: __S(3600, __c225, 0),
+          resource: S.optional(__S(1568, __c98, 0)),
           error: S.optional(S.String),
-          extensions: S.optional(__S(1760, __c110, 0)),
+          extensions: S.optional(__S(2256, __c141, 0)),
         }),
       ).annotate({ identifier: "X402PaymentRequired" });
     case 2:
@@ -10352,7 +12809,7 @@ function __c68(j: number): any {
         S.Struct({
           userId: S.String.pipe(T.Label()),
           projectID: S.optional(S.String.pipe(T.Query())),
-          paymentRequired: __S(1089, __c68, 1),
+          paymentRequired: __S(1569, __c98, 1),
           acceptsIndex: S.Number,
           address: S.String,
           walletSecretId: S.optional(S.String),
@@ -10372,7 +12829,69 @@ function __c68(j: number): any {
       ).annotate({ identifier: "SignSolanaX402PaymentWithEndUserAccountResponse" });
   }
 }
-function __c69(j: number): any {
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/policy-engine/simulate", code: 200 })),
+      ).annotate({ identifier: "SimulatePoliciesRequest2" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          scope: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "EvaluatedPolicy" });
+    case 2:
+      return S.Array(S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          policy: __S(1585, __c99, 1),
+          ruleIndex: S.Number,
+          rule: S.Unknown,
+          observations: S.optional(__S(1586, __c99, 2)),
+        }),
+      ).annotate({ identifier: "MatchedPolicyRule" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          policy: __S(1585, __c99, 1),
+          ruleIndex: S.Number,
+          criterionIndex: S.Number,
+          criterion: S.Unknown,
+          observed: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "UnmatchedPolicyRule" });
+    case 5:
+      return S.Array(__S(1588, __c99, 4));
+    case 6:
+      return S.Array(__S(1585, __c99, 1));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          index: S.Number,
+          count: S.Number,
+          address: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EvaluatedUnit" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.String,
+          reason: S.String,
+          matchedRule: S.optional(__S(1587, __c99, 3)),
+          unmatchedRules: __S(1589, __c99, 5),
+          evaluatedPolicies: __S(1590, __c99, 6),
+          evaluatedUnit: S.optional(__S(1591, __c99, 7)),
+        }),
+      ).annotate({ identifier: "PolicySimulationResult" });
+  }
+}
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10385,11 +12904,11 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          address: S.optional(__S(288, __c18, 0)),
+          address: S.optional(__S(992, __c62, 0)),
           financialInstitution: S.optional(S.String),
-          virtualAssetServiceProvider: S.optional(__S(1104, __c69, 0)),
+          virtualAssetServiceProvider: S.optional(__S(1600, __c100, 0)),
           personalId: S.optional(S.String),
-          dateOfBirth: S.optional(__S(336, __c21, 0)),
+          dateOfBirth: S.optional(__S(1024, __c64, 0)),
           walletType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DepositTravelRuleOriginator" });
@@ -10406,8 +12925,8 @@ function __c69(j: number): any {
           isSelf: S.optional(S.Boolean),
           isIntermediary: S.optional(S.Boolean),
           attestVerifiedWalletOwnership: S.optional(S.Boolean),
-          originator: S.optional(__S(1105, __c69, 1)),
-          beneficiary: S.optional(__S(1106, __c69, 2)),
+          originator: S.optional(__S(1601, __c100, 1)),
+          beneficiary: S.optional(__S(1602, __c100, 2)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/transfers/{transferId}/travel-rule", code: 200 }),
         ),
@@ -10422,7 +12941,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DepositTravelRuleResponse" });
   }
 }
-function __c70(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10446,7 +12965,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "OnrampVerificationConfirmation" });
   }
 }
-function __c71(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10458,41 +12977,41 @@ function __c71(j: number): any {
           x402Version: S.Number,
           scheme: S.String,
           network: S.String,
-          extra: S.optional(__S(1760, __c110, 0)),
+          extra: S.optional(__S(2256, __c141, 0)),
         }),
       ).annotate({ identifier: "X402SupportedPaymentKind" });
     case 2:
-      return S.Array(__S(1137, __c71, 1));
+      return S.Array(__S(1633, __c102, 1));
     case 3:
       return S.Record(S.String, __S(48, __c3, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          kinds: __S(1138, __c71, 2),
+          kinds: __S(1634, __c102, 2),
           extensions: __S(48, __c3, 0),
-          signers: __S(1139, __c71, 3),
+          signers: __S(1635, __c102, 3),
         }),
       ).annotate({ identifier: "SupportedX402PaymentKindsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           customerId: S.String.pipe(T.Label()),
           type: S.optional(S.String),
-          capabilities: S.optional(__S(305, __c19, 1)),
-          individual: S.optional(__S(306, __c19, 2)),
+          capabilities: S.optional(__S(977, __c61, 1)),
+          individual: S.optional(__S(978, __c61, 2)),
           projectIds: S.optional(__S(48, __c3, 0)),
-          tosAcceptances: S.optional(__S(385, __c24, 1)),
-          taxAttestations: S.optional(__S(308, __c19, 4)),
-          compliance: S.optional(__S(320, __c20, 0)),
+          tosAcceptances: S.optional(__S(1073, __c67, 1)),
+          taxAttestations: S.optional(__S(980, __c61, 4)),
+          compliance: S.optional(__S(1008, __c63, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/customers/{customerId}", code: 200 })),
       ).annotate({ identifier: "UpdateCustomerByIdRequest" });
   }
 }
-function __c73(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10504,7 +13023,84 @@ function __c73(j: number): any {
       ).annotate({ identifier: "UpdateEvmAccountRequest" });
   }
 }
-function __c74(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          requesterIpAddress: S.optional(S.String),
+          recipient: S.optional(__S(1696, __c106, 0)),
+        }),
+      ).annotate({ identifier: "DisbursementCompliance" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          source: __S(1712, __c107, 0),
+          target: S.Unknown,
+          amount: S.String,
+          asset: S.String,
+          reason: S.optional(S.String),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(1728, __c108, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          compliance: S.optional(__S(1680, __c105, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/disbursements", code: 200 })),
+      ).annotate({ identifier: "CreateDisbursementRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          address: S.optional(__S(992, __c62, 0)),
+        }),
+      ).annotate({ identifier: "Person" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+          asset: S.String,
+        }),
+      ).annotate({ identifier: "TransfersAccount" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          referenceCode: S.optional(S.String),
+          merchantName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateDisbursementRequestCustomerDisplay" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          disbursementId: S.String,
+          source: __S(1712, __c107, 0),
+          target: S.Unknown,
+          amount: S.String,
+          asset: S.String,
+          status: S.String,
+          reason: S.optional(S.String),
+          externalReferenceId: S.optional(S.String),
+          customerDisplay: S.optional(__S(1728, __c108, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          error: S.optional(__S(2528, __c158, 0)),
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
+          createdAt: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "Disbursement" });
+  }
+}
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10515,19 +13111,19 @@ function __c74(j: number): any {
       ).annotate({ identifier: "UpdateEvmSmartAccountRequest" });
   }
 }
-function __c75(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          rules: __S(1616, __c101, 0),
+          rules: __S(2320, __c145, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/policy-engine/policies/{policyId}", code: 200 })),
       ).annotate({ identifier: "UpdatePolicyRequest" });
   }
 }
-function __c76(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10539,18 +13135,18 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateSolanaAccountRequest" });
   }
 }
-function __c77(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          eventTypes: __S(352, __c22, 0),
+          eventTypes: __S(1040, __c65, 0),
           isEnabled: S.Boolean,
-          target: __S(1712, __c107, 0),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          labels: S.optional(__S(2016, __c126, 0)),
+          target: __S(2432, __c152, 0),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          labels: S.optional(__S(2544, __c159, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -10561,72 +13157,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateWebhookSubscriptionRequest" });
   }
 }
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          createSmartAccount: S.optional(S.Boolean),
-          enableSpendPermissions: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CreateEndUserRequestEvmAccount" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          createSmartAccount: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "CreateEndUserRequestSolanaAccount" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.optional(S.String),
-          authenticationMethods: __S(1264, __c79, 0),
-          evmAccount: S.optional(__S(1248, __c78, 0)),
-          solanaAccount: S.optional(__S(1249, __c78, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/end-users", code: 200 })),
-      ).annotate({ identifier: "CreateEndUserRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          enrolledAt: S.String,
-        }),
-      ).annotate({ identifier: "MFAMethodsTotp" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          enrollmentPromptedAt: S.optional(S.String),
-          totp: S.optional(__S(1265, __c79, 1)),
-          sms: S.optional(__S(1265, __c79, 1)),
-        }),
-      ).annotate({ identifier: "MFAMethods" });
-    case 3:
-      return S.Array(__S(16, __c1, 0));
-    case 4:
-      return S.Array(__S(64, __c4, 0));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String,
-          authenticationMethods: __S(1264, __c79, 0),
-          mfaMethods: S.optional(__S(1266, __c79, 2)),
-          evmAccounts: __S(48, __c3, 0),
-          evmAccountObjects: __S(1267, __c79, 3),
-          evmSmartAccounts: __S(48, __c3, 0),
-          evmSmartAccountObjects: __S(1268, __c79, 4),
-          solanaAccounts: __S(48, __c3, 0),
-          solanaAccountObjects: __S(1267, __c79, 3),
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "EndUser" });
-  }
-}
-function __c80(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10636,7 +13167,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "ValidateEndUserAccessTokenRequest" });
   }
 }
-function __c81(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10657,7 +13188,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "X402ValidateCheck" });
     case 2:
-      return S.Array(__S(1297, __c81, 1));
+      return S.Array(__S(1825, __c114, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10670,7 +13201,7 @@ function __c81(j: number): any {
         S.Struct({
           active: S.Boolean,
           lastCrawledAt: S.NullOr(S.String),
-          quality: S.optional(__S(2848, __c178, 0)),
+          quality: S.optional(__S(3616, __c226, 0)),
         }),
       ).annotate({ identifier: "X402ValidateIndex" });
     case 5:
@@ -10679,16 +13210,16 @@ function __c81(j: number): any {
           valid: S.Boolean,
           statusCode: S.NullOr(S.Number),
           x402Version: S.NullOr(S.Number),
-          preflight: __S(1298, __c81, 2),
+          preflight: __S(1826, __c114, 2),
           paymentRequirements: S.NullOr(S.Unknown),
-          bazaarExtension: S.NullOr(__S(1760, __c110, 0)),
-          simulation: __S(1299, __c81, 3),
-          index: S.NullOr(__S(1300, __c81, 4)),
+          bazaarExtension: S.NullOr(__S(2256, __c141, 0)),
+          simulation: __S(1827, __c114, 3),
+          index: S.NullOr(__S(1828, __c114, 4)),
         }),
       ).annotate({ identifier: "X402ValidateResponse" });
   }
 }
-function __c82(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10705,20 +13236,20 @@ function __c82(j: number): any {
           invalidReason: S.optional(S.String),
           invalidMessage: S.optional(S.String),
           payer: S.String,
-          extra: S.optional(__S(1760, __c110, 0)),
+          extra: S.optional(__S(2256, __c141, 0)),
         }),
       ).annotate({ identifier: "VerifyX402PaymentResponse" });
   }
 }
-function __c83(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentSessionId: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(2016, __c126, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -10729,7 +13260,72 @@ function __c83(j: number): any {
       ).annotate({ identifier: "VoidPaymentSessionRequest" });
   }
 }
-function __c84(j: number): any {
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createSmartAccount: S.optional(S.Boolean),
+          enableSpendPermissions: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateEndUserRequestEvmAccount" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createSmartAccount: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateEndUserRequestSolanaAccount" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.optional(S.String),
+          authenticationMethods: __S(1888, __c118, 0),
+          evmAccount: S.optional(__S(1872, __c117, 0)),
+          solanaAccount: S.optional(__S(1873, __c117, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/end-users", code: 200 })),
+      ).annotate({ identifier: "CreateEndUserRequest" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enrolledAt: S.String,
+        }),
+      ).annotate({ identifier: "MFAMethodsTotp" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          enrollmentPromptedAt: S.optional(S.String),
+          totp: S.optional(__S(1889, __c118, 1)),
+          sms: S.optional(__S(1889, __c118, 1)),
+        }),
+      ).annotate({ identifier: "MFAMethods" });
+    case 3:
+      return S.Array(__S(16, __c1, 0));
+    case 4:
+      return S.Array(__S(64, __c4, 0));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String,
+          authenticationMethods: __S(1888, __c118, 0),
+          mfaMethods: S.optional(__S(1890, __c118, 2)),
+          evmAccounts: __S(48, __c3, 0),
+          evmAccountObjects: __S(1891, __c118, 3),
+          evmSmartAccounts: __S(48, __c3, 0),
+          evmSmartAccountObjects: __S(1892, __c118, 4),
+          solanaAccounts: __S(48, __c3, 0),
+          solanaAccountObjects: __S(1891, __c118, 3),
+          createdAt: S.String,
+        }),
+      ).annotate({ identifier: "EndUser" });
+  }
+}
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10740,7 +13336,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CreateEvmAccountRequest" });
   }
 }
-function __c85(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10754,7 +13350,23 @@ function __c85(j: number): any {
       ).annotate({ identifier: "EvmAccount" });
   }
 }
-function __c86(j: number): any {
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/end-users/{userId}/solana", code: 200 })),
+      ).annotate({ identifier: "AddEndUserSolanaAccountRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          solanaAccount: __S(16, __c1, 0),
+        }),
+      ).annotate({ identifier: "AddEndUserSolanaAccountResponse" });
+  }
+}
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10772,7 +13384,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CreateEvmEip7702DelegationRequest" });
   }
 }
-function __c87(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10782,7 +13394,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateEvmEip7702DelegationResponse" });
   }
 }
-function __c88(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10803,7 +13415,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "CreateEvmEip7702DelegationWithEndUserAccountRequest" });
   }
 }
-function __c89(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10814,7 +13426,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "CreateEvmSmartAccountRequest" });
   }
 }
-function __c90(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10829,23 +13441,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "EvmSmartAccount" });
   }
 }
-function __c91(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/end-users/{userId}/solana", code: 200 })),
-      ).annotate({ identifier: "AddEndUserSolanaAccountRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          solanaAccount: __S(16, __c1, 0),
-        }),
-      ).annotate({ identifier: "AddEndUserSolanaAccountResponse" });
-  }
-}
-function __c92(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10866,19 +13462,19 @@ function __c92(j: number): any {
       });
   }
 }
-function __c93(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           owner: S.optional(S.String),
           name: S.optional(S.String),
-          compliance: S.optional(__S(320, __c20, 0)),
+          compliance: S.optional(__S(1008, __c63, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/accounts", code: 200 })),
       ).annotate({ identifier: "CreateFoundationAccountRequest" });
   }
 }
-function __c94(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10893,7 +13489,108 @@ function __c94(j: number): any {
       ).annotate({ identifier: "Account" });
   }
 }
-function __c95(j: number): any {
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          asset: S.String,
+          policy: S.optional(__S(3713, __c232, 1)),
+          expiresAt: S.optional(S.String),
+          approvalRedirect: S.optional(__S(3680, __c230, 0)),
+          revocationRedirect: S.optional(__S(3680, __c230, 0)),
+          customerDisplay: S.optional(__S(3696, __c231, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/mandates", code: 200 })),
+      ).annotate({ identifier: "CreateMandateRequest" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "POST", uri: "/v2/onramp/mobile/attestation/challenges", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateOnrampIosAttestationChallengeRequest" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          challenge: S.String,
+          expiresAt: S.String,
+        }),
+      ).annotate({ identifier: "IosAttestationChallenge" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          purchaseCurrency: S.String,
+          destinationNetwork: S.String,
+          destinationAddress: S.String,
+          paymentAmount: S.optional(S.String),
+          purchaseAmount: S.optional(S.String),
+          paymentCurrency: S.optional(S.String),
+          paymentMethod: S.optional(S.String),
+          country: S.optional(S.String),
+          subdivision: S.optional(S.String),
+          redirectUrl: S.String,
+          clientIp: S.optional(S.String),
+          partnerUserRef: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/onramp/mobile/sessions/challenges", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateOnrampMobileChallengeRequest" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          keyId: S.String,
+          assertion: S.String,
+        }),
+      ).annotate({ identifier: "IosAssertionPayload" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          integrityToken: S.String,
+        }),
+      ).annotate({ identifier: "AndroidIntegrityPayload" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          challenge: S.String,
+          ios: S.optional(__S(2144, __c134, 0)),
+          android: S.optional(__S(2145, __c134, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/onramp/mobile/sessions", code: 200 })),
+      ).annotate({ identifier: "CreateOnrampMobileSessionRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          session: __S(2160, __c135, 0),
+        }),
+      ).annotate({ identifier: "CreateOnrampMobileSessionResponse" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          onrampUrl: S.String,
+        }),
+      ).annotate({ identifier: "OnrampSession" });
+  }
+}
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10930,14 +13627,14 @@ function __c95(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          order: __S(1552, __c97, 0),
-          paymentLink: S.optional(__S(1521, __c95, 1)),
+          order: __S(2208, __c138, 0),
+          paymentLink: S.optional(__S(2177, __c136, 1)),
           userAuthToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateOnrampOrderResponse" });
   }
 }
-function __c96(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10948,10 +13645,10 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "OnrampOrderFee" });
     case 1:
-      return S.Array(__S(1536, __c96, 0));
+      return S.Array(__S(2192, __c137, 0));
   }
 }
-function __c97(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10963,7 +13660,7 @@ function __c97(j: number): any {
           paymentMethod: S.String,
           purchaseAmount: S.String,
           purchaseCurrency: S.String,
-          fees: __S(1537, __c96, 1),
+          fees: __S(2193, __c137, 1),
           exchangeRate: S.String,
           destinationAddress: S.String,
           destinationNetwork: S.String,
@@ -10972,11 +13669,91 @@ function __c97(j: number): any {
           createdAt: S.String,
           updatedAt: S.String,
           partnerUserRef: S.optional(S.String),
+          partnerId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OnrampOrder" });
   }
 }
-function __c98(j: number): any {
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          address: S.String.pipe(T.Label()),
+          projectID: S.optional(S.String.pipe(T.Query())),
+          borrowProductId: S.String,
+          addCollateralAmount: S.optional(S.String),
+          removeCollateralAmount: S.optional(S.String),
+          repayLoanAmount: S.optional(S.String),
+          borrowLoanAmount: S.optional(S.String),
+          walletSecretId: S.String,
+          useCdpPaymaster: S.Boolean,
+          paymasterUrl: S.optional(S.String),
+          paymasterContext: S.optional(__S(2256, __c141, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions/adjust",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AdjustBorrowPositionWithEndUserAccountRequest" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          to: S.String,
+          value: S.String,
+          data: S.String,
+          overrideGasLimit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EvmCall" });
+    case 1:
+      return S.Array(__S(2240, __c140, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.String,
+          message: S.String,
+        }),
+      ).annotate({ identifier: "UserOperationReceiptRevert" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          revert: S.optional(__S(2242, __c140, 2)),
+          transactionHash: S.optional(S.String),
+          blockHash: S.optional(S.String),
+          blockNumber: S.optional(S.Number),
+          gasUsed: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserOperationReceipt" });
+    case 4:
+      return S.Array(__S(2243, __c140, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          network: S.String,
+          userOpHash: S.String,
+          calls: __S(2241, __c140, 1),
+          status: S.String,
+          transactionHash: S.optional(S.String),
+          receipts: S.optional(__S(2244, __c140, 4)),
+          expiresAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EvmUserOperation" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10998,38 +13775,32 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          onrampUrl: S.String,
-        }),
-      ).annotate({ identifier: "OnrampSession" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           paymentTotal: S.String,
           paymentSubtotal: S.String,
           paymentCurrency: S.String,
           purchaseAmount: S.String,
           purchaseCurrency: S.String,
           destinationNetwork: S.String,
-          fees: __S(1537, __c96, 1),
+          fees: __S(2193, __c137, 1),
           exchangeRate: S.String,
         }),
       ).annotate({ identifier: "OnrampQuote" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          session: __S(1569, __c98, 1),
-          quote: S.optional(__S(1570, __c98, 2)),
+          session: __S(2160, __c135, 0),
+          quote: S.optional(__S(2273, __c142, 1)),
         }),
       ).annotate({ identifier: "CreateOnrampSessionResponse" });
   }
 }
-function __c99(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           requesterIpAddress: S.optional(S.String),
-          buyer: S.optional(__S(1040, __c65, 0)),
+          buyer: S.optional(__S(1696, __c106, 0)),
         }),
       ).annotate({ identifier: "PaymentSessionCompliance" });
     case 1:
@@ -11038,30 +13809,30 @@ function __c99(j: number): any {
           amount: S.String,
           asset: S.String,
           target: S.Unknown,
-          expiries: S.optional(__S(2704, __c169, 0)),
-          redirect: S.optional(__S(2706, __c169, 2)),
+          expiries: S.optional(__S(160, __c10, 0)),
+          redirect: S.optional(__S(3680, __c230, 0)),
           autoCapture: S.optional(S.Boolean),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2708, __c169, 4)),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          compliance: S.optional(__S(1584, __c99, 0)),
+          customerDisplay: S.optional(__S(163, __c10, 3)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          compliance: S.optional(__S(2288, __c143, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/payment-sessions", code: 200 })),
       ).annotate({ identifier: "CreatePaymentSessionRequest" });
   }
 }
-function __c100(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.String,
           description: S.optional(S.String),
-          rules: __S(1616, __c101, 0),
+          rules: __S(2320, __c145, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/policy-engine/policies", code: 200 })),
       ).annotate({ identifier: "CreatePolicyRequest" });
   }
 }
-function __c101(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -11071,14 +13842,17 @@ function __c101(j: number): any {
           id: S.String,
           description: S.optional(S.String),
           scope: S.String,
-          rules: __S(1616, __c101, 0),
+          status: S.optional(S.String),
+          pausedAt: S.optional(S.String),
+          resumeAt: S.optional(S.String),
+          rules: __S(2320, __c145, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Policy" });
   }
 }
-function __c102(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11089,7 +13863,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "CreateSolanaAccountRequest" });
   }
 }
-function __c103(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11115,32 +13889,66 @@ function __c103(j: number): any {
       ).annotate({ identifier: "CreateSpendPermissionRequest" });
   }
 }
-function __c104(j: number): any {
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          topUpAmount: S.Unknown,
+          orderTotalAmount: S.optional(S.Unknown),
+          asset: S.Unknown,
+          redirectUrl: S.optional(S.String),
+          customerDisplay: S.optional(__S(3696, __c231, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/top-up-links", code: 200 })),
+      ).annotate({ identifier: "CreateTopUpLinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          merchantName: S.String,
+        }),
+      ).annotate({ identifier: "TopUpCustomerDisplay" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          topUpLinkId: S.String,
+          topUpAmount: S.Unknown,
+          asset: S.Unknown,
+          orderTotalAmount: S.optional(S.Unknown),
+          redirectUrl: S.optional(S.String),
+          customerDisplay: __S(2369, __c148, 1),
+          topUpUrl: S.String,
+          expiresAt: S.String,
+          createdAt: S.String,
+        }),
+      ).annotate({ identifier: "TopUpLink" });
+  }
+}
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identifier: S.optional(S.String),
           name: S.optional(S.String),
-          address: S.optional(__S(288, __c18, 0)),
+          address: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "TravelRuleOriginatorVirtualAssetServiceProvider" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          address: S.optional(__S(288, __c18, 0)),
+          address: S.optional(__S(992, __c62, 0)),
           financialInstitution: S.optional(S.String),
-          virtualAssetServiceProvider: S.optional(__S(1664, __c104, 0)),
+          virtualAssetServiceProvider: S.optional(__S(2384, __c149, 0)),
           personalId: S.optional(S.String),
-          dateOfBirth: S.optional(__S(336, __c21, 0)),
+          dateOfBirth: S.optional(__S(1024, __c64, 0)),
         }),
       ).annotate({ identifier: "TravelRuleOriginator" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          address: S.optional(__S(288, __c18, 0)),
+          address: S.optional(__S(992, __c62, 0)),
           financialInstitution: S.optional(S.String),
           walletType: S.optional(S.String),
         }),
@@ -11151,27 +13959,27 @@ function __c104(j: number): any {
           isSelf: S.optional(S.Boolean),
           isIntermediary: S.optional(S.Boolean),
           attestVerifiedWalletOwnership: S.optional(S.Boolean),
-          originator: S.optional(__S(1665, __c104, 1)),
-          beneficiary: S.optional(__S(1666, __c104, 2)),
+          originator: S.optional(__S(2385, __c149, 1)),
+          beneficiary: S.optional(__S(2386, __c149, 2)),
         }),
       ).annotate({ identifier: "TravelRule" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          source: __S(1056, __c66, 0),
+          source: __S(1712, __c107, 0),
           target: S.Unknown,
           amount: S.String,
           asset: S.String,
           amountType: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
           execute: S.Boolean,
-          metadata: S.optional(__S(2016, __c126, 0)),
-          travelRule: S.optional(__S(1667, __c104, 3)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          travelRule: S.optional(__S(2387, __c149, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/transfers", code: 200 })),
       ).annotate({ identifier: "CreateTransferRequest" });
   }
 }
-function __c105(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11190,14 +13998,14 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "TransferFee" });
     case 2:
-      return S.Array(__S(1681, __c105, 1));
+      return S.Array(__S(2401, __c150, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          exchangeRate: S.optional(__S(1680, __c105, 0)),
+          exchangeRate: S.optional(__S(2400, __c150, 0)),
           targetAmount: S.optional(S.String),
           targetAsset: S.optional(S.String),
-          fees: S.optional(__S(1682, __c105, 2)),
+          fees: S.optional(__S(2402, __c150, 2)),
           estimatedAt: S.String,
         }),
       ).annotate({ identifier: "TransferEstimate" });
@@ -11217,9 +14025,9 @@ function __c105(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          depositDestination: S.optional(__S(1684, __c105, 4)),
-          onchainTransactions: S.optional(__S(2033, __c127, 1)),
-          travelRule: S.optional(__S(1685, __c105, 5)),
+          depositDestination: S.optional(__S(2404, __c150, 4)),
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
+          travelRule: S.optional(__S(2405, __c150, 5)),
         }),
       ).annotate({ identifier: "TransferDetails" });
     case 7:
@@ -11233,50 +14041,53 @@ function __c105(j: number): any {
           sourceAsset: S.optional(S.String),
           targetAmount: S.optional(S.String),
           targetAsset: S.optional(S.String),
-          exchangeRate: S.optional(__S(1680, __c105, 0)),
-          fees: S.optional(__S(1682, __c105, 2)),
-          estimate: S.optional(__S(1683, __c105, 3)),
+          exchangeRate: S.optional(__S(2400, __c150, 0)),
+          fees: S.optional(__S(2402, __c150, 2)),
+          estimate: S.optional(__S(2403, __c150, 3)),
           completedAt: S.optional(S.String),
           failureReason: S.optional(S.String),
           expiresAt: S.optional(S.String),
           executedAt: S.optional(S.String),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          details: S.optional(__S(1686, __c105, 6)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          details: S.optional(__S(2406, __c150, 6)),
         }),
       ).annotate({ identifier: "Transfer" });
   }
 }
-function __c106(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          eventTypes: __S(352, __c22, 0),
+          eventTypes: __S(1040, __c65, 0),
           isEnabled: S.Boolean,
-          target: __S(1712, __c107, 0),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          labels: S.optional(__S(2016, __c126, 0)),
+          target: __S(2432, __c152, 0),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          labels: S.optional(__S(2544, __c159, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/data/webhooks/subscriptions", code: 200 })),
       ).annotate({ identifier: "CreateWebhookSubscriptionRequest" });
   }
 }
-function __c107(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          headers: S.optional(__S(2016, __c126, 0)),
+          headers: S.optional(__S(2544, __c159, 0)),
         }),
       ).annotate({ identifier: "WebhookTarget" });
     case 1:
       return S.suspend(() =>
-        S.Struct({
-          secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "WebhookSubscriptionResponseMetadata" });
     case 2:
       return S.suspend(() =>
@@ -11284,97 +14095,18 @@ function __c107(j: number): any {
           createdAt: S.String,
           updatedAt: S.optional(S.String),
           description: S.optional(S.String),
-          eventTypes: __S(352, __c22, 0),
+          eventTypes: __S(1040, __c65, 0),
           isEnabled: S.Boolean,
-          metadata: S.optional(__S(1713, __c107, 1)),
+          metadata: S.optional(__S(2433, __c152, 1)),
           secret: S.String.pipe(T.SensitiveValue({})),
           subscriptionId: S.String,
-          target: __S(1712, __c107, 0),
-          labels: S.optional(__S(2016, __c126, 0)),
+          target: __S(2432, __c152, 0),
+          labels: S.optional(__S(2544, __c159, 0)),
         }),
       ).annotate({ identifier: "WebhookSubscriptionResponse" });
   }
 }
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          borrowProductId: S.String,
-          addCollateralAmount: S.optional(S.String),
-          removeCollateralAmount: S.optional(S.String),
-          repayLoanAmount: S.optional(S.String),
-          borrowLoanAmount: S.optional(S.String),
-          walletSecretId: S.String,
-          useCdpPaymaster: S.Boolean,
-          paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1760, __c110, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions/adjust",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AdjustBorrowPositionWithEndUserAccountRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          to: S.String,
-          value: S.String,
-          data: S.String,
-          overrideGasLimit: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EvmCall" });
-    case 1:
-      return S.Array(__S(1744, __c109, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "UserOperationReceiptRevert" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          revert: S.optional(__S(1746, __c109, 2)),
-          transactionHash: S.optional(S.String),
-          blockHash: S.optional(S.String),
-          blockNumber: S.optional(S.Number),
-          gasUsed: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserOperationReceipt" });
-    case 4:
-      return S.Array(__S(1747, __c109, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.String,
-          userOpHash: S.String,
-          calls: __S(1745, __c109, 1),
-          status: S.String,
-          transactionHash: S.optional(S.String),
-          receipts: S.optional(__S(1748, __c109, 4)),
-          expiresAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EvmUserOperation" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c111(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11382,7 +14114,7 @@ function __c111(j: number): any {
           jsonrpc: S.String,
           id: S.optional(S.Unknown),
           method: S.String,
-          params: S.optional(__S(1760, __c110, 0)),
+          params: S.optional(__S(2256, __c141, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/x402/discovery/mcp", code: 200 })),
       ).annotate({ identifier: "CreateX402DiscoveryMcpRequest" });
     case 1:
@@ -11390,7 +14122,7 @@ function __c111(j: number): any {
         S.Struct({
           code: S.Number,
           message: S.String,
-          data: S.optional(__S(1760, __c110, 0)),
+          data: S.optional(__S(2256, __c141, 0)),
         }),
       ).annotate({ identifier: "X402McpError" });
     case 2:
@@ -11398,13 +14130,13 @@ function __c111(j: number): any {
         S.Struct({
           jsonrpc: S.String,
           id: S.optional(S.NullOr(S.Unknown)),
-          result: S.optional(__S(1760, __c110, 0)),
-          error: S.optional(__S(1777, __c111, 1)),
+          result: S.optional(__S(2256, __c141, 0)),
+          error: S.optional(__S(2449, __c153, 1)),
         }),
       ).annotate({ identifier: "X402McpResponse" });
   }
 }
-function __c112(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11414,13 +14146,101 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DeleteCustomerRequest" });
   }
 }
-function __c113(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteCustomerResponse" });
   }
 }
-function __c114(j: number): any {
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+          optionId: S.String,
+          signedPayloads: __S(2577, __c161, 1),
+          metadata: S.optional(__S(2544, __c159, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/v2/mandates/{mandateId}/approvals/wallet", code: 200 }),
+        ),
+      ).annotate({ identifier: "ApproveWalletMandateRequest" });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          transactionHash: S.String,
+          network: S.String,
+        }),
+      ).annotate({ identifier: "OnchainTransaction" });
+    case 1:
+      return S.Array(__S(2512, __c157, 0));
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          occurredAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PaymentError" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          approvalId: S.String,
+          status: S.String,
+          source: S.optional(__S(2592, __c162, 0)),
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
+          error: S.optional(__S(2528, __c158, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          createdAt: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "Approval" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          payloadId: S.optional(S.String),
+          signature: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OnchainSignedPayload" });
+    case 1:
+      return S.Array(__S(2576, __c161, 0));
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String,
+          network: S.String,
+          asset: S.String,
+        }),
+      ).annotate({ identifier: "MandateSourceWallet" });
+  }
+}
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11432,7 +14252,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c115(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11448,7 +14268,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DeleteWebhookSubscriptionRequest" });
   }
 }
-function __c116(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11458,7 +14278,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ExecuteFundTransferRequest" });
   }
 }
-function __c117(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11469,7 +14289,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ExportEvmAccountRequest" });
   }
 }
-function __c118(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11479,7 +14299,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ExportEvmAccountResponse" });
   }
 }
-function __c119(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11492,7 +14312,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ExportEvmAccountByNameRequest" });
   }
 }
-function __c120(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11503,7 +14323,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ExportSolanaAccountRequest" });
   }
 }
-function __c121(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11516,7 +14336,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ExportSolanaAccountByNameRequest" });
   }
 }
-function __c122(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11529,7 +14349,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetBalanceByAssetRequest" });
   }
 }
-function __c123(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11548,24 +14368,51 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "AmountDetail" });
     case 2:
-      return S.Record(S.String, __S(1969, __c123, 1));
+      return S.Record(S.String, __S(2753, __c172, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          asset: __S(1968, __c123, 0),
-          amount: __S(1970, __c123, 2),
+          asset: __S(2752, __c172, 0),
+          amount: __S(2754, __c172, 2),
         }),
       ).annotate({ identifier: "Balance" });
   }
 }
-function __c124(j: number): any {
+function __c173(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/customers/{customerId}", code: 200 })),
+      ).annotate({ identifier: "GetCustomerRequest" });
+  }
+}
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customerType: S.String.pipe(T.Query()),
+          capabilities: __S(1040, __c65, 0).pipe(T.Query()),
+          countryCode: S.optional(S.String.pipe(T.Query())),
+          citizenship: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/customers/requirements", code: 200 })),
+      ).annotate({ identifier: "GetCustomerRequirementsRequest" });
+    case 1:
+      return S.suspend(() => __S(1059, __c66, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetCustomerRequirementsResponse",
+      });
+  }
+}
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           paymentSessionId: S.String.pipe(T.Label()),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
           externalReferenceId: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -11577,7 +14424,17 @@ function __c124(j: number): any {
       ).annotate({ identifier: "AuthorizeCoinbasePaymentSessionRequest" });
   }
 }
-function __c125(j: number): any {
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          referenceCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OperationCustomerDisplay" });
+  }
+}
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11586,84 +14443,20 @@ function __c125(j: number): any {
           paymentSessionId: S.optional(S.String),
           status: S.optional(S.String),
           amount: S.optional(S.String),
-          error: S.optional(__S(2049, __c128, 1)),
+          error: S.optional(__S(2528, __c158, 0)),
           message: S.optional(S.String),
-          metadata: S.optional(__S(2016, __c126, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
           externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
           source: S.optional(S.Unknown),
-          onchainTransactions: S.optional(__S(2033, __c127, 1)),
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
           createdAt: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Authorization" });
   }
 }
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          transactionHash: S.String,
-          network: S.String,
-        }),
-      ).annotate({ identifier: "OnchainTransaction" });
-    case 1:
-      return S.Array(__S(2032, __c127, 0));
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          referenceCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OperationCustomerDisplay" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          occurredAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PaymentError" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/customers/{customerId}", code: 200 })),
-      ).annotate({ identifier: "GetCustomerRequest" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          customerType: S.String.pipe(T.Query()),
-          capabilities: __S(352, __c22, 0).pipe(T.Query()),
-          countryCode: S.optional(S.String.pipe(T.Query())),
-          citizenship: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/customers/requirements", code: 200 })),
-      ).annotate({ identifier: "GetCustomerRequirementsRequest" });
-    case 1:
-      return S.suspend(() => __S(371, __c23, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetCustomerRequirementsResponse",
-      });
-  }
-}
-function __c131(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11680,7 +14473,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetDelegationForEndUserRequest" });
   }
 }
-function __c132(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11698,7 +14491,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetDelegationForEndUserAccountRequest" });
   }
 }
-function __c133(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11714,7 +14507,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetDepositDestinationRequest" });
   }
 }
-function __c134(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11724,7 +14517,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetDisbursementRequest" });
   }
 }
-function __c135(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11734,7 +14527,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetEndUserRequest" });
   }
 }
-function __c136(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11744,7 +14537,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetEvmAccountRequest" });
   }
 }
-function __c137(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11754,7 +14547,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetEvmAccountByNameRequest" });
   }
 }
-function __c138(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11771,7 +14564,68 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetEvmBorrowProductRequest" });
   }
 }
-function __c139(j: number): any {
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          venueId: S.String,
+          entrypointAddress: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "BorrowProductVenue" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "BorrowProductAssetCapability" });
+    case 2:
+      return S.Array(__S(2977, __c186, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          assetId: S.String,
+          token: __S(2992, __c187, 0),
+          capabilities: __S(2978, __c186, 2),
+        }),
+      ).annotate({ identifier: "BorrowProductAsset" });
+    case 4:
+      return S.Array(__S(2979, __c186, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          onchainMarketId: S.String,
+          loanToken: __S(2992, __c187, 0),
+          collateralToken: __S(2992, __c187, 0),
+          oracleAddress: S.String,
+          interestRateModelAddress: S.String,
+          lltvBps: S.Number,
+        }),
+      ).annotate({ identifier: "MorphoBlueMarketParams" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          marketParams: __S(2981, __c186, 5),
+        }),
+      ).annotate({ identifier: "MorphoBlueProtocolDetails" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          borrowProductId: S.String,
+          network: S.String,
+          name: S.String,
+          venue: __S(2976, __c186, 0),
+          assets: __S(2980, __c186, 4),
+          snapshot: __S(2993, __c187, 1),
+          protocolDetails: __S(2982, __c186, 6),
+        }),
+      ).annotate({ identifier: "BorrowProduct" });
+  }
+}
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11792,98 +14646,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "BorrowProductSnapshot" });
   }
 }
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          venueId: S.String,
-          entrypointAddress: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "BorrowProductVenue" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          enabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "BorrowProductAssetCapability" });
-    case 2:
-      return S.Array(__S(2241, __c140, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          assetId: S.String,
-          token: __S(2224, __c139, 0),
-          capabilities: __S(2242, __c140, 2),
-        }),
-      ).annotate({ identifier: "BorrowProductAsset" });
-    case 4:
-      return S.Array(__S(2243, __c140, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          onchainMarketId: S.String,
-          loanToken: __S(2224, __c139, 0),
-          collateralToken: __S(2224, __c139, 0),
-          oracleAddress: S.String,
-          interestRateModelAddress: S.String,
-          lltvBps: S.Number,
-        }),
-      ).annotate({ identifier: "MorphoBlueMarketParams" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          marketParams: __S(2245, __c140, 5),
-        }),
-      ).annotate({ identifier: "MorphoBlueProtocolDetails" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          borrowProductId: S.String,
-          network: S.String,
-          name: S.String,
-          venue: __S(2240, __c140, 0),
-          assets: __S(2244, __c140, 4),
-          snapshot: __S(2225, __c139, 1),
-          protocolDetails: __S(2246, __c140, 6),
-        }),
-      ).annotate({ identifier: "BorrowProduct" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          payloadId: S.optional(S.String),
-          signature: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OnchainSignedPayload" });
-    case 1:
-      return S.Array(__S(2256, __c141, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          optionId: S.String,
-          signedPayloads: __S(2257, __c141, 1),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
-          externalReferenceId: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/wallet",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AuthorizeWalletPaymentSessionRequest" });
-  }
-}
-function __c142(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11909,7 +14672,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "EvmEip7702DelegationOperation" });
   }
 }
-function __c143(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11919,7 +14682,27 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetEvmSmartAccountRequest" });
   }
 }
-function __c144(j: number): any {
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          mandateId: S.String,
+          metadata: S.optional(__S(2544, __c159, 0)),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
+          externalReferenceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/mandate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AuthorizeMandatePaymentSessionRequest" });
+  }
+}
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11929,7 +14712,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetEvmSmartAccountByNameRequest" });
   }
 }
-function __c145(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11950,7 +14733,7 @@ function __c145(j: number): any {
       });
   }
 }
-function __c146(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11960,7 +14743,68 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetFoundationAccountByIdRequest" });
   }
 }
-function __c147(j: number): any {
+function __c194(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/mandates/{mandateId}", code: 200 })),
+      ).annotate({ identifier: "GetMandateRequest" });
+  }
+}
+function __c195(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+          approvalId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/mandates/{mandateId}/approvals/{approvalId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetMandateApprovalRequest" });
+  }
+}
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+          revocationId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/mandates/{mandateId}/revocations/{revocationId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetMandateRevocationRequest" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          revocationId: S.String,
+          mandateId: S.String,
+          status: S.String,
+          onchainTransactions: S.optional(__S(2513, __c157, 1)),
+          error: S.optional(__S(2528, __c158, 0)),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          createdAt: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "Revocation" });
+  }
+}
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11971,12 +14815,12 @@ function __c147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          order: __S(1552, __c97, 0),
+          order: __S(2208, __c138, 0),
         }),
       ).annotate({ identifier: "GetOnrampOrderResponse" });
   }
 }
-function __c148(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11996,7 +14840,7 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "OnrampUserLimit" });
     case 2:
-      return S.Array(__S(2369, __c148, 1));
+      return S.Array(__S(3185, __c199, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -12005,27 +14849,27 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "OnrampLimitUpgrade" });
     case 4:
-      return S.Array(__S(2371, __c148, 3));
+      return S.Array(__S(3187, __c199, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          fields: __S(352, __c22, 0),
-          limitUpgrades: __S(2372, __c148, 4),
+          fields: __S(1040, __c65, 0),
+          limitUpgrades: __S(3188, __c199, 4),
         }),
       ).annotate({ identifier: "OnrampLimitUpgradeOption" });
     case 6:
-      return S.Array(__S(2373, __c148, 5));
+      return S.Array(__S(3189, __c199, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          limits: __S(2370, __c148, 2),
-          limitUpgradeOptions: S.optional(__S(2374, __c148, 6)),
+          limits: __S(3186, __c199, 2),
+          limitUpgradeOptions: S.optional(__S(3190, __c199, 6)),
         }),
       ).annotate({ identifier: "GetOnrampUserLimitsResponse" });
   }
 }
-function __c149(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12039,7 +14883,7 @@ function __c149(j: number): any {
       });
   }
 }
-function __c150(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12051,7 +14895,28 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionRequest" });
   }
 }
-function __c151(j: number): any {
+function __c202(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+          optionId: S.String,
+          signedPayloads: __S(2577, __c161, 1),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          customerDisplay: S.optional(__S(2816, __c176, 0)),
+          externalReferenceId: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/wallet",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AuthorizeWalletPaymentSessionRequest" });
+  }
+}
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12068,23 +14933,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionAuthorizationRequest" });
   }
 }
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/x402",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AuthorizeX402PaymentSessionRequest" });
-  }
-}
-function __c153(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12101,7 +14950,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionCaptureRequest" });
   }
 }
-function __c154(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12118,7 +14967,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionRefundRequest" });
   }
 }
-function __c155(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12135,7 +14984,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetPaymentSessionVoidRequest" });
   }
 }
-function __c156(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12145,7 +14994,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "GetPolicyByIdRequest" });
   }
 }
-function __c157(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12155,7 +15004,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetSolanaAccountRequest" });
   }
 }
-function __c158(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12165,7 +15014,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetSolanaAccountByNameRequest" });
   }
 }
-function __c159(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12177,7 +15026,7 @@ function __c159(j: number): any {
       });
   }
 }
-function __c160(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12197,26 +15046,26 @@ function __c160(j: number): any {
         }),
       ).annotate({ identifier: "OnchainDataColumnSchema" });
     case 2:
-      return S.Array(__S(2561, __c160, 1));
+      return S.Array(__S(3377, __c211, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           database: S.optional(S.String),
           table: S.optional(S.String),
-          columns: S.optional(__S(2562, __c160, 2)),
+          columns: S.optional(__S(3378, __c211, 2)),
         }),
       ).annotate({ identifier: "OnchainDataTableSchema" });
     case 4:
-      return S.Array(__S(2563, __c160, 3));
+      return S.Array(__S(3379, __c211, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tables: S.optional(__S(2564, __c160, 4)),
+          tables: S.optional(__S(3380, __c211, 4)),
         }),
       ).annotate({ identifier: "OnchainDataSchemaResponse" });
   }
 }
-function __c161(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12226,7 +15075,23 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetTransferRequest" });
   }
 }
-function __c162(j: number): any {
+function __c213(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          paymentSessionId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations/x402",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AuthorizeX402PaymentSessionRequest" });
+  }
+}
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12243,182 +15108,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetUserOperationRequest" });
   }
 }
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          cancellationReason: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/cancel",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CancelPaymentSessionRequest" });
-  }
-}
-function __c164(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          refundId: S.optional(S.String),
-          paymentSessionId: S.optional(S.String),
-          source: S.optional(S.Unknown),
-          status: S.optional(S.String),
-          amount: S.optional(S.String),
-          reason: S.optional(S.String),
-          error: S.optional(__S(2049, __c128, 1)),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
-          onchainTransactions: S.optional(__S(2033, __c127, 1)),
-          createdAt: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Refund" });
-  }
-}
-function __c165(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          voidId: S.optional(S.String),
-          paymentSessionId: S.optional(S.String),
-          status: S.optional(S.String),
-          amount: S.optional(S.String),
-          error: S.optional(__S(2049, __c128, 1)),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
-          onchainTransactions: S.optional(__S(2033, __c127, 1)),
-          createdAt: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Void" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2000, __c125, 0));
-  }
-}
-function __c167(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2736, __c171, 0));
-  }
-}
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2624, __c164, 0));
-  }
-}
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          authorizationExpiresAt: S.optional(S.String),
-          captureExpiresAt: S.optional(S.String),
-          refundExpiresAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PaymentExpiries" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          capturable: S.optional(S.String),
-          captured: S.optional(S.String),
-          refundable: S.optional(S.String),
-          refunded: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PaymentSessionBalances" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          failureUrl: S.optional(S.String),
-          successUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PaymentRedirect" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.String,
-          currency: S.String,
-        }),
-      ).annotate({ identifier: "CustomerDisplayDisplayAmount" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          merchantName: S.optional(S.String),
-          displayAmount: S.optional(__S(2707, __c169, 3)),
-          orderCode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CustomerDisplay" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.optional(S.String),
-          entityId: S.optional(S.String),
-          amount: S.optional(S.String),
-          asset: S.optional(S.String),
-          target: S.optional(S.Unknown),
-          autoCapture: S.optional(S.Boolean),
-          expiries: S.optional(__S(2704, __c169, 0)),
-          source: S.optional(S.Unknown),
-          status: S.optional(S.String),
-          balances: S.optional(__S(2705, __c169, 1)),
-          authorizations: S.optional(__S(2656, __c166, 0)),
-          captures: S.optional(__S(2672, __c167, 0)),
-          voids: S.optional(__S(2720, __c170, 0)),
-          refunds: S.optional(__S(2688, __c168, 0)),
-          url: S.optional(S.String),
-          x402Url: S.optional(S.String),
-          redirect: S.optional(__S(2706, __c169, 2)),
-          customerDisplay: S.optional(__S(2708, __c169, 4)),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          externalReferenceId: S.optional(S.String),
-          cancellationReason: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PaymentSession" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2640, __c165, 0));
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          captureId: S.optional(S.String),
-          paymentSessionId: S.optional(S.String),
-          status: S.optional(S.String),
-          amount: S.optional(S.String),
-          finalCapture: S.Boolean,
-          error: S.optional(__S(2049, __c128, 1)),
-          metadata: S.optional(__S(2016, __c126, 0)),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
-          onchainTransactions: S.optional(__S(2033, __c127, 1)),
-          createdAt: S.optional(S.String),
-          updatedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Capture" });
-  }
-}
-function __c172(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12437,7 +15127,109 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetUserOperationWithEndUserAccountRequest" });
   }
 }
-function __c173(j: number): any {
+function __c216(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vaultId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/lend/vaults/{vaultId}", code: 200 })),
+      ).annotate({ identifier: "GetVaultRequest" });
+  }
+}
+function __c217(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apyBps: S.optional(S.Number),
+          apyUpdatedAt: S.optional(S.String),
+          tvl: S.optional(S.String),
+          tvlUpdatedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VaultMetrics" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vaultId: S.String,
+          address: S.String,
+          catalogVaultId: S.String,
+          performanceFeeBps: S.Number,
+          feeRecipientAddress: S.String,
+          network: S.String,
+          status: S.String,
+          createdAt: S.String,
+          underlyingAsset: S.String,
+          metrics: S.optional(__S(3472, __c217, 0)),
+        }),
+      ).annotate({ identifier: "Vault" });
+  }
+}
+function __c218(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+          addresses: __S(48, __c3, 0).pipe(T.Query()),
+          network: S.optional(S.String.pipe(T.Query())),
+          asset: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/mandates/{mandateId}/approvals/wallet/options",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetWalletApprovalOptionsRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          optionId: S.String,
+          source: __S(2592, __c162, 0),
+          payloads: __S(3489, __c218, 1),
+        }),
+      ).annotate({ identifier: "WalletMandateApprovalOption" });
+    case 3:
+      return S.Array(__S(3490, __c218, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          options: __S(3491, __c218, 3),
+          ineligibleAddresses: __S(3507, __c219, 3),
+        }),
+      ).annotate({ identifier: "WalletMandateApprovalOptionsResponse" });
+  }
+}
+function __c219(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          asset: S.String,
+          network: S.String,
+          currentBalance: S.String,
+          requiredBalance: S.String,
+        }),
+      ).annotate({ identifier: "WalletMandateApprovalFundsRequirement" });
+    case 1:
+      return S.Array(__S(3504, __c219, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.String,
+          code: S.String,
+          message: S.String,
+          fundsRequired: S.optional(__S(3505, __c219, 1)),
+        }),
+      ).annotate({ identifier: "IneligibleWalletMandateApprovalAddresses" });
+    case 3:
+      return S.Array(__S(3506, __c219, 2));
+  }
+}
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12468,47 +15260,59 @@ function __c173(j: number): any {
       return S.suspend(() =>
         S.Struct({
           optionId: S.String,
-          source: __S(2768, __c173, 0),
+          source: __S(3520, __c220, 0),
           amount: S.String,
           asset: S.String,
           network: S.String,
-          payloads: __S(2770, __c173, 2),
+          payloads: __S(3522, __c220, 2),
         }),
       ).annotate({ identifier: "WalletAuthorizationOption" });
     case 4:
-      return S.Array(__S(2771, __c173, 3));
+      return S.Array(__S(3523, __c220, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          asset: S.String,
-          network: S.String,
-          currentBalance: S.String,
-          requiredBalance: S.String,
-        }),
-      ).annotate({ identifier: "WalletAuthorizationFundsRequirement" });
-    case 6:
-      return S.Array(__S(2773, __c173, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          address: S.String,
-          code: S.String,
-          message: S.String,
-          fundsRequired: S.optional(__S(2774, __c173, 6)),
-        }),
-      ).annotate({ identifier: "IneligibleWalletAuthorizationAddress" });
-    case 8:
-      return S.Array(__S(2775, __c173, 7));
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          options: __S(2772, __c173, 4),
-          ineligibleAddresses: __S(2776, __c173, 8),
+          options: __S(3524, __c220, 4),
+          ineligibleAddresses: __S(3507, __c219, 3),
         }),
       ).annotate({ identifier: "WalletAuthorizationOptionsResponse" });
   }
 }
-function __c174(j: number): any {
+function __c221(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/mandates/{mandateId}/revocations/wallet/options",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetWalletRevocationOptionsRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          optionId: S.String,
+          source: __S(2592, __c162, 0),
+          payloads: __S(3537, __c221, 1),
+        }),
+      ).annotate({ identifier: "WalletMandateRevocationOption" });
+    case 3:
+      return S.Array(__S(3538, __c221, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          options: __S(3539, __c221, 3),
+        }),
+      ).annotate({ identifier: "WalletMandateRevocationOptionsResponse" });
+  }
+}
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12524,7 +15328,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetWebhookSubscriptionRequest" });
   }
 }
-function __c175(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12540,12 +15344,12 @@ function __c175(j: number): any {
           slug: S.String,
           name: S.String,
           description: S.optional(S.String),
-          resources: __S(2817, __c176, 1),
+          resources: __S(3585, __c224, 1),
         }),
       ).annotate({ identifier: "GetX402BundleResponse" });
   }
 }
-function __c176(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12555,9 +15359,9 @@ function __c176(j: number): any {
           type: S.String,
           x402Version: S.Number,
           lastUpdated: S.optional(S.String),
-          accepts: S.optional(__S(2832, __c177, 0)),
-          extensions: S.optional(__S(1760, __c110, 0)),
-          quality: S.optional(__S(2848, __c178, 0)),
+          accepts: S.optional(__S(3600, __c225, 0)),
+          extensions: S.optional(__S(2256, __c141, 0)),
+          quality: S.optional(__S(3616, __c226, 0)),
           serviceName: S.optional(S.String),
           tags: S.optional(__S(48, __c3, 0)),
           bundleSlugs: S.optional(__S(48, __c3, 0)),
@@ -12567,16 +15371,16 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "X402DiscoveryResource" });
     case 1:
-      return S.Array(__S(2816, __c176, 0));
+      return S.Array(__S(3584, __c224, 0));
   }
 }
-function __c177(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c178(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12588,20 +15392,20 @@ function __c178(j: number): any {
       ).annotate({ identifier: "X402ResourceQuality" });
   }
 }
-function __c179(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userId: S.String,
-          authenticationMethods: __S(1264, __c79, 0),
+          authenticationMethods: __S(1888, __c118, 0),
           encryptedPrivateKey: S.String,
           keyType: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v2/end-users/import", code: 200 })),
       ).annotate({ identifier: "ImportEndUserRequest" });
   }
 }
-function __c180(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12613,7 +15417,80 @@ function __c180(j: number): any {
       ).annotate({ identifier: "ImportEvmAccountRequest" });
   }
 }
-function __c181(j: number): any {
+function __c229(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String.pipe(T.Label()),
+          reason: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/mandates/{mandateId}/cancel", code: 200 })),
+      ).annotate({ identifier: "CancelMandateRequest" });
+  }
+}
+function __c230(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          failureUrl: S.optional(S.String),
+          successUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PaymentRedirect" });
+  }
+}
+function __c231(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          merchantName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MandateCustomerDisplay" });
+  }
+}
+function __c232(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.String,
+          period: S.String,
+        }),
+      ).annotate({ identifier: "MandatePolicyPeriodCap" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          maxPerAuthorization: S.optional(S.String),
+          maxPerPeriod: S.optional(__S(3712, __c232, 0)),
+          minSetupBalance: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MandatePolicy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          mandateId: S.String,
+          asset: S.String,
+          source: S.optional(__S(2592, __c162, 0)),
+          policy: __S(3713, __c232, 1),
+          status: S.String,
+          expiresAt: S.optional(S.String),
+          url: S.optional(S.String),
+          revocationUrl: S.optional(S.String),
+          approvalRedirect: S.optional(__S(3680, __c230, 0)),
+          revocationRedirect: S.optional(__S(3680, __c230, 0)),
+          customerDisplay: S.optional(__S(3696, __c231, 0)),
+          approvedAt: S.optional(S.String),
+          canceledAt: S.optional(S.String),
+          revokedAt: S.optional(S.String),
+          metadata: S.optional(__S(2544, __c159, 0)),
+          createdAt: S.String,
+          updatedAt: S.String,
+        }),
+      ).annotate({ identifier: "Mandate" });
+  }
+}
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12624,7 +15501,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "ImportSolanaAccountRequest" });
   }
 }
-function __c182(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12642,7 +15519,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "OnrampVerificationInitiation" });
   }
 }
-function __c183(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12653,21 +15530,17 @@ function __c183(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/accounts/{accountId}/balances", code: 200 })),
       ).annotate({ identifier: "ListBalancesRequest" });
     case 1:
+      return S.Array(__S(2755, __c172, 3));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(2944, __c184, 0),
+          balances: __S(3761, __c235, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBalancesResponse" });
   }
 }
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1971, __c123, 3));
-  }
-}
-function __c185(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12689,29 +15562,29 @@ function __c185(j: number): any {
       return S.suspend(() =>
         S.Struct({
           assetId: S.String,
-          token: __S(2224, __c139, 0),
+          token: __S(2992, __c187, 0),
           amount: S.String,
         }),
       ).annotate({ identifier: "BorrowPositionAssetAmount" });
     case 2:
-      return S.Array(__S(2961, __c185, 1));
+      return S.Array(__S(3777, __c236, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           assetId: S.String,
-          token: __S(2224, __c139, 0),
+          token: __S(2992, __c187, 0),
           amount: S.String,
           borrowApyBps: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BorrowPositionDebt" });
     case 4:
-      return S.Array(__S(2963, __c185, 3));
+      return S.Array(__S(3779, __c236, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          collateral: __S(2962, __c185, 2),
-          debt: __S(2964, __c185, 4),
+          collateral: __S(3778, __c236, 2),
+          debt: __S(3780, __c236, 4),
           healthFactor: S.optional(S.String),
           currentLtvBps: S.optional(S.Number),
           liquidationThresholdBps: S.optional(S.Number),
@@ -12724,59 +15597,22 @@ function __c185(j: number): any {
           borrowProductId: S.String,
           address: S.String,
           network: S.String,
-          snapshot: __S(2225, __c139, 1),
-          onchainState: __S(2965, __c185, 5),
+          snapshot: __S(2993, __c187, 1),
+          onchainState: __S(3781, __c236, 5),
         }),
       ).annotate({ identifier: "BorrowPosition" });
     case 7:
-      return S.Array(__S(2966, __c185, 6));
+      return S.Array(__S(3782, __c236, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          borrowPositions: __S(2967, __c185, 7),
+          borrowPositions: __S(3783, __c236, 7),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBorrowPositionsWithEndUserAccountResponse" });
   }
 }
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          amount: S.optional(S.String),
-          finalCapture: S.Boolean,
-          metadata: S.optional(__S(2016, __c126, 0)),
-          externalReferenceId: S.optional(S.String),
-          customerDisplay: S.optional(__S(2048, __c128, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/payment-sessions/{paymentSessionId}/captures",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CapturePaymentSessionRequest" });
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/v2/coinbase-accounts/balances", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListCoinbaseAccountBalancesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          balances: __S(2944, __c184, 0),
-        }),
-      ).annotate({ identifier: "Balances" });
-  }
-}
-function __c188(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12786,17 +15622,17 @@ function __c188(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/customers", code: 200 })),
       ).annotate({ identifier: "ListCustomersRequest" });
     case 1:
-      return S.Array(__S(389, __c24, 5));
+      return S.Array(__S(1077, __c67, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          customers: __S(3009, __c188, 1),
+          customers: __S(3793, __c237, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCustomersResponse" });
   }
 }
-function __c189(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12815,7 +15651,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "ListDataTokenBalancesRequest" });
   }
 }
-function __c190(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12829,22 +15665,22 @@ function __c190(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(3056, __c191, 0),
-          token: __S(3040, __c190, 0),
+          amount: __S(3840, __c240, 0),
+          token: __S(3824, __c239, 0),
         }),
       ).annotate({ identifier: "TokenBalance" });
     case 2:
-      return S.Array(__S(3041, __c190, 1));
+      return S.Array(__S(3825, __c239, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          balances: __S(3042, __c190, 2),
+          balances: __S(3826, __c239, 2),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataTokenBalancesResponse" });
   }
 }
-function __c191(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12855,7 +15691,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "TokenAmount" });
   }
 }
-function __c192(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12864,6 +15700,7 @@ function __c192(j: number): any {
           address: S.optional(S.String.pipe(T.Query())),
           type: S.optional(S.Unknown.pipe(T.Query())),
           network: S.optional(S.String.pipe(T.Query())),
+          status: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/deposit-destinations", code: 200 })),
@@ -12873,13 +15710,13 @@ function __c192(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          depositDestinations: __S(3073, __c192, 1),
+          depositDestinations: __S(3857, __c241, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDepositDestinationsResponse" });
   }
 }
-function __c193(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12892,42 +15729,42 @@ function __c193(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/disbursements", code: 200 })),
       ).annotate({ identifier: "ListDisbursementsRequest" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(1729, __c108, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          disbursements: __S(3089, __c193, 1),
+          disbursements: __S(3873, __c242, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDisbursementsResponse" });
   }
 }
-function __c194(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(__S(352, __c22, 0).pipe(T.Query())),
+          sort: S.optional(__S(1040, __c65, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/end-users", code: 200 })),
       ).annotate({ identifier: "ListEndUsersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endUsers: __S(3120, __c195, 0),
+          endUsers: __S(3904, __c244, 0),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEndUsersResponse" });
   }
 }
-function __c195(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1269, __c79, 5));
+      return S.Array(__S(1893, __c118, 5));
   }
 }
-function __c196(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12938,337 +15775,17 @@ function __c196(j: number): any {
       ).annotate({ identifier: "ListEvmAccountsRequest" });
   }
 }
-function __c197(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1360, __c85, 0));
+      return S.Array(__S(1920, __c120, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accounts: __S(3152, __c197, 0),
+          accounts: __S(3936, __c246, 0),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEvmAccountsResponse" });
-  }
-}
-function __c198(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectID: S.optional(S.String.pipe(T.Query())),
-          network: S.optional(S.String.pipe(T.Query())),
-          protocol: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v2/embedded-wallet-api/evm/borrow-products", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListEvmBorrowProductsRequest" });
-    case 1:
-      return S.Array(__S(2247, __c140, 7));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          borrowProducts: __S(3169, __c198, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListEvmBorrowProductsResponse" });
-  }
-}
-function __c199(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/evm/smart-accounts", code: 200 })),
-      ).annotate({ identifier: "ListEvmSmartAccountsRequest" });
-    case 1:
-      return S.Array(__S(1440, __c90, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accounts: __S(3185, __c199, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListEvmSmartAccountsResponse" });
-  }
-}
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/v2/evm/token-balances/{network}/{address}", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListEvmTokenBalancesRequest" });
-  }
-}
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          projectID: S.optional(S.String.pipe(T.Query())),
-          borrowProductId: S.String,
-          walletSecretId: S.String,
-          useCdpPaymaster: S.Boolean,
-          paymasterUrl: S.optional(S.String),
-          paymasterContext: S.optional(__S(1760, __c110, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/v2/embedded-wallet-api/end-users/{userId}/evm/smart-accounts/{address}/borrow-positions/close",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CloseBorrowPositionWithEndUserAccountRequest" });
-  }
-}
-function __c202(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          owner: S.optional(__S(48, __c3, 0).pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/accounts", code: 200 })),
-      ).annotate({ identifier: "ListFoundationAccountsRequest" });
-    case 1:
-      return S.Array(__S(1504, __c94, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          accounts: __S(3233, __c202, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListFoundationAccountsResponse" });
-  }
-}
-function __c203(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/payment-methods", code: 200 })),
-      ).annotate({ identifier: "ListPaymentMethodsRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paymentMethods: __S(3249, __c203, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentMethodsResponse" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/payment-sessions/{paymentSessionId}/authorizations",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPaymentSessionAuthorizationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          authorizations: __S(2656, __c166, 0),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentSessionAuthorizationsResponse" });
-  }
-}
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/payment-sessions/{paymentSessionId}/captures",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPaymentSessionCapturesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          captures: __S(2672, __c167, 0),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentSessionCapturesResponse" });
-  }
-}
-function __c206(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/payment-sessions/{paymentSessionId}/refunds",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPaymentSessionRefundsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          refunds: __S(2688, __c168, 0),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentSessionRefundsResponse" });
-  }
-}
-function __c207(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/payment-sessions", code: 200 })),
-      ).annotate({ identifier: "ListPaymentSessionsRequest" });
-    case 1:
-      return S.Array(__S(2709, __c169, 5));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessions: __S(3313, __c207, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentSessionsResponse" });
-  }
-}
-function __c208(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          paymentSessionId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/payment-sessions/{paymentSessionId}/voids",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListPaymentSessionVoidsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          voids: __S(2720, __c170, 0),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPaymentSessionVoidsResponse" });
-  }
-}
-function __c209(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          scope: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/policy-engine/policies", code: 200 })),
-      ).annotate({ identifier: "ListPoliciesRequest" });
-    case 1:
-      return S.Array(__S(1617, __c101, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          policies: __S(3345, __c209, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListPoliciesResponse" });
-  }
-}
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/v2/solana/accounts", code: 200 })),
-      ).annotate({ identifier: "ListSolanaAccountsRequest" });
-  }
-}
-function __c211(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          network: S.String.pipe(T.Label()),
-          address: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/solana/token-balances/{network}/{address}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListSolanaTokenBalancesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          symbol: S.optional(S.String),
-          name: S.optional(S.String),
-          mintAddress: S.String,
-        }),
-      ).annotate({ identifier: "SolanaToken" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          amount: __S(3056, __c191, 0),
-          token: __S(3377, __c211, 1),
-        }),
-      ).annotate({ identifier: "SolanaTokenBalance" });
-    case 3:
-      return S.Array(__S(3378, __c211, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          balances: __S(3379, __c211, 3),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListSolanaTokenBalancesResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

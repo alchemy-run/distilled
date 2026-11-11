@@ -82,9 +82,9 @@ export interface CancelDeploymentByUuidRequest {
   uuid: string;
 }
 export interface CancelDeploymentByUuidResponse {
-  message?: string;
-  deployment_uuid?: string;
-  status?: string;
+  message?: string | undefined;
+  deployment_uuid?: string | undefined;
+  status?: string | undefined;
 }
 export interface CheckServerRegistryLoginRequest {
   /** Server UUID */
@@ -93,7 +93,7 @@ export interface CheckServerRegistryLoginRequest {
   registry: string;
 }
 export interface CheckServerRegistryLoginResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface CloneApplicationByUuidRequest {
   /** UUID of the application. */
@@ -101,34 +101,34 @@ export interface CloneApplicationByUuidRequest {
   /** UUID of the destination to clone into. */
   destination_uuid: string;
   /** Optional name for the cloned application. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether to clone volume data. */
-  clone_volumes?: boolean;
+  clone_volumes?: boolean | undefined;
 }
 export interface CloneApplicationByUuidResponse {
-  uuid?: string;
-  message?: string;
+  uuid?: string | undefined;
+  message?: string | undefined;
 }
 export interface CloneDatabaseByUuidRequest {
   /** UUID of the database. */
   uuid: string;
   destination_uuid: string;
-  name?: string | null;
-  clone_volumes?: boolean;
+  name?: string | null | undefined;
+  clone_volumes?: boolean | undefined;
 }
 export interface CloneDatabaseByUuidResponse {}
 export interface CloneServiceByUuidRequest {
   /** UUID of the service. */
   uuid: string;
   destination_uuid: string;
-  name?: string | null;
-  clone_volumes?: boolean;
+  name?: string | null | undefined;
+  clone_volumes?: boolean | undefined;
 }
 export interface CloneServiceByUuidResponse {}
 export interface ConfigureApplicationSecretManagerRequest {
   uuid: string;
   integration_token_uuid: string;
-  settings?: unknown;
+  settings?: unknown | undefined;
 }
 export interface ConfigureApplicationSecretManagerResponse {}
 export interface CreateCloudInitScriptRequest {
@@ -149,7 +149,7 @@ export interface CreateCloudTokenRequest {
 }
 export interface CreateCloudTokenResponse {
   /** The UUID of the token. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateDatabaseBackupRequest {
   /** UUID of the database. */
@@ -157,37 +157,37 @@ export interface CreateDatabaseBackupRequest {
   /** Backup frequency (cron expression or: every_minute, hourly, daily, weekly, monthly, yearly) */
   frequency: string;
   /** Whether the backup is enabled */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether to save backups to S3 */
-  save_s3?: boolean;
+  save_s3?: boolean | undefined;
   /** S3 storage UUID (required if save_s3 is true) */
-  s3_storage_uuid?: string;
+  s3_storage_uuid?: string | undefined;
   /** Comma separated list of databases to backup */
-  databases_to_backup?: string;
+  databases_to_backup?: string | undefined;
   /** Whether to dump all databases */
-  dump_all?: boolean;
+  dump_all?: boolean | undefined;
   /** Whether to trigger backup immediately after creation */
-  backup_now?: boolean;
+  backup_now?: boolean | undefined;
   /** Number of backups to retain locally */
-  database_backup_retention_amount_locally?: number;
+  database_backup_retention_amount_locally?: number | undefined;
   /** Number of days to retain backups locally */
-  database_backup_retention_days_locally?: number;
+  database_backup_retention_days_locally?: number | undefined;
   /** Max storage (GB) for local backups */
-  database_backup_retention_max_storage_locally?: number;
+  database_backup_retention_max_storage_locally?: number | undefined;
   /** Number of backups to retain in S3 */
-  database_backup_retention_amount_s3?: number;
+  database_backup_retention_amount_s3?: number | undefined;
   /** Number of days to retain backups in S3 */
-  database_backup_retention_days_s3?: number;
+  database_backup_retention_days_s3?: number | undefined;
   /** Max storage (GB) for S3 backups */
-  database_backup_retention_max_storage_s3?: number;
+  database_backup_retention_max_storage_s3?: number | undefined;
   /** Backup job timeout in seconds (min: 60, max: 36000) */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Alert after this many days without an execution; 0 disables alerts */
-  missing_backup_notification_days?: number;
+  missing_backup_notification_days?: number | undefined;
 }
 export interface CreateDatabaseBackupResponse {
-  uuid?: string;
-  message?: string;
+  uuid?: string | undefined;
+  message?: string | undefined;
 }
 /** Tags to assign to the database. */
 export type CreateDatabaseClickhouseRequestTagsList = Array<string>;
@@ -201,41 +201,41 @@ export interface CreateDatabaseClickhouseRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** Clickhouse admin user */
-  clickhouse_admin_user?: string;
+  clickhouse_admin_user?: string | undefined;
   /** Clickhouse admin password */
-  clickhouse_admin_password?: string | Redacted.Redacted<string>;
+  clickhouse_admin_password?: string | Redacted.Redacted<string> | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseClickhouseRequestTagsList;
+  tags?: CreateDatabaseClickhouseRequestTagsList | undefined;
 }
 export interface CreateDatabaseClickhouseResponse {}
 /** Tags to assign to the database. */
@@ -250,83 +250,83 @@ export interface CreateDatabaseDragonflyRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** DragonFly password */
-  dragonfly_password?: string | Redacted.Redacted<string>;
+  dragonfly_password?: string | Redacted.Redacted<string> | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseDragonflyRequestTagsList;
+  tags?: CreateDatabaseDragonflyRequestTagsList | undefined;
 }
 export interface CreateDatabaseDragonflyResponse {}
 export type DatabaseImportRequestCase0Source = "upload";
 export interface DatabaseImportRequestCase0 {
   source: DatabaseImportRequestCase0Source;
   upload_id: string;
-  dump_all?: boolean;
+  dump_all?: boolean | undefined;
   /** Drop matching PostgreSQL objects before restoring a single-database archive. */
-  replace_existing?: boolean;
+  replace_existing?: boolean | undefined;
   /** Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist. */
-  keep_owners?: boolean;
+  keep_owners?: boolean | undefined;
   /** MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords. */
-  restore_mysql_users?: boolean;
+  restore_mysql_users?: boolean | undefined;
   /** SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file. */
-  sqlite_database?: string;
+  sqlite_database?: string | undefined;
 }
 export type DatabaseImportRequestCase1Source = "s3";
 export interface DatabaseImportRequestCase1 {
   source: DatabaseImportRequestCase1Source;
   s3_storage_uuid: string;
   path: string;
-  dump_all?: boolean;
+  dump_all?: boolean | undefined;
   /** Drop matching PostgreSQL objects before restoring a single-database archive. */
-  replace_existing?: boolean;
+  replace_existing?: boolean | undefined;
   /** Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist. */
-  keep_owners?: boolean;
+  keep_owners?: boolean | undefined;
   /** MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords. */
-  restore_mysql_users?: boolean;
+  restore_mysql_users?: boolean | undefined;
   /** SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file. */
-  sqlite_database?: string;
+  sqlite_database?: string | undefined;
 }
 export type DatabaseImportRequestCase2Source = "server";
 export interface DatabaseImportRequestCase2 {
   source: DatabaseImportRequestCase2Source;
   path: string;
-  dump_all?: boolean;
+  dump_all?: boolean | undefined;
   /** Drop matching PostgreSQL objects before restoring a single-database archive. */
-  replace_existing?: boolean;
+  replace_existing?: boolean | undefined;
   /** Restore object owners and privileges from a single-database PostgreSQL archive. By default they are skipped, because the roles of another server usually do not exist. */
-  keep_owners?: boolean;
+  keep_owners?: boolean | undefined;
   /** MySQL and MariaDB backups containing all databases: also restore the mysql system database (users, passwords, and privileges). By default the system databases are skipped, so the database keeps its own users and passwords. */
-  restore_mysql_users?: boolean;
+  restore_mysql_users?: boolean | undefined;
   /** SQLite: the database file to restore into. Must be one of the database files. Defaults to the file named in the backup file name, else the first file. */
-  sqlite_database?: string;
+  sqlite_database?: string | undefined;
 }
 export type DatabaseImportRequest =
   | DatabaseImportRequestCase0
@@ -350,41 +350,41 @@ export interface CreateDatabaseKeydbRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** KeyDB password */
-  keydb_password?: string | Redacted.Redacted<string>;
+  keydb_password?: string | Redacted.Redacted<string> | undefined;
   /** KeyDB conf */
-  keydb_conf?: string;
+  keydb_conf?: string | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseKeydbRequestTagsList;
+  tags?: CreateDatabaseKeydbRequestTagsList | undefined;
 }
 export interface CreateDatabaseKeydbResponse {}
 /** Tags to assign to the database. */
@@ -399,47 +399,47 @@ export interface CreateDatabaseMariadbRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** MariaDB conf */
-  mariadb_conf?: string;
+  mariadb_conf?: string | undefined;
   /** MariaDB root password */
-  mariadb_root_password?: string | Redacted.Redacted<string>;
+  mariadb_root_password?: string | Redacted.Redacted<string> | undefined;
   /** MariaDB user */
-  mariadb_user?: string;
+  mariadb_user?: string | undefined;
   /** MariaDB password */
-  mariadb_password?: string | Redacted.Redacted<string>;
+  mariadb_password?: string | Redacted.Redacted<string> | undefined;
   /** MariaDB database */
-  mariadb_database?: string;
+  mariadb_database?: string | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseMariadbRequestTagsList;
+  tags?: CreateDatabaseMariadbRequestTagsList | undefined;
 }
 export interface CreateDatabaseMariadbResponse {}
 /** Tags to assign to the database. */
@@ -454,41 +454,41 @@ export interface CreateDatabaseMongodbRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** MongoDB conf */
-  mongo_conf?: string;
+  mongo_conf?: string | undefined;
   /** MongoDB initdb root username */
-  mongo_initdb_root_username?: string;
+  mongo_initdb_root_username?: string | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseMongodbRequestTagsList;
+  tags?: CreateDatabaseMongodbRequestTagsList | undefined;
 }
 export interface CreateDatabaseMongodbResponse {}
 /** Tags to assign to the database. */
@@ -503,47 +503,47 @@ export interface CreateDatabaseMysqlRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** MySQL root password */
-  mysql_root_password?: string | Redacted.Redacted<string>;
+  mysql_root_password?: string | Redacted.Redacted<string> | undefined;
   /** MySQL password */
-  mysql_password?: string | Redacted.Redacted<string>;
+  mysql_password?: string | Redacted.Redacted<string> | undefined;
   /** MySQL user */
-  mysql_user?: string;
+  mysql_user?: string | undefined;
   /** MySQL database */
-  mysql_database?: string;
+  mysql_database?: string | undefined;
   /** MySQL conf */
-  mysql_conf?: string;
+  mysql_conf?: string | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseMysqlRequestTagsList;
+  tags?: CreateDatabaseMysqlRequestTagsList | undefined;
 }
 export interface CreateDatabaseMysqlResponse {}
 /** Tags to assign to the database. */
@@ -558,49 +558,49 @@ export interface CreateDatabasePostgresqlRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** PostgreSQL user */
-  postgres_user?: string;
+  postgres_user?: string | undefined;
   /** PostgreSQL password */
-  postgres_password?: string | Redacted.Redacted<string>;
+  postgres_password?: string | Redacted.Redacted<string> | undefined;
   /** PostgreSQL database */
-  postgres_db?: string;
+  postgres_db?: string | undefined;
   /** PostgreSQL initdb args */
-  postgres_initdb_args?: string;
+  postgres_initdb_args?: string | undefined;
   /** PostgreSQL host auth method */
-  postgres_host_auth_method?: string;
+  postgres_host_auth_method?: string | undefined;
   /** PostgreSQL conf */
-  postgres_conf?: string;
+  postgres_conf?: string | undefined;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabasePostgresqlRequestTagsList;
+  tags?: CreateDatabasePostgresqlRequestTagsList | undefined;
 }
 export interface CreateDatabasePostgresqlResponse {}
 /** Tags to assign to the database. */
@@ -615,41 +615,41 @@ export interface CreateDatabaseRedisRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** Redis password */
-  redis_password?: string | Redacted.Redacted<string>;
+  redis_password?: string | Redacted.Redacted<string> | undefined;
   /** Redis conf */
-  redis_conf?: string;
+  redis_conf?: string | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseRedisRequestTagsList;
+  tags?: CreateDatabaseRedisRequestTagsList | undefined;
 }
 export interface CreateDatabaseRedisResponse {}
 /** Tags to assign to the database. */
@@ -664,33 +664,33 @@ export interface CreateDatabaseSqliteRequest {
   /** UUID of the environment. You need to provide at least one of environment_name or environment_uuid. */
   environment_uuid: string;
   /** UUID of the destination if the server has multiple destinations */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** Comma-separated SQLite database file names */
-  sqlite_databases?: string;
+  sqlite_databases?: string | undefined;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Instant deploy the database */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Tags to assign to the database. */
-  tags?: CreateDatabaseSqliteRequestTagsList;
+  tags?: CreateDatabaseSqliteRequestTagsList | undefined;
 }
 export interface CreateDatabaseSqliteResponse {}
 export interface CreateDigitaloceanServerRequest {}
@@ -715,164 +715,166 @@ export interface CreateDockerfileApplicationRequest {
   /** The Dockerfile content. */
   dockerfile: string;
   /** The build pack type. */
-  build_pack?: CreateDockerfileApplicationRequestBuildPack | (string & {});
+  build_pack?: CreateDockerfileApplicationRequestBuildPack | (string & {}) | undefined;
   /** The ports to expose. */
-  ports_exposes?: string;
+  ports_exposes?: string | undefined;
   /** The destination UUID. */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application description. */
-  description?: string;
+  description?: string | undefined;
   /** The application URLs in a comma-separated list. */
-  domains?: string;
+  domains?: string | undefined;
   /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
-  noindex_domains?: CreateDockerfileApplicationRequestNoindexDomainsList;
+  noindex_domains?: CreateDockerfileApplicationRequestNoindexDomainsList | undefined;
   /** The docker registry image name. */
-  docker_registry_image_name?: string;
+  docker_registry_image_name?: string | undefined;
   /** The docker registry image tag. */
-  docker_registry_image_tag?: string;
+  docker_registry_image_tag?: string | undefined;
   /** The ports mappings. */
-  ports_mappings?: string;
+  ports_mappings?: string | undefined;
   /** The base directory for all commands. */
-  base_directory?: string;
+  base_directory?: string | undefined;
   /** Health check enabled. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Health check path. */
-  health_check_path?: string;
+  health_check_path?: string | undefined;
   /** Health check port. */
-  health_check_port?: string | null;
+  health_check_port?: string | null | undefined;
   /** Health check host. */
-  health_check_host?: string | null;
+  health_check_host?: string | null | undefined;
   /** Health check method. */
-  health_check_method?: string;
+  health_check_method?: string | undefined;
   /** Health check return code. */
-  health_check_return_code?: number;
+  health_check_return_code?: number | undefined;
   /** Health check scheme. */
-  health_check_scheme?: string;
+  health_check_scheme?: string | undefined;
   /** Health check response text. */
-  health_check_response_text?: string | null;
+  health_check_response_text?: string | null | undefined;
   /** Health check interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Health check timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Health check retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Health check start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
   /** Memory limit. */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit. */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness. */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation. */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit. */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set. */
-  limits_cpuset?: string | null;
+  limits_cpuset?: string | null | undefined;
   /** CPU shares. */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Custom labels. */
-  custom_labels?: string;
+  custom_labels?: string | undefined;
   /** Custom docker run options. */
-  custom_docker_run_options?: string;
+  custom_docker_run_options?: string | undefined;
   /** Post deployment command. */
-  post_deployment_command?: string;
+  post_deployment_command?: string | undefined;
   /** Post deployment command container. */
-  post_deployment_command_container?: string;
+  post_deployment_command_container?: string | undefined;
   /** Pre deployment command. */
-  pre_deployment_command?: string;
+  pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
-  pre_deployment_command_container?: string;
+  pre_deployment_command_container?: string | undefined;
   /** Manual webhook secret for Github. */
-  manual_webhook_secret_github?: string;
+  manual_webhook_secret_github?: string | undefined;
   /** Manual webhook secret for Gitlab. */
-  manual_webhook_secret_gitlab?: string;
+  manual_webhook_secret_gitlab?: string | undefined;
   /** Manual webhook secret for Bitbucket. */
-  manual_webhook_secret_bitbucket?: string;
+  manual_webhook_secret_bitbucket?: string | undefined;
   /** Manual webhook secret for Gitea. */
-  manual_webhook_secret_gitea?: string;
+  manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
-  redirect?: CreateDockerfileApplicationRequestRedirect | (string & {}) | null;
+  redirect?: CreateDockerfileApplicationRequestRedirect | (string & {}) | null | undefined;
   /** The flag to indicate if the application should be deployed instantly. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** The flag to indicate if HTTPS is forced. Defaults to true. */
-  is_force_https_enabled?: boolean;
+  is_force_https_enabled?: boolean | undefined;
   /** Enable preview deployments for pull requests. */
-  is_preview_deployments_enabled?: boolean;
+  is_preview_deployments_enabled?: boolean | undefined;
   /** Use build server. */
-  use_build_server?: boolean | null;
+  use_build_server?: boolean | null | undefined;
   /** Use Docker Build Secrets for build-time environment variables. */
-  use_build_secrets?: boolean;
+  use_build_secrets?: boolean | undefined;
   /** Clone Git submodules. */
-  is_git_submodules_enabled?: boolean;
+  is_git_submodules_enabled?: boolean | undefined;
   /** Enable Git LFS. */
-  is_git_lfs_enabled?: boolean;
+  is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
-  is_git_shallow_clone_enabled?: boolean;
+  is_git_shallow_clone_enabled?: boolean | undefined;
   /** Disable the build cache. */
-  disable_build_cache?: boolean;
+  disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
-  inject_build_args_to_dockerfile?: boolean;
+  inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
-  include_source_commit_in_build?: boolean;
+  include_source_commit_in_build?: boolean | undefined;
   /** Sort environment variables. */
-  is_env_sorting_enabled?: boolean;
+  is_env_sorting_enabled?: boolean | undefined;
   /** Make pull request deployments public. */
-  is_pr_deployments_public_enabled?: boolean;
+  is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
-  stop_grace_period?: number | null;
+  stop_grace_period?: number | null | undefined;
   /** Number of Docker images to retain. */
-  docker_images_to_keep?: number;
+  docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
-  is_gzip_enabled?: boolean;
+  is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
-  is_stripprefix_enabled?: boolean;
+  is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
-  is_raw_compose_deployment_enabled?: boolean;
+  is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
-  is_log_drain_enabled?: boolean;
+  is_log_drain_enabled?: boolean | undefined;
   /** Enable GPU support. */
-  is_gpu_enabled?: boolean;
+  is_gpu_enabled?: boolean | undefined;
   /** GPU driver name. */
-  gpu_driver?: string | null;
+  gpu_driver?: string | null | undefined;
   /** Number of GPUs to allocate. */
-  gpu_count?: string | null;
+  gpu_count?: string | null | undefined;
   /** Comma-separated GPU device IDs. */
-  gpu_device_ids?: string | null;
+  gpu_device_ids?: string | null | undefined;
   /** Additional GPU options. */
-  gpu_options?: string | null;
+  gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
-  is_consistent_container_name_enabled?: boolean;
+  is_consistent_container_name_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
-  custom_internal_name?: string | null;
+  custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
-  custom_container_name_prefix?: string | null;
+  custom_container_name_prefix?: string | null | undefined;
   /** Preview URL template. */
-  preview_url_template?: string;
+  preview_url_template?: string | undefined;
   /** Maximum container restart count before stopping. */
-  max_restart_count?: number;
+  max_restart_count?: number | undefined;
   /** HTTP Basic Authentication enabled. */
-  is_http_basic_auth_enabled?: boolean;
+  is_http_basic_auth_enabled?: boolean | undefined;
   /** Username for HTTP Basic Authentication */
-  http_basic_auth_username?: string | null;
+  http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
-  http_basic_auth_password?: string | Redacted.Redacted<string> | null;
+  http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
   /** The flag to connect the service to the predefined Docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
-  force_domain_override?: boolean;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
-  autogenerate_domain?: boolean;
+  force_domain_override?: boolean | undefined;
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
+  autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** Tags to assign to the application. */
-  tags?: CreateDockerfileApplicationRequestTagsList;
+  tags?: CreateDockerfileApplicationRequestTagsList | undefined;
 }
 export interface CreateDockerfileApplicationResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
 export type CreateDockerimageApplicationRequestNoindexDomainsList = Array<string>;
@@ -892,223 +894,225 @@ export interface CreateDockerimageApplicationRequest {
   /** The docker registry image name. */
   docker_registry_image_name: string;
   /** The docker registry image tag. */
-  docker_registry_image_tag?: string;
+  docker_registry_image_tag?: string | undefined;
   /** The ports to expose. */
-  ports_exposes?: string;
+  ports_exposes?: string | undefined;
   /** The destination UUID. */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application description. */
-  description?: string;
+  description?: string | undefined;
   /** The application URLs in a comma-separated list. */
-  domains?: string;
+  domains?: string | undefined;
   /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
-  noindex_domains?: CreateDockerimageApplicationRequestNoindexDomainsList;
+  noindex_domains?: CreateDockerimageApplicationRequestNoindexDomainsList | undefined;
   /** The ports mappings. */
-  ports_mappings?: string;
+  ports_mappings?: string | undefined;
   /** Health check enabled. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Health check path. */
-  health_check_path?: string;
+  health_check_path?: string | undefined;
   /** Health check port. */
-  health_check_port?: string | null;
+  health_check_port?: string | null | undefined;
   /** Health check host. */
-  health_check_host?: string | null;
+  health_check_host?: string | null | undefined;
   /** Health check method. */
-  health_check_method?: string;
+  health_check_method?: string | undefined;
   /** Health check return code. */
-  health_check_return_code?: number;
+  health_check_return_code?: number | undefined;
   /** Health check scheme. */
-  health_check_scheme?: string;
+  health_check_scheme?: string | undefined;
   /** Health check response text. */
-  health_check_response_text?: string | null;
+  health_check_response_text?: string | null | undefined;
   /** Health check interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Health check timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Health check retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Health check start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
   /** Memory limit. */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit. */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness. */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation. */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit. */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set. */
-  limits_cpuset?: string | null;
+  limits_cpuset?: string | null | undefined;
   /** CPU shares. */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Custom labels. */
-  custom_labels?: string;
+  custom_labels?: string | undefined;
   /** Custom docker run options. */
-  custom_docker_run_options?: string;
+  custom_docker_run_options?: string | undefined;
   /** Post deployment command. */
-  post_deployment_command?: string;
+  post_deployment_command?: string | undefined;
   /** Post deployment command container. */
-  post_deployment_command_container?: string;
+  post_deployment_command_container?: string | undefined;
   /** Pre deployment command. */
-  pre_deployment_command?: string;
+  pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
-  pre_deployment_command_container?: string;
+  pre_deployment_command_container?: string | undefined;
   /** Manual webhook secret for Github. */
-  manual_webhook_secret_github?: string;
+  manual_webhook_secret_github?: string | undefined;
   /** Manual webhook secret for Gitlab. */
-  manual_webhook_secret_gitlab?: string;
+  manual_webhook_secret_gitlab?: string | undefined;
   /** Manual webhook secret for Bitbucket. */
-  manual_webhook_secret_bitbucket?: string;
+  manual_webhook_secret_bitbucket?: string | undefined;
   /** Manual webhook secret for Gitea. */
-  manual_webhook_secret_gitea?: string;
+  manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
-  redirect?: CreateDockerimageApplicationRequestRedirect | (string & {}) | null;
+  redirect?: CreateDockerimageApplicationRequestRedirect | (string & {}) | null | undefined;
   /** The flag to indicate if the application should be deployed instantly. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** The flag to indicate if HTTPS is forced. Defaults to true. */
-  is_force_https_enabled?: boolean;
+  is_force_https_enabled?: boolean | undefined;
   /** Enable preview deployments for pull requests. */
-  is_preview_deployments_enabled?: boolean;
+  is_preview_deployments_enabled?: boolean | undefined;
   /** Use build server. */
-  use_build_server?: boolean | null;
+  use_build_server?: boolean | null | undefined;
   /** Use Docker Build Secrets for build-time environment variables. */
-  use_build_secrets?: boolean;
+  use_build_secrets?: boolean | undefined;
   /** Clone Git submodules. */
-  is_git_submodules_enabled?: boolean;
+  is_git_submodules_enabled?: boolean | undefined;
   /** Enable Git LFS. */
-  is_git_lfs_enabled?: boolean;
+  is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
-  is_git_shallow_clone_enabled?: boolean;
+  is_git_shallow_clone_enabled?: boolean | undefined;
   /** Disable the build cache. */
-  disable_build_cache?: boolean;
+  disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
-  inject_build_args_to_dockerfile?: boolean;
+  inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
-  include_source_commit_in_build?: boolean;
+  include_source_commit_in_build?: boolean | undefined;
   /** Sort environment variables. */
-  is_env_sorting_enabled?: boolean;
+  is_env_sorting_enabled?: boolean | undefined;
   /** Make pull request deployments public. */
-  is_pr_deployments_public_enabled?: boolean;
+  is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
-  stop_grace_period?: number | null;
+  stop_grace_period?: number | null | undefined;
   /** Number of Docker images to retain. */
-  docker_images_to_keep?: number;
+  docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
-  is_gzip_enabled?: boolean;
+  is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
-  is_stripprefix_enabled?: boolean;
+  is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
-  is_raw_compose_deployment_enabled?: boolean;
+  is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
-  is_log_drain_enabled?: boolean;
+  is_log_drain_enabled?: boolean | undefined;
   /** Enable GPU support. */
-  is_gpu_enabled?: boolean;
+  is_gpu_enabled?: boolean | undefined;
   /** GPU driver name. */
-  gpu_driver?: string | null;
+  gpu_driver?: string | null | undefined;
   /** Number of GPUs to allocate. */
-  gpu_count?: string | null;
+  gpu_count?: string | null | undefined;
   /** Comma-separated GPU device IDs. */
-  gpu_device_ids?: string | null;
+  gpu_device_ids?: string | null | undefined;
   /** Additional GPU options. */
-  gpu_options?: string | null;
+  gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
-  is_consistent_container_name_enabled?: boolean;
+  is_consistent_container_name_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
-  custom_internal_name?: string | null;
+  custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
-  custom_container_name_prefix?: string | null;
+  custom_container_name_prefix?: string | null | undefined;
   /** Preview URL template. */
-  preview_url_template?: string;
+  preview_url_template?: string | undefined;
   /** Maximum container restart count before stopping. */
-  max_restart_count?: number;
+  max_restart_count?: number | undefined;
   /** HTTP Basic Authentication enabled. */
-  is_http_basic_auth_enabled?: boolean;
+  is_http_basic_auth_enabled?: boolean | undefined;
   /** Username for HTTP Basic Authentication */
-  http_basic_auth_username?: string | null;
+  http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
-  http_basic_auth_password?: string | Redacted.Redacted<string> | null;
+  http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
   /** The flag to connect the service to the predefined Docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
-  force_domain_override?: boolean;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
-  autogenerate_domain?: boolean;
+  force_domain_override?: boolean | undefined;
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
+  autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** Tags to assign to the application. */
-  tags?: CreateDockerimageApplicationRequestTagsList;
+  tags?: CreateDockerimageApplicationRequestTagsList | undefined;
 }
 export interface CreateDockerimageApplicationResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateEnvByApplicationUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** The key of the environment variable. */
-  key?: string;
+  key?: string | undefined;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
   /** The flag to indicate if the environment variable is used in preview deployments. */
-  is_preview?: boolean;
+  is_preview?: boolean | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export interface CreateEnvByApplicationUuidResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateEnvByDatabaseUuidRequest {
   /** UUID of the database. */
   uuid: string;
   /** The key of the environment variable. */
-  key?: string;
+  key?: string | undefined;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export interface CreateEnvByDatabaseUuidResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateEnvByServiceUuidRequest {
   /** UUID of the service. */
   uuid: string;
   /** The key of the environment variable. */
-  key?: string;
+  key?: string | undefined;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
   /** The flag to indicate if the environment variable is used in preview deployments. */
-  is_preview?: boolean;
+  is_preview?: boolean | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export interface CreateEnvByServiceUuidResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateEnvironmentRequest {
   /** Project UUID */
   uuid: string;
   /** The name of the environment. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateEnvironmentResponse {
   /** The UUID of the environment. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateEnvironmentSharedEnvRequest {
   /** Project UUID */
@@ -1121,15 +1125,15 @@ export interface CreateGithubAppRequest {
   /** Name of the GitHub app. */
   name: string;
   /** Organization to associate the app with. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** API URL for the GitHub app (e.g., https://api.github.com). */
-  api_url?: string;
+  api_url?: string | undefined;
   /** HTML URL for the GitHub app (e.g., https://github.com). */
   html_url: string;
   /** Custom user for SSH access (default: git). */
-  custom_user?: string;
+  custom_user?: string | undefined;
   /** Custom port for SSH access (default: 22). */
-  custom_port?: number;
+  custom_port?: number | undefined;
   /** GitHub App ID from GitHub. */
   app_id: number;
   /** GitHub Installation ID. */
@@ -1139,27 +1143,27 @@ export interface CreateGithubAppRequest {
   /** GitHub OAuth App Client Secret. */
   client_secret: string | Redacted.Redacted<string>;
   /** Webhook secret for GitHub webhooks. */
-  webhook_secret?: string | Redacted.Redacted<string>;
+  webhook_secret?: string | Redacted.Redacted<string> | undefined;
   /** UUID of an existing private key for GitHub App authentication. */
   private_key_uuid: string;
   /** Is this app system-wide (cloud only). */
-  is_system_wide?: boolean;
+  is_system_wide?: boolean | undefined;
 }
 export interface CreateGithubAppResponse {
-  id?: number;
-  uuid?: string;
-  name?: string;
-  organization?: string | null;
-  api_url?: string;
-  html_url?: string;
-  custom_user?: string;
-  custom_port?: number;
-  app_id?: number;
-  installation_id?: number;
-  client_id?: string;
-  private_key_id?: number;
-  is_system_wide?: boolean;
-  team_id?: number;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  organization?: string | null | undefined;
+  api_url?: string | undefined;
+  html_url?: string | undefined;
+  custom_user?: string | undefined;
+  custom_port?: number | undefined;
+  app_id?: number | undefined;
+  installation_id?: number | undefined;
+  client_id?: string | undefined;
+  private_key_id?: number | undefined;
+  is_system_wide?: boolean | undefined;
+  team_id?: number | undefined;
 }
 export interface CreateGitlabAppRequest {
   /** Name of the GitLab app. */
@@ -1167,37 +1171,37 @@ export interface CreateGitlabAppRequest {
   /** GitLab instance URL (e.g., https://gitlab.com). */
   html_url: string;
   /** GitLab API URL (defaults to {html_url}/api/v4). */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Custom user for SSH access (default: git). */
-  custom_user?: string;
+  custom_user?: string | undefined;
   /** Custom port for SSH access (default: 22). */
-  custom_port?: number;
+  custom_port?: number | undefined;
   /** Optional comma-separated group names to filter repositories. */
-  group_name?: string | null;
+  group_name?: string | null | undefined;
   /** GitLab OAuth Application ID. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** GitLab OAuth Application Secret. */
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Webhook secret token (auto-generated when omitted). */
-  webhook_token?: string | null;
+  webhook_token?: string | null | undefined;
   /** OAuth redirect URI registered in GitLab. */
-  redirect_uri?: string | null;
+  redirect_uri?: string | null | undefined;
   /** Is this app system-wide (non-cloud instances only). */
-  is_system_wide?: boolean;
+  is_system_wide?: boolean | undefined;
 }
 export interface CreateGitlabAppResponse {
-  id?: number;
-  uuid?: string;
-  name?: string;
-  api_url?: string;
-  html_url?: string;
-  custom_user?: string;
-  custom_port?: number;
-  client_id?: string | null;
-  group_name?: string | null;
-  redirect_uri?: string | null;
-  is_system_wide?: boolean;
-  team_id?: number;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  api_url?: string | undefined;
+  html_url?: string | undefined;
+  custom_user?: string | undefined;
+  custom_port?: number | undefined;
+  client_id?: string | null | undefined;
+  group_name?: string | null | undefined;
+  redirect_uri?: string | null | undefined;
+  is_system_wide?: boolean | undefined;
+  team_id?: number | undefined;
 }
 /** Additional Hetzner SSH key IDs */
 export type CreateHetznerServerRequestHetznerSshKeyIdsList = Array<number>;
@@ -1207,9 +1211,9 @@ export type CreateHetznerServerRequestHetznerFirewallIdsList = Array<number>;
 export type CreateHetznerServerRequestHetznerNetworkIdsList = Array<number>;
 export interface CreateHetznerServerRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
-  cloud_provider_token_uuid?: string;
+  cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
-  cloud_provider_token_id?: string;
+  cloud_provider_token_id?: string | undefined;
   /** Hetzner location name */
   location: string;
   /** Hetzner server type name */
@@ -1217,33 +1221,33 @@ export interface CreateHetznerServerRequest {
   /** Hetzner image ID */
   image: number;
   /** Server name (auto-generated if not provided) */
-  name?: string;
+  name?: string | undefined;
   /** Private key UUID */
   private_key_uuid: string;
   /** Enable IPv4 (default: true) */
-  enable_ipv4?: boolean;
+  enable_ipv4?: boolean | undefined;
   /** Enable IPv6 (default: true) */
-  enable_ipv6?: boolean;
+  enable_ipv6?: boolean | undefined;
   /** Enable Hetzner server backups after creation (adds 20% to the monthly server fee) */
-  enable_backups?: boolean;
+  enable_backups?: boolean | undefined;
   /** Additional Hetzner SSH key IDs */
-  hetzner_ssh_key_ids?: CreateHetznerServerRequestHetznerSshKeyIdsList;
+  hetzner_ssh_key_ids?: CreateHetznerServerRequestHetznerSshKeyIdsList | undefined;
   /** Existing Hetzner firewall IDs to apply during server creation */
-  hetzner_firewall_ids?: CreateHetznerServerRequestHetznerFirewallIdsList;
+  hetzner_firewall_ids?: CreateHetznerServerRequestHetznerFirewallIdsList | undefined;
   /** Existing Hetzner network IDs to attach during server creation */
-  hetzner_network_ids?: CreateHetznerServerRequestHetznerNetworkIdsList;
+  hetzner_network_ids?: CreateHetznerServerRequestHetznerNetworkIdsList | undefined;
   /** Cloud-init YAML script (optional) */
-  cloud_init_script?: string;
+  cloud_init_script?: string | undefined;
   /** Validate server immediately after creation */
-  instant_validate?: boolean;
+  instant_validate?: boolean | undefined;
 }
 export interface CreateHetznerServerResponse {
   /** The UUID of the server. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The Hetzner server ID. */
-  hetzner_server_id?: number;
+  hetzner_server_id?: number | undefined;
   /** The server IP address. */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** Git provider that hosts the pull request. Sets the ref Coolify fetches (pull/{id}/head or merge-requests/{id}/head). */
 export type CreatePreviewDeploymentByApplicationUuidRequestGitType =
@@ -1255,43 +1259,47 @@ export interface CreatePreviewDeploymentByApplicationUuidRequest {
   /** UUID of the application. */
   uuid: string;
   pull_request_id: number;
-  pull_request_html_url?: string | null;
+  pull_request_html_url?: string | null | undefined;
   /** Git provider that hosts the pull request. Sets the ref Coolify fetches (pull/{id}/head or merge-requests/{id}/head). */
-  git_type?: CreatePreviewDeploymentByApplicationUuidRequestGitType | (string & {}) | null;
+  git_type?:
+    | CreatePreviewDeploymentByApplicationUuidRequestGitType
+    | (string & {})
+    | null
+    | undefined;
   /** Commit SHA to deploy. Required for Bitbucket. */
-  commit?: string | null;
+  commit?: string | null | undefined;
   /** Docker image tag. Docker Image applications only. */
-  docker_tag?: string | null;
+  docker_tag?: string | null | undefined;
   /** Rebuild without cache. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Queue a deployment. Set to false to only create the preview, for example to set its domains first. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
 }
 export interface ApplicationPreviewDockerComposeDomainsItem {
-  name?: string;
-  domain?: string | null;
-  redirect?: string | null;
+  name?: string | undefined;
+  domain?: string | null | undefined;
+  redirect?: string | null | undefined;
 }
 export type ApplicationPreviewDockerComposeDomainsList =
   Array<ApplicationPreviewDockerComposeDomainsItem>;
 export interface ApplicationPreview {
-  uuid?: string;
-  pull_request_id?: number;
-  pull_request_html_url?: string | null;
-  git_type?: string | null;
-  status?: string;
-  domains?: string | null;
-  docker_compose_domains?: ApplicationPreviewDockerComposeDomainsList | null;
-  domain_port_overrides?: unknown | null;
-  docker_registry_image_tag?: string | null;
-  last_online_at?: string | null;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  pull_request_id?: number | undefined;
+  pull_request_html_url?: string | null | undefined;
+  git_type?: string | null | undefined;
+  status?: string | undefined;
+  domains?: string | null | undefined;
+  docker_compose_domains?: ApplicationPreviewDockerComposeDomainsList | null | undefined;
+  domain_port_overrides?: unknown | null | undefined;
+  docker_registry_image_tag?: string | null | undefined;
+  last_online_at?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface ApplicationPreviewDeployment {
-  message?: string;
-  deployment_uuid?: string | null;
-  preview?: ApplicationPreview;
+  message?: string | undefined;
+  deployment_uuid?: string | null | undefined;
+  preview?: ApplicationPreview | undefined;
 }
 /** The build pack type. */
 export type CreatePrivateDeployKeyApplicationRequestBuildPack =
@@ -1313,14 +1321,15 @@ export type CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsItemRedi
   | "both";
 export interface CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsItem {
   /** The service name as defined in docker-compose. */
-  name?: string;
+  name?: string | undefined;
   /** Comma-separated list of URLs (e.g. "https://app.coolify.io,https://app2.coolify.io") */
-  domain?: string;
+  domain?: string | undefined;
   /** Per-service www/non-www redirect for this compose service. */
   redirect?:
     | CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsItemRedirect
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsList =
@@ -1343,198 +1352,202 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   /** The git branch. */
   git_branch: string;
   /** The ports to expose. */
-  ports_exposes?: string;
+  ports_exposes?: string | undefined;
   /** The destination UUID. */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** The build pack type. */
   build_pack: CreatePrivateDeployKeyApplicationRequestBuildPack | (string & {});
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application description. */
-  description?: string;
+  description?: string | undefined;
   /** The application URLs in a comma-separated list. */
-  domains?: string;
+  domains?: string | undefined;
   /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
-  noindex_domains?: CreatePrivateDeployKeyApplicationRequestNoindexDomainsList;
+  noindex_domains?: CreatePrivateDeployKeyApplicationRequestNoindexDomainsList | undefined;
   /** The git commit SHA. */
-  git_commit_sha?: string;
+  git_commit_sha?: string | undefined;
   /** The docker registry image name. */
-  docker_registry_image_name?: string;
+  docker_registry_image_name?: string | undefined;
   /** The docker registry image tag. */
-  docker_registry_image_tag?: string;
+  docker_registry_image_tag?: string | undefined;
   /** The flag to indicate if the application is static. */
-  is_static?: boolean;
+  is_static?: boolean | undefined;
   /** The flag to indicate if the application is a single-page application (SPA). Only relevant when is_static is true. */
-  is_spa?: boolean;
+  is_spa?: boolean | undefined;
   /** The flag to indicate if auto-deploy is enabled on git push. Defaults to true. */
-  is_auto_deploy_enabled?: boolean;
+  is_auto_deploy_enabled?: boolean | undefined;
   /** The flag to indicate if HTTPS is forced. Defaults to true. */
-  is_force_https_enabled?: boolean;
+  is_force_https_enabled?: boolean | undefined;
   /** Enable preview deployments for pull requests. */
-  is_preview_deployments_enabled?: boolean;
+  is_preview_deployments_enabled?: boolean | undefined;
   /** The static image. */
-  static_image?: CreatePrivateDeployKeyApplicationRequestStaticImage | (string & {});
+  static_image?: CreatePrivateDeployKeyApplicationRequestStaticImage | (string & {}) | undefined;
   /** The install command. */
-  install_command?: string;
+  install_command?: string | undefined;
   /** The build command. */
-  build_command?: string;
+  build_command?: string | undefined;
   /** The start command. */
-  start_command?: string;
+  start_command?: string | undefined;
   /** The ports mappings. */
-  ports_mappings?: string;
+  ports_mappings?: string | undefined;
   /** The base directory for all commands. */
-  base_directory?: string;
+  base_directory?: string | undefined;
   /** The publish directory. */
-  publish_directory?: string;
+  publish_directory?: string | undefined;
   /** Health check enabled. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Health check path. */
-  health_check_path?: string;
+  health_check_path?: string | undefined;
   /** Health check port. */
-  health_check_port?: string | null;
+  health_check_port?: string | null | undefined;
   /** Health check host. */
-  health_check_host?: string | null;
+  health_check_host?: string | null | undefined;
   /** Health check method. */
-  health_check_method?: string;
+  health_check_method?: string | undefined;
   /** Health check return code. */
-  health_check_return_code?: number;
+  health_check_return_code?: number | undefined;
   /** Health check scheme. */
-  health_check_scheme?: string;
+  health_check_scheme?: string | undefined;
   /** Health check response text. */
-  health_check_response_text?: string | null;
+  health_check_response_text?: string | null | undefined;
   /** Health check interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Health check timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Health check retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Health check start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
   /** Memory limit. */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit. */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness. */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation. */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit. */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set. */
-  limits_cpuset?: string | null;
+  limits_cpuset?: string | null | undefined;
   /** CPU shares. */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Custom labels. */
-  custom_labels?: string;
+  custom_labels?: string | undefined;
   /** Custom docker run options. */
-  custom_docker_run_options?: string;
+  custom_docker_run_options?: string | undefined;
   /** Post deployment command. */
-  post_deployment_command?: string;
+  post_deployment_command?: string | undefined;
   /** Post deployment command container. */
-  post_deployment_command_container?: string;
+  post_deployment_command_container?: string | undefined;
   /** Pre deployment command. */
-  pre_deployment_command?: string;
+  pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
-  pre_deployment_command_container?: string;
+  pre_deployment_command_container?: string | undefined;
   /** Manual webhook secret for Github. */
-  manual_webhook_secret_github?: string;
+  manual_webhook_secret_github?: string | undefined;
   /** Manual webhook secret for Gitlab. */
-  manual_webhook_secret_gitlab?: string;
+  manual_webhook_secret_gitlab?: string | undefined;
   /** Manual webhook secret for Bitbucket. */
-  manual_webhook_secret_bitbucket?: string;
+  manual_webhook_secret_bitbucket?: string | undefined;
   /** Manual webhook secret for Gitea. */
-  manual_webhook_secret_gitea?: string;
+  manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
-  redirect?: CreatePrivateDeployKeyApplicationRequestRedirect | (string & {}) | null;
+  redirect?: CreatePrivateDeployKeyApplicationRequestRedirect | (string & {}) | null | undefined;
   /** The flag to indicate if the application should be deployed instantly. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** The Dockerfile content. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** The Dockerfile location in the repository. */
-  dockerfile_location?: string;
+  dockerfile_location?: string | undefined;
   /** The Docker Compose location. */
-  docker_compose_location?: string;
+  docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
-  docker_compose_custom_start_command?: string;
+  docker_compose_custom_start_command?: string | undefined;
   /** The Docker Compose custom build command. */
-  docker_compose_custom_build_command?: string;
+  docker_compose_custom_build_command?: string | undefined;
   /** Array of URLs to be applied to containers of a dockercompose application. */
-  docker_compose_domains?: CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsList;
-  /** The watch paths. */
-  watch_paths?: string;
+  docker_compose_domains?:
+    | CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsList
+    | undefined;
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
+  watch_paths?: string | undefined;
   /** Use build server. */
-  use_build_server?: boolean | null;
+  use_build_server?: boolean | null | undefined;
   /** Use Docker Build Secrets for build-time environment variables. */
-  use_build_secrets?: boolean;
+  use_build_secrets?: boolean | undefined;
   /** Clone Git submodules. */
-  is_git_submodules_enabled?: boolean;
+  is_git_submodules_enabled?: boolean | undefined;
   /** Enable Git LFS. */
-  is_git_lfs_enabled?: boolean;
+  is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
-  is_git_shallow_clone_enabled?: boolean;
+  is_git_shallow_clone_enabled?: boolean | undefined;
   /** Disable the build cache. */
-  disable_build_cache?: boolean;
+  disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
-  inject_build_args_to_dockerfile?: boolean;
+  inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
-  include_source_commit_in_build?: boolean;
+  include_source_commit_in_build?: boolean | undefined;
   /** Sort environment variables. */
-  is_env_sorting_enabled?: boolean;
+  is_env_sorting_enabled?: boolean | undefined;
   /** Make pull request deployments public. */
-  is_pr_deployments_public_enabled?: boolean;
+  is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
-  stop_grace_period?: number | null;
+  stop_grace_period?: number | null | undefined;
   /** Number of Docker images to retain. */
-  docker_images_to_keep?: number;
+  docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
-  is_gzip_enabled?: boolean;
+  is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
-  is_stripprefix_enabled?: boolean;
+  is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
-  is_raw_compose_deployment_enabled?: boolean;
+  is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
-  is_log_drain_enabled?: boolean;
+  is_log_drain_enabled?: boolean | undefined;
   /** Enable GPU support. */
-  is_gpu_enabled?: boolean;
+  is_gpu_enabled?: boolean | undefined;
   /** GPU driver name. */
-  gpu_driver?: string | null;
+  gpu_driver?: string | null | undefined;
   /** Number of GPUs to allocate. */
-  gpu_count?: string | null;
+  gpu_count?: string | null | undefined;
   /** Comma-separated GPU device IDs. */
-  gpu_device_ids?: string | null;
+  gpu_device_ids?: string | null | undefined;
   /** Additional GPU options. */
-  gpu_options?: string | null;
+  gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
-  is_consistent_container_name_enabled?: boolean;
+  is_consistent_container_name_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
-  custom_internal_name?: string | null;
+  custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
-  custom_container_name_prefix?: string | null;
+  custom_container_name_prefix?: string | null | undefined;
   /** Preview URL template. */
-  preview_url_template?: string;
+  preview_url_template?: string | undefined;
   /** Maximum container restart count before stopping. */
-  max_restart_count?: number;
+  max_restart_count?: number | undefined;
   /** HTTP Basic Authentication enabled. */
-  is_http_basic_auth_enabled?: boolean;
+  is_http_basic_auth_enabled?: boolean | undefined;
   /** Username for HTTP Basic Authentication */
-  http_basic_auth_username?: string | null;
+  http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
-  http_basic_auth_password?: string | Redacted.Redacted<string> | null;
+  http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
   /** The flag to connect the service to the predefined Docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
-  force_domain_override?: boolean;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
-  autogenerate_domain?: boolean;
+  force_domain_override?: boolean | undefined;
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
+  autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** Tags to assign to the application. */
-  tags?: CreatePrivateDeployKeyApplicationRequestTagsList;
+  tags?: CreatePrivateDeployKeyApplicationRequestTagsList | undefined;
   /** Preserve repository during deployment. */
-  is_preserve_repository_enabled?: boolean;
+  is_preserve_repository_enabled?: boolean | undefined;
 }
 export interface CreatePrivateDeployKeyApplicationResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 /** The build pack type. */
 export type CreatePrivateGithubAppApplicationRequestBuildPack =
@@ -1556,14 +1569,15 @@ export type CreatePrivateGithubAppApplicationRequestDockerComposeDomainsItemRedi
   | "both";
 export interface CreatePrivateGithubAppApplicationRequestDockerComposeDomainsItem {
   /** The service name as defined in docker-compose. */
-  name?: string;
+  name?: string | undefined;
   /** Comma-separated list of URLs (e.g. "https://app.coolify.io,https://app2.coolify.io") */
-  domain?: string;
+  domain?: string | undefined;
   /** Per-service www/non-www redirect for this compose service. */
   redirect?:
     | CreatePrivateGithubAppApplicationRequestDockerComposeDomainsItemRedirect
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type CreatePrivateGithubAppApplicationRequestDockerComposeDomainsList =
@@ -1586,216 +1600,220 @@ export interface CreatePrivateGithubAppApplicationRequest {
   /** The git branch. */
   git_branch: string;
   /** The ports to expose. */
-  ports_exposes?: string;
+  ports_exposes?: string | undefined;
   /** The destination UUID. */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** The build pack type. */
   build_pack: CreatePrivateGithubAppApplicationRequestBuildPack | (string & {});
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application description. */
-  description?: string;
+  description?: string | undefined;
   /** The application URLs in a comma-separated list. */
-  domains?: string;
+  domains?: string | undefined;
   /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
-  noindex_domains?: CreatePrivateGithubAppApplicationRequestNoindexDomainsList;
+  noindex_domains?: CreatePrivateGithubAppApplicationRequestNoindexDomainsList | undefined;
   /** The git commit SHA. */
-  git_commit_sha?: string;
+  git_commit_sha?: string | undefined;
   /** The docker registry image name. */
-  docker_registry_image_name?: string;
+  docker_registry_image_name?: string | undefined;
   /** The docker registry image tag. */
-  docker_registry_image_tag?: string;
+  docker_registry_image_tag?: string | undefined;
   /** The flag to indicate if the application is static. */
-  is_static?: boolean;
+  is_static?: boolean | undefined;
   /** The flag to indicate if the application is a single-page application (SPA). Only relevant when is_static is true. */
-  is_spa?: boolean;
+  is_spa?: boolean | undefined;
   /** The flag to indicate if auto-deploy is enabled on git push. Defaults to true. */
-  is_auto_deploy_enabled?: boolean;
+  is_auto_deploy_enabled?: boolean | undefined;
   /** The flag to indicate if HTTPS is forced. Defaults to true. */
-  is_force_https_enabled?: boolean;
+  is_force_https_enabled?: boolean | undefined;
   /** Enable preview deployments for pull requests. */
-  is_preview_deployments_enabled?: boolean;
+  is_preview_deployments_enabled?: boolean | undefined;
   /** The static image. */
-  static_image?: CreatePrivateGithubAppApplicationRequestStaticImage | (string & {});
+  static_image?: CreatePrivateGithubAppApplicationRequestStaticImage | (string & {}) | undefined;
   /** The install command. */
-  install_command?: string;
+  install_command?: string | undefined;
   /** The build command. */
-  build_command?: string;
+  build_command?: string | undefined;
   /** The start command. */
-  start_command?: string;
+  start_command?: string | undefined;
   /** The ports mappings. */
-  ports_mappings?: string;
+  ports_mappings?: string | undefined;
   /** The base directory for all commands. */
-  base_directory?: string;
+  base_directory?: string | undefined;
   /** The publish directory. */
-  publish_directory?: string;
+  publish_directory?: string | undefined;
   /** Health check enabled. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Health check path. */
-  health_check_path?: string;
+  health_check_path?: string | undefined;
   /** Health check port. */
-  health_check_port?: string | null;
+  health_check_port?: string | null | undefined;
   /** Health check host. */
-  health_check_host?: string | null;
+  health_check_host?: string | null | undefined;
   /** Health check method. */
-  health_check_method?: string;
+  health_check_method?: string | undefined;
   /** Health check return code. */
-  health_check_return_code?: number;
+  health_check_return_code?: number | undefined;
   /** Health check scheme. */
-  health_check_scheme?: string;
+  health_check_scheme?: string | undefined;
   /** Health check response text. */
-  health_check_response_text?: string | null;
+  health_check_response_text?: string | null | undefined;
   /** Health check interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Health check timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Health check retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Health check start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
   /** Memory limit. */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit. */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness. */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation. */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit. */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set. */
-  limits_cpuset?: string | null;
+  limits_cpuset?: string | null | undefined;
   /** CPU shares. */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Custom labels. */
-  custom_labels?: string;
+  custom_labels?: string | undefined;
   /** Custom docker run options. */
-  custom_docker_run_options?: string;
+  custom_docker_run_options?: string | undefined;
   /** Post deployment command. */
-  post_deployment_command?: string;
+  post_deployment_command?: string | undefined;
   /** Post deployment command container. */
-  post_deployment_command_container?: string;
+  post_deployment_command_container?: string | undefined;
   /** Pre deployment command. */
-  pre_deployment_command?: string;
+  pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
-  pre_deployment_command_container?: string;
+  pre_deployment_command_container?: string | undefined;
   /** Manual webhook secret for Github. */
-  manual_webhook_secret_github?: string;
+  manual_webhook_secret_github?: string | undefined;
   /** Manual webhook secret for Gitlab. */
-  manual_webhook_secret_gitlab?: string;
+  manual_webhook_secret_gitlab?: string | undefined;
   /** Manual webhook secret for Bitbucket. */
-  manual_webhook_secret_bitbucket?: string;
+  manual_webhook_secret_bitbucket?: string | undefined;
   /** Manual webhook secret for Gitea. */
-  manual_webhook_secret_gitea?: string;
+  manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
-  redirect?: CreatePrivateGithubAppApplicationRequestRedirect | (string & {}) | null;
+  redirect?: CreatePrivateGithubAppApplicationRequestRedirect | (string & {}) | null | undefined;
   /** The flag to indicate if the application should be deployed instantly. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** The Dockerfile content. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** The Dockerfile location in the repository */
-  dockerfile_location?: string;
+  dockerfile_location?: string | undefined;
   /** The Docker Compose location. */
-  docker_compose_location?: string;
+  docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
-  docker_compose_custom_start_command?: string;
+  docker_compose_custom_start_command?: string | undefined;
   /** The Docker Compose custom build command. */
-  docker_compose_custom_build_command?: string;
+  docker_compose_custom_build_command?: string | undefined;
   /** Array of URLs to be applied to containers of a dockercompose application. */
-  docker_compose_domains?: CreatePrivateGithubAppApplicationRequestDockerComposeDomainsList;
-  /** The watch paths. */
-  watch_paths?: string;
+  docker_compose_domains?:
+    | CreatePrivateGithubAppApplicationRequestDockerComposeDomainsList
+    | undefined;
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
+  watch_paths?: string | undefined;
   /** Use build server. */
-  use_build_server?: boolean | null;
+  use_build_server?: boolean | null | undefined;
   /** Use Docker Build Secrets for build-time environment variables. */
-  use_build_secrets?: boolean;
+  use_build_secrets?: boolean | undefined;
   /** Clone Git submodules. */
-  is_git_submodules_enabled?: boolean;
+  is_git_submodules_enabled?: boolean | undefined;
   /** Enable Git LFS. */
-  is_git_lfs_enabled?: boolean;
+  is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
-  is_git_shallow_clone_enabled?: boolean;
+  is_git_shallow_clone_enabled?: boolean | undefined;
   /** Disable the build cache. */
-  disable_build_cache?: boolean;
+  disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
-  inject_build_args_to_dockerfile?: boolean;
+  inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
-  include_source_commit_in_build?: boolean;
+  include_source_commit_in_build?: boolean | undefined;
   /** Sort environment variables. */
-  is_env_sorting_enabled?: boolean;
+  is_env_sorting_enabled?: boolean | undefined;
   /** Make pull request deployments public. */
-  is_pr_deployments_public_enabled?: boolean;
+  is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
-  stop_grace_period?: number | null;
+  stop_grace_period?: number | null | undefined;
   /** Number of Docker images to retain. */
-  docker_images_to_keep?: number;
+  docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
-  is_gzip_enabled?: boolean;
+  is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
-  is_stripprefix_enabled?: boolean;
+  is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
-  is_raw_compose_deployment_enabled?: boolean;
+  is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
-  is_log_drain_enabled?: boolean;
+  is_log_drain_enabled?: boolean | undefined;
   /** Enable GPU support. */
-  is_gpu_enabled?: boolean;
+  is_gpu_enabled?: boolean | undefined;
   /** GPU driver name. */
-  gpu_driver?: string | null;
+  gpu_driver?: string | null | undefined;
   /** Number of GPUs to allocate. */
-  gpu_count?: string | null;
+  gpu_count?: string | null | undefined;
   /** Comma-separated GPU device IDs. */
-  gpu_device_ids?: string | null;
+  gpu_device_ids?: string | null | undefined;
   /** Additional GPU options. */
-  gpu_options?: string | null;
+  gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
-  is_consistent_container_name_enabled?: boolean;
+  is_consistent_container_name_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
-  custom_internal_name?: string | null;
+  custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
-  custom_container_name_prefix?: string | null;
+  custom_container_name_prefix?: string | null | undefined;
   /** Preview URL template. */
-  preview_url_template?: string;
+  preview_url_template?: string | undefined;
   /** Maximum container restart count before stopping. */
-  max_restart_count?: number;
+  max_restart_count?: number | undefined;
   /** HTTP Basic Authentication enabled. */
-  is_http_basic_auth_enabled?: boolean;
+  is_http_basic_auth_enabled?: boolean | undefined;
   /** Username for HTTP Basic Authentication */
-  http_basic_auth_username?: string | null;
+  http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
-  http_basic_auth_password?: string | Redacted.Redacted<string> | null;
+  http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
   /** The flag to connect the service to the predefined Docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
-  force_domain_override?: boolean;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
-  autogenerate_domain?: boolean;
+  force_domain_override?: boolean | undefined;
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
+  autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** Tags to assign to the application. */
-  tags?: CreatePrivateGithubAppApplicationRequestTagsList;
+  tags?: CreatePrivateGithubAppApplicationRequestTagsList | undefined;
   /** Preserve repository during deployment. */
-  is_preserve_repository_enabled?: boolean;
+  is_preserve_repository_enabled?: boolean | undefined;
 }
 export interface CreatePrivateGithubAppApplicationResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreatePrivateKeyRequest {
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   private_key: string | Redacted.Redacted<string>;
 }
 export interface CreatePrivateKeyResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateProjectRequest {
   /** The name of the project. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the project. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectResponse {
   /** The UUID of the project. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateProjectSharedEnvRequest {
   /** Project UUID */
@@ -1822,11 +1840,15 @@ export type CreatePublicApplicationRequestDockerComposeDomainsItemRedirect =
   | "both";
 export interface CreatePublicApplicationRequestDockerComposeDomainsItem {
   /** The service name as defined in docker-compose. */
-  name?: string;
+  name?: string | undefined;
   /** Comma-separated list of URLs (e.g. "https://app.coolify.io,https://app2.coolify.io") */
-  domain?: string;
+  domain?: string | undefined;
   /** Per-service www/non-www redirect for this compose service. */
-  redirect?: CreatePublicApplicationRequestDockerComposeDomainsItemRedirect | (string & {}) | null;
+  redirect?:
+    | CreatePublicApplicationRequestDockerComposeDomainsItemRedirect
+    | (string & {})
+    | null
+    | undefined;
 }
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type CreatePublicApplicationRequestDockerComposeDomainsList =
@@ -1849,202 +1871,204 @@ export interface CreatePublicApplicationRequest {
   /** The build pack type. */
   build_pack: CreatePublicApplicationRequestBuildPack | (string & {});
   /** The ports to expose. */
-  ports_exposes?: string;
+  ports_exposes?: string | undefined;
   /** The destination UUID. */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application description. */
-  description?: string;
+  description?: string | undefined;
   /** The application URLs in a comma-separated list. */
-  domains?: string;
+  domains?: string | undefined;
   /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
-  noindex_domains?: CreatePublicApplicationRequestNoindexDomainsList;
+  noindex_domains?: CreatePublicApplicationRequestNoindexDomainsList | undefined;
   /** The git commit SHA. */
-  git_commit_sha?: string;
+  git_commit_sha?: string | undefined;
   /** The docker registry image name. */
-  docker_registry_image_name?: string;
+  docker_registry_image_name?: string | undefined;
   /** The docker registry image tag. */
-  docker_registry_image_tag?: string;
+  docker_registry_image_tag?: string | undefined;
   /** The flag to indicate if the application is static. */
-  is_static?: boolean;
+  is_static?: boolean | undefined;
   /** The flag to indicate if the application is a single-page application (SPA). Only relevant when is_static is true. */
-  is_spa?: boolean;
+  is_spa?: boolean | undefined;
   /** The flag to indicate if auto-deploy is enabled on git push. Defaults to true. */
-  is_auto_deploy_enabled?: boolean;
+  is_auto_deploy_enabled?: boolean | undefined;
   /** The flag to indicate if HTTPS is forced. Defaults to true. */
-  is_force_https_enabled?: boolean;
+  is_force_https_enabled?: boolean | undefined;
   /** Enable preview deployments for pull requests. */
-  is_preview_deployments_enabled?: boolean;
+  is_preview_deployments_enabled?: boolean | undefined;
   /** The static image. */
-  static_image?: CreatePublicApplicationRequestStaticImage | (string & {});
+  static_image?: CreatePublicApplicationRequestStaticImage | (string & {}) | undefined;
   /** The install command. */
-  install_command?: string;
+  install_command?: string | undefined;
   /** The build command. */
-  build_command?: string;
+  build_command?: string | undefined;
   /** The start command. */
-  start_command?: string;
+  start_command?: string | undefined;
   /** The ports mappings. */
-  ports_mappings?: string;
+  ports_mappings?: string | undefined;
   /** The base directory for all commands. */
-  base_directory?: string;
+  base_directory?: string | undefined;
   /** The publish directory. */
-  publish_directory?: string;
+  publish_directory?: string | undefined;
   /** Health check enabled. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Health check path. */
-  health_check_path?: string;
+  health_check_path?: string | undefined;
   /** Health check port. */
-  health_check_port?: string | null;
+  health_check_port?: string | null | undefined;
   /** Health check host. */
-  health_check_host?: string | null;
+  health_check_host?: string | null | undefined;
   /** Health check method. */
-  health_check_method?: string;
+  health_check_method?: string | undefined;
   /** Health check return code. */
-  health_check_return_code?: number;
+  health_check_return_code?: number | undefined;
   /** Health check scheme. */
-  health_check_scheme?: string;
+  health_check_scheme?: string | undefined;
   /** Health check response text. */
-  health_check_response_text?: string | null;
+  health_check_response_text?: string | null | undefined;
   /** Health check interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Health check timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Health check retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Health check start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
   /** Memory limit. */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit. */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness. */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation. */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit. */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set. */
-  limits_cpuset?: string | null;
+  limits_cpuset?: string | null | undefined;
   /** CPU shares. */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Custom labels. */
-  custom_labels?: string;
+  custom_labels?: string | undefined;
   /** Custom docker run options. */
-  custom_docker_run_options?: string;
+  custom_docker_run_options?: string | undefined;
   /** Post deployment command. */
-  post_deployment_command?: string;
+  post_deployment_command?: string | undefined;
   /** Post deployment command container. */
-  post_deployment_command_container?: string;
+  post_deployment_command_container?: string | undefined;
   /** Pre deployment command. */
-  pre_deployment_command?: string;
+  pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
-  pre_deployment_command_container?: string;
+  pre_deployment_command_container?: string | undefined;
   /** Manual webhook secret for Github. */
-  manual_webhook_secret_github?: string;
+  manual_webhook_secret_github?: string | undefined;
   /** Manual webhook secret for Gitlab. */
-  manual_webhook_secret_gitlab?: string;
+  manual_webhook_secret_gitlab?: string | undefined;
   /** Manual webhook secret for Bitbucket. */
-  manual_webhook_secret_bitbucket?: string;
+  manual_webhook_secret_bitbucket?: string | undefined;
   /** Manual webhook secret for Gitea. */
-  manual_webhook_secret_gitea?: string;
+  manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
-  redirect?: CreatePublicApplicationRequestRedirect | (string & {}) | null;
+  redirect?: CreatePublicApplicationRequestRedirect | (string & {}) | null | undefined;
   /** The flag to indicate if the application should be deployed instantly. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** The Dockerfile content. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** The Dockerfile location in the repository. */
-  dockerfile_location?: string;
+  dockerfile_location?: string | undefined;
   /** The Docker Compose location. */
-  docker_compose_location?: string;
+  docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
-  docker_compose_custom_start_command?: string;
+  docker_compose_custom_start_command?: string | undefined;
   /** The Docker Compose custom build command. */
-  docker_compose_custom_build_command?: string;
+  docker_compose_custom_build_command?: string | undefined;
   /** Array of URLs to be applied to containers of a dockercompose application. */
-  docker_compose_domains?: CreatePublicApplicationRequestDockerComposeDomainsList;
-  /** The watch paths. */
-  watch_paths?: string;
+  docker_compose_domains?: CreatePublicApplicationRequestDockerComposeDomainsList | undefined;
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
+  watch_paths?: string | undefined;
   /** Use build server. */
-  use_build_server?: boolean | null;
+  use_build_server?: boolean | null | undefined;
   /** Use Docker Build Secrets for build-time environment variables. */
-  use_build_secrets?: boolean;
+  use_build_secrets?: boolean | undefined;
   /** Clone Git submodules. */
-  is_git_submodules_enabled?: boolean;
+  is_git_submodules_enabled?: boolean | undefined;
   /** Enable Git LFS. */
-  is_git_lfs_enabled?: boolean;
+  is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
-  is_git_shallow_clone_enabled?: boolean;
+  is_git_shallow_clone_enabled?: boolean | undefined;
   /** Disable the build cache. */
-  disable_build_cache?: boolean;
+  disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
-  inject_build_args_to_dockerfile?: boolean;
+  inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
-  include_source_commit_in_build?: boolean;
+  include_source_commit_in_build?: boolean | undefined;
   /** Sort environment variables. */
-  is_env_sorting_enabled?: boolean;
+  is_env_sorting_enabled?: boolean | undefined;
   /** Make pull request deployments public. */
-  is_pr_deployments_public_enabled?: boolean;
+  is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
-  stop_grace_period?: number | null;
+  stop_grace_period?: number | null | undefined;
   /** Number of Docker images to retain. */
-  docker_images_to_keep?: number;
+  docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
-  is_gzip_enabled?: boolean;
+  is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
-  is_stripprefix_enabled?: boolean;
+  is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
-  is_raw_compose_deployment_enabled?: boolean;
+  is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
-  is_log_drain_enabled?: boolean;
+  is_log_drain_enabled?: boolean | undefined;
   /** Enable GPU support. */
-  is_gpu_enabled?: boolean;
+  is_gpu_enabled?: boolean | undefined;
   /** GPU driver name. */
-  gpu_driver?: string | null;
+  gpu_driver?: string | null | undefined;
   /** Number of GPUs to allocate. */
-  gpu_count?: string | null;
+  gpu_count?: string | null | undefined;
   /** Comma-separated GPU device IDs. */
-  gpu_device_ids?: string | null;
+  gpu_device_ids?: string | null | undefined;
   /** Additional GPU options. */
-  gpu_options?: string | null;
+  gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
-  is_consistent_container_name_enabled?: boolean;
+  is_consistent_container_name_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
-  custom_internal_name?: string | null;
+  custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
-  custom_container_name_prefix?: string | null;
+  custom_container_name_prefix?: string | null | undefined;
   /** Preview URL template. */
-  preview_url_template?: string;
+  preview_url_template?: string | undefined;
   /** Maximum container restart count before stopping. */
-  max_restart_count?: number;
+  max_restart_count?: number | undefined;
   /** HTTP Basic Authentication enabled. */
-  is_http_basic_auth_enabled?: boolean;
+  is_http_basic_auth_enabled?: boolean | undefined;
   /** Username for HTTP Basic Authentication */
-  http_basic_auth_username?: string | null;
+  http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
-  http_basic_auth_password?: string | Redacted.Redacted<string> | null;
+  http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
   /** The flag to connect the service to the predefined Docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
-  force_domain_override?: boolean;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
-  autogenerate_domain?: boolean;
+  force_domain_override?: boolean | undefined;
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
+  autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** Tags to assign to the application. */
-  tags?: CreatePublicApplicationRequestTagsList;
+  tags?: CreatePublicApplicationRequestTagsList | undefined;
   /** Preserve repository during deployment. */
-  is_preserve_repository_enabled?: boolean;
+  is_preserve_repository_enabled?: boolean | undefined;
 }
 export interface CreatePublicApplicationResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateS3StorageRequest {
   /** A friendly name for the storage. */
   name: string;
   /** Optional description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** S3-compatible endpoint URL. */
   endpoint: string;
   /** S3 bucket name. */
@@ -2056,11 +2080,11 @@ export interface CreateS3StorageRequest {
   /** Secret key. */
   secret: string | Redacted.Redacted<string>;
   /** Whether the storage is marked usable. */
-  is_usable?: boolean;
+  is_usable?: boolean | undefined;
 }
 export interface CreateS3StorageResponse {
   /** The UUID of the S3 storage. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface CreateScheduledTaskByApplicationUuidRequest {
   /** UUID of the application. */
@@ -2072,34 +2096,34 @@ export interface CreateScheduledTaskByApplicationUuidRequest {
   /** The frequency of the scheduled task. */
   frequency: string;
   /** The container where the command should be executed. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
-  timeout?: number;
-  /** The flag to indicate if the scheduled task is enabled. */
-  enabled?: boolean;
+  timeout?: number | undefined;
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
+  enabled?: boolean | undefined;
 }
 /** Scheduled Task model */
 export interface ScheduledTask {
   /** The unique identifier of the scheduled task in the database. */
-  id?: number;
+  id?: number | undefined;
   /** The unique identifier of the scheduled task. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The flag to indicate if the scheduled task is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The name of the scheduled task. */
-  name?: string;
+  name?: string | undefined;
   /** The command to execute. */
-  command?: string;
+  command?: string | undefined;
   /** The frequency of the scheduled task. */
-  frequency?: string;
+  frequency?: string | undefined;
   /** The container where the command should be executed. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** The date and time when the scheduled task was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time when the scheduled task was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface CreateScheduledTaskByServiceUuidRequest {
   /** UUID of the service. */
@@ -2111,18 +2135,18 @@ export interface CreateScheduledTaskByServiceUuidRequest {
   /** The frequency of the scheduled task. */
   frequency: string;
   /** The container where the command should be executed. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
-  timeout?: number;
-  /** The flag to indicate if the scheduled task is enabled. */
-  enabled?: boolean;
+  timeout?: number | undefined;
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
+  enabled?: boolean | undefined;
 }
 export type CreateSecretManagerIntegrationTokenRequestProvider = "doppler" | "infisical" | "vault";
 export interface CreateSecretManagerIntegrationTokenRequest {
   provider: CreateSecretManagerIntegrationTokenRequestProvider | (string & {});
   name: string;
   token: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface CreateSecretManagerIntegrationTokenResponse {}
 /** Server role. */
@@ -2131,48 +2155,48 @@ export type CreateServerRequestServerRole = "deployment" | "build" | "both";
 export type CreateServerRequestProxyType = "traefik" | "caddy" | "none";
 export interface CreateServerRequest {
   /** The name of the server. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the server. */
-  description?: string;
+  description?: string | undefined;
   /** The IP of the server. */
-  ip?: string;
+  ip?: string | undefined;
   /** The port of the server. */
-  port?: number;
+  port?: number | undefined;
   /** The user of the server. */
-  user?: string;
+  user?: string | undefined;
   /** The UUID of the private key. */
-  private_key_uuid?: string;
+  private_key_uuid?: string | undefined;
   /** Server role. */
-  server_role?: CreateServerRequestServerRole | (string & {});
+  server_role?: CreateServerRequestServerRole | (string & {}) | undefined;
   /** Deprecated: use server_role instead. true sets server_role to build, false sets it to both. Must not conflict with server_role. */
-  is_build_server?: boolean;
+  is_build_server?: boolean | undefined;
   /** Instant validate. */
-  instant_validate?: boolean;
+  instant_validate?: boolean | undefined;
   /** The proxy type. */
-  proxy_type?: CreateServerRequestProxyType | (string & {});
+  proxy_type?: CreateServerRequestProxyType | (string & {}) | undefined;
 }
 export interface CreateServerResponse {
   /** The UUID of the server. */
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export type CreateServerDestinationRequestType = "standalone" | "swarm";
 export interface CreateServerDestinationRequest {
   /** Server UUID */
   server_uuid: string;
-  name?: string;
+  name?: string | undefined;
   network: string;
-  type?: CreateServerDestinationRequestType | (string & {});
+  type?: CreateServerDestinationRequestType | (string & {}) | undefined;
 }
 export type DestinationType = "standalone" | "swarm";
 /** A Docker network destination attached to a server. */
 export interface Destination {
-  uuid?: string;
-  name?: string;
-  network?: string;
-  type?: DestinationType;
-  server_uuid?: string;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  network?: string | undefined;
+  type?: DestinationType | undefined;
+  server_uuid?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface CreateServerSharedEnvRequest {
   /** Server UUID */
@@ -2181,9 +2205,9 @@ export interface CreateServerSharedEnvRequest {
 export interface CreateServerSharedEnvResponse {}
 export interface CreateServiceRequestUrlsItem {
   /** The service name as defined in docker-compose. */
-  name?: string;
+  name?: string | undefined;
   /** Comma-separated list of URLs (e.g. "https://app.coolify.io,https://app2.coolify.io"). */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of URLs to be applied to containers of a service. */
 export type CreateServiceRequestUrlsList = Array<CreateServiceRequestUrlsItem>;
@@ -2191,11 +2215,11 @@ export type CreateServiceRequestUrlsList = Array<CreateServiceRequestUrlsItem>;
 export type CreateServiceRequestTagsList = Array<string>;
 export interface CreateServiceRequest {
   /** The one-click service type (e.g. "actualbudget", "calibre-web", "gitea-with-mysql" ...) */
-  type?: string;
+  type?: string | undefined;
   /** Name of the service. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the service. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Project UUID. */
   project_uuid: string;
   /** Environment name. You need to provide at least one of environment_name or environment_uuid. */
@@ -2205,27 +2229,29 @@ export interface CreateServiceRequest {
   /** Server UUID. */
   server_uuid: string;
   /** Destination UUID. Required if server has multiple destinations. */
-  destination_uuid?: string;
+  destination_uuid?: string | undefined;
   /** Start the service immediately after creation. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** The base64 encoded Docker Compose content. */
-  docker_compose_raw?: string;
+  docker_compose_raw?: string | undefined;
+  /** Connect the service to the predefined docker network. */
+  connect_to_docker_network?: boolean | undefined;
   /** Array of URLs to be applied to containers of a service. */
-  urls?: CreateServiceRequestUrlsList;
+  urls?: CreateServiceRequestUrlsList | undefined;
   /** Force domain override even if conflicts are detected. */
-  force_domain_override?: boolean;
+  force_domain_override?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** Tags to assign to the service. */
-  tags?: CreateServiceRequestTagsList;
+  tags?: CreateServiceRequestTagsList | undefined;
 }
 /** Service domains. */
 export type CreateServiceResponseDomainsList = Array<string>;
 export interface CreateServiceResponse {
   /** Service UUID. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Service domains. */
-  domains?: CreateServiceResponseDomainsList;
+  domains?: CreateServiceResponseDomainsList | undefined;
 }
 export interface CreateServiceDatabaseImportRequest {
   /** Service UUID. */
@@ -2243,15 +2269,15 @@ export interface CreateStorageByApplicationUuidRequest {
   /** The type of storage. */
   type: CreateStorageByApplicationUuidRequestType | (string & {});
   /** Volume name (persistent only, required for persistent). */
-  name?: string;
+  name?: string | undefined;
   /** The container mount path. */
   mount_path: string;
   /** File content (file only, optional). */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Whether this is a directory mount (file only, default false). */
-  is_directory?: boolean;
+  is_directory?: boolean | undefined;
   /** Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory. */
-  fs_path?: string;
+  fs_path?: string | undefined;
 }
 export type CreateStorageByApplicationUuidResponse = unknown;
 /** The type of storage. */
@@ -2262,15 +2288,15 @@ export interface CreateStorageByDatabaseUuidRequest {
   /** The type of storage. */
   type: CreateStorageByDatabaseUuidRequestType | (string & {});
   /** Volume name (persistent only, required for persistent). */
-  name?: string;
+  name?: string | undefined;
   /** The container mount path. */
   mount_path: string;
   /** File content (file only, optional). */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Whether this is a directory mount (file only, default false). */
-  is_directory?: boolean;
+  is_directory?: boolean | undefined;
   /** Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory. */
-  fs_path?: string;
+  fs_path?: string | undefined;
 }
 export type CreateStorageByDatabaseUuidResponse = unknown;
 /** The type of storage. */
@@ -2283,15 +2309,15 @@ export interface CreateStorageByServiceUuidRequest {
   /** UUID of the service application or database sub-resource. */
   resource_uuid: string;
   /** Volume name (persistent only, required for persistent). */
-  name?: string;
+  name?: string | undefined;
   /** The container mount path. */
   mount_path: string;
   /** File content (file only, optional). */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Whether this is a directory mount (file only, default false). */
-  is_directory?: boolean;
+  is_directory?: boolean | undefined;
   /** Host path. Required for directory mounts and host file mounts. Optional for file mounts with content (default: inside the resource directory). An absolute path can be anywhere on the host; a relative path is inside the resource directory. A directory or file mount outside the resource directory needs a token with the deploy permission. Coolify never deletes a path outside the resource directory. */
-  fs_path?: string;
+  fs_path?: string | undefined;
 }
 export type CreateStorageByServiceUuidResponse = unknown;
 export interface CreateTagRequest {
@@ -2299,10 +2325,10 @@ export interface CreateTagRequest {
 }
 /** Tag model */
 export interface Tag {
-  uuid?: string;
-  name?: string;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** Array of tag names (each min 2 characters). Required if tag_name is not provided. */
 export type CreateTagByApplicationUuidRequestTagNamesList = Array<string>;
@@ -2310,9 +2336,9 @@ export interface CreateTagByApplicationUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** The tag name (min 2 characters). Required if tag_names is not provided. */
-  tag_name?: string;
+  tag_name?: string | undefined;
   /** Array of tag names (each min 2 characters). Required if tag_name is not provided. */
-  tag_names?: CreateTagByApplicationUuidRequestTagNamesList;
+  tag_names?: CreateTagByApplicationUuidRequestTagNamesList | undefined;
 }
 export type CreateTagByApplicationUuidResponseBodyList = Array<Tag>;
 export type CreateTagByApplicationUuidResponse = CreateTagByApplicationUuidResponseBodyList;
@@ -2322,9 +2348,9 @@ export interface CreateTagByDatabaseUuidRequest {
   /** UUID of the database. */
   uuid: string;
   /** The tag name (min 2 characters). Required if tag_names is not provided. */
-  tag_name?: string;
+  tag_name?: string | undefined;
   /** Array of tag names (each min 2 characters). Required if tag_name is not provided. */
-  tag_names?: CreateTagByDatabaseUuidRequestTagNamesList;
+  tag_names?: CreateTagByDatabaseUuidRequestTagNamesList | undefined;
 }
 export type CreateTagByDatabaseUuidResponseBodyList = Array<Tag>;
 export type CreateTagByDatabaseUuidResponse = CreateTagByDatabaseUuidResponseBodyList;
@@ -2334,20 +2360,20 @@ export interface CreateTagByServiceUuidRequest {
   /** UUID of the service. */
   uuid: string;
   /** The tag name (min 2 characters). Required if tag_names is not provided. */
-  tag_name?: string;
+  tag_name?: string | undefined;
   /** Array of tag names (each min 2 characters). Required if tag_name is not provided. */
-  tag_names?: CreateTagByServiceUuidRequestTagNamesList;
+  tag_names?: CreateTagByServiceUuidRequestTagNamesList | undefined;
 }
 export type CreateTagByServiceUuidResponseBodyList = Array<Tag>;
 export type CreateTagByServiceUuidResponse = CreateTagByServiceUuidResponseBodyList;
 export interface CreateTeamSharedEnvRequest {
   key: string;
-  value?: string | null;
-  is_literal?: boolean;
-  is_multiline?: boolean;
+  value?: string | null | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
-  comment?: string | null;
+  is_shown_once?: boolean | undefined;
+  comment?: string | null | undefined;
 }
 export interface CreateTeamSharedEnvResponse {}
 export interface CreateVultrServerRequest {}
@@ -2356,16 +2382,16 @@ export interface DeleteApplicationRequest {
   /** UUID of the application. */
   uuid: string;
   /** Delete configurations. */
-  delete_configurations?: boolean;
+  delete_configurations?: boolean | undefined;
   /** Delete volumes. */
-  delete_volumes?: boolean;
+  delete_volumes?: boolean | undefined;
   /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
-  docker_cleanup?: boolean;
+  docker_cleanup?: boolean | undefined;
   /** Delete connected networks. */
-  delete_connected_networks?: boolean;
+  delete_connected_networks?: boolean | undefined;
 }
 export interface DeleteApplicationResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteApplicationStorageBackupScheduleRequest {
   uuid: string;
@@ -2378,10 +2404,10 @@ export interface DeleteBackupConfigurationByUuidRequest {
   /** UUID of the backup configuration to delete */
   scheduled_backup_uuid: string;
   /** Whether to delete all backup files from S3 */
-  delete_s3?: boolean;
+  delete_s3?: boolean | undefined;
 }
 export interface DeleteBackupConfigurationByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteBackupExecutionByUuidRequest {
   /** UUID of the database */
@@ -2391,10 +2417,10 @@ export interface DeleteBackupExecutionByUuidRequest {
   /** UUID of the backup execution to delete */
   execution_uuid: string;
   /** Whether to delete the backup from S3 */
-  delete_s3?: boolean;
+  delete_s3?: boolean | undefined;
 }
 export interface DeleteBackupExecutionByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteCloudInitScriptRequest {
   uuid: string;
@@ -2405,22 +2431,22 @@ export interface DeleteCloudTokenRequest {
   uuid: string;
 }
 export interface DeleteCloudTokenResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** UUID of the database. */
   uuid: string;
   /** Delete configurations. */
-  delete_configurations?: boolean;
+  delete_configurations?: boolean | undefined;
   /** Delete volumes. */
-  delete_volumes?: boolean;
+  delete_volumes?: boolean | undefined;
   /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
-  docker_cleanup?: boolean;
+  docker_cleanup?: boolean | undefined;
   /** Delete connected networks. */
-  delete_connected_networks?: boolean;
+  delete_connected_networks?: boolean | undefined;
 }
 export interface DeleteDatabaseResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDatabaseStorageBackupScheduleRequest {
   uuid: string;
@@ -2432,7 +2458,7 @@ export interface DeleteDestinationRequest {
   uuid: string;
 }
 export interface DeleteDestinationResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteEnvByApplicationUuidRequest {
   /** UUID of the application. */
@@ -2441,7 +2467,7 @@ export interface DeleteEnvByApplicationUuidRequest {
   env_uuid: string;
 }
 export interface DeleteEnvByApplicationUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteEnvByDatabaseUuidRequest {
   /** UUID of the database. */
@@ -2450,7 +2476,7 @@ export interface DeleteEnvByDatabaseUuidRequest {
   env_uuid: string;
 }
 export interface DeleteEnvByDatabaseUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteEnvByServiceUuidRequest {
   /** UUID of the service. */
@@ -2459,7 +2485,7 @@ export interface DeleteEnvByServiceUuidRequest {
   env_uuid: string;
 }
 export interface DeleteEnvByServiceUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteEnvironmentRequest {
   /** Project UUID */
@@ -2468,7 +2494,7 @@ export interface DeleteEnvironmentRequest {
   environment_name_or_uuid: string;
 }
 export interface DeleteEnvironmentResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteEnvironmentSharedEnvRequest {
   /** Project UUID */
@@ -2484,14 +2510,14 @@ export interface DeleteGithubAppRequest {
   github_app_id: number;
 }
 export interface DeleteGithubAppResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteGitlabAppRequest {
   /** GitLab App ID */
   gitlab_app_id: number;
 }
 export interface DeleteGitlabAppResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeletePreviewDeploymentByPullRequestIdRequest {
   /** UUID of the application. */
@@ -2500,21 +2526,21 @@ export interface DeletePreviewDeploymentByPullRequestIdRequest {
   pull_request_id: number;
 }
 export interface DeletePreviewDeploymentByPullRequestIdResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeletePrivateKeyByUuidRequest {
   /** Private Key UUID */
   uuid: string;
 }
 export interface DeletePrivateKeyByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteProjectRequest {
   /** UUID of the application. */
   uuid: string;
 }
 export interface DeleteProjectResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteProjectSharedEnvRequest {
   /** Project UUID */
@@ -2528,7 +2554,7 @@ export interface DeleteS3StorageRequest {
   uuid: string;
 }
 export interface DeleteS3StorageResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteScheduledTaskByApplicationUuidRequest {
   /** UUID of the application. */
@@ -2537,7 +2563,7 @@ export interface DeleteScheduledTaskByApplicationUuidRequest {
   task_uuid: string;
 }
 export interface DeleteScheduledTaskByApplicationUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteScheduledTaskByServiceUuidRequest {
   /** UUID of the service. */
@@ -2546,18 +2572,18 @@ export interface DeleteScheduledTaskByServiceUuidRequest {
   task_uuid: string;
 }
 export interface DeleteScheduledTaskByServiceUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteServerRequest {
   /** UUID of the server. */
   uuid: string;
   /** Also delete all resources on the server. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Also delete the server from its cloud provider (Hetzner, Vultr or DigitalOcean). This cannot be undone. */
-  delete_from_provider?: boolean;
+  delete_from_provider?: boolean | undefined;
 }
 export interface DeleteServerResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteServerSharedEnvRequest {
   /** Server UUID */
@@ -2570,18 +2596,18 @@ export interface DeleteServiceRequest {
   /** Service UUID */
   uuid: string;
   /** Delete configurations. */
-  delete_configurations?: boolean;
+  delete_configurations?: boolean | undefined;
   /** Delete volumes. */
-  delete_volumes?: boolean;
+  delete_volumes?: boolean | undefined;
   /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
-  docker_cleanup?: boolean;
+  docker_cleanup?: boolean | undefined;
   /** Delete connected networks. */
-  delete_connected_networks?: boolean;
+  delete_connected_networks?: boolean | undefined;
   /** Remove only Coolify metadata without deleting Docker resources. */
-  delete_from_coolify_only?: boolean;
+  delete_from_coolify_only?: boolean | undefined;
 }
 export interface DeleteServiceResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteServiceStorageBackupScheduleRequest {
   uuid: string;
@@ -2595,7 +2621,7 @@ export interface DeleteStorageByApplicationUuidRequest {
   storage_uuid: string;
 }
 export interface DeleteStorageByApplicationUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteStorageByDatabaseUuidRequest {
   /** UUID of the database. */
@@ -2604,7 +2630,7 @@ export interface DeleteStorageByDatabaseUuidRequest {
   storage_uuid: string;
 }
 export interface DeleteStorageByDatabaseUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteStorageByServiceUuidRequest {
   /** UUID of the service. */
@@ -2613,14 +2639,14 @@ export interface DeleteStorageByServiceUuidRequest {
   storage_uuid: string;
 }
 export interface DeleteStorageByServiceUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteTagRequest {
   /** Tag UUID */
   uuid: string;
 }
 export interface DeleteTagResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteTagByApplicationUuidRequest {
   /** UUID of the application. */
@@ -2650,35 +2676,35 @@ export interface DeleteTeamSharedEnvRequest {
 export interface DeleteTeamSharedEnvResponse {}
 export interface DeployByTagOrUuidRequest {
   /** Tag name(s). Comma separated list is also accepted. */
-  tag?: string;
+  tag?: string | undefined;
   /** Resource UUID(s). Comma separated list is also accepted. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Force rebuild (without cache) */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Pull Request Id for deploying specific PR builds. Cannot be used with tag parameter. */
-  pr?: number;
+  pr?: number | undefined;
   /** Preview deployment identifier. Alias of pr. */
-  pull_request_id?: number;
+  pull_request_id?: number | undefined;
   /** Docker image tag for Docker Image preview deployments. Requires pull_request_id. */
-  docker_tag?: string;
+  docker_tag?: string | undefined;
 }
 export interface DeployByTagOrUuidResponseDeploymentsItem {
-  message?: string;
-  resource_uuid?: string;
-  deployment_uuid?: string;
+  message?: string | undefined;
+  resource_uuid?: string | undefined;
+  deployment_uuid?: string | undefined;
 }
 export type DeployByTagOrUuidResponseDeploymentsList =
   Array<DeployByTagOrUuidResponseDeploymentsItem>;
 export interface DeployByTagOrUuidResponse {
-  deployments?: DeployByTagOrUuidResponseDeploymentsList;
+  deployments?: DeployByTagOrUuidResponseDeploymentsList | undefined;
 }
 export interface DisableApiRequest {}
 export interface DisableApiResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DisableMcpRequest {}
 export interface DisableMcpResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DisableServerCloudflareTunnelRequest {
   /** Server UUID */
@@ -2687,11 +2713,11 @@ export interface DisableServerCloudflareTunnelRequest {
 export interface DisableServerCloudflareTunnelResponse {}
 export interface EnableApiRequest {}
 export interface EnableApiResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface EnableMcpRequest {}
 export interface EnableMcpResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface EnableServerCloudflareTunnelRequest {
   /** Server UUID */
@@ -2731,216 +2757,219 @@ export type ApplicationHealthCheckType = "http" | "cmd";
 export type ApplicationRedirect = "www" | "non-www" | "both";
 /** Application settings. */
 export interface ApplicationSetting {
-  is_static?: boolean;
-  is_git_submodules_enabled?: boolean;
-  is_git_lfs_enabled?: boolean;
-  is_auto_deploy_enabled?: boolean;
-  is_force_https_enabled?: boolean;
-  is_debug_enabled?: boolean;
-  is_preview_deployments_enabled?: boolean;
-  is_log_drain_enabled?: boolean;
-  is_gpu_enabled?: boolean;
-  gpu_driver?: string | null;
-  gpu_count?: string | null;
-  gpu_device_ids?: string | null;
-  gpu_options?: string | null;
-  is_include_timestamps?: boolean;
-  is_swarm_only_worker_nodes?: boolean;
-  is_raw_compose_deployment_enabled?: boolean;
-  is_build_server_enabled?: boolean;
-  is_consistent_container_name_enabled?: boolean;
-  is_gzip_enabled?: boolean;
-  is_stripprefix_enabled?: boolean;
-  connect_to_docker_network?: boolean;
-  custom_internal_name?: string | null;
-  custom_container_name_prefix?: string | null;
-  is_container_label_escape_enabled?: boolean;
-  is_env_sorting_enabled?: boolean;
-  is_container_label_readonly_enabled?: boolean;
-  is_preserve_repository_enabled?: boolean;
-  disable_build_cache?: boolean;
-  is_spa?: boolean;
-  is_git_shallow_clone_enabled?: boolean;
-  is_pr_deployments_public_enabled?: boolean;
-  use_build_secrets?: boolean;
-  inject_build_args_to_dockerfile?: boolean;
-  include_source_commit_in_build?: boolean;
-  docker_images_to_keep?: number;
-  stop_grace_period?: number | null;
+  is_static?: boolean | undefined;
+  is_git_submodules_enabled?: boolean | undefined;
+  is_git_lfs_enabled?: boolean | undefined;
+  is_auto_deploy_enabled?: boolean | undefined;
+  is_force_https_enabled?: boolean | undefined;
+  is_debug_enabled?: boolean | undefined;
+  is_preview_deployments_enabled?: boolean | undefined;
+  is_log_drain_enabled?: boolean | undefined;
+  is_gpu_enabled?: boolean | undefined;
+  gpu_driver?: string | null | undefined;
+  gpu_count?: string | null | undefined;
+  gpu_device_ids?: string | null | undefined;
+  gpu_options?: string | null | undefined;
+  is_include_timestamps?: boolean | undefined;
+  is_swarm_only_worker_nodes?: boolean | undefined;
+  is_raw_compose_deployment_enabled?: boolean | undefined;
+  is_build_server_enabled?: boolean | undefined;
+  is_consistent_container_name_enabled?: boolean | undefined;
+  is_gzip_enabled?: boolean | undefined;
+  /** Traefik certificate resolver override. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
+  is_stripprefix_enabled?: boolean | undefined;
+  connect_to_docker_network?: boolean | undefined;
+  custom_internal_name?: string | null | undefined;
+  custom_container_name_prefix?: string | null | undefined;
+  is_container_label_escape_enabled?: boolean | undefined;
+  is_env_sorting_enabled?: boolean | undefined;
+  include_coolify_default_variables?: boolean | undefined;
+  is_container_label_readonly_enabled?: boolean | undefined;
+  is_preserve_repository_enabled?: boolean | undefined;
+  disable_build_cache?: boolean | undefined;
+  is_spa?: boolean | undefined;
+  is_git_shallow_clone_enabled?: boolean | undefined;
+  is_pr_deployments_public_enabled?: boolean | undefined;
+  use_build_secrets?: boolean | undefined;
+  inject_build_args_to_dockerfile?: boolean | undefined;
+  include_source_commit_in_build?: boolean | undefined;
+  docker_images_to_keep?: number | undefined;
+  stop_grace_period?: number | null | undefined;
 }
 /** Application model */
 export interface Application {
   /** The application identifier in the database. */
-  id?: number;
+  id?: number | undefined;
   /** The application description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The repository project identifier. */
-  repository_project_id?: number | null;
+  repository_project_id?: number | null | undefined;
   /** The application UUID. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application domains. */
-  fqdn?: string | null;
+  fqdn?: string | null | undefined;
   /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header. */
-  noindex_domains?: ApplicationNoindexDomainsList | null;
+  noindex_domains?: ApplicationNoindexDomainsList | null | undefined;
   /** Configuration hash. */
-  config_hash?: string;
+  config_hash?: string | undefined;
   /** Git repository URL. */
-  git_repository?: string;
+  git_repository?: string | undefined;
   /** Git branch. */
-  git_branch?: string;
+  git_branch?: string | undefined;
   /** Git commit SHA. */
-  git_commit_sha?: string;
+  git_commit_sha?: string | undefined;
   /** Git full URL. */
-  git_full_url?: string | null;
+  git_full_url?: string | null | undefined;
   /** Docker registry image name. */
-  docker_registry_image_name?: string | null;
+  docker_registry_image_name?: string | null | undefined;
   /** Docker registry image tag. */
-  docker_registry_image_tag?: string | null;
+  docker_registry_image_tag?: string | null | undefined;
   /** Build pack. */
-  build_pack?: ApplicationBuildPack;
+  build_pack?: ApplicationBuildPack | undefined;
   /** Static image used when static site is deployed. */
-  static_image?: string;
+  static_image?: string | undefined;
   /** Install command. */
-  install_command?: string;
+  install_command?: string | undefined;
   /** Build command. */
-  build_command?: string;
+  build_command?: string | undefined;
   /** Start command. */
-  start_command?: string;
+  start_command?: string | undefined;
   /** Ports exposes. */
-  ports_exposes?: string;
+  ports_exposes?: string | undefined;
   /** Ports mappings. */
-  ports_mappings?: string | null;
+  ports_mappings?: string | null | undefined;
   /** Network aliases for Docker container. */
-  custom_network_aliases?: string | null;
+  custom_network_aliases?: string | null | undefined;
   /** Base directory for all commands. */
-  base_directory?: string;
+  base_directory?: string | undefined;
   /** Publish directory. */
-  publish_directory?: string;
+  publish_directory?: string | undefined;
   /** Health check enabled. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Health check path. */
-  health_check_path?: string;
+  health_check_path?: string | undefined;
   /** Health check port. */
-  health_check_port?: string | null;
+  health_check_port?: string | null | undefined;
   /** Health check host. */
-  health_check_host?: string | null;
+  health_check_host?: string | null | undefined;
   /** Health check method. */
-  health_check_method?: string;
+  health_check_method?: string | undefined;
   /** Health check return code. */
-  health_check_return_code?: number;
+  health_check_return_code?: number | undefined;
   /** Health check scheme. */
-  health_check_scheme?: string;
+  health_check_scheme?: string | undefined;
   /** Health check response text. */
-  health_check_response_text?: string | null;
+  health_check_response_text?: string | null | undefined;
   /** Health check interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Health check timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Health check retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Health check start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
   /** Health check type: http or cmd. */
-  health_check_type?: ApplicationHealthCheckType;
+  health_check_type?: ApplicationHealthCheckType | undefined;
   /** Health check command for CMD type. */
-  health_check_command?: string | null;
+  health_check_command?: string | null | undefined;
   /** Memory limit. */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit. */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness. */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation. */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit. */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set. */
-  limits_cpuset?: string | null;
+  limits_cpuset?: string | null | undefined;
   /** CPU shares. */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Application status. */
-  status?: string;
+  status?: string | undefined;
   /** Preview URL template. */
-  preview_url_template?: string;
+  preview_url_template?: string | undefined;
   /** Maximum container restart count before stopping. */
-  max_restart_count?: number;
+  max_restart_count?: number | undefined;
   /** Destination type. */
-  destination_type?: string;
+  destination_type?: string | undefined;
   /** Destination identifier. */
-  destination_id?: number;
+  destination_id?: number | undefined;
   /** Source identifier. */
-  source_id?: number | null;
+  source_id?: number | null | undefined;
   /** Private key identifier. */
-  private_key_id?: number | null;
+  private_key_id?: number | null | undefined;
   /** Environment identifier. */
-  environment_id?: number;
+  environment_id?: number | undefined;
   /** Dockerfile content. Used for dockerfile build pack. */
-  dockerfile?: string | null;
+  dockerfile?: string | null | undefined;
   /** Dockerfile location. */
-  dockerfile_location?: string;
+  dockerfile_location?: string | undefined;
   /** Custom labels. */
-  custom_labels?: string | null;
+  custom_labels?: string | null | undefined;
   /** Dockerfile target build. */
-  dockerfile_target_build?: string | null;
+  dockerfile_target_build?: string | null | undefined;
   /** Manual webhook secret for GitHub. */
-  manual_webhook_secret_github?: string | null;
+  manual_webhook_secret_github?: string | null | undefined;
   /** Manual webhook secret for GitLab. */
-  manual_webhook_secret_gitlab?: string | null;
+  manual_webhook_secret_gitlab?: string | null | undefined;
   /** Manual webhook secret for Bitbucket. */
-  manual_webhook_secret_bitbucket?: string | null;
+  manual_webhook_secret_bitbucket?: string | null | undefined;
   /** Manual webhook secret for Gitea. */
-  manual_webhook_secret_gitea?: string | null;
+  manual_webhook_secret_gitea?: string | null | undefined;
   /** Docker compose location. */
-  docker_compose_location?: string;
+  docker_compose_location?: string | undefined;
   /** Docker compose content. Used for docker compose build pack. */
-  docker_compose?: string | null;
+  docker_compose?: string | null | undefined;
   /** Docker compose raw content. */
-  docker_compose_raw?: string | null;
+  docker_compose_raw?: string | null | undefined;
   /** Docker compose domains. */
-  docker_compose_domains?: string | null;
+  docker_compose_domains?: string | null | undefined;
   /** Docker compose custom start command. */
-  docker_compose_custom_start_command?: string | null;
+  docker_compose_custom_start_command?: string | null | undefined;
   /** Docker compose custom build command. */
-  docker_compose_custom_build_command?: string | null;
+  docker_compose_custom_build_command?: string | null | undefined;
   /** Swarm replicas. Only used for swarm deployments. */
-  swarm_replicas?: number | null;
+  swarm_replicas?: number | null | undefined;
   /** Swarm placement constraints. Only used for swarm deployments. */
-  swarm_placement_constraints?: string | null;
+  swarm_placement_constraints?: string | null | undefined;
   /** Custom docker run options. */
-  custom_docker_run_options?: string | null;
+  custom_docker_run_options?: string | null | undefined;
   /** Post deployment command. */
-  post_deployment_command?: string | null;
+  post_deployment_command?: string | null | undefined;
   /** Post deployment command container. */
-  post_deployment_command_container?: string | null;
+  post_deployment_command_container?: string | null | undefined;
   /** Pre deployment command. */
-  pre_deployment_command?: string | null;
+  pre_deployment_command?: string | null | undefined;
   /** Pre deployment command container. */
-  pre_deployment_command_container?: string | null;
+  pre_deployment_command_container?: string | null | undefined;
   /** Watch paths. */
-  watch_paths?: string | null;
+  watch_paths?: string | null | undefined;
   /** Custom healthcheck found. */
-  custom_healthcheck_found?: boolean;
+  custom_healthcheck_found?: boolean | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
-  redirect?: ApplicationRedirect | null;
+  redirect?: ApplicationRedirect | null | undefined;
   /** The date and time when the application was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time when the application was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The date and time when the application was deleted. */
-  deleted_at?: string | null;
+  deleted_at?: string | null | undefined;
   /** How Coolify parse the compose file. */
-  compose_parsing_version?: string;
+  compose_parsing_version?: string | undefined;
   /** Custom Nginx configuration base64 encoded. */
-  custom_nginx_configuration?: string | null;
+  custom_nginx_configuration?: string | null | undefined;
   /** HTTP Basic Authentication enabled. */
-  is_http_basic_auth_enabled?: boolean;
+  is_http_basic_auth_enabled?: boolean | undefined;
   /** Username for HTTP Basic Authentication */
-  http_basic_auth_username?: string | null;
+  http_basic_auth_username?: string | null | undefined;
   /** Password for HTTP Basic Authentication */
-  http_basic_auth_password?: string | Redacted.Redacted<string> | null;
-  settings?: ApplicationSetting;
+  http_basic_auth_password?: string | Redacted.Redacted<string> | null | undefined;
+  settings?: ApplicationSetting | undefined;
 }
 export type GetApplicationLogsByUuidRequestLinesCase1 = "all";
 export type GetApplicationLogsByUuidRequestLines =
@@ -2950,14 +2979,14 @@ export interface GetApplicationLogsByUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
-  lines?: GetApplicationLogsByUuidRequestLines;
+  lines?: GetApplicationLogsByUuidRequestLines | undefined;
   /** Show timestamps in the logs. */
-  show_timestamps?: boolean;
+  show_timestamps?: boolean | undefined;
   /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches. */
-  service_name?: string;
+  service_name?: string | undefined;
 }
 export interface GetApplicationLogsByUuidResponse {
-  logs?: string;
+  logs?: string | undefined;
 }
 export interface GetCloudInitScriptRequest {
   uuid: string;
@@ -2968,13 +2997,13 @@ export interface GetCloudTokenRequest {
   uuid: string;
 }
 export interface GetCloudTokenResponse {
-  uuid?: string;
-  name?: string;
-  provider?: string;
-  team_id?: number;
-  servers_count?: number;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  provider?: string | undefined;
+  team_id?: number | undefined;
+  servers_count?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface GetCurrentTeamDiscordNotificationsRequest {}
 export interface GetCurrentTeamDiscordNotificationsResponse {}
@@ -3013,13 +3042,13 @@ export type DatabaseImportStatusStatus =
   | "cancelled"
   | "closed";
 export interface DatabaseImportStatus {
-  id?: number;
-  status?: DatabaseImportStatusStatus;
-  exit_code?: number | null;
-  output?: string;
-  created_at?: string;
-  updated_at?: string;
-  finished_at?: string | null;
+  id?: number | undefined;
+  status?: DatabaseImportStatusStatus | undefined;
+  exit_code?: number | null | undefined;
+  output?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  finished_at?: string | null | undefined;
 }
 export type GetDatabaseLogsByUuidRequestLinesCase1 = "all";
 export type GetDatabaseLogsByUuidRequestLines = number | GetDatabaseLogsByUuidRequestLinesCase1;
@@ -3027,12 +3056,12 @@ export interface GetDatabaseLogsByUuidRequest {
   /** UUID of the database. */
   uuid: string;
   /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
-  lines?: GetDatabaseLogsByUuidRequestLines;
+  lines?: GetDatabaseLogsByUuidRequestLines | undefined;
   /** Show timestamps in the logs. */
-  show_timestamps?: boolean;
+  show_timestamps?: boolean | undefined;
 }
 export interface GetDatabaseLogsByUuidResponse {
-  logs?: string;
+  logs?: string | undefined;
 }
 export interface GetDeploymentRequest {
   /** Deployment UUID */
@@ -3040,57 +3069,57 @@ export interface GetDeploymentRequest {
 }
 /** Project model */
 export interface ApplicationDeploymentQueue {
-  id?: number;
-  application_id?: string;
-  deployment_uuid?: string;
-  pull_request_id?: number;
-  docker_registry_image_tag?: string | null;
-  configuration_hash?: string | null;
-  configuration_snapshot?: unknown | null;
-  configuration_diff?: unknown | null;
-  force_rebuild?: boolean;
-  commit?: string;
-  status?: string;
-  is_webhook?: boolean;
-  is_api?: boolean;
-  created_at?: string;
-  updated_at?: string;
-  logs?: string;
-  current_process_id?: string;
-  restart_only?: boolean;
-  git_type?: string;
-  server_id?: number;
-  application_name?: string;
-  server_name?: string;
-  deployment_url?: string;
-  destination_id?: string;
-  only_this_server?: boolean;
-  parent_deployment_uuid?: string | null;
-  rollback?: boolean;
-  commit_message?: string;
+  id?: number | undefined;
+  application_id?: string | undefined;
+  deployment_uuid?: string | undefined;
+  pull_request_id?: number | undefined;
+  docker_registry_image_tag?: string | null | undefined;
+  configuration_hash?: string | null | undefined;
+  configuration_snapshot?: unknown | null | undefined;
+  configuration_diff?: unknown | null | undefined;
+  force_rebuild?: boolean | undefined;
+  commit?: string | undefined;
+  status?: string | undefined;
+  is_webhook?: boolean | undefined;
+  is_api?: boolean | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  logs?: string | undefined;
+  current_process_id?: string | undefined;
+  restart_only?: boolean | undefined;
+  git_type?: string | undefined;
+  server_id?: number | undefined;
+  application_name?: string | undefined;
+  server_name?: string | undefined;
+  deployment_url?: string | undefined;
+  destination_id?: string | undefined;
+  only_this_server?: boolean | undefined;
+  parent_deployment_uuid?: string | null | undefined;
+  rollback?: boolean | undefined;
+  commit_message?: string | undefined;
 }
 export interface GetDestinationRequest {
   /** Destination UUID */
   uuid: string;
 }
 export interface GetDigitaloceanImagesRequest {
-  cloud_provider_token_uuid?: string;
-  cloud_provider_token_id?: string;
+  cloud_provider_token_uuid?: string | undefined;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetDigitaloceanImagesResponse {}
 export interface GetDigitaloceanRegionsRequest {
-  cloud_provider_token_uuid?: string;
-  cloud_provider_token_id?: string;
+  cloud_provider_token_uuid?: string | undefined;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetDigitaloceanRegionsResponse {}
 export interface GetDigitaloceanSizesRequest {
-  cloud_provider_token_uuid?: string;
-  cloud_provider_token_id?: string;
+  cloud_provider_token_uuid?: string | undefined;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetDigitaloceanSizesResponse {}
 export interface GetDigitaloceanSshKeysRequest {
-  cloud_provider_token_uuid?: string;
-  cloud_provider_token_id?: string;
+  cloud_provider_token_uuid?: string | undefined;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetDigitaloceanSshKeysResponse {}
 export interface GetDomainsByServerUuidRequest {
@@ -3099,8 +3128,8 @@ export interface GetDomainsByServerUuidRequest {
 }
 export type GetDomainsByServerUuidResponseBodyItemDomainsList = Array<string>;
 export interface GetDomainsByServerUuidResponseBodyItem {
-  ip?: string;
-  domains?: GetDomainsByServerUuidResponseBodyItemDomainsList;
+  ip?: string | undefined;
+  domains?: GetDomainsByServerUuidResponseBodyItemDomainsList | undefined;
 }
 export type GetDomainsByServerUuidResponseBodyList = Array<GetDomainsByServerUuidResponseBodyItem>;
 export type GetDomainsByServerUuidResponse = GetDomainsByServerUuidResponseBodyList;
@@ -3112,12 +3141,12 @@ export interface GetEnvironmentByNameOrUuidRequest {
 }
 /** Environment model */
 export interface Environment {
-  id?: number;
-  name?: string;
-  project_id?: number;
-  created_at?: string;
-  updated_at?: string;
-  description?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  project_id?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  description?: string | undefined;
 }
 export interface GetEnvironmentsRequest {
   /** Project UUID */
@@ -3127,105 +3156,105 @@ export type GetEnvironmentsResponseBodyList = Array<Environment>;
 export type GetEnvironmentsResponse = GetEnvironmentsResponseBodyList;
 export interface GetHetznerFirewallsRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
-  cloud_provider_token_uuid?: string;
+  cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
-  cloud_provider_token_id?: string;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetHetznerFirewallsResponseBodyItem {
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export type GetHetznerFirewallsResponseBodyList = Array<GetHetznerFirewallsResponseBodyItem>;
 export type GetHetznerFirewallsResponse = GetHetznerFirewallsResponseBodyList;
 export interface GetHetznerImagesRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
-  cloud_provider_token_uuid?: string;
+  cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
-  cloud_provider_token_id?: string;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetHetznerImagesResponseBodyItem {
-  id?: number;
-  name?: string;
-  description?: string;
-  type?: string;
-  os_flavor?: string;
-  os_version?: string;
-  architecture?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  type?: string | undefined;
+  os_flavor?: string | undefined;
+  os_version?: string | undefined;
+  architecture?: string | undefined;
 }
 export type GetHetznerImagesResponseBodyList = Array<GetHetznerImagesResponseBodyItem>;
 export type GetHetznerImagesResponse = GetHetznerImagesResponseBodyList;
 export interface GetHetznerLocationsRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
-  cloud_provider_token_uuid?: string;
+  cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
-  cloud_provider_token_id?: string;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetHetznerLocationsResponseBodyItem {
-  id?: number;
-  name?: string;
-  description?: string;
-  country?: string;
-  city?: string;
-  latitude?: number;
-  longitude?: number;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  country?: string | undefined;
+  city?: string | undefined;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
 }
 export type GetHetznerLocationsResponseBodyList = Array<GetHetznerLocationsResponseBodyItem>;
 export type GetHetznerLocationsResponse = GetHetznerLocationsResponseBodyList;
 export interface GetHetznerNetworksRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
-  cloud_provider_token_uuid?: string;
+  cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
-  cloud_provider_token_id?: string;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetHetznerNetworksResponseBodyItem {
-  id?: number;
-  name?: string;
-  ip_range?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  ip_range?: string | undefined;
 }
 export type GetHetznerNetworksResponseBodyList = Array<GetHetznerNetworksResponseBodyItem>;
 export type GetHetznerNetworksResponse = GetHetznerNetworksResponseBodyList;
 export interface GetHetznerServerTypesRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
-  cloud_provider_token_uuid?: string;
+  cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
-  cloud_provider_token_id?: string;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly {
-  net?: string;
-  gross?: string;
+  net?: string | undefined;
+  gross?: string | undefined;
 }
 export type GetHetznerServerTypesResponseBodyItemPricesItemPriceMonthly =
   GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly;
 export interface GetHetznerServerTypesResponseBodyItemPricesItem {
   /** Datacenter location name */
-  location?: string;
-  price_hourly?: GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly;
-  price_monthly?: GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly;
+  location?: string | undefined;
+  price_hourly?: GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly | undefined;
+  price_monthly?: GetHetznerServerTypesResponseBodyItemPricesItemPriceHourly | undefined;
 }
 export type GetHetznerServerTypesResponseBodyItemPricesList =
   Array<GetHetznerServerTypesResponseBodyItemPricesItem>;
 export interface GetHetznerServerTypesResponseBodyItem {
-  id?: number;
-  name?: string;
-  description?: string;
-  cores?: number;
-  memory?: number;
-  disk?: number;
-  prices?: GetHetznerServerTypesResponseBodyItemPricesList;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  cores?: number | undefined;
+  memory?: number | undefined;
+  disk?: number | undefined;
+  prices?: GetHetznerServerTypesResponseBodyItemPricesList | undefined;
 }
 export type GetHetznerServerTypesResponseBodyList = Array<GetHetznerServerTypesResponseBodyItem>;
 export type GetHetznerServerTypesResponse = GetHetznerServerTypesResponseBodyList;
 export interface GetHetznerSshKeysRequest {
   /** Cloud provider token UUID. Required if cloud_provider_token_id is not provided. */
-  cloud_provider_token_uuid?: string;
+  cloud_provider_token_uuid?: string | undefined;
   /** Deprecated: Use cloud_provider_token_uuid instead. Cloud provider token UUID. */
-  cloud_provider_token_id?: string;
+  cloud_provider_token_id?: string | undefined;
 }
 export interface GetHetznerSshKeysResponseBodyItem {
-  id?: number;
-  name?: string;
-  fingerprint?: string;
-  public_key?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  fingerprint?: string | undefined;
+  public_key?: string | undefined;
 }
 export type GetHetznerSshKeysResponseBodyList = Array<GetHetznerSshKeysResponseBodyItem>;
 export type GetHetznerSshKeysResponse = GetHetznerSshKeysResponseBodyList;
@@ -3238,23 +3267,23 @@ export interface GetMembersByTeamIdRequest {
 /** User model */
 export interface User {
   /** The user identifier in the database. */
-  id?: number;
+  id?: number | undefined;
   /** The user name. */
-  name?: string;
+  name?: string | undefined;
   /** The user email. */
-  email?: string;
+  email?: string | undefined;
   /** The date when the user email was verified. */
-  email_verified_at?: string;
+  email_verified_at?: string | undefined;
   /** The date when the user was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date when the user was updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The date when the user two factor was confirmed. */
-  two_factor_confirmed_at?: string;
+  two_factor_confirmed_at?: string | undefined;
   /** The flag to force the user to reset the password. */
-  force_password_reset?: boolean;
+  force_password_reset?: boolean | undefined;
   /** The flag to receive marketing emails. */
-  marketing_emails?: boolean;
+  marketing_emails?: boolean | undefined;
 }
 export type GetMembersByTeamIdResponseBodyList = Array<User>;
 export type GetMembersByTeamIdResponse = GetMembersByTeamIdResponseBodyList;
@@ -3268,14 +3297,14 @@ export interface GetPreviewApplicationLogsByPullRequestIdRequest {
   /** Pull request ID of the preview deployment. */
   pull_request_id: number;
   /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
-  lines?: GetPreviewApplicationLogsByPullRequestIdRequestLines;
+  lines?: GetPreviewApplicationLogsByPullRequestIdRequestLines | undefined;
   /** Show timestamps in the logs. */
-  show_timestamps?: boolean;
+  show_timestamps?: boolean | undefined;
   /** Return logs only from the container of the Docker Compose service with this name. Returns 404 when no running container matches. */
-  service_name?: string;
+  service_name?: string | undefined;
 }
 export interface GetPreviewApplicationLogsByPullRequestIdResponse {
-  logs?: string;
+  logs?: string | undefined;
 }
 export interface GetPreviewDeploymentByPullRequestIdRequest {
   /** UUID of the application. */
@@ -3289,19 +3318,19 @@ export interface GetPrivateKeyByUuidRequest {
 }
 /** Private Key model */
 export interface PrivateKey {
-  id?: number;
-  uuid?: string;
-  name?: string;
-  description?: string;
-  private_key?: string | Redacted.Redacted<string>;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  private_key?: string | Redacted.Redacted<string> | undefined;
   /** The public key of the private key. */
-  public_key?: string;
+  public_key?: string | undefined;
   /** The fingerprint of the private key. */
-  fingerprint?: string;
-  is_git_related?: boolean;
-  team_id?: number;
-  created_at?: string;
-  updated_at?: string;
+  fingerprint?: string | undefined;
+  is_git_related?: boolean | undefined;
+  team_id?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface GetProjectRequest {
   /** Project UUID */
@@ -3309,23 +3338,23 @@ export interface GetProjectRequest {
 }
 /** Project model */
 export interface Project {
-  id?: number;
-  uuid?: string;
-  name?: string;
-  description?: string;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface GetResourcesByServerUuidRequest {
   /** Server's UUID */
   uuid: string;
 }
 export interface GetResourcesByServerUuidResponseBodyItem {
-  id?: number;
-  uuid?: string;
-  name?: string;
-  type?: string;
-  created_at?: string;
-  updated_at?: string;
-  status?: string;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  status?: string | undefined;
 }
 export type GetResourcesByServerUuidResponseBodyList =
   Array<GetResourcesByServerUuidResponseBodyItem>;
@@ -3335,16 +3364,16 @@ export interface GetS3StorageRequest {
   uuid: string;
 }
 export interface GetS3StorageResponse {
-  uuid?: string;
-  name?: string;
-  description?: string | null;
-  endpoint?: string;
-  bucket?: string;
-  region?: string;
-  is_usable?: boolean;
-  team_id?: number;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  endpoint?: string | undefined;
+  bucket?: string | undefined;
+  region?: string | undefined;
+  is_usable?: boolean | undefined;
+  team_id?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export interface GetServerRequest {
   /** Server's UUID */
@@ -3353,181 +3382,191 @@ export interface GetServerRequest {
 /** The proxy type. */
 export type ServerProxyType = "traefik" | "caddy" | "none";
 export type ServerSettingServerRole = "deployment" | "build" | "both";
+export type ServerSettingTrafficIpMode = "full" | "anonymized" | "off";
 /** Server Settings model */
 export interface ServerSetting {
-  id?: number;
-  concurrent_builds?: number;
-  deployment_queue_limit?: number;
-  backup_compression_cpu_percentage?: number;
-  dynamic_timeout?: number;
-  force_disabled?: boolean;
-  force_server_cleanup?: boolean;
-  server_role?: ServerSettingServerRole;
+  id?: number | undefined;
+  concurrent_builds?: number | undefined;
+  deployment_queue_limit?: number | undefined;
+  backup_compression_cpu_percentage?: number | undefined;
+  dynamic_timeout?: number | undefined;
+  force_disabled?: boolean | undefined;
+  force_server_cleanup?: boolean | undefined;
+  server_role?: ServerSettingServerRole | undefined;
   /** Deprecated: use server_role instead. true when server_role is build. */
-  is_build_server?: boolean;
-  is_cloudflare_tunnel?: boolean;
-  is_jump_server?: boolean;
-  is_logdrain_axiom_enabled?: boolean;
-  is_logdrain_custom_enabled?: boolean;
-  is_logdrain_highlight_enabled?: boolean;
-  is_logdrain_newrelic_enabled?: boolean;
-  is_metrics_enabled?: boolean;
-  is_traffic_analytics_enabled?: boolean;
-  traffic_topn?: number;
-  traffic_sample_threshold?: number;
-  traffic_retention_1h_days?: number;
-  traffic_retention_1d_days?: number;
-  is_geoip_enabled?: boolean;
-  geoip_refresh_days?: number;
-  is_reachable?: boolean;
-  is_sentinel_enabled?: boolean;
-  is_swarm_manager?: boolean;
-  is_swarm_worker?: boolean;
-  is_terminal_enabled?: boolean;
-  is_usable?: boolean;
-  logdrain_axiom_api_key?: string;
-  logdrain_axiom_dataset_name?: string;
-  logdrain_custom_config?: string;
-  logdrain_custom_config_parser?: string;
-  logdrain_highlight_project_id?: string;
-  logdrain_newrelic_base_uri?: string;
-  logdrain_newrelic_license_key?: string;
-  sentinel_metrics_history_days?: number;
-  sentinel_metrics_refresh_rate_seconds?: number;
-  sentinel_token?: string;
-  docker_cleanup_frequency?: string;
-  docker_cleanup_threshold?: number;
-  server_id?: number;
-  wildcard_domain?: string;
-  created_at?: string;
-  updated_at?: string;
+  is_build_server?: boolean | undefined;
+  is_cloudflare_tunnel?: boolean | undefined;
+  is_jump_server?: boolean | undefined;
+  is_logdrain_axiom_enabled?: boolean | undefined;
+  is_logdrain_custom_enabled?: boolean | undefined;
+  is_logdrain_highlight_enabled?: boolean | undefined;
+  is_logdrain_newrelic_enabled?: boolean | undefined;
+  is_metrics_enabled?: boolean | undefined;
+  is_traffic_analytics_enabled?: boolean | undefined;
+  traffic_topn?: number | undefined;
+  traffic_sample_threshold?: number | undefined;
+  traffic_retention_1h_days?: number | undefined;
+  traffic_retention_1d_days?: number | undefined;
+  is_geoip_enabled?: boolean | undefined;
+  geoip_refresh_days?: number | undefined;
+  traffic_ip_mode?: ServerSettingTrafficIpMode | undefined;
+  /** Traefik certificate resolver for generated HTTPS routers. Null when the proxy uses its own certificates. */
+  traefik_certificate_resolver?: string | null | undefined;
+  is_reachable?: boolean | undefined;
+  is_sentinel_enabled?: boolean | undefined;
+  is_swarm_manager?: boolean | undefined;
+  is_swarm_worker?: boolean | undefined;
+  is_terminal_enabled?: boolean | undefined;
+  is_usable?: boolean | undefined;
+  logdrain_axiom_api_key?: string | undefined;
+  logdrain_axiom_dataset_name?: string | undefined;
+  logdrain_custom_config?: string | undefined;
+  logdrain_custom_config_parser?: string | undefined;
+  logdrain_highlight_project_id?: string | undefined;
+  logdrain_newrelic_base_uri?: string | undefined;
+  logdrain_newrelic_license_key?: string | undefined;
+  sentinel_metrics_history_days?: number | undefined;
+  sentinel_metrics_refresh_rate_seconds?: number | undefined;
+  sentinel_token?: string | undefined;
+  docker_cleanup_frequency?: string | undefined;
+  docker_cleanup_threshold?: number | undefined;
+  server_id?: number | undefined;
+  wildcard_domain?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** The flag to indicate if the unused volumes should be deleted. */
-  delete_unused_volumes?: boolean;
+  delete_unused_volumes?: boolean | undefined;
   /** The flag to indicate if the unused networks should be deleted. */
-  delete_unused_networks?: boolean;
+  delete_unused_networks?: boolean | undefined;
   /** SSH connection timeout in seconds. */
-  connection_timeout?: number;
+  connection_timeout?: number | undefined;
   /** Detected Docker Engine version on the server. */
-  docker_version?: string | null;
+  docker_version?: string | null | undefined;
   /** When Docker Engine version was last detected. */
-  docker_version_checked_at?: string | null;
+  docker_version_checked_at?: string | null | undefined;
   /** Detected Docker Compose plugin version on the server. */
-  compose_version?: string | null;
+  compose_version?: string | null | undefined;
   /** When Docker Compose version was last detected. */
-  compose_version_checked_at?: string | null;
+  compose_version_checked_at?: string | null | undefined;
 }
 /** Server model */
 export interface Server {
   /** The server ID. */
-  id?: number;
+  id?: number | undefined;
   /** The server UUID. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The server name. */
-  name?: string;
+  name?: string | undefined;
   /** The server description. */
-  description?: string;
+  description?: string | undefined;
   /** The IP address. */
-  ip?: string;
+  ip?: string | undefined;
   /** The user. */
-  user?: string;
+  user?: string | undefined;
   /** The port number. */
-  port?: number;
+  port?: number | undefined;
   /** The proxy configuration. */
-  proxy?: unknown;
+  proxy?: unknown | undefined;
   /** The proxy type. */
-  proxy_type?: ServerProxyType;
+  proxy_type?: ServerProxyType | undefined;
   /** The flag to indicate if the high disk usage notification has been sent. */
-  high_disk_usage_notification_sent?: boolean;
+  high_disk_usage_notification_sent?: boolean | undefined;
   /** The flag to indicate if the unreachable notification has been sent. */
-  unreachable_notification_sent?: boolean;
+  unreachable_notification_sent?: boolean | undefined;
   /** The unreachable count for your server. */
-  unreachable_count?: number;
+  unreachable_count?: number | undefined;
   /** The validation logs. */
-  validation_logs?: string;
+  validation_logs?: string | undefined;
   /** The flag to indicate if the log drain notification has been sent. */
-  log_drain_notification_sent?: boolean;
+  log_drain_notification_sent?: boolean | undefined;
   /** The swarm cluster configuration. */
-  swarm_cluster?: string;
-  settings?: ServerSetting;
+  swarm_cluster?: string | undefined;
+  settings?: ServerSetting | undefined;
 }
 export interface GetServerCloudflareTunnelRequest {
   /** Server UUID */
   uuid: string;
 }
 export interface GetServerCloudflareTunnelResponse {
-  is_cloudflare_tunnel?: boolean;
-  ip?: string;
-  ip_previous?: string | null;
+  is_cloudflare_tunnel?: boolean | undefined;
+  ip?: string | undefined;
+  ip_previous?: string | null | undefined;
 }
 export interface GetServerDockerCleanupRequest {
   /** Server UUID */
   uuid: string;
 }
 export interface GetServerDockerCleanupResponse {
-  docker_cleanup_frequency?: string;
-  docker_cleanup_threshold?: number;
-  force_docker_cleanup?: boolean;
-  delete_unused_volumes?: boolean;
-  delete_unused_networks?: boolean;
-  disable_application_image_retention?: boolean;
+  docker_cleanup_frequency?: string | undefined;
+  docker_cleanup_threshold?: number | undefined;
+  force_docker_cleanup?: boolean | undefined;
+  delete_unused_volumes?: boolean | undefined;
+  delete_unused_networks?: boolean | undefined;
+  disable_application_image_retention?: boolean | undefined;
 }
 export interface GetServerLogDrainsRequest {
   /** Server UUID */
   uuid: string;
 }
 export interface GetServerLogDrainsResponse {
-  is_logdrain_newrelic_enabled?: boolean;
+  is_logdrain_newrelic_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
-  logdrain_newrelic_license_key?: string;
-  logdrain_newrelic_base_uri?: string | null;
-  is_logdrain_axiom_enabled?: boolean;
-  logdrain_axiom_dataset_name?: string | null;
+  logdrain_newrelic_license_key?: string | undefined;
+  logdrain_newrelic_base_uri?: string | null | undefined;
+  is_logdrain_axiom_enabled?: boolean | undefined;
+  logdrain_axiom_dataset_name?: string | null | undefined;
   /** Only present with read:sensitive. */
-  logdrain_axiom_api_key?: string;
-  is_logdrain_custom_enabled?: boolean;
+  logdrain_axiom_api_key?: string | undefined;
+  is_logdrain_custom_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
-  logdrain_custom_config?: string;
+  logdrain_custom_config?: string | undefined;
   /** Only present with read:sensitive. */
-  logdrain_custom_config_parser?: string;
+  logdrain_custom_config_parser?: string | undefined;
 }
 export interface GetServerProxyRequest {
   /** Server UUID */
   uuid: string;
 }
 export interface GetServerProxyResponse {
-  proxy_type?: string | null;
-  status?: string | null;
-  redirect_enabled?: boolean;
-  redirect_url?: string | null;
-  generate_exact_labels?: boolean;
+  proxy_type?: string | null | undefined;
+  status?: string | null | undefined;
+  redirect_enabled?: boolean | undefined;
+  redirect_url?: string | null | undefined;
+  generate_exact_labels?: boolean | undefined;
+  /** Traefik certificate resolver for generated HTTPS routers. Null when the proxy uses its own certificates. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Docker Compose proxy configuration when stored in the database. Only present with read:sensitive. */
-  configuration?: string | null;
+  configuration?: string | null | undefined;
 }
 export interface GetServerSentinelRequest {
   /** Server UUID */
   uuid: string;
 }
+/** How Sentinel stores client IPs for the Top IPs breakdown. */
+export type GetServerSentinelResponseTrafficIpMode = "full" | "anonymized" | "off";
 export interface GetServerSentinelResponse {
   /** Sentinel is mandatory on regular managed servers. */
-  is_sentinel_enabled?: boolean;
-  is_metrics_enabled?: boolean;
-  is_sentinel_debug_enabled?: boolean;
+  is_sentinel_enabled?: boolean | undefined;
+  is_metrics_enabled?: boolean | undefined;
+  is_sentinel_debug_enabled?: boolean | undefined;
   /** Only present with read:sensitive. */
-  sentinel_token?: string;
-  sentinel_metrics_refresh_rate_seconds?: number;
-  sentinel_metrics_history_days?: number;
-  sentinel_push_interval_seconds?: number;
+  sentinel_token?: string | undefined;
+  sentinel_metrics_refresh_rate_seconds?: number | undefined;
+  sentinel_metrics_history_days?: number | undefined;
+  sentinel_push_interval_seconds?: number | undefined;
   /** Only present with read:sensitive. */
-  sentinel_custom_url?: string;
-  sentinel_updated_at?: string | null;
-  traffic_topn?: number;
-  traffic_sample_threshold?: number;
-  traffic_retention_1h_days?: number;
-  traffic_retention_1d_days?: number;
-  is_geoip_enabled?: boolean;
-  geoip_refresh_days?: number;
+  sentinel_custom_url?: string | undefined;
+  sentinel_updated_at?: string | null | undefined;
+  traffic_topn?: number | undefined;
+  traffic_sample_threshold?: number | undefined;
+  traffic_retention_1h_days?: number | undefined;
+  traffic_retention_1d_days?: number | undefined;
+  is_geoip_enabled?: boolean | undefined;
+  geoip_refresh_days?: number | undefined;
+  /** How Sentinel stores client IPs for the Top IPs breakdown. */
+  traffic_ip_mode?: GetServerSentinelResponseTrafficIpMode | undefined;
   /** Only present with read:sensitive. */
-  geoip_maxmind_license_key?: string;
+  geoip_maxmind_license_key?: string | undefined;
 }
 export interface GetServiceRequest {
   /** Service UUID */
@@ -3536,41 +3575,41 @@ export interface GetServiceRequest {
 /** Service model */
 export interface Service {
   /** The unique identifier of the service. Only used for database identification. */
-  id?: number;
+  id?: number | undefined;
   /** The unique identifier of the service. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The name of the service. */
-  name?: string;
+  name?: string | undefined;
   /** The unique identifier of the environment where the service is attached to. */
-  environment_id?: number;
+  environment_id?: number | undefined;
   /** The unique identifier of the server where the service is running. */
-  server_id?: number;
+  server_id?: number | undefined;
   /** The description of the service. */
-  description?: string;
+  description?: string | undefined;
   /** The raw docker-compose.yml file of the service. */
-  docker_compose_raw?: string;
+  docker_compose_raw?: string | undefined;
   /** The docker-compose.yml file that is parsed and modified by Coolify. */
-  docker_compose?: string;
+  docker_compose?: string | undefined;
   /** Destination type. */
-  destination_type?: string;
+  destination_type?: string | undefined;
   /** The unique identifier of the destination where the service is running. */
-  destination_id?: number;
+  destination_id?: number | undefined;
   /** The flag to connect the service to the predefined Docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** The flag to enable the container label escape. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** The flag to enable the container label readonly. */
-  is_container_label_readonly_enabled?: boolean;
+  is_container_label_readonly_enabled?: boolean | undefined;
   /** The hash of the service configuration. */
-  config_hash?: string;
+  config_hash?: string | undefined;
   /** The type of the service. */
-  service_type?: string;
+  service_type?: string | undefined;
   /** The date and time when the service was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time when the service was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The date and time when the service was deleted. */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
 }
 export interface GetServiceApplicationByServiceAndAppUuidRequest {
   /** Service UUID. */
@@ -3589,10 +3628,10 @@ export interface GetServiceApplicationLogsByServiceAndAppUuidRequest {
   /** Service application UUID. */
   app_uuid: string;
   /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
-  lines?: GetServiceApplicationLogsByServiceAndAppUuidRequestLines;
+  lines?: GetServiceApplicationLogsByServiceAndAppUuidRequestLines | undefined;
 }
 export interface GetServiceApplicationLogsByServiceAndAppUuidResponse {
-  logs?: string;
+  logs?: string | undefined;
 }
 export interface GetServiceDatabaseByServiceAndDatabaseUuidRequest {
   /** Service UUID. */
@@ -3617,10 +3656,10 @@ export interface GetServiceDatabaseLogsByServiceAndDatabaseUuidRequest {
   uuid: string;
   database_uuid: string;
   /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
-  lines?: GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines;
+  lines?: GetServiceDatabaseLogsByServiceAndDatabaseUuidRequestLines | undefined;
 }
 export interface GetServiceDatabaseLogsByServiceAndDatabaseUuidResponse {
-  logs?: string;
+  logs?: string | undefined;
 }
 export type GetServiceLogsByUuidRequestLinesCase1 = "all";
 export type GetServiceLogsByUuidRequestLines = number | GetServiceLogsByUuidRequestLinesCase1;
@@ -3630,12 +3669,12 @@ export interface GetServiceLogsByUuidRequest {
   /** Sub-service name from `GET /services/{uuid}` under `applications[].name` or `databases[].name`. Do not use `human_name` or the Docker container name with the service UUID suffix. */
   sub_service_name: string;
   /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
-  lines?: GetServiceLogsByUuidRequestLines;
+  lines?: GetServiceLogsByUuidRequestLines | undefined;
   /** Show timestamps in the logs. */
-  show_timestamps?: boolean;
+  show_timestamps?: boolean | undefined;
 }
 export interface GetServiceLogsByUuidResponse {
-  logs?: string;
+  logs?: string | undefined;
 }
 export interface GetTeamRequest {
   /** Team ID */
@@ -3646,25 +3685,25 @@ export type TeamMembersList = Array<User>;
 /** Team model */
 export interface Team {
   /** The unique identifier of the team. */
-  id?: number;
+  id?: number | undefined;
   /** The name of the team. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the team. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the team is personal or not. */
-  personal_team?: boolean;
+  personal_team?: boolean | undefined;
   /** The date and time the team was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the team was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Whether to show the boarding screen or not. */
-  show_boarding?: boolean;
+  show_boarding?: boolean | undefined;
   /** The custom server limit. */
-  custom_server_limit?: string;
+  custom_server_limit?: string | undefined;
   /** Whether deployments can fall back to the deployment server when no usable dedicated build server is available. */
-  is_build_server_fallback_enabled?: boolean;
+  is_build_server_fallback_enabled?: boolean | undefined;
   /** The members of the team. */
-  members?: TeamMembersList;
+  members?: TeamMembersList | undefined;
 }
 export interface GetTokenTeamRequest {}
 export interface GetTokenTeamMembersRequest {}
@@ -3690,19 +3729,19 @@ export interface ListApplicationRollbackImagesRequest {
   uuid: string;
 }
 export interface ListApplicationRollbackImagesResponseImagesItem {
-  tag?: string;
-  created_at?: string;
-  is_current?: boolean;
+  tag?: string | undefined;
+  created_at?: string | undefined;
+  is_current?: boolean | undefined;
 }
 export type ListApplicationRollbackImagesResponseImagesList =
   Array<ListApplicationRollbackImagesResponseImagesItem>;
 export interface ListApplicationRollbackImagesResponse {
-  current?: string | null;
-  images?: ListApplicationRollbackImagesResponseImagesList;
+  current?: string | null | undefined;
+  images?: ListApplicationRollbackImagesResponseImagesList | undefined;
 }
 export interface ListApplicationsRequest {
   /** Filter applications by tag name. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type ListApplicationsResponseBodyList = Array<Application>;
 export type ListApplicationsResponse = ListApplicationsResponseBodyList;
@@ -3716,39 +3755,39 @@ export type ListAuditEventsRequestSource =
   | "scheduler";
 export interface ListAuditEventsRequest {
   /** Items per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Page number. */
-  page?: number;
+  page?: number | undefined;
   /** Search text. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by action. Use all for every action. */
-  action?: string;
+  action?: string | undefined;
   /** Filter by source. */
-  source?: ListAuditEventsRequestSource | (string & {});
+  source?: ListAuditEventsRequestSource | (string & {}) | undefined;
 }
 export interface ListAuditEventsResponseDataItem {
-  id?: number;
-  team_id?: number | null;
-  event?: string;
-  source?: string;
-  action?: string;
-  level?: string;
-  actor_type?: string | null;
-  actor_id?: number | null;
-  actor_name?: string | null;
-  resource_type?: string | null;
-  resource_uuid?: string | null;
-  resource_name?: string | null;
-  description?: string | null;
-  created_at?: string;
+  id?: number | undefined;
+  team_id?: number | null | undefined;
+  event?: string | undefined;
+  source?: string | undefined;
+  action?: string | undefined;
+  level?: string | undefined;
+  actor_type?: string | null | undefined;
+  actor_id?: number | null | undefined;
+  actor_name?: string | null | undefined;
+  resource_type?: string | null | undefined;
+  resource_uuid?: string | null | undefined;
+  resource_name?: string | null | undefined;
+  description?: string | null | undefined;
+  created_at?: string | undefined;
 }
 export type ListAuditEventsResponseDataList = Array<ListAuditEventsResponseDataItem>;
 export interface ListAuditEventsResponse {
-  current_page?: number;
-  data?: ListAuditEventsResponseDataList;
-  per_page?: number;
-  last_page?: number;
-  total?: number;
+  current_page?: number | undefined;
+  data?: ListAuditEventsResponseDataList | undefined;
+  per_page?: number | undefined;
+  last_page?: number | undefined;
+  total?: number | undefined;
 }
 export interface ListBackupExecutionsRequest {
   /** UUID of the database */
@@ -3757,30 +3796,30 @@ export interface ListBackupExecutionsRequest {
   scheduled_backup_uuid: string;
 }
 export interface ListBackupExecutionsResponseExecutionsItem {
-  uuid?: string;
-  filename?: string;
-  size?: number;
-  created_at?: string;
-  message?: string;
-  status?: string;
+  uuid?: string | undefined;
+  filename?: string | undefined;
+  size?: number | undefined;
+  created_at?: string | undefined;
+  message?: string | undefined;
+  status?: string | undefined;
 }
 export type ListBackupExecutionsResponseExecutionsList =
   Array<ListBackupExecutionsResponseExecutionsItem>;
 export interface ListBackupExecutionsResponse {
-  executions?: ListBackupExecutionsResponseExecutionsList;
+  executions?: ListBackupExecutionsResponseExecutionsList | undefined;
 }
 export interface ListCloudInitScriptsRequest {}
 export interface ListCloudInitScriptsResponse {}
 export interface ListCloudTokensRequest {}
 export type ListCloudTokensResponseBodyItemProvider = "hetzner" | "digitalocean" | "vultr";
 export interface ListCloudTokensResponseBodyItem {
-  uuid?: string;
-  name?: string;
-  provider?: ListCloudTokensResponseBodyItemProvider;
-  team_id?: number;
-  servers_count?: number;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  provider?: ListCloudTokensResponseBodyItemProvider | undefined;
+  team_id?: number | undefined;
+  servers_count?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ListCloudTokensResponseBodyList = Array<ListCloudTokensResponseBodyItem>;
 export type ListCloudTokensResponse = ListCloudTokensResponseBodyList;
@@ -3793,9 +3832,9 @@ export interface ListDeploymentsByAppUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** Number of records to skip. */
-  skip?: number;
+  skip?: number | undefined;
   /** Number of records to take. */
-  take?: number;
+  take?: number | undefined;
 }
 export type ListDeploymentsByAppUuidResponseBodyList = Array<Application>;
 export type ListDeploymentsByAppUuidResponse = ListDeploymentsByAppUuidResponseBodyList;
@@ -3815,25 +3854,25 @@ export interface ListEnvsByApplicationUuidRequest {
 }
 /** Environment Variable model */
 export interface EnvironmentVariable {
-  id?: number;
-  uuid?: string;
-  resourceable_type?: string;
-  resourceable_id?: number;
-  is_literal?: boolean;
-  is_multiline?: boolean;
-  is_preview?: boolean;
-  is_runtime?: boolean;
-  is_buildtime?: boolean;
-  is_shared?: boolean;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  resourceable_type?: string | undefined;
+  resourceable_id?: number | undefined;
+  is_literal?: boolean | undefined;
+  is_multiline?: boolean | undefined;
+  is_preview?: boolean | undefined;
+  is_runtime?: boolean | undefined;
+  is_buildtime?: boolean | undefined;
+  is_shared?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
-  key?: string;
-  value?: string;
-  real_value?: string;
-  comment?: string | null;
-  version?: string;
-  created_at?: string;
-  updated_at?: string;
+  is_shown_once?: boolean | undefined;
+  key?: string | undefined;
+  value?: string | undefined;
+  real_value?: string | undefined;
+  comment?: string | null | undefined;
+  version?: string | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ListEnvsByApplicationUuidResponseBodyList = Array<EnvironmentVariable>;
 export type ListEnvsByApplicationUuidResponse = ListEnvsByApplicationUuidResponseBodyList;
@@ -3851,40 +3890,40 @@ export type ListEnvsByServiceUuidResponseBodyList = Array<EnvironmentVariable>;
 export type ListEnvsByServiceUuidResponse = ListEnvsByServiceUuidResponseBodyList;
 export interface ListGithubAppsRequest {}
 export interface ListGithubAppsResponseBodyItem {
-  id?: number;
-  uuid?: string;
-  name?: string;
-  organization?: string | null;
-  api_url?: string;
-  html_url?: string;
-  custom_user?: string;
-  custom_port?: number;
-  app_id?: number;
-  installation_id?: number;
-  client_id?: string;
-  private_key_id?: number;
-  is_system_wide?: boolean;
-  is_public?: boolean;
-  team_id?: number;
-  type?: string;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  organization?: string | null | undefined;
+  api_url?: string | undefined;
+  html_url?: string | undefined;
+  custom_user?: string | undefined;
+  custom_port?: number | undefined;
+  app_id?: number | undefined;
+  installation_id?: number | undefined;
+  client_id?: string | undefined;
+  private_key_id?: number | undefined;
+  is_system_wide?: boolean | undefined;
+  is_public?: boolean | undefined;
+  team_id?: number | undefined;
+  type?: string | undefined;
 }
 export type ListGithubAppsResponseBodyList = Array<ListGithubAppsResponseBodyItem>;
 export type ListGithubAppsResponse = ListGithubAppsResponseBodyList;
 export interface ListGitlabAppsRequest {}
 export interface ListGitlabAppsResponseBodyItem {
-  id?: number;
-  uuid?: string;
-  name?: string;
-  api_url?: string;
-  html_url?: string;
-  custom_user?: string;
-  custom_port?: number;
-  client_id?: string | null;
-  group_name?: string | null;
-  redirect_uri?: string | null;
-  is_system_wide?: boolean;
-  is_public?: boolean;
-  team_id?: number;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  api_url?: string | undefined;
+  html_url?: string | undefined;
+  custom_user?: string | undefined;
+  custom_port?: number | undefined;
+  client_id?: string | null | undefined;
+  group_name?: string | null | undefined;
+  redirect_uri?: string | null | undefined;
+  is_system_wide?: boolean | undefined;
+  is_public?: boolean | undefined;
+  team_id?: number | undefined;
 }
 export type ListGitlabAppsResponseBodyList = Array<ListGitlabAppsResponseBodyItem>;
 export type ListGitlabAppsResponse = ListGitlabAppsResponseBodyList;
@@ -3910,16 +3949,16 @@ export interface ListResourcesRequest {}
 export type ListResourcesResponse = string;
 export interface ListS3StoragesRequest {}
 export interface ListS3StoragesResponseBodyItem {
-  uuid?: string;
-  name?: string;
-  description?: string | null;
-  endpoint?: string;
-  bucket?: string;
-  region?: string;
-  is_usable?: boolean;
-  team_id?: number;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  endpoint?: string | undefined;
+  bucket?: string | undefined;
+  region?: string | undefined;
+  is_usable?: boolean | undefined;
+  team_id?: number | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ListS3StoragesResponseBodyList = Array<ListS3StoragesResponseBodyItem>;
 export type ListS3StoragesResponse = ListS3StoragesResponseBodyList;
@@ -3934,23 +3973,23 @@ export type ScheduledTaskExecutionStatus = "success" | "failed" | "running";
 /** Scheduled Task Execution model */
 export interface ScheduledTaskExecution {
   /** The unique identifier of the execution. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The status of the execution. */
-  status?: ScheduledTaskExecutionStatus;
+  status?: ScheduledTaskExecutionStatus | undefined;
   /** The output message of the execution. */
-  message?: string | null;
+  message?: string | null | undefined;
   /** The number of retries. */
-  retry_count?: number;
+  retry_count?: number | undefined;
   /** Duration in seconds. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** When the execution started. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** When the execution finished. */
-  finished_at?: string | null;
+  finished_at?: string | null | undefined;
   /** When the record was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When the record was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type ListScheduledTaskExecutionsByApplicationUuidResponseBodyList =
   Array<ScheduledTaskExecution>;
@@ -3991,12 +4030,12 @@ export interface ListServerDockerCleanupExecutionsRequest {
   uuid: string;
 }
 export interface ListServerDockerCleanupExecutionsResponseBodyItem {
-  uuid?: string;
-  status?: string;
-  message?: string | null;
-  finished_at?: string | null;
-  created_at?: string;
-  updated_at?: string;
+  uuid?: string | undefined;
+  status?: string | undefined;
+  message?: string | null | undefined;
+  finished_at?: string | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type ListServerDockerCleanupExecutionsResponseBodyList =
   Array<ListServerDockerCleanupExecutionsResponseBodyItem>;
@@ -4009,26 +4048,26 @@ export interface ListServerRegistriesRequest {
 /** Where the Docker config stores the credentials. */
 export type ListServerRegistriesResponseRegistriesItemSource = "auths" | "credHelpers";
 export interface ListServerRegistriesResponseRegistriesItemUsedByItem {
-  type?: string;
-  name?: string;
-  link?: string | null;
+  type?: string | undefined;
+  name?: string | undefined;
+  link?: string | null | undefined;
 }
 export type ListServerRegistriesResponseRegistriesItemUsedByList =
   Array<ListServerRegistriesResponseRegistriesItemUsedByItem>;
 export interface ListServerRegistriesResponseRegistriesItem {
-  registry?: string;
-  logged_in?: boolean;
+  registry?: string | undefined;
+  logged_in?: boolean | undefined;
   /** Where the Docker config stores the credentials. */
-  source?: ListServerRegistriesResponseRegistriesItemSource | null;
-  username?: string | null;
-  used_by?: ListServerRegistriesResponseRegistriesItemUsedByList;
+  source?: ListServerRegistriesResponseRegistriesItemSource | null | undefined;
+  username?: string | null | undefined;
+  used_by?: ListServerRegistriesResponseRegistriesItemUsedByList | undefined;
 }
 export type ListServerRegistriesResponseRegistriesList =
   Array<ListServerRegistriesResponseRegistriesItem>;
 export interface ListServerRegistriesResponse {
-  registries?: ListServerRegistriesResponseRegistriesList;
+  registries?: ListServerRegistriesResponseRegistriesList | undefined;
   /** Set when the logins could not be read from the server. */
-  error?: string | null;
+  error?: string | null | undefined;
 }
 export interface ListServersRequest {}
 export type ListServersResponseBodyList = Array<Server>;
@@ -4062,8 +4101,8 @@ export interface ListStoragesByApplicationUuidRequest {
 export type ListStoragesByApplicationUuidResponsePersistentStoragesList = Array<unknown>;
 export type ListStoragesByApplicationUuidResponseFileStoragesList = Array<unknown>;
 export interface ListStoragesByApplicationUuidResponse {
-  persistent_storages?: ListStoragesByApplicationUuidResponsePersistentStoragesList;
-  file_storages?: ListStoragesByApplicationUuidResponseFileStoragesList;
+  persistent_storages?: ListStoragesByApplicationUuidResponsePersistentStoragesList | undefined;
+  file_storages?: ListStoragesByApplicationUuidResponseFileStoragesList | undefined;
 }
 export interface ListStoragesByDatabaseUuidRequest {
   /** UUID of the database. */
@@ -4072,8 +4111,8 @@ export interface ListStoragesByDatabaseUuidRequest {
 export type ListStoragesByDatabaseUuidResponsePersistentStoragesList = Array<unknown>;
 export type ListStoragesByDatabaseUuidResponseFileStoragesList = Array<unknown>;
 export interface ListStoragesByDatabaseUuidResponse {
-  persistent_storages?: ListStoragesByDatabaseUuidResponsePersistentStoragesList;
-  file_storages?: ListStoragesByDatabaseUuidResponseFileStoragesList;
+  persistent_storages?: ListStoragesByDatabaseUuidResponsePersistentStoragesList | undefined;
+  file_storages?: ListStoragesByDatabaseUuidResponseFileStoragesList | undefined;
 }
 export interface ListStoragesByServiceUuidRequest {
   /** UUID of the service. */
@@ -4082,8 +4121,8 @@ export interface ListStoragesByServiceUuidRequest {
 export type ListStoragesByServiceUuidResponsePersistentStoragesList = Array<unknown>;
 export type ListStoragesByServiceUuidResponseFileStoragesList = Array<unknown>;
 export interface ListStoragesByServiceUuidResponse {
-  persistent_storages?: ListStoragesByServiceUuidResponsePersistentStoragesList;
-  file_storages?: ListStoragesByServiceUuidResponseFileStoragesList;
+  persistent_storages?: ListStoragesByServiceUuidResponsePersistentStoragesList | undefined;
+  file_storages?: ListStoragesByServiceUuidResponseFileStoragesList | undefined;
 }
 export interface ListTagsRequest {}
 export type ListTagsResponseBodyList = Array<Tag>;
@@ -4121,7 +4160,7 @@ export interface LoadBranchesRequest {
 }
 export type LoadBranchesResponseBranchesList = Array<unknown>;
 export interface LoadBranchesResponse {
-  branches?: LoadBranchesResponseBranchesList;
+  branches?: LoadBranchesResponseBranchesList | undefined;
 }
 export interface LoadRepositoriesRequest {
   /** GitHub App ID */
@@ -4129,7 +4168,7 @@ export interface LoadRepositoriesRequest {
 }
 export type LoadRepositoriesResponseRepositoriesList = Array<unknown>;
 export interface LoadRepositoriesResponse {
-  repositories?: LoadRepositoriesResponseRepositoriesList;
+  repositories?: LoadRepositoriesResponseRepositoriesList | undefined;
 }
 export interface LoginServerRegistryRequest {
   /** Server UUID */
@@ -4141,7 +4180,7 @@ export interface LoginServerRegistryRequest {
   password: string | Redacted.Redacted<string>;
 }
 export interface LoginServerRegistryResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface LogoutServerRegistryRequest {
   /** Server UUID */
@@ -4150,7 +4189,7 @@ export interface LogoutServerRegistryRequest {
   registry: string;
 }
 export interface LogoutServerRegistryResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface MigrateApplicationByUuidRequest {
   /** UUID of the application. */
@@ -4158,7 +4197,7 @@ export interface MigrateApplicationByUuidRequest {
   /** UUID of the target destination. */
   destination_uuid: string;
   /** Whether to transfer persistent volume data when migrating across servers. */
-  migrate_volumes?: boolean;
+  migrate_volumes?: boolean | undefined;
 }
 export interface MigrateApplicationByUuidResponse {}
 export interface MigrateDatabaseByUuidRequest {
@@ -4167,7 +4206,7 @@ export interface MigrateDatabaseByUuidRequest {
   /** UUID of the target destination. */
   destination_uuid: string;
   /** Whether to transfer persistent volume data when migrating across servers. */
-  migrate_volumes?: boolean;
+  migrate_volumes?: boolean | undefined;
 }
 export interface MigrateDatabaseByUuidResponse {}
 export interface MigrateServiceByUuidRequest {
@@ -4176,7 +4215,7 @@ export interface MigrateServiceByUuidRequest {
   /** UUID of the target destination. */
   destination_uuid: string;
   /** Whether to transfer persistent volume data when migrating across servers. */
-  migrate_volumes?: boolean;
+  migrate_volumes?: boolean | undefined;
 }
 export interface MigrateServiceByUuidResponse {}
 export interface MoveApplicationByUuidRequest {
@@ -4186,10 +4225,10 @@ export interface MoveApplicationByUuidRequest {
   environment_uuid: string;
 }
 export interface MoveApplicationByUuidResponse {
-  message?: string;
-  uuid?: string;
-  project_uuid?: string;
-  environment_uuid?: string;
+  message?: string | undefined;
+  uuid?: string | undefined;
+  project_uuid?: string | undefined;
+  environment_uuid?: string | undefined;
 }
 export interface MoveDatabaseByUuidRequest {
   /** UUID of the database. */
@@ -4198,10 +4237,10 @@ export interface MoveDatabaseByUuidRequest {
   environment_uuid: string;
 }
 export interface MoveDatabaseByUuidResponse {
-  message?: string;
-  uuid?: string;
-  project_uuid?: string;
-  environment_uuid?: string;
+  message?: string | undefined;
+  uuid?: string | undefined;
+  project_uuid?: string | undefined;
+  environment_uuid?: string | undefined;
 }
 export interface MoveServiceByUuidRequest {
   /** UUID of the service. */
@@ -4210,10 +4249,10 @@ export interface MoveServiceByUuidRequest {
   environment_uuid: string;
 }
 export interface MoveServiceByUuidResponse {
-  message?: string;
-  uuid?: string;
-  project_uuid?: string;
-  environment_uuid?: string;
+  message?: string | undefined;
+  uuid?: string | undefined;
+  project_uuid?: string | undefined;
+  environment_uuid?: string | undefined;
 }
 /** The subset of the service application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the domains are ignored. */
 export type PatchServiceApplicationByServiceAndAppUuidRequestNoindexDomainsList = Array<string>;
@@ -4223,21 +4262,26 @@ export interface PatchServiceApplicationByServiceAndAppUuidRequest {
   /** Service application UUID. */
   app_uuid: string;
   /** When true, allow duplicate URLs in the request and proceed despite domain conflicts (same as service PATCH). */
-  force_domain_override?: boolean;
+  force_domain_override?: boolean | undefined;
   /** Comma-separated list of URLs (e.g. "http://app.example.com:8080,https://app2.example.com"). Stored as fqdn. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The subset of the service application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the domains are ignored. */
-  noindex_domains?: PatchServiceApplicationByServiceAndAppUuidRequestNoindexDomainsList | null;
-  human_name?: string | null;
-  description?: string | null;
-  image?: string | null;
-  exclude_from_status?: boolean | null;
-  is_log_drain_enabled?: boolean | null;
-  is_gzip_enabled?: boolean | null;
-  is_stripprefix_enabled?: boolean | null;
-  is_force_https_enabled?: boolean | null;
+  noindex_domains?:
+    | PatchServiceApplicationByServiceAndAppUuidRequestNoindexDomainsList
+    | null
+    | undefined;
+  human_name?: string | null | undefined;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
+  exclude_from_status?: boolean | null | undefined;
+  is_log_drain_enabled?: boolean | null | undefined;
+  is_gzip_enabled?: boolean | null | undefined;
+  /** Traefik certificate resolver for this service application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
+  is_stripprefix_enabled?: boolean | null | undefined;
+  is_force_https_enabled?: boolean | null | undefined;
   /** Maximum Docker restart count before Coolify stops the container. Set to 0 to disable the limit. */
-  max_restart_count?: number | null;
+  max_restart_count?: number | null | undefined;
 }
 export type PatchServiceApplicationByServiceAndAppUuidResponse = unknown;
 export interface PatchServiceDatabaseByServiceAndDatabaseUuidRequest {
@@ -4245,14 +4289,14 @@ export interface PatchServiceDatabaseByServiceAndDatabaseUuidRequest {
   uuid: string;
   /** Service database UUID. */
   database_uuid: string;
-  human_name?: string | null;
-  description?: string | null;
-  image?: string;
-  exclude_from_status?: boolean;
-  is_log_drain_enabled?: boolean;
-  is_public?: boolean;
-  public_port?: number | null;
-  public_port_timeout?: number | null;
+  human_name?: string | null | undefined;
+  description?: string | null | undefined;
+  image?: string | undefined;
+  exclude_from_status?: boolean | undefined;
+  is_log_drain_enabled?: boolean | undefined;
+  is_public?: boolean | undefined;
+  public_port?: number | null | undefined;
+  public_port_timeout?: number | null | undefined;
 }
 export type PatchServiceDatabaseByServiceAndDatabaseUuidResponse = unknown;
 export interface PostRestartServiceApplicationByServiceAndAppUuidRequest {
@@ -4260,7 +4304,7 @@ export interface PostRestartServiceApplicationByServiceAndAppUuidRequest {
   app_uuid: string;
 }
 export interface PostRestartServiceApplicationByServiceAndAppUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export type PostServiceApplicationLogsByServiceAndAppUuidRequestLinesCase1 = "all";
 export type PostServiceApplicationLogsByServiceAndAppUuidRequestLines =
@@ -4270,26 +4314,26 @@ export interface PostServiceApplicationLogsByServiceAndAppUuidRequest {
   uuid: string;
   app_uuid: string;
   /** Number of lines to show from the end of the logs. Use `all` to return all logs. `-1` remains available as a compatibility alias. */
-  lines?: PostServiceApplicationLogsByServiceAndAppUuidRequestLines;
+  lines?: PostServiceApplicationLogsByServiceAndAppUuidRequestLines | undefined;
 }
 export interface PostServiceApplicationLogsByServiceAndAppUuidResponse {
-  logs?: string;
+  logs?: string | undefined;
 }
 export interface PostStartServiceApplicationByServiceAndAppUuidRequest {
   uuid: string;
   app_uuid: string;
-  force?: boolean;
-  latest?: boolean;
+  force?: boolean | undefined;
+  latest?: boolean | undefined;
 }
 export interface PostStartServiceApplicationByServiceAndAppUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface PostStopServiceApplicationByServiceAndAppUuidRequest {
   uuid: string;
   app_uuid: string;
 }
 export interface PostStopServiceApplicationByServiceAndAppUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RemoveApplicationDestinationRequest {
   /** UUID of the application. */
@@ -4303,39 +4347,39 @@ export interface RestartApplicationByUuidRequest {
   uuid: string;
 }
 export interface RestartApplicationByUuidResponse {
-  message?: string;
+  message?: string | undefined;
   /** UUID of the deployment. */
-  deployment_uuid?: string;
+  deployment_uuid?: string | undefined;
 }
 export interface RestartDatabaseByUuidRequest {
   /** UUID of the database. */
   uuid: string;
 }
 export interface RestartDatabaseByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestartServerProxyRequest {
   /** Server UUID */
   uuid: string;
 }
 export interface RestartServerProxyResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestartServiceByUuidRequest {
   /** UUID of the service. */
   uuid: string;
   /** Pull latest images. */
-  latest?: boolean;
+  latest?: boolean | undefined;
 }
 export interface RestartServiceByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RestartServiceDatabaseByServiceAndDatabaseUuidRequest {
   uuid: string;
   database_uuid: string;
 }
 export interface RestartServiceDatabaseByServiceAndDatabaseUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RollbackApplicationByUuidRequest {
   /** UUID of the application. */
@@ -4344,8 +4388,8 @@ export interface RollbackApplicationByUuidRequest {
   commit: string;
 }
 export interface RollbackApplicationByUuidResponse {
-  message?: string;
-  deployment_uuid?: string;
+  message?: string | undefined;
+  deployment_uuid?: string | undefined;
 }
 export interface RunApplicationStorageBackupRequest {
   uuid: string;
@@ -4360,11 +4404,11 @@ export interface RunDatabaseStorageBackupResponse {}
 export interface RunServerDockerCleanupRequest {
   /** Server UUID */
   uuid: string;
-  delete_unused_volumes?: boolean;
-  delete_unused_networks?: boolean;
+  delete_unused_volumes?: boolean | undefined;
+  delete_unused_networks?: boolean | undefined;
 }
 export interface RunServerDockerCleanupResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface RunServiceStorageBackupRequest {
   uuid: string;
@@ -4378,13 +4422,13 @@ export interface SaveServerProxyConfigurationRequest {
   configuration: string;
 }
 export interface SaveServerProxyConfigurationResponse {
-  message?: string;
-  proxy_type?: string | null;
-  status?: string | null;
-  redirect_enabled?: boolean;
-  redirect_url?: string | null;
-  generate_exact_labels?: boolean;
-  configuration?: string | null;
+  message?: string | undefined;
+  proxy_type?: string | null | undefined;
+  status?: string | null | undefined;
+  redirect_enabled?: boolean | undefined;
+  redirect_url?: string | null | undefined;
+  generate_exact_labels?: boolean | undefined;
+  configuration?: string | null | undefined;
 }
 export interface SetApplicationStorageBackupScheduleRequest {
   /** UUID of the application. */
@@ -4392,18 +4436,20 @@ export interface SetApplicationStorageBackupScheduleRequest {
   /** UUID of the persistent volume or directory storage. */
   storage_uuid: string;
   frequency: string;
-  enabled?: boolean;
-  save_s3?: boolean;
-  disable_local_backup?: boolean;
-  stop_during_backup?: boolean;
-  s3_storage_uuid?: string | null;
-  retention_amount_locally?: number;
-  retention_days_locally?: number;
-  retention_max_storage_locally?: number;
-  retention_amount_s3?: number;
-  retention_days_s3?: number;
-  retention_max_storage_s3?: number;
-  timeout?: number;
+  enabled?: boolean | undefined;
+  save_s3?: boolean | undefined;
+  disable_local_backup?: boolean | undefined;
+  stop_during_backup?: boolean | undefined;
+  s3_storage_uuid?: string | null | undefined;
+  retention_amount_locally?: number | undefined;
+  retention_days_locally?: number | undefined;
+  retention_max_storage_locally?: number | undefined;
+  retention_amount_s3?: number | undefined;
+  retention_days_s3?: number | undefined;
+  retention_max_storage_s3?: number | undefined;
+  timeout?: number | undefined;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number | undefined;
 }
 export type VolumeBackupScheduleResponseStorageType = "persistent" | "directory";
 export interface VolumeBackupScheduleResponse {
@@ -4416,7 +4462,7 @@ export interface VolumeBackupScheduleResponse {
   save_s3: boolean;
   disable_local_backup: boolean;
   stop_during_backup: boolean;
-  s3_storage_uuid?: string | null;
+  s3_storage_uuid?: string | null | undefined;
   retention_amount_locally: number;
   retention_days_locally: number;
   retention_max_storage_locally: number;
@@ -4424,6 +4470,7 @@ export interface VolumeBackupScheduleResponse {
   retention_days_s3: number;
   retention_max_storage_s3: number;
   timeout: number;
+  missing_backup_notification_days: number;
 }
 export interface SetDatabaseStorageBackupScheduleRequest {
   /** UUID of the database. */
@@ -4431,18 +4478,20 @@ export interface SetDatabaseStorageBackupScheduleRequest {
   /** UUID of the persistent volume or directory storage. */
   storage_uuid: string;
   frequency: string;
-  enabled?: boolean;
-  save_s3?: boolean;
-  disable_local_backup?: boolean;
-  stop_during_backup?: boolean;
-  s3_storage_uuid?: string | null;
-  retention_amount_locally?: number;
-  retention_days_locally?: number;
-  retention_max_storage_locally?: number;
-  retention_amount_s3?: number;
-  retention_days_s3?: number;
-  retention_max_storage_s3?: number;
-  timeout?: number;
+  enabled?: boolean | undefined;
+  save_s3?: boolean | undefined;
+  disable_local_backup?: boolean | undefined;
+  stop_during_backup?: boolean | undefined;
+  s3_storage_uuid?: string | null | undefined;
+  retention_amount_locally?: number | undefined;
+  retention_days_locally?: number | undefined;
+  retention_max_storage_locally?: number | undefined;
+  retention_amount_s3?: number | undefined;
+  retention_days_s3?: number | undefined;
+  retention_max_storage_s3?: number | undefined;
+  timeout?: number | undefined;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number | undefined;
 }
 export interface SetServiceStorageBackupScheduleRequest {
   /** UUID of the service. */
@@ -4450,89 +4499,91 @@ export interface SetServiceStorageBackupScheduleRequest {
   /** UUID of the persistent volume or directory storage. */
   storage_uuid: string;
   frequency: string;
-  enabled?: boolean;
-  save_s3?: boolean;
-  disable_local_backup?: boolean;
-  stop_during_backup?: boolean;
-  s3_storage_uuid?: string | null;
-  retention_amount_locally?: number;
-  retention_days_locally?: number;
-  retention_max_storage_locally?: number;
-  retention_amount_s3?: number;
-  retention_days_s3?: number;
-  retention_max_storage_s3?: number;
-  timeout?: number;
+  enabled?: boolean | undefined;
+  save_s3?: boolean | undefined;
+  disable_local_backup?: boolean | undefined;
+  stop_during_backup?: boolean | undefined;
+  s3_storage_uuid?: string | null | undefined;
+  retention_amount_locally?: number | undefined;
+  retention_days_locally?: number | undefined;
+  retention_max_storage_locally?: number | undefined;
+  retention_amount_s3?: number | undefined;
+  retention_days_s3?: number | undefined;
+  retention_max_storage_s3?: number | undefined;
+  timeout?: number | undefined;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number | undefined;
 }
 export interface StartApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** Force rebuild. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Instant deploy (skip queuing). */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
 }
 export interface StartApplicationByUuidResponse {
   /** Message. */
-  message?: string;
+  message?: string | undefined;
   /** UUID of the deployment. */
-  deployment_uuid?: string;
+  deployment_uuid?: string | undefined;
 }
 export interface StartDatabaseByUuidRequest {
   /** UUID of the database. */
   uuid: string;
 }
 export interface StartDatabaseByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface StartServiceByUuidRequest {
   /** UUID of the service. */
   uuid: string;
 }
 export interface StartServiceByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface StartServiceDatabaseByServiceAndDatabaseUuidRequest {
   uuid: string;
   database_uuid: string;
-  force?: boolean;
-  latest?: boolean;
+  force?: boolean | undefined;
+  latest?: boolean | undefined;
 }
 export interface StartServiceDatabaseByServiceAndDatabaseUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface StopApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
-  docker_cleanup?: boolean;
+  docker_cleanup?: boolean | undefined;
 }
 export interface StopApplicationByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface StopDatabaseByUuidRequest {
   /** UUID of the database. */
   uuid: string;
   /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
-  docker_cleanup?: boolean;
+  docker_cleanup?: boolean | undefined;
 }
 export interface StopDatabaseByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface StopServiceByUuidRequest {
   /** UUID of the service. */
   uuid: string;
   /** Run docker cleanup when the server disk usage is at or above its cleanup threshold. Skipped when a cleanup ran on the server in the last hour. */
-  docker_cleanup?: boolean;
+  docker_cleanup?: boolean | undefined;
 }
 export interface StopServiceByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface StopServiceDatabaseByServiceAndDatabaseUuidRequest {
   uuid: string;
   database_uuid: string;
 }
 export interface StopServiceDatabaseByServiceAndDatabaseUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 /** The build pack type. */
 export type UpdateApplicationByUuidRequestBuildPack =
@@ -4552,11 +4603,15 @@ export type UpdateApplicationByUuidRequestDockerComposeDomainsItemRedirect =
   | "both";
 export interface UpdateApplicationByUuidRequestDockerComposeDomainsItem {
   /** The service name as defined in docker-compose. */
-  name?: string;
+  name?: string | undefined;
   /** Comma-separated list of URLs (e.g. "https://app.coolify.io,https://app2.coolify.io") */
-  domain?: string;
+  domain?: string | undefined;
   /** Per-service www/non-www redirect for this compose service. */
-  redirect?: UpdateApplicationByUuidRequestDockerComposeDomainsItemRedirect | (string & {}) | null;
+  redirect?:
+    | UpdateApplicationByUuidRequestDockerComposeDomainsItemRedirect
+    | (string & {})
+    | null
+    | undefined;
 }
 /** Array of URLs to be applied to containers of a dockercompose application. */
 export type UpdateApplicationByUuidRequestDockerComposeDomainsList =
@@ -4564,214 +4619,208 @@ export type UpdateApplicationByUuidRequestDockerComposeDomainsList =
 export interface UpdateApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
-  /** The project UUID. */
-  project_uuid?: string;
-  /** The server UUID. */
-  server_uuid?: string;
-  /** The environment name. */
-  environment_name?: string;
   /** The Github App UUID. */
-  github_app_uuid?: string;
+  github_app_uuid?: string | undefined;
   /** The git repository URL. */
-  git_repository?: string;
+  git_repository?: string | undefined;
   /** The git branch. */
-  git_branch?: string;
+  git_branch?: string | undefined;
   /** The ports to expose. */
-  ports_exposes?: string;
-  /** The destination UUID. */
-  destination_uuid?: string;
+  ports_exposes?: string | undefined;
   /** The build pack type. */
-  build_pack?: UpdateApplicationByUuidRequestBuildPack | (string & {});
+  build_pack?: UpdateApplicationByUuidRequestBuildPack | (string & {}) | undefined;
   /** The application name. */
-  name?: string;
+  name?: string | undefined;
   /** The application description. */
-  description?: string;
+  description?: string | undefined;
   /** The application URLs in a comma-separated list. */
-  domains?: string;
+  domains?: string | undefined;
   /** The subset of the application domains served with an X-Robots-Tag: noindex, nofollow response header, keeping them out of search engines. Entries that are not among the application domains are ignored. */
-  noindex_domains?: UpdateApplicationByUuidRequestNoindexDomainsList;
+  noindex_domains?: UpdateApplicationByUuidRequestNoindexDomainsList | undefined;
   /** The git commit SHA. */
-  git_commit_sha?: string;
+  git_commit_sha?: string | undefined;
   /** The docker registry image name. */
-  docker_registry_image_name?: string;
+  docker_registry_image_name?: string | undefined;
   /** The docker registry image tag. */
-  docker_registry_image_tag?: string;
+  docker_registry_image_tag?: string | undefined;
   /** The flag to indicate if the application is static. */
-  is_static?: boolean;
+  is_static?: boolean | undefined;
   /** The flag to indicate if the application is a single-page application (SPA). Only relevant when is_static is true. */
-  is_spa?: boolean;
+  is_spa?: boolean | undefined;
   /** The flag to indicate if auto-deploy is enabled on git push. Defaults to true. */
-  is_auto_deploy_enabled?: boolean;
+  is_auto_deploy_enabled?: boolean | undefined;
   /** The flag to indicate if HTTPS is forced. Defaults to true. */
-  is_force_https_enabled?: boolean;
+  is_force_https_enabled?: boolean | undefined;
   /** Enable preview deployments for pull requests. */
-  is_preview_deployments_enabled?: boolean;
+  is_preview_deployments_enabled?: boolean | undefined;
   /** The install command. */
-  install_command?: string;
+  install_command?: string | undefined;
   /** The build command. */
-  build_command?: string;
+  build_command?: string | undefined;
   /** The start command. */
-  start_command?: string;
+  start_command?: string | undefined;
   /** The ports mappings. */
-  ports_mappings?: string;
+  ports_mappings?: string | undefined;
   /** The base directory for all commands. */
-  base_directory?: string;
+  base_directory?: string | undefined;
   /** The publish directory. */
-  publish_directory?: string;
+  publish_directory?: string | undefined;
   /** Health check enabled. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Health check path. */
-  health_check_path?: string;
+  health_check_path?: string | undefined;
   /** Health check port. */
-  health_check_port?: string | null;
+  health_check_port?: string | null | undefined;
   /** Health check host. */
-  health_check_host?: string | null;
+  health_check_host?: string | null | undefined;
   /** Health check method. */
-  health_check_method?: string;
+  health_check_method?: string | undefined;
   /** Health check return code. */
-  health_check_return_code?: number;
+  health_check_return_code?: number | undefined;
   /** Health check scheme. */
-  health_check_scheme?: string;
+  health_check_scheme?: string | undefined;
   /** Health check response text. */
-  health_check_response_text?: string | null;
+  health_check_response_text?: string | null | undefined;
   /** Health check interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Health check timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Health check retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Health check start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
   /** Memory limit. */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit. */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness. */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation. */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit. */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set. */
-  limits_cpuset?: string | null;
+  limits_cpuset?: string | null | undefined;
   /** CPU shares. */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
   /** Custom labels. */
-  custom_labels?: string;
+  custom_labels?: string | undefined;
   /** Custom docker run options. */
-  custom_docker_run_options?: string;
+  custom_docker_run_options?: string | undefined;
   /** Post deployment command. */
-  post_deployment_command?: string;
+  post_deployment_command?: string | undefined;
   /** Post deployment command container. */
-  post_deployment_command_container?: string;
+  post_deployment_command_container?: string | undefined;
   /** Pre deployment command. */
-  pre_deployment_command?: string;
+  pre_deployment_command?: string | undefined;
   /** Pre deployment command container. */
-  pre_deployment_command_container?: string;
+  pre_deployment_command_container?: string | undefined;
   /** Manual webhook secret for Github. */
-  manual_webhook_secret_github?: string;
+  manual_webhook_secret_github?: string | undefined;
   /** Manual webhook secret for Gitlab. */
-  manual_webhook_secret_gitlab?: string;
+  manual_webhook_secret_gitlab?: string | undefined;
   /** Manual webhook secret for Bitbucket. */
-  manual_webhook_secret_bitbucket?: string;
+  manual_webhook_secret_bitbucket?: string | undefined;
   /** Manual webhook secret for Gitea. */
-  manual_webhook_secret_gitea?: string;
+  manual_webhook_secret_gitea?: string | undefined;
   /** How to set redirect with Traefik / Caddy. www<->non-www. */
-  redirect?: UpdateApplicationByUuidRequestRedirect | (string & {}) | null;
+  redirect?: UpdateApplicationByUuidRequestRedirect | (string & {}) | null | undefined;
   /** The flag to indicate if the application should be deployed instantly. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** The Dockerfile content. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** The Dockerfile location in the repository. */
-  dockerfile_location?: string;
+  dockerfile_location?: string | undefined;
   /** The Docker Compose location. */
-  docker_compose_location?: string;
+  docker_compose_location?: string | undefined;
   /** The Docker Compose custom start command. */
-  docker_compose_custom_start_command?: string;
+  docker_compose_custom_start_command?: string | undefined;
   /** The Docker Compose custom build command. */
-  docker_compose_custom_build_command?: string;
+  docker_compose_custom_build_command?: string | undefined;
   /** Array of URLs to be applied to containers of a dockercompose application. */
-  docker_compose_domains?: UpdateApplicationByUuidRequestDockerComposeDomainsList;
-  /** The watch paths. */
-  watch_paths?: string;
+  docker_compose_domains?: UpdateApplicationByUuidRequestDockerComposeDomainsList | undefined;
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
+  watch_paths?: string | undefined;
   /** Use build server. */
-  use_build_server?: boolean | null;
+  use_build_server?: boolean | null | undefined;
   /** Use Docker Build Secrets for build-time environment variables. */
-  use_build_secrets?: boolean;
+  use_build_secrets?: boolean | undefined;
   /** Clone Git submodules. */
-  is_git_submodules_enabled?: boolean;
+  is_git_submodules_enabled?: boolean | undefined;
   /** Enable Git LFS. */
-  is_git_lfs_enabled?: boolean;
+  is_git_lfs_enabled?: boolean | undefined;
   /** Use a shallow Git clone. */
-  is_git_shallow_clone_enabled?: boolean;
+  is_git_shallow_clone_enabled?: boolean | undefined;
   /** Disable the build cache. */
-  disable_build_cache?: boolean;
+  disable_build_cache?: boolean | undefined;
   /** Inject build arguments into the Dockerfile build. */
-  inject_build_args_to_dockerfile?: boolean;
+  inject_build_args_to_dockerfile?: boolean | undefined;
   /** Include the source commit in the build. */
-  include_source_commit_in_build?: boolean;
+  include_source_commit_in_build?: boolean | undefined;
   /** Sort environment variables. */
-  is_env_sorting_enabled?: boolean;
+  is_env_sorting_enabled?: boolean | undefined;
   /** Make pull request deployments public. */
-  is_pr_deployments_public_enabled?: boolean;
+  is_pr_deployments_public_enabled?: boolean | undefined;
   /** Container stop grace period in seconds. */
-  stop_grace_period?: number | null;
+  stop_grace_period?: number | null | undefined;
   /** Number of Docker images to retain. */
-  docker_images_to_keep?: number;
+  docker_images_to_keep?: number | undefined;
   /** Enable gzip compression. */
-  is_gzip_enabled?: boolean;
+  is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
-  is_stripprefix_enabled?: boolean;
+  is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
-  is_raw_compose_deployment_enabled?: boolean;
+  is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
-  is_log_drain_enabled?: boolean;
+  is_log_drain_enabled?: boolean | undefined;
   /** Enable GPU support. */
-  is_gpu_enabled?: boolean;
+  is_gpu_enabled?: boolean | undefined;
   /** GPU driver name. */
-  gpu_driver?: string | null;
+  gpu_driver?: string | null | undefined;
   /** Number of GPUs to allocate. */
-  gpu_count?: string | null;
+  gpu_count?: string | null | undefined;
   /** Comma-separated GPU device IDs. */
-  gpu_device_ids?: string | null;
+  gpu_device_ids?: string | null | undefined;
   /** Additional GPU options. */
-  gpu_options?: string | null;
+  gpu_options?: string | null | undefined;
   /** Use a consistent container name across deployments. */
-  is_consistent_container_name_enabled?: boolean;
+  is_consistent_container_name_enabled?: boolean | undefined;
   /** Custom internal container name. Turns is_consistent_container_name_enabled on when that field is not sent; sending it as false together with a name returns 422. */
-  custom_internal_name?: string | null;
+  custom_internal_name?: string | null | undefined;
   /** Prefix for generated container names (prefix-20260908T141530). Slugified and unique across the instance. */
-  custom_container_name_prefix?: string | null;
+  custom_container_name_prefix?: string | null | undefined;
   /** Preview URL template. */
-  preview_url_template?: string;
+  preview_url_template?: string | undefined;
   /** Maximum container restart count before stopping. */
-  max_restart_count?: number;
+  max_restart_count?: number | undefined;
   /** The flag to connect the service to the predefined Docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
-  force_domain_override?: boolean;
+  force_domain_override?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
   /** Preserve git repository during application update. If false, the existing repository will be removed and replaced with the new one. If true, the existing repository will be kept and the new one will be ignored. Default is false. */
-  is_preserve_repository_enabled?: boolean;
+  is_preserve_repository_enabled?: boolean | undefined;
 }
 export interface UpdateApplicationByUuidResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface UpdateCloudInitScriptByUuidRequest {
   uuid: string;
-  name?: string;
-  script?: string;
+  name?: string | undefined;
+  script?: string | undefined;
 }
 export interface UpdateCloudInitScriptByUuidResponse {}
 export interface UpdateCloudTokenByUuidRequest {
   /** Token UUID */
   uuid: string;
   /** The friendly name for the token. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateCloudTokenByUuidResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface UpdateCurrentTeamDiscordNotificationsRequest {}
 export interface UpdateCurrentTeamDiscordNotificationsResponse {}
@@ -4791,138 +4840,140 @@ export interface UpdateDatabaseBackupRequest {
   /** UUID of the backup configuration. */
   scheduled_backup_uuid: string;
   /** Whether data is saved in s3 or not */
-  save_s3?: boolean;
+  save_s3?: boolean | undefined;
   /** S3 storage UUID */
-  s3_storage_uuid?: string;
+  s3_storage_uuid?: string | undefined;
   /** Whether to take a backup now or not */
-  backup_now?: boolean;
+  backup_now?: boolean | undefined;
   /** Whether the backup is enabled or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Comma separated list of databases to backup */
-  databases_to_backup?: string;
+  databases_to_backup?: string | undefined;
   /** Whether all databases are dumped or not */
-  dump_all?: boolean;
+  dump_all?: boolean | undefined;
   /** Frequency of the backup */
-  frequency?: string;
+  frequency?: string | undefined;
   /** Retention amount of the backup locally */
-  database_backup_retention_amount_locally?: number;
+  database_backup_retention_amount_locally?: number | undefined;
   /** Retention days of the backup locally */
-  database_backup_retention_days_locally?: number;
+  database_backup_retention_days_locally?: number | undefined;
   /** Max storage of the backup locally */
-  database_backup_retention_max_storage_locally?: number;
+  database_backup_retention_max_storage_locally?: number | undefined;
   /** Retention amount of the backup in s3 */
-  database_backup_retention_amount_s3?: number;
+  database_backup_retention_amount_s3?: number | undefined;
   /** Retention days of the backup in s3 */
-  database_backup_retention_days_s3?: number;
+  database_backup_retention_days_s3?: number | undefined;
   /** Max storage of the backup in S3 */
-  database_backup_retention_max_storage_s3?: number;
+  database_backup_retention_max_storage_s3?: number | undefined;
   /** Backup job timeout in seconds (min: 60, max: 36000) */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Alert after this many days without an execution; 0 disables alerts */
-  missing_backup_notification_days?: number;
+  missing_backup_notification_days?: number | undefined;
 }
 export interface UpdateDatabaseBackupResponse {}
 export interface UpdateDatabaseByUuidRequest {
   /** UUID of the database. */
   uuid: string;
   /** Name of the database */
-  name?: string;
+  name?: string | undefined;
   /** Description of the database */
-  description?: string;
+  description?: string | undefined;
   /** Docker Image of the database */
-  image?: string;
+  image?: string | undefined;
   /** Is the database public? */
-  is_public?: boolean;
+  is_public?: boolean | undefined;
   /** Public port of the database */
-  public_port?: number;
+  public_port?: number | undefined;
   /** Public port timeout in seconds (default: 3600) */
-  public_port_timeout?: number;
+  public_port_timeout?: number | undefined;
   /** Memory limit of the database */
-  limits_memory?: string;
+  limits_memory?: string | undefined;
   /** Memory swap limit of the database */
-  limits_memory_swap?: string;
+  limits_memory_swap?: string | undefined;
   /** Memory swappiness of the database */
-  limits_memory_swappiness?: number;
+  limits_memory_swappiness?: number | undefined;
   /** Memory reservation of the database */
-  limits_memory_reservation?: string;
+  limits_memory_reservation?: string | undefined;
   /** CPU limit of the database */
-  limits_cpus?: string;
+  limits_cpus?: string | undefined;
   /** CPU set of the database */
-  limits_cpuset?: string;
+  limits_cpuset?: string | undefined;
   /** CPU shares of the database */
-  limits_cpu_shares?: number;
+  limits_cpu_shares?: number | undefined;
+  /** Restart the database after the update. Requires the deploy ability. */
+  instant_deploy?: boolean | undefined;
   /** PostgreSQL user */
-  postgres_user?: string;
+  postgres_user?: string | undefined;
   /** PostgreSQL password */
-  postgres_password?: string | Redacted.Redacted<string>;
+  postgres_password?: string | Redacted.Redacted<string> | undefined;
   /** PostgreSQL database */
-  postgres_db?: string;
+  postgres_db?: string | undefined;
   /** PostgreSQL initdb args */
-  postgres_initdb_args?: string;
+  postgres_initdb_args?: string | undefined;
   /** PostgreSQL host auth method */
-  postgres_host_auth_method?: string;
+  postgres_host_auth_method?: string | undefined;
   /** PostgreSQL conf */
-  postgres_conf?: string;
+  postgres_conf?: string | undefined;
   /** Clickhouse admin user */
-  clickhouse_admin_user?: string;
+  clickhouse_admin_user?: string | undefined;
   /** Clickhouse admin password */
-  clickhouse_admin_password?: string | Redacted.Redacted<string>;
+  clickhouse_admin_password?: string | Redacted.Redacted<string> | undefined;
   /** DragonFly password */
-  dragonfly_password?: string | Redacted.Redacted<string>;
+  dragonfly_password?: string | Redacted.Redacted<string> | undefined;
   /** Redis password */
-  redis_password?: string | Redacted.Redacted<string>;
+  redis_password?: string | Redacted.Redacted<string> | undefined;
   /** Redis conf */
-  redis_conf?: string;
+  redis_conf?: string | undefined;
   /** KeyDB password */
-  keydb_password?: string | Redacted.Redacted<string>;
+  keydb_password?: string | Redacted.Redacted<string> | undefined;
   /** KeyDB conf */
-  keydb_conf?: string;
+  keydb_conf?: string | undefined;
   /** MariaDB conf */
-  mariadb_conf?: string;
+  mariadb_conf?: string | undefined;
   /** MariaDB root password */
-  mariadb_root_password?: string | Redacted.Redacted<string>;
+  mariadb_root_password?: string | Redacted.Redacted<string> | undefined;
   /** MariaDB user */
-  mariadb_user?: string;
+  mariadb_user?: string | undefined;
   /** MariaDB password */
-  mariadb_password?: string | Redacted.Redacted<string>;
+  mariadb_password?: string | Redacted.Redacted<string> | undefined;
   /** MariaDB database */
-  mariadb_database?: string;
+  mariadb_database?: string | undefined;
   /** Mongo conf */
-  mongo_conf?: string;
+  mongo_conf?: string | undefined;
   /** Mongo initdb root username */
-  mongo_initdb_root_username?: string;
+  mongo_initdb_root_username?: string | undefined;
   /** Mongo initdb root password */
-  mongo_initdb_root_password?: string | Redacted.Redacted<string>;
+  mongo_initdb_root_password?: string | Redacted.Redacted<string> | undefined;
   /** Mongo initdb init database */
-  mongo_initdb_database?: string;
+  mongo_initdb_database?: string | undefined;
   /** MySQL root password */
-  mysql_root_password?: string | Redacted.Redacted<string>;
+  mysql_root_password?: string | Redacted.Redacted<string> | undefined;
   /** MySQL password */
-  mysql_password?: string | Redacted.Redacted<string>;
+  mysql_password?: string | Redacted.Redacted<string> | undefined;
   /** MySQL user */
-  mysql_user?: string;
+  mysql_user?: string | undefined;
   /** MySQL database */
-  mysql_database?: string;
+  mysql_database?: string | undefined;
   /** MySQL conf */
-  mysql_conf?: string;
+  mysql_conf?: string | undefined;
   /** Comma-separated SQLite database file names */
-  sqlite_databases?: string;
+  sqlite_databases?: string | undefined;
   /** Enable the database healthcheck probe. */
-  health_check_enabled?: boolean;
+  health_check_enabled?: boolean | undefined;
   /** Healthcheck interval in seconds. */
-  health_check_interval?: number;
+  health_check_interval?: number | undefined;
   /** Healthcheck timeout in seconds. */
-  health_check_timeout?: number;
+  health_check_timeout?: number | undefined;
   /** Healthcheck retries count. */
-  health_check_retries?: number;
+  health_check_retries?: number | undefined;
   /** Healthcheck start period in seconds. */
-  health_check_start_period?: number;
+  health_check_start_period?: number | undefined;
 }
 export interface UpdateDatabaseByUuidResponse {}
 export interface UpdateDestinationByUuidRequest {
   /** Destination UUID */
   uuid: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateEnvByApplicationUuidRequest {
   /** UUID of the application. */
@@ -4932,13 +4983,13 @@ export interface UpdateEnvByApplicationUuidRequest {
   /** The value of the environment variable. */
   value: string;
   /** The flag to indicate if the environment variable is used in preview deployments. */
-  is_preview?: boolean;
+  is_preview?: boolean | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export interface UpdateEnvByDatabaseUuidRequest {
   /** UUID of the database. */
@@ -4948,11 +4999,11 @@ export interface UpdateEnvByDatabaseUuidRequest {
   /** The value of the environment variable. */
   value: string;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export interface UpdateEnvByServiceUuidRequest {
   /** UUID of the service. */
@@ -4962,13 +5013,13 @@ export interface UpdateEnvByServiceUuidRequest {
   /** The value of the environment variable. */
   value: string;
   /** The flag to indicate if the environment variable is used in preview deployments. */
-  is_preview?: boolean;
+  is_preview?: boolean | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export interface UpdateEnvironmentRequest {
   /** Project UUID */
@@ -4976,14 +5027,14 @@ export interface UpdateEnvironmentRequest {
   /** Environment name or UUID */
   environment_name_or_uuid: string;
   /** The name of the environment. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the environment. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateEnvironmentResponse {
-  uuid?: string;
-  name?: string;
-  description?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateEnvironmentSharedEnvRequest {
   /** Project UUID */
@@ -4996,17 +5047,17 @@ export interface UpdateEnvironmentSharedEnvRequest {
 export interface UpdateEnvironmentSharedEnvResponse {}
 export interface UpdateEnvsByApplicationUuidRequestDataItem {
   /** The key of the environment variable. */
-  key?: string;
+  key?: string | undefined;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
   /** The flag to indicate if the environment variable is used in preview deployments. */
-  is_preview?: boolean;
+  is_preview?: boolean | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export type UpdateEnvsByApplicationUuidRequestDataList =
   Array<UpdateEnvsByApplicationUuidRequestDataItem>;
@@ -5019,15 +5070,15 @@ export type UpdateEnvsByApplicationUuidResponseBodyList = Array<EnvironmentVaria
 export type UpdateEnvsByApplicationUuidResponse = UpdateEnvsByApplicationUuidResponseBodyList;
 export interface UpdateEnvsByDatabaseUuidRequestDataItem {
   /** The key of the environment variable. */
-  key?: string;
+  key?: string | undefined;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
   /** The flag to indicate if the environment variable is a literal, nothing espaced. */
-  is_literal?: boolean;
+  is_literal?: boolean | undefined;
   /** The flag to indicate if the environment variable is multiline. */
-  is_multiline?: boolean;
+  is_multiline?: boolean | undefined;
   /** If true, the saved value is hidden in the UI and API responses. MCP never returns environment variable values. */
-  is_shown_once?: boolean;
+  is_shown_once?: boolean | undefined;
 }
 export type UpdateEnvsByDatabaseUuidRequestDataList =
   Array<UpdateEnvsByDatabaseUuidRequestDataItem>;
@@ -5052,67 +5103,67 @@ export interface UpdateGithubAppRequest {
   /** GitHub App ID */
   github_app_id: number;
   /** GitHub App name */
-  name?: string;
+  name?: string | undefined;
   /** GitHub organization */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** GitHub API URL */
-  api_url?: string;
+  api_url?: string | undefined;
   /** GitHub HTML URL */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Custom user for SSH */
-  custom_user?: string;
+  custom_user?: string | undefined;
   /** Custom port for SSH */
-  custom_port?: number;
+  custom_port?: number | undefined;
   /** GitHub App ID */
-  app_id?: number;
+  app_id?: number | undefined;
   /** GitHub Installation ID */
-  installation_id?: number;
+  installation_id?: number | undefined;
   /** GitHub Client ID */
-  client_id?: string;
+  client_id?: string | undefined;
   /** GitHub Client Secret */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** GitHub Webhook Secret */
-  webhook_secret?: string | Redacted.Redacted<string>;
+  webhook_secret?: string | Redacted.Redacted<string> | undefined;
   /** Private key UUID */
-  private_key_uuid?: string;
+  private_key_uuid?: string | undefined;
   /** Is system wide (non-cloud instances only) */
-  is_system_wide?: boolean;
+  is_system_wide?: boolean | undefined;
 }
 export interface UpdateGithubAppResponse {
-  message?: string;
+  message?: string | undefined;
   /** Updated GitHub app data */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface UpdateGitlabAppRequest {
   /** GitLab App ID */
   gitlab_app_id: number;
   /** GitLab App name */
-  name?: string;
+  name?: string | undefined;
   /** GitLab HTML URL */
-  html_url?: string;
+  html_url?: string | undefined;
   /** GitLab API URL */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Custom user for SSH */
-  custom_user?: string;
+  custom_user?: string | undefined;
   /** Custom port for SSH */
-  custom_port?: number;
+  custom_port?: number | undefined;
   /** Optional group filter */
-  group_name?: string | null;
+  group_name?: string | null | undefined;
   /** OAuth Application ID */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** OAuth Application Secret */
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Webhook secret token */
-  webhook_token?: string | null;
+  webhook_token?: string | null | undefined;
   /** OAuth redirect URI */
-  redirect_uri?: string | null;
+  redirect_uri?: string | null | undefined;
   /** Is system wide (non-cloud instances only) */
-  is_system_wide?: boolean;
+  is_system_wide?: boolean | undefined;
 }
 export interface UpdateGitlabAppResponse {
-  message?: string;
+  message?: string | undefined;
   /** Updated GitLab app data */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface UpdateInstanceEmailSettingsRequest {}
 export interface UpdateInstanceEmailSettingsResponse {}
@@ -5121,45 +5172,49 @@ export type UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRe
   | "non-www"
   | "both";
 export interface UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem {
-  name?: string;
-  domain?: string | null;
+  name?: string | undefined;
+  domain?: string | null | undefined;
   redirect?:
     | UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItemRedirect
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 export type UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList =
   Array<UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsItem>;
 export interface UpdatePreviewDomainsByPullRequestIdRequest {
   uuid: string;
   pull_request_id: number;
-  domains?: string | null;
-  docker_compose_domains?: UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList | null;
-  force_domain_override?: boolean;
+  domains?: string | null | undefined;
+  docker_compose_domains?:
+    | UpdatePreviewDomainsByPullRequestIdRequestDockerComposeDomainsList
+    | null
+    | undefined;
+  force_domain_override?: boolean | undefined;
 }
 export interface UpdatePreviewDomainsByPullRequestIdResponse {}
 export interface UpdatePrivateKeyRequest {
   /** Private Key UUID */
   uuid: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   private_key: string | Redacted.Redacted<string>;
 }
 export interface UpdatePrivateKeyResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface UpdateProjectByUuidRequest {
   /** UUID of the project. */
   uuid: string;
   /** The name of the project. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the project. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateProjectByUuidResponse {
-  uuid?: string;
-  name?: string;
-  description?: string;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export interface UpdateProjectSharedEnvRequest {
   /** Project UUID */
@@ -5172,24 +5227,24 @@ export interface UpdateS3StorageByUuidRequest {
   /** S3 Storage UUID */
   uuid: string;
   /** A friendly name for the storage. */
-  name?: string;
+  name?: string | undefined;
   /** Optional description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** S3-compatible endpoint URL. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** S3 bucket name. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** S3 region. */
-  region?: string;
+  region?: string | undefined;
   /** Access key. */
-  key?: string;
+  key?: string | undefined;
   /** Secret key. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Whether the storage is marked usable. */
-  is_usable?: boolean;
+  is_usable?: boolean | undefined;
 }
 export interface UpdateS3StorageByUuidResponse {
-  uuid?: string;
+  uuid?: string | undefined;
 }
 export interface UpdateScheduledTaskByApplicationUuidRequest {
   /** UUID of the application. */
@@ -5197,17 +5252,17 @@ export interface UpdateScheduledTaskByApplicationUuidRequest {
   /** UUID of the scheduled task. */
   task_uuid: string;
   /** The name of the scheduled task. */
-  name?: string;
+  name?: string | undefined;
   /** The command to execute. */
-  command?: string;
+  command?: string | undefined;
   /** The frequency of the scheduled task. */
-  frequency?: string;
+  frequency?: string | undefined;
   /** The container where the command should be executed. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
-  timeout?: number;
-  /** The flag to indicate if the scheduled task is enabled. */
-  enabled?: boolean;
+  timeout?: number | undefined;
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
+  enabled?: boolean | undefined;
 }
 export interface UpdateScheduledTaskByServiceUuidRequest {
   /** UUID of the service. */
@@ -5215,17 +5270,17 @@ export interface UpdateScheduledTaskByServiceUuidRequest {
   /** UUID of the scheduled task. */
   task_uuid: string;
   /** The name of the scheduled task. */
-  name?: string;
+  name?: string | undefined;
   /** The command to execute. */
-  command?: string;
+  command?: string | undefined;
   /** The frequency of the scheduled task. */
-  frequency?: string;
+  frequency?: string | undefined;
   /** The container where the command should be executed. */
-  container?: string | null;
+  container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
-  timeout?: number;
-  /** The flag to indicate if the scheduled task is enabled. */
-  enabled?: boolean;
+  timeout?: number | undefined;
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
+  enabled?: boolean | undefined;
 }
 /** Server role. */
 export type UpdateServerByUuidRequestServerRole = "deployment" | "build" | "both";
@@ -5235,77 +5290,77 @@ export interface UpdateServerByUuidRequest {
   /** Server UUID */
   uuid: string;
   /** The name of the server. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the server. */
-  description?: string;
+  description?: string | undefined;
   /** The IP of the server. */
-  ip?: string;
+  ip?: string | undefined;
   /** The port of the server. */
-  port?: number;
+  port?: number | undefined;
   /** The user of the server. */
-  user?: string;
+  user?: string | undefined;
   /** The UUID of the private key. */
-  private_key_uuid?: string;
+  private_key_uuid?: string | undefined;
   /** Server role. */
-  server_role?: UpdateServerByUuidRequestServerRole | (string & {});
+  server_role?: UpdateServerByUuidRequestServerRole | (string & {}) | undefined;
   /** Deprecated: use server_role instead. true sets server_role to build, false changes a build server to both and leaves other roles unchanged. Must not conflict with server_role. */
-  is_build_server?: boolean;
+  is_build_server?: boolean | undefined;
   /** Instant validate. */
-  instant_validate?: boolean;
+  instant_validate?: boolean | undefined;
   /** The proxy type. */
-  proxy_type?: UpdateServerByUuidRequestProxyType | (string & {});
+  proxy_type?: UpdateServerByUuidRequestProxyType | (string & {}) | undefined;
   /** Number of concurrent builds. */
-  concurrent_builds?: number;
+  concurrent_builds?: number | undefined;
   /** Deployment timeout in seconds. */
-  dynamic_timeout?: number;
+  dynamic_timeout?: number | undefined;
   /** Maximum number of queued deployments. */
-  deployment_queue_limit?: number;
+  deployment_queue_limit?: number | undefined;
   /** Server disk usage notification threshold (%). */
-  server_disk_usage_notification_threshold?: number;
+  server_disk_usage_notification_threshold?: number | undefined;
   /** Cron expression for disk usage check frequency. */
-  server_disk_usage_check_frequency?: string;
+  server_disk_usage_check_frequency?: string | undefined;
   /** Minimum hours between high disk usage notifications (1-720). Default: 24. */
-  server_disk_usage_notification_interval_hours?: number;
+  server_disk_usage_notification_interval_hours?: number | undefined;
   /** SSH connection timeout in seconds (1-300). Default: 10. */
-  connection_timeout?: number;
+  connection_timeout?: number | undefined;
 }
 export interface UpdateServerCloudflareTunnelRequest {
   /** Server UUID */
   uuid: string;
-  is_cloudflare_tunnel?: boolean;
+  is_cloudflare_tunnel?: boolean | undefined;
 }
 export interface UpdateServerCloudflareTunnelResponse {}
 export interface UpdateServerDockerCleanupRequest {
   /** Server UUID */
   uuid: string;
   /** Cron / human frequency expression. */
-  docker_cleanup_frequency?: string;
-  docker_cleanup_threshold?: number;
-  force_docker_cleanup?: boolean;
-  delete_unused_volumes?: boolean;
-  delete_unused_networks?: boolean;
-  disable_application_image_retention?: boolean;
+  docker_cleanup_frequency?: string | undefined;
+  docker_cleanup_threshold?: number | undefined;
+  force_docker_cleanup?: boolean | undefined;
+  delete_unused_volumes?: boolean | undefined;
+  delete_unused_networks?: boolean | undefined;
+  disable_application_image_retention?: boolean | undefined;
 }
 export interface UpdateServerDockerCleanupResponse {
-  docker_cleanup_frequency?: string;
-  docker_cleanup_threshold?: number;
-  force_docker_cleanup?: boolean;
-  delete_unused_volumes?: boolean;
-  delete_unused_networks?: boolean;
-  disable_application_image_retention?: boolean;
+  docker_cleanup_frequency?: string | undefined;
+  docker_cleanup_threshold?: number | undefined;
+  force_docker_cleanup?: boolean | undefined;
+  delete_unused_volumes?: boolean | undefined;
+  delete_unused_networks?: boolean | undefined;
+  disable_application_image_retention?: boolean | undefined;
 }
 export interface UpdateServerLogDrainsRequest {
   /** Server UUID */
   uuid: string;
-  is_logdrain_newrelic_enabled?: boolean;
-  logdrain_newrelic_license_key?: string;
-  logdrain_newrelic_base_uri?: string;
-  is_logdrain_axiom_enabled?: boolean;
-  logdrain_axiom_dataset_name?: string;
-  logdrain_axiom_api_key?: string;
-  is_logdrain_custom_enabled?: boolean;
-  logdrain_custom_config?: string;
-  logdrain_custom_config_parser?: string;
+  is_logdrain_newrelic_enabled?: boolean | undefined;
+  logdrain_newrelic_license_key?: string | undefined;
+  logdrain_newrelic_base_uri?: string | undefined;
+  is_logdrain_axiom_enabled?: boolean | undefined;
+  logdrain_axiom_dataset_name?: string | undefined;
+  logdrain_axiom_api_key?: string | undefined;
+  is_logdrain_custom_enabled?: boolean | undefined;
+  logdrain_custom_config?: string | undefined;
+  logdrain_custom_config_parser?: string | undefined;
 }
 export interface UpdateServerLogDrainsResponse {}
 /** Proxy type (case-insensitive). */
@@ -5313,38 +5368,45 @@ export type UpdateServerProxyRequestProxyType = "traefik" | "caddy" | "nginx" | 
 export interface UpdateServerProxyRequest {
   /** Server UUID */
   uuid: string;
-  redirect_enabled?: boolean;
+  redirect_enabled?: boolean | undefined;
   /** Public http(s) redirect URL, or null to clear. */
-  redirect_url?: string | null;
-  generate_exact_labels?: boolean;
+  redirect_url?: string | null | undefined;
+  generate_exact_labels?: boolean | undefined;
+  /** Traefik certificate resolver for generated HTTPS routers (letters, digits, _ and -). Null or empty to use your own certificates. Redeploy resources to apply. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Proxy type (case-insensitive). */
-  proxy_type?: UpdateServerProxyRequestProxyType | (string & {});
+  proxy_type?: UpdateServerProxyRequestProxyType | (string & {}) | undefined;
 }
 export interface UpdateServerProxyResponse {
-  proxy_type?: string | null;
-  status?: string | null;
-  redirect_enabled?: boolean;
-  redirect_url?: string | null;
-  generate_exact_labels?: boolean;
-  configuration?: string | null;
+  proxy_type?: string | null | undefined;
+  status?: string | null | undefined;
+  redirect_enabled?: boolean | undefined;
+  redirect_url?: string | null | undefined;
+  generate_exact_labels?: boolean | undefined;
+  traefik_certificate_resolver?: string | null | undefined;
+  configuration?: string | null | undefined;
 }
+/** How Sentinel stores client IPs: full, anonymized (IPv4 /24, IPv6 /48), or off. */
+export type UpdateServerSentinelRequestTrafficIpMode = "full" | "anonymized" | "off";
 export interface UpdateServerSentinelRequest {
   /** Server UUID */
   uuid: string;
-  is_metrics_enabled?: boolean;
-  is_sentinel_debug_enabled?: boolean;
-  sentinel_token?: string;
-  sentinel_metrics_refresh_rate_seconds?: number;
-  sentinel_metrics_history_days?: number;
-  sentinel_push_interval_seconds?: number;
-  sentinel_custom_url?: string | null;
-  traffic_topn?: number;
-  traffic_sample_threshold?: number;
-  traffic_retention_1h_days?: number;
-  traffic_retention_1d_days?: number;
-  is_geoip_enabled?: boolean;
-  geoip_refresh_days?: number;
-  geoip_maxmind_license_key?: string | null;
+  is_metrics_enabled?: boolean | undefined;
+  is_sentinel_debug_enabled?: boolean | undefined;
+  sentinel_token?: string | undefined;
+  sentinel_metrics_refresh_rate_seconds?: number | undefined;
+  sentinel_metrics_history_days?: number | undefined;
+  sentinel_push_interval_seconds?: number | undefined;
+  sentinel_custom_url?: string | null | undefined;
+  traffic_topn?: number | undefined;
+  traffic_sample_threshold?: number | undefined;
+  traffic_retention_1h_days?: number | undefined;
+  traffic_retention_1d_days?: number | undefined;
+  is_geoip_enabled?: boolean | undefined;
+  geoip_refresh_days?: number | undefined;
+  geoip_maxmind_license_key?: string | null | undefined;
+  /** How Sentinel stores client IPs: full, anonymized (IPv4 /24, IPv6 /48), or off. */
+  traffic_ip_mode?: UpdateServerSentinelRequestTrafficIpMode | (string & {}) | undefined;
 }
 export interface UpdateServerSentinelResponse {}
 export interface UpdateServerSharedEnvRequest {
@@ -5361,29 +5423,29 @@ export interface UpdateServiceByUuidRequest {
   /** UUID of the service. */
   uuid: string;
   /** The service name. */
-  name?: string;
+  name?: string | undefined;
   /** The service description. */
-  description?: string;
+  description?: string | undefined;
   /** The flag to indicate if the service should be deployed instantly. */
-  instant_deploy?: boolean;
+  instant_deploy?: boolean | undefined;
   /** Connect the service to the predefined docker network. */
-  connect_to_docker_network?: boolean;
+  connect_to_docker_network?: boolean | undefined;
   /** The base64 encoded Docker Compose content. */
-  docker_compose_raw?: string;
+  docker_compose_raw?: string | undefined;
   /** Array of URLs to be applied to containers of a service. */
-  urls?: UpdateServiceByUuidRequestUrlsList;
+  urls?: UpdateServiceByUuidRequestUrlsList | undefined;
   /** Force domain override even if conflicts are detected. */
-  force_domain_override?: boolean;
+  force_domain_override?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. If you want to use env variables inside the labels, turn this off. */
-  is_container_label_escape_enabled?: boolean;
+  is_container_label_escape_enabled?: boolean | undefined;
 }
 /** Service domains. */
 export type UpdateServiceByUuidResponseDomainsList = Array<string>;
 export interface UpdateServiceByUuidResponse {
   /** Service UUID. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Service domains. */
-  domains?: UpdateServiceByUuidResponseDomainsList;
+  domains?: UpdateServiceByUuidResponseDomainsList | undefined;
 }
 /** The type of storage: persistent or file. */
 export type UpdateStorageByApplicationUuidRequestType = "persistent" | "file";
@@ -5391,17 +5453,17 @@ export interface UpdateStorageByApplicationUuidRequest {
   /** UUID of the application. */
   uuid: string;
   /** The ID of the storage (deprecated, use uuid instead). */
-  id?: number;
+  id?: number | undefined;
   /** The type of storage: persistent or file. */
   type: UpdateStorageByApplicationUuidRequestType | (string & {});
   /** Whether to add -pr-N suffix for preview deployments. */
-  is_preview_suffix_enabled?: boolean;
+  is_preview_suffix_enabled?: boolean | undefined;
   /** The volume name (persistent only, not allowed for read-only storages). */
-  name?: string;
+  name?: string | undefined;
   /** The container mount path (not allowed for read-only storages). */
-  mount_path?: string;
+  mount_path?: string | undefined;
   /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
-  content?: string | null;
+  content?: string | null | undefined;
 }
 export type UpdateStorageByApplicationUuidResponse = unknown;
 /** The type of storage: persistent or file. */
@@ -5410,17 +5472,17 @@ export interface UpdateStorageByDatabaseUuidRequest {
   /** UUID of the database. */
   uuid: string;
   /** The ID of the storage (deprecated, use uuid instead). */
-  id?: number;
+  id?: number | undefined;
   /** The type of storage: persistent or file. */
   type: UpdateStorageByDatabaseUuidRequestType | (string & {});
   /** Whether to add -pr-N suffix for preview deployments. */
-  is_preview_suffix_enabled?: boolean;
+  is_preview_suffix_enabled?: boolean | undefined;
   /** The volume name (persistent only, not allowed for read-only storages). */
-  name?: string;
+  name?: string | undefined;
   /** The container mount path (not allowed for read-only storages). */
-  mount_path?: string;
+  mount_path?: string | undefined;
   /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
-  content?: string | null;
+  content?: string | null | undefined;
 }
 export type UpdateStorageByDatabaseUuidResponse = unknown;
 /** The type of storage: persistent or file. */
@@ -5429,17 +5491,17 @@ export interface UpdateStorageByServiceUuidRequest {
   /** UUID of the service. */
   uuid: string;
   /** The ID of the storage (deprecated, use uuid instead). */
-  id?: number;
+  id?: number | undefined;
   /** The type of storage: persistent or file. */
   type: UpdateStorageByServiceUuidRequestType | (string & {});
   /** Whether to add -pr-N suffix for preview deployments. */
-  is_preview_suffix_enabled?: boolean;
+  is_preview_suffix_enabled?: boolean | undefined;
   /** The volume name (persistent only, not allowed for read-only storages). */
-  name?: string;
+  name?: string | undefined;
   /** The container mount path (not allowed for read-only storages). */
-  mount_path?: string;
+  mount_path?: string | undefined;
   /** The file content (file only, not allowed for read-only storages). Changing the content of a file outside the resource directory needs the deploy permission. */
-  content?: string | null;
+  content?: string | null | undefined;
 }
 export type UpdateStorageByServiceUuidResponse = unknown;
 export interface UpdateTagByUuidRequest {
@@ -5473,25 +5535,25 @@ export interface ValidateCloudTokenByUuidRequest {
   uuid: string;
 }
 export interface ValidateCloudTokenByUuidResponse {
-  valid?: boolean;
-  message?: string;
+  valid?: boolean | undefined;
+  message?: string | undefined;
 }
 export interface ValidateS3StorageByUuidRequest {
   /** S3 Storage UUID */
   uuid: string;
 }
 export interface ValidateS3StorageByUuidResponse {
-  valid?: boolean;
-  message?: string;
+  valid?: boolean | undefined;
+  message?: string | undefined;
 }
 export interface ValidateServerByUuidRequest {
   /** Server UUID */
   uuid: string;
   /** Install missing prerequisites and Docker. This can restart the Docker daemon. */
-  install?: boolean;
+  install?: boolean | undefined;
 }
 export interface ValidateServerByUuidResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface VersionRequest {}
 export interface VersionResponse {}
@@ -6203,6 +6265,7 @@ export const createS3Storage: API.OperationMethod<
 }));
 
 export type CreateScheduledTaskByApplicationUuidError =
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -6215,14 +6278,18 @@ export const createScheduledTaskByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c266, 0) as any as S.Schema<CreateScheduledTaskByApplicationUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateScheduledTaskByApplicationUuid",
 }));
 
-export type CreateScheduledTaskByServiceUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type CreateScheduledTaskByServiceUuidError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Create Task Create a new scheduled task for a service. */
 export const createScheduledTaskByServiceUuid: API.OperationMethod<
   CreateScheduledTaskByServiceUuidRequest,
@@ -6232,7 +6299,7 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c268, 0) as any as S.Schema<CreateScheduledTaskByServiceUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7282,8 +7349,8 @@ export const enableServerCloudflareTunnel: API.OperationMethod<
   span: "EnableServerCloudflareTunnel",
 }));
 
-export type ExecuteScheduledTaskByApplicationUuidError = NotFound | CoolifyOpError;
-/** Execute Task Queue immediate execution of a scheduled task for an application. */
+export type ExecuteScheduledTaskByApplicationUuidError = Forbidden | NotFound | CoolifyOpError;
+/** Execute Task Queue immediate execution of a scheduled task for an application. Requires the deploy ability. */
 export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
   ExecuteScheduledTaskByApplicationUuidRequest,
   ExecuteScheduledTaskByApplicationUuidResponse,
@@ -7292,15 +7359,15 @@ export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidRequest>,
   output: __S(2200, __c275, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteScheduledTaskByApplicationUuid",
 }));
 
-export type ExecuteScheduledTaskByServiceUuidError = NotFound | CoolifyOpError;
-/** Execute Task Queue immediate execution of a scheduled task for a service. */
+export type ExecuteScheduledTaskByServiceUuidError = Forbidden | NotFound | CoolifyOpError;
+/** Execute Task Queue immediate execution of a scheduled task for a service. Requires the deploy ability. */
 export const executeScheduledTaskByServiceUuid: API.OperationMethod<
   ExecuteScheduledTaskByServiceUuidRequest,
   ExecuteScheduledTaskByServiceUuidResponse,
@@ -7309,7 +7376,7 @@ export const executeScheduledTaskByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidRequest>,
   output: __S(2200, __c275, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9473,7 +9540,12 @@ export const restartApplicationByUuid: API.OperationMethod<
   span: "RestartApplicationByUuid",
 }));
 
-export type RestartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
+export type RestartDatabaseByUuidError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Restart Restart database. */
 export const restartDatabaseByUuid: API.OperationMethod<
   RestartDatabaseByUuidRequest,
@@ -9483,7 +9555,7 @@ export const restartDatabaseByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1336, __c167, 0) as any as S.Schema<RestartDatabaseByUuidRequest>,
   output: __S(2416, __c302, 0) as any as S.Schema<RestartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9491,7 +9563,7 @@ export const restartDatabaseByUuid: API.OperationMethod<
 }));
 
 export type RestartServerProxyError = BadRequest | NotFound | CoolifyOpError;
-/** Restart server proxy Queue a proxy restart for a team-owned server. */
+/** Restart server proxy Queue a proxy restart for a team-owned server. Needs a token with the `deploy` permission. */
 export const restartServerProxy: API.OperationMethod<
   RestartServerProxyRequest,
   RestartServerProxyResponse,
@@ -9650,7 +9722,7 @@ export type SaveServerProxyConfigurationError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Save server proxy configuration Save the raw proxy Docker Compose configuration for a team-owned server. Multi-line configuration must be base64 encoded (same pattern as other compose payloads). */
+/** Save server proxy configuration Save the raw proxy Docker Compose configuration for a team-owned server. Needs a token with the `write` and `deploy` permissions. Multi-line configuration must be base64 encoded (same pattern as other compose payloads). */
 export const saveServerProxyConfiguration: API.OperationMethod<
   SaveServerProxyConfigurationRequest,
   SaveServerProxyConfigurationResponse,
@@ -9749,7 +9821,12 @@ export const startApplicationByUuid: API.OperationMethod<
   span: "StartApplicationByUuid",
 }));
 
-export type StartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
+export type StartDatabaseByUuidError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Start Start database. */
 export const startDatabaseByUuid: API.OperationMethod<
   StartDatabaseByUuidRequest,
@@ -9759,7 +9836,7 @@ export const startDatabaseByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1464, __c183, 0) as any as S.Schema<StartDatabaseByUuidRequest>,
   output: __S(2416, __c302, 0) as any as S.Schema<StartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10429,6 +10506,7 @@ export const updateS3StorageByUuid: API.OperationMethod<
 }));
 
 export type UpdateScheduledTaskByApplicationUuidError =
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -10441,14 +10519,18 @@ export const updateScheduledTaskByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1800, __c225, 0) as any as S.Schema<UpdateScheduledTaskByApplicationUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateScheduledTaskByApplicationUuid",
 }));
 
-export type UpdateScheduledTaskByServiceUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateScheduledTaskByServiceUuidError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Update Task Update a scheduled task for a service. */
 export const updateScheduledTaskByServiceUuid: API.OperationMethod<
   UpdateScheduledTaskByServiceUuidRequest,
@@ -10458,7 +10540,7 @@ export const updateScheduledTaskByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c226, 0) as any as S.Schema<UpdateScheduledTaskByServiceUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10526,10 +10608,11 @@ export const updateServerDockerCleanup: API.OperationMethod<
 
 export type UpdateServerLogDrainsError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update log drain settings Update New Relic, Axiom, or custom log drain settings for a server owned by the authenticated team. */
+/** Update log drain settings Update New Relic, Axiom, or custom log drain settings for a server owned by the authenticated team. Changing `logdrain_custom_config` or `logdrain_custom_config_parser` needs a token with the `deploy` permission. Custom configs cannot use the lua, wasm, exec, exec_wasi, or file plugins, @INCLUDE, or plugins_file, and the parser file can only contain [PARSER] and [MULTILINE_PARSER] sections. */
 export const updateServerLogDrains: API.OperationMethod<
   UpdateServerLogDrainsRequest,
   UpdateServerLogDrainsResponse,
@@ -10538,7 +10621,7 @@ export const updateServerLogDrains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c230, 0) as any as S.Schema<UpdateServerLogDrainsRequest>,
   output: __S(2200, __c275, 0) as any as S.Schema<UpdateServerLogDrainsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10546,7 +10629,7 @@ export const updateServerLogDrains: API.OperationMethod<
 }));
 
 export type UpdateServerProxyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
-/** Update server proxy Update proxy redirect settings, exact labels generation, and optionally the proxy type for a team-owned server. */
+/** Update server proxy Update proxy redirect settings, exact labels generation, the Traefik certificate resolver, and optionally the proxy type for a team-owned server. */
 export const updateServerProxy: API.OperationMethod<
   UpdateServerProxyRequest,
   UpdateServerProxyResponse,
@@ -10960,12 +11043,14 @@ function __c7(j: number): any {
           is_build_server_enabled: S.optional(S.Boolean),
           is_consistent_container_name_enabled: S.optional(S.Boolean),
           is_gzip_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_stripprefix_enabled: S.optional(S.Boolean),
           connect_to_docker_network: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
           is_container_label_escape_enabled: S.optional(S.Boolean),
           is_env_sorting_enabled: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
           is_container_label_readonly_enabled: S.optional(S.Boolean),
           is_preserve_repository_enabled: S.optional(S.Boolean),
           disable_build_cache: S.optional(S.Boolean),
@@ -11892,6 +11977,8 @@ function __c60(j: number): any {
           traffic_retention_1d_days: S.optional(S.Number),
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
+          traffic_ip_mode: S.optional(S.String),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_reachable: S.optional(S.Boolean),
           is_sentinel_enabled: S.optional(S.Boolean),
           is_swarm_manager: S.optional(S.Boolean),
@@ -12033,6 +12120,7 @@ function __c66(j: number): any {
           redirect_enabled: S.optional(S.Boolean),
           redirect_url: S.optional(S.NullOr(S.String)),
           generate_exact_labels: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           configuration: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetServerProxyResponse" });
@@ -12064,6 +12152,7 @@ function __c67(j: number): any {
           traffic_retention_1d_days: S.optional(S.Number),
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
+          traffic_ip_mode: S.optional(S.String),
           geoip_maxmind_license_key: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServerSentinelResponse" });
@@ -13448,6 +13537,7 @@ function __c157(j: number): any {
           exclude_from_status: S.optional(S.NullOr(S.Boolean)),
           is_log_drain_enabled: S.optional(S.NullOr(S.Boolean)),
           is_gzip_enabled: S.optional(S.NullOr(S.Boolean)),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_stripprefix_enabled: S.optional(S.NullOr(S.Boolean)),
           is_force_https_enabled: S.optional(S.NullOr(S.Boolean)),
           max_restart_count: S.optional(S.NullOr(S.Number)),
@@ -13818,6 +13908,7 @@ function __c178(j: number): any {
           retention_days_s3: S.optional(S.Number),
           retention_max_storage_s3: S.optional(S.Number),
           timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13850,6 +13941,7 @@ function __c179(j: number): any {
           retention_days_s3: S.Number,
           retention_max_storage_s3: S.Number,
           timeout: S.Number,
+          missing_backup_notification_days: S.Number,
         }),
       ).annotate({ identifier: "VolumeBackupScheduleResponse" });
   }
@@ -13874,6 +13966,7 @@ function __c180(j: number): any {
           retention_days_s3: S.optional(S.Number),
           retention_max_storage_s3: S.optional(S.Number),
           timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13904,6 +13997,7 @@ function __c181(j: number): any {
           retention_days_s3: S.optional(S.Number),
           retention_max_storage_s3: S.optional(S.Number),
           timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14048,14 +14142,10 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          project_uuid: S.optional(S.String),
-          server_uuid: S.optional(S.String),
-          environment_name: S.optional(S.String),
           github_app_uuid: S.optional(S.String),
           git_repository: S.optional(S.String),
           git_branch: S.optional(S.String),
           ports_exposes: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
           build_pack: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
@@ -14127,6 +14217,7 @@ function __c191(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14277,6 +14368,7 @@ function __c202(j: number): any {
           limits_cpus: S.optional(S.String),
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
           postgres_user: S.optional(S.String),
           postgres_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           postgres_db: S.optional(S.String),
@@ -14424,6 +14516,7 @@ function __c206(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14735,6 +14828,7 @@ function __c220(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14957,6 +15051,7 @@ function __c232(j: number): any {
           redirect_enabled: S.optional(S.Boolean),
           redirect_url: S.optional(S.NullOr(S.String)),
           generate_exact_labels: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           proxy_type: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/proxy", code: 200 })),
       ).annotate({ identifier: "UpdateServerProxyRequest" });
@@ -14982,6 +15077,7 @@ function __c233(j: number): any {
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
           geoip_maxmind_license_key: S.optional(S.NullOr(S.String)),
+          traffic_ip_mode: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/sentinel", code: 200 })),
       ).annotate({ identifier: "UpdateServerSentinelRequest" });
   }
@@ -15484,6 +15580,7 @@ function __c258(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15611,6 +15708,7 @@ function __c260(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15754,6 +15852,7 @@ function __c264(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15952,6 +16051,7 @@ function __c276(j: number): any {
           destination_uuid: S.optional(S.String),
           instant_deploy: S.optional(S.Boolean),
           docker_compose_raw: S.optional(S.String),
+          connect_to_docker_network: S.optional(S.Boolean),
           urls: S.optional(__S(2217, __c277, 1)),
           force_domain_override: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),

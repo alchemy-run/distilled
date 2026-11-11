@@ -3,6 +3,7 @@ import type * as Stream from "effect/Stream";
 import { mapQuery } from "./graphql.ts";
 import type {
   itemsQuery,
+  GqlError,
   GraphQLFailure,
   GraphQLTransportError,
   UnknownGraphQLError,
@@ -58,7 +59,10 @@ type _QueryError = Assert<
   Equal<
     Exclude<
       QueryError<NotFound>,
-      GraphQLFailure<NotFound | UnknownGraphQLError> | UnknownGraphQLError | GraphQLTransportError
+      | GraphQLFailure<NotFound | UnknownGraphQLError>
+      | UnknownGraphQLError
+      | GraphQLTransportError
+      | GqlError
     >,
     NotFound
   >

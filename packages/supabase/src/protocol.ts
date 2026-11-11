@@ -1,5 +1,4 @@
 import * as API from "@distilled.cloud/core/api";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   type ConfigError,
   HTTP_STATUS_MAP,
@@ -14,6 +13,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SupabaseProtocol -- hand-written.
@@ -68,7 +68,8 @@ export type SupabaseOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Supabase operation. */
 export type SupabaseOpContext = Credentials | HttpClient.HttpClient;
@@ -143,9 +144,6 @@ const decode = ({
   Effect.gen(function* () {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
     const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {

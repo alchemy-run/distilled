@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -165,8 +166,8 @@ export type RequestTagMap = { [key: string]: string | undefined };
 export interface CreateDbBackupInput {
   name: string;
   dbResourceId: string;
-  retentionDays?: number;
-  tags?: { [key: string]: string | undefined };
+  retentionDays?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DbBackupId = string;
 export type Arn = string;
@@ -198,11 +199,20 @@ export type ResourceDeploymentType =
   | (string & {});
 export type KmsKeyId = string;
 export interface ClusterConfiguration {
-  ingestQueryInstances?: number;
-  queryOnlyInstances?: number;
-  dedicatedCompactor?: boolean;
+  ingestQueryInstances?: number | undefined;
+  queryOnlyInstances?: number | undefined;
+  dedicatedCompactor?: boolean | undefined;
 }
-export type DbParameterGroupId = string;
+export type InstanceMode =
+  | "PRIMARY"
+  | "STANDBY"
+  | "REPLICA"
+  | "INGEST"
+  | "QUERY"
+  | "COMPACT"
+  | "PROCESS"
+  | (string & {});
+export type InstanceModeList = InstanceMode[];
 export type DbInstanceType =
   | "db.influx.medium"
   | "db.influx.large"
@@ -214,6 +224,19 @@ export type DbInstanceType =
   | "db.influx.16xlarge"
   | "db.influx.24xlarge"
   | (string & {});
+export interface NodeGroup {
+  instanceModes: InstanceMode[];
+  instanceType: DbInstanceType;
+  count: number;
+}
+export type NodeGroupList = NodeGroup[];
+export interface InfluxDBv3EnterpriseDeploymentConfiguration {
+  nodeGroups: NodeGroup[];
+}
+export type DeploymentConfiguration = {
+  InfluxDBv3Enterprise: InfluxDBv3EnterpriseDeploymentConfiguration;
+};
+export type DbParameterGroupId = string;
 export interface S3Configuration {
   bucketName: string;
   enabled: boolean;
@@ -241,30 +264,31 @@ export interface MaintenanceSchedule {
 }
 export interface CreateDbBackupOutput {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
-  clusterConfiguration?: ClusterConfiguration;
-  dbParameterGroupId?: string;
-  dbInstanceType?: DbInstanceType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  failoverMode?: FailoverMode;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  port?: number;
-  networkType?: NetworkType;
-  influxAuthParametersSecretArn?: string;
-  maintenanceSchedule?: MaintenanceSchedule;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  dbParameterGroupId?: string | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export type DbClusterName = string;
 export type Username = string | redacted.Redacted<string>;
@@ -288,31 +312,32 @@ export interface DbBackupConfiguration {
   type: AutomatedDbBackupType;
   retentionDays: number;
   enabled: boolean;
-  customSchedule?: string;
+  customSchedule?: string | undefined;
 }
 export type DbBackupConfigurationInputList = DbBackupConfiguration[];
 export interface CreateDbClusterInput {
   name: string;
-  username?: string | redacted.Redacted<string>;
-  password?: string | redacted.Redacted<string>;
-  organization?: string;
-  bucket?: string;
-  port?: number;
-  dbParameterGroupIdentifier?: string;
-  dbInstanceType: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  networkType?: NetworkType;
-  publiclyAccessible?: boolean;
+  username?: string | redacted.Redacted<string> | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  organization?: string | undefined;
+  bucket?: string | undefined;
+  port?: number | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  networkType?: NetworkType | undefined;
+  publiclyAccessible?: boolean | undefined;
   vpcSubnetIds: string[];
   vpcSecurityGroupIds: string[];
-  deploymentType?: ClusterDeploymentType;
-  failoverMode?: FailoverMode;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  dbBackupConfigurations?: DbBackupConfiguration[];
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  deploymentType?: ClusterDeploymentType | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DbClusterId = string;
 export type ClusterStatus =
@@ -331,32 +356,32 @@ export type ClusterStatus =
   | "RESTORE_FAILED"
   | (string & {});
 export interface CreateDbClusterOutput {
-  dbClusterId?: string;
-  dbClusterStatus?: ClusterStatus;
+  dbClusterId?: string | undefined;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export type DbInstanceName = string;
 export type DeploymentType = "SINGLE_AZ" | "WITH_MULTIAZ_STANDBY" | (string & {});
 export interface CreateDbInstanceInput {
   name: string;
-  username?: string | redacted.Redacted<string>;
+  username?: string | redacted.Redacted<string> | undefined;
   password: string | redacted.Redacted<string>;
-  organization?: string;
-  bucket?: string;
+  organization?: string | undefined;
+  bucket?: string | undefined;
   dbInstanceType: DbInstanceType;
   vpcSubnetIds: string[];
   vpcSecurityGroupIds: string[];
-  publiclyAccessible?: boolean;
-  dbStorageType?: DbStorageType;
+  publiclyAccessible?: boolean | undefined;
+  dbStorageType?: DbStorageType | undefined;
   allocatedStorage: number;
-  dbParameterGroupIdentifier?: string;
-  deploymentType?: DeploymentType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  tags?: { [key: string]: string | undefined };
-  port?: number;
-  networkType?: NetworkType;
-  dbBackupConfigurations?: DbBackupConfiguration[];
-  kmsKeyId?: string;
+  dbParameterGroupIdentifier?: string | undefined;
+  deploymentType?: DeploymentType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbInstanceId = string;
 export type Status =
@@ -375,52 +400,42 @@ export type Status =
   | "RESTORING"
   | "RESTORE_FAILED"
   | (string & {});
-export type InstanceMode =
-  | "PRIMARY"
-  | "STANDBY"
-  | "REPLICA"
-  | "INGEST"
-  | "QUERY"
-  | "COMPACT"
-  | "PROCESS"
-  | (string & {});
-export type InstanceModeList = InstanceMode[];
 export interface DbBackupConfigurationOutput {
   type: AutomatedDbBackupType;
   retentionDays: number;
   enabled: boolean;
-  customSchedule?: string;
-  nextAutomatedBackupTime?: Date;
+  customSchedule?: string | undefined;
+  nextAutomatedBackupTime?: Date | undefined;
 }
 export type DbBackupConfigurationOutputList = DbBackupConfigurationOutput[];
 export interface CreateDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbParameterGroupName = string;
 export type LogLevel = "debug" | "info" | "error" | (string & {});
@@ -437,267 +452,281 @@ export interface Duration {
   value: number;
 }
 export interface InfluxDBv2Parameters {
-  fluxLogEnabled?: boolean;
-  logLevel?: LogLevel;
-  noTasks?: boolean;
-  queryConcurrency?: number;
-  queryQueueSize?: number;
-  tracingType?: TracingType;
-  metricsDisabled?: boolean;
-  httpIdleTimeout?: Duration;
-  httpReadHeaderTimeout?: Duration;
-  httpReadTimeout?: Duration;
-  httpWriteTimeout?: Duration;
-  influxqlMaxSelectBuckets?: number;
-  influxqlMaxSelectPoint?: number;
-  influxqlMaxSelectSeries?: number;
-  pprofDisabled?: boolean;
-  queryInitialMemoryBytes?: number;
-  queryMaxMemoryBytes?: number;
-  queryMemoryBytes?: number;
-  sessionLength?: number;
-  sessionRenewDisabled?: boolean;
-  storageCacheMaxMemorySize?: number;
-  storageCacheSnapshotMemorySize?: number;
-  storageCacheSnapshotWriteColdDuration?: Duration;
-  storageCompactFullWriteColdDuration?: Duration;
-  storageCompactThroughputBurst?: number;
-  storageMaxConcurrentCompactions?: number;
-  storageMaxIndexLogFileSize?: number;
-  storageNoValidateFieldSize?: boolean;
-  storageRetentionCheckInterval?: Duration;
-  storageSeriesFileMaxConcurrentSnapshotCompactions?: number;
-  storageSeriesIdSetCacheSize?: number;
-  storageWalMaxConcurrentWrites?: number;
-  storageWalMaxWriteDelay?: Duration;
-  uiDisabled?: boolean;
+  fluxLogEnabled?: boolean | undefined;
+  logLevel?: LogLevel | undefined;
+  noTasks?: boolean | undefined;
+  queryConcurrency?: number | undefined;
+  queryQueueSize?: number | undefined;
+  tracingType?: TracingType | undefined;
+  metricsDisabled?: boolean | undefined;
+  httpIdleTimeout?: Duration | undefined;
+  httpReadHeaderTimeout?: Duration | undefined;
+  httpReadTimeout?: Duration | undefined;
+  httpWriteTimeout?: Duration | undefined;
+  influxqlMaxSelectBuckets?: number | undefined;
+  influxqlMaxSelectPoint?: number | undefined;
+  influxqlMaxSelectSeries?: number | undefined;
+  pprofDisabled?: boolean | undefined;
+  queryInitialMemoryBytes?: number | undefined;
+  queryMaxMemoryBytes?: number | undefined;
+  queryMemoryBytes?: number | undefined;
+  sessionLength?: number | undefined;
+  sessionRenewDisabled?: boolean | undefined;
+  storageCacheMaxMemorySize?: number | undefined;
+  storageCacheSnapshotMemorySize?: number | undefined;
+  storageCacheSnapshotWriteColdDuration?: Duration | undefined;
+  storageCompactFullWriteColdDuration?: Duration | undefined;
+  storageCompactThroughputBurst?: number | undefined;
+  storageMaxConcurrentCompactions?: number | undefined;
+  storageMaxIndexLogFileSize?: number | undefined;
+  storageNoValidateFieldSize?: boolean | undefined;
+  storageRetentionCheckInterval?: Duration | undefined;
+  storageSeriesFileMaxConcurrentSnapshotCompactions?: number | undefined;
+  storageSeriesIdSetCacheSize?: number | undefined;
+  storageWalMaxConcurrentWrites?: number | undefined;
+  storageWalMaxWriteDelay?: Duration | undefined;
+  uiDisabled?: boolean | undefined;
 }
 export type LogFormats = "full" | (string & {});
 export type DataFusionRuntimeType = "multi-thread" | "multi-thread-alt" | (string & {});
 export type PercentOrAbsoluteLong =
-  | { percent: string; absolute?: never }
-  | { percent?: never; absolute: number };
+  | { percent: string; absolute?: undefined }
+  | { percent?: undefined; absolute: number };
 export type PluginRepositorySecretArn = string;
 export interface InfluxDBv3CoreParameters {
-  queryFileLimit?: number;
-  queryLogSize?: number;
-  logFilter?: string;
-  logFormat?: LogFormats;
-  dataFusionNumThreads?: number;
-  dataFusionRuntimeType?: DataFusionRuntimeType;
-  dataFusionRuntimeDisableLifoSlot?: boolean;
-  dataFusionRuntimeEventInterval?: number;
-  dataFusionRuntimeGlobalQueueInterval?: number;
-  dataFusionRuntimeMaxBlockingThreads?: number;
-  dataFusionRuntimeMaxIoEventsPerTick?: number;
-  dataFusionRuntimeThreadKeepAlive?: Duration;
-  dataFusionRuntimeThreadPriority?: number;
-  dataFusionMaxParquetFanout?: number;
-  dataFusionUseCachedParquetLoader?: boolean;
-  dataFusionConfig?: string;
-  maxHttpRequestSize?: number;
-  forceSnapshotMemThreshold?: PercentOrAbsoluteLong;
-  walSnapshotSize?: number;
-  walMaxWriteBufferSize?: number;
-  snapshottedWalFilesToKeep?: number;
-  preemptiveCacheAge?: Duration;
-  parquetMemCachePrunePercentage?: number;
-  parquetMemCachePruneInterval?: Duration;
-  disableParquetMemCache?: boolean;
-  parquetMemCacheQueryPathDuration?: Duration;
-  lastCacheEvictionInterval?: Duration;
-  distinctCacheEvictionInterval?: Duration;
-  gen1Duration?: Duration;
-  execMemPoolBytes?: PercentOrAbsoluteLong;
-  parquetMemCacheSize?: PercentOrAbsoluteLong;
-  walReplayFailOnError?: boolean;
-  walReplayConcurrencyLimit?: number;
-  tableIndexCacheMaxEntries?: number;
-  tableIndexCacheConcurrencyLimit?: number;
-  gen1LookbackDuration?: Duration;
-  retentionCheckInterval?: Duration;
-  deleteGracePeriod?: Duration;
-  hardDeleteDefaultDuration?: Duration;
-  pluginRepositoryUrl?: string;
-  pluginRepositorySecretArn?: string;
+  queryFileLimit?: number | undefined;
+  queryLogSize?: number | undefined;
+  logFilter?: string | undefined;
+  logFormat?: LogFormats | undefined;
+  dataFusionNumThreads?: number | undefined;
+  dataFusionRuntimeType?: DataFusionRuntimeType | undefined;
+  dataFusionRuntimeDisableLifoSlot?: boolean | undefined;
+  dataFusionRuntimeEventInterval?: number | undefined;
+  dataFusionRuntimeGlobalQueueInterval?: number | undefined;
+  dataFusionRuntimeMaxBlockingThreads?: number | undefined;
+  dataFusionRuntimeMaxIoEventsPerTick?: number | undefined;
+  dataFusionRuntimeThreadKeepAlive?: Duration | undefined;
+  dataFusionRuntimeThreadPriority?: number | undefined;
+  dataFusionMaxParquetFanout?: number | undefined;
+  dataFusionUseCachedParquetLoader?: boolean | undefined;
+  dataFusionConfig?: string | undefined;
+  maxHttpRequestSize?: number | undefined;
+  forceSnapshotMemThreshold?: PercentOrAbsoluteLong | undefined;
+  walSnapshotSize?: number | undefined;
+  walMaxWriteBufferSize?: number | undefined;
+  snapshottedWalFilesToKeep?: number | undefined;
+  preemptiveCacheAge?: Duration | undefined;
+  parquetMemCachePrunePercentage?: number | undefined;
+  parquetMemCachePruneInterval?: Duration | undefined;
+  disableParquetMemCache?: boolean | undefined;
+  parquetMemCacheQueryPathDuration?: Duration | undefined;
+  lastCacheEvictionInterval?: Duration | undefined;
+  distinctCacheEvictionInterval?: Duration | undefined;
+  gen1Duration?: Duration | undefined;
+  execMemPoolBytes?: PercentOrAbsoluteLong | undefined;
+  parquetMemCacheSize?: PercentOrAbsoluteLong | undefined;
+  walReplayFailOnError?: boolean | undefined;
+  walReplayConcurrencyLimit?: number | undefined;
+  tableIndexCacheMaxEntries?: number | undefined;
+  tableIndexCacheConcurrencyLimit?: number | undefined;
+  gen1LookbackDuration?: Duration | undefined;
+  retentionCheckInterval?: Duration | undefined;
+  deleteGracePeriod?: Duration | undefined;
+  hardDeleteDefaultDuration?: Duration | undefined;
+  pluginRepositoryUrl?: string | undefined;
+  pluginRepositorySecretArn?: string | undefined;
 }
 export interface InfluxDBv3EnterpriseParameters {
-  queryFileLimit?: number;
-  queryLogSize?: number;
-  logFilter?: string;
-  logFormat?: LogFormats;
-  dataFusionNumThreads?: number;
-  dataFusionRuntimeType?: DataFusionRuntimeType;
-  dataFusionRuntimeDisableLifoSlot?: boolean;
-  dataFusionRuntimeEventInterval?: number;
-  dataFusionRuntimeGlobalQueueInterval?: number;
-  dataFusionRuntimeMaxBlockingThreads?: number;
-  dataFusionRuntimeMaxIoEventsPerTick?: number;
-  dataFusionRuntimeThreadKeepAlive?: Duration;
-  dataFusionRuntimeThreadPriority?: number;
-  dataFusionMaxParquetFanout?: number;
-  dataFusionUseCachedParquetLoader?: boolean;
-  dataFusionConfig?: string;
-  maxHttpRequestSize?: number;
-  forceSnapshotMemThreshold?: PercentOrAbsoluteLong;
-  walSnapshotSize?: number;
-  walMaxWriteBufferSize?: number;
-  snapshottedWalFilesToKeep?: number;
-  preemptiveCacheAge?: Duration;
-  parquetMemCachePrunePercentage?: number;
-  parquetMemCachePruneInterval?: Duration;
-  disableParquetMemCache?: boolean;
-  parquetMemCacheQueryPathDuration?: Duration;
-  lastCacheEvictionInterval?: Duration;
-  distinctCacheEvictionInterval?: Duration;
-  gen1Duration?: Duration;
-  execMemPoolBytes?: PercentOrAbsoluteLong;
-  parquetMemCacheSize?: PercentOrAbsoluteLong;
-  walReplayFailOnError?: boolean;
-  walReplayConcurrencyLimit?: number;
-  tableIndexCacheMaxEntries?: number;
-  tableIndexCacheConcurrencyLimit?: number;
-  gen1LookbackDuration?: Duration;
-  retentionCheckInterval?: Duration;
-  deleteGracePeriod?: Duration;
-  hardDeleteDefaultDuration?: Duration;
-  pluginRepositoryUrl?: string;
-  pluginRepositorySecretArn?: string;
-  ingestQueryInstances: number;
-  queryOnlyInstances: number;
-  dedicatedCompactor: boolean;
-  compactionRowLimit?: number;
-  compactionMaxNumFilesPerPlan?: number;
-  compactionGen2Duration?: Duration;
-  compactionMultipliers?: string;
-  compactionCleanupWait?: Duration;
-  compactionCheckInterval?: Duration;
-  lastValueCacheDisableFromHistory?: boolean;
-  distinctValueCacheDisableFromHistory?: boolean;
-  replicationInterval?: Duration;
-  catalogSyncInterval?: Duration;
+  queryFileLimit?: number | undefined;
+  queryLogSize?: number | undefined;
+  logFilter?: string | undefined;
+  logFormat?: LogFormats | undefined;
+  dataFusionNumThreads?: number | undefined;
+  dataFusionRuntimeType?: DataFusionRuntimeType | undefined;
+  dataFusionRuntimeDisableLifoSlot?: boolean | undefined;
+  dataFusionRuntimeEventInterval?: number | undefined;
+  dataFusionRuntimeGlobalQueueInterval?: number | undefined;
+  dataFusionRuntimeMaxBlockingThreads?: number | undefined;
+  dataFusionRuntimeMaxIoEventsPerTick?: number | undefined;
+  dataFusionRuntimeThreadKeepAlive?: Duration | undefined;
+  dataFusionRuntimeThreadPriority?: number | undefined;
+  dataFusionMaxParquetFanout?: number | undefined;
+  dataFusionUseCachedParquetLoader?: boolean | undefined;
+  dataFusionConfig?: string | undefined;
+  maxHttpRequestSize?: number | undefined;
+  forceSnapshotMemThreshold?: PercentOrAbsoluteLong | undefined;
+  walSnapshotSize?: number | undefined;
+  walMaxWriteBufferSize?: number | undefined;
+  snapshottedWalFilesToKeep?: number | undefined;
+  preemptiveCacheAge?: Duration | undefined;
+  parquetMemCachePrunePercentage?: number | undefined;
+  parquetMemCachePruneInterval?: Duration | undefined;
+  disableParquetMemCache?: boolean | undefined;
+  parquetMemCacheQueryPathDuration?: Duration | undefined;
+  lastCacheEvictionInterval?: Duration | undefined;
+  distinctCacheEvictionInterval?: Duration | undefined;
+  gen1Duration?: Duration | undefined;
+  execMemPoolBytes?: PercentOrAbsoluteLong | undefined;
+  parquetMemCacheSize?: PercentOrAbsoluteLong | undefined;
+  walReplayFailOnError?: boolean | undefined;
+  walReplayConcurrencyLimit?: number | undefined;
+  tableIndexCacheMaxEntries?: number | undefined;
+  tableIndexCacheConcurrencyLimit?: number | undefined;
+  gen1LookbackDuration?: Duration | undefined;
+  retentionCheckInterval?: Duration | undefined;
+  deleteGracePeriod?: Duration | undefined;
+  hardDeleteDefaultDuration?: Duration | undefined;
+  pluginRepositoryUrl?: string | undefined;
+  pluginRepositorySecretArn?: string | undefined;
+  ingestQueryInstances?: number | undefined;
+  queryOnlyInstances?: number | undefined;
+  dedicatedCompactor?: boolean | undefined;
+  compactionRowLimit?: number | undefined;
+  compactionMaxNumFilesPerPlan?: number | undefined;
+  compactionGen2Duration?: Duration | undefined;
+  compactionMultipliers?: string | undefined;
+  compactionCleanupWait?: Duration | undefined;
+  compactionCheckInterval?: Duration | undefined;
+  lastValueCacheDisableFromHistory?: boolean | undefined;
+  distinctValueCacheDisableFromHistory?: boolean | undefined;
+  replicationInterval?: Duration | undefined;
+  catalogSyncInterval?: Duration | undefined;
+  upgradePachaTree?: boolean | undefined;
+  walBufferSize?: number | undefined;
+  snapshotSize?: PercentOrAbsoluteLong | undefined;
+  snapshotDuration?: Duration | undefined;
 }
 export type Parameters =
-  | { InfluxDBv2: InfluxDBv2Parameters; InfluxDBv3Core?: never; InfluxDBv3Enterprise?: never }
-  | { InfluxDBv2?: never; InfluxDBv3Core: InfluxDBv3CoreParameters; InfluxDBv3Enterprise?: never }
   | {
-      InfluxDBv2?: never;
-      InfluxDBv3Core?: never;
+      InfluxDBv2: InfluxDBv2Parameters;
+      InfluxDBv3Core?: undefined;
+      InfluxDBv3Enterprise?: undefined;
+    }
+  | {
+      InfluxDBv2?: undefined;
+      InfluxDBv3Core: InfluxDBv3CoreParameters;
+      InfluxDBv3Enterprise?: undefined;
+    }
+  | {
+      InfluxDBv2?: undefined;
+      InfluxDBv3Core?: undefined;
       InfluxDBv3Enterprise: InfluxDBv3EnterpriseParameters;
     };
 export interface CreateDbParameterGroupInput {
   name: string;
-  description?: string;
-  parameters?: Parameters;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  parameters?: Parameters | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDbParameterGroupOutput {
   id: string;
   name: string;
   arn: string;
-  description?: string;
-  parameters?: Parameters;
+  description?: string | undefined;
+  parameters?: Parameters | undefined;
 }
 export interface DeleteDbBackupInput {
   identifier: string;
 }
 export interface DeleteDbBackupOutput {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
-  clusterConfiguration?: ClusterConfiguration;
-  dbParameterGroupId?: string;
-  dbInstanceType?: DbInstanceType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  failoverMode?: FailoverMode;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  port?: number;
-  networkType?: NetworkType;
-  influxAuthParametersSecretArn?: string;
-  maintenanceSchedule?: MaintenanceSchedule;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  dbParameterGroupId?: string | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export interface DeleteDbClusterInput {
   dbClusterId: string;
-  retainAutomatedBackups?: boolean;
+  retainAutomatedBackups?: boolean | undefined;
 }
 export interface DeleteDbClusterOutput {
-  dbClusterStatus?: ClusterStatus;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export type DbInstanceIdentifier = string;
 export interface DeleteDbInstanceInput {
   identifier: string;
-  retainAutomatedBackups?: boolean;
+  retainAutomatedBackups?: boolean | undefined;
 }
 export interface DeleteDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface GetDbBackupInput {
   identifier: string;
 }
 export interface GetDbBackupOutput {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
-  clusterConfiguration?: ClusterConfiguration;
-  dbParameterGroupId?: string;
-  dbInstanceType?: DbInstanceType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  failoverMode?: FailoverMode;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  port?: number;
-  networkType?: NetworkType;
-  influxAuthParametersSecretArn?: string;
-  maintenanceSchedule?: MaintenanceSchedule;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  dbParameterGroupId?: string | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export interface GetDbClusterInput {
   dbClusterId: string;
@@ -706,30 +735,31 @@ export interface GetDbClusterOutput {
   id: string;
   name: string;
   arn: string;
-  status?: ClusterStatus;
-  endpoint?: string;
-  readerEndpoint?: string;
-  port?: number;
-  deploymentType?: ClusterDeploymentType;
-  dbInstanceType?: DbInstanceType;
-  networkType?: NetworkType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  engineType?: EngineType;
-  publiclyAccessible?: boolean;
-  dbParameterGroupIdentifier?: string;
-  effectiveDbParameterGroupIdentifier?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  influxAuthParametersSecretArn?: string;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  failoverMode?: FailoverMode;
-  clusterConfiguration?: ClusterConfiguration;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  status?: ClusterStatus | undefined;
+  endpoint?: string | undefined;
+  readerEndpoint?: string | undefined;
+  port?: number | undefined;
+  deploymentType?: ClusterDeploymentType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  networkType?: NetworkType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  engineType?: EngineType | undefined;
+  publiclyAccessible?: boolean | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  effectiveDbParameterGroupIdentifier?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  failoverMode?: FailoverMode | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface GetDbInstanceInput {
   identifier: string;
@@ -738,30 +768,30 @@ export interface GetDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface GetDbParameterGroupInput {
   identifier: string;
@@ -770,134 +800,134 @@ export interface GetDbParameterGroupOutput {
   id: string;
   name: string;
   arn: string;
-  description?: string;
-  parameters?: Parameters;
+  description?: string | undefined;
+  parameters?: Parameters | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListDbBackupsInput {
-  dbResourceId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  dbResourceId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbBackupSummary {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbBackupSummaryList = DbBackupSummary[];
 export interface ListDbBackupsOutput {
   items: DbBackupSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbClustersInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbClusterSummary {
   id: string;
   name: string;
   arn: string;
-  status?: ClusterStatus;
-  endpoint?: string;
-  readerEndpoint?: string;
-  port?: number;
-  deploymentType?: ClusterDeploymentType;
-  dbInstanceType?: DbInstanceType;
-  networkType?: NetworkType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  engineType?: EngineType;
+  status?: ClusterStatus | undefined;
+  endpoint?: string | undefined;
+  readerEndpoint?: string | undefined;
+  port?: number | undefined;
+  deploymentType?: ClusterDeploymentType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  networkType?: NetworkType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  engineType?: EngineType | undefined;
 }
 export type DbClusterSummaryList = DbClusterSummary[];
 export interface ListDbClustersOutput {
   items: DbClusterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbInstancesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbInstanceSummary {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
 }
 export type DbInstanceSummaryList = DbInstanceSummary[];
 export interface ListDbInstancesOutput {
   items: DbInstanceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbInstancesForClusterInput {
   dbClusterId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbInstanceForClusterSummary {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
 }
 export type DbInstanceForClusterSummaryList = DbInstanceForClusterSummary[];
 export interface ListDbInstancesForClusterOutput {
   items: DbInstanceForClusterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbParameterGroupsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbParameterGroupSummary {
   id: string;
   name: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type DbParameterGroupSummaryList = DbParameterGroupSummary[];
 export interface ListDbParameterGroupsOutput {
   items: DbParameterGroupSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export type ResponseTagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DbInstanceIdList = string[];
 export interface RebootDbClusterInput {
   dbClusterId: string;
-  instanceIds?: string[];
+  instanceIds?: string[] | undefined;
 }
 export interface RebootDbClusterOutput {
-  dbClusterStatus?: ClusterStatus;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export interface RebootDbInstanceInput {
   identifier: string;
@@ -906,58 +936,58 @@ export interface RebootDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbResourceName = string;
 export type RestoreMode = "NEW_RESOURCE" | "REPLACE_EXISTING" | (string & {});
 export interface RestoreFromDbBackupInput {
   name: string;
   dbBackupId: string;
-  restoreToTime?: Date;
-  restoreMode?: RestoreMode;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  tags?: { [key: string]: string | undefined };
-  port?: number;
-  networkType?: NetworkType;
-  deploymentType?: ResourceDeploymentType;
-  dbBackupConfigurations?: DbBackupConfiguration[];
-  kmsKeyId?: string;
+  restoreToTime?: Date | undefined;
+  restoreMode?: RestoreMode | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type RestoreStatus = "RESTORING" | (string & {});
 export type ResourceType = "DB_INSTANCE" | "DB_CLUSTER" | (string & {});
 export interface RestoreFromDbBackupOutput {
-  restoredDbResourceId?: string;
-  restoreStatus?: RestoreStatus;
-  resourceType?: ResourceType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
+  restoredDbResourceId?: string | undefined;
+  restoreStatus?: RestoreStatus | undefined;
+  resourceType?: ResourceType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -972,57 +1002,58 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDbClusterInput {
   dbClusterId: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  dbParameterGroupIdentifier?: string;
-  port?: number;
-  dbInstanceType?: DbInstanceType;
-  failoverMode?: FailoverMode;
-  maintenanceSchedule?: MaintenanceSchedule;
-  dbBackupConfigurations?: DbBackupConfiguration[];
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  port?: number | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
 }
 export interface UpdateDbClusterOutput {
-  dbClusterStatus?: ClusterStatus;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export interface UpdateDbInstanceInput {
   identifier: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  dbParameterGroupIdentifier?: string;
-  port?: number;
-  dbInstanceType?: DbInstanceType;
-  deploymentType?: DeploymentType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  maintenanceSchedule?: MaintenanceSchedule;
-  dbBackupConfigurations?: DbBackupConfiguration[];
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  port?: number | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  deploymentType?: DeploymentType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
 }
 export interface UpdateDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type ValidationExceptionReason = "FIELD_VALIDATION_FAILED" | "OTHER" | (string & {});
 export type CreateDbBackupError =
@@ -1038,7 +1069,7 @@ export type CreateDbBackupError =
  * Creates a new on-demand backup of a Timestream for InfluxDB resource.
  */
 export const createDbBackup: API.OperationMethod<
-  CreateDbBackupInput,
+  CreateDbBackupInput & RegionInput,
   CreateDbBackupOutput,
   CreateDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1074,13 +1105,13 @@ export type CreateDbClusterError =
  * Creates a new Timestream for InfluxDB cluster.
  */
 export const createDbCluster: API.OperationMethod<
-  CreateDbClusterInput,
+  CreateDbClusterInput & RegionInput,
   CreateDbClusterOutput,
   CreateDbClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<CreateDbClusterInput>,
-  output: __S(241, __c30, 1) as any as S.Schema<CreateDbClusterOutput>,
+  input: __S(256, __c32, 0) as any as S.Schema<CreateDbClusterInput>,
+  output: __S(257, __c32, 1) as any as S.Schema<CreateDbClusterOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1110,13 +1141,13 @@ export type CreateDbInstanceError =
  * Creates a new Timestream for InfluxDB DB instance.
  */
 export const createDbInstance: API.OperationMethod<
-  CreateDbInstanceInput,
+  CreateDbInstanceInput & RegionInput,
   CreateDbInstanceOutput,
   CreateDbInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<CreateDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<CreateDbInstanceOutput>,
+  input: __S(272, __c34, 0) as any as S.Schema<CreateDbInstanceInput>,
+  output: __S(288, __c36, 0) as any as S.Schema<CreateDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1146,7 +1177,7 @@ export type CreateDbParameterGroupError =
  * Creates a new Timestream for InfluxDB DB parameter group to associate with DB instances.
  */
 export const createDbParameterGroup: API.OperationMethod<
-  CreateDbParameterGroupInput,
+  CreateDbParameterGroupInput & RegionInput,
   CreateDbParameterGroupOutput,
   CreateDbParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1181,7 +1212,7 @@ export type DeleteDbBackupError =
  * Deletes a Timestream for InfluxDB backup.
  */
 export const deleteDbBackup: API.OperationMethod<
-  DeleteDbBackupInput,
+  DeleteDbBackupInput & RegionInput,
   DeleteDbBackupOutput,
   DeleteDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1246,7 @@ export type DeleteDbClusterError =
  * Deletes a Timestream for InfluxDB cluster.
  */
 export const deleteDbCluster: API.OperationMethod<
-  DeleteDbClusterInput,
+  DeleteDbClusterInput & RegionInput,
   DeleteDbClusterOutput,
   DeleteDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1249,13 +1280,13 @@ export type DeleteDbInstanceError =
  * Deletes a Timestream for InfluxDB DB instance.
  */
 export const deleteDbInstance: API.OperationMethod<
-  DeleteDbInstanceInput,
+  DeleteDbInstanceInput & RegionInput,
   DeleteDbInstanceOutput,
   DeleteDbInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeleteDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<DeleteDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<DeleteDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1282,7 +1313,7 @@ export type GetDbBackupError =
  * Returns information about a specific Timestream for InfluxDB backup.
  */
 export const getDbBackup: API.OperationMethod<
-  GetDbBackupInput,
+  GetDbBackupInput & RegionInput,
   GetDbBackupOutput,
   GetDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1314,7 +1345,7 @@ export type GetDbClusterError =
  * Retrieves information about a Timestream for InfluxDB cluster.
  */
 export const getDbCluster: API.OperationMethod<
-  GetDbClusterInput,
+  GetDbClusterInput & RegionInput,
   GetDbClusterOutput,
   GetDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1346,13 +1377,13 @@ export type GetDbInstanceError =
  * Returns a Timestream for InfluxDB DB instance.
  */
 export const getDbInstance: API.OperationMethod<
-  GetDbInstanceInput,
+  GetDbInstanceInput & RegionInput,
   GetDbInstanceOutput,
   GetDbInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<GetDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<GetDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1378,7 +1409,7 @@ export type GetDbParameterGroupError =
  * Returns a Timestream for InfluxDB DB parameter group.
  */
 export const getDbParameterGroup: API.OperationMethod<
-  GetDbParameterGroupInput,
+  GetDbParameterGroupInput & RegionInput,
   GetDbParameterGroupOutput,
   GetDbParameterGroupError,
   Credentials | HttpClient.HttpClient
@@ -1410,7 +1441,7 @@ export type ListDbBackupsError =
  * Returns a list of Timestream for InfluxDB backups.
  */
 export const listDbBackups: API.PaginatedOperationMethod<
-  ListDbBackupsInput,
+  ListDbBackupsInput & RegionInput,
   ListDbBackupsOutput,
   ListDbBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -1449,7 +1480,7 @@ export type ListDbClustersError =
  * Returns a list of Timestream for InfluxDB DB clusters.
  */
 export const listDbClusters: API.PaginatedOperationMethod<
-  ListDbClustersInput,
+  ListDbClustersInput & RegionInput,
   ListDbClustersOutput,
   ListDbClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1488,7 +1519,7 @@ export type ListDbInstancesError =
  * Returns a list of Timestream for InfluxDB DB instances.
  */
 export const listDbInstances: API.PaginatedOperationMethod<
-  ListDbInstancesInput,
+  ListDbInstancesInput & RegionInput,
   ListDbInstancesOutput,
   ListDbInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1527,7 +1558,7 @@ export type ListDbInstancesForClusterError =
  * Returns a list of Timestream for InfluxDB clusters.
  */
 export const listDbInstancesForCluster: API.PaginatedOperationMethod<
-  ListDbInstancesForClusterInput,
+  ListDbInstancesForClusterInput & RegionInput,
   ListDbInstancesForClusterOutput,
   ListDbInstancesForClusterError,
   Credentials | HttpClient.HttpClient,
@@ -1566,7 +1597,7 @@ export type ListDbParameterGroupsError =
  * Returns a list of Timestream for InfluxDB DB parameter groups.
  */
 export const listDbParameterGroups: API.PaginatedOperationMethod<
-  ListDbParameterGroupsInput,
+  ListDbParameterGroupsInput & RegionInput,
   ListDbParameterGroupsOutput,
   ListDbParameterGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1599,7 +1630,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * A list of tags applied to the resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1626,7 +1657,7 @@ export type RebootDbClusterError =
  * Reboots a Timestream for InfluxDB cluster.
  */
 export const rebootDbCluster: API.OperationMethod<
-  RebootDbClusterInput,
+  RebootDbClusterInput & RegionInput,
   RebootDbClusterOutput,
   RebootDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1660,13 +1691,13 @@ export type RebootDbInstanceError =
  * Reboots a Timestream for InfluxDB instance.
  */
 export const rebootDbInstance: API.OperationMethod<
-  RebootDbInstanceInput,
+  RebootDbInstanceInput & RegionInput,
   RebootDbInstanceOutput,
   RebootDbInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<RebootDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<RebootDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<RebootDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1695,7 +1726,7 @@ export type RestoreFromDbBackupError =
  * Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode.
  */
 export const restoreFromDbBackup: API.OperationMethod<
-  RestoreFromDbBackupInput,
+  RestoreFromDbBackupInput & RegionInput,
   RestoreFromDbBackupOutput,
   RestoreFromDbBackupError,
   Credentials | HttpClient.HttpClient
@@ -1726,7 +1757,7 @@ export type TagResourceError =
  * Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1746,7 +1777,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes the tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1773,7 +1804,7 @@ export type UpdateDbClusterError =
  * Updates a Timestream for InfluxDB cluster.
  */
 export const updateDbCluster: API.OperationMethod<
-  UpdateDbClusterInput,
+  UpdateDbClusterInput & RegionInput,
   UpdateDbClusterOutput,
   UpdateDbClusterError,
   Credentials | HttpClient.HttpClient
@@ -1807,13 +1838,13 @@ export type UpdateDbInstanceError =
  * Updates a Timestream for InfluxDB DB instance.
  */
 export const updateDbInstance: API.OperationMethod<
-  UpdateDbInstanceInput,
+  UpdateDbInstanceInput & RegionInput,
   UpdateDbInstanceOutput,
   UpdateDbInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<UpdateDbInstanceInput>,
-  output: __S(280, __c35, 0) as any as S.Schema<UpdateDbInstanceOutput>,
+  output: __S(288, __c36, 0) as any as S.Schema<UpdateDbInstanceOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1838,7 +1869,7 @@ function __c0(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           parameters: S.optional(__S(13, __c1, 5)),
-          tags: S.optional(__S(216, __c27, 0)),
+          tags: S.optional(__S(224, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbParameterGroupInput" });
   }
@@ -1983,9 +2014,9 @@ function __c1(j: number): any {
           hardDeleteDefaultDuration: S.optional(__S(8, __c1, 0)),
           pluginRepositoryUrl: S.optional(S.String),
           pluginRepositorySecretArn: S.optional(S.String),
-          ingestQueryInstances: S.Number,
-          queryOnlyInstances: S.Number,
-          dedicatedCompactor: S.Boolean,
+          ingestQueryInstances: S.optional(S.Number),
+          queryOnlyInstances: S.optional(S.Number),
+          dedicatedCompactor: S.optional(S.Boolean),
           compactionRowLimit: S.optional(S.Number),
           compactionMaxNumFilesPerPlan: S.optional(S.Number),
           compactionGen2Duration: S.optional(__S(8, __c1, 0)),
@@ -1996,6 +2027,10 @@ function __c1(j: number): any {
           distinctValueCacheDisableFromHistory: S.optional(S.Boolean),
           replicationInterval: S.optional(__S(8, __c1, 0)),
           catalogSyncInterval: S.optional(__S(8, __c1, 0)),
+          upgradePachaTree: S.optional(S.Boolean),
+          walBufferSize: S.optional(S.Number),
+          snapshotSize: S.optional(__S(10, __c1, 2)),
+          snapshotDuration: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "InfluxDBv3EnterpriseParameters" });
     case 5:
@@ -2091,16 +2126,17 @@ function __c7(j: number): any {
           publiclyAccessible: S.optional(S.Boolean),
           dbParameterGroupIdentifier: S.optional(S.String),
           effectiveDbParameterGroupIdentifier: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
           lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           influxAuthParametersSecretArn: S.optional(S.String),
-          vpcSubnetIds: S.optional(__S(224, __c28, 0)),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSubnetIds: S.optional(__S(240, __c30, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           failoverMode: S.optional(S.String),
           clusterConfiguration: S.optional(__S(208, __c26, 0)),
-          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
+          dbBackupConfigurations: S.optional(__S(281, __c35, 1)),
           kmsKeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDbClusterOutput" });
@@ -2251,7 +2287,7 @@ function __c13(j: number): any {
           allocatedStorage: S.optional(S.Number),
           deploymentType: S.optional(S.String),
           instanceMode: S.optional(S.String),
-          instanceModes: S.optional(__S(272, __c34, 0)),
+          instanceModes: S.optional(__S(232, __c29, 0)),
         }),
       ).annotate({ identifier: "DbInstanceForClusterSummary" });
     case 2:
@@ -2296,7 +2332,7 @@ function __c15(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(216, __c27, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(224, __c28, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
@@ -2305,7 +2341,7 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ dbClusterId: S.String, instanceIds: S.optional(__S(224, __c28, 0)) }).pipe(
+        S.Struct({ dbClusterId: S.String, instanceIds: S.optional(__S(240, __c30, 0)) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "RebootDbClusterInput" });
@@ -2330,16 +2366,16 @@ function __c18(j: number): any {
           dbBackupId: S.String,
           restoreToTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           restoreMode: S.optional(S.String),
-          vpcSubnetIds: S.optional(__S(224, __c28, 0)),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSubnetIds: S.optional(__S(240, __c30, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           publiclyAccessible: S.optional(S.Boolean),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          tags: S.optional(__S(216, __c27, 0)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          tags: S.optional(__S(224, __c28, 0)),
           port: S.optional(S.Number),
           networkType: S.optional(S.String),
           deploymentType: S.optional(S.String),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
           kmsKeyId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RestoreFromDbBackupInput" });
@@ -2359,7 +2395,7 @@ function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(216, __c27, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, tags: __S(224, __c28, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
@@ -2377,7 +2413,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(224, __c28, 0),
+          tagKeys: __S(240, __c30, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
@@ -2388,13 +2424,14 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dbClusterId: S.String,
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           dbParameterGroupIdentifier: S.optional(S.String),
           port: S.optional(S.Number),
           dbInstanceType: S.optional(S.String),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
           failoverMode: S.optional(S.String),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDbClusterInput" });
   }
@@ -2405,15 +2442,15 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           identifier: S.String,
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           dbParameterGroupIdentifier: S.optional(S.String),
           port: S.optional(S.Number),
           dbInstanceType: S.optional(S.String),
           deploymentType: S.optional(S.String),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDbInstanceInput" });
   }
@@ -2426,7 +2463,7 @@ function __c24(j: number): any {
           name: S.String,
           dbResourceId: S.String,
           retentionDays: S.optional(S.Number),
-          tags: S.optional(__S(216, __c27, 0)),
+          tags: S.optional(__S(224, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbBackupInput" });
   }
@@ -2448,19 +2485,20 @@ function __c25(j: number): any {
           deploymentType: S.optional(S.String),
           kmsKeyId: S.optional(S.String),
           clusterConfiguration: S.optional(__S(208, __c26, 0)),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
           dbParameterGroupId: S.optional(S.String),
           dbInstanceType: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           failoverMode: S.optional(S.String),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
-          vpcSubnetIds: S.optional(__S(224, __c28, 0)),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSubnetIds: S.optional(__S(240, __c30, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           publiclyAccessible: S.optional(S.Boolean),
           port: S.optional(S.Number),
           networkType: S.optional(S.String),
           influxAuthParametersSecretArn: S.optional(S.String),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
         }),
       ).annotate({ identifier: "CreateDbBackupOutput" });
   }
@@ -2480,23 +2518,45 @@ function __c26(j: number): any {
 function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+      return S.suspend(() =>
+        S.Struct({ instanceModes: __S(232, __c29, 0), instanceType: S.String, count: S.Number }),
+      ).annotate({ identifier: "NodeGroup" });
+    case 1:
+      return S.Array(__S(216, __c27, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ nodeGroups: __S(217, __c27, 1) })).annotate({
+        identifier: "InfluxDBv3EnterpriseDeploymentConfiguration",
+      });
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ InfluxDBv3Enterprise: __S(218, __c27, 2) })]);
   }
 }
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
 function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ bucketName: S.String, enabled: S.Boolean })).annotate({
         identifier: "S3Configuration",
       });
     case 1:
-      return S.suspend(() => S.Struct({ s3Configuration: __S(232, __c29, 0) })).annotate({
+      return S.suspend(() => S.Struct({ s3Configuration: __S(248, __c31, 0) })).annotate({
         identifier: "LogDeliveryConfiguration",
       });
     case 2:
@@ -2505,7 +2565,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "MaintenanceSchedule" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2517,20 +2577,21 @@ function __c30(j: number): any {
           bucket: S.optional(S.String),
           port: S.optional(S.Number),
           dbParameterGroupIdentifier: S.optional(S.String),
-          dbInstanceType: S.String,
+          dbInstanceType: S.optional(S.String),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
           networkType: S.optional(S.String),
           publiclyAccessible: S.optional(S.Boolean),
-          vpcSubnetIds: __S(224, __c28, 0),
-          vpcSecurityGroupIds: __S(224, __c28, 0),
+          vpcSubnetIds: __S(240, __c30, 0),
+          vpcSecurityGroupIds: __S(240, __c30, 0),
           deploymentType: S.optional(S.String),
+          deploymentConfiguration: S.optional(__S(219, __c27, 3)),
           failoverMode: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
           kmsKeyId: S.optional(S.String),
-          tags: S.optional(__S(216, __c27, 0)),
+          tags: S.optional(__S(224, __c28, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbClusterInput" });
     case 1:
@@ -2539,7 +2600,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateDbClusterOutput" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2551,10 +2612,10 @@ function __c31(j: number): any {
         }),
       ).annotate({ identifier: "DbBackupConfiguration" });
     case 1:
-      return S.Array(__S(248, __c31, 0));
+      return S.Array(__S(264, __c33, 0));
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2565,25 +2626,25 @@ function __c32(j: number): any {
           organization: S.optional(S.String),
           bucket: S.optional(S.String),
           dbInstanceType: S.String,
-          vpcSubnetIds: __S(224, __c28, 0),
-          vpcSecurityGroupIds: __S(224, __c28, 0),
+          vpcSubnetIds: __S(240, __c30, 0),
+          vpcSecurityGroupIds: __S(240, __c30, 0),
           publiclyAccessible: S.optional(S.Boolean),
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.Number,
           dbParameterGroupIdentifier: S.optional(S.String),
           deploymentType: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
-          tags: S.optional(__S(216, __c27, 0)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
+          tags: S.optional(__S(224, __c28, 0)),
           port: S.optional(S.Number),
           networkType: S.optional(S.String),
-          dbBackupConfigurations: S.optional(__S(249, __c31, 1)),
+          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
           kmsKeyId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDbInstanceInput" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2598,16 +2659,10 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "DbBackupConfigurationOutput" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(280, __c35, 0));
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2623,21 +2678,21 @@ function __c35(j: number): any {
           dbStorageType: S.optional(S.String),
           allocatedStorage: S.optional(S.Number),
           deploymentType: S.optional(S.String),
-          vpcSubnetIds: __S(224, __c28, 0),
+          vpcSubnetIds: __S(240, __c30, 0),
           publiclyAccessible: S.optional(S.Boolean),
-          vpcSecurityGroupIds: S.optional(__S(224, __c28, 0)),
+          vpcSecurityGroupIds: S.optional(__S(240, __c30, 0)),
           dbParameterGroupIdentifier: S.optional(S.String),
           availabilityZone: S.optional(S.String),
           secondaryAvailabilityZone: S.optional(S.String),
-          logDeliveryConfiguration: S.optional(__S(233, __c29, 1)),
+          logDeliveryConfiguration: S.optional(__S(249, __c31, 1)),
           influxAuthParametersSecretArn: S.optional(S.String),
           dbClusterId: S.optional(S.String),
           instanceMode: S.optional(S.String),
-          instanceModes: S.optional(__S(272, __c34, 0)),
-          maintenanceSchedule: S.optional(__S(234, __c29, 2)),
+          instanceModes: S.optional(__S(232, __c29, 0)),
+          maintenanceSchedule: S.optional(__S(250, __c31, 2)),
           lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          dbBackupConfigurations: S.optional(__S(265, __c33, 1)),
+          dbBackupConfigurations: S.optional(__S(281, __c35, 1)),
           kmsKeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDbInstanceOutput" });

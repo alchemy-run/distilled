@@ -125,6 +125,16 @@ export const Body = (name?: string) => makeAnnotation(bodySymbol, name ?? true);
 export const querySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/query");
 export const Query = (name?: string) => makeAnnotation(querySymbol, name ?? true);
 
+export const commaDelimitedSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/http/comma-delimited",
+);
+/**
+ * Sends a list-valued `Query` member as ONE comma-separated parameter
+ * (`?state=running,paused`) instead of one parameter per item -- OpenAPI's
+ * `style: form, explode: false`. Takes the trait value the codegen inlines.
+ */
+export const CommaDelimited = (_trait?: unknown) => makeAnnotation(commaDelimitedSymbol, true);
+
 export const deepQuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/deep-query");
 /**
  * Binds a struct-valued input member to a family of DOTTED query parameters:

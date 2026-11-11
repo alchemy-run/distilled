@@ -70,8 +70,8 @@ export interface CreateDatabaseRequest {
   region: CreateDatabaseRequestRegion | (string & {});
   /** The ID of the instance. */
   instanceId: string;
-  collation?: string;
-  compatibility?: number;
+  collation?: string | undefined;
+  compatibility?: number | undefined;
   name: string;
   owner: string;
 }
@@ -97,7 +97,7 @@ export type InstanceNetworkAccessScope = "PUBLIC" | "SNA";
 export type Acl = Array<string>;
 /** the network configuration of the instance. */
 export interface CreateInstanceRequestNetwork {
-  accessScope?: InstanceNetworkAccessScope | (string & {});
+  accessScope?: InstanceNetworkAccessScope | (string & {}) | undefined;
   acl: Acl;
 }
 /** The object containing information about the storage size and class. */
@@ -113,9 +113,9 @@ export interface CreateInstanceRequest {
   /** The region which should be addressed */
   region: CreateInstanceRequestRegion | (string & {});
   backupSchedule: string;
-  encryption?: InstanceEncryption;
+  encryption?: InstanceEncryption | undefined;
   flavorId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   /** the network configuration of the instance. */
   network: CreateInstanceRequestNetwork;
@@ -136,7 +136,7 @@ export interface CreateUserRequest {
   region: CreateUserRequestRegion | (string & {});
   /** The ID of the instance. */
   instanceId: string;
-  default_database?: string;
+  default_database?: string | undefined;
   /** A list containing the user roles for the instance. A list with the valid user roles can be retrieved using the List Roles endpoint. */
   roles: CreateUserRequestRolesList;
   username: string;
@@ -237,27 +237,27 @@ export interface GetInstanceRequest {
 export type InstanceEdition = "Standard" | "EnterpriseCore" | "developer";
 /** The access configuration of the instance */
 export interface InstanceNetwork {
-  accessScope?: InstanceNetworkAccessScope;
-  acl?: Acl;
-  instanceAddress?: string;
-  routerAddress?: string;
+  accessScope?: InstanceNetworkAccessScope | undefined;
+  acl?: Acl | undefined;
+  instanceAddress?: string | undefined;
+  routerAddress?: string | undefined;
 }
 /** How many replicas the instance should have. */
 export type Replicas = 1 | 3;
 export type State = "READY" | "PENDING" | "PROGRESSING" | "FAILURE" | "UNKNOWN" | "TERMINATING";
 /** The object containing information about the storage size and class. */
 export interface Storage {
-  class?: string;
-  size?: number;
+  class?: string | undefined;
+  size?: number | undefined;
 }
 export interface GetInstanceResponse {
   backupSchedule: string;
   edition: InstanceEdition;
-  encryption?: InstanceEncryption;
+  encryption?: InstanceEncryption | undefined;
   flavorId: string;
   id: string;
   isDeletable: boolean;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   network: InstanceNetwork;
   replicas: Replicas;
@@ -311,11 +311,11 @@ export interface ListBackupsRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the backups to be returned on each page. */
-  sort?: BackupSort | (string & {});
+  sort?: BackupSort | (string & {}) | undefined;
 }
 export interface ListBackup {
   completionTime: string;
@@ -357,8 +357,8 @@ export interface ListCollationsRequest {
   instanceId: string;
 }
 export interface DatabaseGetcollation {
-  collation_name?: string;
-  description?: string;
+  collation_name?: string | undefined;
+  description?: string | undefined;
 }
 /** List of collations available for the instance. */
 export type ListCollationsResponseCollationsList = Array<DatabaseGetcollation>;
@@ -376,8 +376,8 @@ export interface ListCompatibilitiesRequest {
   instanceId: string;
 }
 export interface DatabaseGetcompatibility {
-  compatibility_level?: number;
-  description?: string;
+  compatibility_level?: number | undefined;
+  description?: string | undefined;
 }
 /** List of compatibilities available for a d */
 export type ListCompatibilityResponseCompatibilitiesList = Array<DatabaseGetcompatibility>;
@@ -432,11 +432,11 @@ export interface ListDatabasesRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the databases to be returned on each page. */
-  sort?: DatabaseSort | (string & {});
+  sort?: DatabaseSort | (string & {}) | undefined;
 }
 export interface ListDatabase {
   created: string;
@@ -477,11 +477,11 @@ export interface ListFlavorsRequest {
   /** The region which should be addressed */
   region: ListFlavorsRequestRegion | (string & {});
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the flavors to be returned on each page. */
-  sort?: FlavorSort | (string & {});
+  sort?: FlavorSort | (string & {}) | undefined;
 }
 /** a storageClass defines how efficient the storage can work */
 export interface FlavorStorageClassesStorageClass {
@@ -527,11 +527,11 @@ export interface ListInstancesRequest {
   /** The region which should be addressed */
   region: ListInstancesRequestRegion | (string & {});
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the items to be returned on each page. */
-  sort?: InstanceSort | (string & {});
+  sort?: InstanceSort | (string & {}) | undefined;
 }
 export interface ListInstance {
   id: string;
@@ -597,11 +597,11 @@ export interface ListUsersRequest {
   /** The ID of the instance. */
   instanceId: string;
   /** Number of the page of items list to be returned. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items to be returned on each page. */
-  size?: number;
+  size?: number | undefined;
   /** Sorting of the users to be returned on each page. */
-  sort?: UserSort | (string & {});
+  sort?: UserSort | (string & {}) | undefined;
 }
 export interface ListUser {
   id: number;
@@ -642,11 +642,11 @@ export interface ListVersionsResponse {
 export type PartialUpdateInstanceRequestRegion = "eu01";
 /** the network configuration of the instance. */
 export interface PartialUpdateInstanceRequestNetwork {
-  acl?: Acl;
+  acl?: Acl | undefined;
 }
 /** The object containing information about the storage size and class. */
 export interface StorageUpdate {
-  size?: number;
+  size?: number | undefined;
 }
 export type InstanceVersionOpt = "2022";
 export interface PartialUpdateInstanceRequest {
@@ -656,15 +656,15 @@ export interface PartialUpdateInstanceRequest {
   region: PartialUpdateInstanceRequestRegion | (string & {});
   /** The ID of the instance. */
   instanceId: string;
-  backupSchedule?: string;
-  flavorId?: string;
-  labels?: Labels;
-  name?: string;
+  backupSchedule?: string | undefined;
+  flavorId?: string | undefined;
+  labels?: Labels | undefined;
+  name?: string | undefined;
   /** the network configuration of the instance. */
-  network?: PartialUpdateInstanceRequestNetwork;
-  retentionDays?: number;
-  storage?: StorageUpdate;
-  version?: InstanceVersionOpt | (string & {});
+  network?: PartialUpdateInstanceRequestNetwork | undefined;
+  retentionDays?: number | undefined;
+  storage?: StorageUpdate | undefined;
+  version?: InstanceVersionOpt | (string & {}) | undefined;
 }
 export interface PartialUpdateInstanceResponse {}
 export type ResetUserRequestRegion = "eu01";
@@ -692,9 +692,9 @@ export interface SourceBackup {
 }
 export interface S3fileInfo {
   /** The sequence number of the file */
-  file_number?: number;
+  file_number?: number | undefined;
   /** The path to the file on the S3 bucket */
-  file_path?: string;
+  file_path?: string | undefined;
 }
 /** The backup files from which the database should be restored */
 export type ExternalS3S3FilesList = Array<S3fileInfo>;
@@ -714,7 +714,7 @@ export type SourceExternalS3Type = "EXTERNAL_S3";
 export interface SourceExternalS3 {
   database_owner: string;
   /** Logging guid to have a complete activity log over all sub stored procedures. */
-  logging_guid?: string;
+  logging_guid?: string | undefined;
   s3_details: ExternalS3;
   type: SourceExternalS3Type;
 }
@@ -773,7 +773,7 @@ export interface UpdateInstanceRequest {
   instanceId: string;
   backupSchedule: string;
   flavorId: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   /** the network configuration of the instance. */
   network: UpdateInstanceRequestNetwork;

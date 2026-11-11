@@ -46,7 +46,7 @@ export class NotFound
 export interface AddFilesToVersionRequest {
   /** The ID of the version */
   id: string;
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface AddFilesToVersionResponse {}
 export type AddGalleryImageRequestExt =
@@ -67,11 +67,11 @@ export interface AddGalleryImageRequest {
   /** Whether an image is featured */
   featured: boolean;
   /** Title of the image */
-  title?: string;
+  title?: string | undefined;
   /** Description of the image */
-  description?: string;
+  description?: string | undefined;
   /** Ordering of the image */
-  ordering?: number;
+  ordering?: number | undefined;
 }
 export interface AddGalleryImageResponse {}
 export interface AddTeamMemberRequest {
@@ -107,7 +107,7 @@ export interface CheckProjectValidityRequest {
   id_slug: string;
 }
 export interface ProjectIdentifier {
-  id?: string;
+  id?: string | undefined;
 }
 /** A list of the featured categories that the project has. */
 export type CreatableProjectCategoriesList = Array<string>;
@@ -134,11 +134,11 @@ export type CreatableProjectRequestedStatus =
   | "draft";
 export interface ProjectDonationURL {
   /** The ID of the donation platform */
-  id?: string;
+  id?: string | undefined;
   /** The donation platform this link is to */
-  platform?: string;
+  platform?: string | undefined;
   /** The URL of the donation platform and user */
-  url?: string;
+  url?: string | undefined;
 }
 /** A list of donation links for the project */
 export type CreatableProjectDonationUrlsList = Array<ProjectDonationURL>;
@@ -152,11 +152,11 @@ export type CreatableProjectProjectType = "mod" | "modpack";
 export type VersionDependencyDependencyType = "required" | "optional" | "incompatible" | "embedded";
 export interface VersionDependency {
   /** The ID of the version that this version depends on */
-  version_id?: string | null;
+  version_id?: string | null | undefined;
   /** The ID of the project that this version depends on */
-  project_id?: string | null;
+  project_id?: string | null | undefined;
   /** The file name of the dependency, mostly used for showing external dependencies on modpacks */
-  file_name?: string | null;
+  file_name?: string | null | undefined;
   /** The type of dependency that this version has */
   dependency_type: VersionDependencyDependencyType | (string & {});
 }
@@ -189,41 +189,41 @@ export interface EditableFileType {
 export type EditableVersionFileTypesList = Array<EditableFileType>;
 export interface EditableVersion {
   /** The name of this version */
-  name?: string;
+  name?: string | undefined;
   /** The version number. Ideally will follow semantic versioning */
-  version_number?: string;
+  version_number?: string | undefined;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: EditableVersionDependenciesList;
+  dependencies?: EditableVersionDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
-  game_versions?: EditableVersionGameVersionsList;
+  game_versions?: EditableVersionGameVersionsList | undefined;
   /** The release channel for this version */
-  version_type?: EditableVersionVersionType | (string & {});
+  version_type?: EditableVersionVersionType | (string & {}) | undefined;
   /** The mod loaders that this version supports. In case of resource packs, use "minecraft" */
-  loaders?: EditableVersionLoadersList;
+  loaders?: EditableVersionLoadersList | undefined;
   /** Whether the version is featured or not */
-  featured?: boolean;
-  status?: EditableVersionStatus | (string & {});
-  requested_status?: EditableVersionRequestedStatus | (string & {}) | null;
+  featured?: boolean | undefined;
+  status?: EditableVersionStatus | (string & {}) | undefined;
+  requested_status?: EditableVersionRequestedStatus | (string & {}) | null | undefined;
   /** The hash format and the hash of the new primary file */
-  primary_file?: EditableVersionPrimaryFileList;
+  primary_file?: EditableVersionPrimaryFileList | undefined;
   /** A list of file_types to edit */
-  file_types?: EditableVersionFileTypesList;
+  file_types?: EditableVersionFileTypesList | undefined;
 }
 /** A list of initial versions to upload with the created project. Deprecated - please upload version files after initial upload. */
 export type CreatableProjectInitialVersionsList = Array<EditableVersion>;
 export interface CreatableProjectGalleryItem {
   /** The name of the multipart item where the gallery media is located */
-  item?: string;
+  item?: string | undefined;
   /** Whether the image is featured in the gallery */
-  featured?: boolean;
+  featured?: boolean | undefined;
   /** The title of the gallery image */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The description of the gallery image */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The order of the gallery image. Gallery images are sorted by this field and then alphabetically by title. */
-  ordering?: number;
+  ordering?: number | undefined;
 }
 /** Gallery images to be uploaded with the created project. Deprecated - please upload gallery images after initial upload. */
 export type CreatableProjectGalleryItemsList = Array<CreatableProjectGalleryItem | null>;
@@ -239,21 +239,21 @@ export interface CreatableProject {
   /** A list of the featured categories that the project has. */
   categories: CreatableProjectCategoriesList;
   /** A list of additional categories that the project also has. These are supplementary to the featured categories, and does not include them again. */
-  additional_categories?: CreatableProjectAdditionalCategoriesList;
+  additional_categories?: CreatableProjectAdditionalCategoriesList | undefined;
   /** The status of the project */
-  status?: CreatableProjectStatus | (string & {});
+  status?: CreatableProjectStatus | (string & {}) | undefined;
   /** The requested status when submitting for review or scheduling the project for release. Approved status refers to "Public" visibility. */
-  requested_status?: CreatableProjectRequestedStatus | (string & {}) | null;
+  requested_status?: CreatableProjectRequestedStatus | (string & {}) | null | undefined;
   /** An optional link to where to submit bugs or issues with the project */
-  issues_url?: string | null;
+  issues_url?: string | null | undefined;
   /** An optional link to the source code of the project */
-  source_url?: string | null;
+  source_url?: string | null | undefined;
   /** An optional link to the project's wiki page or other relevant information */
-  wiki_url?: string | null;
+  wiki_url?: string | null | undefined;
   /** An optional invite link to the project's discord. */
-  discord_url?: string | null;
+  discord_url?: string | null | undefined;
   /** A list of donation links for the project */
-  donation_urls?: CreatableProjectDonationUrlsList;
+  donation_urls?: CreatableProjectDonationUrlsList | undefined;
   /** Deprecated - use `environment` instead. */
   client_side: CreatableProjectClientSide | (string & {});
   /** Deprecated - use `environment` instead. */
@@ -261,15 +261,15 @@ export interface CreatableProject {
   /** The SPDX license ID of a project */
   license_id: string;
   /** The URL to this license */
-  license_url?: string | null;
+  license_url?: string | null | undefined;
   /** The project type of the project */
   project_type: CreatableProjectProjectType | (string & {});
   /** A list of initial versions to upload with the created project. Deprecated - please upload version files after initial upload. */
-  initial_versions?: CreatableProjectInitialVersionsList;
+  initial_versions?: CreatableProjectInitialVersionsList | undefined;
   /** Whether the project should be saved as a draft instead of being sent to moderation for review. Deprecated - please always mark this as true. */
-  is_draft?: boolean;
+  is_draft?: boolean | undefined;
   /** Gallery images to be uploaded with the created project. Deprecated - please upload gallery images after initial upload. */
-  gallery_items?: CreatableProjectGalleryItemsList;
+  gallery_items?: CreatableProjectGalleryItemsList | undefined;
 }
 /** Project icon file */
 export type CreateProjectRequestIcon =
@@ -285,7 +285,7 @@ export type CreateProjectRequestIcon =
 export interface CreateProjectRequest {
   data: CreatableProject;
   /** Project icon file */
-  icon?: CreateProjectRequestIcon | (string & {});
+  icon?: CreateProjectRequestIcon | (string & {}) | undefined;
 }
 /** The status of the project */
 export type ProjectStatus =
@@ -328,11 +328,11 @@ export type ProjectVersionsList = Array<string>;
 /** The license of the project */
 export interface ProjectLicense {
   /** The SPDX license ID of a project */
-  id?: string;
+  id?: string | undefined;
   /** The long name of a license */
-  name?: string;
+  name?: string | undefined;
   /** The URL to this license */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface GalleryImage {
   /** The URL of the gallery image */
@@ -340,13 +340,13 @@ export interface GalleryImage {
   /** Whether the image is featured in the gallery */
   featured: boolean;
   /** The title of the gallery image */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The description of the gallery image */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The date and time the gallery image was created */
   created: string;
   /** The order of the gallery image. Gallery images are sorted by this field and then alphabetically by title. */
-  ordering?: number;
+  ordering?: number | undefined;
 }
 /** A list of images that have been uploaded to the project's gallery */
 export type ProjectGalleryList = Array<GalleryImage | null>;
@@ -362,9 +362,9 @@ export type ProjectServerSide = "required" | "optional" | "unsupported" | "unkno
 /** Deprecated - A message that a moderator sent regarding the project */
 export interface ModeratorMessage {
   /** The message that a moderator has left for the project */
-  message?: string;
+  message?: string | undefined;
   /** The longer body of the message that a moderator has left for the project */
-  body?: string | null;
+  body?: string | null | undefined;
 }
 export interface Project {
   /** The ID of the project, encoded as a base62 string */
@@ -408,38 +408,38 @@ export interface Project {
   thread_id: string;
   monetization_status: ProjectMonetizationStatus;
   /** The slug of a project, used for vanity URLs. Regex: ```^[\w!@$()`.+,"\-']{3,64}$``` */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** The ID of the organization that owns this project */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** The requested status when submitting for review or scheduling the project for release. Approved status refers to "Public" visibility. */
-  requested_status?: ProjectRequestedStatus | null;
+  requested_status?: ProjectRequestedStatus | null | undefined;
   /** The date the project was first published */
-  approved?: string | null;
+  approved?: string | null | undefined;
   /** The date the project's status was submitted to moderators for review */
-  queued?: string | null;
+  queued?: string | null | undefined;
   /** The URL of the project's icon */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The URL of the project's icon without CDN transforms applied */
-  raw_icon_url?: string | null;
+  raw_icon_url?: string | null | undefined;
   /** The RGB color of the project, automatically generated from the project icon */
-  color?: number | null;
+  color?: number | null | undefined;
   /** An optional link to where to submit bugs or issues with the project */
-  issues_url?: string | null;
+  issues_url?: string | null | undefined;
   /** An optional link to the source code of the project */
-  source_url?: string | null;
+  source_url?: string | null | undefined;
   /** An optional link to the project's wiki page or other relevant information */
-  wiki_url?: string | null;
+  wiki_url?: string | null | undefined;
   /** An optional invite link to the project's discord. */
-  discord_url?: string | null;
+  discord_url?: string | null | undefined;
   /** A list of donation links for the project */
-  donation_urls?: ProjectDonationUrlsList | null;
+  donation_urls?: ProjectDonationUrlsList | null | undefined;
   /** Deprecated - use `environment` instead. */
   client_side: ProjectClientSide;
   /** Deprecated - use `environment` instead. */
   server_side: ProjectServerSide;
   /** Deprecated - The link to the long description of the project. Always null, only kept for legacy compatibility. */
-  body_url?: string | null;
-  moderator_message?: ModeratorMessage | null;
+  body_url?: string | null | undefined;
+  moderator_message?: ModeratorMessage | null | undefined;
 }
 /** A list of specific versions of projects that this version depends on */
 export type CreatableVersionDependenciesList = Array<VersionDependency>;
@@ -488,7 +488,7 @@ export interface CreatableVersion {
   /** The version number. Ideally will follow semantic versioning */
   version_number: string;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
   dependencies: CreatableVersionDependenciesList;
   /** A list of versions of Minecraft that this version supports */
@@ -499,17 +499,17 @@ export interface CreatableVersion {
   loaders: CreatableVersionLoadersList;
   /** Whether the version is featured or not */
   featured: boolean;
-  status?: CreatableVersionStatus | (string & {});
-  requested_status?: CreatableVersionRequestedStatus | (string & {}) | null;
+  status?: CreatableVersionStatus | (string & {}) | undefined;
+  requested_status?: CreatableVersionRequestedStatus | (string & {}) | null | undefined;
   /** The ID of the project this version is for */
   project_id: string;
   /** An array of the multipart field names of each file that goes with this version */
   file_parts: CreatableVersionFilePartsList;
   /** The multipart field name of the primary file */
-  primary_file?: string;
-  environment?: EnvironmentInputEnum | (string & {});
+  primary_file?: string | undefined;
+  environment?: EnvironmentInputEnum | (string & {}) | undefined;
   /** A map of file parts to their associated file type, a file type is used for additional files such as sources jars. */
-  file_types?: CreatableVersionFileTypesMap;
+  file_types?: CreatableVersionFileTypesMap | undefined;
 }
 export interface CreateVersionRequest {
   data: CreatableVersion;
@@ -532,8 +532,8 @@ export type CreateVersionResponseStatus =
 export type CreateVersionResponseRequestedStatus = "listed" | "archived" | "draft" | "unlisted";
 /** A map of hashes of the file. The key is the hashing algorithm and the value is the string version of the hash. */
 export interface VersionFileHashes {
-  sha512?: string;
-  sha1?: string;
+  sha512?: string | undefined;
+  sha1?: string | undefined;
 }
 export interface VersionFile {
   hashes: VersionFileHashes;
@@ -545,7 +545,7 @@ export interface VersionFile {
   primary: boolean;
   /** The size of the file in bytes */
   size: number;
-  file_type?: unknown;
+  file_type?: unknown | undefined;
 }
 /** A list of files available for download for this version */
 export type CreateVersionResponseFilesList = Array<VersionFile>;
@@ -555,9 +555,9 @@ export interface CreateVersionResponse {
   /** The version number. Ideally will follow semantic versioning */
   version_number: string;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: CreateVersionResponseDependenciesList;
+  dependencies?: CreateVersionResponseDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
   game_versions: CreateVersionResponseGameVersionsList;
   /** The release channel for this version */
@@ -566,8 +566,8 @@ export interface CreateVersionResponse {
   loaders: CreateVersionResponseLoadersList;
   /** Whether the version is featured or not */
   featured: boolean;
-  status?: CreateVersionResponseStatus;
-  requested_status?: CreateVersionResponseRequestedStatus | null;
+  status?: CreateVersionResponseStatus | undefined;
+  requested_status?: CreateVersionResponseRequestedStatus | null | undefined;
   /** The ID of the version, encoded as a base62 string */
   id: string;
   /** The ID of the project this version is for */
@@ -578,7 +578,7 @@ export interface CreateVersionResponse {
   /** The number of times this version has been downloaded */
   downloads: number;
   /** A link to the changelog for this version. Always null, only kept for legacy compatibility. */
-  changelog_url?: string | null;
+  changelog_url?: string | null | undefined;
   environment: EnvironmentEnum;
   /** A list of files available for download for this version */
   files: CreateVersionResponseFilesList;
@@ -590,7 +590,7 @@ export interface DeleteFileFromHashRequest {
   /** The algorithm of the hash */
   algorithm: DeleteFileFromHashRequestAlgorithm | (string & {});
   /** Version ID to delete the version from, if multiple files of the same hash exist */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 export interface DeleteFileFromHashResponse {}
 export interface DeleteGalleryImageRequest {
@@ -652,20 +652,20 @@ export interface ForgeUpdatesRequest {
   /** The ID or slug of the project */
   id_slug: string;
   /** Whether to include NeoForge versions. Can be `only` (NeoForge-only versions), `include` (both Forge and NeoForge versions), or omitted (Forge-only versions). */
-  neoforge?: ForgeUpdatesRequestNeoforge | (string & {});
+  neoforge?: ForgeUpdatesRequestNeoforge | (string & {}) | undefined;
 }
 /** A list of the recommended and latest versions for each Minecraft release */
 export interface ForgeUpdateCheckerPromos {
   /** The mod version that is recommended for `{version}`. Excludes versions with the `alpha` and `beta` version types. */
-  _version__recommended?: string;
+  _version__recommended?: string | undefined;
   /** The latest mod version for `{version}`. Shows versions with the `alpha` and `beta` version types. */
-  _version__latest?: string;
+  _version__latest?: string | undefined;
 }
 /** Mod version information that can be consumed by Forge's update checker */
 export interface ForgeUpdates {
   /** A link to the mod page */
-  homepage?: string;
-  promos?: ForgeUpdateCheckerPromos;
+  homepage?: string | undefined;
+  promos?: ForgeUpdateCheckerPromos | undefined;
 }
 export interface GetDependenciesRequest {
   /** The ID or slug of the project */
@@ -691,9 +691,9 @@ export interface Version {
   /** The version number. Ideally will follow semantic versioning */
   version_number: string;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: VersionDependenciesList;
+  dependencies?: VersionDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
   game_versions: VersionGameVersionsList;
   /** The release channel for this version */
@@ -702,8 +702,8 @@ export interface Version {
   loaders: VersionLoadersList;
   /** Whether the version is featured or not */
   featured: boolean;
-  status?: VersionStatus;
-  requested_status?: VersionRequestedStatus | null;
+  status?: VersionStatus | undefined;
+  requested_status?: VersionRequestedStatus | null | undefined;
   /** The ID of the version, encoded as a base62 string */
   id: string;
   /** The ID of the project this version is for */
@@ -714,7 +714,7 @@ export interface Version {
   /** The number of times this version has been downloaded */
   downloads: number;
   /** A link to the changelog for this version. Always null, only kept for legacy compatibility. */
-  changelog_url?: string | null;
+  changelog_url?: string | null | undefined;
   environment: EnvironmentEnum;
   /** A list of files available for download for this version */
   files: VersionFilesList;
@@ -723,9 +723,9 @@ export interface Version {
 export type ProjectDependencyListVersionsList = Array<Version>;
 export interface ProjectDependencyList {
   /** Projects that the project depends upon */
-  projects?: ProjectDependencyListProjectsList;
+  projects?: ProjectDependencyListProjectsList | undefined;
   /** Versions that the project depends upon */
-  versions?: ProjectDependencyListVersionsList;
+  versions?: ProjectDependencyListVersionsList | undefined;
 }
 export interface GetFollowedProjectsRequest {
   /** The ID or username of the user */
@@ -747,7 +747,7 @@ export interface GetLatestVersionFromHashRequest {
   algorithm: GetLatestVersionFromHashRequestAlgorithm | (string & {});
   loaders: GetLatestVersionFromHashRequestLoadersList;
   game_versions: GetLatestVersionFromHashRequestGameVersionsList;
-  version_types?: GetLatestVersionFromHashRequestVersionTypesList;
+  version_types?: GetLatestVersionFromHashRequestVersionTypesList | undefined;
 }
 /** A list of specific versions of projects that this version depends on */
 export type GetLatestVersionFromHashResponseDependenciesList = Array<VersionDependency>;
@@ -777,9 +777,9 @@ export interface GetLatestVersionFromHashResponse {
   /** The version number. Ideally will follow semantic versioning */
   version_number: string;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: GetLatestVersionFromHashResponseDependenciesList;
+  dependencies?: GetLatestVersionFromHashResponseDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
   game_versions: GetLatestVersionFromHashResponseGameVersionsList;
   /** The release channel for this version */
@@ -788,8 +788,8 @@ export interface GetLatestVersionFromHashResponse {
   loaders: GetLatestVersionFromHashResponseLoadersList;
   /** Whether the version is featured or not */
   featured: boolean;
-  status?: GetLatestVersionFromHashResponseStatus;
-  requested_status?: GetLatestVersionFromHashResponseRequestedStatus | null;
+  status?: GetLatestVersionFromHashResponseStatus | undefined;
+  requested_status?: GetLatestVersionFromHashResponseRequestedStatus | null | undefined;
   /** The ID of the version, encoded as a base62 string */
   id: string;
   /** The ID of the project this version is for */
@@ -800,7 +800,7 @@ export interface GetLatestVersionFromHashResponse {
   /** The number of times this version has been downloaded */
   downloads: number;
   /** A link to the changelog for this version. Always null, only kept for legacy compatibility. */
-  changelog_url?: string | null;
+  changelog_url?: string | null | undefined;
   environment: EnvironmentEnum;
   /** A list of files available for download for this version */
   files: GetLatestVersionFromHashResponseFilesList;
@@ -818,7 +818,7 @@ export interface GetLatestVersionsFromHashesRequest {
   algorithm: GetLatestVersionsFromHashesRequestAlgorithm | (string & {});
   loaders: GetLatestVersionsFromHashesRequestLoadersList;
   game_versions: GetLatestVersionsFromHashesRequestGameVersionsList;
-  version_types?: GetLatestVersionsFromHashesRequestVersionTypesList;
+  version_types?: GetLatestVersionsFromHashesRequestVersionTypesList | undefined;
 }
 /** A map from hashes to versions */
 export type HashVersionMap = { [key: string]: Version | undefined };
@@ -838,9 +838,9 @@ export type NotificationActionActionRouteList = Array<string>;
 /** An action that can be performed on a notification */
 export interface NotificationAction {
   /** The friendly name for this action */
-  title?: string;
+  title?: string | undefined;
   /** The HTTP code and path to request in order to perform this action. */
-  action_route?: NotificationActionActionRouteList;
+  action_route?: NotificationActionActionRouteList | undefined;
 }
 /** A list of actions that can be performed */
 export type NotificationActionsList = Array<NotificationAction>;
@@ -850,7 +850,7 @@ export interface Notification {
   /** The id of the user who received the notification */
   user_id: string;
   /** The type of notification */
-  type?: NotificationType | null;
+  type?: NotificationType | null | undefined;
   /** The title of the notification */
   title: string;
   /** The body text of the notification */
@@ -871,7 +871,7 @@ export interface GetNotificationsRequest {
 export type GetNotificationsResponseBodyList = Array<Notification>;
 export type GetNotificationsResponse = GetNotificationsResponseBodyList;
 export interface GetOpenReportsRequest {
-  count?: number;
+  count?: number | undefined;
 }
 /** The type of the item being reported */
 export type ReportItemType = "project" | "user" | "version";
@@ -885,7 +885,7 @@ export interface Report {
   /** The extended explanation of the report */
   body: string;
   /** The ID of the report */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the user who reported the item */
   reporter: string;
   /** The time at which the report was created */
@@ -903,21 +903,21 @@ export interface GetPayoutHistoryRequest {
 }
 export interface UserPayoutHistoryEntry {
   /** The date of this transaction */
-  created?: string;
+  created?: string | undefined;
   /** The amount of this transaction in USD */
-  amount?: number;
+  amount?: number | undefined;
   /** The status of this transaction */
-  status?: string;
+  status?: string | undefined;
 }
 /** A history of all of the user's past transactions */
 export type UserPayoutHistoryPayoutsList = Array<UserPayoutHistoryEntry>;
 export interface UserPayoutHistory {
   /** The all-time balance accrued by this user in USD */
-  all_time?: string;
+  all_time?: string | undefined;
   /** The amount in USD made by the user in the previous 30 days */
-  last_month?: string;
+  last_month?: string | undefined;
   /** A history of all of the user's past transactions */
-  payouts?: UserPayoutHistoryPayoutsList;
+  payouts?: UserPayoutHistoryPayoutsList | undefined;
 }
 export interface GetProjectRequest {
   /** The ID or slug of the project */
@@ -940,13 +940,13 @@ export type UserPayoutDataPayoutWalletType = "email" | "phone" | "user_handle";
 /** Various data relating to the user's payouts status (you can only see your own) */
 export interface UserPayoutData {
   /** The payout balance available for the user to withdraw (note, you cannot modify this in a PATCH request) */
-  balance?: number;
+  balance?: number | undefined;
   /** The wallet that the user has selected */
-  payout_wallet?: UserPayoutDataPayoutWallet | (string & {});
+  payout_wallet?: UserPayoutDataPayoutWallet | (string & {}) | undefined;
   /** The type of the user's wallet */
-  payout_wallet_type?: UserPayoutDataPayoutWalletType | (string & {});
+  payout_wallet_type?: UserPayoutDataPayoutWalletType | (string & {}) | undefined;
   /** The user's payout address */
-  payout_address?: string;
+  payout_address?: string | undefined;
 }
 /** The user's role */
 export type UserRole = "admin" | "moderator" | "developer";
@@ -956,12 +956,12 @@ export interface User {
   /** The user's username */
   username: string;
   /** The user's display name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The user's email (only displayed if requesting your own account). Requires `USER_READ_EMAIL` PAT scope. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** A description of the user */
-  bio?: string;
-  payout_data?: UserPayoutData | null;
+  bio?: string | undefined;
+  payout_data?: UserPayoutData | null | undefined;
   /** The user's ID */
   id: string;
   /** The user's avatar url */
@@ -971,17 +971,17 @@ export interface User {
   /** The user's role */
   role: UserRole;
   /** Any badges applicable to this user. These are currently unused and undisplayed, and as such are subject to change In order from first to seventh bit, the current bits are: - (unused) - EARLY_MODPACK_ADOPTER - EARLY_RESPACK_ADOPTER - EARLY_PLUGIN_ADOPTER - ALPHA_TESTER - CONTRIBUTOR - TRANSLATOR */
-  badges?: number;
+  badges?: number | undefined;
   /** A list of authentication providers you have signed up for (only displayed if requesting your own account) */
-  auth_providers?: UserAuthProvidersList | null;
+  auth_providers?: UserAuthProvidersList | null | undefined;
   /** Whether your email is verified (only displayed if requesting your own account) */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
   /** Whether you have a password associated with your account (only displayed if requesting your own account) */
-  has_password?: boolean | null;
+  has_password?: boolean | null | undefined;
   /** Whether you have TOTP two-factor authentication connected to your account (only displayed if requesting your own account) */
-  has_totp?: boolean | null;
+  has_totp?: boolean | null | undefined;
   /** Deprecated - this is no longer public for security reasons and is always null */
-  github_id?: number | null;
+  github_id?: number | null | undefined;
 }
 export interface TeamMember {
   /** The ID of the team this team member is a member of */
@@ -990,13 +990,13 @@ export interface TeamMember {
   /** The user's role on the team */
   role: string;
   /** The user's permissions in bitfield format (requires authorization to view) In order from first to tenth bit, the bits are: - UPLOAD_VERSION - DELETE_VERSION - EDIT_DETAILS - EDIT_BODY - MANAGE_INVITES - REMOVE_MEMBER - EDIT_MEMBER - DELETE_PROJECT - VIEW_ANALYTICS - VIEW_PAYOUTS */
-  permissions?: number;
+  permissions?: number | undefined;
   /** Whether or not the user has accepted to be on the team (requires authorization to view) */
   accepted: boolean;
   /** The split of payouts going to this user. The proportion of payouts they get is their split divided by the sum of the splits of all members. */
-  payouts_split?: number;
+  payouts_split?: number | undefined;
   /** The order of the team member. */
-  ordering?: number;
+  ordering?: number | undefined;
 }
 /** An array of team members */
 export type GetProjectTeamMembersResponseBodyList = Array<TeamMember>;
@@ -1005,13 +1005,13 @@ export interface GetProjectVersionsRequest {
   /** The ID or slug of the project */
   id_slug: string;
   /** The types of loaders to filter for */
-  loaders?: string;
+  loaders?: string | undefined;
   /** The game versions to filter for */
-  game_versions?: string;
+  game_versions?: string | undefined;
   /** Allows to filter for featured or non-featured versions only */
-  featured?: boolean;
+  featured?: boolean | undefined;
   /** Allows you to toggle the inclusion of the changelog field in the response. It is highly recommended to use include_changelog=false in most cases unless you specifically need the changelog for all versions. */
-  include_changelog?: boolean;
+  include_changelog?: boolean | undefined;
 }
 export type GetProjectVersionsResponseBodyList = Array<Version>;
 export type GetProjectVersionsResponse = GetProjectVersionsResponseBodyList;
@@ -1031,7 +1031,7 @@ export interface GetReportResponse {
   /** The extended explanation of the report */
   body: string;
   /** The ID of the report */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the user who reported the item */
   reporter: string;
   /** The time at which the report was created */
@@ -1097,21 +1097,21 @@ export interface ThreadMessageBody {
   /** The type of message */
   type: ThreadMessageBodyType;
   /** The actual message text. **Only present for `text` message type** */
-  body?: string;
+  body?: string | undefined;
   /** Whether the message is only visible to moderators. **Only present for `text` message type** */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The ID of the message being replied to by this message. **Only present for `text` message type** */
-  replying_to?: string | null;
+  replying_to?: string | null | undefined;
   /** The old status of the project. **Only present for `status_change` message type** */
-  old_status?: ThreadMessageBodyOldStatus;
+  old_status?: ThreadMessageBodyOldStatus | undefined;
   /** The new status of the project. **Only present for `status_change` message type** */
-  new_status?: ThreadMessageBodyNewStatus;
+  new_status?: ThreadMessageBodyNewStatus | undefined;
 }
 export interface ThreadMessage {
   /** The ID of the message itself */
   id: string;
   /** The ID of the author */
-  author_id?: string | null;
+  author_id?: string | null | undefined;
   body: ThreadMessageBody;
   /** The time at which the message was created */
   created: string;
@@ -1123,9 +1123,9 @@ export interface Thread {
   id: string;
   type: ThreadType;
   /** The ID of the associated project if a project thread */
-  project_id?: string | null;
+  project_id?: string | null | undefined;
   /** The ID of the associated report if a report thread */
-  report_id?: string | null;
+  report_id?: string | null | undefined;
   messages: ThreadMessagesList;
   members: ThreadMembersList;
 }
@@ -1147,12 +1147,12 @@ export interface GetUserResponse {
   /** The user's username */
   username: string;
   /** The user's display name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The user's email (only displayed if requesting your own account). Requires `USER_READ_EMAIL` PAT scope. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** A description of the user */
-  bio?: string;
-  payout_data?: UserPayoutData | null;
+  bio?: string | undefined;
+  payout_data?: UserPayoutData | null | undefined;
   /** The user's ID */
   id: string;
   /** The user's avatar url */
@@ -1162,17 +1162,17 @@ export interface GetUserResponse {
   /** The user's role */
   role: GetUserResponseRole;
   /** Any badges applicable to this user. These are currently unused and undisplayed, and as such are subject to change In order from first to seventh bit, the current bits are: - (unused) - EARLY_MODPACK_ADOPTER - EARLY_RESPACK_ADOPTER - EARLY_PLUGIN_ADOPTER - ALPHA_TESTER - CONTRIBUTOR - TRANSLATOR */
-  badges?: number;
+  badges?: number | undefined;
   /** A list of authentication providers you have signed up for (only displayed if requesting your own account) */
-  auth_providers?: GetUserResponseAuthProvidersList | null;
+  auth_providers?: GetUserResponseAuthProvidersList | null | undefined;
   /** Whether your email is verified (only displayed if requesting your own account) */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
   /** Whether you have a password associated with your account (only displayed if requesting your own account) */
-  has_password?: boolean | null;
+  has_password?: boolean | null | undefined;
   /** Whether you have TOTP two-factor authentication connected to your account (only displayed if requesting your own account) */
-  has_totp?: boolean | null;
+  has_totp?: boolean | null | undefined;
   /** Deprecated - this is no longer public for security reasons and is always null */
-  github_id?: number | null;
+  github_id?: number | null | undefined;
 }
 export interface GetUserFromAuthRequest {}
 /** The user's role */
@@ -1183,12 +1183,12 @@ export interface GetUserFromAuthResponse {
   /** The user's username */
   username: string;
   /** The user's display name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The user's email (only displayed if requesting your own account). Requires `USER_READ_EMAIL` PAT scope. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** A description of the user */
-  bio?: string;
-  payout_data?: UserPayoutData | null;
+  bio?: string | undefined;
+  payout_data?: UserPayoutData | null | undefined;
   /** The user's ID */
   id: string;
   /** The user's avatar url */
@@ -1198,17 +1198,17 @@ export interface GetUserFromAuthResponse {
   /** The user's role */
   role: GetUserFromAuthResponseRole;
   /** Any badges applicable to this user. These are currently unused and undisplayed, and as such are subject to change In order from first to seventh bit, the current bits are: - (unused) - EARLY_MODPACK_ADOPTER - EARLY_RESPACK_ADOPTER - EARLY_PLUGIN_ADOPTER - ALPHA_TESTER - CONTRIBUTOR - TRANSLATOR */
-  badges?: number;
+  badges?: number | undefined;
   /** A list of authentication providers you have signed up for (only displayed if requesting your own account) */
-  auth_providers?: GetUserFromAuthResponseAuthProvidersList | null;
+  auth_providers?: GetUserFromAuthResponseAuthProvidersList | null | undefined;
   /** Whether your email is verified (only displayed if requesting your own account) */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
   /** Whether you have a password associated with your account (only displayed if requesting your own account) */
-  has_password?: boolean | null;
+  has_password?: boolean | null | undefined;
   /** Whether you have TOTP two-factor authentication connected to your account (only displayed if requesting your own account) */
-  has_totp?: boolean | null;
+  has_totp?: boolean | null | undefined;
   /** Deprecated - this is no longer public for security reasons and is always null */
-  github_id?: number | null;
+  github_id?: number | null | undefined;
 }
 export interface GetUserNotificationsRequest {
   /** The ID or username of the user */
@@ -1256,9 +1256,9 @@ export interface GetVersionResponse {
   /** The version number. Ideally will follow semantic versioning */
   version_number: string;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: GetVersionResponseDependenciesList;
+  dependencies?: GetVersionResponseDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
   game_versions: GetVersionResponseGameVersionsList;
   /** The release channel for this version */
@@ -1267,8 +1267,8 @@ export interface GetVersionResponse {
   loaders: GetVersionResponseLoadersList;
   /** Whether the version is featured or not */
   featured: boolean;
-  status?: GetVersionResponseStatus;
-  requested_status?: GetVersionResponseRequestedStatus | null;
+  status?: GetVersionResponseStatus | undefined;
+  requested_status?: GetVersionResponseRequestedStatus | null | undefined;
   /** The ID of the version, encoded as a base62 string */
   id: string;
   /** The ID of the project this version is for */
@@ -1279,7 +1279,7 @@ export interface GetVersionResponse {
   /** The number of times this version has been downloaded */
   downloads: number;
   /** A link to the changelog for this version. Always null, only kept for legacy compatibility. */
-  changelog_url?: string | null;
+  changelog_url?: string | null | undefined;
   environment: EnvironmentEnum;
   /** A list of files available for download for this version */
   files: GetVersionResponseFilesList;
@@ -1318,9 +1318,9 @@ export interface GetVersionFromIdOrNumberResponse {
   /** The version number. Ideally will follow semantic versioning */
   version_number: string;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: GetVersionFromIdOrNumberResponseDependenciesList;
+  dependencies?: GetVersionFromIdOrNumberResponseDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
   game_versions: GetVersionFromIdOrNumberResponseGameVersionsList;
   /** The release channel for this version */
@@ -1329,8 +1329,8 @@ export interface GetVersionFromIdOrNumberResponse {
   loaders: GetVersionFromIdOrNumberResponseLoadersList;
   /** Whether the version is featured or not */
   featured: boolean;
-  status?: GetVersionFromIdOrNumberResponseStatus;
-  requested_status?: GetVersionFromIdOrNumberResponseRequestedStatus | null;
+  status?: GetVersionFromIdOrNumberResponseStatus | undefined;
+  requested_status?: GetVersionFromIdOrNumberResponseRequestedStatus | null | undefined;
   /** The ID of the version, encoded as a base62 string */
   id: string;
   /** The ID of the project this version is for */
@@ -1341,7 +1341,7 @@ export interface GetVersionFromIdOrNumberResponse {
   /** The number of times this version has been downloaded */
   downloads: number;
   /** A link to the changelog for this version. Always null, only kept for legacy compatibility. */
-  changelog_url?: string | null;
+  changelog_url?: string | null | undefined;
   environment: EnvironmentEnum;
   /** A list of files available for download for this version */
   files: GetVersionFromIdOrNumberResponseFilesList;
@@ -1363,8 +1363,8 @@ export interface LicenseTextRequest {
 }
 /** A full license */
 export interface License {
-  title?: string;
-  body?: string;
+  title?: string | undefined;
+  body?: string | undefined;
 }
 export interface ListCategoryRequest {}
 export interface CategoryTag {
@@ -1431,13 +1431,13 @@ export interface ModifyGalleryImageRequest {
   /** URL link of the image to modify */
   url: string;
   /** Whether the image is featured */
-  featured?: boolean;
+  featured?: boolean | undefined;
   /** New title of the image */
-  title?: string;
+  title?: string | undefined;
   /** New description of the image */
-  description?: string;
+  description?: string | undefined;
   /** New ordering of the image */
-  ordering?: number;
+  ordering?: number | undefined;
 }
 export interface ModifyGalleryImageResponse {}
 /** A list of the featured categories that the project has. */
@@ -1473,52 +1473,52 @@ export interface ModifyProjectRequest {
   /** The ID or slug of the project */
   id_slug: string;
   /** The slug of a project, used for vanity URLs. Regex: ```^[\w!@$()`.+,"\-']{3,64}$``` */
-  slug?: string;
+  slug?: string | undefined;
   /** The title or name of the project */
-  title?: string;
+  title?: string | undefined;
   /** A short sentence summarizing the project, no more than a sentence or two. */
-  description?: string;
+  description?: string | undefined;
   /** A long form description of the project */
-  body?: string;
+  body?: string | undefined;
   /** A list of the featured categories that the project has. */
-  categories?: ModifyProjectRequestCategoriesList;
+  categories?: ModifyProjectRequestCategoriesList | undefined;
   /** A list of additional categories that the project also has. These are supplementary to the featured categories, and does not include them again. */
-  additional_categories?: ModifyProjectRequestAdditionalCategoriesList;
+  additional_categories?: ModifyProjectRequestAdditionalCategoriesList | undefined;
   /** The status of the project */
-  status?: ModifyProjectRequestStatus | (string & {});
+  status?: ModifyProjectRequestStatus | (string & {}) | undefined;
   /** The requested status when submitting for review or scheduling the project for release. Approved status refers to "Public" visibility. */
-  requested_status?: ModifyProjectRequestRequestedStatus | (string & {}) | null;
+  requested_status?: ModifyProjectRequestRequestedStatus | (string & {}) | null | undefined;
   /** An optional link to where to submit bugs or issues with the project */
-  issues_url?: string | null;
+  issues_url?: string | null | undefined;
   /** An optional link to the source code of the project */
-  source_url?: string | null;
+  source_url?: string | null | undefined;
   /** An optional link to the project's wiki page or other relevant information */
-  wiki_url?: string | null;
+  wiki_url?: string | null | undefined;
   /** An optional invite link to the project's discord. */
-  discord_url?: string | null;
+  discord_url?: string | null | undefined;
   /** A list of donation links for the project */
-  donation_urls?: ModifyProjectRequestDonationUrlsList;
+  donation_urls?: ModifyProjectRequestDonationUrlsList | undefined;
   /** Deprecated - use `environment` instead. */
-  client_side?: ModifyProjectRequestClientSide | (string & {});
+  client_side?: ModifyProjectRequestClientSide | (string & {}) | undefined;
   /** Deprecated - use `environment` instead. */
-  server_side?: ModifyProjectRequestServerSide | (string & {});
+  server_side?: ModifyProjectRequestServerSide | (string & {}) | undefined;
   /** The SPDX license ID of a project */
-  license_id?: string;
+  license_id?: string | undefined;
   /** The URL to this license */
-  license_url?: string | null;
+  license_url?: string | null | undefined;
   /** The title of the moderators' message for the project */
-  moderation_message?: string | null;
+  moderation_message?: string | null | undefined;
   /** The body of the moderators' message for the project */
-  moderation_message_body?: string | null;
+  moderation_message_body?: string | null | undefined;
 }
 export interface ModifyProjectResponse {}
 export interface ModifyReportRequest {
   /** The ID of the report */
   id: string;
   /** The contents of the report */
-  body?: string;
+  body?: string | undefined;
   /** Whether the thread should be closed */
-  closed?: boolean;
+  closed?: boolean | undefined;
 }
 export interface ModifyReportResponse {}
 export interface ModifyTeamMemberRequest {
@@ -1526,13 +1526,13 @@ export interface ModifyTeamMemberRequest {
   id: string;
   /** The ID or username of the user */
   id_username: string;
-  role?: string;
+  role?: string | undefined;
   /** The user's permissions in bitfield format In order from first to tenth bit, the bits are: - UPLOAD_VERSION - DELETE_VERSION - EDIT_DETAILS - EDIT_BODY - MANAGE_INVITES - REMOVE_MEMBER - EDIT_MEMBER - DELETE_PROJECT - VIEW_ANALYTICS - VIEW_PAYOUTS */
-  permissions?: number;
+  permissions?: number | undefined;
   /** The split of payouts going to this user. The proportion of payouts they get is their split divided by the sum of the splits of all members. */
-  payouts_split?: number;
+  payouts_split?: number | undefined;
   /** The order of the team member. */
-  ordering?: number;
+  ordering?: number | undefined;
 }
 export interface ModifyTeamMemberResponse {}
 export interface ModifyUserRequest {
@@ -1541,12 +1541,12 @@ export interface ModifyUserRequest {
   /** The user's username */
   username: string;
   /** The user's display name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The user's email (only displayed if requesting your own account). Requires `USER_READ_EMAIL` PAT scope. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** A description of the user */
-  bio?: string;
-  payout_data?: UserPayoutData | null;
+  bio?: string | undefined;
+  payout_data?: UserPayoutData | null | undefined;
 }
 export interface ModifyUserResponse {}
 /** A list of specific versions of projects that this version depends on */
@@ -1573,27 +1573,27 @@ export interface ModifyVersionRequest {
   /** The ID of the version */
   id: string;
   /** The name of this version */
-  name?: string;
+  name?: string | undefined;
   /** The version number. Ideally will follow semantic versioning */
-  version_number?: string;
+  version_number?: string | undefined;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: ModifyVersionRequestDependenciesList;
+  dependencies?: ModifyVersionRequestDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
-  game_versions?: ModifyVersionRequestGameVersionsList;
+  game_versions?: ModifyVersionRequestGameVersionsList | undefined;
   /** The release channel for this version */
-  version_type?: ModifyVersionRequestVersionType | (string & {});
+  version_type?: ModifyVersionRequestVersionType | (string & {}) | undefined;
   /** The mod loaders that this version supports. In case of resource packs, use "minecraft" */
-  loaders?: ModifyVersionRequestLoadersList;
+  loaders?: ModifyVersionRequestLoadersList | undefined;
   /** Whether the version is featured or not */
-  featured?: boolean;
-  status?: ModifyVersionRequestStatus | (string & {});
-  requested_status?: ModifyVersionRequestRequestedStatus | (string & {}) | null;
+  featured?: boolean | undefined;
+  status?: ModifyVersionRequestStatus | (string & {}) | undefined;
+  requested_status?: ModifyVersionRequestRequestedStatus | (string & {}) | null | undefined;
   /** The hash format and the hash of the new primary file */
-  primary_file?: ModifyVersionRequestPrimaryFileList;
+  primary_file?: ModifyVersionRequestPrimaryFileList | undefined;
   /** A list of file_types to edit */
-  file_types?: ModifyVersionRequestFileTypesList;
+  file_types?: ModifyVersionRequestFileTypesList | undefined;
 }
 export interface ModifyVersionResponse {}
 export interface RandomProjectsRequest {
@@ -1650,15 +1650,15 @@ export type SearchProjectsRequestIndex =
   | "updated";
 export interface SearchProjectsRequest {
   /** The query to search for */
-  query?: string;
+  query?: string | undefined;
   /** Facets are an essential concept for understanding how to filter out results. These are the most commonly used facet types: - `project_type` - `all_project_types` (matches against every project type across all of the project's versions, not just the primary/version-specific type) - `categories` (loaders are lumped in with categories in search) - `versions` - `open_source` - `environment` (one of the following values) - `client_and_server` - `client_only` - `client_only_server_optional` - `singleplayer_only` - `server_only` - `server_only_client_optional` - `dedicated_server_only` - `client_or_server` - `client_or_server_prefers_both` - `unknown` - `disclosure_types` (list of any of the following values) - `ai_content` - `ai_content_code` - `ai_content_assets` - `ai_content_text` - `ai_functionality` - `advertisements` - `epilepsy_triggers` - `system_interactions` - `telemetry` - `telemetry_opt_in` - `telemetry_opt_out` - `telemetry_always_active` - `derivative_work` - `paid_features` - `archived` - `client_side` (deprecated - use `environment` instead) - `server_side` (deprecated - use `environment` instead) Several others are also available for use, though these should not be used outside very specific use cases. - `title` - `author` - `follows` - `project_id` - `license` - `downloads` - `created_timestamp` (uses Unix timestamp) - `modified_timestamp` (uses Unix timestamp) In order to then use these facets, you need a value to filter by, as well as an operation to perform on this value. The most common operation is `:` (same as `=`), though you can also use `!=`, `>=`, `>`, `<=`, and `<`. Join together the type, operation, and value, and you've got your string. ``` {type} {operation} {value} ``` Examples: ``` categories = adventure versions != 1.20.1 downloads <= 100 ``` You then join these strings together in arrays to signal `AND` and `OR` operators. ##### OR All elements in a single array are considered to be joined by OR statements. For example, the search `[["versions:1.16.5", "versions:1.17.1"]]` translates to `Projects that support 1.16.5 OR 1.17.1`. ##### AND Separate arrays are considered to be joined by AND statements. For example, the search `[["versions:1.16.5"], ["project_type:modpack"]]` translates to `Projects that support 1.16.5 AND are modpacks`. */
-  facets?: string;
+  facets?: string | undefined;
   /** The sorting method used for sorting search results */
-  index?: SearchProjectsRequestIndex | (string & {});
+  index?: SearchProjectsRequestIndex | (string & {}) | undefined;
   /** The offset into the search. Skips this number of results */
-  offset?: number;
+  offset?: number | undefined;
   /** The number of results returned by the search */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The project type of the project */
 export type ProjectResultProjectType = "mod" | "modpack" | "resourcepack" | "shader";
@@ -1743,17 +1743,17 @@ export interface ProjectResult {
   /** A list of images that have been uploaded to the project's gallery */
   gallery: ProjectResultGalleryList;
   /** The slug of a project, used for vanity URLs. Regex: ```^[\w!@$()`.+,"\-']{3,64}$``` */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** The ID of the project's author */
-  author_id?: string | null;
+  author_id?: string | null | undefined;
   /** The name of the organization that owns this project */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** The ID of the organization that owns this project */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The featured gallery image of the project */
-  featured_gallery?: string | null;
+  featured_gallery?: string | null | undefined;
   /** The RGB color of the project, automatically generated from the project icon */
-  color?: number | null;
+  color?: number | null | undefined;
   /** Deprecated - use `environment` instead. The client side support of the project */
   client_side: ProjectResultClientSide;
   /** Deprecated - use `environment` instead. The server side support of the project */
@@ -1803,26 +1803,26 @@ export interface SendThreadMessageRequest {
   /** The type of message */
   type: SendThreadMessageRequestType | (string & {});
   /** The actual message text. **Only present for `text` message type** */
-  body?: string;
+  body?: string | undefined;
   /** Whether the message is only visible to moderators. **Only present for `text` message type** */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The ID of the message being replied to by this message. **Only present for `text` message type** */
-  replying_to?: string | null;
+  replying_to?: string | null | undefined;
   /** The old status of the project. **Only present for `status_change` message type** */
-  old_status?: SendThreadMessageRequestOldStatus | (string & {});
+  old_status?: SendThreadMessageRequestOldStatus | (string & {}) | undefined;
   /** The new status of the project. **Only present for `status_change` message type** */
-  new_status?: SendThreadMessageRequestNewStatus | (string & {});
+  new_status?: SendThreadMessageRequestNewStatus | (string & {}) | undefined;
 }
 export interface Statistics2Request {}
 export interface Statistics {
   /** Number of projects on Modrinth */
-  projects?: number;
+  projects?: number | undefined;
   /** Number of versions on Modrinth */
-  versions?: number;
+  versions?: number | undefined;
   /** Number of version files on Modrinth */
-  files?: number;
+  files?: number | undefined;
   /** Number of authors (users with projects) on Modrinth */
-  authors?: number;
+  authors?: number | undefined;
 }
 /** The type of the item being reported */
 export type SubmitReportRequestItemType = "project" | "user" | "version";
@@ -1848,7 +1848,7 @@ export interface SubmitReportResponse {
   /** The extended explanation of the report */
   body: string;
   /** The ID of the report */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the user who reported the item */
   reporter: string;
   /** The time at which the report was created */
@@ -1891,31 +1891,31 @@ export interface UpdateProjectsRequest {
   /** The IDs and/or slugs of the projects */
   ids: string;
   /** Set all of the categories to the categories specified here */
-  categories?: UpdateProjectsRequestCategoriesList;
+  categories?: UpdateProjectsRequestCategoriesList | undefined;
   /** Add all of the categories specified here */
-  add_categories?: UpdateProjectsRequestAddCategoriesList;
+  add_categories?: UpdateProjectsRequestAddCategoriesList | undefined;
   /** Remove all of the categories specified here */
-  remove_categories?: UpdateProjectsRequestRemoveCategoriesList;
+  remove_categories?: UpdateProjectsRequestRemoveCategoriesList | undefined;
   /** Set all of the additional categories to the categories specified here */
-  additional_categories?: UpdateProjectsRequestAdditionalCategoriesList;
+  additional_categories?: UpdateProjectsRequestAdditionalCategoriesList | undefined;
   /** Add all of the additional categories specified here */
-  add_additional_categories?: UpdateProjectsRequestAddAdditionalCategoriesList;
+  add_additional_categories?: UpdateProjectsRequestAddAdditionalCategoriesList | undefined;
   /** Remove all of the additional categories specified here */
-  remove_additional_categories?: UpdateProjectsRequestRemoveAdditionalCategoriesList;
+  remove_additional_categories?: UpdateProjectsRequestRemoveAdditionalCategoriesList | undefined;
   /** Set all of the donation links to the donation links specified here */
-  donation_urls?: UpdateProjectsRequestDonationUrlsList;
+  donation_urls?: UpdateProjectsRequestDonationUrlsList | undefined;
   /** Add all of the donation links specified here */
-  add_donation_urls?: UpdateProjectsRequestAddDonationUrlsList;
+  add_donation_urls?: UpdateProjectsRequestAddDonationUrlsList | undefined;
   /** Remove all of the donation links specified here */
-  remove_donation_urls?: UpdateProjectsRequestRemoveDonationUrlsList;
+  remove_donation_urls?: UpdateProjectsRequestRemoveDonationUrlsList | undefined;
   /** An optional link to where to submit bugs or issues with the projects */
-  issues_url?: string | null;
+  issues_url?: string | null | undefined;
   /** An optional link to the source code of the projects */
-  source_url?: string | null;
+  source_url?: string | null | undefined;
   /** An optional link to the projects' wiki page or other relevant information */
-  wiki_url?: string | null;
+  wiki_url?: string | null | undefined;
   /** An optional invite link to the projects' discord */
-  discord_url?: string | null;
+  discord_url?: string | null | undefined;
 }
 export interface UpdateProjectsResponse {}
 export type VersionFromHashRequestAlgorithm = "sha1" | "sha512";
@@ -1925,7 +1925,7 @@ export interface VersionFromHashRequest {
   /** The algorithm of the hash */
   algorithm: VersionFromHashRequestAlgorithm | (string & {});
   /** Whether to return multiple results when looking for this hash */
-  multiple?: boolean;
+  multiple?: boolean | undefined;
 }
 /** A list of specific versions of projects that this version depends on */
 export type VersionFromHashResponseDependenciesList = Array<VersionDependency>;
@@ -1951,9 +1951,9 @@ export interface VersionFromHashResponse {
   /** The version number. Ideally will follow semantic versioning */
   version_number: string;
   /** The changelog for this version */
-  changelog?: string | null;
+  changelog?: string | null | undefined;
   /** A list of specific versions of projects that this version depends on */
-  dependencies?: VersionFromHashResponseDependenciesList;
+  dependencies?: VersionFromHashResponseDependenciesList | undefined;
   /** A list of versions of Minecraft that this version supports */
   game_versions: VersionFromHashResponseGameVersionsList;
   /** The release channel for this version */
@@ -1962,8 +1962,8 @@ export interface VersionFromHashResponse {
   loaders: VersionFromHashResponseLoadersList;
   /** Whether the version is featured or not */
   featured: boolean;
-  status?: VersionFromHashResponseStatus;
-  requested_status?: VersionFromHashResponseRequestedStatus | null;
+  status?: VersionFromHashResponseStatus | undefined;
+  requested_status?: VersionFromHashResponseRequestedStatus | null | undefined;
   /** The ID of the version, encoded as a base62 string */
   id: string;
   /** The ID of the project this version is for */
@@ -1974,7 +1974,7 @@ export interface VersionFromHashResponse {
   /** The number of times this version has been downloaded */
   downloads: number;
   /** A link to the changelog for this version. Always null, only kept for legacy compatibility. */
-  changelog_url?: string | null;
+  changelog_url?: string | null | undefined;
   environment: EnvironmentEnum;
   /** A list of files available for download for this version */
   files: VersionFromHashResponseFilesList;

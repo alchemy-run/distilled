@@ -81,144 +81,144 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** Describes a single Google Family. */
+export interface Family {}
 export type PermissionRoleEnum = "ROLE_UNSPECIFIED" | "OWNER" | "WRITER";
 /** Describes a single user. */
 export interface User {
   /** The user's email. */
-  email?: string;
+  email?: string | undefined;
 }
-/** Describes a single Google Family. */
-export interface Family {}
 /** Describes a single Group. */
 export interface Group {
   /** The group email. */
-  email?: string;
+  email?: string | undefined;
 }
 /** A single permission on the note. Associates a `member` with a `role`. */
 export interface Permission {
-  /** The role granted by this permission. The role determines the entity's ability to read, write, and share notes. */
-  role?: PermissionRoleEnum | (string & {});
-  /** The email associated with the member. If set on create, the `email` field in the `User` or `Group` message must either be empty or match this field. On read, may be unset if the member does not have an associated email. */
-  email?: string;
-  /** Output only. The resource name. */
-  name?: string;
-  /** Output only. Whether this member has been deleted. If the member is recovered, this value is set to false and the recovered member retains the role on the note. */
-  deleted?: boolean;
-  /** Output only. The user to whom this role applies. */
-  user?: User;
   /** Output only. The Google Family to which this role applies. */
-  family?: Family;
+  family?: Family | undefined;
+  /** Output only. Whether this member has been deleted. If the member is recovered, this value is set to false and the recovered member retains the role on the note. */
+  deleted?: boolean | undefined;
+  /** The role granted by this permission. The role determines the entity's ability to read, write, and share notes. */
+  role?: PermissionRoleEnum | (string & {}) | undefined;
+  /** Output only. The user to whom this role applies. */
+  user?: User | undefined;
+  /** Output only. The resource name. */
+  name?: string | undefined;
+  /** The email associated with the member. If set on create, the `email` field in the `User` or `Group` message must either be empty or match this field. On read, may be unset if the member does not have an associated email. */
+  email?: string | undefined;
   /** Output only. The group to which this role applies. */
-  group?: Group;
+  group?: Group | undefined;
 }
 /** The request to add a single permission on the note. */
 export interface CreatePermissionRequest {
-  /** Required. The permission to create. One of Permission.email, User.email or Group.email must be supplied. */
-  permission?: Permission;
   /** Required. The parent note where this permission will be created. Format: `notes/{note}` */
-  parent?: string;
+  parent?: string | undefined;
+  /** Required. The permission to create. One of Permission.email, User.email or Group.email must be supplied. */
+  permission?: Permission | undefined;
 }
 export type CreatePermissionRequestList = Array<CreatePermissionRequest>;
 /** The request to add one or more permissions on the note. Currently, only the `WRITER` role may be specified. If adding a permission fails, then the entire request fails and no changes are made. */
 export interface BatchCreatePermissionsRequest {
   /** The request message specifying the resources to create. */
-  requests?: CreatePermissionRequestList;
+  requests?: CreatePermissionRequestList | undefined;
 }
 export interface BatchCreateNotesPermissionsRequest {
   /** The parent resource shared by all Permissions being created. Format: `notes/{note}` If this is set, the parent field in the CreatePermission messages must either be empty or match this field. */
   parent: string;
   /** Request body */
-  body?: BatchCreatePermissionsRequest;
+  body?: BatchCreatePermissionsRequest | undefined;
 }
 export type PermissionList = Array<Permission>;
 /** The response for creating permissions on a note. */
 export interface BatchCreatePermissionsResponse {
   /** Permissions created. */
-  permissions?: PermissionList;
+  permissions?: PermissionList | undefined;
 }
 export type StringList = Array<string>;
 /** The request to remove one or more permissions from a note. A permission with the `OWNER` role can't be removed. If removing a permission fails, then the entire request fails and no changes are made. Returns a 400 bad request error if a specified permission does not exist on the note. */
 export interface BatchDeletePermissionsRequest {
   /** Required. The names of the permissions to delete. Format: `notes/{note}/permissions/{permission}` */
-  names?: StringList;
+  names?: StringList | undefined;
 }
 export interface BatchDeleteNotesPermissionsRequest {
   /** The parent resource shared by all permissions being deleted. Format: `notes/{note}` If this is set, the parent of all of the permissions specified in the DeletePermissionRequest messages must match this field. */
   parent: string;
   /** Request body */
-  body?: BatchDeletePermissionsRequest;
+  body?: BatchDeletePermissionsRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+/** An attachment to a note. */
+export interface Attachment {
+  /** The resource name; */
+  name?: string | undefined;
+  /** The MIME types (IANA media types) in which the attachment is available. */
+  mimeType?: StringList | undefined;
+}
+export type AttachmentList = Array<Attachment>;
 /** The block of text for a single text section or list item. */
 export interface TextContent {
   /** The text of the note. The limits on this vary with the specific field using this type. */
-  text?: string;
+  text?: string | undefined;
 }
 /** A single list item in a note's list. */
 export interface ListItem {
-  /** Whether this item has been checked off or not. */
-  checked?: boolean;
-  /** If set, list of list items nested under this list item. Only one level of nesting is allowed. */
-  childListItems?: ListItemList;
   /** The text of this item. Length must be less than 1,000 characters. */
-  text?: TextContent;
+  text?: TextContent | undefined;
+  /** Whether this item has been checked off or not. */
+  checked?: boolean | undefined;
+  /** If set, list of list items nested under this list item. Only one level of nesting is allowed. */
+  childListItems?: ListItemList | undefined;
 }
 export type ListItemList = Array<ListItem>;
 /** The list of items for a single list note. */
 export interface ListContent {
   /** The items in the list. The number of items must be less than 1,000. */
-  listItems?: ListItemList;
+  listItems?: ListItemList | undefined;
 }
 /** The content of the note. */
 export interface Section {
-  /** Used if this section's content is a block of text. The length of the text content must be less than 20,000 characters. */
-  text?: TextContent;
   /** Used if this section's content is a list. */
-  list?: ListContent;
+  list?: ListContent | undefined;
+  /** Used if this section's content is a block of text. The length of the text content must be less than 20,000 characters. */
+  text?: TextContent | undefined;
 }
-/** An attachment to a note. */
-export interface Attachment {
-  /** The MIME types (IANA media types) in which the attachment is available. */
-  mimeType?: StringList;
-  /** The resource name; */
-  name?: string;
-}
-export type AttachmentList = Array<Attachment>;
 /** A single note. */
 export interface Note {
   /** Output only. When this note was trashed. If `trashed`, the note is eventually deleted. If the note is not trashed, this field is not set (and the trashed field is `false`). */
-  trashTime?: string;
-  /** Output only. `true` if this note has been trashed. If trashed, the note is eventually deleted. */
-  trashed?: boolean;
-  /** Output only. When this note was created. */
-  createTime?: string;
-  /** The body of the note. */
-  body?: Section;
-  /** Output only. The list of permissions set on the note. Contains at least one entry for the note owner. */
-  permissions?: PermissionList;
-  /** Output only. The resource name of this note. See general note on identifiers in KeepService. */
-  name?: string;
+  trashTime?: string | undefined;
   /** Output only. When this note was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The attachments attached to this note. */
-  attachments?: AttachmentList;
+  attachments?: AttachmentList | undefined;
+  /** Output only. The resource name of this note. See general note on identifiers in KeepService. */
+  name?: string | undefined;
   /** The title of the note. Length must be less than 1,000 characters. */
-  title?: string;
+  title?: string | undefined;
+  /** Output only. The list of permissions set on the note. Contains at least one entry for the note owner. */
+  permissions?: PermissionList | undefined;
+  /** The body of the note. */
+  body?: Section | undefined;
+  /** Output only. `true` if this note has been trashed. If trashed, the note is eventually deleted. */
+  trashed?: boolean | undefined;
+  /** Output only. When this note was created. */
+  createTime?: string | undefined;
 }
 export interface CreateNotesRequest {
   /** Request body */
-  body?: Note;
+  body?: Note | undefined;
 }
 export interface DeleteNotesRequest {
   /** Required. Name of the note to delete. */
   name: string;
 }
 export interface DownloadMediaRequest {
-  /** The IANA MIME type format requested. The requested MIME type must be one specified in the attachment.mime_type. Required when downloading attachment media and ignored otherwise. */
-  mimeType?: string;
   /** Required. The name of the attachment. */
   name: string;
+  /** The IANA MIME type format requested. The requested MIME type must be one specified in the attachment.mime_type. Required when downloading attachment media and ignored otherwise. */
+  mimeType?: string | undefined;
 }
 export interface GetNotesRequest {
   /** Required. Name of the resource. */
@@ -226,19 +226,19 @@ export interface GetNotesRequest {
 }
 export interface ListNotesRequest {
   /** The maximum number of results to return. */
-  pageSize?: number;
-  /** The previous page's `next_page_token` field. */
-  pageToken?: string;
+  pageSize?: number | undefined;
   /** Filter for list results. If no filter is supplied, the `trashed` filter is applied by default. Valid fields to filter by are: `create_time`, `update_time`, `trash_time`, and `trashed`. Filter syntax follows the [Google AIP filtering spec](https://aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
+  /** The previous page's `next_page_token` field. */
+  pageToken?: string | undefined;
 }
 export type NoteList = Array<Note>;
 /** The response when listing a page of notes. */
 export interface ListNotesResponse {
   /** A page of notes. */
-  notes?: NoteList;
+  notes?: NoteList | undefined;
   /** Next page's `page_token` field. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type BatchCreateNotesPermissionsError =
   | NotFound
@@ -388,8 +388,8 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/notes", baseUrl: "https://keep.googleapis.com/" }),
         ),
@@ -410,8 +410,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permission: S.optional(__S(25, __c3, 1)),
           parent: S.optional(S.String),
+          permission: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "CreatePermissionRequest" });
     case 1:
@@ -460,12 +460,12 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          role: S.optional(S.String),
-          email: S.optional(S.String),
-          name: S.optional(S.String),
-          deleted: S.optional(S.Boolean),
-          user: S.optional(__S(24, __c3, 0)),
           family: S.optional(__S(16, __c2, 0)),
+          deleted: S.optional(S.Boolean),
+          role: S.optional(S.String),
+          user: S.optional(__S(24, __c3, 0)),
+          name: S.optional(S.String),
+          email: S.optional(S.String),
           group: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "Permission" });
@@ -519,8 +519,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(__S(40, __c5, 0)),
           name: S.optional(S.String),
+          mimeType: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "Attachment" });
   }
@@ -528,48 +528,48 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(56, __c7, 0));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
         }),
       ).annotate({ identifier: "TextContent" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
+          text: S.optional(__S(65, __c8, 1)),
           checked: S.optional(S.Boolean),
-          childListItems: S.optional(S.suspend(() => __S(66, __c8, 2))),
-          text: S.optional(__S(64, __c8, 0)),
+          childListItems: S.optional(S.suspend(() => __S(67, __c8, 3))),
         }),
       ).annotate({ identifier: "ListItem" });
-    case 2:
-      return S.Array(__S(65, __c8, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          listItems: S.optional(__S(66, __c8, 2)),
-        }),
-      ).annotate({ identifier: "ListContent" });
+      return S.Array(__S(66, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          text: S.optional(__S(64, __c8, 0)),
-          list: S.optional(__S(67, __c8, 3)),
+          listItems: S.optional(__S(67, __c8, 3)),
+        }),
+      ).annotate({ identifier: "ListContent" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          list: S.optional(__S(68, __c8, 4)),
+          text: S.optional(__S(65, __c8, 1)),
         }),
       ).annotate({ identifier: "Section" });
-    case 5:
-      return S.Array(__S(56, __c7, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
           trashTime: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          attachments: S.optional(__S(64, __c8, 0)),
+          name: S.optional(S.String),
+          title: S.optional(S.String),
+          permissions: S.optional(__S(26, __c3, 2)),
+          body: S.optional(__S(69, __c8, 5)),
           trashed: S.optional(S.Boolean),
           createTime: S.optional(S.String),
-          body: S.optional(__S(68, __c8, 4)),
-          permissions: S.optional(__S(26, __c3, 2)),
-          name: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          attachments: S.optional(__S(69, __c8, 5)),
-          title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Note" });
   }
@@ -591,8 +591,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          mimeType: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://keep.googleapis.com/" }),
         ),

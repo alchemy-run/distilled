@@ -87,7 +87,7 @@ export interface CreateEndpointHealthcheckRequest {
   /** the IP address of the host to perform checks against */
   endpoint: string;
   /** Optional name associated with this check */
-  name?: string;
+  name?: string | undefined;
 }
 export type EndpointHealthchecksCreateResponseCheckType = "icmp";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -97,38 +97,38 @@ export interface CreateEndpointHealthcheckResponse {
   /** the IP address of the host to perform checks against */
   endpoint: string;
   /** UUID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional name associated with this check */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type TraceroutesCreateRequestTargetsList = Array<string>;
 export type TraceroutesCreateRequestColosList = Array<string>;
 export type TraceroutesCreateRequestOptionsPacketType = "icmp" | "tcp" | "udp" | "gre" | "gre+icmp";
 export interface TraceroutesCreateRequestOptions {
   /** Max TTL. */
-  maxTtl?: number;
+  maxTtl?: number | undefined;
   /** Type of packet sent. */
-  packetType?: TraceroutesCreateRequestOptionsPacketType | (string & {});
+  packetType?: TraceroutesCreateRequestOptionsPacketType | (string & {}) | undefined;
   /** Number of packets sent at each TTL. */
-  packetsPerTtl?: number;
+  packetsPerTtl?: number | undefined;
   /** For UDP and TCP, specifies the destination port. For ICMP, specifies the initial ICMP sequence value. Default value 0 will choose the best value to use for each protocol. */
-  port?: number;
+  port?: number | undefined;
   /** Set the time (in seconds) to wait for a response to a probe. */
-  waitTime?: number;
+  waitTime?: number | undefined;
 }
 export interface CreateTracerouteRequest {
   /** Identifier */
   accountId: string;
   targets: TraceroutesCreateRequestTargetsList;
   /** If no source colo names specified, all colos will be used. China colos are unavailable for traceroutes. */
-  colos?: TraceroutesCreateRequestColosList;
-  options?: TraceroutesCreateRequestOptions;
+  colos?: TraceroutesCreateRequestColosList | undefined;
+  options?: TraceroutesCreateRequestOptions | undefined;
 }
 export interface TraceroutesCreateResultItemColosItemColo {
   /** Source colo city. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Source colo name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type TraceroutesCreateResultItemColosItemError =
   | ""
@@ -139,60 +139,60 @@ export type TraceroutesCreateResultItemColosItemError =
 export type TraceroutesCreateResultItemColosItemHopsItemNodesItemLabelsList = Array<string>;
 export interface TraceroutesCreateResultItemColosItemHopsItemNodesItem {
   /** AS number associated with the node object. */
-  asn?: string | null;
+  asn?: string | null | undefined;
   /** IP address of the node. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Field appears if there is an additional annotation printed when the probe returns. Field also appears when running a GRE+ICMP traceroute to denote which traceroute a node comes from. */
-  labels?: TraceroutesCreateResultItemColosItemHopsItemNodesItemLabelsList | null;
+  labels?: TraceroutesCreateResultItemColosItemHopsItemNodesItemLabelsList | null | undefined;
   /** Maximum RTT in ms. */
-  maxRttMs?: number | null;
+  maxRttMs?: number | null | undefined;
   /** Mean RTT in ms. */
-  meanRttMs?: number | null;
+  meanRttMs?: number | null | undefined;
   /** Minimum RTT in ms. */
-  minRttMs?: number | null;
+  minRttMs?: number | null | undefined;
   /** Host name of the address, this may be the same as the IP address. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Number of packets with a response from this node. */
-  packetCount?: number | null;
+  packetCount?: number | null | undefined;
   /** Standard deviation of the RTTs in ms. */
-  stdDevRttMs?: number | null;
+  stdDevRttMs?: number | null | undefined;
 }
 export type TraceroutesCreateResultItemColosItemHopsItemNodesList =
   Array<TraceroutesCreateResultItemColosItemHopsItemNodesItem>;
 export interface TraceroutesCreateResultItemColosItemHopsItem {
   /** An array of node objects. */
-  nodes?: TraceroutesCreateResultItemColosItemHopsItemNodesList | null;
+  nodes?: TraceroutesCreateResultItemColosItemHopsItemNodesList | null | undefined;
   /** Number of packets where no response was received. */
-  packetsLost?: number | null;
+  packetsLost?: number | null | undefined;
   /** Number of packets sent with specified TTL. */
-  packetsSent?: number | null;
+  packetsSent?: number | null | undefined;
   /** The time to live (TTL). */
-  packetsTtl?: number | null;
+  packetsTtl?: number | null | undefined;
 }
 export type TraceroutesCreateResultItemColosItemHopsList =
   Array<TraceroutesCreateResultItemColosItemHopsItem>;
 export interface TraceroutesCreateResultItemColosItem {
-  colo?: TraceroutesCreateResultItemColosItemColo | null;
+  colo?: TraceroutesCreateResultItemColosItemColo | null | undefined;
   /** Errors resulting from collecting traceroute from colo to target. */
-  error?: TraceroutesCreateResultItemColosItemError | null;
-  hops?: TraceroutesCreateResultItemColosItemHopsList | null;
+  error?: TraceroutesCreateResultItemColosItemError | null | undefined;
+  hops?: TraceroutesCreateResultItemColosItemHopsList | null | undefined;
   /** Aggregated statistics from all hops about the target. */
-  targetSummary?: unknown | null;
+  targetSummary?: unknown | null | undefined;
   /** Total time of traceroute in ms. */
-  tracerouteTimeMs?: number | null;
+  tracerouteTimeMs?: number | null | undefined;
 }
 export type TraceroutesCreateResultItemColosList = Array<TraceroutesCreateResultItemColosItem>;
 export interface TraceroutesCreateResultItem {
-  colos?: TraceroutesCreateResultItemColosList | null;
+  colos?: TraceroutesCreateResultItemColosList | null | undefined;
   /** The target hostname, IPv6, or IPv6 address. */
-  target?: string | null;
+  target?: string | null | undefined;
 }
 export type TraceroutesCreateResultList = Array<TraceroutesCreateResultItem>;
 export interface CreateTracerouteResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TraceroutesCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteEndpointHealthcheckRequest {
   /** Identifier */
@@ -215,9 +215,9 @@ export interface GetEndpointHealthcheckResponse {
   /** the IP address of the host to perform checks against */
   endpoint: string;
   /** UUID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional name associated with this check */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface ListEndpointHealthchecksRequest {
   /** Identifier */
@@ -230,9 +230,9 @@ export interface EndpointHealthchecksListResultItem {
   /** the IP address of the host to perform checks against */
   endpoint: string;
   /** UUID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional name associated with this check */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type EndpointHealthchecksListResultList = Array<EndpointHealthchecksListResultItem>;
 export type ListEndpointHealthchecksResponse = EndpointHealthchecksListResultList;
@@ -247,7 +247,7 @@ export interface UpdateEndpointHealthcheckRequest {
   /** the IP address of the host to perform checks against */
   endpoint: string;
   /** Optional name associated with this check */
-  name?: string;
+  name?: string | undefined;
 }
 export type EndpointHealthchecksUpdateResponseCheckType = "icmp";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -257,9 +257,9 @@ export interface UpdateEndpointHealthcheckResponse {
   /** the IP address of the host to perform checks against */
   endpoint: string;
   /** UUID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional name associated with this check */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type CreateEndpointHealthcheckError =
   | InvalidHealthcheckEndpoint

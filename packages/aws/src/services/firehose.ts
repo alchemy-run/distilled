@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -153,7 +154,7 @@ export interface KinesisStreamSourceConfiguration {
 export type AWSKMSKeyARNForSSE = string;
 export type KeyType = "AWS_OWNED_CMK" | "CUSTOMER_MANAGED_CMK" | (string & {});
 export interface DeliveryStreamEncryptionConfigurationInput {
-  KeyARN?: string;
+  KeyARN?: string | undefined;
   KeyType: KeyType;
 }
 export type BucketARN = string;
@@ -162,8 +163,8 @@ export type ErrorOutputPrefix = string;
 export type SizeInMBs = number;
 export type IntervalInSeconds = number;
 export interface BufferingHints {
-  SizeInMBs?: number;
-  IntervalInSeconds?: number;
+  SizeInMBs?: number | undefined;
+  IntervalInSeconds?: number | undefined;
 }
 export type CompressionFormat =
   | "UNCOMPRESSED"
@@ -178,25 +179,25 @@ export interface KMSEncryptionConfig {
   AWSKMSKeyARN: string;
 }
 export interface EncryptionConfiguration {
-  NoEncryptionConfig?: NoEncryptionConfig;
-  KMSEncryptionConfig?: KMSEncryptionConfig;
+  NoEncryptionConfig?: NoEncryptionConfig | undefined;
+  KMSEncryptionConfig?: KMSEncryptionConfig | undefined;
 }
 export type LogGroupName = string;
 export type LogStreamName = string;
 export interface CloudWatchLoggingOptions {
-  Enabled?: boolean;
-  LogGroupName?: string;
-  LogStreamName?: string;
+  Enabled?: boolean | undefined;
+  LogGroupName?: string | undefined;
+  LogStreamName?: string | undefined;
 }
 export interface S3DestinationConfiguration {
   RoleARN: string;
   BucketARN: string;
-  Prefix?: string;
-  ErrorOutputPrefix?: string;
-  BufferingHints?: BufferingHints;
-  CompressionFormat?: CompressionFormat;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
+  Prefix?: string | undefined;
+  ErrorOutputPrefix?: string | undefined;
+  BufferingHints?: BufferingHints | undefined;
+  CompressionFormat?: CompressionFormat | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
 }
 export type ProcessorType =
   | "RecordDeAggregation"
@@ -227,40 +228,40 @@ export interface ProcessorParameter {
 export type ProcessorParameterList = ProcessorParameter[];
 export interface Processor {
   Type: ProcessorType;
-  Parameters?: ProcessorParameter[];
+  Parameters?: ProcessorParameter[] | undefined;
 }
 export type ProcessorList = Processor[];
 export interface ProcessingConfiguration {
-  Enabled?: boolean;
-  Processors?: Processor[];
+  Enabled?: boolean | undefined;
+  Processors?: Processor[] | undefined;
 }
 export type S3BackupMode = "Disabled" | "Enabled" | (string & {});
 export type NonEmptyStringWithoutWhitespace = string;
 export interface SchemaConfiguration {
-  RoleARN?: string;
-  CatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  Region?: string;
-  VersionId?: string;
+  RoleARN?: string | undefined;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Region?: string | undefined;
+  VersionId?: string | undefined;
 }
 export type NonEmptyString = string;
 export type ColumnToJsonKeyMappings = { [key: string]: string | undefined };
 export interface OpenXJsonSerDe {
-  ConvertDotsInJsonKeysToUnderscores?: boolean;
-  CaseInsensitive?: boolean;
-  ColumnToJsonKeyMappings?: { [key: string]: string | undefined };
+  ConvertDotsInJsonKeysToUnderscores?: boolean | undefined;
+  CaseInsensitive?: boolean | undefined;
+  ColumnToJsonKeyMappings?: { [key: string]: string | undefined } | undefined;
 }
 export type ListOfNonEmptyStrings = string[];
 export interface HiveJsonSerDe {
-  TimestampFormats?: string[];
+  TimestampFormats?: string[] | undefined;
 }
 export interface Deserializer {
-  OpenXJsonSerDe?: OpenXJsonSerDe;
-  HiveJsonSerDe?: HiveJsonSerDe;
+  OpenXJsonSerDe?: OpenXJsonSerDe | undefined;
+  HiveJsonSerDe?: HiveJsonSerDe | undefined;
 }
 export interface InputFormatConfiguration {
-  Deserializer?: Deserializer;
+  Deserializer?: Deserializer | undefined;
 }
 export type BlockSizeBytes = number;
 export type ParquetPageSizeBytes = number;
@@ -268,12 +269,12 @@ export type ParquetCompression = "UNCOMPRESSED" | "GZIP" | "SNAPPY" | (string & 
 export type NonNegativeIntegerObject = number;
 export type ParquetWriterVersion = "V1" | "V2" | (string & {});
 export interface ParquetSerDe {
-  BlockSizeBytes?: number;
-  PageSizeBytes?: number;
-  Compression?: ParquetCompression;
-  EnableDictionaryCompression?: boolean;
-  MaxPaddingBytes?: number;
-  WriterVersion?: ParquetWriterVersion;
+  BlockSizeBytes?: number | undefined;
+  PageSizeBytes?: number | undefined;
+  Compression?: ParquetCompression | undefined;
+  EnableDictionaryCompression?: boolean | undefined;
+  MaxPaddingBytes?: number | undefined;
+  WriterVersion?: ParquetWriterVersion | undefined;
 }
 export type OrcStripeSizeBytes = number;
 export type OrcRowIndexStride = number;
@@ -282,56 +283,56 @@ export type OrcCompression = "NONE" | "ZLIB" | "SNAPPY" | (string & {});
 export type ListOfNonEmptyStringsWithoutWhitespace = string[];
 export type OrcFormatVersion = "V0_11" | "V0_12" | (string & {});
 export interface OrcSerDe {
-  StripeSizeBytes?: number;
-  BlockSizeBytes?: number;
-  RowIndexStride?: number;
-  EnablePadding?: boolean;
-  PaddingTolerance?: number;
-  Compression?: OrcCompression;
-  BloomFilterColumns?: string[];
-  BloomFilterFalsePositiveProbability?: number;
-  DictionaryKeyThreshold?: number;
-  FormatVersion?: OrcFormatVersion;
+  StripeSizeBytes?: number | undefined;
+  BlockSizeBytes?: number | undefined;
+  RowIndexStride?: number | undefined;
+  EnablePadding?: boolean | undefined;
+  PaddingTolerance?: number | undefined;
+  Compression?: OrcCompression | undefined;
+  BloomFilterColumns?: string[] | undefined;
+  BloomFilterFalsePositiveProbability?: number | undefined;
+  DictionaryKeyThreshold?: number | undefined;
+  FormatVersion?: OrcFormatVersion | undefined;
 }
 export interface Serializer {
-  ParquetSerDe?: ParquetSerDe;
-  OrcSerDe?: OrcSerDe;
+  ParquetSerDe?: ParquetSerDe | undefined;
+  OrcSerDe?: OrcSerDe | undefined;
 }
 export interface OutputFormatConfiguration {
-  Serializer?: Serializer;
+  Serializer?: Serializer | undefined;
 }
 export interface DataFormatConversionConfiguration {
-  SchemaConfiguration?: SchemaConfiguration;
-  InputFormatConfiguration?: InputFormatConfiguration;
-  OutputFormatConfiguration?: OutputFormatConfiguration;
-  Enabled?: boolean;
+  SchemaConfiguration?: SchemaConfiguration | undefined;
+  InputFormatConfiguration?: InputFormatConfiguration | undefined;
+  OutputFormatConfiguration?: OutputFormatConfiguration | undefined;
+  Enabled?: boolean | undefined;
 }
 export type RetryDurationInSeconds = number;
 export interface RetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export interface DynamicPartitioningConfiguration {
-  RetryOptions?: RetryOptions;
-  Enabled?: boolean;
+  RetryOptions?: RetryOptions | undefined;
+  Enabled?: boolean | undefined;
 }
 export type FileExtension = string;
 export type CustomTimeZone = string;
 export interface ExtendedS3DestinationConfiguration {
   RoleARN: string;
   BucketARN: string;
-  Prefix?: string;
-  ErrorOutputPrefix?: string;
-  BufferingHints?: BufferingHints;
-  CompressionFormat?: CompressionFormat;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: S3BackupMode;
-  S3BackupConfiguration?: S3DestinationConfiguration;
-  DataFormatConversionConfiguration?: DataFormatConversionConfiguration;
-  DynamicPartitioningConfiguration?: DynamicPartitioningConfiguration;
-  FileExtension?: string;
-  CustomTimeZone?: string;
+  Prefix?: string | undefined;
+  ErrorOutputPrefix?: string | undefined;
+  BufferingHints?: BufferingHints | undefined;
+  CompressionFormat?: CompressionFormat | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: S3BackupMode | undefined;
+  S3BackupConfiguration?: S3DestinationConfiguration | undefined;
+  DataFormatConversionConfiguration?: DataFormatConversionConfiguration | undefined;
+  DynamicPartitioningConfiguration?: DynamicPartitioningConfiguration | undefined;
+  FileExtension?: string | undefined;
+  CustomTimeZone?: string | undefined;
 }
 export type ClusterJDBCURL = string;
 export type DataTableName = string;
@@ -339,35 +340,35 @@ export type DataTableColumns = string;
 export type CopyOptions = string;
 export interface CopyCommand {
   DataTableName: string;
-  DataTableColumns?: string;
-  CopyOptions?: string;
+  DataTableColumns?: string | undefined;
+  CopyOptions?: string | undefined;
 }
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export type RedshiftRetryDurationInSeconds = number;
 export interface RedshiftRetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export type RedshiftS3BackupMode = "Disabled" | "Enabled" | (string & {});
 export type SecretARN = string;
 export interface SecretsManagerConfiguration {
-  SecretARN?: string;
-  RoleARN?: string;
+  SecretARN?: string | undefined;
+  RoleARN?: string | undefined;
   Enabled: boolean;
 }
 export interface RedshiftDestinationConfiguration {
   RoleARN: string;
   ClusterJDBCURL: string;
   CopyCommand: CopyCommand;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  RetryOptions?: RedshiftRetryOptions;
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  RetryOptions?: RedshiftRetryOptions | undefined;
   S3Configuration: S3DestinationConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: RedshiftS3BackupMode;
-  S3BackupConfiguration?: S3DestinationConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: RedshiftS3BackupMode | undefined;
+  S3BackupConfiguration?: S3DestinationConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export type ElasticsearchDomainARN = string;
 export type ElasticsearchClusterEndpoint = string;
@@ -383,12 +384,12 @@ export type ElasticsearchIndexRotationPeriod =
 export type ElasticsearchBufferingIntervalInSeconds = number;
 export type ElasticsearchBufferingSizeInMBs = number;
 export interface ElasticsearchBufferingHints {
-  IntervalInSeconds?: number;
-  SizeInMBs?: number;
+  IntervalInSeconds?: number | undefined;
+  SizeInMBs?: number | undefined;
 }
 export type ElasticsearchRetryDurationInSeconds = number;
 export interface ElasticsearchRetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export type ElasticsearchS3BackupMode = "FailedDocumentsOnly" | "AllDocuments" | (string & {});
 export type SubnetIdList = string[];
@@ -404,19 +405,19 @@ export interface DocumentIdOptions {
 }
 export interface ElasticsearchDestinationConfiguration {
   RoleARN: string;
-  DomainARN?: string;
-  ClusterEndpoint?: string;
+  DomainARN?: string | undefined;
+  ClusterEndpoint?: string | undefined;
   IndexName: string;
-  TypeName?: string;
-  IndexRotationPeriod?: ElasticsearchIndexRotationPeriod;
-  BufferingHints?: ElasticsearchBufferingHints;
-  RetryOptions?: ElasticsearchRetryOptions;
-  S3BackupMode?: ElasticsearchS3BackupMode;
+  TypeName?: string | undefined;
+  IndexRotationPeriod?: ElasticsearchIndexRotationPeriod | undefined;
+  BufferingHints?: ElasticsearchBufferingHints | undefined;
+  RetryOptions?: ElasticsearchRetryOptions | undefined;
+  S3BackupMode?: ElasticsearchS3BackupMode | undefined;
   S3Configuration: S3DestinationConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  VpcConfiguration?: VpcConfiguration;
-  DocumentIdOptions?: DocumentIdOptions;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
+  DocumentIdOptions?: DocumentIdOptions | undefined;
 }
 export type AmazonopensearchserviceDomainARN = string;
 export type AmazonopensearchserviceClusterEndpoint = string;
@@ -432,12 +433,12 @@ export type AmazonopensearchserviceIndexRotationPeriod =
 export type AmazonopensearchserviceBufferingIntervalInSeconds = number;
 export type AmazonopensearchserviceBufferingSizeInMBs = number;
 export interface AmazonopensearchserviceBufferingHints {
-  IntervalInSeconds?: number;
-  SizeInMBs?: number;
+  IntervalInSeconds?: number | undefined;
+  SizeInMBs?: number | undefined;
 }
 export type AmazonopensearchserviceRetryDurationInSeconds = number;
 export interface AmazonopensearchserviceRetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export type AmazonopensearchserviceS3BackupMode =
   | "FailedDocumentsOnly"
@@ -445,19 +446,19 @@ export type AmazonopensearchserviceS3BackupMode =
   | (string & {});
 export interface AmazonopensearchserviceDestinationConfiguration {
   RoleARN: string;
-  DomainARN?: string;
-  ClusterEndpoint?: string;
+  DomainARN?: string | undefined;
+  ClusterEndpoint?: string | undefined;
   IndexName: string;
-  TypeName?: string;
-  IndexRotationPeriod?: AmazonopensearchserviceIndexRotationPeriod;
-  BufferingHints?: AmazonopensearchserviceBufferingHints;
-  RetryOptions?: AmazonopensearchserviceRetryOptions;
-  S3BackupMode?: AmazonopensearchserviceS3BackupMode;
+  TypeName?: string | undefined;
+  IndexRotationPeriod?: AmazonopensearchserviceIndexRotationPeriod | undefined;
+  BufferingHints?: AmazonopensearchserviceBufferingHints | undefined;
+  RetryOptions?: AmazonopensearchserviceRetryOptions | undefined;
+  S3BackupMode?: AmazonopensearchserviceS3BackupMode | undefined;
   S3Configuration: S3DestinationConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  VpcConfiguration?: VpcConfiguration;
-  DocumentIdOptions?: DocumentIdOptions;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
+  DocumentIdOptions?: DocumentIdOptions | undefined;
 }
 export type HECEndpoint = string;
 export type HECEndpointType = "Raw" | "Event" | (string & {});
@@ -465,41 +466,41 @@ export type HECToken = string;
 export type HECAcknowledgmentTimeoutInSeconds = number;
 export type SplunkRetryDurationInSeconds = number;
 export interface SplunkRetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export type SplunkS3BackupMode = "FailedEventsOnly" | "AllEvents" | (string & {});
 export type SplunkBufferingIntervalInSeconds = number;
 export type SplunkBufferingSizeInMBs = number;
 export interface SplunkBufferingHints {
-  IntervalInSeconds?: number;
-  SizeInMBs?: number;
+  IntervalInSeconds?: number | undefined;
+  SizeInMBs?: number | undefined;
 }
 export interface SplunkDestinationConfiguration {
   HECEndpoint: string;
   HECEndpointType: HECEndpointType;
-  HECToken?: string | redacted.Redacted<string>;
-  HECAcknowledgmentTimeoutInSeconds?: number;
-  RetryOptions?: SplunkRetryOptions;
-  S3BackupMode?: SplunkS3BackupMode;
+  HECToken?: string | redacted.Redacted<string> | undefined;
+  HECAcknowledgmentTimeoutInSeconds?: number | undefined;
+  RetryOptions?: SplunkRetryOptions | undefined;
+  S3BackupMode?: SplunkS3BackupMode | undefined;
   S3Configuration: S3DestinationConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  BufferingHints?: SplunkBufferingHints;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  BufferingHints?: SplunkBufferingHints | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export type HttpEndpointUrl = string | redacted.Redacted<string>;
 export type HttpEndpointName = string;
 export type HttpEndpointAccessKey = string | redacted.Redacted<string>;
 export interface HttpEndpointConfiguration {
   Url: string | redacted.Redacted<string>;
-  Name?: string;
-  AccessKey?: string | redacted.Redacted<string>;
+  Name?: string | undefined;
+  AccessKey?: string | redacted.Redacted<string> | undefined;
 }
 export type HttpEndpointBufferingSizeInMBs = number;
 export type HttpEndpointBufferingIntervalInSeconds = number;
 export interface HttpEndpointBufferingHints {
-  SizeInMBs?: number;
-  IntervalInSeconds?: number;
+  SizeInMBs?: number | undefined;
+  IntervalInSeconds?: number | undefined;
 }
 export type ContentEncoding = "NONE" | "GZIP" | (string & {});
 export type HttpEndpointAttributeName = string | redacted.Redacted<string>;
@@ -510,31 +511,31 @@ export interface HttpEndpointCommonAttribute {
 }
 export type HttpEndpointCommonAttributesList = HttpEndpointCommonAttribute[];
 export interface HttpEndpointRequestConfiguration {
-  ContentEncoding?: ContentEncoding;
-  CommonAttributes?: HttpEndpointCommonAttribute[];
+  ContentEncoding?: ContentEncoding | undefined;
+  CommonAttributes?: HttpEndpointCommonAttribute[] | undefined;
 }
 export type HttpEndpointRetryDurationInSeconds = number;
 export interface HttpEndpointRetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export type HttpEndpointS3BackupMode = "FailedDataOnly" | "AllData" | (string & {});
 export interface HttpEndpointDestinationConfiguration {
   EndpointConfiguration: HttpEndpointConfiguration;
-  BufferingHints?: HttpEndpointBufferingHints;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  RequestConfiguration?: HttpEndpointRequestConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  RoleARN?: string;
-  RetryOptions?: HttpEndpointRetryOptions;
-  S3BackupMode?: HttpEndpointS3BackupMode;
+  BufferingHints?: HttpEndpointBufferingHints | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  RequestConfiguration?: HttpEndpointRequestConfiguration | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  RoleARN?: string | undefined;
+  RetryOptions?: HttpEndpointRetryOptions | undefined;
+  S3BackupMode?: HttpEndpointS3BackupMode | undefined;
   S3Configuration: S3DestinationConfiguration;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagDeliveryStreamInputTagList = Tag[];
 export type AmazonOpenSearchServerlessCollectionEndpoint = string;
@@ -542,12 +543,12 @@ export type AmazonOpenSearchServerlessIndexName = string;
 export type AmazonOpenSearchServerlessBufferingIntervalInSeconds = number;
 export type AmazonOpenSearchServerlessBufferingSizeInMBs = number;
 export interface AmazonOpenSearchServerlessBufferingHints {
-  IntervalInSeconds?: number;
-  SizeInMBs?: number;
+  IntervalInSeconds?: number | undefined;
+  SizeInMBs?: number | undefined;
 }
 export type AmazonOpenSearchServerlessRetryDurationInSeconds = number;
 export interface AmazonOpenSearchServerlessRetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export type AmazonOpenSearchServerlessS3BackupMode =
   | "FailedDocumentsOnly"
@@ -555,15 +556,15 @@ export type AmazonOpenSearchServerlessS3BackupMode =
   | (string & {});
 export interface AmazonOpenSearchServerlessDestinationConfiguration {
   RoleARN: string;
-  CollectionEndpoint?: string;
+  CollectionEndpoint?: string | undefined;
   IndexName: string;
-  BufferingHints?: AmazonOpenSearchServerlessBufferingHints;
-  RetryOptions?: AmazonOpenSearchServerlessRetryOptions;
-  S3BackupMode?: AmazonOpenSearchServerlessS3BackupMode;
+  BufferingHints?: AmazonOpenSearchServerlessBufferingHints | undefined;
+  RetryOptions?: AmazonOpenSearchServerlessRetryOptions | undefined;
+  S3BackupMode?: AmazonOpenSearchServerlessS3BackupMode | undefined;
   S3Configuration: S3DestinationConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  VpcConfiguration?: VpcConfiguration;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  VpcConfiguration?: VpcConfiguration | undefined;
 }
 export type MSKClusterARN = string;
 export type TopicName = string;
@@ -577,7 +578,7 @@ export interface MSKSourceConfiguration {
   MSKClusterARN: string;
   TopicName: string;
   AuthenticationConfiguration: AuthenticationConfiguration;
-  ReadFromTimestamp?: Date;
+  ReadFromTimestamp?: Date | undefined;
 }
 export type SnowflakeAccountUrl = string | redacted.Redacted<string>;
 export type SnowflakePrivateKey = string | redacted.Redacted<string>;
@@ -588,8 +589,8 @@ export type SnowflakeSchema = string | redacted.Redacted<string>;
 export type SnowflakeTable = string | redacted.Redacted<string>;
 export type SnowflakeRole = string | redacted.Redacted<string>;
 export interface SnowflakeRoleConfiguration {
-  Enabled?: boolean;
-  SnowflakeRole?: string | redacted.Redacted<string>;
+  Enabled?: boolean | undefined;
+  SnowflakeRole?: string | redacted.Redacted<string> | undefined;
 }
 export type SnowflakeDataLoadingOption =
   | "JSON_MAPPING"
@@ -604,36 +605,36 @@ export interface SnowflakeVpcConfiguration {
 }
 export type SnowflakeRetryDurationInSeconds = number;
 export interface SnowflakeRetryOptions {
-  DurationInSeconds?: number;
+  DurationInSeconds?: number | undefined;
 }
 export type SnowflakeS3BackupMode = "FailedDataOnly" | "AllData" | (string & {});
 export type SnowflakeBufferingSizeInMBs = number;
 export type SnowflakeBufferingIntervalInSeconds = number;
 export interface SnowflakeBufferingHints {
-  SizeInMBs?: number;
-  IntervalInSeconds?: number;
+  SizeInMBs?: number | undefined;
+  IntervalInSeconds?: number | undefined;
 }
 export interface SnowflakeDestinationConfiguration {
   AccountUrl: string | redacted.Redacted<string>;
-  PrivateKey?: string | redacted.Redacted<string>;
-  KeyPassphrase?: string | redacted.Redacted<string>;
-  User?: string | redacted.Redacted<string>;
+  PrivateKey?: string | redacted.Redacted<string> | undefined;
+  KeyPassphrase?: string | redacted.Redacted<string> | undefined;
+  User?: string | redacted.Redacted<string> | undefined;
   Database: string | redacted.Redacted<string>;
   Schema: string | redacted.Redacted<string>;
   Table: string | redacted.Redacted<string>;
-  SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration;
-  DataLoadingOption?: SnowflakeDataLoadingOption;
-  MetaDataColumnName?: string | redacted.Redacted<string>;
-  ContentColumnName?: string | redacted.Redacted<string>;
-  SnowflakeVpcConfiguration?: SnowflakeVpcConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
+  SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration | undefined;
+  DataLoadingOption?: SnowflakeDataLoadingOption | undefined;
+  MetaDataColumnName?: string | redacted.Redacted<string> | undefined;
+  ContentColumnName?: string | redacted.Redacted<string> | undefined;
+  SnowflakeVpcConfiguration?: SnowflakeVpcConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
   RoleARN: string;
-  RetryOptions?: SnowflakeRetryOptions;
-  S3BackupMode?: SnowflakeS3BackupMode;
+  RetryOptions?: SnowflakeRetryOptions | undefined;
+  S3BackupMode?: SnowflakeS3BackupMode | undefined;
   S3Configuration: S3DestinationConfiguration;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
-  BufferingHints?: SnowflakeBufferingHints;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
+  BufferingHints?: SnowflakeBufferingHints | undefined;
 }
 export type StringWithLettersDigitsUnderscoresDots = string;
 export interface PartitionField {
@@ -641,14 +642,14 @@ export interface PartitionField {
 }
 export type PartitionFields = PartitionField[];
 export interface PartitionSpec {
-  Identity?: PartitionField[];
+  Identity?: PartitionField[] | undefined;
 }
 export interface DestinationTableConfiguration {
   DestinationTableName: string;
   DestinationDatabaseName: string;
-  UniqueKeys?: string[];
-  PartitionSpec?: PartitionSpec;
-  S3ErrorOutputPrefix?: string;
+  UniqueKeys?: string[] | undefined;
+  PartitionSpec?: PartitionSpec | undefined;
+  S3ErrorOutputPrefix?: string | undefined;
 }
 export type DestinationTableConfigurationList = DestinationTableConfiguration[];
 export interface SchemaEvolutionConfiguration {
@@ -661,20 +662,20 @@ export type IcebergS3BackupMode = "FailedDataOnly" | "AllData" | (string & {});
 export type GlueDataCatalogARN = string;
 export type WarehouseLocation = string;
 export interface CatalogConfiguration {
-  CatalogARN?: string;
-  WarehouseLocation?: string;
+  CatalogARN?: string | undefined;
+  WarehouseLocation?: string | undefined;
 }
 export interface IcebergDestinationConfiguration {
-  DestinationTableConfigurationList?: DestinationTableConfiguration[];
-  SchemaEvolutionConfiguration?: SchemaEvolutionConfiguration;
-  TableCreationConfiguration?: TableCreationConfiguration;
-  BufferingHints?: BufferingHints;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: IcebergS3BackupMode;
-  RetryOptions?: RetryOptions;
+  DestinationTableConfigurationList?: DestinationTableConfiguration[] | undefined;
+  SchemaEvolutionConfiguration?: SchemaEvolutionConfiguration | undefined;
+  TableCreationConfiguration?: TableCreationConfiguration | undefined;
+  BufferingHints?: BufferingHints | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: IcebergS3BackupMode | undefined;
+  RetryOptions?: RetryOptions | undefined;
   RoleARN: string;
-  AppendOnly?: boolean;
+  AppendOnly?: boolean | undefined;
   CatalogConfiguration: CatalogConfiguration;
   S3Configuration: S3DestinationConfiguration;
 }
@@ -685,20 +686,20 @@ export type SSLMode = "Disabled" | "Enabled" | (string & {});
 export type DatabaseName = string;
 export type DatabaseIncludeOrExcludeList = string[];
 export interface DatabaseList {
-  Include?: string[];
-  Exclude?: string[];
+  Include?: string[] | undefined;
+  Exclude?: string[] | undefined;
 }
 export type DatabaseTableName = string;
 export type DatabaseTableIncludeOrExcludeList = string[];
 export interface DatabaseTableList {
-  Include?: string[];
-  Exclude?: string[];
+  Include?: string[] | undefined;
+  Exclude?: string[] | undefined;
 }
 export type DatabaseColumnName = string;
 export type DatabaseColumnIncludeOrExcludeList = string[];
 export interface DatabaseColumnList {
-  Include?: string[];
-  Exclude?: string[];
+  Include?: string[] | undefined;
+  Exclude?: string[] | undefined;
 }
 export type DatabaseSurrogateKeyList = string[];
 export interface DatabaseSourceAuthenticationConfiguration {
@@ -712,50 +713,56 @@ export interface DatabaseSourceConfiguration {
   Type: DatabaseType;
   Endpoint: string;
   Port: number;
-  SSLMode?: SSLMode;
+  SSLMode?: SSLMode | undefined;
   Databases: DatabaseList;
   Tables: DatabaseTableList;
-  Columns?: DatabaseColumnList;
-  SurrogateKeys?: string[];
+  Columns?: DatabaseColumnList | undefined;
+  SurrogateKeys?: string[] | undefined;
   SnapshotWatermarkTable: string;
   DatabaseSourceAuthenticationConfiguration: DatabaseSourceAuthenticationConfiguration;
   DatabaseSourceVPCConfiguration: DatabaseSourceVPCConfiguration;
 }
 export interface CreateDeliveryStreamInput {
   DeliveryStreamName: string;
-  DeliveryStreamType?: DeliveryStreamType;
-  DirectPutSourceConfiguration?: DirectPutSourceConfiguration;
-  KinesisStreamSourceConfiguration?: KinesisStreamSourceConfiguration;
-  DeliveryStreamEncryptionConfigurationInput?: DeliveryStreamEncryptionConfigurationInput;
-  S3DestinationConfiguration?: S3DestinationConfiguration;
-  ExtendedS3DestinationConfiguration?: ExtendedS3DestinationConfiguration;
-  RedshiftDestinationConfiguration?: RedshiftDestinationConfiguration;
-  ElasticsearchDestinationConfiguration?: ElasticsearchDestinationConfiguration;
-  AmazonopensearchserviceDestinationConfiguration?: AmazonopensearchserviceDestinationConfiguration;
-  SplunkDestinationConfiguration?: SplunkDestinationConfiguration;
-  HttpEndpointDestinationConfiguration?: HttpEndpointDestinationConfiguration;
-  Tags?: Tag[];
-  AmazonOpenSearchServerlessDestinationConfiguration?: AmazonOpenSearchServerlessDestinationConfiguration;
-  MSKSourceConfiguration?: MSKSourceConfiguration;
-  SnowflakeDestinationConfiguration?: SnowflakeDestinationConfiguration;
-  IcebergDestinationConfiguration?: IcebergDestinationConfiguration;
-  DatabaseSourceConfiguration?: DatabaseSourceConfiguration;
+  DeliveryStreamType?: DeliveryStreamType | undefined;
+  DirectPutSourceConfiguration?: DirectPutSourceConfiguration | undefined;
+  KinesisStreamSourceConfiguration?: KinesisStreamSourceConfiguration | undefined;
+  DeliveryStreamEncryptionConfigurationInput?:
+    | DeliveryStreamEncryptionConfigurationInput
+    | undefined;
+  S3DestinationConfiguration?: S3DestinationConfiguration | undefined;
+  ExtendedS3DestinationConfiguration?: ExtendedS3DestinationConfiguration | undefined;
+  RedshiftDestinationConfiguration?: RedshiftDestinationConfiguration | undefined;
+  ElasticsearchDestinationConfiguration?: ElasticsearchDestinationConfiguration | undefined;
+  AmazonopensearchserviceDestinationConfiguration?:
+    | AmazonopensearchserviceDestinationConfiguration
+    | undefined;
+  SplunkDestinationConfiguration?: SplunkDestinationConfiguration | undefined;
+  HttpEndpointDestinationConfiguration?: HttpEndpointDestinationConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  AmazonOpenSearchServerlessDestinationConfiguration?:
+    | AmazonOpenSearchServerlessDestinationConfiguration
+    | undefined;
+  MSKSourceConfiguration?: MSKSourceConfiguration | undefined;
+  SnowflakeDestinationConfiguration?: SnowflakeDestinationConfiguration | undefined;
+  IcebergDestinationConfiguration?: IcebergDestinationConfiguration | undefined;
+  DatabaseSourceConfiguration?: DatabaseSourceConfiguration | undefined;
 }
 export type DeliveryStreamARN = string;
 export interface CreateDeliveryStreamOutput {
-  DeliveryStreamARN?: string;
+  DeliveryStreamARN?: string | undefined;
 }
 export interface DeleteDeliveryStreamInput {
   DeliveryStreamName: string;
-  AllowForceDelete?: boolean;
+  AllowForceDelete?: boolean | undefined;
 }
 export interface DeleteDeliveryStreamOutput {}
 export type DescribeDeliveryStreamInputLimit = number;
 export type DestinationId = string;
 export interface DescribeDeliveryStreamInput {
   DeliveryStreamName: string;
-  Limit?: number;
-  ExclusiveStartDestinationId?: string;
+  Limit?: number | undefined;
+  ExclusiveStartDestinationId?: string | undefined;
 }
 export type DeliveryStreamStatus =
   | "CREATING"
@@ -796,27 +803,27 @@ export type DeliveryStreamEncryptionStatus =
   | "DISABLING_FAILED"
   | (string & {});
 export interface DeliveryStreamEncryptionConfiguration {
-  KeyARN?: string;
-  KeyType?: KeyType;
-  Status?: DeliveryStreamEncryptionStatus;
-  FailureDescription?: FailureDescription;
+  KeyARN?: string | undefined;
+  KeyType?: KeyType | undefined;
+  Status?: DeliveryStreamEncryptionStatus | undefined;
+  FailureDescription?: FailureDescription | undefined;
 }
 export type DeliveryStreamVersionId = string;
 export interface DirectPutSourceDescription {
-  ThroughputHintInMBs?: number;
+  ThroughputHintInMBs?: number | undefined;
 }
 export type DeliveryStartTimestamp = Date;
 export interface KinesisStreamSourceDescription {
-  KinesisStreamARN?: string;
-  RoleARN?: string;
-  DeliveryStartTimestamp?: Date;
+  KinesisStreamARN?: string | undefined;
+  RoleARN?: string | undefined;
+  DeliveryStartTimestamp?: Date | undefined;
 }
 export interface MSKSourceDescription {
-  MSKClusterARN?: string;
-  TopicName?: string;
-  AuthenticationConfiguration?: AuthenticationConfiguration;
-  DeliveryStartTimestamp?: Date;
-  ReadFromTimestamp?: Date;
+  MSKClusterARN?: string | undefined;
+  TopicName?: string | undefined;
+  AuthenticationConfiguration?: AuthenticationConfiguration | undefined;
+  DeliveryStartTimestamp?: Date | undefined;
+  ReadFromTimestamp?: Date | undefined;
 }
 export type SnapshotRequestedBy = "USER" | "FIREHOSE" | (string & {});
 export type SnapshotStatus = "IN_PROGRESS" | "COMPLETE" | "SUSPENDED" | (string & {});
@@ -826,68 +833,68 @@ export interface DatabaseSnapshotInfo {
   RequestTimestamp: Date;
   RequestedBy: SnapshotRequestedBy;
   Status: SnapshotStatus;
-  FailureDescription?: FailureDescription;
+  FailureDescription?: FailureDescription | undefined;
 }
 export type DatabaseSnapshotInfoList = DatabaseSnapshotInfo[];
 export interface DatabaseSourceDescription {
-  Type?: DatabaseType;
-  Endpoint?: string;
-  Port?: number;
-  SSLMode?: SSLMode;
-  Databases?: DatabaseList;
-  Tables?: DatabaseTableList;
-  Columns?: DatabaseColumnList;
-  SurrogateKeys?: string[];
-  SnapshotWatermarkTable?: string;
-  SnapshotInfo?: DatabaseSnapshotInfo[];
-  DatabaseSourceAuthenticationConfiguration?: DatabaseSourceAuthenticationConfiguration;
-  DatabaseSourceVPCConfiguration?: DatabaseSourceVPCConfiguration;
+  Type?: DatabaseType | undefined;
+  Endpoint?: string | undefined;
+  Port?: number | undefined;
+  SSLMode?: SSLMode | undefined;
+  Databases?: DatabaseList | undefined;
+  Tables?: DatabaseTableList | undefined;
+  Columns?: DatabaseColumnList | undefined;
+  SurrogateKeys?: string[] | undefined;
+  SnapshotWatermarkTable?: string | undefined;
+  SnapshotInfo?: DatabaseSnapshotInfo[] | undefined;
+  DatabaseSourceAuthenticationConfiguration?: DatabaseSourceAuthenticationConfiguration | undefined;
+  DatabaseSourceVPCConfiguration?: DatabaseSourceVPCConfiguration | undefined;
 }
 export interface SourceDescription {
-  DirectPutSourceDescription?: DirectPutSourceDescription;
-  KinesisStreamSourceDescription?: KinesisStreamSourceDescription;
-  MSKSourceDescription?: MSKSourceDescription;
-  DatabaseSourceDescription?: DatabaseSourceDescription;
+  DirectPutSourceDescription?: DirectPutSourceDescription | undefined;
+  KinesisStreamSourceDescription?: KinesisStreamSourceDescription | undefined;
+  MSKSourceDescription?: MSKSourceDescription | undefined;
+  DatabaseSourceDescription?: DatabaseSourceDescription | undefined;
 }
 export interface S3DestinationDescription {
   RoleARN: string;
   BucketARN: string;
-  Prefix?: string;
-  ErrorOutputPrefix?: string;
+  Prefix?: string | undefined;
+  ErrorOutputPrefix?: string | undefined;
   BufferingHints: BufferingHints;
   CompressionFormat: CompressionFormat;
   EncryptionConfiguration: EncryptionConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
 }
 export interface ExtendedS3DestinationDescription {
   RoleARN: string;
   BucketARN: string;
-  Prefix?: string;
-  ErrorOutputPrefix?: string;
+  Prefix?: string | undefined;
+  ErrorOutputPrefix?: string | undefined;
   BufferingHints: BufferingHints;
   CompressionFormat: CompressionFormat;
   EncryptionConfiguration: EncryptionConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: S3BackupMode;
-  S3BackupDescription?: S3DestinationDescription;
-  DataFormatConversionConfiguration?: DataFormatConversionConfiguration;
-  DynamicPartitioningConfiguration?: DynamicPartitioningConfiguration;
-  FileExtension?: string;
-  CustomTimeZone?: string;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: S3BackupMode | undefined;
+  S3BackupDescription?: S3DestinationDescription | undefined;
+  DataFormatConversionConfiguration?: DataFormatConversionConfiguration | undefined;
+  DynamicPartitioningConfiguration?: DynamicPartitioningConfiguration | undefined;
+  FileExtension?: string | undefined;
+  CustomTimeZone?: string | undefined;
 }
 export interface RedshiftDestinationDescription {
   RoleARN: string;
   ClusterJDBCURL: string;
   CopyCommand: CopyCommand;
-  Username?: string | redacted.Redacted<string>;
-  RetryOptions?: RedshiftRetryOptions;
+  Username?: string | redacted.Redacted<string> | undefined;
+  RetryOptions?: RedshiftRetryOptions | undefined;
   S3DestinationDescription: S3DestinationDescription;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: RedshiftS3BackupMode;
-  S3BackupDescription?: S3DestinationDescription;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: RedshiftS3BackupMode | undefined;
+  S3BackupDescription?: S3DestinationDescription | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export interface VpcConfigurationDescription {
   SubnetIds: string[];
@@ -896,137 +903,141 @@ export interface VpcConfigurationDescription {
   VpcId: string;
 }
 export interface ElasticsearchDestinationDescription {
-  RoleARN?: string;
-  DomainARN?: string;
-  ClusterEndpoint?: string;
-  IndexName?: string;
-  TypeName?: string;
-  IndexRotationPeriod?: ElasticsearchIndexRotationPeriod;
-  BufferingHints?: ElasticsearchBufferingHints;
-  RetryOptions?: ElasticsearchRetryOptions;
-  S3BackupMode?: ElasticsearchS3BackupMode;
-  S3DestinationDescription?: S3DestinationDescription;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  VpcConfigurationDescription?: VpcConfigurationDescription;
-  DocumentIdOptions?: DocumentIdOptions;
+  RoleARN?: string | undefined;
+  DomainARN?: string | undefined;
+  ClusterEndpoint?: string | undefined;
+  IndexName?: string | undefined;
+  TypeName?: string | undefined;
+  IndexRotationPeriod?: ElasticsearchIndexRotationPeriod | undefined;
+  BufferingHints?: ElasticsearchBufferingHints | undefined;
+  RetryOptions?: ElasticsearchRetryOptions | undefined;
+  S3BackupMode?: ElasticsearchS3BackupMode | undefined;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  VpcConfigurationDescription?: VpcConfigurationDescription | undefined;
+  DocumentIdOptions?: DocumentIdOptions | undefined;
 }
 export interface AmazonopensearchserviceDestinationDescription {
-  RoleARN?: string;
-  DomainARN?: string;
-  ClusterEndpoint?: string;
-  IndexName?: string;
-  TypeName?: string;
-  IndexRotationPeriod?: AmazonopensearchserviceIndexRotationPeriod;
-  BufferingHints?: AmazonopensearchserviceBufferingHints;
-  RetryOptions?: AmazonopensearchserviceRetryOptions;
-  S3BackupMode?: AmazonopensearchserviceS3BackupMode;
-  S3DestinationDescription?: S3DestinationDescription;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  VpcConfigurationDescription?: VpcConfigurationDescription;
-  DocumentIdOptions?: DocumentIdOptions;
+  RoleARN?: string | undefined;
+  DomainARN?: string | undefined;
+  ClusterEndpoint?: string | undefined;
+  IndexName?: string | undefined;
+  TypeName?: string | undefined;
+  IndexRotationPeriod?: AmazonopensearchserviceIndexRotationPeriod | undefined;
+  BufferingHints?: AmazonopensearchserviceBufferingHints | undefined;
+  RetryOptions?: AmazonopensearchserviceRetryOptions | undefined;
+  S3BackupMode?: AmazonopensearchserviceS3BackupMode | undefined;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  VpcConfigurationDescription?: VpcConfigurationDescription | undefined;
+  DocumentIdOptions?: DocumentIdOptions | undefined;
 }
 export interface SplunkDestinationDescription {
-  HECEndpoint?: string;
-  HECEndpointType?: HECEndpointType;
-  HECToken?: string | redacted.Redacted<string>;
-  HECAcknowledgmentTimeoutInSeconds?: number;
-  RetryOptions?: SplunkRetryOptions;
-  S3BackupMode?: SplunkS3BackupMode;
-  S3DestinationDescription?: S3DestinationDescription;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  BufferingHints?: SplunkBufferingHints;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  HECEndpoint?: string | undefined;
+  HECEndpointType?: HECEndpointType | undefined;
+  HECToken?: string | redacted.Redacted<string> | undefined;
+  HECAcknowledgmentTimeoutInSeconds?: number | undefined;
+  RetryOptions?: SplunkRetryOptions | undefined;
+  S3BackupMode?: SplunkS3BackupMode | undefined;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  BufferingHints?: SplunkBufferingHints | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export interface HttpEndpointDescription {
-  Url?: string | redacted.Redacted<string>;
-  Name?: string;
+  Url?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
 }
 export interface HttpEndpointDestinationDescription {
-  EndpointConfiguration?: HttpEndpointDescription;
-  BufferingHints?: HttpEndpointBufferingHints;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  RequestConfiguration?: HttpEndpointRequestConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  RoleARN?: string;
-  RetryOptions?: HttpEndpointRetryOptions;
-  S3BackupMode?: HttpEndpointS3BackupMode;
-  S3DestinationDescription?: S3DestinationDescription;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  EndpointConfiguration?: HttpEndpointDescription | undefined;
+  BufferingHints?: HttpEndpointBufferingHints | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  RequestConfiguration?: HttpEndpointRequestConfiguration | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  RoleARN?: string | undefined;
+  RetryOptions?: HttpEndpointRetryOptions | undefined;
+  S3BackupMode?: HttpEndpointS3BackupMode | undefined;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export interface SnowflakeDestinationDescription {
-  AccountUrl?: string | redacted.Redacted<string>;
-  User?: string | redacted.Redacted<string>;
-  Database?: string | redacted.Redacted<string>;
-  Schema?: string | redacted.Redacted<string>;
-  Table?: string | redacted.Redacted<string>;
-  SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration;
-  DataLoadingOption?: SnowflakeDataLoadingOption;
-  MetaDataColumnName?: string | redacted.Redacted<string>;
-  ContentColumnName?: string | redacted.Redacted<string>;
-  SnowflakeVpcConfiguration?: SnowflakeVpcConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  RoleARN?: string;
-  RetryOptions?: SnowflakeRetryOptions;
-  S3BackupMode?: SnowflakeS3BackupMode;
-  S3DestinationDescription?: S3DestinationDescription;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
-  BufferingHints?: SnowflakeBufferingHints;
+  AccountUrl?: string | redacted.Redacted<string> | undefined;
+  User?: string | redacted.Redacted<string> | undefined;
+  Database?: string | redacted.Redacted<string> | undefined;
+  Schema?: string | redacted.Redacted<string> | undefined;
+  Table?: string | redacted.Redacted<string> | undefined;
+  SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration | undefined;
+  DataLoadingOption?: SnowflakeDataLoadingOption | undefined;
+  MetaDataColumnName?: string | redacted.Redacted<string> | undefined;
+  ContentColumnName?: string | redacted.Redacted<string> | undefined;
+  SnowflakeVpcConfiguration?: SnowflakeVpcConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  RoleARN?: string | undefined;
+  RetryOptions?: SnowflakeRetryOptions | undefined;
+  S3BackupMode?: SnowflakeS3BackupMode | undefined;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
+  BufferingHints?: SnowflakeBufferingHints | undefined;
 }
 export interface AmazonOpenSearchServerlessDestinationDescription {
-  RoleARN?: string;
-  CollectionEndpoint?: string;
-  IndexName?: string;
-  BufferingHints?: AmazonOpenSearchServerlessBufferingHints;
-  RetryOptions?: AmazonOpenSearchServerlessRetryOptions;
-  S3BackupMode?: AmazonOpenSearchServerlessS3BackupMode;
-  S3DestinationDescription?: S3DestinationDescription;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  VpcConfigurationDescription?: VpcConfigurationDescription;
+  RoleARN?: string | undefined;
+  CollectionEndpoint?: string | undefined;
+  IndexName?: string | undefined;
+  BufferingHints?: AmazonOpenSearchServerlessBufferingHints | undefined;
+  RetryOptions?: AmazonOpenSearchServerlessRetryOptions | undefined;
+  S3BackupMode?: AmazonOpenSearchServerlessS3BackupMode | undefined;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  VpcConfigurationDescription?: VpcConfigurationDescription | undefined;
 }
 export interface IcebergDestinationDescription {
-  DestinationTableConfigurationList?: DestinationTableConfiguration[];
-  SchemaEvolutionConfiguration?: SchemaEvolutionConfiguration;
-  TableCreationConfiguration?: TableCreationConfiguration;
-  BufferingHints?: BufferingHints;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: IcebergS3BackupMode;
-  RetryOptions?: RetryOptions;
-  RoleARN?: string;
-  AppendOnly?: boolean;
-  CatalogConfiguration?: CatalogConfiguration;
-  S3DestinationDescription?: S3DestinationDescription;
+  DestinationTableConfigurationList?: DestinationTableConfiguration[] | undefined;
+  SchemaEvolutionConfiguration?: SchemaEvolutionConfiguration | undefined;
+  TableCreationConfiguration?: TableCreationConfiguration | undefined;
+  BufferingHints?: BufferingHints | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: IcebergS3BackupMode | undefined;
+  RetryOptions?: RetryOptions | undefined;
+  RoleARN?: string | undefined;
+  AppendOnly?: boolean | undefined;
+  CatalogConfiguration?: CatalogConfiguration | undefined;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
 }
 export interface DestinationDescription {
   DestinationId: string;
-  S3DestinationDescription?: S3DestinationDescription;
-  ExtendedS3DestinationDescription?: ExtendedS3DestinationDescription;
-  RedshiftDestinationDescription?: RedshiftDestinationDescription;
-  ElasticsearchDestinationDescription?: ElasticsearchDestinationDescription;
-  AmazonopensearchserviceDestinationDescription?: AmazonopensearchserviceDestinationDescription;
-  SplunkDestinationDescription?: SplunkDestinationDescription;
-  HttpEndpointDestinationDescription?: HttpEndpointDestinationDescription;
-  SnowflakeDestinationDescription?: SnowflakeDestinationDescription;
-  AmazonOpenSearchServerlessDestinationDescription?: AmazonOpenSearchServerlessDestinationDescription;
-  IcebergDestinationDescription?: IcebergDestinationDescription;
+  S3DestinationDescription?: S3DestinationDescription | undefined;
+  ExtendedS3DestinationDescription?: ExtendedS3DestinationDescription | undefined;
+  RedshiftDestinationDescription?: RedshiftDestinationDescription | undefined;
+  ElasticsearchDestinationDescription?: ElasticsearchDestinationDescription | undefined;
+  AmazonopensearchserviceDestinationDescription?:
+    | AmazonopensearchserviceDestinationDescription
+    | undefined;
+  SplunkDestinationDescription?: SplunkDestinationDescription | undefined;
+  HttpEndpointDestinationDescription?: HttpEndpointDestinationDescription | undefined;
+  SnowflakeDestinationDescription?: SnowflakeDestinationDescription | undefined;
+  AmazonOpenSearchServerlessDestinationDescription?:
+    | AmazonOpenSearchServerlessDestinationDescription
+    | undefined;
+  IcebergDestinationDescription?: IcebergDestinationDescription | undefined;
 }
 export type DestinationDescriptionList = DestinationDescription[];
 export interface DeliveryStreamDescription {
   DeliveryStreamName: string;
   DeliveryStreamARN: string;
   DeliveryStreamStatus: DeliveryStreamStatus;
-  FailureDescription?: FailureDescription;
-  DeliveryStreamEncryptionConfiguration?: DeliveryStreamEncryptionConfiguration;
+  FailureDescription?: FailureDescription | undefined;
+  DeliveryStreamEncryptionConfiguration?: DeliveryStreamEncryptionConfiguration | undefined;
   DeliveryStreamType: DeliveryStreamType;
   VersionId: string;
-  CreateTimestamp?: Date;
-  LastUpdateTimestamp?: Date;
-  Source?: SourceDescription;
+  CreateTimestamp?: Date | undefined;
+  LastUpdateTimestamp?: Date | undefined;
+  Source?: SourceDescription | undefined;
   Destinations: DestinationDescription[];
   HasMoreDestinations: boolean;
 }
@@ -1035,9 +1046,9 @@ export interface DescribeDeliveryStreamOutput {
 }
 export type ListDeliveryStreamsInputLimit = number;
 export interface ListDeliveryStreamsInput {
-  Limit?: number;
-  DeliveryStreamType?: DeliveryStreamType;
-  ExclusiveStartDeliveryStreamName?: string;
+  Limit?: number | undefined;
+  DeliveryStreamType?: DeliveryStreamType | undefined;
+  ExclusiveStartDeliveryStreamName?: string | undefined;
 }
 export type DeliveryStreamNameList = string[];
 export interface ListDeliveryStreamsOutput {
@@ -1047,8 +1058,8 @@ export interface ListDeliveryStreamsOutput {
 export type ListTagsForDeliveryStreamInputLimit = number;
 export interface ListTagsForDeliveryStreamInput {
   DeliveryStreamName: string;
-  ExclusiveStartTagKey?: string;
-  Limit?: number;
+  ExclusiveStartTagKey?: string | undefined;
+  Limit?: number | undefined;
 }
 export type ListTagsForDeliveryStreamOutputTagList = Tag[];
 export interface ListTagsForDeliveryStreamOutput {
@@ -1066,7 +1077,7 @@ export interface PutRecordInput {
 export type PutResponseRecordId = string;
 export interface PutRecordOutput {
   RecordId: string;
-  Encrypted?: boolean;
+  Encrypted?: boolean | undefined;
 }
 export type PutRecordBatchRequestEntryList = Record[];
 export interface PutRecordBatchInput {
@@ -1076,19 +1087,21 @@ export interface PutRecordBatchInput {
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface PutRecordBatchResponseEntry {
-  RecordId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  RecordId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PutRecordBatchResponseEntryList = PutRecordBatchResponseEntry[];
 export interface PutRecordBatchOutput {
   FailedPutCount: number;
-  Encrypted?: boolean;
+  Encrypted?: boolean | undefined;
   RequestResponses: PutRecordBatchResponseEntry[];
 }
 export interface StartDeliveryStreamEncryptionInput {
   DeliveryStreamName: string;
-  DeliveryStreamEncryptionConfigurationInput?: DeliveryStreamEncryptionConfigurationInput;
+  DeliveryStreamEncryptionConfigurationInput?:
+    | DeliveryStreamEncryptionConfigurationInput
+    | undefined;
 }
 export interface StartDeliveryStreamEncryptionOutput {}
 export interface StopDeliveryStreamEncryptionInput {
@@ -1107,158 +1120,160 @@ export interface UntagDeliveryStreamInput {
 }
 export interface UntagDeliveryStreamOutput {}
 export interface S3DestinationUpdate {
-  RoleARN?: string;
-  BucketARN?: string;
-  Prefix?: string;
-  ErrorOutputPrefix?: string;
-  BufferingHints?: BufferingHints;
-  CompressionFormat?: CompressionFormat;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
+  RoleARN?: string | undefined;
+  BucketARN?: string | undefined;
+  Prefix?: string | undefined;
+  ErrorOutputPrefix?: string | undefined;
+  BufferingHints?: BufferingHints | undefined;
+  CompressionFormat?: CompressionFormat | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
 }
 export interface ExtendedS3DestinationUpdate {
-  RoleARN?: string;
-  BucketARN?: string;
-  Prefix?: string;
-  ErrorOutputPrefix?: string;
-  BufferingHints?: BufferingHints;
-  CompressionFormat?: CompressionFormat;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: S3BackupMode;
-  S3BackupUpdate?: S3DestinationUpdate;
-  DataFormatConversionConfiguration?: DataFormatConversionConfiguration;
-  DynamicPartitioningConfiguration?: DynamicPartitioningConfiguration;
-  FileExtension?: string;
-  CustomTimeZone?: string;
+  RoleARN?: string | undefined;
+  BucketARN?: string | undefined;
+  Prefix?: string | undefined;
+  ErrorOutputPrefix?: string | undefined;
+  BufferingHints?: BufferingHints | undefined;
+  CompressionFormat?: CompressionFormat | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: S3BackupMode | undefined;
+  S3BackupUpdate?: S3DestinationUpdate | undefined;
+  DataFormatConversionConfiguration?: DataFormatConversionConfiguration | undefined;
+  DynamicPartitioningConfiguration?: DynamicPartitioningConfiguration | undefined;
+  FileExtension?: string | undefined;
+  CustomTimeZone?: string | undefined;
 }
 export interface RedshiftDestinationUpdate {
-  RoleARN?: string;
-  ClusterJDBCURL?: string;
-  CopyCommand?: CopyCommand;
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  RetryOptions?: RedshiftRetryOptions;
-  S3Update?: S3DestinationUpdate;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: RedshiftS3BackupMode;
-  S3BackupUpdate?: S3DestinationUpdate;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  RoleARN?: string | undefined;
+  ClusterJDBCURL?: string | undefined;
+  CopyCommand?: CopyCommand | undefined;
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  RetryOptions?: RedshiftRetryOptions | undefined;
+  S3Update?: S3DestinationUpdate | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: RedshiftS3BackupMode | undefined;
+  S3BackupUpdate?: S3DestinationUpdate | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export interface ElasticsearchDestinationUpdate {
-  RoleARN?: string;
-  DomainARN?: string;
-  ClusterEndpoint?: string;
-  IndexName?: string;
-  TypeName?: string;
-  IndexRotationPeriod?: ElasticsearchIndexRotationPeriod;
-  BufferingHints?: ElasticsearchBufferingHints;
-  RetryOptions?: ElasticsearchRetryOptions;
-  S3Update?: S3DestinationUpdate;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  DocumentIdOptions?: DocumentIdOptions;
+  RoleARN?: string | undefined;
+  DomainARN?: string | undefined;
+  ClusterEndpoint?: string | undefined;
+  IndexName?: string | undefined;
+  TypeName?: string | undefined;
+  IndexRotationPeriod?: ElasticsearchIndexRotationPeriod | undefined;
+  BufferingHints?: ElasticsearchBufferingHints | undefined;
+  RetryOptions?: ElasticsearchRetryOptions | undefined;
+  S3Update?: S3DestinationUpdate | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  DocumentIdOptions?: DocumentIdOptions | undefined;
 }
 export interface AmazonopensearchserviceDestinationUpdate {
-  RoleARN?: string;
-  DomainARN?: string;
-  ClusterEndpoint?: string;
-  IndexName?: string;
-  TypeName?: string;
-  IndexRotationPeriod?: AmazonopensearchserviceIndexRotationPeriod;
-  BufferingHints?: AmazonopensearchserviceBufferingHints;
-  RetryOptions?: AmazonopensearchserviceRetryOptions;
-  S3Update?: S3DestinationUpdate;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  DocumentIdOptions?: DocumentIdOptions;
+  RoleARN?: string | undefined;
+  DomainARN?: string | undefined;
+  ClusterEndpoint?: string | undefined;
+  IndexName?: string | undefined;
+  TypeName?: string | undefined;
+  IndexRotationPeriod?: AmazonopensearchserviceIndexRotationPeriod | undefined;
+  BufferingHints?: AmazonopensearchserviceBufferingHints | undefined;
+  RetryOptions?: AmazonopensearchserviceRetryOptions | undefined;
+  S3Update?: S3DestinationUpdate | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  DocumentIdOptions?: DocumentIdOptions | undefined;
 }
 export interface SplunkDestinationUpdate {
-  HECEndpoint?: string;
-  HECEndpointType?: HECEndpointType;
-  HECToken?: string | redacted.Redacted<string>;
-  HECAcknowledgmentTimeoutInSeconds?: number;
-  RetryOptions?: SplunkRetryOptions;
-  S3BackupMode?: SplunkS3BackupMode;
-  S3Update?: S3DestinationUpdate;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  BufferingHints?: SplunkBufferingHints;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  HECEndpoint?: string | undefined;
+  HECEndpointType?: HECEndpointType | undefined;
+  HECToken?: string | redacted.Redacted<string> | undefined;
+  HECAcknowledgmentTimeoutInSeconds?: number | undefined;
+  RetryOptions?: SplunkRetryOptions | undefined;
+  S3BackupMode?: SplunkS3BackupMode | undefined;
+  S3Update?: S3DestinationUpdate | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  BufferingHints?: SplunkBufferingHints | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export interface HttpEndpointDestinationUpdate {
-  EndpointConfiguration?: HttpEndpointConfiguration;
-  BufferingHints?: HttpEndpointBufferingHints;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  RequestConfiguration?: HttpEndpointRequestConfiguration;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  RoleARN?: string;
-  RetryOptions?: HttpEndpointRetryOptions;
-  S3BackupMode?: HttpEndpointS3BackupMode;
-  S3Update?: S3DestinationUpdate;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
+  EndpointConfiguration?: HttpEndpointConfiguration | undefined;
+  BufferingHints?: HttpEndpointBufferingHints | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  RequestConfiguration?: HttpEndpointRequestConfiguration | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  RoleARN?: string | undefined;
+  RetryOptions?: HttpEndpointRetryOptions | undefined;
+  S3BackupMode?: HttpEndpointS3BackupMode | undefined;
+  S3Update?: S3DestinationUpdate | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
 }
 export interface AmazonOpenSearchServerlessDestinationUpdate {
-  RoleARN?: string;
-  CollectionEndpoint?: string;
-  IndexName?: string;
-  BufferingHints?: AmazonOpenSearchServerlessBufferingHints;
-  RetryOptions?: AmazonOpenSearchServerlessRetryOptions;
-  S3Update?: S3DestinationUpdate;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
+  RoleARN?: string | undefined;
+  CollectionEndpoint?: string | undefined;
+  IndexName?: string | undefined;
+  BufferingHints?: AmazonOpenSearchServerlessBufferingHints | undefined;
+  RetryOptions?: AmazonOpenSearchServerlessRetryOptions | undefined;
+  S3Update?: S3DestinationUpdate | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
 }
 export interface SnowflakeDestinationUpdate {
-  AccountUrl?: string | redacted.Redacted<string>;
-  PrivateKey?: string | redacted.Redacted<string>;
-  KeyPassphrase?: string | redacted.Redacted<string>;
-  User?: string | redacted.Redacted<string>;
-  Database?: string | redacted.Redacted<string>;
-  Schema?: string | redacted.Redacted<string>;
-  Table?: string | redacted.Redacted<string>;
-  SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration;
-  DataLoadingOption?: SnowflakeDataLoadingOption;
-  MetaDataColumnName?: string | redacted.Redacted<string>;
-  ContentColumnName?: string | redacted.Redacted<string>;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  RoleARN?: string;
-  RetryOptions?: SnowflakeRetryOptions;
-  S3BackupMode?: SnowflakeS3BackupMode;
-  S3Update?: S3DestinationUpdate;
-  SecretsManagerConfiguration?: SecretsManagerConfiguration;
-  BufferingHints?: SnowflakeBufferingHints;
+  AccountUrl?: string | redacted.Redacted<string> | undefined;
+  PrivateKey?: string | redacted.Redacted<string> | undefined;
+  KeyPassphrase?: string | redacted.Redacted<string> | undefined;
+  User?: string | redacted.Redacted<string> | undefined;
+  Database?: string | redacted.Redacted<string> | undefined;
+  Schema?: string | redacted.Redacted<string> | undefined;
+  Table?: string | redacted.Redacted<string> | undefined;
+  SnowflakeRoleConfiguration?: SnowflakeRoleConfiguration | undefined;
+  DataLoadingOption?: SnowflakeDataLoadingOption | undefined;
+  MetaDataColumnName?: string | redacted.Redacted<string> | undefined;
+  ContentColumnName?: string | redacted.Redacted<string> | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  RoleARN?: string | undefined;
+  RetryOptions?: SnowflakeRetryOptions | undefined;
+  S3BackupMode?: SnowflakeS3BackupMode | undefined;
+  S3Update?: S3DestinationUpdate | undefined;
+  SecretsManagerConfiguration?: SecretsManagerConfiguration | undefined;
+  BufferingHints?: SnowflakeBufferingHints | undefined;
 }
 export interface IcebergDestinationUpdate {
-  DestinationTableConfigurationList?: DestinationTableConfiguration[];
-  SchemaEvolutionConfiguration?: SchemaEvolutionConfiguration;
-  TableCreationConfiguration?: TableCreationConfiguration;
-  BufferingHints?: BufferingHints;
-  CloudWatchLoggingOptions?: CloudWatchLoggingOptions;
-  ProcessingConfiguration?: ProcessingConfiguration;
-  S3BackupMode?: IcebergS3BackupMode;
-  RetryOptions?: RetryOptions;
-  RoleARN?: string;
-  AppendOnly?: boolean;
-  CatalogConfiguration?: CatalogConfiguration;
-  S3Configuration?: S3DestinationConfiguration;
+  DestinationTableConfigurationList?: DestinationTableConfiguration[] | undefined;
+  SchemaEvolutionConfiguration?: SchemaEvolutionConfiguration | undefined;
+  TableCreationConfiguration?: TableCreationConfiguration | undefined;
+  BufferingHints?: BufferingHints | undefined;
+  CloudWatchLoggingOptions?: CloudWatchLoggingOptions | undefined;
+  ProcessingConfiguration?: ProcessingConfiguration | undefined;
+  S3BackupMode?: IcebergS3BackupMode | undefined;
+  RetryOptions?: RetryOptions | undefined;
+  RoleARN?: string | undefined;
+  AppendOnly?: boolean | undefined;
+  CatalogConfiguration?: CatalogConfiguration | undefined;
+  S3Configuration?: S3DestinationConfiguration | undefined;
 }
 export interface UpdateDestinationInput {
   DeliveryStreamName: string;
   CurrentDeliveryStreamVersionId: string;
   DestinationId: string;
-  S3DestinationUpdate?: S3DestinationUpdate;
-  ExtendedS3DestinationUpdate?: ExtendedS3DestinationUpdate;
-  RedshiftDestinationUpdate?: RedshiftDestinationUpdate;
-  ElasticsearchDestinationUpdate?: ElasticsearchDestinationUpdate;
-  AmazonopensearchserviceDestinationUpdate?: AmazonopensearchserviceDestinationUpdate;
-  SplunkDestinationUpdate?: SplunkDestinationUpdate;
-  HttpEndpointDestinationUpdate?: HttpEndpointDestinationUpdate;
-  AmazonOpenSearchServerlessDestinationUpdate?: AmazonOpenSearchServerlessDestinationUpdate;
-  SnowflakeDestinationUpdate?: SnowflakeDestinationUpdate;
-  IcebergDestinationUpdate?: IcebergDestinationUpdate;
+  S3DestinationUpdate?: S3DestinationUpdate | undefined;
+  ExtendedS3DestinationUpdate?: ExtendedS3DestinationUpdate | undefined;
+  RedshiftDestinationUpdate?: RedshiftDestinationUpdate | undefined;
+  ElasticsearchDestinationUpdate?: ElasticsearchDestinationUpdate | undefined;
+  AmazonopensearchserviceDestinationUpdate?: AmazonopensearchserviceDestinationUpdate | undefined;
+  SplunkDestinationUpdate?: SplunkDestinationUpdate | undefined;
+  HttpEndpointDestinationUpdate?: HttpEndpointDestinationUpdate | undefined;
+  AmazonOpenSearchServerlessDestinationUpdate?:
+    | AmazonOpenSearchServerlessDestinationUpdate
+    | undefined;
+  SnowflakeDestinationUpdate?: SnowflakeDestinationUpdate | undefined;
+  IcebergDestinationUpdate?: IcebergDestinationUpdate | undefined;
 }
 export interface UpdateDestinationOutput {}
 export type CreateDeliveryStreamError =
@@ -1341,7 +1356,7 @@ export type CreateDeliveryStreamError =
  * information, see Grant Firehose Access to an Amazon S3 Destination in the *Amazon Firehose Developer Guide*.
  */
 export const createDeliveryStream: API.OperationMethod<
-  CreateDeliveryStreamInput,
+  CreateDeliveryStreamInput & RegionInput,
   CreateDeliveryStreamOutput,
   CreateDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1384,7 +1399,7 @@ export type DeleteDeliveryStreamError =
  * to be removed.
  */
 export const deleteDeliveryStream: API.OperationMethod<
-  DeleteDeliveryStreamInput,
+  DeleteDeliveryStreamInput & RegionInput,
   DeleteDeliveryStreamOutput,
   DeleteDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1411,7 +1426,7 @@ export type DescribeDeliveryStreamError = ResourceNotFoundException | CommonErro
  * If the status is `DELETING_FAILED`, you can force deletion by invoking DeleteDeliveryStream again but with DeleteDeliveryStreamInput$AllowForceDelete set to true.
  */
 export const describeDeliveryStream: API.OperationMethod<
-  DescribeDeliveryStreamInput,
+  DescribeDeliveryStreamInput & RegionInput,
   DescribeDeliveryStreamOutput,
   DescribeDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1439,7 +1454,7 @@ export type ListDeliveryStreamsError = CommonErrors;
  * of the last Firehose stream returned in the last call.
  */
 export const listDeliveryStreams: API.OperationMethod<
-  ListDeliveryStreamsInput,
+  ListDeliveryStreamsInput & RegionInput,
   ListDeliveryStreamsOutput,
   ListDeliveryStreamsError,
   Credentials | HttpClient.HttpClient
@@ -1464,7 +1479,7 @@ export type ListTagsForDeliveryStreamError =
  * transactions per second per account.
  */
 export const listTagsForDeliveryStream: API.OperationMethod<
-  ListTagsForDeliveryStreamInput,
+  ListTagsForDeliveryStreamInput & RegionInput,
   ListTagsForDeliveryStreamOutput,
   ListTagsForDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1538,7 +1553,7 @@ export type PutRecordError =
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
 export const putRecord: API.OperationMethod<
-  PutRecordInput,
+  PutRecordInput & RegionInput,
   PutRecordOutput,
   PutRecordError,
   Credentials | HttpClient.HttpClient
@@ -1639,7 +1654,7 @@ export type PutRecordBatchError =
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
 export const putRecordBatch: API.OperationMethod<
-  PutRecordBatchInput,
+  PutRecordBatchInput & RegionInput,
   PutRecordBatchOutput,
   PutRecordBatchError,
   Credentials | HttpClient.HttpClient
@@ -1716,7 +1731,7 @@ export type StartDeliveryStreamEncryptionError =
  * 24-hour period.
  */
 export const startDeliveryStreamEncryption: API.OperationMethod<
-  StartDeliveryStreamEncryptionInput,
+  StartDeliveryStreamEncryptionInput & RegionInput,
   StartDeliveryStreamEncryptionOutput,
   StartDeliveryStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1769,7 +1784,7 @@ export type StopDeliveryStreamEncryptionError =
  * 24-hour period.
  */
 export const stopDeliveryStreamEncryption: API.OperationMethod<
-  StopDeliveryStreamEncryptionInput,
+  StopDeliveryStreamEncryptionInput & RegionInput,
   StopDeliveryStreamEncryptionOutput,
   StopDeliveryStreamEncryptionError,
   Credentials | HttpClient.HttpClient
@@ -1810,7 +1825,7 @@ export type TagDeliveryStreamError =
  * This operation has a limit of five transactions per second per account.
  */
 export const tagDeliveryStream: API.OperationMethod<
-  TagDeliveryStreamInput,
+  TagDeliveryStreamInput & RegionInput,
   TagDeliveryStreamOutput,
   TagDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1845,7 +1860,7 @@ export type UntagDeliveryStreamError =
  * This operation has a limit of five transactions per second per account.
  */
 export const untagDeliveryStream: API.OperationMethod<
-  UntagDeliveryStreamInput,
+  UntagDeliveryStreamInput & RegionInput,
   UntagDeliveryStreamOutput,
   UntagDeliveryStreamError,
   Credentials | HttpClient.HttpClient
@@ -1902,7 +1917,7 @@ export type UpdateDestinationError =
  * `CurrentDeliveryStreamVersionId` in the next call.
  */
 export const updateDestination: API.OperationMethod<
-  UpdateDestinationInput,
+  UpdateDestinationInput & RegionInput,
   UpdateDestinationOutput,
   UpdateDestinationError,
   Credentials | HttpClient.HttpClient

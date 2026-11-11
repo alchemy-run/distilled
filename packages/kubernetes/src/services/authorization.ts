@@ -60,19 +60,19 @@ export type IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap = {
 /** ManagedFieldsEntry is a workflow-id, a FieldSet and the group version of the resource that the fieldset applies to. */
 export interface IoK8sApimachineryPkgApisMetaV1ManagedFieldsEntry {
   /** APIVersion defines the version of this resource that this field set applies to. The format is "group/version" just like the top-level APIVersion field. It is necessary to track the version of a field set because it cannot be automatically converted. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** FieldsType is the discriminator for the different fields format and version. There is currently only one possible value: "FieldsV1" */
-  fieldsType?: string;
+  fieldsType?: string | undefined;
   /** FieldsV1 holds the first JSON version format as described in the "FieldsV1" type. */
-  fieldsV1?: unknown;
+  fieldsV1?: unknown | undefined;
   /** Manager is an identifier of the workflow managing these fields. */
-  manager?: string;
+  manager?: string | undefined;
   /** Operation is the type of operation which lead to this ManagedFieldsEntry being created. The only valid values for this field are 'Apply' and 'Update'. */
-  operation?: string;
+  operation?: string | undefined;
   /** Subresource is the name of the subresource used to update that object, or empty string if the object was updated through the main resource. The value of this field is used to distinguish between managers, even if they share the same name. For example, a status update will be distinct from a regular update using the same manager name. Note that the APIVersion field is not related to the Subresource field and it always corresponds to the version of the main resource. */
-  subresource?: string;
+  subresource?: string | undefined;
   /** Time is the timestamp of when the ManagedFields entry was added. The timestamp will also be updated if a field is added, the manager changes any of the owned fields value or removes a field. The timestamp does not update when a field is removed from the entry because another manager took it over. */
-  time?: string;
+  time?: string | undefined;
 }
 /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. */
 export type IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList =
@@ -82,9 +82,9 @@ export interface IoK8sApimachineryPkgApisMetaV1OwnerReference {
   /** API version of the referent. */
   apiVersion: string;
   /** If true, AND if the owner has the "foregroundDeletion" finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and enforces the foreground deletion. Defaults to false. To set this field, a user needs "delete" permission of the owner, otherwise 422 (Unprocessable Entity) will be returned. */
-  blockOwnerDeletion?: boolean;
+  blockOwnerDeletion?: boolean | undefined;
   /** If true, this reference points to the managing controller. */
-  controller?: boolean;
+  controller?: boolean | undefined;
   /** Kind of the referent. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
   kind: string;
   /** Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names */
@@ -98,35 +98,42 @@ export type IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList =
 /** ObjectMeta is metadata that all persisted resources must have, which includes all objects users must create. */
 export interface IoK8sApimachineryPkgApisMetaV1ObjectMeta {
   /** Annotations is an unstructured key value map stored with a resource that may be set by external tools to store and retrieve arbitrary metadata. They are not queryable and should be preserved when modifying objects. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations */
-  annotations?: IoK8sApimachineryPkgApisMetaV1ObjectMetaAnnotationsMap;
+  annotations?: IoK8sApimachineryPkgApisMetaV1ObjectMetaAnnotationsMap | undefined;
   /** CreationTimestamp is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  creationTimestamp?: string;
+  creationTimestamp?: string | undefined;
   /** Number of seconds allowed for this object to gracefully terminate before it will be removed from the system. Only set when deletionTimestamp is also set. May only be shortened. Read-only. */
-  deletionGracePeriodSeconds?: number;
+  deletionGracePeriodSeconds?: number | undefined;
   /** DeletionTimestamp is RFC 3339 date and time at which this resource will be deleted. This field is set by the server when a graceful deletion is requested by the user, and is not directly settable by a client. The resource is expected to be deleted (no longer visible from resource lists, and not reachable by name) after the time in this field, once the finalizers list is empty. As long as the finalizers list contains items, deletion is blocked. Once the deletionTimestamp is set, this value may not be unset or be set further into the future, although it may be shortened or the resource may be deleted prior to this time. For example, a user may request that a pod is deleted in 30 seconds. The Kubelet will react by sending a graceful termination signal to the containers in the pod. After that 30 seconds, the Kubelet will send a hard termination signal (SIGKILL) to the container and after cleanup, remove the pod from the API. In the presence of network partitions, this object may still exist after this timestamp, until an administrator or automated process can determine the resource is fully terminated. If not set, graceful deletion of the object has not been requested. Populated by the system when a graceful deletion is requested. Read-only. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  deletionTimestamp?: string;
+  deletionTimestamp?: string | undefined;
   /** Must be empty before the object is deleted from the registry. Each entry is an identifier for the responsible component that will remove the entry from the list. If the deletionTimestamp of the object is non-nil, entries in this list can only be removed. Finalizers may be processed and removed in any order. Order is NOT enforced because it introduces significant risk of stuck finalizers. finalizers is a shared field, any actor with permission can reorder it. If the finalizer list is processed in order, then this can lead to a situation in which the component responsible for the first finalizer in the list is waiting for a signal (field value, external system, or other) produced by a component responsible for a finalizer later in the list, resulting in a deadlock. Without enforced ordering finalizers are free to order amongst themselves and are not vulnerable to ordering changes in the list. */
-  finalizers?: IoK8sApimachineryPkgApisMetaV1ObjectMetaFinalizersList;
+  finalizers?: IoK8sApimachineryPkgApisMetaV1ObjectMetaFinalizersList | undefined;
   /** GenerateName is an optional prefix, used by the server, to generate a unique name ONLY IF the Name field has not been provided. If this field is used, the name returned to the client will be different than the name passed. This value will also be combined with a unique suffix. The provided value has the same validation rules as the Name field, and may be truncated by the length of the suffix required to make the value unique on the server. If this field is specified and the generated name exists, the server will return a 409. Applied only if Name is not specified. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#idempotency */
-  generateName?: string;
+  generateName?: string | undefined;
   /** A sequence number representing a specific generation of the desired state. Populated by the system. Read-only. */
-  generation?: number;
+  generation?: number | undefined;
   /** Map of string keys and values that can be used to organize and categorize (scope and select) objects. May match selectors of replication controllers and services. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels */
-  labels?: IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap;
+  labels?: IoK8sApimachineryPkgApisMetaV1ObjectMetaLabelsMap | undefined;
   /** ManagedFields maps workflow-id and version to the set of fields that are managed by that workflow. This is mostly for internal housekeeping, and users typically shouldn't need to set or understand this field. A workflow can be the user's name, a controller's name, or the name of a specific apply path like "ci-cd". The set of fields is always in the version that the workflow used when modifying the object. */
-  managedFields?: IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList;
+  managedFields?: IoK8sApimachineryPkgApisMetaV1ObjectMetaManagedFieldsList | undefined;
   /** Name must be unique within a namespace. Is required when creating resources, although some resources may allow a client to request the generation of an appropriate name automatically. Name is primarily intended for creation idempotence and configuration definition. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names */
-  name?: string;
+  name?: string | undefined;
   /** Namespace defines the space within which each name must be unique. An empty namespace is equivalent to the "default" namespace, but "default" is the canonical representation. Not all objects are required to be scoped to a namespace - the value of this field for those objects will be empty. Must be a DNS_LABEL. Cannot be updated. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces */
-  namespace?: string;
+  namespace?: string | undefined;
   /** List of objects depended by this object. If ALL objects in the list have been deleted, this object will be garbage collected. If this object is managed by a controller, then an entry in this list will point to this controller, with the controller field set to true. There cannot be more than one managing controller. */
-  ownerReferences?: IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList;
+  ownerReferences?: IoK8sApimachineryPkgApisMetaV1ObjectMetaOwnerReferencesList | undefined;
   /** An opaque value that represents the internal version of this object that can be used by clients to determine when objects have changed. May be used for optimistic concurrency, change detection, and the watch operation on a resource or set of resources. Clients must treat these values as opaque and passed unmodified back to the server. They may only be valid for a particular resource or set of resources. Populated by the system. Read-only. Value must be treated as opaque by clients and . More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#concurrency-control-and-consistency */
-  resourceVersion?: string;
+  resourceVersion?: string | undefined;
   /** Deprecated: selfLink is a legacy read-only field that is no longer populated by the system. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** UID is the unique in time and space value for this object. It is typically generated by the server on successful creation of a resource and is not allowed to change on PUT operations. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#uids */
-  uid?: string;
+  uid?: string | undefined;
+}
+/** handledDecisionTypes specifies what decision types the client can handle in the context it is in. Currently valid values are: - [Allow, Deny, NoOpinion] (for conditions-unaware clients) or - [Allow, Deny, NoOpinion, ConditionsMap, Union, ...] (for conditions-aware clients) If the authorizer would like to return conditions, but the client does not opt in to handle those here, the authorizer must fail closed to a safe unconditional decision (Deny if any Deny conditions were present, otherwise NoOpinion). Order does not matter in this slice; set semantics should be used. The server does not reject unrecognized decision types, but focuses on whether the client supports a mode that the server does. All clients must support "classic", conditions-unaware authorization. */
+export type IoK8sApiAuthorizationV1AuthorizationOptionsHandledDecisionTypesList = Array<string>;
+/** AuthorizationOptions contains options for specifying the client's authorization abilities. */
+export interface IoK8sApiAuthorizationV1AuthorizationOptions {
+  /** handledDecisionTypes specifies what decision types the client can handle in the context it is in. Currently valid values are: - [Allow, Deny, NoOpinion] (for conditions-unaware clients) or - [Allow, Deny, NoOpinion, ConditionsMap, Union, ...] (for conditions-aware clients) If the authorizer would like to return conditions, but the client does not opt in to handle those here, the authorizer must fail closed to a safe unconditional decision (Deny if any Deny conditions were present, otherwise NoOpinion). Order does not matter in this slice; set semantics should be used. The server does not reject unrecognized decision types, but focuses on whether the client supports a mode that the server does. All clients must support "classic", conditions-unaware authorization. */
+  handledDecisionTypes: IoK8sApiAuthorizationV1AuthorizationOptionsHandledDecisionTypesList;
 }
 export type IoK8sApiAuthorizationV1SubjectAccessReviewSpecExtraValueList = Array<string>;
 /** extra corresponds to the user.Info.GetExtra() method from the authenticator. Since that is input to the authorizer it needs a reflection here. */
@@ -138,9 +145,9 @@ export type IoK8sApiAuthorizationV1SubjectAccessReviewSpecGroupsList = Array<str
 /** NonResourceAttributes includes the authorization attributes available for non-resource requests to the Authorizer interface */
 export interface IoK8sApiAuthorizationV1NonResourceAttributes {
   /** path is the URL path of the request */
-  path?: string;
+  path?: string | undefined;
   /** verb is the standard HTTP verb */
-  verb?: string;
+  verb?: string | undefined;
 }
 /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. */
 export type IoK8sApimachineryPkgApisMetaV1FieldSelectorRequirementValuesList = Array<string>;
@@ -151,7 +158,7 @@ export interface IoK8sApimachineryPkgApisMetaV1FieldSelectorRequirement {
   /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist. The list of operators may grow in the future. */
   operator: string;
   /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. */
-  values?: IoK8sApimachineryPkgApisMetaV1FieldSelectorRequirementValuesList;
+  values?: IoK8sApimachineryPkgApisMetaV1FieldSelectorRequirementValuesList | undefined;
 }
 /** requirements is the parsed interpretation of a field selector. All requirements must be met for a resource instance to match the selector. Webhook implementations should handle requirements, but how to handle them is up to the webhook. Since requirements can only limit the request, it is safe to authorize as unlimited request if the requirements are not understood. */
 export type IoK8sApiAuthorizationV1FieldSelectorAttributesRequirementsList =
@@ -159,9 +166,9 @@ export type IoK8sApiAuthorizationV1FieldSelectorAttributesRequirementsList =
 /** FieldSelectorAttributes indicates a field limited access. Webhook authors are encouraged to * ensure rawSelector and requirements are not both set * consider the requirements field if set * not try to parse or consider the rawSelector field if set. This is to avoid another CVE-2022-2880 (i.e. getting different systems to agree on how exactly to parse a query is not something we want), see https://www.oxeye.io/resources/golang-parameter-smuggling-attack for more details. For the *SubjectAccessReview endpoints of the kube-apiserver: * If rawSelector is empty and requirements are empty, the request is not limited. * If rawSelector is present and requirements are empty, the rawSelector will be parsed and limited if the parsing succeeds. * If rawSelector is empty and requirements are present, the requirements should be honored * If rawSelector is present and requirements are present, the request is invalid. */
 export interface IoK8sApiAuthorizationV1FieldSelectorAttributes {
   /** rawSelector is the serialization of a field selector that would be included in a query parameter. Webhook implementations are encouraged to ignore rawSelector. The kube-apiserver's *SubjectAccessReview will parse the rawSelector as long as the requirements are not present. */
-  rawSelector?: string;
+  rawSelector?: string | undefined;
   /** requirements is the parsed interpretation of a field selector. All requirements must be met for a resource instance to match the selector. Webhook implementations should handle requirements, but how to handle them is up to the webhook. Since requirements can only limit the request, it is safe to authorize as unlimited request if the requirements are not understood. */
-  requirements?: IoK8sApiAuthorizationV1FieldSelectorAttributesRequirementsList;
+  requirements?: IoK8sApiAuthorizationV1FieldSelectorAttributesRequirementsList | undefined;
 }
 /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
 export type IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList = Array<string>;
@@ -172,7 +179,7 @@ export interface IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement {
   /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
   operator: string;
   /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
-  values?: IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList;
+  values?: IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirementValuesList | undefined;
 }
 /** requirements is the parsed interpretation of a label selector. All requirements must be met for a resource instance to match the selector. Webhook implementations should handle requirements, but how to handle them is up to the webhook. Since requirements can only limit the request, it is safe to authorize as unlimited request if the requirements are not understood. */
 export type IoK8sApiAuthorizationV1LabelSelectorAttributesRequirementsList =
@@ -180,131 +187,198 @@ export type IoK8sApiAuthorizationV1LabelSelectorAttributesRequirementsList =
 /** LabelSelectorAttributes indicates a label limited access. Webhook authors are encouraged to * ensure rawSelector and requirements are not both set * consider the requirements field if set * not try to parse or consider the rawSelector field if set. This is to avoid another CVE-2022-2880 (i.e. getting different systems to agree on how exactly to parse a query is not something we want), see https://www.oxeye.io/resources/golang-parameter-smuggling-attack for more details. For the *SubjectAccessReview endpoints of the kube-apiserver: * If rawSelector is empty and requirements are empty, the request is not limited. * If rawSelector is present and requirements are empty, the rawSelector will be parsed and limited if the parsing succeeds. * If rawSelector is empty and requirements are present, the requirements should be honored * If rawSelector is present and requirements are present, the request is invalid. */
 export interface IoK8sApiAuthorizationV1LabelSelectorAttributes {
   /** rawSelector is the serialization of a field selector that would be included in a query parameter. Webhook implementations are encouraged to ignore rawSelector. The kube-apiserver's *SubjectAccessReview will parse the rawSelector as long as the requirements are not present. */
-  rawSelector?: string;
+  rawSelector?: string | undefined;
   /** requirements is the parsed interpretation of a label selector. All requirements must be met for a resource instance to match the selector. Webhook implementations should handle requirements, but how to handle them is up to the webhook. Since requirements can only limit the request, it is safe to authorize as unlimited request if the requirements are not understood. */
-  requirements?: IoK8sApiAuthorizationV1LabelSelectorAttributesRequirementsList;
+  requirements?: IoK8sApiAuthorizationV1LabelSelectorAttributesRequirementsList | undefined;
 }
 /** ResourceAttributes includes the authorization attributes available for resource requests to the Authorizer interface */
 export interface IoK8sApiAuthorizationV1ResourceAttributes {
   /** fieldSelector describes the limitation on access based on field. It can only limit access, not broaden it. */
-  fieldSelector?: IoK8sApiAuthorizationV1FieldSelectorAttributes;
+  fieldSelector?: IoK8sApiAuthorizationV1FieldSelectorAttributes | undefined;
   /** group is the API Group of the Resource. "*" means all. */
-  group?: string;
+  group?: string | undefined;
   /** labelSelector describes the limitation on access based on labels. It can only limit access, not broaden it. */
-  labelSelector?: IoK8sApiAuthorizationV1LabelSelectorAttributes;
+  labelSelector?: IoK8sApiAuthorizationV1LabelSelectorAttributes | undefined;
   /** name is the name of the resource being requested for a "get" or deleted for a "delete". "" (empty) means all. */
-  name?: string;
+  name?: string | undefined;
   /** namespace is the namespace of the action being requested. Currently, there is no distinction between no namespace and all namespaces "" (empty) is defaulted for LocalSubjectAccessReviews "" (empty) is empty for cluster-scoped resources "" (empty) means "all" for namespace scoped resources from a SubjectAccessReview or SelfSubjectAccessReview */
-  namespace?: string;
+  namespace?: string | undefined;
   /** resource is one of the existing resource types. "*" means all. */
-  resource?: string;
+  resource?: string | undefined;
   /** subresource is one of the existing resource types. "" means none. */
-  subresource?: string;
+  subresource?: string | undefined;
   /** verb is a kubernetes resource API verb, like: get, list, watch, create, update, delete, proxy. "*" means all. */
-  verb?: string;
+  verb?: string | undefined;
   /** version is the API Version of the Resource. "*" means all. */
-  version?: string;
+  version?: string | undefined;
 }
 /** SubjectAccessReviewSpec is a description of the access request. Exactly one of resourceAttributes and nonResourceAttributes must be set */
 export interface IoK8sApiAuthorizationV1SubjectAccessReviewSpec {
+  /** authorizationOptions contains options for specifying the client's authorization abilities. If unset, only unconditional authorization is supported, for backwards-compatibility. Requires the ConditionalAuthorization feature to be enabled. */
+  authorizationOptions?: IoK8sApiAuthorizationV1AuthorizationOptions | undefined;
   /** extra corresponds to the user.Info.GetExtra() method from the authenticator. Since that is input to the authorizer it needs a reflection here. */
-  extra?: IoK8sApiAuthorizationV1SubjectAccessReviewSpecExtraMap;
+  extra?: IoK8sApiAuthorizationV1SubjectAccessReviewSpecExtraMap | undefined;
   /** groups is the groups you're testing for. */
-  groups?: IoK8sApiAuthorizationV1SubjectAccessReviewSpecGroupsList;
+  groups?: IoK8sApiAuthorizationV1SubjectAccessReviewSpecGroupsList | undefined;
   /** nonResourceAttributes describes information for a non-resource access request */
-  nonResourceAttributes?: IoK8sApiAuthorizationV1NonResourceAttributes;
+  nonResourceAttributes?: IoK8sApiAuthorizationV1NonResourceAttributes | undefined;
   /** resourceAttributes describes information for a resource access request */
-  resourceAttributes?: IoK8sApiAuthorizationV1ResourceAttributes;
+  resourceAttributes?: IoK8sApiAuthorizationV1ResourceAttributes | undefined;
   /** uid information about the requesting user. */
-  uid?: string;
+  uid?: string | undefined;
   /** user is the user you're testing for. If you specify "User" but not "Groups", then is it interpreted as "What if User were not a member of any groups */
-  user?: string;
+  user?: string | undefined;
+}
+/** UnconditionalDecision represents the data associated with an unconditional decision. */
+export interface IoK8sApiAuthorizationV1UnconditionalDecision {
+  /** evaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request. */
+  evaluationError?: string | undefined;
+  /** reason is optional. It indicates why a request was allowed or denied. */
+  reason?: string | undefined;
+}
+/** Condition represents a single authorization condition to be evaluated against data available later in the request chain, e.g. objects available in admission. */
+export interface IoK8sApiAuthorizationV1Condition {
+  /** condition returns a string encoding of the condition to be evaluated. It is a pure, deterministic function from ConditionsData to a boolean (or error). Might or might not be human-readable. Optional, if the ID alone is enough for the authorizer to know how to evaluate the condition. */
+  condition?: string | undefined;
+  /** description is an optional human-friendly description that can be shown as an error message or for debugging. Optional. */
+  description?: string | undefined;
+  /** id uniquely identifies this condition within the scope of the authorizer that authored it and ConditionsMap it is part of. Validated as a Kubernetes label key. Any domain of form *.k8s.io or *.kubernetes.io is reserved for Kubernetes use. */
+  id: string;
+  /** type describes the type of the condition, if there are multiple possibilities. Should be formatted as a Kubernetes label key. Any domain of form *.k8s.io or *.kubernetes.io is reserved for Kubernetes use. authorizer.kubernetes.io/cel is a conditions type for CEL, handled by kube-apiserver. Optional. Can be omitted if the authorizer already knows how to evaluate the condition. */
+  type?: string | undefined;
+}
+/** allowConditions contains the conditions with Allow effect. If any such condition evaluates to true, the ConditionsMap as a whole must evaluate to Allow. */
+export type IoK8sApiAuthorizationV1ConditionsMapAllowConditionsList =
+  Array<IoK8sApiAuthorizationV1Condition>;
+/** denyConditions contains the conditions with Deny effect. If any such condition evaluates to true or error, the ConditionsMap as a whole must evaluate to Deny. */
+export type IoK8sApiAuthorizationV1ConditionsMapDenyConditionsList =
+  Array<IoK8sApiAuthorizationV1Condition>;
+/** noOpinionConditions contains the conditions with NoOpinion effect. If any such condition evaluates to true or error, the ConditionsMap as a whole must evaluate to NoOpinion. */
+export type IoK8sApiAuthorizationV1ConditionsMapNoOpinionConditionsList =
+  Array<IoK8sApiAuthorizationV1Condition>;
+/** ConditionsMap represents a map of conditions, keyed by ID across all conditions, across all effects. The ConditionsMap must have at least one Allow condition or at least one Deny condition. It cannot contain more than 128 conditions in total. The conditions are evaluated against data available later, to determine whether the authorizer that authored the conditions allows or denies the request. If all conditions in the map evaluate to false, the final decision must be NoOpinion. */
+export interface IoK8sApiAuthorizationV1ConditionsMap {
+  /** allowConditions contains the conditions with Allow effect. If any such condition evaluates to true, the ConditionsMap as a whole must evaluate to Allow. */
+  allowConditions?: IoK8sApiAuthorizationV1ConditionsMapAllowConditionsList | undefined;
+  /** denyConditions contains the conditions with Deny effect. If any such condition evaluates to true or error, the ConditionsMap as a whole must evaluate to Deny. */
+  denyConditions?: IoK8sApiAuthorizationV1ConditionsMapDenyConditionsList | undefined;
+  /** noOpinionConditions contains the conditions with NoOpinion effect. If any such condition evaluates to true or error, the ConditionsMap as a whole must evaluate to NoOpinion. */
+  noOpinionConditions?: IoK8sApiAuthorizationV1ConditionsMapNoOpinionConditionsList | undefined;
+}
+/** NamedConditionsAwareDecision is a named ConditionsAwareDecision, returned by a unioned authorizer. */
+export interface IoK8sApiAuthorizationV1NamedConditionsAwareDecision {
+  /** authorizerName details the name of the authorizer that authored the condition, such that the right Decision can be paired with the right authorizer when evaluating the conditions, even across API server replicas. The name must be stable over time. This name must be unique within a given union authorizer, not necessarily globally. */
+  authorizerName: string;
+  /** decision carries the inner decision returned from the authorizer. */
+  decision: IoK8sApiAuthorizationV1ConditionsAwareDecision;
+}
+/** union forms an ordered tree of decisions, where the union decision is represented by an internal node, and all other decision types are leaf nodes. During evaluation, the leaf decisions are evaluated in depth-first order, until an Allow or Deny decision is found. The order of the decisions should match the order of the authorizers in the union authorizer for interpretability, but the authorizerName is the map key. At least one of the leaves must be of type ConditionsMap, as otherwise the union could be trivially reduced to just a single Allow/Deny/NoOpinion. Must have at least one element when type == "Union", otherwise this field must be unset. */
+export type IoK8sApiAuthorizationV1ConditionsAwareDecisionUnionList =
+  Array<IoK8sApiAuthorizationV1NamedConditionsAwareDecision>;
+/** ConditionsAwareDecision represents one authorizer's decision. It is an enum type, with variants described in ConditionsAwareDecisionType, plus a reason and error. */
+export interface IoK8sApiAuthorizationV1ConditionsAwareDecision {
+  /** allow represents an unconditional Allow decision. Must be non-null when type == "Allow", otherwise this field must be unset. */
+  allow?: IoK8sApiAuthorizationV1UnconditionalDecision | undefined;
+  /** conditionsMap represents a conditional decision, modelled as a map of conditions. Must be non-null when type == "ConditionsMap", otherwise this field must be unset. */
+  conditionsMap?: IoK8sApiAuthorizationV1ConditionsMap | undefined;
+  /** deny represents an unconditional Deny decision. Must be non-null when type == "Deny", otherwise this field must be unset. */
+  deny?: IoK8sApiAuthorizationV1UnconditionalDecision | undefined;
+  /** noOpinion represents an unconditional NoOpinion decision. Must be non-null when type == "NoOpinion", otherwise this field must be unset. */
+  noOpinion?: IoK8sApiAuthorizationV1UnconditionalDecision | undefined;
+  /** type describes the type of the decision, and acts as an enum discriminator. */
+  type: string;
+  /** union forms an ordered tree of decisions, where the union decision is represented by an internal node, and all other decision types are leaf nodes. During evaluation, the leaf decisions are evaluated in depth-first order, until an Allow or Deny decision is found. The order of the decisions should match the order of the authorizers in the union authorizer for interpretability, but the authorizerName is the map key. At least one of the leaves must be of type ConditionsMap, as otherwise the union could be trivially reduced to just a single Allow/Deny/NoOpinion. Must have at least one element when type == "Union", otherwise this field must be unset. */
+  union?: IoK8sApiAuthorizationV1ConditionsAwareDecisionUnionList | undefined;
 }
 /** SubjectAccessReviewStatus */
 export interface IoK8sApiAuthorizationV1SubjectAccessReviewStatus {
-  /** allowed is set to true if the action is allowed, and should be set to false otherwise. */
-  allowed?: boolean;
-  /** denied is optional. True if the action would be denied, otherwise false. If both allowed is false and denied is false, then the authorizer has no opinion on whether to authorize the action. Denied may not be true if Allowed is true. */
-  denied?: boolean;
+  /** allowed is true if the action would be allowed, false otherwise. allowed=true is mutually exclusive with denied=true and conditionalDecision != nil. */
+  allowed?: boolean | undefined;
+  /** conditionalDecision represents a conditional decision returned by the authorizer. When conditionalDecision is set, allowed, denied, reason and evaluationError must have their zero values. The top-level decision type should be ConditionsAwareDecisionTypeConditionsMap or ConditionsAwareDecisionTypeUnion, as Allow/Deny/NoOpinion decisions can be represented with SubjectAccessReviewStatus.Allowed and SubjectAccessReviewStatus.Denied alone. May only be set if spec.authorizationOptions.handledDecisionTypes includes `ConditionsMap` and `Union`. Requires the ConditionalAuthorization feature to be enabled. */
+  conditionalDecision?: IoK8sApiAuthorizationV1ConditionsAwareDecision | undefined;
+  /** denied is optional. True if the action would be denied, otherwise false If allowed is false, denied is false, and conditionalDecision is unset, then the authorizer has no opinion on whether to authorize the action. denied=true is mutually exclusive with allowed=true and conditionalDecision != nil. */
+  denied?: boolean | undefined;
   /** evaluationError is an indication that some error occurred during the authorization check. It is entirely possible to get an error and be able to continue determine authorization status in spite of it. For instance, RBAC can be missing a role, but enough roles are still present and bound to reason about the request. */
-  evaluationError?: string;
+  evaluationError?: string | undefined;
   /** reason is optional. It indicates why a request was allowed or denied. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface CreateAuthorizationV1NamespacedLocalSubjectAccessReviewRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated. spec.namespace must be equal to the namespace you made the request against. If empty, it is defaulted. */
   spec: IoK8sApiAuthorizationV1SubjectAccessReviewSpec;
   /** status is filled in by the server and indicates whether the request is allowed or not */
-  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus | undefined;
 }
 /** LocalSubjectAccessReview checks whether or not a user or group can perform an action in a given namespace. Having a namespace scoped resource makes it much easier to grant namespace scoped policy that includes permissions checking. */
 export interface IoK8sApiAuthorizationV1LocalSubjectAccessReview {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated. spec.namespace must be equal to the namespace you made the request against. If empty, it is defaulted. */
   spec: IoK8sApiAuthorizationV1SubjectAccessReviewSpec;
   /** status is filled in by the server and indicates whether the request is allowed or not */
-  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus | undefined;
 }
 /** SelfSubjectAccessReviewSpec is a description of the access request. Exactly one of resourceAttributes and nonResourceAttributes must be set */
 export interface IoK8sApiAuthorizationV1SelfSubjectAccessReviewSpec {
+  /** authorizationOptions contains options for specifying the client's authorization abilities. If unset, only unconditional authorization is supported, for backwards-compatibility. Requires the ConditionalAuthorization feature to be enabled. */
+  authorizationOptions?: IoK8sApiAuthorizationV1AuthorizationOptions | undefined;
   /** nonResourceAttributes describes information for a non-resource access request */
-  nonResourceAttributes?: IoK8sApiAuthorizationV1NonResourceAttributes;
+  nonResourceAttributes?: IoK8sApiAuthorizationV1NonResourceAttributes | undefined;
   /** resourceAttributes describes information for a resource access request */
-  resourceAttributes?: IoK8sApiAuthorizationV1ResourceAttributes;
+  resourceAttributes?: IoK8sApiAuthorizationV1ResourceAttributes | undefined;
 }
 export interface CreateAuthorizationV1SelfSubjectAccessReviewRequest {
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated. user and groups must be empty */
   spec: IoK8sApiAuthorizationV1SelfSubjectAccessReviewSpec;
   /** status is filled in by the server and indicates whether the request is allowed or not */
-  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus | undefined;
 }
 /** SelfSubjectAccessReview checks whether or the current user can perform an action. Not filling in a spec.namespace means "in all namespaces". Self is a special case, because users should always be able to check whether they can perform an action */
 export interface IoK8sApiAuthorizationV1SelfSubjectAccessReview {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated. user and groups must be empty */
   spec: IoK8sApiAuthorizationV1SelfSubjectAccessReviewSpec;
   /** status is filled in by the server and indicates whether the request is allowed or not */
-  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus | undefined;
 }
 /** SelfSubjectRulesReviewSpec defines the specification for SelfSubjectRulesReview. */
 export interface IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec {
@@ -318,9 +392,9 @@ export type IoK8sApiAuthorizationV1NonResourceRuleVerbsList = Array<string>;
 /** NonResourceRule holds information that describes a rule for the non-resource */
 export interface IoK8sApiAuthorizationV1NonResourceRule {
   /** nonResourceURLs is a set of partial urls that a user should have access to. *s are allowed, but only as the full, final step in the path. "*" means all. */
-  nonResourceURLs?: IoK8sApiAuthorizationV1NonResourceRuleNonResourceURLsList;
+  nonResourceURLs?: IoK8sApiAuthorizationV1NonResourceRuleNonResourceURLsList | undefined;
   /** verbs is a list of kubernetes non-resource API verbs, like: get, post, put, delete, patch, head, options. "*" means all. */
-  verbs?: IoK8sApiAuthorizationV1NonResourceRuleVerbsList;
+  verbs?: IoK8sApiAuthorizationV1NonResourceRuleVerbsList | undefined;
 }
 /** nonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete. */
 export type IoK8sApiAuthorizationV1SubjectRulesReviewStatusNonResourceRulesList =
@@ -336,13 +410,13 @@ export type IoK8sApiAuthorizationV1ResourceRuleVerbsList = Array<string>;
 /** ResourceRule is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete. */
 export interface IoK8sApiAuthorizationV1ResourceRule {
   /** apiGroups is the name of the APIGroup that contains the resources. If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed. "*" means all. */
-  apiGroups?: IoK8sApiAuthorizationV1ResourceRuleApiGroupsList;
+  apiGroups?: IoK8sApiAuthorizationV1ResourceRuleApiGroupsList | undefined;
   /** resourceNames is an optional white list of names that the rule applies to. An empty set means that everything is allowed. "*" means all. */
-  resourceNames?: IoK8sApiAuthorizationV1ResourceRuleResourceNamesList;
+  resourceNames?: IoK8sApiAuthorizationV1ResourceRuleResourceNamesList | undefined;
   /** resources is a list of resources this rule applies to. "*" means all in the specified apiGroups. "*\/foo" represents the subresource 'foo' for all resources in the specified apiGroups. */
-  resources?: IoK8sApiAuthorizationV1ResourceRuleResourcesList;
+  resources?: IoK8sApiAuthorizationV1ResourceRuleResourcesList | undefined;
   /** verbs is a list of kubernetes resource API verbs, like: get, list, watch, create, update, delete, proxy. "*" means all. */
-  verbs?: IoK8sApiAuthorizationV1ResourceRuleVerbsList;
+  verbs?: IoK8sApiAuthorizationV1ResourceRuleVerbsList | undefined;
 }
 /** resourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete. */
 export type IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList =
@@ -350,79 +424,81 @@ export type IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList =
 /** SubjectRulesReviewStatus contains the result of a rules check. This check can be incomplete depending on the set of authorizers the server is configured with and any errors experienced during evaluation. Because authorization rules are additive, if a rule appears in a list it's safe to assume the subject has that permission, even if that list is incomplete. */
 export interface IoK8sApiAuthorizationV1SubjectRulesReviewStatus {
   /** evaluationError can appear in combination with Rules. It indicates an error occurred during rule evaluation, such as an authorizer that doesn't support rule evaluation, and that ResourceRules and/or NonResourceRules may be incomplete. */
-  evaluationError?: string;
+  evaluationError?: string | undefined;
   /** incomplete is true when the rules returned by this call are incomplete. This is most commonly encountered when an authorizer, such as an external authorizer, doesn't support rules evaluation. */
-  incomplete?: boolean;
+  incomplete?: boolean | undefined;
   /** nonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete. */
-  nonResourceRules?: IoK8sApiAuthorizationV1SubjectRulesReviewStatusNonResourceRulesList;
+  nonResourceRules?:
+    | IoK8sApiAuthorizationV1SubjectRulesReviewStatusNonResourceRulesList
+    | undefined;
   /** resourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete. */
-  resourceRules?: IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList;
+  resourceRules?: IoK8sApiAuthorizationV1SubjectRulesReviewStatusResourceRulesList | undefined;
 }
 export interface CreateAuthorizationV1SelfSubjectRulesReviewRequest {
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated. */
   spec: IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec;
   /** status is filled in by the server and indicates the set of actions a user can perform. */
-  status?: IoK8sApiAuthorizationV1SubjectRulesReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectRulesReviewStatus | undefined;
 }
 /** SelfSubjectRulesReview enumerates the set of actions the current user can perform within a namespace. The returned list of actions may be incomplete depending on the server's authorization mode, and any errors experienced during the evaluation. SelfSubjectRulesReview should be used by UIs to show/hide actions, or to quickly let an end user reason about their permissions. It should NOT Be used by external systems to drive authorization decisions as this raises confused deputy, cache lifetime/revocation, and correctness concerns. SubjectAccessReview, and LocalAccessReview are the correct way to defer authorization decisions to the API server. */
 export interface IoK8sApiAuthorizationV1SelfSubjectRulesReview {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated. */
   spec: IoK8sApiAuthorizationV1SelfSubjectRulesReviewSpec;
   /** status is filled in by the server and indicates the set of actions a user can perform. */
-  status?: IoK8sApiAuthorizationV1SubjectRulesReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectRulesReviewStatus | undefined;
 }
 export interface CreateAuthorizationV1SubjectAccessReviewRequest {
   /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string;
+  dryRun?: string | undefined;
   /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string;
+  fieldManager?: string | undefined;
   /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string;
+  fieldValidation?: string | undefined;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string;
+  pretty?: string | undefined;
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated */
   spec: IoK8sApiAuthorizationV1SubjectAccessReviewSpec;
   /** status is filled in by the server and indicates whether the request is allowed or not */
-  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus | undefined;
 }
 /** SubjectAccessReview checks whether or not a user or group can perform an action. */
 export interface IoK8sApiAuthorizationV1SubjectAccessReview {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta;
+  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
   /** spec holds information about the request being evaluated */
   spec: IoK8sApiAuthorizationV1SubjectAccessReviewSpec;
   /** status is filled in by the server and indicates whether the request is allowed or not */
-  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus;
+  status?: IoK8sApiAuthorizationV1SubjectAccessReviewStatus | undefined;
 }
 export interface GetAuthorizationAPIGroupRequest {}
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
@@ -448,15 +524,17 @@ export type IoK8sApimachineryPkgApisMetaV1APIGroupVersionsList =
 /** APIGroup contains the name, the supported versions, and the preferred version of a group. */
 export interface IoK8sApimachineryPkgApisMetaV1APIGroup {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** name is the name of the group. */
   name: string;
   /** preferredVersion is the version preferred by the API server, which probably is the storage version. */
-  preferredVersion?: IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery;
+  preferredVersion?: IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery | undefined;
   /** a map of client CIDR to server address that is serving this group. This is to help clients reach servers in the most network-efficient way possible. Clients can use the appropriate server address as per the CIDR that they match. In case of multiple matches, clients should use the longest matching CIDR. The server returns only those CIDRs that it thinks that the client can match. For example: the master will return an internal IP CIDR only, if the client reaches the server using an internal IP. Server looks at X-Forwarded-For header or X-Real-Ip header or request.RemoteAddr (in that order) to get the client IP. */
-  serverAddressByClientCIDRs?: IoK8sApimachineryPkgApisMetaV1APIGroupServerAddressByClientCIDRsList;
+  serverAddressByClientCIDRs?:
+    | IoK8sApimachineryPkgApisMetaV1APIGroupServerAddressByClientCIDRsList
+    | undefined;
   /** versions are the versions supported in this group. */
   versions: IoK8sApimachineryPkgApisMetaV1APIGroupVersionsList;
 }
@@ -470,9 +548,9 @@ export type IoK8sApimachineryPkgApisMetaV1APIResourceVerbsList = Array<string>;
 /** APIResource specifies the name of a resource and whether it is namespaced. */
 export interface IoK8sApimachineryPkgApisMetaV1APIResource {
   /** categories is a list of the grouped resources this resource belongs to (e.g. 'all') */
-  categories?: IoK8sApimachineryPkgApisMetaV1APIResourceCategoriesList;
+  categories?: IoK8sApimachineryPkgApisMetaV1APIResourceCategoriesList | undefined;
   /** group is the preferred group of the resource. Empty implies the group of the containing resource list. For subresources, this may have a different value, for example: Scale". */
-  group?: string;
+  group?: string | undefined;
   /** kind is the kind for the resource (e.g. 'Foo' is the kind for a resource 'foo') */
   kind: string;
   /** name is the plural name of the resource. */
@@ -480,15 +558,15 @@ export interface IoK8sApimachineryPkgApisMetaV1APIResource {
   /** namespaced indicates if a resource is namespaced or not. */
   namespaced: boolean;
   /** shortNames is a list of suggested short names of the resource. */
-  shortNames?: IoK8sApimachineryPkgApisMetaV1APIResourceShortNamesList;
+  shortNames?: IoK8sApimachineryPkgApisMetaV1APIResourceShortNamesList | undefined;
   /** singularName is the singular name of the resource. This allows clients to handle plural and singular opaquely. The singularName is more correct for reporting status on a single item and both singular and plural are allowed from the kubectl CLI interface. */
   singularName: string;
   /** The hash value of the storage version, the version this resource is converted to when written to the data store. Value must be treated as opaque by clients. Only equality comparison on the value is valid. This is an alpha feature and may change or be removed in the future. The field is populated by the apiserver only if the StorageVersionHash feature gate is enabled. This field will remain optional even if it graduates. */
-  storageVersionHash?: string;
+  storageVersionHash?: string | undefined;
   /** verbs is a list of supported kube verbs (this includes get, list, watch, create, update, patch, delete, deletecollection, and proxy) */
   verbs: IoK8sApimachineryPkgApisMetaV1APIResourceVerbsList;
   /** version is the preferred version of the resource. Empty implies the version of the containing resource list For subresources, this may have a different value, for example: v1 (while inside a v1beta1 version of the core resource's group)". */
-  version?: string;
+  version?: string | undefined;
 }
 /** resources contains the name of the resources and if they are namespaced. */
 export type IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList =
@@ -496,11 +574,11 @@ export type IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList =
 /** APIResourceList is a list of APIResource, it is used to expose the name of the resources supported in a specific group and version, and if the resource is namespaced. */
 export interface IoK8sApimachineryPkgApisMetaV1APIResourceList {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** groupVersion is the group and version this APIResourceList is for. */
   groupVersion: string;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** resources contains the name of the resources and if they are namespaced. */
   resources: IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList;
 }
@@ -520,7 +598,7 @@ export const createAuthorizationV1NamespacedLocalSubjectAccessReview: API.Operat
     __c0,
     0,
   ) as any as S.Schema<CreateAuthorizationV1NamespacedLocalSubjectAccessReviewRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<IoK8sApiAuthorizationV1LocalSubjectAccessReview>,
+  output: __S(66, __c4, 2) as any as S.Schema<IoK8sApiAuthorizationV1LocalSubjectAccessReview>,
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -539,8 +617,8 @@ export const createAuthorizationV1SelfSubjectAccessReview: API.OperationMethod<
   CreateAuthorizationV1SelfSubjectAccessReviewError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<CreateAuthorizationV1SelfSubjectAccessReviewRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<IoK8sApiAuthorizationV1SelfSubjectAccessReview>,
+  input: __S(81, __c5, 1) as any as S.Schema<CreateAuthorizationV1SelfSubjectAccessReviewRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<IoK8sApiAuthorizationV1SelfSubjectAccessReview>,
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -559,8 +637,8 @@ export const createAuthorizationV1SelfSubjectRulesReview: API.OperationMethod<
   CreateAuthorizationV1SelfSubjectRulesReviewError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(54, __c6, 6) as any as S.Schema<CreateAuthorizationV1SelfSubjectRulesReviewRequest>,
-  output: __S(55, __c6, 7) as any as S.Schema<IoK8sApiAuthorizationV1SelfSubjectRulesReview>,
+  input: __S(102, __c6, 6) as any as S.Schema<CreateAuthorizationV1SelfSubjectRulesReviewRequest>,
+  output: __S(103, __c6, 7) as any as S.Schema<IoK8sApiAuthorizationV1SelfSubjectRulesReview>,
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -579,8 +657,8 @@ export const createAuthorizationV1SubjectAccessReview: API.OperationMethod<
   CreateAuthorizationV1SubjectAccessReviewError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateAuthorizationV1SubjectAccessReviewRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<IoK8sApiAuthorizationV1SubjectAccessReview>,
+  input: __S(112, __c7, 0) as any as S.Schema<CreateAuthorizationV1SubjectAccessReviewRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<IoK8sApiAuthorizationV1SubjectAccessReview>,
   errors: [Conflict, UnprocessableEntity, UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -596,8 +674,8 @@ export const getAuthorizationAPIGroup: API.OperationMethod<
   GetAuthorizationAPIGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetAuthorizationAPIGroupRequest>,
-  output: __S(69, __c8, 5) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroup>,
+  input: __S(128, __c8, 0) as any as S.Schema<GetAuthorizationAPIGroupRequest>,
+  output: __S(133, __c8, 5) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroup>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -613,8 +691,8 @@ export const getAuthorizationV1APIResources: API.OperationMethod<
   GetAuthorizationV1APIResourcesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<GetAuthorizationV1APIResourcesRequest>,
-  output: __S(75, __c9, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetAuthorizationV1APIResourcesRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
   errors: [UnknownKubernetesError],
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
@@ -635,9 +713,9 @@ function __c0(j: number): any {
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(13, __c1, 5)),
-          spec: __S(33, __c4, 1),
-          status: S.optional(__S(29, __c3, 5)),
+          metadata: S.optional(__S(21, __c1, 5)),
+          spec: __S(65, __c4, 1),
+          status: S.optional(__S(61, __c3, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -665,7 +743,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ManagedFieldsEntry" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -678,22 +756,22 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1OwnerReference" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(8, __c1, 0)),
+          annotations: S.optional(__S(16, __c1, 0)),
           creationTimestamp: S.optional(S.String),
           deletionGracePeriodSeconds: S.optional(S.Number),
           deletionTimestamp: S.optional(S.String),
-          finalizers: S.optional(__S(16, __c2, 0)),
+          finalizers: S.optional(__S(32, __c2, 0)),
           generateName: S.optional(S.String),
           generation: S.optional(S.Number),
-          labels: S.optional(__S(8, __c1, 0)),
-          managedFields: S.optional(__S(10, __c1, 2)),
+          labels: S.optional(__S(16, __c1, 0)),
+          managedFields: S.optional(__S(18, __c1, 2)),
           name: S.optional(S.String),
           namespace: S.optional(S.String),
-          ownerReferences: S.optional(__S(12, __c1, 4)),
+          ownerReferences: S.optional(__S(20, __c1, 4)),
           resourceVersion: S.optional(S.String),
           selfLink: S.optional(S.String),
           uid: S.optional(S.String),
@@ -712,33 +790,39 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          handledDecisionTypes: __S(32, __c2, 0),
+        }),
+      ).annotate({ identifier: "IoK8sApiAuthorizationV1AuthorizationOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           path: S.optional(S.String),
           verb: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1NonResourceAttributes" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           operator: S.String,
-          values: S.optional(__S(16, __c2, 0)),
+          values: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1FieldSelectorRequirement" });
-    case 2:
-      return S.Array(__S(25, __c3, 1));
     case 3:
-      return S.suspend(() =>
-        S.Struct({
-          rawSelector: S.optional(S.String),
-          requirements: S.optional(__S(26, __c3, 2)),
-        }),
-      ).annotate({ identifier: "IoK8sApiAuthorizationV1FieldSelectorAttributes" });
+      return S.Array(__S(50, __c3, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          fieldSelector: S.optional(__S(27, __c3, 3)),
+          rawSelector: S.optional(S.String),
+          requirements: S.optional(__S(51, __c3, 3)),
+        }),
+      ).annotate({ identifier: "IoK8sApiAuthorizationV1FieldSelectorAttributes" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          fieldSelector: S.optional(__S(52, __c3, 4)),
           group: S.optional(S.String),
-          labelSelector: S.optional(__S(27, __c3, 3)),
+          labelSelector: S.optional(__S(52, __c3, 4)),
           name: S.optional(S.String),
           namespace: S.optional(S.String),
           resource: S.optional(S.String),
@@ -747,10 +831,57 @@ function __c3(j: number): any {
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1ResourceAttributes" });
-    case 5:
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          evaluationError: S.optional(S.String),
+          reason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiAuthorizationV1UnconditionalDecision" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          condition: S.optional(S.String),
+          description: S.optional(S.String),
+          id: S.String,
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiAuthorizationV1Condition" });
+    case 8:
+      return S.Array(__S(55, __c3, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          allowConditions: S.optional(__S(56, __c3, 8)),
+          denyConditions: S.optional(__S(56, __c3, 8)),
+          noOpinionConditions: S.optional(__S(56, __c3, 8)),
+        }),
+      ).annotate({ identifier: "IoK8sApiAuthorizationV1ConditionsMap" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          authorizerName: S.String,
+          decision: S.suspend(() => __S(60, __c3, 12)),
+        }),
+      ).annotate({ identifier: "IoK8sApiAuthorizationV1NamedConditionsAwareDecision" });
+    case 11:
+      return S.Array(__S(58, __c3, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          allow: S.optional(__S(54, __c3, 6)),
+          conditionsMap: S.optional(__S(57, __c3, 9)),
+          deny: S.optional(__S(54, __c3, 6)),
+          noOpinion: S.optional(__S(54, __c3, 6)),
+          type: S.String,
+          union: S.optional(__S(59, __c3, 11)),
+        }),
+      ).annotate({ identifier: "IoK8sApiAuthorizationV1ConditionsAwareDecision" });
+    case 13:
       return S.suspend(() =>
         S.Struct({
           allowed: S.optional(S.Boolean),
+          conditionalDecision: S.optional(__S(60, __c3, 12)),
           denied: S.optional(S.Boolean),
           evaluationError: S.optional(S.String),
           reason: S.optional(S.String),
@@ -761,14 +892,15 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(16, __c2, 0));
+      return S.Record(S.String, __S(32, __c2, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          extra: S.optional(__S(32, __c4, 0)),
-          groups: S.optional(__S(16, __c2, 0)),
-          nonResourceAttributes: S.optional(__S(24, __c3, 0)),
-          resourceAttributes: S.optional(__S(28, __c3, 4)),
+          authorizationOptions: S.optional(__S(48, __c3, 0)),
+          extra: S.optional(__S(64, __c4, 0)),
+          groups: S.optional(__S(32, __c2, 0)),
+          nonResourceAttributes: S.optional(__S(49, __c3, 1)),
+          resourceAttributes: S.optional(__S(53, __c3, 5)),
           uid: S.optional(S.String),
           user: S.optional(S.String),
         }),
@@ -778,9 +910,9 @@ function __c4(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(13, __c1, 5)),
-          spec: __S(33, __c4, 1),
-          status: S.optional(__S(29, __c3, 5)),
+          metadata: S.optional(__S(21, __c1, 5)),
+          spec: __S(65, __c4, 1),
+          status: S.optional(__S(61, __c3, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1LocalSubjectAccessReview" });
   }
@@ -790,8 +922,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nonResourceAttributes: S.optional(__S(24, __c3, 0)),
-          resourceAttributes: S.optional(__S(28, __c3, 4)),
+          authorizationOptions: S.optional(__S(48, __c3, 0)),
+          nonResourceAttributes: S.optional(__S(49, __c3, 1)),
+          resourceAttributes: S.optional(__S(53, __c3, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1SelfSubjectAccessReviewSpec" });
     case 1:
@@ -803,9 +936,9 @@ function __c5(j: number): any {
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(13, __c1, 5)),
-          spec: __S(40, __c5, 0),
-          status: S.optional(__S(29, __c3, 5)),
+          metadata: S.optional(__S(21, __c1, 5)),
+          spec: __S(80, __c5, 0),
+          status: S.optional(__S(61, __c3, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -819,9 +952,9 @@ function __c5(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(13, __c1, 5)),
-          spec: __S(40, __c5, 0),
-          status: S.optional(__S(29, __c3, 5)),
+          metadata: S.optional(__S(21, __c1, 5)),
+          spec: __S(80, __c5, 0),
+          status: S.optional(__S(61, __c3, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1SelfSubjectAccessReview" });
   }
@@ -837,30 +970,30 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nonResourceURLs: S.optional(__S(16, __c2, 0)),
-          verbs: S.optional(__S(16, __c2, 0)),
+          nonResourceURLs: S.optional(__S(32, __c2, 0)),
+          verbs: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1NonResourceRule" });
     case 2:
-      return S.Array(__S(49, __c6, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          apiGroups: S.optional(__S(16, __c2, 0)),
-          resourceNames: S.optional(__S(16, __c2, 0)),
-          resources: S.optional(__S(16, __c2, 0)),
-          verbs: S.optional(__S(16, __c2, 0)),
+          apiGroups: S.optional(__S(32, __c2, 0)),
+          resourceNames: S.optional(__S(32, __c2, 0)),
+          resources: S.optional(__S(32, __c2, 0)),
+          verbs: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1ResourceRule" });
     case 4:
-      return S.Array(__S(51, __c6, 3));
+      return S.Array(__S(99, __c6, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           evaluationError: S.optional(S.String),
           incomplete: S.optional(S.Boolean),
-          nonResourceRules: S.optional(__S(50, __c6, 2)),
-          resourceRules: S.optional(__S(52, __c6, 4)),
+          nonResourceRules: S.optional(__S(98, __c6, 2)),
+          resourceRules: S.optional(__S(100, __c6, 4)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1SubjectRulesReviewStatus" });
     case 6:
@@ -872,9 +1005,9 @@ function __c6(j: number): any {
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(13, __c1, 5)),
-          spec: __S(48, __c6, 0),
-          status: S.optional(__S(53, __c6, 5)),
+          metadata: S.optional(__S(21, __c1, 5)),
+          spec: __S(96, __c6, 0),
+          status: S.optional(__S(101, __c6, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -888,9 +1021,9 @@ function __c6(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(13, __c1, 5)),
-          spec: __S(48, __c6, 0),
-          status: S.optional(__S(53, __c6, 5)),
+          metadata: S.optional(__S(21, __c1, 5)),
+          spec: __S(96, __c6, 0),
+          status: S.optional(__S(101, __c6, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthorizationV1SelfSubjectRulesReview" });
   }
@@ -906,9 +1039,9 @@ function __c7(j: number): any {
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(13, __c1, 5)),
-          spec: __S(33, __c4, 1),
-          status: S.optional(__S(29, __c3, 5)),
+          metadata: S.optional(__S(21, __c1, 5)),
+          spec: __S(65, __c4, 1),
+          status: S.optional(__S(61, __c3, 13)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -940,18 +1073,18 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ServerAddressByClientCIDR" });
     case 3:
-      return S.Array(__S(66, __c8, 2));
+      return S.Array(__S(130, __c8, 2));
     case 4:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(129, __c8, 1));
     case 5:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           name: S.String,
-          preferredVersion: S.optional(__S(65, __c8, 1)),
-          serverAddressByClientCIDRs: S.optional(__S(67, __c8, 3)),
-          versions: __S(68, __c8, 4),
+          preferredVersion: S.optional(__S(129, __c8, 1)),
+          serverAddressByClientCIDRs: S.optional(__S(131, __c8, 3)),
+          versions: __S(132, __c8, 4),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIGroup" });
   }
@@ -967,27 +1100,27 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(16, __c2, 0)),
+          categories: S.optional(__S(32, __c2, 0)),
           group: S.optional(S.String),
           kind: S.String,
           name: S.String,
           namespaced: S.Boolean,
-          shortNames: S.optional(__S(16, __c2, 0)),
+          shortNames: S.optional(__S(32, __c2, 0)),
           singularName: S.String,
           storageVersionHash: S.optional(S.String),
-          verbs: __S(16, __c2, 0),
+          verbs: __S(32, __c2, 0),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIResource" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           groupVersion: S.String,
           kind: S.optional(S.String),
-          resources: __S(74, __c9, 2),
+          resources: __S(146, __c9, 2),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIResourceList" });
   }

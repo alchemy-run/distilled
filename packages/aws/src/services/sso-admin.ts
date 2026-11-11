@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -169,14 +170,14 @@ export interface AddRegionRequest {
 }
 export type RegionStatus = "ACTIVE" | "ADDING" | "REMOVING" | (string & {});
 export interface AddRegionResponse {
-  Status?: RegionStatus;
+  Status?: RegionStatus | undefined;
 }
 export type PermissionSetArn = string;
 export type ManagedPolicyName = string;
 export type ManagedPolicyPath = string;
 export interface CustomerManagedPolicyReference {
   Name: string;
-  Path?: string;
+  Path?: string | undefined;
 }
 export interface AttachCustomerManagedPolicyReferenceToPermissionSetRequest {
   InstanceArn: string;
@@ -207,18 +208,18 @@ export type StatusValues = "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {}
 export type UUId = string;
 export type Reason = string;
 export interface AccountAssignmentOperationStatus {
-  Status?: StatusValues;
-  RequestId?: string;
-  FailureReason?: string;
-  TargetId?: string;
-  TargetType?: TargetType;
-  PermissionSetArn?: string;
-  PrincipalType?: PrincipalType;
-  PrincipalId?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  FailureReason?: string | undefined;
+  TargetId?: string | undefined;
+  TargetType?: TargetType | undefined;
+  PermissionSetArn?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
+  PrincipalId?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export interface CreateAccountAssignmentResponse {
-  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export type ApplicationProviderArn = string;
 export type ApplicationNameType = string;
@@ -227,12 +228,12 @@ export type SignInOrigin = "IDENTITY_CENTER" | "APPLICATION" | (string & {});
 export type ApplicationUrl = string;
 export interface SignInOptions {
   Origin: SignInOrigin;
-  ApplicationUrl?: string;
+  ApplicationUrl?: string | undefined;
 }
 export type ApplicationVisibility = "ENABLED" | "DISABLED" | (string & {});
 export interface PortalOptions {
-  SignInOptions?: SignInOptions;
-  Visibility?: ApplicationVisibility;
+  SignInOptions?: SignInOptions | undefined;
+  Visibility?: ApplicationVisibility | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -247,18 +248,18 @@ export interface CreateApplicationRequest {
   InstanceArn: string;
   ApplicationProviderArn: string;
   Name: string;
-  Description?: string;
-  PortalOptions?: PortalOptions;
-  Tags?: Tag[];
-  Status?: ApplicationStatus;
-  ClientToken?: string;
+  Description?: string | undefined;
+  PortalOptions?: PortalOptions | undefined;
+  Tags?: Tag[] | undefined;
+  Status?: ApplicationStatus | undefined;
+  ClientToken?: string | undefined;
 }
 export type ApplicationArn = string;
 export type IdentityStoreArn = string;
 export interface CreateApplicationResponse {
-  ApplicationArn?: string;
-  InstanceArn?: string;
-  IdentityStoreArn?: string;
+  ApplicationArn?: string | undefined;
+  InstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
 }
 export interface CreateApplicationAssignmentRequest {
   ApplicationArn: string;
@@ -268,12 +269,12 @@ export interface CreateApplicationAssignmentRequest {
 export interface CreateApplicationAssignmentResponse {}
 export type NameType = string;
 export interface CreateInstanceRequest {
-  Name?: string;
-  ClientToken?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateInstanceResponse {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
 }
 export type AccessControlAttributeKey = string;
 export type AccessControlAttributeValueSource = string;
@@ -300,22 +301,22 @@ export type Duration = string;
 export type RelayState = string;
 export interface CreatePermissionSetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   InstanceArn: string;
-  SessionDuration?: string;
-  RelayState?: string;
-  Tags?: Tag[];
+  SessionDuration?: string | undefined;
+  RelayState?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PermissionSet {
-  Name?: string;
-  PermissionSetArn?: string;
-  Description?: string;
-  CreatedDate?: Date;
-  SessionDuration?: string;
-  RelayState?: string;
+  Name?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  Description?: string | undefined;
+  CreatedDate?: Date | undefined;
+  SessionDuration?: string | undefined;
+  RelayState?: string | undefined;
 }
 export interface CreatePermissionSetResponse {
-  PermissionSet?: PermissionSet;
+  PermissionSet?: PermissionSet | undefined;
 }
 export type TrustedTokenIssuerName = string;
 export type TrustedTokenIssuerType = "OIDC_JWT" | (string & {});
@@ -335,12 +336,12 @@ export interface CreateTrustedTokenIssuerRequest {
   Name: string;
   TrustedTokenIssuerType: TrustedTokenIssuerType;
   TrustedTokenIssuerConfiguration: TrustedTokenIssuerConfiguration;
-  ClientToken?: string;
-  Tags?: Tag[];
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type TrustedTokenIssuerArn = string;
 export interface CreateTrustedTokenIssuerResponse {
-  TrustedTokenIssuerArn?: string;
+  TrustedTokenIssuerArn?: string | undefined;
 }
 export interface DeleteAccountAssignmentRequest {
   InstanceArn: string;
@@ -351,7 +352,7 @@ export interface DeleteAccountAssignmentRequest {
   PrincipalId: string;
 }
 export interface DeleteAccountAssignmentResponse {
-  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export interface DeleteApplicationRequest {
   ApplicationArn: string;
@@ -418,31 +419,31 @@ export interface DescribeAccountAssignmentCreationStatusRequest {
   AccountAssignmentCreationRequestId: string;
 }
 export interface DescribeAccountAssignmentCreationStatusResponse {
-  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentCreationStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export interface DescribeAccountAssignmentDeletionStatusRequest {
   InstanceArn: string;
   AccountAssignmentDeletionRequestId: string;
 }
 export interface DescribeAccountAssignmentDeletionStatusResponse {
-  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus;
+  AccountAssignmentDeletionStatus?: AccountAssignmentOperationStatus | undefined;
 }
 export interface DescribeApplicationRequest {
   ApplicationArn: string;
 }
 export type AccountId = string;
 export interface DescribeApplicationResponse {
-  ApplicationArn?: string;
-  ApplicationProviderArn?: string;
-  Name?: string;
-  ApplicationAccount?: string;
-  InstanceArn?: string;
-  IdentityStoreArn?: string;
-  Status?: ApplicationStatus;
-  PortalOptions?: PortalOptions;
-  Description?: string;
-  CreatedDate?: Date;
-  CreatedFrom?: string;
+  ApplicationArn?: string | undefined;
+  ApplicationProviderArn?: string | undefined;
+  Name?: string | undefined;
+  ApplicationAccount?: string | undefined;
+  InstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  PortalOptions?: PortalOptions | undefined;
+  Description?: string | undefined;
+  CreatedDate?: Date | undefined;
+  CreatedFrom?: string | undefined;
 }
 export interface DescribeApplicationAssignmentRequest {
   ApplicationArn: string;
@@ -450,9 +451,9 @@ export interface DescribeApplicationAssignmentRequest {
   PrincipalType: PrincipalType;
 }
 export interface DescribeApplicationAssignmentResponse {
-  PrincipalType?: PrincipalType;
-  PrincipalId?: string;
-  ApplicationArn?: string;
+  PrincipalType?: PrincipalType | undefined;
+  PrincipalId?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export interface DescribeApplicationProviderRequest {
   ApplicationProviderArn: string;
@@ -461,24 +462,24 @@ export type FederationProtocol = "SAML" | "OAUTH" | (string & {});
 export type Name = string;
 export type IconUrl = string;
 export interface DisplayData {
-  DisplayName?: string;
-  IconUrl?: string;
-  Description?: string;
+  DisplayName?: string | undefined;
+  IconUrl?: string | undefined;
+  Description?: string | undefined;
 }
 export type ResourceServerScope = string;
 export interface ResourceServerScopeDetails {
-  LongDescription?: string;
-  DetailedTitle?: string;
+  LongDescription?: string | undefined;
+  DetailedTitle?: string | undefined;
 }
 export type ResourceServerScopes = { [key: string]: ResourceServerScopeDetails | undefined };
 export interface ResourceServerConfig {
-  Scopes?: { [key: string]: ResourceServerScopeDetails | undefined };
+  Scopes?: { [key: string]: ResourceServerScopeDetails | undefined } | undefined;
 }
 export interface DescribeApplicationProviderResponse {
   ApplicationProviderArn: string;
-  FederationProtocol?: FederationProtocol;
-  DisplayData?: DisplayData;
-  ResourceServerConfig?: ResourceServerConfig;
+  FederationProtocol?: FederationProtocol | undefined;
+  DisplayData?: DisplayData | undefined;
+  ResourceServerConfig?: ResourceServerConfig | undefined;
 }
 export interface DescribeInstanceRequest {
   InstanceArn: string;
@@ -493,34 +494,34 @@ export type InstanceStatus =
   | (string & {});
 export type IsPrimaryRegion = boolean;
 export interface RegionMetadata {
-  RegionName?: string;
-  Status?: RegionStatus;
-  AddedDate?: Date;
-  IsPrimaryRegion?: boolean;
+  RegionName?: string | undefined;
+  Status?: RegionStatus | undefined;
+  AddedDate?: Date | undefined;
+  IsPrimaryRegion?: boolean | undefined;
 }
 export type RegionMetadataList = RegionMetadata[];
 export type KmsKeyType = "AWS_OWNED_KMS_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export type KmsKeyArn = string;
 export type KmsKeyStatus = "UPDATING" | "ENABLED" | "UPDATE_FAILED" | (string & {});
 export interface EncryptionConfigurationDetails {
-  KeyType?: KmsKeyType;
-  KmsKeyArn?: string;
-  EncryptionStatus?: KmsKeyStatus;
-  EncryptionStatusReason?: string;
+  KeyType?: KmsKeyType | undefined;
+  KmsKeyArn?: string | undefined;
+  EncryptionStatus?: KmsKeyStatus | undefined;
+  EncryptionStatusReason?: string | undefined;
 }
 export interface DescribeInstanceResponse {
-  InstanceArn?: string;
-  IdentityStoreId?: string;
-  IdentityStoreArn?: string;
-  OwnerAccountId?: string;
-  Name?: string;
-  CreatedDate?: Date;
-  Status?: InstanceStatus;
-  StatusReason?: string;
-  PrimaryRegion?: string;
-  Regions?: RegionMetadata[];
-  EncryptionConfigurationDetails?: EncryptionConfigurationDetails;
-  PermissionSetsEnabled?: boolean;
+  InstanceArn?: string | undefined;
+  IdentityStoreId?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  Name?: string | undefined;
+  CreatedDate?: Date | undefined;
+  Status?: InstanceStatus | undefined;
+  StatusReason?: string | undefined;
+  PrimaryRegion?: string | undefined;
+  Regions?: RegionMetadata[] | undefined;
+  EncryptionConfigurationDetails?: EncryptionConfigurationDetails | undefined;
+  PermissionSetsEnabled?: boolean | undefined;
 }
 export interface DescribeInstanceAccessControlAttributeConfigurationRequest {
   InstanceArn: string;
@@ -532,50 +533,52 @@ export type InstanceAccessControlAttributeConfigurationStatus =
   | (string & {});
 export type InstanceAccessControlAttributeConfigurationStatusReason = string;
 export interface DescribeInstanceAccessControlAttributeConfigurationResponse {
-  Status?: InstanceAccessControlAttributeConfigurationStatus;
-  StatusReason?: string;
-  InstanceAccessControlAttributeConfiguration?: InstanceAccessControlAttributeConfiguration;
+  Status?: InstanceAccessControlAttributeConfigurationStatus | undefined;
+  StatusReason?: string | undefined;
+  InstanceAccessControlAttributeConfiguration?:
+    | InstanceAccessControlAttributeConfiguration
+    | undefined;
 }
 export interface DescribePermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
 }
 export interface DescribePermissionSetResponse {
-  PermissionSet?: PermissionSet;
+  PermissionSet?: PermissionSet | undefined;
 }
 export interface DescribePermissionSetProvisioningStatusRequest {
   InstanceArn: string;
   ProvisionPermissionSetRequestId: string;
 }
 export interface PermissionSetProvisioningStatus {
-  Status?: StatusValues;
-  RequestId?: string;
-  AccountId?: string;
-  PermissionSetArn?: string;
-  FailureReason?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  AccountId?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  FailureReason?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export interface DescribePermissionSetProvisioningStatusResponse {
-  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus;
+  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus | undefined;
 }
 export interface DescribeRegionRequest {
   InstanceArn: string;
   RegionName: string;
 }
 export interface DescribeRegionResponse {
-  RegionName?: string;
-  Status?: RegionStatus;
-  AddedDate?: Date;
-  IsPrimaryRegion?: boolean;
+  RegionName?: string | undefined;
+  Status?: RegionStatus | undefined;
+  AddedDate?: Date | undefined;
+  IsPrimaryRegion?: boolean | undefined;
 }
 export interface DescribeTrustedTokenIssuerRequest {
   TrustedTokenIssuerArn: string;
 }
 export interface DescribeTrustedTokenIssuerResponse {
-  TrustedTokenIssuerArn?: string;
-  Name?: string;
-  TrustedTokenIssuerType?: TrustedTokenIssuerType;
-  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerConfiguration;
+  TrustedTokenIssuerArn?: string | undefined;
+  Name?: string | undefined;
+  TrustedTokenIssuerType?: TrustedTokenIssuerType | undefined;
+  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerConfiguration | undefined;
 }
 export interface DetachCustomerManagedPolicyReferenceFromPermissionSetRequest {
   InstanceArn: string;
@@ -597,7 +600,7 @@ export type ScopeTarget = string;
 export type ScopeTargets = string[];
 export interface GetApplicationAccessScopeResponse {
   Scope: string;
-  AuthorizedTargets?: string[];
+  AuthorizedTargets?: string[] | undefined;
 }
 export interface GetApplicationAssignmentConfigurationRequest {
   ApplicationArn: string;
@@ -616,7 +619,7 @@ export interface IamAuthenticationMethod {
 }
 export type AuthenticationMethod = { Iam: IamAuthenticationMethod };
 export interface GetApplicationAuthenticationMethodResponse {
-  AuthenticationMethod?: AuthenticationMethod;
+  AuthenticationMethod?: AuthenticationMethod | undefined;
 }
 export interface GetApplicationGrantRequest {
   ApplicationArn: string;
@@ -625,43 +628,43 @@ export interface GetApplicationGrantRequest {
 export type URI = string;
 export type RedirectUris = string[];
 export interface AuthorizationCodeGrant {
-  RedirectUris?: string[];
+  RedirectUris?: string[] | undefined;
 }
 export type TokenIssuerAudience = string;
 export type TokenIssuerAudiences = string[];
 export interface AuthorizedTokenIssuer {
-  TrustedTokenIssuerArn?: string;
-  AuthorizedAudiences?: string[];
+  TrustedTokenIssuerArn?: string | undefined;
+  AuthorizedAudiences?: string[] | undefined;
 }
 export type AuthorizedTokenIssuers = AuthorizedTokenIssuer[];
 export interface JwtBearerGrant {
-  AuthorizedTokenIssuers?: AuthorizedTokenIssuer[];
+  AuthorizedTokenIssuers?: AuthorizedTokenIssuer[] | undefined;
 }
 export interface RefreshTokenGrant {}
 export interface TokenExchangeGrant {}
 export type Grant =
   | {
       AuthorizationCode: AuthorizationCodeGrant;
-      JwtBearer?: never;
-      RefreshToken?: never;
-      TokenExchange?: never;
+      JwtBearer?: undefined;
+      RefreshToken?: undefined;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
+      AuthorizationCode?: undefined;
       JwtBearer: JwtBearerGrant;
-      RefreshToken?: never;
-      TokenExchange?: never;
+      RefreshToken?: undefined;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
-      JwtBearer?: never;
+      AuthorizationCode?: undefined;
+      JwtBearer?: undefined;
       RefreshToken: RefreshTokenGrant;
-      TokenExchange?: never;
+      TokenExchange?: undefined;
     }
   | {
-      AuthorizationCode?: never;
-      JwtBearer?: never;
-      RefreshToken?: never;
+      AuthorizationCode?: undefined;
+      JwtBearer?: undefined;
+      RefreshToken?: undefined;
       TokenExchange: TokenExchangeGrant;
     };
 export interface GetApplicationGrantResponse {
@@ -672,7 +675,7 @@ export interface GetApplicationSessionConfigurationRequest {
 }
 export type UserBackgroundSessionApplicationStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface GetApplicationSessionConfigurationResponse {
-  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus;
+  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus | undefined;
 }
 export interface GetInlinePolicyForPermissionSetRequest {
   InstanceArn: string;
@@ -680,89 +683,89 @@ export interface GetInlinePolicyForPermissionSetRequest {
 }
 export type PermissionSetPolicyDocument = string;
 export interface GetInlinePolicyForPermissionSetResponse {
-  InlinePolicy?: string;
+  InlinePolicy?: string | undefined;
 }
 export interface GetPermissionsBoundaryForPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
 }
 export interface PermissionsBoundary {
-  CustomerManagedPolicyReference?: CustomerManagedPolicyReference;
-  ManagedPolicyArn?: string;
+  CustomerManagedPolicyReference?: CustomerManagedPolicyReference | undefined;
+  ManagedPolicyArn?: string | undefined;
 }
 export interface GetPermissionsBoundaryForPermissionSetResponse {
-  PermissionsBoundary?: PermissionsBoundary;
+  PermissionsBoundary?: PermissionsBoundary | undefined;
 }
 export type MaxResults = number;
 export type Token = string;
 export interface OperationStatusFilter {
-  Status?: StatusValues;
+  Status?: StatusValues | undefined;
 }
 export interface ListAccountAssignmentCreationStatusRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: OperationStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: OperationStatusFilter | undefined;
 }
 export interface AccountAssignmentOperationStatusMetadata {
-  Status?: StatusValues;
-  RequestId?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export type AccountAssignmentOperationStatusList = AccountAssignmentOperationStatusMetadata[];
 export interface ListAccountAssignmentCreationStatusResponse {
-  AccountAssignmentsCreationStatus?: AccountAssignmentOperationStatusMetadata[];
-  NextToken?: string;
+  AccountAssignmentsCreationStatus?: AccountAssignmentOperationStatusMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountAssignmentDeletionStatusRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: OperationStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: OperationStatusFilter | undefined;
 }
 export interface ListAccountAssignmentDeletionStatusResponse {
-  AccountAssignmentsDeletionStatus?: AccountAssignmentOperationStatusMetadata[];
-  NextToken?: string;
+  AccountAssignmentsDeletionStatus?: AccountAssignmentOperationStatusMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountAssignmentsRequest {
   InstanceArn: string;
   AccountId: string;
   PermissionSetArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AccountAssignment {
-  AccountId?: string;
-  PermissionSetArn?: string;
-  PrincipalType?: PrincipalType;
-  PrincipalId?: string;
+  AccountId?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
+  PrincipalId?: string | undefined;
 }
 export type AccountAssignmentList = AccountAssignment[];
 export interface ListAccountAssignmentsResponse {
-  AccountAssignments?: AccountAssignment[];
-  NextToken?: string;
+  AccountAssignments?: AccountAssignment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountAssignmentsFilter {
-  AccountId?: string;
+  AccountId?: string | undefined;
 }
 export interface ListAccountAssignmentsForPrincipalRequest {
   InstanceArn: string;
   PrincipalId: string;
   PrincipalType: PrincipalType;
-  Filter?: ListAccountAssignmentsFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ListAccountAssignmentsFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AccountAssignmentForPrincipal {
-  AccountId?: string;
-  PermissionSetArn?: string;
-  PrincipalId?: string;
-  PrincipalType?: PrincipalType;
+  AccountId?: string | undefined;
+  PermissionSetArn?: string | undefined;
+  PrincipalId?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
 }
 export type AccountAssignmentListForPrincipal = AccountAssignmentForPrincipal[];
 export interface ListAccountAssignmentsForPrincipalResponse {
-  AccountAssignments?: AccountAssignmentForPrincipal[];
-  NextToken?: string;
+  AccountAssignments?: AccountAssignmentForPrincipal[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProvisioningStatus =
   | "LATEST_PERMISSION_SET_PROVISIONED"
@@ -771,33 +774,33 @@ export type ProvisioningStatus =
 export interface ListAccountsForProvisionedPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  ProvisioningStatus?: ProvisioningStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  ProvisioningStatus?: ProvisioningStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountList = string[];
 export interface ListAccountsForProvisionedPermissionSetResponse {
-  AccountIds?: string[];
-  NextToken?: string;
+  AccountIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAccessScopesRequest {
   ApplicationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ScopeDetails {
   Scope: string;
-  AuthorizedTargets?: string[];
+  AuthorizedTargets?: string[] | undefined;
 }
 export type Scopes = ScopeDetails[];
 export interface ListApplicationAccessScopesResponse {
   Scopes: ScopeDetails[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAssignmentsRequest {
   ApplicationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApplicationAssignment {
   ApplicationArn: string;
@@ -806,46 +809,46 @@ export interface ApplicationAssignment {
 }
 export type ApplicationAssignmentsList = ApplicationAssignment[];
 export interface ListApplicationAssignmentsResponse {
-  ApplicationAssignments?: ApplicationAssignment[];
-  NextToken?: string;
+  ApplicationAssignments?: ApplicationAssignment[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAssignmentsFilter {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export interface ListApplicationAssignmentsForPrincipalRequest {
   InstanceArn: string;
   PrincipalId: string;
   PrincipalType: PrincipalType;
-  Filter?: ListApplicationAssignmentsFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: ListApplicationAssignmentsFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ApplicationAssignmentForPrincipal {
-  ApplicationArn?: string;
-  PrincipalId?: string;
-  PrincipalType?: PrincipalType;
+  ApplicationArn?: string | undefined;
+  PrincipalId?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
 }
 export type ApplicationAssignmentListForPrincipal = ApplicationAssignmentForPrincipal[];
 export interface ListApplicationAssignmentsForPrincipalResponse {
-  ApplicationAssignments?: ApplicationAssignmentForPrincipal[];
-  NextToken?: string;
+  ApplicationAssignments?: ApplicationAssignmentForPrincipal[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationAuthenticationMethodsRequest {
   ApplicationArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface AuthenticationMethodItem {
-  AuthenticationMethodType?: AuthenticationMethodType;
-  AuthenticationMethod?: AuthenticationMethod;
+  AuthenticationMethodType?: AuthenticationMethodType | undefined;
+  AuthenticationMethod?: AuthenticationMethod | undefined;
 }
 export type AuthenticationMethods = AuthenticationMethodItem[];
 export interface ListApplicationAuthenticationMethodsResponse {
-  AuthenticationMethods?: AuthenticationMethodItem[];
-  NextToken?: string;
+  AuthenticationMethods?: AuthenticationMethodItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationGrantsRequest {
   ApplicationArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GrantItem {
   GrantType: GrantType;
@@ -854,182 +857,184 @@ export interface GrantItem {
 export type Grants = GrantItem[];
 export interface ListApplicationGrantsResponse {
   Grants: GrantItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationProvidersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApplicationProvider {
   ApplicationProviderArn: string;
-  FederationProtocol?: FederationProtocol;
-  DisplayData?: DisplayData;
-  ResourceServerConfig?: ResourceServerConfig;
+  FederationProtocol?: FederationProtocol | undefined;
+  DisplayData?: DisplayData | undefined;
+  ResourceServerConfig?: ResourceServerConfig | undefined;
 }
 export type ApplicationProviderList = ApplicationProvider[];
 export interface ListApplicationProvidersResponse {
-  ApplicationProviders?: ApplicationProvider[];
-  NextToken?: string;
+  ApplicationProviders?: ApplicationProvider[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationsFilter {
-  ApplicationAccount?: string;
-  ApplicationProvider?: string;
+  ApplicationAccount?: string | undefined;
+  ApplicationProvider?: string | undefined;
 }
 export interface ListApplicationsRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: ListApplicationsFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: ListApplicationsFilter | undefined;
 }
 export interface Application {
-  ApplicationArn?: string;
-  ApplicationProviderArn?: string;
-  Name?: string;
-  ApplicationAccount?: string;
-  InstanceArn?: string;
-  IdentityStoreArn?: string;
-  Status?: ApplicationStatus;
-  PortalOptions?: PortalOptions;
-  Description?: string;
-  CreatedDate?: Date;
-  CreatedFrom?: string;
+  ApplicationArn?: string | undefined;
+  ApplicationProviderArn?: string | undefined;
+  Name?: string | undefined;
+  ApplicationAccount?: string | undefined;
+  InstanceArn?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  PortalOptions?: PortalOptions | undefined;
+  Description?: string | undefined;
+  CreatedDate?: Date | undefined;
+  CreatedFrom?: string | undefined;
 }
 export type ApplicationList = Application[];
 export interface ListApplicationsResponse {
-  Applications?: Application[];
-  NextToken?: string;
+  Applications?: Application[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomerManagedPolicyReferencesInPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomerManagedPolicyReferenceList = CustomerManagedPolicyReference[];
 export interface ListCustomerManagedPolicyReferencesInPermissionSetResponse {
-  CustomerManagedPolicyReferences?: CustomerManagedPolicyReference[];
-  NextToken?: string;
+  CustomerManagedPolicyReferences?: CustomerManagedPolicyReference[] | undefined;
+  NextToken?: string | undefined;
 }
+export type RegionScope = "CURRENT_REGION" | "ALL_REGIONS" | (string & {});
 export interface ListInstancesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RegionScope?: RegionScope | undefined;
 }
 export interface InstanceMetadata {
-  InstanceArn?: string;
-  IdentityStoreId?: string;
-  IdentityStoreArn?: string;
-  OwnerAccountId?: string;
-  Name?: string;
-  CreatedDate?: Date;
-  Status?: InstanceStatus;
-  StatusReason?: string;
-  PrimaryRegion?: string;
-  Regions?: RegionMetadata[];
+  InstanceArn?: string | undefined;
+  IdentityStoreId?: string | undefined;
+  IdentityStoreArn?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  Name?: string | undefined;
+  CreatedDate?: Date | undefined;
+  Status?: InstanceStatus | undefined;
+  StatusReason?: string | undefined;
+  PrimaryRegion?: string | undefined;
+  Regions?: RegionMetadata[] | undefined;
 }
 export type InstanceList = InstanceMetadata[];
 export interface ListInstancesResponse {
-  Instances?: InstanceMetadata[];
-  NextToken?: string;
+  Instances?: InstanceMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedPoliciesInPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AttachedManagedPolicy {
-  Name?: string;
-  Arn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
 }
 export type AttachedManagedPolicyList = AttachedManagedPolicy[];
 export interface ListManagedPoliciesInPermissionSetResponse {
-  AttachedManagedPolicies?: AttachedManagedPolicy[];
-  NextToken?: string;
+  AttachedManagedPolicies?: AttachedManagedPolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetProvisioningStatusRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: OperationStatusFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: OperationStatusFilter | undefined;
 }
 export interface PermissionSetProvisioningStatusMetadata {
-  Status?: StatusValues;
-  RequestId?: string;
-  CreatedDate?: Date;
+  Status?: StatusValues | undefined;
+  RequestId?: string | undefined;
+  CreatedDate?: Date | undefined;
 }
 export type PermissionSetProvisioningStatusList = PermissionSetProvisioningStatusMetadata[];
 export interface ListPermissionSetProvisioningStatusResponse {
-  PermissionSetsProvisioningStatus?: PermissionSetProvisioningStatusMetadata[];
-  NextToken?: string;
+  PermissionSetsProvisioningStatus?: PermissionSetProvisioningStatusMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetsRequest {
   InstanceArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PermissionSetList = string[];
 export interface ListPermissionSetsResponse {
-  PermissionSets?: string[];
-  NextToken?: string;
+  PermissionSets?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetsProvisionedToAccountRequest {
   InstanceArn: string;
   AccountId: string;
-  ProvisioningStatus?: ProvisioningStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  ProvisioningStatus?: ProvisioningStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPermissionSetsProvisionedToAccountResponse {
-  NextToken?: string;
-  PermissionSets?: string[];
+  NextToken?: string | undefined;
+  PermissionSets?: string[] | undefined;
 }
 export interface ListRegionsRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRegionsResponse {
-  Regions?: RegionMetadata[];
-  NextToken?: string;
+  Regions?: RegionMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
   ResourceArn: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTrustedTokenIssuersRequest {
   InstanceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TrustedTokenIssuerMetadata {
-  TrustedTokenIssuerArn?: string;
-  Name?: string;
-  TrustedTokenIssuerType?: TrustedTokenIssuerType;
+  TrustedTokenIssuerArn?: string | undefined;
+  Name?: string | undefined;
+  TrustedTokenIssuerType?: TrustedTokenIssuerType | undefined;
 }
 export type TrustedTokenIssuerList = TrustedTokenIssuerMetadata[];
 export interface ListTrustedTokenIssuersResponse {
-  TrustedTokenIssuers?: TrustedTokenIssuerMetadata[];
-  NextToken?: string;
+  TrustedTokenIssuers?: TrustedTokenIssuerMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProvisionTargetType = "AWS_ACCOUNT" | "ALL_PROVISIONED_ACCOUNTS" | (string & {});
 export interface ProvisionPermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  TargetId?: string;
+  TargetId?: string | undefined;
   TargetType: ProvisionTargetType;
 }
 export interface ProvisionPermissionSetResponse {
-  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus;
+  PermissionSetProvisioningStatus?: PermissionSetProvisioningStatus | undefined;
 }
 export interface PutApplicationAccessScopeRequest {
   Scope: string;
-  AuthorizedTargets?: string[];
+  AuthorizedTargets?: string[] | undefined;
   ApplicationArn: string;
 }
 export interface PutApplicationAccessScopeResponse {}
@@ -1052,7 +1057,7 @@ export interface PutApplicationGrantRequest {
 export interface PutApplicationGrantResponse {}
 export interface PutApplicationSessionConfigurationRequest {
   ApplicationArn: string;
-  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus;
+  UserBackgroundSessionApplicationStatus?: UserBackgroundSessionApplicationStatus | undefined;
 }
 export interface PutApplicationSessionConfigurationResponse {}
 export interface PutInlinePolicyToPermissionSetRequest {
@@ -1072,41 +1077,41 @@ export interface RemoveRegionRequest {
   RegionName: string;
 }
 export interface RemoveRegionResponse {
-  Status?: RegionStatus;
+  Status?: RegionStatus | undefined;
 }
 export interface TagResourceRequest {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
   ResourceArn: string;
   Tags: Tag[];
 }
 export interface TagResourceResponse {}
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
-  InstanceArn?: string;
+  InstanceArn?: string | undefined;
   ResourceArn: string;
   TagKeys: string[];
 }
 export interface UntagResourceResponse {}
 export interface UpdateApplicationPortalOptions {
-  SignInOptions?: SignInOptions;
+  SignInOptions?: SignInOptions | undefined;
 }
 export interface UpdateApplicationRequest {
   ApplicationArn: string;
-  Name?: string;
-  Description?: string;
-  Status?: ApplicationStatus;
-  PortalOptions?: UpdateApplicationPortalOptions;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: ApplicationStatus | undefined;
+  PortalOptions?: UpdateApplicationPortalOptions | undefined;
 }
 export interface UpdateApplicationResponse {}
 export interface EncryptionConfiguration {
   KeyType: KmsKeyType;
-  KmsKeyArn?: string;
+  KmsKeyArn?: string | undefined;
 }
 export interface UpdateInstanceRequest {
-  Name?: string;
+  Name?: string | undefined;
   InstanceArn: string;
-  EncryptionConfiguration?: EncryptionConfiguration;
-  PermissionSetsEnabled?: boolean;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
+  PermissionSetsEnabled?: boolean | undefined;
 }
 export interface UpdateInstanceResponse {}
 export interface UpdateInstanceAccessControlAttributeConfigurationRequest {
@@ -1117,23 +1122,23 @@ export interface UpdateInstanceAccessControlAttributeConfigurationResponse {}
 export interface UpdatePermissionSetRequest {
   InstanceArn: string;
   PermissionSetArn: string;
-  Description?: string;
-  SessionDuration?: string;
-  RelayState?: string;
+  Description?: string | undefined;
+  SessionDuration?: string | undefined;
+  RelayState?: string | undefined;
 }
 export interface UpdatePermissionSetResponse {}
 export interface OidcJwtUpdateConfiguration {
-  ClaimAttributePath?: string;
-  IdentityStoreAttributePath?: string;
-  JwksRetrievalOption?: JwksRetrievalOption;
+  ClaimAttributePath?: string | undefined;
+  IdentityStoreAttributePath?: string | undefined;
+  JwksRetrievalOption?: JwksRetrievalOption | undefined;
 }
 export type TrustedTokenIssuerUpdateConfiguration = {
   OidcJwtConfiguration: OidcJwtUpdateConfiguration;
 };
 export interface UpdateTrustedTokenIssuerRequest {
   TrustedTokenIssuerArn: string;
-  Name?: string;
-  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerUpdateConfiguration;
+  Name?: string | undefined;
+  TrustedTokenIssuerConfiguration?: TrustedTokenIssuerUpdateConfiguration | undefined;
 }
 export interface UpdateTrustedTokenIssuerResponse {}
 export type AccessDeniedExceptionMessage = string;
@@ -1173,7 +1178,7 @@ export type AddRegionError =
  * - ListRegions
  */
 export const addRegion: API.OperationMethod<
-  AddRegionRequest,
+  AddRegionRequest & RegionInput,
   AddRegionResponse,
   AddRegionError,
   Credentials | HttpClient.HttpClient
@@ -1208,7 +1213,7 @@ export type AttachCustomerManagedPolicyReferenceToPermissionSetError =
  * Attaches the specified customer managed policy to the specified PermissionSet.
  */
 export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationMethod<
-  AttachCustomerManagedPolicyReferenceToPermissionSetRequest,
+  AttachCustomerManagedPolicyReferenceToPermissionSetRequest & RegionInput,
   AttachCustomerManagedPolicyReferenceToPermissionSetResponse,
   AttachCustomerManagedPolicyReferenceToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1259,7 @@ export type AttachManagedPolicyToPermissionSetError =
  * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this operation. Calling `ProvisionPermissionSet` applies the corresponding IAM policy updates to all assigned accounts.
  */
 export const attachManagedPolicyToPermissionSet: API.OperationMethod<
-  AttachManagedPolicyToPermissionSetRequest,
+  AttachManagedPolicyToPermissionSetRequest & RegionInput,
   AttachManagedPolicyToPermissionSetResponse,
   AttachManagedPolicyToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1296,7 +1301,7 @@ export type CreateAccountAssignmentError =
  * After a successful response, call `DescribeAccountAssignmentCreationStatus` to describe the status of an assignment creation request.
  */
 export const createAccountAssignment: API.OperationMethod<
-  CreateAccountAssignmentRequest,
+  CreateAccountAssignmentRequest & RegionInput,
   CreateAccountAssignmentResponse,
   CreateAccountAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1334,7 +1339,7 @@ export type CreateApplicationError =
  * This API does not support creating SAML 2.0 customer managed applications or Amazon Web Services managed applications. To learn how to create an Amazon Web Services managed application, see the application user guide. You can create a SAML 2.0 customer managed application in the Amazon Web Services Management Console only. See Setting up customer managed SAML 2.0 applications. For more information on these application types, see Amazon Web Services managed applications.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1375,7 @@ export type CreateApplicationAssignmentError =
  * Grant application access to a user or group.
  */
 export const createApplicationAssignment: API.OperationMethod<
-  CreateApplicationAssignmentRequest,
+  CreateApplicationAssignmentRequest & RegionInput,
   CreateApplicationAssignmentResponse,
   CreateApplicationAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1411,7 +1416,7 @@ export type CreateInstanceError =
  * - An instance already exists in the same account.
  */
 export const createInstance: API.OperationMethod<
-  CreateInstanceRequest,
+  CreateInstanceRequest & RegionInput,
   CreateInstanceResponse,
   CreateInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1452,7 @@ export type CreateInstanceAccessControlAttributeConfigurationError =
  * After a successful response, call `DescribeInstanceAccessControlAttributeConfiguration` to validate that `InstanceAccessControlAttributeConfiguration` was created.
  */
 export const createInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  CreateInstanceAccessControlAttributeConfigurationRequest,
+  CreateInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   CreateInstanceAccessControlAttributeConfigurationResponse,
   CreateInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1492,7 +1497,7 @@ export type CreatePermissionSetError =
  * To grant users and groups access to Amazon Web Services account resources, use ` CreateAccountAssignment `.
  */
 export const createPermissionSet: API.OperationMethod<
-  CreatePermissionSetRequest,
+  CreatePermissionSetRequest & RegionInput,
   CreatePermissionSetResponse,
   CreatePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1529,7 +1534,7 @@ export type CreateTrustedTokenIssuerError =
  * This trusted token issuer describes an external identity provider (IdP) that can generate claims or assertions in the form of access tokens for a user. Applications enabled for IAM Identity Center can use these tokens for authentication.
  */
 export const createTrustedTokenIssuer: API.OperationMethod<
-  CreateTrustedTokenIssuerRequest,
+  CreateTrustedTokenIssuerRequest & RegionInput,
   CreateTrustedTokenIssuerResponse,
   CreateTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient
@@ -1565,7 +1570,7 @@ export type DeleteAccountAssignmentError =
  * After a successful response, call `DescribeAccountAssignmentDeletionStatus` to describe the status of an assignment deletion request.
  */
 export const deleteAccountAssignment: API.OperationMethod<
-  DeleteAccountAssignmentRequest,
+  DeleteAccountAssignmentRequest & RegionInput,
   DeleteAccountAssignmentResponse,
   DeleteAccountAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1599,7 +1604,7 @@ export type DeleteApplicationError =
  * Deletes the association with the application. The connected service resource still exists.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
@@ -1633,7 +1638,7 @@ export type DeleteApplicationAccessScopeError =
  * Deletes an IAM Identity Center access scope from an application.
  */
 export const deleteApplicationAccessScope: API.OperationMethod<
-  DeleteApplicationAccessScopeRequest,
+  DeleteApplicationAccessScopeRequest & RegionInput,
   DeleteApplicationAccessScopeResponse,
   DeleteApplicationAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -1667,7 +1672,7 @@ export type DeleteApplicationAssignmentError =
  * Revoke application access to an application by deleting application assignments for a user or group.
  */
 export const deleteApplicationAssignment: API.OperationMethod<
-  DeleteApplicationAssignmentRequest,
+  DeleteApplicationAssignmentRequest & RegionInput,
   DeleteApplicationAssignmentResponse,
   DeleteApplicationAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1706,7 @@ export type DeleteApplicationAuthenticationMethodError =
  * Deletes an authentication method from an application.
  */
 export const deleteApplicationAuthenticationMethod: API.OperationMethod<
-  DeleteApplicationAuthenticationMethodRequest,
+  DeleteApplicationAuthenticationMethodRequest & RegionInput,
   DeleteApplicationAuthenticationMethodResponse,
   DeleteApplicationAuthenticationMethodError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1740,7 @@ export type DeleteApplicationGrantError =
  * Deletes a grant from an application.
  */
 export const deleteApplicationGrant: API.OperationMethod<
-  DeleteApplicationGrantRequest,
+  DeleteApplicationGrantRequest & RegionInput,
   DeleteApplicationGrantResponse,
   DeleteApplicationGrantError,
   Credentials | HttpClient.HttpClient
@@ -1769,7 +1774,7 @@ export type DeleteInlinePolicyFromPermissionSetError =
  * Deletes the inline policy from a specified permission set.
  */
 export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
-  DeleteInlinePolicyFromPermissionSetRequest,
+  DeleteInlinePolicyFromPermissionSetRequest & RegionInput,
   DeleteInlinePolicyFromPermissionSetResponse,
   DeleteInlinePolicyFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1802,7 +1807,7 @@ export type DeleteInstanceError =
  * Deletes the instance of IAM Identity Center. Only the account that owns the instance can call this API. Neither the delegated administrator nor member account can delete the organization instance, but those roles can delete their own instance.
  */
 export const deleteInstance: API.OperationMethod<
-  DeleteInstanceRequest,
+  DeleteInstanceRequest & RegionInput,
   DeleteInstanceResponse,
   DeleteInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1835,7 +1840,7 @@ export type DeleteInstanceAccessControlAttributeConfigurationError =
  * Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
 export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  DeleteInstanceAccessControlAttributeConfigurationRequest,
+  DeleteInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   DeleteInstanceAccessControlAttributeConfigurationResponse,
   DeleteInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -1877,7 +1882,7 @@ export type DeletePermissionsBoundaryFromPermissionSetError =
  * Deletes the permissions boundary from a specified PermissionSet.
  */
 export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
-  DeletePermissionsBoundaryFromPermissionSetRequest,
+  DeletePermissionsBoundaryFromPermissionSetRequest & RegionInput,
   DeletePermissionsBoundaryFromPermissionSetResponse,
   DeletePermissionsBoundaryFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1911,7 +1916,7 @@ export type DeletePermissionSetError =
  * Deletes the specified permission set.
  */
 export const deletePermissionSet: API.OperationMethod<
-  DeletePermissionSetRequest,
+  DeletePermissionSetRequest & RegionInput,
   DeletePermissionSetResponse,
   DeletePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -1947,7 +1952,7 @@ export type DeleteTrustedTokenIssuerError =
  * Deleting this trusted token issuer configuration will cause users to lose access to any applications that are configured to use the trusted token issuer.
  */
 export const deleteTrustedTokenIssuer: API.OperationMethod<
-  DeleteTrustedTokenIssuerRequest,
+  DeleteTrustedTokenIssuerRequest & RegionInput,
   DeleteTrustedTokenIssuerResponse,
   DeleteTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient
@@ -1980,7 +1985,7 @@ export type DescribeAccountAssignmentCreationStatusError =
  * Describes the status of the assignment creation request.
  */
 export const describeAccountAssignmentCreationStatus: API.OperationMethod<
-  DescribeAccountAssignmentCreationStatusRequest,
+  DescribeAccountAssignmentCreationStatusRequest & RegionInput,
   DescribeAccountAssignmentCreationStatusResponse,
   DescribeAccountAssignmentCreationStatusError,
   Credentials | HttpClient.HttpClient
@@ -2012,7 +2017,7 @@ export type DescribeAccountAssignmentDeletionStatusError =
  * Describes the status of the assignment deletion request.
  */
 export const describeAccountAssignmentDeletionStatus: API.OperationMethod<
-  DescribeAccountAssignmentDeletionStatusRequest,
+  DescribeAccountAssignmentDeletionStatusRequest & RegionInput,
   DescribeAccountAssignmentDeletionStatusResponse,
   DescribeAccountAssignmentDeletionStatusError,
   Credentials | HttpClient.HttpClient
@@ -2044,7 +2049,7 @@ export type DescribeApplicationError =
  * Retrieves the details of an application associated with an instance of IAM Identity Center.
  */
 export const describeApplication: API.OperationMethod<
-  DescribeApplicationRequest,
+  DescribeApplicationRequest & RegionInput,
   DescribeApplicationResponse,
   DescribeApplicationError,
   Credentials | HttpClient.HttpClient
@@ -2076,7 +2081,7 @@ export type DescribeApplicationAssignmentError =
  * Retrieves a direct assignment of a user or group to an application. If the user doesn't have a direct assignment to the application, the user may still have access to the application through a group. Therefore, don't use this API to test access to an application for a user. Instead use ListApplicationAssignmentsForPrincipal.
  */
 export const describeApplicationAssignment: API.OperationMethod<
-  DescribeApplicationAssignmentRequest,
+  DescribeApplicationAssignmentRequest & RegionInput,
   DescribeApplicationAssignmentResponse,
   DescribeApplicationAssignmentError,
   Credentials | HttpClient.HttpClient
@@ -2108,7 +2113,7 @@ export type DescribeApplicationProviderError =
  * Retrieves details about a provider that can be used to connect an Amazon Web Services managed application or customer managed application to IAM Identity Center.
  */
 export const describeApplicationProvider: API.OperationMethod<
-  DescribeApplicationProviderRequest,
+  DescribeApplicationProviderRequest & RegionInput,
   DescribeApplicationProviderResponse,
   DescribeApplicationProviderError,
   Credentials | HttpClient.HttpClient
@@ -2145,7 +2150,7 @@ export type DescribeInstanceError =
  * - `ACTIVE` - The instance is active.
  */
 export const describeInstance: API.OperationMethod<
-  DescribeInstanceRequest,
+  DescribeInstanceRequest & RegionInput,
   DescribeInstanceResponse,
   DescribeInstanceError,
   Credentials | HttpClient.HttpClient
@@ -2176,7 +2181,7 @@ export type DescribeInstanceAccessControlAttributeConfigurationError =
  * Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
 export const describeInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  DescribeInstanceAccessControlAttributeConfigurationRequest,
+  DescribeInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   DescribeInstanceAccessControlAttributeConfigurationResponse,
   DescribeInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2216,7 +2221,7 @@ export type DescribePermissionSetError =
  * Gets the details of the permission set.
  */
 export const describePermissionSet: API.OperationMethod<
-  DescribePermissionSetRequest,
+  DescribePermissionSetRequest & RegionInput,
   DescribePermissionSetResponse,
   DescribePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2248,7 +2253,7 @@ export type DescribePermissionSetProvisioningStatusError =
  * Describes the status for the given permission set provisioning request.
  */
 export const describePermissionSetProvisioningStatus: API.OperationMethod<
-  DescribePermissionSetProvisioningStatusRequest,
+  DescribePermissionSetProvisioningStatusRequest & RegionInput,
   DescribePermissionSetProvisioningStatusResponse,
   DescribePermissionSetProvisioningStatusError,
   Credentials | HttpClient.HttpClient
@@ -2288,7 +2293,7 @@ export type DescribeRegionError =
  * - ListRegions
  */
 export const describeRegion: API.OperationMethod<
-  DescribeRegionRequest,
+  DescribeRegionRequest & RegionInput,
   DescribeRegionResponse,
   DescribeRegionError,
   Credentials | HttpClient.HttpClient
@@ -2320,7 +2325,7 @@ export type DescribeTrustedTokenIssuerError =
  * Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
  */
 export const describeTrustedTokenIssuer: API.OperationMethod<
-  DescribeTrustedTokenIssuerRequest,
+  DescribeTrustedTokenIssuerRequest & RegionInput,
   DescribeTrustedTokenIssuerResponse,
   DescribeTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient
@@ -2353,7 +2358,7 @@ export type DetachCustomerManagedPolicyReferenceFromPermissionSetError =
  * Detaches the specified customer managed policy from the specified PermissionSet.
  */
 export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.OperationMethod<
-  DetachCustomerManagedPolicyReferenceFromPermissionSetRequest,
+  DetachCustomerManagedPolicyReferenceFromPermissionSetRequest & RegionInput,
   DetachCustomerManagedPolicyReferenceFromPermissionSetResponse,
   DetachCustomerManagedPolicyReferenceFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2395,7 +2400,7 @@ export type DetachManagedPolicyFromPermissionSetError =
  * Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
  */
 export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
-  DetachManagedPolicyFromPermissionSetRequest,
+  DetachManagedPolicyFromPermissionSetRequest & RegionInput,
   DetachManagedPolicyFromPermissionSetResponse,
   DetachManagedPolicyFromPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2428,7 +2433,7 @@ export type GetApplicationAccessScopeError =
  * Retrieves the authorized targets for an IAM Identity Center access scope for an application.
  */
 export const getApplicationAccessScope: API.OperationMethod<
-  GetApplicationAccessScopeRequest,
+  GetApplicationAccessScopeRequest & RegionInput,
   GetApplicationAccessScopeResponse,
   GetApplicationAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -2460,7 +2465,7 @@ export type GetApplicationAssignmentConfigurationError =
  * Retrieves the configuration of PutApplicationAssignmentConfiguration.
  */
 export const getApplicationAssignmentConfiguration: API.OperationMethod<
-  GetApplicationAssignmentConfigurationRequest,
+  GetApplicationAssignmentConfigurationRequest & RegionInput,
   GetApplicationAssignmentConfigurationResponse,
   GetApplicationAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2492,7 +2497,7 @@ export type GetApplicationAuthenticationMethodError =
  * Retrieves details about an authentication method used by an application.
  */
 export const getApplicationAuthenticationMethod: API.OperationMethod<
-  GetApplicationAuthenticationMethodRequest,
+  GetApplicationAuthenticationMethodRequest & RegionInput,
   GetApplicationAuthenticationMethodResponse,
   GetApplicationAuthenticationMethodError,
   Credentials | HttpClient.HttpClient
@@ -2524,7 +2529,7 @@ export type GetApplicationGrantError =
  * Retrieves details about an application grant.
  */
 export const getApplicationGrant: API.OperationMethod<
-  GetApplicationGrantRequest,
+  GetApplicationGrantRequest & RegionInput,
   GetApplicationGrantResponse,
   GetApplicationGrantError,
   Credentials | HttpClient.HttpClient
@@ -2558,7 +2563,7 @@ export type GetApplicationSessionConfigurationError =
  * The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
  */
 export const getApplicationSessionConfiguration: API.OperationMethod<
-  GetApplicationSessionConfigurationRequest,
+  GetApplicationSessionConfigurationRequest & RegionInput,
   GetApplicationSessionConfigurationResponse,
   GetApplicationSessionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -2590,7 +2595,7 @@ export type GetInlinePolicyForPermissionSetError =
  * Obtains the inline policy assigned to the permission set.
  */
 export const getInlinePolicyForPermissionSet: API.OperationMethod<
-  GetInlinePolicyForPermissionSetRequest,
+  GetInlinePolicyForPermissionSetRequest & RegionInput,
   GetInlinePolicyForPermissionSetResponse,
   GetInlinePolicyForPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2622,7 +2627,7 @@ export type GetPermissionsBoundaryForPermissionSetError =
  * Obtains the permissions boundary for a specified PermissionSet.
  */
 export const getPermissionsBoundaryForPermissionSet: API.OperationMethod<
-  GetPermissionsBoundaryForPermissionSetRequest,
+  GetPermissionsBoundaryForPermissionSetRequest & RegionInput,
   GetPermissionsBoundaryForPermissionSetResponse,
   GetPermissionsBoundaryForPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -2654,7 +2659,7 @@ export type ListAccountAssignmentCreationStatusError =
  * Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
  */
 export const listAccountAssignmentCreationStatus: API.PaginatedOperationMethod<
-  ListAccountAssignmentCreationStatusRequest,
+  ListAccountAssignmentCreationStatusRequest & RegionInput,
   ListAccountAssignmentCreationStatusResponse,
   ListAccountAssignmentCreationStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2693,7 +2698,7 @@ export type ListAccountAssignmentDeletionStatusError =
  * Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
  */
 export const listAccountAssignmentDeletionStatus: API.PaginatedOperationMethod<
-  ListAccountAssignmentDeletionStatusRequest,
+  ListAccountAssignmentDeletionStatusRequest & RegionInput,
   ListAccountAssignmentDeletionStatusResponse,
   ListAccountAssignmentDeletionStatusError,
   Credentials | HttpClient.HttpClient,
@@ -2732,7 +2737,7 @@ export type ListAccountAssignmentsError =
  * Lists the assignee of the specified Amazon Web Services account with the specified permission set.
  */
 export const listAccountAssignments: API.PaginatedOperationMethod<
-  ListAccountAssignmentsRequest,
+  ListAccountAssignmentsRequest & RegionInput,
   ListAccountAssignmentsResponse,
   ListAccountAssignmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2771,7 +2776,7 @@ export type ListAccountAssignmentsForPrincipalError =
  * Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that the principal has access to. This action must be called from the management account containing your organization instance of IAM Identity Center. This action is not valid for account instances of IAM Identity Center.
  */
 export const listAccountAssignmentsForPrincipal: API.PaginatedOperationMethod<
-  ListAccountAssignmentsForPrincipalRequest,
+  ListAccountAssignmentsForPrincipalRequest & RegionInput,
   ListAccountAssignmentsForPrincipalResponse,
   ListAccountAssignmentsForPrincipalError,
   Credentials | HttpClient.HttpClient,
@@ -2810,7 +2815,7 @@ export type ListAccountsForProvisionedPermissionSetError =
  * Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
  */
 export const listAccountsForProvisionedPermissionSet: API.PaginatedOperationMethod<
-  ListAccountsForProvisionedPermissionSetRequest,
+  ListAccountsForProvisionedPermissionSetRequest & RegionInput,
   ListAccountsForProvisionedPermissionSetResponse,
   ListAccountsForProvisionedPermissionSetError,
   Credentials | HttpClient.HttpClient,
@@ -2849,7 +2854,7 @@ export type ListApplicationAccessScopesError =
  * Lists the access scopes and authorized targets associated with an application.
  */
 export const listApplicationAccessScopes: API.PaginatedOperationMethod<
-  ListApplicationAccessScopesRequest,
+  ListApplicationAccessScopesRequest & RegionInput,
   ListApplicationAccessScopesResponse,
   ListApplicationAccessScopesError,
   Credentials | HttpClient.HttpClient,
@@ -2888,7 +2893,7 @@ export type ListApplicationAssignmentsError =
  * Lists Amazon Web Services account users that are assigned to an application.
  */
 export const listApplicationAssignments: API.PaginatedOperationMethod<
-  ListApplicationAssignmentsRequest,
+  ListApplicationAssignmentsRequest & RegionInput,
   ListApplicationAssignmentsResponse,
   ListApplicationAssignmentsError,
   Credentials | HttpClient.HttpClient,
@@ -2927,7 +2932,7 @@ export type ListApplicationAssignmentsForPrincipalError =
  * Lists the applications to which a specified principal is assigned. You must provide a filter when calling this action from a member account against your organization instance of IAM Identity Center. A filter is not required when called from the management account against an organization instance of IAM Identity Center, or from a member account against an account instance of IAM Identity Center in the same account.
  */
 export const listApplicationAssignmentsForPrincipal: API.PaginatedOperationMethod<
-  ListApplicationAssignmentsForPrincipalRequest,
+  ListApplicationAssignmentsForPrincipalRequest & RegionInput,
   ListApplicationAssignmentsForPrincipalResponse,
   ListApplicationAssignmentsForPrincipalError,
   Credentials | HttpClient.HttpClient,
@@ -2966,7 +2971,7 @@ export type ListApplicationAuthenticationMethodsError =
  * Lists all of the authentication methods supported by the specified application.
  */
 export const listApplicationAuthenticationMethods: API.PaginatedOperationMethod<
-  ListApplicationAuthenticationMethodsRequest,
+  ListApplicationAuthenticationMethodsRequest & RegionInput,
   ListApplicationAuthenticationMethodsResponse,
   ListApplicationAuthenticationMethodsError,
   Credentials | HttpClient.HttpClient,
@@ -3004,7 +3009,7 @@ export type ListApplicationGrantsError =
  * List the grants associated with an application.
  */
 export const listApplicationGrants: API.PaginatedOperationMethod<
-  ListApplicationGrantsRequest,
+  ListApplicationGrantsRequest & RegionInput,
   ListApplicationGrantsResponse,
   ListApplicationGrantsError,
   Credentials | HttpClient.HttpClient,
@@ -3037,7 +3042,7 @@ export type ListApplicationProvidersError =
  * Lists the application providers configured in the IAM Identity Center identity store.
  */
 export const listApplicationProviders: API.PaginatedOperationMethod<
-  ListApplicationProvidersRequest,
+  ListApplicationProvidersRequest & RegionInput,
   ListApplicationProvidersResponse,
   ListApplicationProvidersError,
   Credentials | HttpClient.HttpClient,
@@ -3074,7 +3079,7 @@ export type ListApplicationsError =
  * Lists all applications associated with the instance of IAM Identity Center. When listing applications for an organization instance in the management account, member accounts must use the `applicationAccount` parameter to filter the list to only applications created from that account. When listing applications for an account instance in the same member account, a filter is not required.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
@@ -3112,7 +3117,7 @@ export type ListCustomerManagedPolicyReferencesInPermissionSetError =
  * Lists all customer managed policies attached to a specified PermissionSet.
  */
 export const listCustomerManagedPolicyReferencesInPermissionSet: API.PaginatedOperationMethod<
-  ListCustomerManagedPolicyReferencesInPermissionSetRequest,
+  ListCustomerManagedPolicyReferencesInPermissionSetRequest & RegionInput,
   ListCustomerManagedPolicyReferencesInPermissionSetResponse,
   ListCustomerManagedPolicyReferencesInPermissionSetError,
   Credentials | HttpClient.HttpClient,
@@ -3158,7 +3163,7 @@ export type ListInstancesError =
  * Lists the details of the organization and account instances of IAM Identity Center that were created in or visible to the account calling this API.
  */
 export const listInstances: API.PaginatedOperationMethod<
-  ListInstancesRequest,
+  ListInstancesRequest & RegionInput,
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -3196,7 +3201,7 @@ export type ListManagedPoliciesInPermissionSetError =
  * Lists the Amazon Web Services managed policy that is attached to a specified permission set.
  */
 export const listManagedPoliciesInPermissionSet: API.PaginatedOperationMethod<
-  ListManagedPoliciesInPermissionSetRequest,
+  ListManagedPoliciesInPermissionSetRequest & RegionInput,
   ListManagedPoliciesInPermissionSetResponse,
   ListManagedPoliciesInPermissionSetError,
   Credentials | HttpClient.HttpClient,
@@ -3235,7 +3240,7 @@ export type ListPermissionSetProvisioningStatusError =
  * Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
  */
 export const listPermissionSetProvisioningStatus: API.PaginatedOperationMethod<
-  ListPermissionSetProvisioningStatusRequest,
+  ListPermissionSetProvisioningStatusRequest & RegionInput,
   ListPermissionSetProvisioningStatusResponse,
   ListPermissionSetProvisioningStatusError,
   Credentials | HttpClient.HttpClient,
@@ -3274,7 +3279,7 @@ export type ListPermissionSetsError =
  * Lists the PermissionSets in an IAM Identity Center instance.
  */
 export const listPermissionSets: API.PaginatedOperationMethod<
-  ListPermissionSetsRequest,
+  ListPermissionSetsRequest & RegionInput,
   ListPermissionSetsResponse,
   ListPermissionSetsError,
   Credentials | HttpClient.HttpClient,
@@ -3313,7 +3318,7 @@ export type ListPermissionSetsProvisionedToAccountError =
  * Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
  */
 export const listPermissionSetsProvisionedToAccount: API.PaginatedOperationMethod<
-  ListPermissionSetsProvisionedToAccountRequest,
+  ListPermissionSetsProvisionedToAccountRequest & RegionInput,
   ListPermissionSetsProvisionedToAccountResponse,
   ListPermissionSetsProvisionedToAccountError,
   Credentials | HttpClient.HttpClient,
@@ -3359,7 +3364,7 @@ export type ListRegionsError =
  * - DescribeRegion
  */
 export const listRegions: API.PaginatedOperationMethod<
-  ListRegionsRequest,
+  ListRegionsRequest & RegionInput,
   ListRegionsResponse,
   ListRegionsError,
   Credentials | HttpClient.HttpClient,
@@ -3397,7 +3402,7 @@ export type ListTagsForResourceError =
  * Lists the tags that are attached to a specified resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3430,7 +3435,7 @@ export type ListTrustedTokenIssuersError =
  * Lists all the trusted token issuers configured in an instance of IAM Identity Center.
  */
 export const listTrustedTokenIssuers: API.PaginatedOperationMethod<
-  ListTrustedTokenIssuersRequest,
+  ListTrustedTokenIssuersRequest & RegionInput,
   ListTrustedTokenIssuersResponse,
   ListTrustedTokenIssuersError,
   Credentials | HttpClient.HttpClient,
@@ -3469,7 +3474,7 @@ export type ProvisionPermissionSetError =
  * The process by which a specified permission set is provisioned to the specified target.
  */
 export const provisionPermissionSet: API.OperationMethod<
-  ProvisionPermissionSetRequest,
+  ProvisionPermissionSetRequest & RegionInput,
   ProvisionPermissionSetResponse,
   ProvisionPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -3503,7 +3508,7 @@ export type PutApplicationAccessScopeError =
  * Adds or updates the list of authorized targets for an IAM Identity Center access scope for an application.
  */
 export const putApplicationAccessScope: API.OperationMethod<
-  PutApplicationAccessScopeRequest,
+  PutApplicationAccessScopeRequest & RegionInput,
   PutApplicationAccessScopeResponse,
   PutApplicationAccessScopeError,
   Credentials | HttpClient.HttpClient
@@ -3537,7 +3542,7 @@ export type PutApplicationAssignmentConfigurationError =
  * Configure how users gain access to an application. If `AssignmentsRequired` is `true` (default value), users don't have access to the application unless an assignment is created using the CreateApplicationAssignment API. If `false`, all users have access to the application. If an assignment is created using CreateApplicationAssignment., the user retains access if `AssignmentsRequired` is set to `true`.
  */
 export const putApplicationAssignmentConfiguration: API.OperationMethod<
-  PutApplicationAssignmentConfigurationRequest,
+  PutApplicationAssignmentConfigurationRequest & RegionInput,
   PutApplicationAssignmentConfigurationResponse,
   PutApplicationAssignmentConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3571,7 +3576,7 @@ export type PutApplicationAuthenticationMethodError =
  * Adds or updates an authentication method for an application.
  */
 export const putApplicationAuthenticationMethod: API.OperationMethod<
-  PutApplicationAuthenticationMethodRequest,
+  PutApplicationAuthenticationMethodRequest & RegionInput,
   PutApplicationAuthenticationMethodResponse,
   PutApplicationAuthenticationMethodError,
   Credentials | HttpClient.HttpClient
@@ -3630,7 +3635,7 @@ export type PutApplicationGrantError =
  * - Configuring an Amazon Web Services service to make calls to another Amazon Web Services services using JWT tokens.
  */
 export const putApplicationGrant: API.OperationMethod<
-  PutApplicationGrantRequest,
+  PutApplicationGrantRequest & RegionInput,
   PutApplicationGrantResponse,
   PutApplicationGrantError,
   Credentials | HttpClient.HttpClient
@@ -3666,7 +3671,7 @@ export type PutApplicationSessionConfigurationError =
  * The session configuration determines how users can access an application. This includes whether user background sessions are enabled. User background sessions allow users to start a job on a supported Amazon Web Services managed application without having to remain signed in to an active session while the job runs.
  */
 export const putApplicationSessionConfiguration: API.OperationMethod<
-  PutApplicationSessionConfigurationRequest,
+  PutApplicationSessionConfigurationRequest & RegionInput,
   PutApplicationSessionConfigurationResponse,
   PutApplicationSessionConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -3703,7 +3708,7 @@ export type PutInlinePolicyToPermissionSetError =
  * If the permission set is already referenced by one or more account assignments, you will need to call ` ProvisionPermissionSet ` after this action to apply the corresponding IAM policy updates to all assigned accounts.
  */
 export const putInlinePolicyToPermissionSet: API.OperationMethod<
-  PutInlinePolicyToPermissionSetRequest,
+  PutInlinePolicyToPermissionSetRequest & RegionInput,
   PutInlinePolicyToPermissionSetResponse,
   PutInlinePolicyToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -3738,7 +3743,7 @@ export type PutPermissionsBoundaryToPermissionSetError =
  * Attaches an Amazon Web Services managed or customer managed policy to the specified PermissionSet as a permissions boundary.
  */
 export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
-  PutPermissionsBoundaryToPermissionSetRequest,
+  PutPermissionsBoundaryToPermissionSetRequest & RegionInput,
   PutPermissionsBoundaryToPermissionSetResponse,
   PutPermissionsBoundaryToPermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -3780,7 +3785,7 @@ export type RemoveRegionError =
  * - ListRegions
  */
 export const removeRegion: API.OperationMethod<
-  RemoveRegionRequest,
+  RemoveRegionRequest & RegionInput,
   RemoveRegionResponse,
   RemoveRegionError,
   Credentials | HttpClient.HttpClient
@@ -3815,7 +3820,7 @@ export type TagResourceError =
  * Associates a set of tags with a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3850,7 +3855,7 @@ export type UntagResourceError =
  * Disassociates a set of tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3884,7 +3889,7 @@ export type UpdateApplicationError =
  * Updates application properties.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
@@ -3923,10 +3928,10 @@ export type UpdateInstanceError =
  *
  * - Enable permission sets for the instance by specifying `PermissionSetsEnabled`.
  *
- * A request that specifies both `EncryptionConfiguration` and `PermissionSetsEnabled` returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. The two calls can be made in parallel.
+ * If you specify both `EncryptionConfiguration` and `PermissionSetsEnabled` in a request, the request returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. You can make the two calls in parallel.
  */
 export const updateInstance: API.OperationMethod<
-  UpdateInstanceRequest,
+  UpdateInstanceRequest & RegionInput,
   UpdateInstanceResponse,
   UpdateInstanceError,
   Credentials | HttpClient.HttpClient
@@ -3960,7 +3965,7 @@ export type UpdateInstanceAccessControlAttributeConfigurationError =
  * Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see Attribute-Based Access Control in the *IAM Identity Center User Guide*.
  */
 export const updateInstanceAccessControlAttributeConfiguration: API.OperationMethod<
-  UpdateInstanceAccessControlAttributeConfigurationRequest,
+  UpdateInstanceAccessControlAttributeConfigurationRequest & RegionInput,
   UpdateInstanceAccessControlAttributeConfigurationResponse,
   UpdateInstanceAccessControlAttributeConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -4002,7 +4007,7 @@ export type UpdatePermissionSetError =
  * Updates an existing permission set.
  */
 export const updatePermissionSet: API.OperationMethod<
-  UpdatePermissionSetRequest,
+  UpdatePermissionSetRequest & RegionInput,
   UpdatePermissionSetResponse,
   UpdatePermissionSetError,
   Credentials | HttpClient.HttpClient
@@ -4038,7 +4043,7 @@ export type UpdateTrustedTokenIssuerError =
  * Updating this trusted token issuer configuration might cause users to lose access to any applications that are configured to use the trusted token issuer.
  */
 export const updateTrustedTokenIssuer: API.OperationMethod<
-  UpdateTrustedTokenIssuerRequest,
+  UpdateTrustedTokenIssuerRequest & RegionInput,
   UpdateTrustedTokenIssuerResponse,
   UpdateTrustedTokenIssuerError,
   Credentials | HttpClient.HttpClient
@@ -5177,9 +5182,11 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          RegionScope: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
       return S.suspend(() =>

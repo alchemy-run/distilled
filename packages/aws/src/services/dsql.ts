@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -163,19 +164,19 @@ export type Region = string;
 export type ClusterArn = string;
 export type ClusterArnList = string[];
 export interface MultiRegionProperties {
-  witnessRegion?: string;
-  clusters?: string[];
+  witnessRegion?: string | undefined;
+  clusters?: string[] | undefined;
 }
 export type PolicyDocument = string;
 export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface CreateClusterInput {
-  deletionProtectionEnabled?: boolean;
-  kmsEncryptionKey?: string;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-  multiRegionProperties?: MultiRegionProperties;
-  policy?: string;
-  bypassPolicyLockoutSafetyCheck?: boolean;
+  deletionProtectionEnabled?: boolean | undefined;
+  kmsEncryptionKey?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  multiRegionProperties?: MultiRegionProperties | undefined;
+  policy?: string | undefined;
+  bypassPolicyLockoutSafetyCheck?: boolean | undefined;
 }
 export type ClusterId = string;
 export type ClusterStatus =
@@ -201,7 +202,7 @@ export type EncryptionStatus =
   | (string & {});
 export interface EncryptionDetails {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   encryptionStatus: EncryptionStatus;
 }
 export type Endpoint = string;
@@ -210,10 +211,10 @@ export interface CreateClusterOutput {
   arn: string;
   status: ClusterStatus;
   creationTime: Date;
-  multiRegionProperties?: MultiRegionProperties;
-  encryptionDetails?: EncryptionDetails;
+  multiRegionProperties?: MultiRegionProperties | undefined;
+  encryptionDetails?: EncryptionDetails | undefined;
   deletionProtectionEnabled: boolean;
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 export type KinesisStreamArn = string;
 export type RoleArn = string;
@@ -229,8 +230,8 @@ export interface CreateStreamInput {
   targetDefinition: TargetDefinition;
   ordering: StreamOrdering;
   format: StreamFormat;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type StreamId = string;
 export type StreamArn = string;
@@ -254,7 +255,7 @@ export interface CreateStreamOutput {
 }
 export interface DeleteClusterInput {
   identifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteClusterOutput {
   identifier: string;
@@ -265,8 +266,8 @@ export interface DeleteClusterOutput {
 export type PolicyVersion = string;
 export interface DeleteClusterPolicyInput {
   identifier: string;
-  expectedPolicyVersion?: string;
-  clientToken?: string;
+  expectedPolicyVersion?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface DeleteClusterPolicyOutput {
   policyVersion: string;
@@ -274,7 +275,7 @@ export interface DeleteClusterPolicyOutput {
 export interface DeleteStreamInput {
   clusterIdentifier: string;
   streamIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteStreamOutput {
   clusterIdentifier: string;
@@ -292,10 +293,10 @@ export interface GetClusterOutput {
   status: ClusterStatus;
   creationTime: Date;
   deletionProtectionEnabled: boolean;
-  multiRegionProperties?: MultiRegionProperties;
-  tags?: { [key: string]: string | undefined };
-  encryptionDetails?: EncryptionDetails;
-  endpoint?: string;
+  multiRegionProperties?: MultiRegionProperties | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  encryptionDetails?: EncryptionDetails | undefined;
+  endpoint?: string | undefined;
 }
 export interface GetClusterPolicyInput {
   identifier: string;
@@ -330,9 +331,9 @@ export interface GetStreamOutput {
   creationTime: Date;
   ordering: StreamOrdering;
   format: StreamFormat;
-  targetDefinition?: TargetDefinition;
-  statusReason?: StatusReason;
-  tags?: { [key: string]: string | undefined };
+  targetDefinition?: TargetDefinition | undefined;
+  statusReason?: StatusReason | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetVpcEndpointServiceNameInput {
   identifier: string;
@@ -341,13 +342,13 @@ export type ServiceName = string;
 export type ClusterVpcEndpoint = string;
 export interface GetVpcEndpointServiceNameOutput {
   serviceName: string;
-  clusterVpcEndpoint?: string;
+  clusterVpcEndpoint?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListClustersInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ClusterSummary {
   identifier: string;
@@ -355,13 +356,13 @@ export interface ClusterSummary {
 }
 export type ClusterList = ClusterSummary[];
 export interface ListClustersOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   clusters: ClusterSummary[];
 }
 export interface ListStreamsInput {
   clusterIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface StreamSummary {
   clusterIdentifier: string;
@@ -372,7 +373,7 @@ export interface StreamSummary {
 }
 export type StreamList = StreamSummary[];
 export interface ListStreamsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   streams: StreamSummary[];
 }
 export type Arn = string;
@@ -380,14 +381,14 @@ export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutClusterPolicyInput {
   identifier: string;
   policy: string;
-  bypassPolicyLockoutSafetyCheck?: boolean;
-  expectedPolicyVersion?: string;
-  clientToken?: string;
+  bypassPolicyLockoutSafetyCheck?: boolean | undefined;
+  expectedPolicyVersion?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutClusterPolicyOutput {
   policyVersion: string;
@@ -405,10 +406,10 @@ export interface UntagResourceInput {
 export interface UntagResourceResponse {}
 export interface UpdateClusterInput {
   identifier: string;
-  deletionProtectionEnabled?: boolean;
-  kmsEncryptionKey?: string;
-  clientToken?: string;
-  multiRegionProperties?: MultiRegionProperties;
+  deletionProtectionEnabled?: boolean | undefined;
+  kmsEncryptionKey?: string | undefined;
+  clientToken?: string | undefined;
+  multiRegionProperties?: MultiRegionProperties | undefined;
 }
 export interface UpdateClusterOutput {
   identifier: string;
@@ -479,7 +480,7 @@ export type CreateClusterError =
  * - The witness Region specified in `multiRegionProperties.witnessRegion` cannot be the same as the cluster's Region.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterInput,
+  CreateClusterInput & RegionInput,
   CreateClusterOutput,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -524,7 +525,7 @@ export type CreateStreamError =
  * Resources: ARN of the KMS key used by the cluster
  */
 export const createStream: API.OperationMethod<
-  CreateStreamInput,
+  CreateStreamInput & RegionInput,
   CreateStreamOutput,
   CreateStreamError,
   Credentials | HttpClient.HttpClient
@@ -549,7 +550,7 @@ export type DeleteClusterError = ConflictException | ResourceNotFoundException |
  * Deletes a cluster in Amazon Aurora DSQL.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterInput,
+  DeleteClusterInput & RegionInput,
   DeleteClusterOutput,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -573,7 +574,7 @@ export type DeleteClusterPolicyError =
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
  */
 export const deleteClusterPolicy: API.OperationMethod<
-  DeleteClusterPolicyInput,
+  DeleteClusterPolicyInput & RegionInput,
   DeleteClusterPolicyOutput,
   DeleteClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -593,7 +594,7 @@ export type DeleteStreamError = ConflictException | ResourceNotFoundException | 
  * Deletes a stream from a cluster.
  */
 export const deleteStream: API.OperationMethod<
-  DeleteStreamInput,
+  DeleteStreamInput & RegionInput,
   DeleteStreamOutput,
   DeleteStreamError,
   Credentials | HttpClient.HttpClient
@@ -613,7 +614,7 @@ export type GetClusterError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a cluster.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterInput,
+  GetClusterInput & RegionInput,
   GetClusterOutput,
   GetClusterError,
   Credentials | HttpClient.HttpClient
@@ -633,7 +634,7 @@ export type GetClusterPolicyError = ResourceNotFoundException | ValidationExcept
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */
 export const getClusterPolicy: API.OperationMethod<
-  GetClusterPolicyInput,
+  GetClusterPolicyInput & RegionInput,
   GetClusterPolicyOutput,
   GetClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -653,7 +654,7 @@ export type GetStreamError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a stream.
  */
 export const getStream: API.OperationMethod<
-  GetStreamInput,
+  GetStreamInput & RegionInput,
   GetStreamOutput,
   GetStreamError,
   Credentials | HttpClient.HttpClient
@@ -678,7 +679,7 @@ export type GetVpcEndpointServiceNameError =
  * Retrieves the VPC endpoint service name.
  */
 export const getVpcEndpointServiceName: API.OperationMethod<
-  GetVpcEndpointServiceNameInput,
+  GetVpcEndpointServiceNameInput & RegionInput,
   GetVpcEndpointServiceNameOutput,
   GetVpcEndpointServiceNameError,
   Credentials | HttpClient.HttpClient
@@ -703,7 +704,7 @@ export type ListClustersError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a list of clusters.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersInput,
+  ListClustersInput & RegionInput,
   ListClustersOutput,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -730,7 +731,7 @@ export type ListStreamsError = ResourceNotFoundException | CommonErrors;
  * Retrieves information about a list of streams for a cluster.
  */
 export const listStreams: API.PaginatedOperationMethod<
-  ListStreamsInput,
+  ListStreamsInput & RegionInput,
   ListStreamsOutput,
   ListStreamsError,
   Credentials | HttpClient.HttpClient,
@@ -757,7 +758,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Lists all of the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -781,7 +782,7 @@ export type PutClusterPolicyError =
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
  */
 export const putClusterPolicy: API.OperationMethod<
-  PutClusterPolicyInput,
+  PutClusterPolicyInput & RegionInput,
   PutClusterPolicyOutput,
   PutClusterPolicyError,
   Credentials | HttpClient.HttpClient
@@ -804,7 +805,7 @@ export type TagResourceError =
  * Tags a resource with a map of key and value pairs.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -824,7 +825,7 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -902,7 +903,7 @@ export type UpdateClusterError =
  * - When you list peer clusters in `multiRegionProperties.clusters`, you need `dsql:AddPeerCluster` for every peer cluster in your request. You need `dsql:RemovePeerCluster` only for the peer clusters that the update removes.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterInput,
+  UpdateClusterInput & RegionInput,
   UpdateClusterOutput,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient

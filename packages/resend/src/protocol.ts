@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ResendProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type ResendOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ResendParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Resend operation. */
 export type ResendOpContext = Credentials | HttpClient.HttpClient;

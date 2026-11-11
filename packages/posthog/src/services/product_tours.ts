@@ -56,17 +56,20 @@ export type ProductTourSerializerCreateUpdateOnlyCreationContextEnum = "app" | "
 export interface CreateProductTourRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  name?: string;
-  description?: string;
-  linked_flag_id?: number | null;
-  targeting_flag_filters?: unknown;
-  content?: unknown;
-  auto_launch?: boolean;
-  start_date?: string | null;
-  end_date?: string | null;
-  archived?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  linked_flag_id?: number | null | undefined;
+  targeting_flag_filters?: unknown | undefined;
+  content?: unknown | undefined;
+  auto_launch?: boolean | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  archived?: boolean | undefined;
   /** Where the tour was created/updated from * `app` - app * `toolbar` - toolbar */
-  creation_context?: ProductTourSerializerCreateUpdateOnlyCreationContextEnum | (string & {});
+  creation_context?:
+    | ProductTourSerializerCreateUpdateOnlyCreationContextEnum
+    | (string & {})
+    | undefined;
 }
 export type MinimalFeatureFlagFiltersMap = { [key: string]: unknown | undefined };
 /** * `server` - Server * `client` - Client * `all` - All */
@@ -80,20 +83,20 @@ export type BucketingIdentifierEnum = "distinct_id" | "device_id";
 export type MinimalFeatureFlagBucketingIdentifier = BucketingIdentifierEnum | BlankEnum;
 export type MinimalFeatureFlagEvaluationContextsList = Array<string>;
 export interface MinimalFeatureFlag {
-  id?: number;
-  team_id?: number;
-  name?: string;
-  key?: string;
-  filters?: MinimalFeatureFlagFiltersMap;
-  deleted?: boolean;
-  active?: boolean;
-  ensure_experience_continuity?: boolean | null;
-  version?: number | null;
+  id?: number | undefined;
+  team_id?: number | undefined;
+  name?: string | undefined;
+  key?: string | undefined;
+  filters?: MinimalFeatureFlagFiltersMap | undefined;
+  deleted?: boolean | undefined;
+  active?: boolean | undefined;
+  ensure_experience_continuity?: boolean | null | undefined;
+  version?: number | null | undefined;
   /** Specifies where this feature flag should be evaluated * `server` - Server * `client` - Client * `all` - All */
-  evaluation_runtime?: MinimalFeatureFlagEvaluationRuntime | null;
+  evaluation_runtime?: MinimalFeatureFlagEvaluationRuntime | null | undefined;
   /** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
-  bucketing_identifier?: MinimalFeatureFlagBucketingIdentifier | null;
-  evaluation_contexts?: MinimalFeatureFlagEvaluationContextsList;
+  bucketing_identifier?: MinimalFeatureFlagBucketingIdentifier | null | undefined;
+  evaluation_contexts?: MinimalFeatureFlagEvaluationContextsList | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -109,31 +112,31 @@ export type RoleAtOrganizationEnum =
   | "other";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Serializer for creating and updating ProductTour. */
 export interface ProductTourSerializerCreateUpdateOnlyOutput {
-  id?: string;
-  name?: string;
-  description?: string;
-  internal_targeting_flag?: MinimalFeatureFlag;
-  linked_flag?: MinimalFeatureFlag;
-  content?: unknown;
-  auto_launch?: boolean;
-  start_date?: string | null;
-  end_date?: string | null;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
-  archived?: boolean;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  internal_targeting_flag?: MinimalFeatureFlag | undefined;
+  linked_flag?: MinimalFeatureFlag | undefined;
+  content?: unknown | undefined;
+  auto_launch?: boolean | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
+  archived?: boolean | undefined;
 }
 export interface GetProductTourRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -146,25 +149,25 @@ export type ProductTourTargetingFlagFiltersMap = { [key: string]: unknown | unde
 export type SearchMatchTypeEnum = "exact" | "similar";
 /** Read-only serializer for ProductTour. */
 export interface ProductTour {
-  id?: string;
-  name?: string;
-  description?: string;
-  internal_targeting_flag?: MinimalFeatureFlag;
-  linked_flag?: MinimalFeatureFlag;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  internal_targeting_flag?: MinimalFeatureFlag | undefined;
+  linked_flag?: MinimalFeatureFlag | undefined;
   /** Return the targeting flag filters, excluding the base exclusion properties. */
-  targeting_flag_filters?: ProductTourTargetingFlagFiltersMap | null;
-  content?: unknown;
-  draft_content?: unknown;
-  has_draft?: boolean;
-  auto_launch?: boolean;
-  start_date?: string | null;
-  end_date?: string | null;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  updated_at?: string;
-  archived?: boolean;
+  targeting_flag_filters?: ProductTourTargetingFlagFiltersMap | null | undefined;
+  content?: unknown | undefined;
+  draft_content?: unknown | undefined;
+  has_draft?: boolean | undefined;
+  auto_launch?: boolean | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  updated_at?: string | undefined;
+  archived?: boolean | undefined;
   /** How this row matched the `search` query parameter: `exact` (the term is a case-insensitive substring of a searched field) or `similar` (a fuzzy trigram match, returned only when no exact match exists). Null when the list is not filtered by `search`. */
-  search_match_type?: SearchMatchTypeEnum | null;
+  search_match_type?: SearchMatchTypeEnum | null | undefined;
 }
 export interface GetProductToursDraftStatusRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -173,25 +176,25 @@ export interface GetProductToursDraftStatusRequest {
   id: string;
 }
 export interface DraftStatusResponse {
-  updated_at?: string;
-  has_draft?: boolean;
+  updated_at?: string | undefined;
+  has_draft?: boolean | undefined;
 }
 export interface ListProductToursRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Match against product tour `name` and `description`. Returns exact (case-insensitive substring) matches only; if no exact match exists, returns similar (fuzzy trigram -- typos, prefix-as-you-type) matches instead. Each result's `search_match_type` is `exact` or `similar`. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedProductTourListResultsList = Array<ProductTour>;
 export interface PaginatedProductTourList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedProductTourListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedProductTourListResultsList | undefined;
 }
 export interface ProductToursDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -214,82 +217,91 @@ export interface ProductToursGenerateCreateRequest {
   project_id: string;
   /** A UUID string identifying this product tour. */
   id: string;
-  title?: string;
-  goal?: string;
-  steps?: ProductToursGenerateCreateRequestStepsList;
+  title?: string | undefined;
+  goal?: string | undefined;
+  steps?: ProductToursGenerateCreateRequestStepsList | undefined;
 }
 export interface GenerateStepResponse {
-  step_id?: string;
-  title?: string;
-  description?: string;
+  step_id?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
 }
 export type GenerateResponseStepsList = Array<GenerateStepResponse>;
 export interface GenerateResponse {
-  steps?: GenerateResponseStepsList;
+  steps?: GenerateResponseStepsList | undefined;
 }
 export interface ProductToursPublishDraftCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this product tour. */
   id: string;
-  name?: string;
-  description?: string;
-  linked_flag_id?: number | null;
-  targeting_flag_filters?: unknown;
-  content?: unknown;
-  auto_launch?: boolean;
-  start_date?: string | null;
-  end_date?: string | null;
-  archived?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  linked_flag_id?: number | null | undefined;
+  targeting_flag_filters?: unknown | undefined;
+  content?: unknown | undefined;
+  auto_launch?: boolean | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  archived?: boolean | undefined;
   /** Where the tour was created/updated from * `app` - app * `toolbar` - toolbar */
-  creation_context?: ProductTourSerializerCreateUpdateOnlyCreationContextEnum | (string & {});
+  creation_context?:
+    | ProductTourSerializerCreateUpdateOnlyCreationContextEnum
+    | (string & {})
+    | undefined;
 }
 export interface UpdateProductTourRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this product tour. */
   id: string;
-  name?: string;
-  description?: string;
-  content?: unknown;
-  auto_launch?: boolean;
-  start_date?: string | null;
-  end_date?: string | null;
-  archived?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  content?: unknown | undefined;
+  auto_launch?: boolean | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  archived?: boolean | undefined;
 }
 export interface UpdateProductToursDraftPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this product tour. */
   id: string;
-  name?: string;
-  description?: string;
-  linked_flag_id?: number | null;
-  targeting_flag_filters?: unknown;
-  content?: unknown;
-  auto_launch?: boolean;
-  start_date?: string | null;
-  end_date?: string | null;
-  archived?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  linked_flag_id?: number | null | undefined;
+  targeting_flag_filters?: unknown | undefined;
+  content?: unknown | undefined;
+  auto_launch?: boolean | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  archived?: boolean | undefined;
   /** Where the tour was created/updated from * `app` - app * `toolbar` - toolbar */
-  creation_context?: ProductTourSerializerCreateUpdateOnlyCreationContextEnum | (string & {});
+  creation_context?:
+    | ProductTourSerializerCreateUpdateOnlyCreationContextEnum
+    | (string & {})
+    | undefined;
 }
 export interface UpdateProductToursPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this product tour. */
   id: string;
-  name?: string;
-  description?: string;
-  linked_flag_id?: number | null;
-  targeting_flag_filters?: unknown;
-  content?: unknown;
-  auto_launch?: boolean;
-  start_date?: string | null;
-  end_date?: string | null;
-  archived?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  linked_flag_id?: number | null | undefined;
+  targeting_flag_filters?: unknown | undefined;
+  content?: unknown | undefined;
+  auto_launch?: boolean | undefined;
+  start_date?: string | null | undefined;
+  end_date?: string | null | undefined;
+  archived?: boolean | undefined;
   /** Where the tour was created/updated from * `app` - app * `toolbar` - toolbar */
-  creation_context?: ProductTourSerializerCreateUpdateOnlyCreationContextEnum | (string & {});
+  creation_context?:
+    | ProductTourSerializerCreateUpdateOnlyCreationContextEnum
+    | (string & {})
+    | undefined;
 }
 export type CreateProductTourError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create, read, update, and manage product tours and their targeting. */

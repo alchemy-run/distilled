@@ -39,28 +39,28 @@ export type EmailCcList = Array<string>;
 export type EmailReplyToList = Array<string>;
 export interface Email {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the email. */
-  id?: string;
-  to?: EmailToList;
+  id?: string | undefined;
+  to?: EmailToList | undefined;
   /** The email address of the sender. */
-  from?: string;
+  from?: string | undefined;
   /** The date and time the email was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The subject line of the email. */
-  subject?: string;
+  subject?: string | undefined;
   /** The HTML body of the email. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text body of the email. */
-  text?: string;
+  text?: string | undefined;
   /** The email addresses of the blind carbon copy recipients. */
-  bcc?: EmailBccList;
+  bcc?: EmailBccList | undefined;
   /** The email addresses of the carbon copy recipients. */
-  cc?: EmailCcList;
+  cc?: EmailCcList | undefined;
   /** The email addresses to which replies should be sent. */
-  reply_to?: EmailReplyToList;
+  reply_to?: EmailReplyToList | undefined;
   /** The status of the email. */
-  last_event?: string;
+  last_event?: string | undefined;
 }
 /** The API key can have full access to Resend's API or be only restricted to send emails. * full_access - Can create, delete, get, and update any resource. * sending_access - Can only send emails. */
 export type CreateApiKeyRequestPermission = "full_access" | "sending_access";
@@ -68,15 +68,15 @@ export interface CreateApiKeyRequest {
   /** The API key name. */
   name: string;
   /** The API key can have full access to Resend's API or be only restricted to send emails. * full_access - Can create, delete, get, and update any resource. * sending_access - Can only send emails. */
-  permission?: CreateApiKeyRequestPermission | (string & {});
+  permission?: CreateApiKeyRequestPermission | (string & {}) | undefined;
   /** Restrict an API key to send emails only from a specific domain. Only used when the permission is sending_access. */
-  domain_id?: string;
+  domain_id?: string | undefined;
 }
 export interface CreateApiKeyResponse {
   /** The ID of the API key. */
-  id?: string;
+  id?: string | undefined;
   /** The token of the API key. */
-  token?: string;
+  token?: string | undefined;
 }
 /** The initial status of the automation. Defaults to `disabled`. */
 export type CreateAutomationRequestStatus = "enabled" | "disabled";
@@ -115,7 +115,7 @@ export interface AutomationConnection {
   /** The `key` of the target step. */
   to: string;
   /** The type of connection. Defaults to `default`. */
-  type?: AutomationConnectionType | (string & {});
+  type?: AutomationConnectionType | (string & {}) | undefined;
 }
 /** The connections between steps in the automation graph. */
 export type CreateAutomationRequestConnectionsList = Array<AutomationConnection>;
@@ -123,7 +123,7 @@ export interface CreateAutomationRequest {
   /** The name of the automation. */
   name: string;
   /** The initial status of the automation. Defaults to `disabled`. */
-  status?: CreateAutomationRequestStatus | (string & {});
+  status?: CreateAutomationRequestStatus | (string & {}) | undefined;
   /** The steps that compose the automation workflow. Must include at least one `trigger` step. */
   steps: CreateAutomationRequestStepsList;
   /** The connections between steps in the automation graph. */
@@ -131,43 +131,43 @@ export interface CreateAutomationRequest {
 }
 export interface CreateAutomationResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the created automation. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The email addresses to which replies should be sent. */
 export type CreateBroadcastRequestReplyToList = Array<string>;
 export interface CreateBroadcastRequest {
   /** Name of the broadcast. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier of the segment this broadcast will be sent to. */
   segment_id: string;
   /** Use `segment_id` instead. Unique identifier of the segment this broadcast will be sent to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** The email address of the sender. */
   from: string;
   /** The subject line of the email. */
   subject: string;
   /** The email addresses to which replies should be sent. */
-  reply_to?: CreateBroadcastRequestReplyToList;
+  reply_to?: CreateBroadcastRequestReplyToList | undefined;
   /** The preview text of the email. */
-  preview_text?: string;
+  preview_text?: string | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
+  text?: string | undefined;
   /** The topic ID that the broadcast will be scoped to. */
-  topic_id?: string;
+  topic_id?: string | undefined;
   /** Whether to send the broadcast immediately or keep it as a draft. */
-  send?: boolean;
+  send?: boolean | undefined;
   /** Schedule time to send the broadcast. Can only be used if `send` is true. */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
 }
 export interface CreateBroadcastResponseSuccess {
   /** The ID of the broadcast. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** A map of custom property keys and values to create. */
 export type CreateContactRequestPropertiesMap = { [key: string]: unknown | undefined };
@@ -177,9 +177,9 @@ export type CreateContactRequestSegmentsList = Array<string>;
 export type CreateContactRequestTopicsItemSubscription = "opt_in" | "opt_out";
 export interface CreateContactRequestTopicsItem {
   /** The topic ID. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription status for this topic. */
-  subscription?: CreateContactRequestTopicsItemSubscription | (string & {});
+  subscription?: CreateContactRequestTopicsItemSubscription | (string & {}) | undefined;
 }
 /** Array of topic subscriptions for the contact. */
 export type CreateContactRequestTopicsList = Array<CreateContactRequestTopicsItem>;
@@ -187,25 +187,25 @@ export interface CreateContactRequest {
   /** Email address of the contact. */
   email: string;
   /** First name of the contact. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Last name of the contact. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The Contact's global subscription status. If set to true, the contact will be unsubscribed from all Broadcasts. */
-  unsubscribed?: boolean;
+  unsubscribed?: boolean | undefined;
   /** A map of custom property keys and values to create. */
-  properties?: CreateContactRequestPropertiesMap;
+  properties?: CreateContactRequestPropertiesMap | undefined;
   /** Array of segment IDs to add the contact to. */
-  segments?: CreateContactRequestSegmentsList;
+  segments?: CreateContactRequestSegmentsList | undefined;
   /** Array of topic subscriptions for the contact. */
-  topics?: CreateContactRequestTopicsList;
+  topics?: CreateContactRequestTopicsList | undefined;
   /** Unique identifier of the audience to which the contact belongs. */
-  audience_id?: string;
+  audience_id?: string | undefined;
 }
 export interface CreateContactResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the created contact. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The property type. */
 export type CreateContactPropertyRequestType = "string" | "number";
@@ -217,13 +217,13 @@ export interface CreateContactPropertyRequest {
   /** The property type. */
   type: CreateContactPropertyRequestType | (string & {});
   /** The default value to use when the property is not set for a contact. Must match the type specified in the type field. */
-  fallback_value?: CreateContactPropertyRequestFallbackValue;
+  fallback_value?: CreateContactPropertyRequestFallbackValue | undefined;
 }
 export interface CreateContactPropertyResponseSuccess {
   /** The ID of the contact property. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** The region where emails will be sent from. Possible values are us-east-1 | eu-west-1 | sa-east-1 | ap-northeast-1 */
 export type CreateDomainRequestRegion = "us-east-1" | "eu-west-1" | "sa-east-1" | "ap-northeast-1";
@@ -236,26 +236,26 @@ export type DomainCapabilitiesReceiving = "enabled" | "disabled";
 /** Configure the domain capabilities for sending and receiving emails. At least one capability must be enabled. */
 export interface DomainCapabilities {
   /** Enable or disable sending emails from this domain. */
-  sending?: DomainCapabilitiesSending | (string & {});
+  sending?: DomainCapabilitiesSending | (string & {}) | undefined;
   /** Enable or disable receiving emails to this domain. */
-  receiving?: DomainCapabilitiesReceiving | (string & {});
+  receiving?: DomainCapabilitiesReceiving | (string & {}) | undefined;
 }
 export interface CreateDomainRequest {
   /** The name of the domain you want to create. */
   name: string;
   /** The region where emails will be sent from. Possible values are us-east-1 | eu-west-1 | sa-east-1 | ap-northeast-1 */
-  region?: CreateDomainRequestRegion | (string & {});
+  region?: CreateDomainRequestRegion | (string & {}) | undefined;
   /** For advanced use cases, choose a subdomain for the Return-Path address. Defaults to 'send' (i.e., send.yourdomain.tld). */
-  custom_return_path?: string;
+  custom_return_path?: string | undefined;
   /** Track the open rate of each email. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Track clicks within the body of each HTML email. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** TLS mode. Opportunistic attempts secure connection but falls back to unencrypted. Enforced requires TLS or email won't be sent. */
-  tls?: CreateDomainRequestTls | (string & {});
-  capabilities?: DomainCapabilities;
+  tls?: CreateDomainRequestTls | (string & {}) | undefined;
+  capabilities?: DomainCapabilities | undefined;
   /** The subdomain to use for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
 }
 /** The type of record (SPF for sending, DKIM for sending, Receiving for inbound emails, Tracking for click and open tracking). */
 export type DomainRecordRecord = "SPF" | "DKIM" | "Receiving" | "Tracking";
@@ -270,40 +270,40 @@ export type DomainRecordStatus =
   | "not_started";
 export interface DomainRecord {
   /** The type of record (SPF for sending, DKIM for sending, Receiving for inbound emails, Tracking for click and open tracking). */
-  record?: DomainRecordRecord;
+  record?: DomainRecordRecord | undefined;
   /** The name of the DNS record. */
-  name?: string;
+  name?: string | undefined;
   /** The DNS record type. */
-  type?: DomainRecordType;
+  type?: DomainRecordType | undefined;
   /** The time to live for the record. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** The status of the record. */
-  status?: DomainRecordStatus;
+  status?: DomainRecordStatus | undefined;
   /** The value of the record. */
-  value?: string;
+  value?: string | undefined;
   /** The priority of the record (only applicable for MX records). */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type CreateDomainResponseRecordsList = Array<DomainRecord>;
 export interface CreateDomainResponse {
   /** The ID of the domain. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the domain. */
-  name?: string;
+  name?: string | undefined;
   /** The date and time the domain was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The status of the domain. */
-  status?: string;
-  capabilities?: DomainCapabilities;
-  records?: CreateDomainResponseRecordsList;
+  status?: string | undefined;
+  capabilities?: DomainCapabilities | undefined;
+  records?: CreateDomainResponseRecordsList | undefined;
   /** The region where the domain is hosted. */
-  region?: string;
+  region?: string | undefined;
   /** Whether open tracking is enabled for this domain. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Whether click tracking is enabled for this domain. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** The subdomain used for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
 }
 export type CreateEmailRequestToCase1List = Array<string>;
 /** Recipient email address. For multiple addresses, send as an array of strings. Max 50. */
@@ -326,26 +326,26 @@ export interface CreateEmailRequestTemplate {
   /** The id of the published email template. */
   id: string;
   /** Template variables object with key/value pairs. */
-  variables?: CreateEmailRequestTemplateVariablesMap;
+  variables?: CreateEmailRequestTemplateVariablesMap | undefined;
 }
 export interface Attachment {
   /** Content of an attached file. */
-  content?: string;
+  content?: string | undefined;
   /** Name of attached file. */
-  filename?: string;
+  filename?: string | undefined;
   /** Path where the attachment file is hosted */
-  path?: string;
+  path?: string | undefined;
   /** Optional content type for the attachment, if not set it will be derived from the filename property */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Content ID for embedding inline images using cid references (e.g., cid:image001). */
-  content_id?: string;
+  content_id?: string | undefined;
 }
 export type CreateEmailRequestAttachmentsList = Array<Attachment>;
 export interface Tag {
   /** The name of the email tag. It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). It can contain no more than 256 characters. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the email tag.It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-). It can contain no more than 256 characters. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CreateEmailRequestTagsList = Array<Tag>;
 export interface CreateEmailRequest {
@@ -356,28 +356,28 @@ export interface CreateEmailRequest {
   /** Email subject. */
   subject: string;
   /** Bcc recipient email address. For multiple addresses, send as an array of strings. */
-  bcc?: CreateEmailRequestBcc;
+  bcc?: CreateEmailRequestBcc | undefined;
   /** Cc recipient email address. For multiple addresses, send as an array of strings. */
-  cc?: CreateEmailRequestCc;
+  cc?: CreateEmailRequestCc | undefined;
   /** Reply-to email address. For multiple addresses, send as an array of strings. */
-  reply_to?: CreateEmailRequestReplyTo;
+  reply_to?: CreateEmailRequestReplyTo | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
-  template?: CreateEmailRequestTemplate;
+  text?: string | undefined;
+  template?: CreateEmailRequestTemplate | undefined;
   /** Custom headers to add to the email. */
-  headers?: unknown;
+  headers?: unknown | undefined;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
-  attachments?: CreateEmailRequestAttachmentsList;
-  tags?: CreateEmailRequestTagsList;
+  scheduled_at?: string | undefined;
+  attachments?: CreateEmailRequestAttachmentsList | undefined;
+  tags?: CreateEmailRequestTagsList | undefined;
   /** The topic ID to scope the email to. If the recipient is a contact and opted-in to the topic, the email is sent. If opted-out, the email is not sent. If the recipient is not a contact, the email is sent if the topic's default subscription is opt_in. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 export interface SendEmailResponse {
   /** The ID of the sent email. */
-  id?: string;
+  id?: string | undefined;
 }
 export type SendEmailRequestToCase1List = Array<string>;
 /** Recipient email address. For multiple addresses, send as an array of strings. Max 50. */
@@ -400,7 +400,7 @@ export interface SendEmailRequestTemplate {
   /** The id of the published email template. */
   id: string;
   /** Template variables object with key/value pairs. */
-  variables?: SendEmailRequestTemplateVariablesMap;
+  variables?: SendEmailRequestTemplateVariablesMap | undefined;
 }
 export type SendEmailRequestAttachmentsList = Array<Attachment>;
 export type SendEmailRequestTagsList = Array<Tag>;
@@ -412,62 +412,62 @@ export interface SendEmailRequest {
   /** Email subject. */
   subject: string;
   /** Bcc recipient email address. For multiple addresses, send as an array of strings. */
-  bcc?: SendEmailRequestBcc;
+  bcc?: SendEmailRequestBcc | undefined;
   /** Cc recipient email address. For multiple addresses, send as an array of strings. */
-  cc?: SendEmailRequestCc;
+  cc?: SendEmailRequestCc | undefined;
   /** Reply-to email address. For multiple addresses, send as an array of strings. */
-  reply_to?: SendEmailRequestReplyTo;
+  reply_to?: SendEmailRequestReplyTo | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
-  template?: SendEmailRequestTemplate;
+  text?: string | undefined;
+  template?: SendEmailRequestTemplate | undefined;
   /** Custom headers to add to the email. */
-  headers?: unknown;
+  headers?: unknown | undefined;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
-  attachments?: SendEmailRequestAttachmentsList;
-  tags?: SendEmailRequestTagsList;
+  scheduled_at?: string | undefined;
+  attachments?: SendEmailRequestAttachmentsList | undefined;
+  tags?: SendEmailRequestTagsList | undefined;
   /** The topic ID to scope the email to. If the recipient is a contact and opted-in to the topic, the email is sent. If opted-out, the email is not sent. If the recipient is not a contact, the email is sent if the topic's default subscription is opt_in. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 export type CreateEmailBatchRequestBodyList = Array<SendEmailRequest>;
 export interface CreateEmailBatchRequest {
-  body?: CreateEmailBatchRequestBodyList;
+  body?: CreateEmailBatchRequestBodyList | undefined;
 }
 export interface CreateBatchEmailsResponseDataItem {
   /** The ID of the sent email. */
-  id?: string;
+  id?: string | undefined;
 }
 export type CreateBatchEmailsResponseDataList = Array<CreateBatchEmailsResponseDataItem>;
 export interface CreateBatchEmailsResponse {
-  data?: CreateBatchEmailsResponseDataList;
+  data?: CreateBatchEmailsResponseDataList | undefined;
 }
 export interface CreateEventRequest {
   /** The name of the event. Cannot start with the reserved `resend:` prefix. */
   name: string;
   /** An optional flat key/type map defining the event payload schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema?: unknown | null;
+  schema?: unknown | null | undefined;
 }
 export interface CreateEventResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the created event. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateSegmentRequest {
   /** The name of the segment. */
   name: string;
   /** The ID of the audience this segment belongs to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Filter conditions for the segment. */
-  filter?: unknown;
+  filter?: unknown | undefined;
 }
 export interface CreateSegmentResponseSuccess {
   /** The ID of the segment. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** Reply-to email addresses. */
 export type CreateTemplateRequestReplyToList = Array<string>;
@@ -487,31 +487,31 @@ export interface TemplateVariableInput {
   /** The type of the variable. */
   type: TemplateVariableInputType | (string & {});
   /** The fallback value of the variable. */
-  fallback_value?: TemplateVariableInputFallbackValue;
+  fallback_value?: TemplateVariableInputFallbackValue | undefined;
 }
 export type CreateTemplateRequestVariablesList = Array<TemplateVariableInput>;
 export interface CreateTemplateRequest {
   /** The name of the template. */
   name: string;
   /** The alias of the template. */
-  alias?: string;
+  alias?: string | undefined;
   /** Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>". */
-  from?: string;
+  from?: string | undefined;
   /** Email subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Reply-to email addresses. */
-  reply_to?: CreateTemplateRequestReplyToList;
+  reply_to?: CreateTemplateRequestReplyToList | undefined;
   /** The HTML version of the template. */
   html: string;
   /** The plain text version of the template. */
-  text?: string;
-  variables?: CreateTemplateRequestVariablesList;
+  text?: string | undefined;
+  variables?: CreateTemplateRequestVariablesList | undefined;
 }
 export interface CreateTemplateResponseSuccess {
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** The default subscription status for the topic. Cannot be changed after creation. */
 export type CreateTopicRequestDefaultSubscription = "opt_in" | "opt_out";
@@ -523,15 +523,15 @@ export interface CreateTopicRequest {
   /** The default subscription status for the topic. Cannot be changed after creation. */
   default_subscription: CreateTopicRequestDefaultSubscription | (string & {});
   /** A description of the topic. Max 200 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The visibility of the topic. Public topics are visible to all contacts on the unsubscribe page. Private topics are only visible to opted-in contacts. */
-  visibility?: CreateTopicRequestVisibility | (string & {});
+  visibility?: CreateTopicRequestVisibility | (string & {}) | undefined;
 }
 export interface CreateTopicResponseSuccess {
   /** The ID of the topic. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** Array of event types to subscribe to. */
 export type CreateWebhookRequestEventsList = Array<string>;
@@ -543,11 +543,11 @@ export interface CreateWebhookRequest {
 }
 export interface CreateWebhookResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the webhook. */
-  id?: string;
+  id?: string | undefined;
   /** The secret key used to verify webhook payloads. */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteApiKeyRequest {
   /** The API key ID. */
@@ -555,11 +555,11 @@ export interface DeleteApiKeyRequest {
 }
 export interface DeleteApiKeyResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the API key. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the API key was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteAutomationRequest {
   /** The ID of the automation. */
@@ -567,11 +567,11 @@ export interface DeleteAutomationRequest {
 }
 export interface DeleteAutomationResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the deleted automation. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the automation was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteBroadcastRequest {
   /** The Broadcast ID. */
@@ -579,11 +579,11 @@ export interface DeleteBroadcastRequest {
 }
 export interface RemoveBroadcastResponseSuccess {
   /** The ID of the broadcast. */
-  id?: string;
+  id?: string | undefined;
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The deleted attribute indicates that the corresponding broadcast has been deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteContactRequest {
   /** The Contact ID or email address. */
@@ -591,11 +591,11 @@ export interface DeleteContactRequest {
 }
 export interface RemoveContactResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the removed contact. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the contact was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteContactPropertyRequest {
   /** The Contact Property ID. */
@@ -603,11 +603,11 @@ export interface DeleteContactPropertyRequest {
 }
 export interface RemoveContactPropertyResponseSuccess {
   /** The ID of the contact property. */
-  id?: string;
+  id?: string | undefined;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates whether the contact property was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteContactSegmentRequest {
   /** The Contact ID or email address. */
@@ -617,13 +617,13 @@ export interface DeleteContactSegmentRequest {
 }
 export interface RemoveContactFromSegmentResponseSuccess {
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the contact. */
-  contact_id?: string;
+  contact_id?: string | undefined;
   /** The ID of the segment. */
-  segment_id?: string;
+  segment_id?: string | undefined;
   /** Indicates whether the contact was successfully removed from the segment. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteDomainRequest {
   /** The ID of the domain. */
@@ -631,11 +631,11 @@ export interface DeleteDomainRequest {
 }
 export interface DeleteDomainResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the domain. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the domain was deleted successfully. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteEventRequest {
   /** The event ID (UUID) or event name. */
@@ -643,11 +643,11 @@ export interface DeleteEventRequest {
 }
 export interface RemoveEventResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the deleted event. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the event was deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteSegmentRequest {
   /** The Segment ID. */
@@ -655,11 +655,11 @@ export interface DeleteSegmentRequest {
 }
 export interface RemoveSegmentResponseSuccess {
   /** The ID of the segment. */
-  id?: string;
+  id?: string | undefined;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates whether the segment was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteTemplateRequest {
   /** The Template ID or alias. */
@@ -667,11 +667,11 @@ export interface DeleteTemplateRequest {
 }
 export interface RemoveTemplateResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the template was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteTopicRequest {
   /** The Topic ID. */
@@ -679,11 +679,11 @@ export interface DeleteTopicRequest {
 }
 export interface RemoveTopicResponseSuccess {
   /** The ID of the topic. */
-  id?: string;
+  id?: string | undefined;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates whether the topic was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteWebhookRequest {
   /** The Webhook ID. */
@@ -691,11 +691,11 @@ export interface DeleteWebhookRequest {
 }
 export interface DeleteWebhookResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the deleted webhook. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the webhook was successfully deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DuplicateTemplateRequest {
   /** The Template ID or alias. */
@@ -703,9 +703,9 @@ export interface DuplicateTemplateRequest {
 }
 export interface DuplicateTemplateResponseSuccess {
   /** The ID of the duplicated template. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface GetAutomationRequest {
   /** The ID of the automation. */
@@ -726,11 +726,11 @@ export type AutomationStepResponseType =
 /** A step as returned when retrieving an automation. */
 export interface AutomationStepResponse {
   /** The unique key of this step within the automation graph. */
-  key?: string;
+  key?: string | undefined;
   /** The type of automation step. */
-  type?: AutomationStepResponseType;
+  type?: AutomationStepResponseType | undefined;
   /** Configuration for the step. Shape depends on `type`. For `delay` steps, config contains `{ duration: string }` with a human-readable duration (e.g. `"30 minutes"`). For `wait_for_event` steps, config contains `{ event_name: string, timeout?: string, filter_rule?: object }` where `timeout` is a human-readable duration. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 /** The steps in the active version of the automation. */
 export type AutomationStepsList = Array<AutomationStepResponse>;
@@ -738,21 +738,21 @@ export type AutomationStepsList = Array<AutomationStepResponse>;
 export type AutomationConnectionsList = Array<AutomationConnection>;
 export interface Automation {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the automation. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the automation. */
-  name?: string;
+  name?: string | undefined;
   /** The current status of the automation. */
-  status?: AutomationStatus;
+  status?: AutomationStatus | undefined;
   /** The date and time the automation was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the automation was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The steps in the active version of the automation. */
-  steps?: AutomationStepsList;
+  steps?: AutomationStepsList | undefined;
   /** The connections between steps in the active version of the automation. */
-  connections?: AutomationConnectionsList;
+  connections?: AutomationConnectionsList | undefined;
 }
 export interface GetAutomationRunRequest {
   /** The ID of the automation. */
@@ -775,39 +775,39 @@ export type AutomationRunStepType =
 /** A step execution within an automation run. */
 export interface AutomationRunStep {
   /** The key of the automation step. */
-  key?: string;
+  key?: string | undefined;
   /** The type of automation step. */
-  type?: AutomationRunStepType;
+  type?: AutomationRunStepType | undefined;
   /** The execution status of this step. */
-  status?: string;
+  status?: string | undefined;
   /** The date and time the step started executing. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** The date and time the step completed executing. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The output produced by the step, if any. */
-  output?: unknown | null;
+  output?: unknown | null | undefined;
   /** The error produced by the step, if any. */
-  error?: unknown | null;
+  error?: unknown | null | undefined;
   /** The date and time the step record was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** The steps executed in this run, sorted in graph order. */
 export type AutomationRunStepsList = Array<AutomationRunStep>;
 export interface AutomationRun {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the automation run. */
-  id?: string;
+  id?: string | undefined;
   /** The current status of the automation run. */
-  status?: AutomationRunStatus;
+  status?: AutomationRunStatus | undefined;
   /** The date and time the run started. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** The date and time the run completed. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The date and time the run was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The steps executed in this run, sorted in graph order. */
-  steps?: AutomationRunStepsList;
+  steps?: AutomationRunStepsList | undefined;
 }
 export interface GetBroadcastRequest {
   /** The Broadcast ID. */
@@ -817,35 +817,35 @@ export interface GetBroadcastRequest {
 export type GetBroadcastResponseSuccessReplyToList = Array<string>;
 export interface GetBroadcastResponseSuccess {
   /** Unique identifier for the broadcast. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the broadcast. */
-  name?: string;
+  name?: string | undefined;
   /** Deprecated: use `segment_id` instead. Unique identifier of the segment this broadcast will be sent to. */
-  audience_id?: string | null;
+  audience_id?: string | null | undefined;
   /** Unique identifier of the segment this broadcast will be sent to. */
-  segment_id?: string | null;
+  segment_id?: string | null | undefined;
   /** The email address of the sender. */
-  from?: string;
+  from?: string | undefined;
   /** The subject line of the email. */
-  subject?: string;
+  subject?: string | undefined;
   /** The email addresses to which replies should be sent. */
-  reply_to?: GetBroadcastResponseSuccessReplyToList;
+  reply_to?: GetBroadcastResponseSuccessReplyToList | undefined;
   /** The preview text of the email. */
-  preview_text?: string;
+  preview_text?: string | undefined;
   /** The status of the broadcast. */
-  status?: string;
+  status?: string | undefined;
   /** Timestamp indicating when the broadcast was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp indicating when the broadcast is scheduled to be sent. */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
   /** Timestamp indicating when the broadcast was sent. */
-  sent_at?: string;
+  sent_at?: string | undefined;
   /** The plain text version of the broadcast content. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** The HTML version of the broadcast content. */
-  html?: string | null;
+  html?: string | null | undefined;
   /** The topic ID that the broadcast is scoped to. */
-  topic_id?: string | null;
+  topic_id?: string | null | undefined;
 }
 export interface GetContactRequest {
   /** The Contact ID or email address. */
@@ -855,21 +855,21 @@ export interface GetContactRequest {
 export type GetContactResponseSuccessPropertiesMap = { [key: string]: unknown | undefined };
 export interface GetContactResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the contact. */
-  id?: string;
+  id?: string | undefined;
   /** Email address of the contact. */
-  email?: string;
+  email?: string | undefined;
   /** First name of the contact. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Last name of the contact. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** Timestamp indicating when the contact was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Indicates if the contact is unsubscribed. */
-  unsubscribed?: boolean;
+  unsubscribed?: boolean | undefined;
   /** A map of custom property keys and values. */
-  properties?: GetContactResponseSuccessPropertiesMap;
+  properties?: GetContactResponseSuccessPropertiesMap | undefined;
 }
 export interface GetContactPropertyRequest {
   /** The Contact Property ID. */
@@ -879,17 +879,17 @@ export interface GetContactPropertyRequest {
 export type GetContactPropertyResponseSuccessFallbackValue = string | number;
 export interface GetContactPropertyResponseSuccess {
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the contact property. */
-  id?: string;
+  id?: string | undefined;
   /** The property key. */
-  key?: string;
+  key?: string | undefined;
   /** The property type. */
-  type?: string;
+  type?: string | undefined;
   /** The default value when the property is not set for a contact. */
-  fallback_value?: GetContactPropertyResponseSuccessFallbackValue;
+  fallback_value?: GetContactPropertyResponseSuccessFallbackValue | undefined;
   /** Timestamp indicating when the contact property was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface GetDomainRequest {
   /** The ID of the domain. */
@@ -898,25 +898,25 @@ export interface GetDomainRequest {
 export type DomainRecordsList = Array<DomainRecord>;
 export interface Domain {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the domain. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the domain. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the domain. */
-  status?: string;
+  status?: string | undefined;
   /** The date and time the domain was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The region where the domain is hosted. */
-  region?: string;
+  region?: string | undefined;
   /** Whether open tracking is enabled for this domain. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Whether click tracking is enabled for this domain. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** The subdomain used for click and open tracking. */
-  tracking_subdomain?: string;
-  capabilities?: DomainCapabilities;
-  records?: DomainRecordsList;
+  tracking_subdomain?: string | undefined;
+  capabilities?: DomainCapabilities | undefined;
+  records?: DomainRecordsList | undefined;
 }
 export interface GetEmailRequest {
   /** The ID of the email. */
@@ -932,23 +932,23 @@ export interface GetEmailAttachmentRequest {
 export type RetrievedAttachmentContentDisposition = "inline" | "attachment";
 export interface RetrievedAttachment {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the attachment. */
-  id?: string;
+  id?: string | undefined;
   /** The filename of the attachment. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type of the attachment. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The content ID for inline attachments. */
-  content_id?: string;
+  content_id?: string | undefined;
   /** How the attachment should be displayed. */
-  content_disposition?: RetrievedAttachmentContentDisposition;
+  content_disposition?: RetrievedAttachmentContentDisposition | undefined;
   /** Signed URL to download the attachment content. */
-  download_url?: string;
+  download_url?: string | undefined;
   /** Timestamp when the download URL expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Size of the attachment in bytes. */
-  size?: number;
+  size?: number | undefined;
 }
 export interface GetEmailReceivingRequest {
   /** The ID of the received email. */
@@ -966,50 +966,50 @@ export type GetReceivedEmailResponseReplyToList = Array<string>;
 export type GetReceivedEmailResponseAttachmentsItemContentDisposition = "inline" | "attachment";
 export interface GetReceivedEmailResponseAttachmentsItem {
   /** The ID of the attachment. */
-  id?: string;
+  id?: string | undefined;
   /** The filename of the attachment. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type of the attachment. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The content ID for inline attachments. */
-  content_id?: string;
+  content_id?: string | undefined;
   /** How the attachment should be displayed. */
-  content_disposition?: GetReceivedEmailResponseAttachmentsItemContentDisposition;
+  content_disposition?: GetReceivedEmailResponseAttachmentsItemContentDisposition | undefined;
   /** Size of the attachment in bytes. */
-  size?: number;
+  size?: number | undefined;
 }
 /** Array of attachments. */
 export type GetReceivedEmailResponseAttachmentsList =
   Array<GetReceivedEmailResponseAttachmentsItem>;
 export interface GetReceivedEmailResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the received email. */
-  id?: string;
+  id?: string | undefined;
   /** The recipient email addresses. */
-  to?: GetReceivedEmailResponseToList;
+  to?: GetReceivedEmailResponseToList | undefined;
   /** The sender email address. */
-  from?: string;
+  from?: string | undefined;
   /** The email subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** The unique message ID from the email headers. */
-  message_id?: string;
+  message_id?: string | undefined;
   /** The BCC recipients. */
-  bcc?: GetReceivedEmailResponseBccList | null;
+  bcc?: GetReceivedEmailResponseBccList | null | undefined;
   /** The CC recipients. */
-  cc?: GetReceivedEmailResponseCcList | null;
+  cc?: GetReceivedEmailResponseCcList | null | undefined;
   /** The reply-to addresses. */
-  reply_to?: GetReceivedEmailResponseReplyToList | null;
+  reply_to?: GetReceivedEmailResponseReplyToList | null | undefined;
   /** The HTML content of the email. */
-  html?: string | null;
+  html?: string | null | undefined;
   /** The plain text content of the email. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** The email headers. */
-  headers?: unknown | null;
+  headers?: unknown | null | undefined;
   /** Timestamp when the email was received. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Array of attachments. */
-  attachments?: GetReceivedEmailResponseAttachmentsList;
+  attachments?: GetReceivedEmailResponseAttachmentsList | undefined;
 }
 export interface GetEmailReceivingAttachmentRequest {
   /** The ID of the received email. */
@@ -1023,17 +1023,17 @@ export interface GetEventRequest {
 }
 export interface Event {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The event ID. */
-  id?: string;
+  id?: string | undefined;
   /** The event name. */
-  name?: string;
+  name?: string | undefined;
   /** A flat key/type map defining the event payload schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema?: unknown | null;
+  schema?: unknown | null | undefined;
   /** The date and time the event was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the event was last updated. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 export interface GetLogRequest {
   /** The ID of the log. */
@@ -1043,23 +1043,23 @@ export interface GetLogRequest {
 export type LogMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS";
 export interface Log {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The log ID. */
-  id?: string;
+  id?: string | undefined;
   /** The date the log was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The API endpoint that was called. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The HTTP method used. */
-  method?: LogMethod;
+  method?: LogMethod | undefined;
   /** The HTTP status code of the response. */
-  response_status?: number;
+  response_status?: number | undefined;
   /** The user agent of the request. */
-  user_agent?: string | null;
+  user_agent?: string | null | undefined;
   /** The request body sent to the API. */
-  request_body?: unknown | null;
+  request_body?: unknown | null | undefined;
   /** The response body returned by the API. */
-  response_body?: unknown | null;
+  response_body?: unknown | null | undefined;
 }
 export interface GetSegmentRequest {
   /** The Segment ID. */
@@ -1067,17 +1067,17 @@ export interface GetSegmentRequest {
 }
 export interface GetSegmentResponseSuccess {
   /** The ID of the segment. */
-  id?: string;
+  id?: string | undefined;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The name of the segment. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the audience this segment belongs to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Filter conditions for the segment. */
-  filter?: unknown;
+  filter?: unknown | undefined;
   /** Timestamp indicating when the segment was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface GetTemplateRequest {
   /** The Template ID or alias. */
@@ -1097,53 +1097,53 @@ export type TemplateVariableFallbackValue =
   | TemplateVariableFallbackValueCase4List;
 export interface TemplateVariable {
   /** The ID of the template variable. */
-  id?: string;
+  id?: string | undefined;
   /** The key of the variable. */
   key: string;
   /** The type of the variable. */
   type: TemplateVariableType;
   /** The fallback value of the variable. */
-  fallback_value?: TemplateVariableFallbackValue;
+  fallback_value?: TemplateVariableFallbackValue | undefined;
   /** Timestamp indicating when the variable was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp indicating when the variable was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export type TemplateVariablesList = Array<TemplateVariable>;
 /** The publication status of the template. */
 export type TemplateStatus = "draft" | "published";
 export interface Template {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the current version of the template. */
-  current_version_id?: string;
+  current_version_id?: string | undefined;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The alias of the template. */
-  alias?: string;
+  alias?: string | undefined;
   /** Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>". */
-  from?: string;
+  from?: string | undefined;
   /** Email subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Reply-to email addresses. */
-  reply_to?: TemplateReplyToList | null;
+  reply_to?: TemplateReplyToList | null | undefined;
   /** The HTML version of the template. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the template. */
-  text?: string;
-  variables?: TemplateVariablesList;
+  text?: string | undefined;
+  variables?: TemplateVariablesList | undefined;
   /** Timestamp indicating when the template was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp indicating when the template was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The publication status of the template. */
-  status?: TemplateStatus;
+  status?: TemplateStatus | undefined;
   /** Timestamp indicating when the template was published. */
-  published_at?: string | null;
+  published_at?: string | null | undefined;
   /** Indicates whether the template has unpublished versions. */
-  has_unpublished_versions?: boolean;
+  has_unpublished_versions?: boolean | undefined;
 }
 export interface GetTopicRequest {
   /** The Topic ID. */
@@ -1155,19 +1155,19 @@ export type GetTopicResponseSuccessDefaultSubscription = "opt_in" | "opt_out";
 export type GetTopicResponseSuccessVisibility = "public" | "private";
 export interface GetTopicResponseSuccess {
   /** The ID of the topic. */
-  id?: string;
+  id?: string | undefined;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The name of the topic. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the topic. */
-  description?: string;
+  description?: string | undefined;
   /** The default subscription status for the topic. */
-  default_subscription?: GetTopicResponseSuccessDefaultSubscription;
+  default_subscription?: GetTopicResponseSuccessDefaultSubscription | undefined;
   /** The visibility of the topic. */
-  visibility?: GetTopicResponseSuccessVisibility;
+  visibility?: GetTopicResponseSuccessVisibility | undefined;
   /** Timestamp indicating when the topic was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export interface GetWebhookRequest {
   /** The Webhook ID. */
@@ -1177,246 +1177,246 @@ export interface GetWebhookRequest {
 export type GetWebhookResponseEventsList = Array<string>;
 export interface GetWebhookResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the webhook. */
-  id?: string;
+  id?: string | undefined;
   /** The URL where webhook events are sent. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Array of event types subscribed to. */
-  events?: GetWebhookResponseEventsList | null;
+  events?: GetWebhookResponseEventsList | null | undefined;
   /** The status of the webhook. */
-  status?: string;
+  status?: string | undefined;
   /** Timestamp indicating when the webhook was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The secret key used to verify webhook payloads. */
-  signing_secret?: string | Redacted.Redacted<string>;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListApiKeysRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ApiKey {
   /** The ID of the API key. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the API key. */
-  name?: string;
+  name?: string | undefined;
   /** The date and time the API key was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the API key was last used. */
-  last_used_at?: string | null;
+  last_used_at?: string | null | undefined;
 }
 export type ListApiKeysResponseDataList = Array<ApiKey>;
 export interface ListApiKeysResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   data: ListApiKeysResponseDataList;
 }
 export interface ListAutomationRunsRequest {
   /** The ID of the automation. */
   automation_id: string;
   /** Filter runs by status. Comma-separated list of: running, completed, failed, cancelled. */
-  status?: string;
+  status?: string | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The current status of the automation run. */
 export type AutomationRunListItemStatus = "running" | "completed" | "failed" | "cancelled";
 export interface AutomationRunListItem {
   /** The ID of the automation run. */
-  id?: string;
+  id?: string | undefined;
   /** The current status of the automation run. */
-  status?: AutomationRunListItemStatus;
+  status?: AutomationRunListItemStatus | undefined;
   /** The date and time the run started. */
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** The date and time the run completed. */
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** The date and time the run was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array of automation runs. */
 export type ListAutomationRunsResponseDataList = Array<AutomationRunListItem>;
 export interface ListAutomationRunsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array of automation runs. */
   data: ListAutomationRunsResponseDataList;
 }
 export type ListAutomationsRequestStatus = "enabled" | "disabled";
 export interface ListAutomationsRequest {
   /** Filter automations by status. */
-  status?: ListAutomationsRequestStatus | (string & {});
+  status?: ListAutomationsRequestStatus | (string & {}) | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The current status of the automation. */
 export type AutomationListItemStatus = "enabled" | "disabled";
 export interface AutomationListItem {
   /** The ID of the automation. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the automation. */
-  name?: string;
+  name?: string | undefined;
   /** The current status of the automation. */
-  status?: AutomationListItemStatus;
+  status?: AutomationListItemStatus | undefined;
   /** The date and time the automation was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the automation was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 /** Array of automations. */
 export type ListAutomationsResponseDataList = Array<AutomationListItem>;
 export interface ListAutomationsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array of automations. */
   data: ListAutomationsResponseDataList;
 }
 export interface ListBroadcastsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListBroadcastsResponseSuccessDataItem {
   /** Unique identifier for the broadcast. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the broadcast. */
-  name?: string;
+  name?: string | undefined;
   /** Deprecated. Use segment_id instead. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Unique identifier of the segment this broadcast will be sent to. */
-  segment_id?: string;
+  segment_id?: string | undefined;
   /** The status of the broadcast. */
-  status?: string;
+  status?: string | undefined;
   /** Timestamp indicating when the broadcast was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp indicating when the broadcast is scheduled to be sent. */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
   /** Timestamp indicating when the broadcast was sent. */
-  sent_at?: string;
+  sent_at?: string | undefined;
   /** The topic ID that the broadcast is scoped to. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 /** Array containing broadcast information. */
 export type ListBroadcastsResponseSuccessDataList = Array<ListBroadcastsResponseSuccessDataItem>;
 export interface ListBroadcastsResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing broadcast information. */
   data: ListBroadcastsResponseSuccessDataList;
 }
 export interface ListContactPropertiesRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The default value when the property is not set for a contact. */
 export type ListContactPropertiesResponseSuccessDataItemFallbackValue = string | number;
 export interface ListContactPropertiesResponseSuccessDataItem {
   /** Unique identifier for the contact property. */
-  id?: string;
+  id?: string | undefined;
   /** The property key. */
-  key?: string;
+  key?: string | undefined;
   /** The property type. */
-  type?: string;
+  type?: string | undefined;
   /** The default value when the property is not set for a contact. */
-  fallback_value?: ListContactPropertiesResponseSuccessDataItemFallbackValue;
+  fallback_value?: ListContactPropertiesResponseSuccessDataItemFallbackValue | undefined;
   /** Timestamp indicating when the contact property was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array containing contact property information. */
 export type ListContactPropertiesResponseSuccessDataList =
   Array<ListContactPropertiesResponseSuccessDataItem>;
 export interface ListContactPropertiesResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing contact property information. */
   data: ListContactPropertiesResponseSuccessDataList;
 }
 export interface ListContactsRequest {
   /** Filter contacts by segment ID. */
-  segment_id?: string;
+  segment_id?: string | undefined;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListContactsResponseSuccessDataItem {
   /** Unique identifier for the contact. */
-  id?: string;
+  id?: string | undefined;
   /** Email address of the contact. */
-  email?: string;
+  email?: string | undefined;
   /** First name of the contact. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Last name of the contact. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** Timestamp indicating when the contact was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Indicates if the contact is unsubscribed. */
-  unsubscribed?: boolean;
+  unsubscribed?: boolean | undefined;
 }
 /** Array containing contact information. */
 export type ListContactsResponseSuccessDataList = Array<ListContactsResponseSuccessDataItem>;
 export interface ListContactsResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Array containing contact information. */
-  data?: ListContactsResponseSuccessDataList;
+  data?: ListContactsResponseSuccessDataList | undefined;
 }
 export interface ListContactSegmentsRequest {
   /** The Contact ID or email address. */
   contact_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListContactSegmentsResponseSuccessDataItem {
   /** Unique identifier for the segment. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the segment. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp indicating when the contact was added to the segment. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array containing segment information for this contact. */
 export type ListContactSegmentsResponseSuccessDataList =
   Array<ListContactSegmentsResponseSuccessDataItem>;
 export interface ListContactSegmentsResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing segment information for this contact. */
   data: ListContactSegmentsResponseSuccessDataList;
 }
@@ -1424,111 +1424,111 @@ export interface ListContactTopicsRequest {
   /** The Contact ID or email address. */
   contact_id: string;
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The subscription status for this topic. */
 export type GetContactTopicsResponseSuccessDataItemSubscription = "opt_in" | "opt_out";
 export interface GetContactTopicsResponseSuccessDataItem {
   /** Unique identifier for the topic. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the topic. */
-  name?: string;
+  name?: string | undefined;
   /** Description of the topic. */
-  description?: string;
+  description?: string | undefined;
   /** The subscription status for this topic. */
-  subscription?: GetContactTopicsResponseSuccessDataItemSubscription;
+  subscription?: GetContactTopicsResponseSuccessDataItemSubscription | undefined;
 }
 /** Array containing topic subscriptions for this contact. */
 export type GetContactTopicsResponseSuccessDataList =
   Array<GetContactTopicsResponseSuccessDataItem>;
 export interface GetContactTopicsResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing topic subscriptions for this contact. */
   data: GetContactTopicsResponseSuccessDataList;
 }
 export interface ListDomainsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListDomainsItem {
   /** The ID of the domain. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the domain. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the domain. */
-  status?: string;
+  status?: string | undefined;
   /** The date and time the domain was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The region where the domain is hosted. */
-  region?: string;
-  capabilities?: DomainCapabilities;
+  region?: string | undefined;
+  capabilities?: DomainCapabilities | undefined;
 }
 export type ListDomainsResponseDataList = Array<ListDomainsItem>;
 export interface ListDomainsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   data: ListDomainsResponseDataList;
 }
 export interface ListEmailAttachmentsRequest {
   /** The ID of the email. */
   email_id: string;
   /** Maximum number of attachments to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this attachment ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this attachment ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 /** How the attachment should be displayed. */
 export type ListAttachmentsResponseDataItemContentDisposition = "inline" | "attachment";
 export interface ListAttachmentsResponseDataItem {
   /** The ID of the attachment. */
-  id?: string;
+  id?: string | undefined;
   /** The filename of the attachment. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type of the attachment. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The content ID for inline attachments. */
-  content_id?: string;
+  content_id?: string | undefined;
   /** How the attachment should be displayed. */
-  content_disposition?: ListAttachmentsResponseDataItemContentDisposition;
+  content_disposition?: ListAttachmentsResponseDataItemContentDisposition | undefined;
   /** Signed URL to download the attachment content. */
-  download_url?: string;
+  download_url?: string | undefined;
   /** Timestamp when the download URL expires. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** Size of the attachment in bytes. */
-  size?: number;
+  size?: number | undefined;
 }
 /** Array containing attachment information. */
 export type ListAttachmentsResponseDataList = Array<ListAttachmentsResponseDataItem>;
 export interface ListAttachmentsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing attachment information. */
   data: ListAttachmentsResponseDataList;
 }
 export interface ListEmailReceivingRequest {
   /** Maximum number of received emails to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this email ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this email ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The recipient email addresses. */
 export type ListReceivedEmailsResponseDataItemToList = Array<string>;
@@ -1544,50 +1544,52 @@ export type ListReceivedEmailsResponseDataItemAttachmentsItemContentDisposition 
   | "attachment";
 export interface ListReceivedEmailsResponseDataItemAttachmentsItem {
   /** The ID of the attachment. */
-  id?: string;
+  id?: string | undefined;
   /** The filename of the attachment. */
-  filename?: string;
+  filename?: string | undefined;
   /** The MIME type of the attachment. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The content ID for inline attachments. */
-  content_id?: string;
+  content_id?: string | undefined;
   /** How the attachment should be displayed. */
-  content_disposition?: ListReceivedEmailsResponseDataItemAttachmentsItemContentDisposition;
+  content_disposition?:
+    | ListReceivedEmailsResponseDataItemAttachmentsItemContentDisposition
+    | undefined;
   /** Size of the attachment in bytes. */
-  size?: number;
+  size?: number | undefined;
 }
 /** Array of attachments for this email. */
 export type ListReceivedEmailsResponseDataItemAttachmentsList =
   Array<ListReceivedEmailsResponseDataItemAttachmentsItem>;
 export interface ListReceivedEmailsResponseDataItem {
   /** The ID of the received email. */
-  id?: string;
+  id?: string | undefined;
   /** The recipient email addresses. */
-  to?: ListReceivedEmailsResponseDataItemToList;
+  to?: ListReceivedEmailsResponseDataItemToList | undefined;
   /** The sender email address. */
-  from?: string;
+  from?: string | undefined;
   /** The email subject. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** The unique message ID from the email headers. */
-  message_id?: string;
+  message_id?: string | undefined;
   /** The BCC recipients. */
-  bcc?: ListReceivedEmailsResponseDataItemBccList | null;
+  bcc?: ListReceivedEmailsResponseDataItemBccList | null | undefined;
   /** The CC recipients. */
-  cc?: ListReceivedEmailsResponseDataItemCcList | null;
+  cc?: ListReceivedEmailsResponseDataItemCcList | null | undefined;
   /** The reply-to addresses. */
-  reply_to?: ListReceivedEmailsResponseDataItemReplyToList | null;
+  reply_to?: ListReceivedEmailsResponseDataItemReplyToList | null | undefined;
   /** Timestamp when the email was received. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Array of attachments for this email. */
-  attachments?: ListReceivedEmailsResponseDataItemAttachmentsList;
+  attachments?: ListReceivedEmailsResponseDataItemAttachmentsList | undefined;
 }
 /** Array containing received email information. */
 export type ListReceivedEmailsResponseDataList = Array<ListReceivedEmailsResponseDataItem>;
 export interface ListReceivedEmailsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing received email information. */
   data: ListReceivedEmailsResponseDataList;
 }
@@ -1595,165 +1597,165 @@ export interface ListEmailReceivingAttachmentsRequest {
   /** The ID of the received email. */
   email_id: string;
   /** Maximum number of attachments to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this attachment ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this attachment ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListEmailsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Array containing email information. */
 export type ListEmailsResponseDataList = Array<Email>;
 export interface ListEmailsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing email information. */
   data: ListEmailsResponseDataList;
 }
 export interface ListEventsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface EventSummary {
   /** The event ID. */
-  id?: string;
+  id?: string | undefined;
   /** The event name. */
-  name?: string;
+  name?: string | undefined;
   /** A flat key/type map defining the event payload schema. Supported types are `string`, `number`, `boolean`, and `date`. */
-  schema?: unknown | null;
+  schema?: unknown | null | undefined;
   /** The date and time the event was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The date and time the event was last updated. */
-  updated_at?: string | null;
+  updated_at?: string | null | undefined;
 }
 /** Array containing event information. */
 export type ListEventsResponseDataList = Array<EventSummary>;
 export interface ListEventsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing event information. */
   data: ListEventsResponseDataList;
 }
 export interface ListLogsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The HTTP method used. */
 export type LogSummaryMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "OPTIONS";
 export interface LogSummary {
   /** The log ID. */
-  id?: string;
+  id?: string | undefined;
   /** The date the log was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The API endpoint that was called. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The HTTP method used. */
-  method?: LogSummaryMethod;
+  method?: LogSummaryMethod | undefined;
   /** The HTTP status code of the response. */
-  response_status?: number;
+  response_status?: number | undefined;
   /** The user agent of the request. */
-  user_agent?: string | null;
+  user_agent?: string | null | undefined;
 }
 /** Array containing log information. */
 export type ListLogsResponseDataList = Array<LogSummary>;
 export interface ListLogsResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing log information. */
   data: ListLogsResponseDataList;
 }
 export interface ListSegmentsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListSegmentsResponseSuccessDataItem {
   /** Unique identifier for the segment. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the segment. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the audience this segment belongs to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Timestamp indicating when the segment was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array containing segment information. */
 export type ListSegmentsResponseSuccessDataList = Array<ListSegmentsResponseSuccessDataItem>;
 export interface ListSegmentsResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing segment information. */
   data: ListSegmentsResponseSuccessDataList;
 }
 export interface ListTemplatesRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The publication status of the template. */
 export type TemplateListItemStatus = "draft" | "published";
 export interface TemplateListItem {
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The publication status of the template. */
-  status?: TemplateListItemStatus;
+  status?: TemplateListItemStatus | undefined;
   /** Timestamp indicating when the template was published. */
-  published_at?: string | null;
+  published_at?: string | null | undefined;
   /** Timestamp indicating when the template was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Timestamp indicating when the template was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The alias of the template. */
-  alias?: string;
+  alias?: string | undefined;
 }
 /** Array containing templates information. */
 export type ListTemplatesResponseSuccessDataList = Array<TemplateListItem>;
 export interface ListTemplatesResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Array containing templates information. */
   data: ListTemplatesResponseSuccessDataList;
   /** Indicates if there are more templates to retrieve. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface ListTopicsRequest {
   /** Number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return items after this cursor. */
-  after?: string;
+  after?: string | undefined;
   /** Return items before this cursor. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The default subscription status for the topic. */
 export type ListTopicsResponseSuccessDataItemDefaultSubscription = "opt_in" | "opt_out";
@@ -1761,57 +1763,57 @@ export type ListTopicsResponseSuccessDataItemDefaultSubscription = "opt_in" | "o
 export type ListTopicsResponseSuccessDataItemVisibility = "public" | "private";
 export interface ListTopicsResponseSuccessDataItem {
   /** Unique identifier for the topic. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the topic. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the topic. */
-  description?: string;
+  description?: string | undefined;
   /** The default subscription status for the topic. */
-  default_subscription?: ListTopicsResponseSuccessDataItemDefaultSubscription;
+  default_subscription?: ListTopicsResponseSuccessDataItemDefaultSubscription | undefined;
   /** The visibility of the topic. */
-  visibility?: ListTopicsResponseSuccessDataItemVisibility;
+  visibility?: ListTopicsResponseSuccessDataItemVisibility | undefined;
   /** Timestamp indicating when the topic was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array containing topic information. */
 export type ListTopicsResponseSuccessDataList = Array<ListTopicsResponseSuccessDataItem>;
 export interface ListTopicsResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing topic information. */
   data: ListTopicsResponseSuccessDataList;
 }
 export interface ListWebhooksRequest {
   /** Maximum number of webhooks to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor to fetch results after this webhook ID. Cannot be used with 'before'. */
-  after?: string;
+  after?: string | undefined;
   /** Pagination cursor to fetch results before this webhook ID. Cannot be used with 'after'. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Array of event types subscribed to. */
 export type ListWebhooksResponseDataItemEventsList = Array<string>;
 export interface ListWebhooksResponseDataItem {
   /** The ID of the webhook. */
-  id?: string;
+  id?: string | undefined;
   /** The URL where webhook events are sent. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Array of event types subscribed to. */
-  events?: ListWebhooksResponseDataItemEventsList | null;
+  events?: ListWebhooksResponseDataItemEventsList | null | undefined;
   /** The status of the webhook. */
-  status?: string;
+  status?: string | undefined;
   /** Timestamp indicating when the webhook was created. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Array containing webhook information. */
 export type ListWebhooksResponseDataList = Array<ListWebhooksResponseDataItem>;
 export interface ListWebhooksResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Indicates if there are more results available. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** Array containing webhook information. */
   data: ListWebhooksResponseDataList;
 }
@@ -1821,19 +1823,19 @@ export interface PublishTemplateRequest {
 }
 export interface PublishTemplateResponseSuccess {
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface SendBroadcastRequest {
   /** The Broadcast ID. */
   id: string;
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
 }
 export interface SendBroadcastResponseSuccess {
   /** The ID of the broadcast. */
-  id?: string;
+  id?: string | undefined;
 }
 /** An optional payload of key/value pairs to include with the event. */
 export type SendEventRequestPayloadMap = { [key: string]: unknown | undefined };
@@ -1841,11 +1843,11 @@ export interface SendEventRequest {
   /** The name of the event to send. */
   event: string;
   /** The ID of the contact to associate with this event. Exactly one of `contact_id` or `email` must be provided. */
-  contact_id?: string;
+  contact_id?: string | undefined;
   /** The email address to associate with this event. Exactly one of `contact_id` or `email` must be provided. */
-  email?: string;
+  email?: string | undefined;
   /** An optional payload of key/value pairs to include with the event. */
-  payload?: SendEventRequestPayloadMap;
+  payload?: SendEventRequestPayloadMap | undefined;
 }
 export interface SendEventResponse {}
 export interface StopAutomationRequest {
@@ -1854,11 +1856,11 @@ export interface StopAutomationRequest {
 }
 export interface StopAutomationResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the stopped automation. */
-  id?: string;
+  id?: string | undefined;
   /** The status of the automation after stopping. */
-  status?: string;
+  status?: string | undefined;
 }
 /** The status of the automation. */
 export type UpdateAutomationRequestStatus = "enabled" | "disabled";
@@ -1870,19 +1872,19 @@ export interface UpdateAutomationRequest {
   /** The ID of the automation. */
   automation_id: string;
   /** The name of the automation. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the automation. */
-  status?: UpdateAutomationRequestStatus | (string & {});
+  status?: UpdateAutomationRequestStatus | (string & {}) | undefined;
   /** The steps that compose the automation workflow. Must be provided together with `connections`. */
-  steps?: UpdateAutomationRequestStepsList;
+  steps?: UpdateAutomationRequestStepsList | undefined;
   /** The connections between steps in the automation graph. Must be provided together with `steps`. */
-  connections?: UpdateAutomationRequestConnectionsList;
+  connections?: UpdateAutomationRequestConnectionsList | undefined;
 }
 export interface PatchAutomationResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the updated automation. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The email addresses to which replies should be sent. */
 export type UpdateBroadcastRequestReplyToList = Array<string>;
@@ -1890,31 +1892,31 @@ export interface UpdateBroadcastRequest {
   /** The Broadcast ID. */
   id: string;
   /** Name of the broadcast. */
-  name?: string;
+  name?: string | undefined;
   /** Use `segment_id` instead. Unique identifier of the audience this broadcast will be sent to. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Unique identifier of the segment this broadcast will be sent to. */
-  segment_id?: string;
+  segment_id?: string | undefined;
   /** The email address of the sender. */
-  from?: string;
+  from?: string | undefined;
   /** The subject line of the email. */
-  subject?: string;
+  subject?: string | undefined;
   /** The email addresses to which replies should be sent. */
-  reply_to?: UpdateBroadcastRequestReplyToList;
+  reply_to?: UpdateBroadcastRequestReplyToList | undefined;
   /** The preview text of the email. */
-  preview_text?: string;
+  preview_text?: string | undefined;
   /** The HTML version of the message. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the message. */
-  text?: string;
+  text?: string | undefined;
   /** The topic ID that the broadcast will be scoped to. */
-  topic_id?: string;
+  topic_id?: string | undefined;
 }
 export interface UpdateBroadcastResponseSuccess {
   /** The ID of the broadcast. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** A map of custom property keys and values to update. */
 export type UpdateContactRequestPropertiesMap = { [key: string]: unknown | undefined };
@@ -1922,21 +1924,21 @@ export interface UpdateContactRequest {
   /** The Contact ID or email address. */
   id: string;
   /** Email address of the contact. */
-  email?: string;
+  email?: string | undefined;
   /** First name of the contact. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Last name of the contact. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** The Contact's global subscription status. If set to true, the contact will be unsubscribed from all Broadcasts. */
-  unsubscribed?: boolean;
+  unsubscribed?: boolean | undefined;
   /** A map of custom property keys and values to update. */
-  properties?: UpdateContactRequestPropertiesMap;
+  properties?: UpdateContactRequestPropertiesMap | undefined;
 }
 export interface UpdateContactResponseSuccess {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** Unique identifier for the updated contact. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The default value to use when the property is not set for a contact. Must match the type of the property. */
 export type UpdateContactPropertyRequestFallbackValue = string | number;
@@ -1944,13 +1946,13 @@ export interface UpdateContactPropertyRequest {
   /** The Contact Property ID. */
   id: string;
   /** The default value to use when the property is not set for a contact. Must match the type of the property. */
-  fallback_value?: UpdateContactPropertyRequestFallbackValue;
+  fallback_value?: UpdateContactPropertyRequestFallbackValue | undefined;
 }
 export interface UpdateContactPropertyResponseSuccess {
   /** The ID of the contact property. */
-  id?: string;
+  id?: string | undefined;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface UpdateContactSegmentRequest {
   /** The Contact ID or email address. */
@@ -1960,19 +1962,19 @@ export interface UpdateContactSegmentRequest {
 }
 export interface AddContactToSegmentResponseSuccess {
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the contact. */
-  contact_id?: string;
+  contact_id?: string | undefined;
   /** The ID of the segment. */
-  segment_id?: string;
+  segment_id?: string | undefined;
 }
 /** The subscription status (opt_in or opt_out). */
 export type UpdateContactTopicsRequestTopicsItemSubscription = "opt_in" | "opt_out";
 export interface UpdateContactTopicsRequestTopicsItem {
   /** The ID of the topic. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription status (opt_in or opt_out). */
-  subscription?: UpdateContactTopicsRequestTopicsItemSubscription | (string & {});
+  subscription?: UpdateContactTopicsRequestTopicsItemSubscription | (string & {}) | undefined;
 }
 export type UpdateContactTopicsRequestTopicsList = Array<UpdateContactTopicsRequestTopicsItem>;
 export interface UpdateContactTopicsRequest {
@@ -1984,39 +1986,39 @@ export interface UpdateContactTopicsRequest {
 export type UpdateContactTopicsResponseSuccessTopicsItemSubscription = "opt_in" | "opt_out";
 export interface UpdateContactTopicsResponseSuccessTopicsItem {
   /** The ID of the topic. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription status. */
-  subscription?: UpdateContactTopicsResponseSuccessTopicsItemSubscription;
+  subscription?: UpdateContactTopicsResponseSuccessTopicsItemSubscription | undefined;
 }
 /** Array of updated topic subscriptions. */
 export type UpdateContactTopicsResponseSuccessTopicsList =
   Array<UpdateContactTopicsResponseSuccessTopicsItem>;
 export interface UpdateContactTopicsResponseSuccess {
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the contact. */
-  contact_id?: string;
+  contact_id?: string | undefined;
   /** Array of updated topic subscriptions. */
-  topics?: UpdateContactTopicsResponseSuccessTopicsList;
+  topics?: UpdateContactTopicsResponseSuccessTopicsList | undefined;
 }
 export interface UpdateDomainRequest {
   /** The ID of the domain. */
   domain_id: string;
   /** Track the open rate of each email. */
-  open_tracking?: boolean;
+  open_tracking?: boolean | undefined;
   /** Track clicks within the body of each HTML email. */
-  click_tracking?: boolean;
+  click_tracking?: boolean | undefined;
   /** enforced | opportunistic. */
-  tls?: string;
-  capabilities?: DomainCapabilities;
+  tls?: string | undefined;
+  capabilities?: DomainCapabilities | undefined;
   /** The subdomain to use for click and open tracking. */
-  tracking_subdomain?: string;
+  tracking_subdomain?: string | undefined;
 }
 export interface UpdateDomainResponseSuccess {
   /** The ID of the updated domain. */
-  id?: string;
+  id?: string | undefined;
   /** The object type representing the updated domain. */
-  object?: string;
+  object?: string | undefined;
 }
 export interface UpdateEmailRequest {
   /** The ID of the email. */
@@ -2024,7 +2026,7 @@ export interface UpdateEmailRequest {
 }
 export interface UpdateEmailOptions {
   /** Schedule email to be sent later. The date should be in ISO 8601 format. */
-  scheduled_at?: string;
+  scheduled_at?: string | undefined;
 }
 export interface UpdateEventRequest {
   /** The event ID (UUID) or event name. */
@@ -2034,9 +2036,9 @@ export interface UpdateEventRequest {
 }
 export interface UpdateEventResponse {
   /** Type of the response object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the updated event. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Reply-to email addresses. */
 export type UpdateTemplateRequestReplyToList = Array<string>;
@@ -2045,26 +2047,26 @@ export interface UpdateTemplateRequest {
   /** The Template ID or alias. */
   id: string;
   /** The name of the template. */
-  name?: string;
+  name?: string | undefined;
   /** The alias of the template. */
-  alias?: string;
+  alias?: string | undefined;
   /** Sender email address. To include a friendly name, use the format "Your Name <sender@domain.com>". */
-  from?: string;
+  from?: string | undefined;
   /** Email subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Reply-to email addresses. */
-  reply_to?: UpdateTemplateRequestReplyToList;
+  reply_to?: UpdateTemplateRequestReplyToList | undefined;
   /** The HTML version of the template. */
-  html?: string;
+  html?: string | undefined;
   /** The plain text version of the template. */
-  text?: string;
-  variables?: UpdateTemplateRequestVariablesList;
+  text?: string | undefined;
+  variables?: UpdateTemplateRequestVariablesList | undefined;
 }
 export interface UpdateTemplateResponseSuccess {
   /** The ID of the template. */
-  id?: string;
+  id?: string | undefined;
   /** The object type of the response. */
-  object?: string;
+  object?: string | undefined;
 }
 /** The visibility of the topic. */
 export type UpdateTopicRequestVisibility = "public" | "private";
@@ -2072,17 +2074,17 @@ export interface UpdateTopicRequest {
   /** The Topic ID. */
   id: string;
   /** The name of the topic. Max 50 characters. */
-  name?: string;
+  name?: string | undefined;
   /** A description of the topic. Max 200 characters. */
-  description?: string;
+  description?: string | undefined;
   /** The visibility of the topic. */
-  visibility?: UpdateTopicRequestVisibility | (string & {});
+  visibility?: UpdateTopicRequestVisibility | (string & {}) | undefined;
 }
 export interface UpdateTopicResponseSuccess {
   /** The ID of the topic. */
-  id?: string;
+  id?: string | undefined;
   /** The object type. */
-  object?: string;
+  object?: string | undefined;
 }
 /** Array of event types to subscribe to. */
 export type UpdateWebhookRequestEventsList = Array<string>;
@@ -2092,17 +2094,17 @@ export interface UpdateWebhookRequest {
   /** The Webhook ID. */
   webhook_id: string;
   /** The URL where webhook events will be sent. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Array of event types to subscribe to. */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** The status of the webhook. */
-  status?: UpdateWebhookRequestStatus | (string & {});
+  status?: UpdateWebhookRequestStatus | (string & {}) | undefined;
 }
 export interface UpdateWebhookResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the updated webhook. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface VerifyDomainRequest {
   /** The ID of the domain. */
@@ -2110,9 +2112,9 @@ export interface VerifyDomainRequest {
 }
 export interface VerifyDomainResponse {
   /** The type of object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the domain. */
-  id?: string;
+  id?: string | undefined;
 }
 export type CancelEmailError = ResendOpError;
 /** Cancel the schedule of the e-mail. */

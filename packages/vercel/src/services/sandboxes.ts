@@ -100,9 +100,9 @@ export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesIt
 /** Match on the request path. Comparison is case-sensitive. */
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath {
   /** Match the value exactly. Case-sensitive for paths, header values, and methods; case-insensitive for domains and header keys. */
-  exact?: string;
+  exact?: string | undefined;
   /** Match values that start with the given prefix. */
-  startsWith?: string;
+  startsWith?: string | undefined;
 }
 /** HTTP methods to match. Any single match succeeds (OR semantics). */
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList =
@@ -115,9 +115,11 @@ export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesIt
   CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringItem {
   /** Matcher for the entry key (header name or query key). */
-  key?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  key?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath | undefined;
   /** Matcher for the entry value. */
-  value?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  value?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
 }
 /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList =
@@ -136,13 +138,21 @@ export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesIt
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList;
+  method?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList
+    | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList
+    | undefined;
 }
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItem {
   /** The domain (or pattern) of requests to add headers for. Supports wildcards like *.example.com. */
@@ -150,7 +160,7 @@ export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRu
   /** HTTP headers to inject into requests for this domain. Existing headers with the same name will be overridden. */
   headers: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemHeadersMap;
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatch;
+  match?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatch | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesList =
@@ -160,13 +170,17 @@ export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase0 {
   /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
   mode: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0Mode | (string & {});
   /** List of domain names the sandbox is allowed to connect to. Only applies when mode is \"custom\". Supports wildcard patterns (e.g., \"*.example.com\" matches all subdomains). */
-  allowedDomains?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0AllowedDomainsList;
+  allowedDomains?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0AllowedDomainsList
+    | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. Traffic to these addresses bypasses domain-based restrictions. */
-  allowedCIDRs?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0AllowedCIDRsList;
+  allowedCIDRs?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0AllowedCIDRsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0DeniedCIDRsList;
+  deniedCIDRs?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0DeniedCIDRsList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
-  injectionRules?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesList;
+  injectionRules?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesList
+    | undefined;
 }
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase0List = Array<string>;
 /** Match on the request path. Comparison is case-sensitive. */
@@ -200,18 +214,28 @@ export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueI
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList;
+  method?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList
+    | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList
+    | undefined;
 }
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap =
   { [key: string]: string | undefined };
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem {
-  headers?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap;
+  headers?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap
+    | undefined;
 }
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList =
   Array<CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem>;
@@ -223,20 +247,26 @@ export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1V
   /** HTTP status code returned to the sandbox. */
   statusCode: number;
   /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
-  headers?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  headers?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap
+    | undefined;
   /** UTF-8 response body. Requires `contentType`. */
-  body?: string;
+  body?: string | undefined;
   /** Value of the `Content-Type` response header. Required when `body` is set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
-  transform?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
+  match?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch | undefined;
+  transform?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList
+    | undefined;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
-  forwardURL?: string;
+  forwardURL?: string | undefined;
   /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
-  response?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
+  response?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse
+    | undefined;
 }
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueList =
   Array<CreateSandboxesByNameForkV2RequestNetworkPolicyCase1AllowCase1ValueItem>;
@@ -252,12 +282,12 @@ export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1Allow =
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1SubnetsAllowList = Array<string>;
 export type CreateSandboxesByNameForkV2RequestNetworkPolicyCase1SubnetsDenyList = Array<string>;
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1Subnets {
-  allow?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1SubnetsAllowList;
-  deny?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1SubnetsDenyList;
+  allow?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1SubnetsAllowList | undefined;
+  deny?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1SubnetsDenyList | undefined;
 }
 export interface CreateSandboxesByNameForkV2RequestNetworkPolicyCase1 {
-  allow?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1Allow;
-  subnets?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1Subnets;
+  allow?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1Allow | undefined;
+  subnets?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase1Subnets | undefined;
 }
 export type CreateSandboxesByNameForkV2RequestNetworkPolicy =
   | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0
@@ -265,9 +295,9 @@ export type CreateSandboxesByNameForkV2RequestNetworkPolicy =
 /** Resources to define the VM */
 export interface CreateSandboxesByNameForkV2RequestResources {
   /** The number of virtual CPUs to allocate to the sandbox. Must be 1, or an even number. */
-  vcpus?: number;
+  vcpus?: number | undefined;
   /** The amount of memory in megabytes to allocate to the sandbox. Must equal vcpus * 2048. */
-  memory?: number;
+  memory?: number | undefined;
 }
 /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
 export type CreateSandboxesByNameForkV2RequestPortsList = Array<number>;
@@ -279,7 +309,7 @@ export interface CreateSandboxesByNameForkV2RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
   /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
-  mode?: CreateSandboxesByNameForkV2RequestMountsValueMode | (string & {});
+  mode?: CreateSandboxesByNameForkV2RequestMountsValueMode | (string & {}) | undefined;
 }
 /** List of drives to mount to the sandbox at the provided path. */
 export type CreateSandboxesByNameForkV2RequestMountsMap = {
@@ -339,9 +369,9 @@ export interface CreateSandboxesByNameForkV2RequestKeepLastSnapshots {
   /** Number of most recent snapshots to keep. */
   count: number;
   /** Expiration time in milliseconds for kept snapshots. Falls back to snapshotExpiration. */
-  expiration?: CreateSandboxesByNameForkV2RequestKeepLastSnapshotsExpiration;
+  expiration?: CreateSandboxesByNameForkV2RequestKeepLastSnapshotsExpiration | undefined;
   /** Whether to immediately delete evicted snapshots. Defaults to true. */
-  deleteEvicted?: boolean;
+  deleteEvicted?: boolean | undefined;
 }
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
 export type CreateSandboxesByNameForkV2RequestTagsMap = { [key: string]: string | undefined };
@@ -349,38 +379,38 @@ export interface CreateSandboxesByNameForkV2Request {
   /** Name of the source sandbox to fork. */
   name: string;
   /** The ID of the project the source sandbox belongs to. Required unless authenticating with an OIDC token. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  networkPolicy?: CreateSandboxesByNameForkV2RequestNetworkPolicy;
+  slug?: string | undefined;
+  networkPolicy?: CreateSandboxesByNameForkV2RequestNetworkPolicy | undefined;
   /** Resources to define the VM */
-  resources?: CreateSandboxesByNameForkV2RequestResources;
+  resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
   /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
-  ports?: CreateSandboxesByNameForkV2RequestPortsList;
+  ports?: CreateSandboxesByNameForkV2RequestPortsList | undefined;
   /** Image to use for the sandbox. */
-  image?: string;
+  image?: string | undefined;
   /** Maximum duration in milliseconds that the sandbox can run before being automatically stopped. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-  env?: CreateSandboxesByNameForkV2RequestEnvMap;
+  env?: CreateSandboxesByNameForkV2RequestEnvMap | undefined;
   /** List of drives to mount to the sandbox at the provided path. */
-  mounts?: CreateSandboxesByNameForkV2RequestMountsMap;
+  mounts?: CreateSandboxesByNameForkV2RequestMountsMap | undefined;
   /** The Vercel region in which to create the sandbox. */
-  region?: CreateSandboxesByNameForkV2RequestRegion | (string & {});
+  region?: CreateSandboxesByNameForkV2RequestRegion | (string & {}) | undefined;
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
-  failoverRegions?: CreateSandboxesByNameForkV2RequestFailoverRegionsList;
+  failoverRegions?: CreateSandboxesByNameForkV2RequestFailoverRegionsList | undefined;
   /** The Connect network id for the target Secure Compute private network. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to the source sandbox setting. */
-  persistent?: boolean;
+  persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
-  snapshotExpiration?: CreateSandboxesByNameForkV2RequestSnapshotExpiration;
+  snapshotExpiration?: CreateSandboxesByNameForkV2RequestSnapshotExpiration | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. */
-  keepLastSnapshots?: CreateSandboxesByNameForkV2RequestKeepLastSnapshots;
+  keepLastSnapshots?: CreateSandboxesByNameForkV2RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-  tags?: CreateSandboxesByNameForkV2RequestTagsMap;
+  tags?: CreateSandboxesByNameForkV2RequestTagsMap | undefined;
 }
 /** This object represents a public route in a Vercel Sandbox. */
 export interface SandboxPublicRoute {
@@ -389,7 +419,7 @@ export interface SandboxPublicRoute {
   /** The subdomain assigned to this route. */
   subdomain: string;
   /** Whether the route is reserved by the system (e.g. for internal use). */
-  system?: boolean;
+  system?: boolean | undefined;
   /** A public URL to access the corresponding port in the Sandbox. */
   url: string;
 }
@@ -426,13 +456,14 @@ export interface NamedSandboxKeepLastSnapshots {
   /** Whether to immediately delete evicted snapshots. */
   deleteEvicted: boolean;
   /** Expiration time in milliseconds for kept snapshots. */
-  expiration?: number;
+  expiration?: number | undefined;
 }
 export type NamedSandboxMountsValueMode = "read-only" | "read-write" | "snapshot";
 /** Key-value pairs of mount path and drive. */
 export interface NamedSandboxMountsValue {
   drive: string;
-  mode?: NamedSandboxMountsValueMode;
+  mode?: NamedSandboxMountsValueMode | undefined;
+  snapshot?: string | undefined;
 }
 /** Key-value pairs of mount path and drive. */
 export type NamedSandboxMountsMap = { [key: string]: NamedSandboxMountsValue | undefined };
@@ -447,76 +478,78 @@ export type NamedSandboxNetworkPolicyMode =
   | "deny-all";
 /** Network policy configuration. */
 export interface NamedSandboxNetworkPolicy {
-  allowedCIDRs?: NamedSandboxNetworkPolicyAllowedCIDRsList;
-  allowedDomains?: NamedSandboxNetworkPolicyAllowedDomainsList;
-  deniedCIDRs?: NamedSandboxNetworkPolicyDeniedCIDRsList;
+  allowedCIDRs?: NamedSandboxNetworkPolicyAllowedCIDRsList | undefined;
+  allowedDomains?: NamedSandboxNetworkPolicyAllowedDomainsList | undefined;
+  deniedCIDRs?: NamedSandboxNetworkPolicyDeniedCIDRsList | undefined;
   mode: NamedSandboxNetworkPolicyMode;
-  s3Key?: string;
+  s3Key?: string | undefined;
 }
 /** The status of the current sandbox. */
 export type NamedSandboxStatus = "running" | "stopped" | "stopping";
 /** Key-value tags attached to the named sandbox. */
 export type NamedSandboxTagsMap = { [key: string]: string | undefined };
+/** The workload type of this sandbox. */
+export type NamedSandboxWorkloadType = "sandbox" | "v0";
 /** This object contains information related to a Vercel NamedSandbox. */
 export interface NamedSandbox {
   /** CPU architecture of the sandbox. This value does not change. */
-  architecture?: NamedSandboxArchitecture;
+  architecture?: NamedSandboxArchitecture | undefined;
   /** The time when the named sandbox was created, in milliseconds since the epoch. */
   createdAt: number;
   /** Current session ID the sandbox is pointing to. */
   currentSessionId: string;
   /** Current snapshot ID that the named sandbox is pointing to. */
-  currentSnapshotId?: string;
+  currentSnapshotId?: string | undefined;
   /** The working directory of the sandbox. */
-  cwd?: string;
+  cwd?: string | undefined;
   /** The time at which the currently running sandbox will time out, in milliseconds since the epoch. Only present while a session is running. */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** The regions the sandbox fails over to. Empty when it does not fail over. */
-  failoverRegions?: NamedSandboxFailoverRegionsList;
+  failoverRegions?: NamedSandboxFailoverRegionsList | undefined;
   /** Owner-qualified, digest-pinned reference of the container image the sandbox was created from ("{team}/{project}/{repository}@{manifestDigest}"). */
-  image?: string;
+  image?: string | undefined;
   /** Keep-last snapshot configuration. */
-  keepLastSnapshots?: NamedSandboxKeepLastSnapshots;
+  keepLastSnapshots?: NamedSandboxKeepLastSnapshots | undefined;
   /** Memory allocated in MB. */
-  memory?: number;
+  memory?: number | undefined;
   /** Key-value pairs of mount path and drive. */
-  mounts?: NamedSandboxMountsMap;
+  mounts?: NamedSandboxMountsMap | undefined;
   /** The unique identifier of the sandbox. */
   name: string;
   /** The Connect network id for the target Secure Compute private network. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Network policy configuration. */
-  networkPolicy?: NamedSandboxNetworkPolicy;
+  networkPolicy?: NamedSandboxNetworkPolicy | undefined;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. */
   persistent: boolean;
   /** The region the sandbox is pinned to: the region stored on the sandbox, otherwise the platform default. Where a running session actually landed is reported by `session.region`. */
-  region?: string;
+  region?: string | undefined;
   /** Runtime identifier. */
-  runtime?: string;
+  runtime?: string | undefined;
   /** Default snapshot expiration time in milliseconds. 0 means no expiration. */
-  snapshotExpiration?: number;
+  snapshotExpiration?: number | undefined;
   /** The status of the current sandbox. */
   status: NamedSandboxStatus;
   /** The time when the sandbox status was last updated, in milliseconds since the epoch. */
   statusUpdatedAt: number;
   /** Key-value tags attached to the named sandbox. */
-  tags?: NamedSandboxTagsMap;
+  tags?: NamedSandboxTagsMap | undefined;
   /** Timeout in milliseconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Cumulative active CPU duration in milliseconds across all sandbox runs. */
-  totalActiveCpuDurationMs?: number;
+  totalActiveCpuDurationMs?: number | undefined;
   /** Cumulative wall-clock duration in milliseconds across all sandbox runs. */
-  totalDurationMs?: number;
+  totalDurationMs?: number | undefined;
   /** Cumulative egress bytes across all sandbox runs. */
-  totalEgressBytes?: number;
+  totalEgressBytes?: number | undefined;
   /** Cumulative ingress bytes across all sandbox runs. */
-  totalIngressBytes?: number;
+  totalIngressBytes?: number | undefined;
   /** The time when the named sandbox was last updated, in milliseconds since the epoch. */
   updatedAt: number;
-  /** Whether this sandbox is managed by v0 on the customer's behalf. */
-  v0?: boolean;
   /** Number of virtual CPUs allocated. */
-  vcpus?: number;
+  vcpus?: number | undefined;
+  /** The workload type of this sandbox. */
+  workloadType?: NamedSandboxWorkloadType | undefined;
 }
 /** CPU architecture of the sandbox. */
 export type SessionArchitecture = "amd64" | "arm64";
@@ -526,31 +559,65 @@ export type SandboxNetworkPolicyAllowedCIDRsList = Array<string>;
 export type SandboxNetworkPolicyAllowedDomainsList = Array<string>;
 /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
 export type SandboxNetworkPolicyDeniedCIDRsList = Array<string>;
+/** Request dimensions used to match this rule. Matcher values are omitted. */
+export type SandboxForwardRuleMatchDimensionsList = Array<string>;
+/** Rules that forward outgoing requests matching specific domains. */
+export interface SandboxForwardRule {
+  /** The domain (or wildcard pattern) that this forwarding rule applies to. */
+  domain: string;
+  /** The URL to forward matching requests to. */
+  forwardURL: string;
+  /** Request dimensions used to match this rule. Matcher values are omitted. */
+  matchDimensions?: SandboxForwardRuleMatchDimensionsList | undefined;
+}
+/** Rules that forward outgoing requests matching specific domains. */
+export type SandboxNetworkPolicyForwardRulesList = Array<SandboxForwardRule>;
 /** The names of HTTP headers that have value that will be injected for requests to this domain. */
 export type SandboxInjectionRuleHeaderNamesList = Array<string>;
+/** Request dimensions used to match this rule. Matcher values are omitted. */
+export type SandboxInjectionRuleMatchDimensionsList = Array<string>;
 /** HTTP header injection rules for outgoing requests matching specific domains. */
 export interface SandboxInjectionRule {
   /** The domain (or pattern) that this injection rule applies to. Supports wildcards like *.vercel.com. */
   domain: string;
   /** The names of HTTP headers that have value that will be injected for requests to this domain. */
-  headerNames?: SandboxInjectionRuleHeaderNamesList;
+  headerNames?: SandboxInjectionRuleHeaderNamesList | undefined;
+  /** Request dimensions used to match this rule. Matcher values are omitted. */
+  matchDimensions?: SandboxInjectionRuleMatchDimensionsList | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. */
 export type SandboxNetworkPolicyInjectionRulesList = Array<SandboxInjectionRule>;
 /** The network policy mode. - 'allow-all': All traffic is allowed. - 'deny-all': All traffic is blocked. - 'custom': Traffic is controlled by explicit allow/deny rules. */
 export type SandboxNetworkPolicyMode = "allow-all" | "custom" | "deny-all";
+/** Request dimensions used to match this rule. Matcher values are omitted. */
+export type SandboxResponseRuleMatchDimensionsList = Array<string>;
+/** Rules that return custom responses for requests matching specific domains. */
+export interface SandboxResponseRule {
+  /** The domain (or wildcard pattern) that this response rule applies to. */
+  domain: string;
+  /** Request dimensions used to match this rule. Matcher values are omitted. */
+  matchDimensions?: SandboxResponseRuleMatchDimensionsList | undefined;
+  /** The HTTP status code returned for matching requests. */
+  statusCode: number;
+}
+/** Rules that return custom responses for requests matching specific domains. */
+export type SandboxNetworkPolicyResponseRulesList = Array<SandboxResponseRule>;
 /** The network policy applied to this sandbox, if any. */
 export interface SandboxNetworkPolicy {
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. */
-  allowedCIDRs?: SandboxNetworkPolicyAllowedCIDRsList;
+  allowedCIDRs?: SandboxNetworkPolicyAllowedCIDRsList | undefined;
   /** List of domain names the sandbox is allowed to connect to. Supports wildcard patterns (e.g., "*.vercel.com" matches all subdomains). */
-  allowedDomains?: SandboxNetworkPolicyAllowedDomainsList;
+  allowedDomains?: SandboxNetworkPolicyAllowedDomainsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: SandboxNetworkPolicyDeniedCIDRsList;
+  deniedCIDRs?: SandboxNetworkPolicyDeniedCIDRsList | undefined;
+  /** Rules that forward outgoing requests matching specific domains. */
+  forwardRules?: SandboxNetworkPolicyForwardRulesList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. */
-  injectionRules?: SandboxNetworkPolicyInjectionRulesList;
+  injectionRules?: SandboxNetworkPolicyInjectionRulesList | undefined;
   /** The network policy mode. - 'allow-all': All traffic is allowed. - 'deny-all': All traffic is blocked. - 'custom': Traffic is controlled by explicit allow/deny rules. */
   mode: SandboxNetworkPolicyMode;
+  /** Rules that return custom responses for requests matching specific domains. */
+  responseRules?: SandboxNetworkPolicyResponseRulesList | undefined;
 }
 /** The quantity of data transfered to and from the sandbox, in bytes. This value is only available once the sandbox is stopped, and only if it stopped successfully. */
 export interface SessionNetworkTransfer {
@@ -566,27 +633,29 @@ export type SessionStatus =
   | "snapshotting"
   | "stopped"
   | "stopping";
+/** The workload type of this sandbox. */
+export type SessionWorkloadType = "sandbox" | "v0";
 /** This object contains information related to a Vercel Sandbox Session. v2 endpoints return "session" instead of "sandbox" as the response wrapper key. */
 export interface Session {
   /** The time when the sandbox was aborted, in milliseconds since the epoch. */
-  abortedAt?: number;
+  abortedAt?: number | undefined;
   /** The amount of CPU time the sandbox consumed, if available, in milliseconds. This value is only available once the sandbox is stopped, and only if it stopped successfully. */
-  activeCpuDurationMs?: number;
+  activeCpuDurationMs?: number | undefined;
   /** CPU architecture of the sandbox. */
-  architecture?: SessionArchitecture;
+  architecture?: SessionArchitecture | undefined;
   /** The time when the sandbox was created, in milliseconds since the epoch. */
   createdAt: number;
   /** The working directory of the sandbox. */
   cwd: string;
   /** The duration of the sandbox in milliseconds. */
-  duration?: number;
+  duration?: number | undefined;
   /** The unique identifier of the sandbox. */
   id: string;
   /** Memory allocated to this sandbox in MB. */
   memory: number;
-  networkPolicy?: SandboxNetworkPolicy;
+  networkPolicy?: SandboxNetworkPolicy | undefined;
   /** The quantity of data transfered to and from the sandbox, in bytes. This value is only available once the sandbox is stopped, and only if it stopped successfully. */
-  networkTransfer?: SessionNetworkTransfer;
+  networkTransfer?: SessionNetworkTransfer | undefined;
   /** The unique identifier of the project associated with this session. */
   projectId: string;
   /** The region where the sandbox is hosted. */
@@ -594,29 +663,29 @@ export interface Session {
   /** The time when the sandbox was requested, in milliseconds since the epoch. */
   requestedAt: number;
   /** The time when the sandbox was requested to stop, in milliseconds since the epoch. */
-  requestedStopAt?: number;
+  requestedStopAt?: number | undefined;
   /** The runtime of the sandbox. */
   runtime: string;
   /** The time when a snapshot was requested, in milliseconds since the epoch. */
-  snapshottedAt?: number;
+  snapshottedAt?: number | undefined;
   /** The name of the source sandbox. */
   sourceSandboxName: string;
   /** The unique identifier of the snapshot associated with this sandbox, if any. */
-  sourceSnapshotId?: string;
+  sourceSnapshotId?: string | undefined;
   /** The time when the sandbox was started, in milliseconds since the epoch. */
-  startedAt?: number;
+  startedAt?: number | undefined;
   /** The status of the sandbox. */
   status: SessionStatus;
   /** The time when the sandbox was stopped, in milliseconds since the epoch. */
-  stoppedAt?: number;
+  stoppedAt?: number | undefined;
   /** The maximum amount of time the sandbox will run for in milliseconds. */
   timeout: number;
   /** The last time the sandbox was updated, in milliseconds since the epoch. */
   updatedAt: number;
-  /** Whether this sandbox is managed by v0 on the customer's behalf. */
-  v0?: boolean;
   /** Number of vCPUs allocated to this sandbox. */
   vcpus: number;
+  /** The workload type of this sandbox. */
+  workloadType?: SessionWorkloadType | undefined;
 }
 export interface CreateSandboxesByNameForkV2Response {
   routes: CreateSandboxesByNameForkV2ResponseRoutesList;
@@ -671,13 +740,21 @@ export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesIt
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList;
+  method?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList
+    | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList
+    | undefined;
 }
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItem {
   /** The domain (or pattern) of requests to add headers for. Supports wildcards like *.example.com. */
@@ -685,7 +762,7 @@ export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRu
   /** HTTP headers to inject into requests for this domain. Existing headers with the same name will be overridden. */
   headers: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemHeadersMap;
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatch;
+  match?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesItemMatch | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesList =
@@ -695,13 +772,17 @@ export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase0 {
   /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
   mode: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0Mode | (string & {});
   /** List of domain names the sandbox is allowed to connect to. Only applies when mode is \"custom\". Supports wildcard patterns (e.g., \"*.example.com\" matches all subdomains). */
-  allowedDomains?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0AllowedDomainsList;
+  allowedDomains?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase0AllowedDomainsList
+    | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. Traffic to these addresses bypasses domain-based restrictions. */
-  allowedCIDRs?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0AllowedCIDRsList;
+  allowedCIDRs?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0AllowedCIDRsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0DeniedCIDRsList;
+  deniedCIDRs?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0DeniedCIDRsList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
-  injectionRules?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesList;
+  injectionRules?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase0InjectionRulesList
+    | undefined;
 }
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase0List = Array<string>;
 /** Match on the request path. Comparison is case-sensitive. */
@@ -735,18 +816,28 @@ export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueI
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList;
+  method?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList
+    | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList
+    | undefined;
 }
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap =
   { [key: string]: string | undefined };
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem {
-  headers?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap;
+  headers?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap
+    | undefined;
 }
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList =
   Array<CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem>;
@@ -758,20 +849,26 @@ export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1V
   /** HTTP status code returned to the sandbox. */
   statusCode: number;
   /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
-  headers?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  headers?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap
+    | undefined;
   /** UTF-8 response body. Requires `contentType`. */
-  body?: string;
+  body?: string | undefined;
   /** Value of the `Content-Type` response header. Required when `body` is set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
-  transform?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
+  match?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch | undefined;
+  transform?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList
+    | undefined;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
-  forwardURL?: string;
+  forwardURL?: string | undefined;
   /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
-  response?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
+  response?:
+    | CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse
+    | undefined;
 }
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueList =
   Array<CreateSandboxesByNameForkV3RequestNetworkPolicyCase1AllowCase1ValueItem>;
@@ -787,12 +884,12 @@ export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1Allow =
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1SubnetsAllowList = Array<string>;
 export type CreateSandboxesByNameForkV3RequestNetworkPolicyCase1SubnetsDenyList = Array<string>;
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1Subnets {
-  allow?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1SubnetsAllowList;
-  deny?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1SubnetsDenyList;
+  allow?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1SubnetsAllowList | undefined;
+  deny?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1SubnetsDenyList | undefined;
 }
 export interface CreateSandboxesByNameForkV3RequestNetworkPolicyCase1 {
-  allow?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1Allow;
-  subnets?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1Subnets;
+  allow?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1Allow | undefined;
+  subnets?: CreateSandboxesByNameForkV3RequestNetworkPolicyCase1Subnets | undefined;
 }
 export type CreateSandboxesByNameForkV3RequestNetworkPolicy =
   | CreateSandboxesByNameForkV3RequestNetworkPolicyCase0
@@ -810,7 +907,7 @@ export interface CreateSandboxesByNameForkV3RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
   /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
-  mode?: CreateSandboxesByNameForkV3RequestMountsValueMode | (string & {});
+  mode?: CreateSandboxesByNameForkV3RequestMountsValueMode | (string & {}) | undefined;
 }
 /** List of drives to mount to the sandbox at the provided path. */
 export type CreateSandboxesByNameForkV3RequestMountsMap = {
@@ -869,9 +966,9 @@ export interface CreateSandboxesByNameForkV3RequestKeepLastSnapshotsCase1 {
   /** Number of most recent snapshots to keep. */
   count: number;
   /** Expiration time in milliseconds for kept snapshots. Falls back to snapshotExpiration. */
-  expiration?: CreateSandboxesByNameForkV3RequestKeepLastSnapshotsCase1Expiration;
+  expiration?: CreateSandboxesByNameForkV3RequestKeepLastSnapshotsCase1Expiration | undefined;
   /** Whether to immediately delete evicted snapshots. Defaults to true. */
-  deleteEvicted?: boolean;
+  deleteEvicted?: boolean | undefined;
 }
 /** Protect the N most recent snapshots with different expiration/deletion behavior. Persistent sandboxes default to keeping only the last snapshot (evicted snapshots are deleted). Set to null to disable the limit. */
 export type CreateSandboxesByNameForkV3RequestKeepLastSnapshots =
@@ -883,38 +980,38 @@ export interface CreateSandboxesByNameForkV3Request {
   /** Name of the source sandbox to fork. */
   name: string;
   /** The ID of the project the source sandbox belongs to. Required unless authenticating with an OIDC token. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  networkPolicy?: CreateSandboxesByNameForkV3RequestNetworkPolicy;
+  slug?: string | undefined;
+  networkPolicy?: CreateSandboxesByNameForkV3RequestNetworkPolicy | undefined;
   /** Resources to define the VM */
-  resources?: CreateSandboxesByNameForkV2RequestResources;
+  resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
   /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
-  ports?: CreateSandboxesByNameForkV3RequestPortsList;
+  ports?: CreateSandboxesByNameForkV3RequestPortsList | undefined;
   /** Image to use for the sandbox. */
-  image?: string;
+  image?: string | undefined;
   /** Maximum duration in milliseconds that the sandbox can run before being automatically stopped. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-  env?: CreateSandboxesByNameForkV3RequestEnvMap;
+  env?: CreateSandboxesByNameForkV3RequestEnvMap | undefined;
   /** List of drives to mount to the sandbox at the provided path. */
-  mounts?: CreateSandboxesByNameForkV3RequestMountsMap;
+  mounts?: CreateSandboxesByNameForkV3RequestMountsMap | undefined;
   /** The Vercel region in which to create the sandbox. */
-  region?: CreateSandboxesByNameForkV3RequestRegion | (string & {});
+  region?: CreateSandboxesByNameForkV3RequestRegion | (string & {}) | undefined;
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
-  failoverRegions?: CreateSandboxesByNameForkV3RequestFailoverRegionsList;
+  failoverRegions?: CreateSandboxesByNameForkV3RequestFailoverRegionsList | undefined;
   /** The Connect network id for the target Secure Compute private network. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to the source sandbox setting. */
-  persistent?: boolean;
+  persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Defaults to 7 days. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
-  snapshotExpiration?: CreateSandboxesByNameForkV3RequestSnapshotExpiration;
+  snapshotExpiration?: CreateSandboxesByNameForkV3RequestSnapshotExpiration | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. Persistent sandboxes default to keeping only the last snapshot (evicted snapshots are deleted). Set to null to disable the limit. */
-  keepLastSnapshots?: CreateSandboxesByNameForkV3RequestKeepLastSnapshots;
+  keepLastSnapshots?: CreateSandboxesByNameForkV3RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-  tags?: CreateSandboxesByNameForkV3RequestTagsMap;
+  tags?: CreateSandboxesByNameForkV3RequestTagsMap | undefined;
 }
 export type CreateSandboxesByNameForkV3ResponseRoutesList = Array<SandboxPublicRoute>;
 export interface CreateSandboxesByNameForkV3Response {
@@ -928,11 +1025,11 @@ export interface CreateSandboxesSessionsBySessionIdSnapshotV2Request {
   /** The unique identifier of the session to snapshot. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The number of milliseconds after which the snapshot will expire and be deleted. Use 0 for no expiration. */
-  expiration?: CreateSandboxesSessionsBySessionIdSnapshotV2RequestExpiration;
+  expiration?: CreateSandboxesSessionsBySessionIdSnapshotV2RequestExpiration | undefined;
 }
 /** CPU architecture required to restore the snapshot. */
 export type SnapshotArchitecture = "amd64" | "arm64";
@@ -942,26 +1039,28 @@ export type SnapshotCreationMethod = "automatic" | "manual";
 export type SnapshotRegionsList = Array<string>;
 /** The status of the snapshot. */
 export type SnapshotStatus = "created" | "deleted" | "failed";
+/** The workload type of this snapshot. */
+export type SnapshotWorkloadType = "sandbox" | "v0";
 /** This object contains information related to a Snapshot of a Vercel Sandbox session (v2 API). */
 export interface Snapshot {
   /** CPU architecture required to restore the snapshot. */
-  architecture?: SnapshotArchitecture;
+  architecture?: SnapshotArchitecture | undefined;
   /** The time when the snapshot was created, in milliseconds since the epoch. */
   createdAt: number;
   /** The method used to create the snapshot. */
-  creationMethod?: SnapshotCreationMethod;
+  creationMethod?: SnapshotCreationMethod | undefined;
   /** The time when the snapshot will expire, in milliseconds since the epoch. If not set, the snapshot does not have any expiration. */
-  expiresAt?: number;
+  expiresAt?: number | undefined;
   /** The unique identifier of the snapshot. */
   id: string;
   /** The last time the snapshot was used (e.g. to resume or create a sandbox), in milliseconds since the epoch. Falls back to `createdAt` for older snapshots that predate this field. */
   lastUsedAt: number;
   /** The unique identifier of the parent snapshot, if this snapshot was created from another snapshot. */
-  parentId?: string;
+  parentId?: string | undefined;
   /** The region where the snapshot is stored. */
-  region?: string;
+  region?: string | undefined;
   /** The regions where the snapshot is available. */
-  regions?: SnapshotRegionsList;
+  regions?: SnapshotRegionsList | undefined;
   /** The size of the snapshot in bytes. */
   sizeBytes: number;
   /** The unique identifier of the session from which the snapshot was created. */
@@ -970,8 +1069,8 @@ export interface Snapshot {
   status: SnapshotStatus;
   /** The last time the snapshot was updated, in milliseconds since the epoch. */
   updatedAt: number;
-  /** Whether this snapshot is managed by v0 on the customer's behalf. */
-  v0?: boolean;
+  /** The workload type of this snapshot. */
+  workloadType?: SnapshotWorkloadType | undefined;
 }
 export interface CreateSandboxesSessionsBySessionIdSnapshotV2Response {
   session: Session;
@@ -983,11 +1082,11 @@ export interface CreateSandboxesSessionsBySessionIdSnapshotV3Request {
   /** The unique identifier of the session to snapshot. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The number of milliseconds after which the snapshot will expire and be deleted. Defaults to 7 days when neither this field nor the sandbox configuration specifies an expiration. Use 0 for no expiration. */
-  expiration?: CreateSandboxesSessionsBySessionIdSnapshotV3RequestExpiration;
+  expiration?: CreateSandboxesSessionsBySessionIdSnapshotV3RequestExpiration | undefined;
 }
 export interface CreateSandboxesSessionsBySessionIdSnapshotV3Response {
   session: Session;
@@ -1041,13 +1140,19 @@ export type CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatchHea
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList;
+  method?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList
+    | undefined;
 }
 export interface CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItem {
   /** The domain (or pattern) of requests to add headers for. Supports wildcards like *.example.com. */
@@ -1055,7 +1160,7 @@ export interface CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItem {
   /** HTTP headers to inject into requests for this domain. Existing headers with the same name will be overridden. */
   headers: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemHeadersMap;
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatch;
+  match?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesItemMatch | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
 export type CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesList =
@@ -1065,13 +1170,13 @@ export interface CreateSandboxesV2RequestNetworkPolicyCase0 {
   /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
   mode: CreateSandboxesV2RequestNetworkPolicyCase0Mode | (string & {});
   /** List of domain names the sandbox is allowed to connect to. Only applies when mode is \"custom\". Supports wildcard patterns (e.g., \"*.example.com\" matches all subdomains). */
-  allowedDomains?: CreateSandboxesV2RequestNetworkPolicyCase0AllowedDomainsList;
+  allowedDomains?: CreateSandboxesV2RequestNetworkPolicyCase0AllowedDomainsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. Traffic to these addresses bypasses domain-based restrictions. */
-  allowedCIDRs?: CreateSandboxesV2RequestNetworkPolicyCase0AllowedCIDRsList;
+  allowedCIDRs?: CreateSandboxesV2RequestNetworkPolicyCase0AllowedCIDRsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: CreateSandboxesV2RequestNetworkPolicyCase0DeniedCIDRsList;
+  deniedCIDRs?: CreateSandboxesV2RequestNetworkPolicyCase0DeniedCIDRsList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
-  injectionRules?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesList;
+  injectionRules?: CreateSandboxesV2RequestNetworkPolicyCase0InjectionRulesList | undefined;
 }
 export type CreateSandboxesV2RequestNetworkPolicyCase1AllowCase0List = Array<string>;
 /** Match on the request path. Comparison is case-sensitive. */
@@ -1105,19 +1210,27 @@ export type CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchHe
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList;
+  method?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList
+    | undefined;
 }
 export type CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap = {
   [key: string]: string | undefined;
 };
 export interface CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem {
-  headers?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap;
+  headers?:
+    | CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap
+    | undefined;
 }
 export type CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList =
   Array<CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem>;
@@ -1130,20 +1243,24 @@ export interface CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemRe
   /** HTTP status code returned to the sandbox. */
   statusCode: number;
   /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
-  headers?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  headers?:
+    | CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap
+    | undefined;
   /** UTF-8 response body. Requires `contentType`. */
-  body?: string;
+  body?: string | undefined;
   /** Value of the `Content-Type` response header. Required when `body` is set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
-  transform?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
+  match?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemMatch | undefined;
+  transform?:
+    | CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemTransformList
+    | undefined;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
-  forwardURL?: string;
+  forwardURL?: string | undefined;
   /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
-  response?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
+  response?: CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItemResponse | undefined;
 }
 export type CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueList =
   Array<CreateSandboxesV2RequestNetworkPolicyCase1AllowCase1ValueItem>;
@@ -1157,12 +1274,12 @@ export type CreateSandboxesV2RequestNetworkPolicyCase1Allow =
 export type CreateSandboxesV2RequestNetworkPolicyCase1SubnetsAllowList = Array<string>;
 export type CreateSandboxesV2RequestNetworkPolicyCase1SubnetsDenyList = Array<string>;
 export interface CreateSandboxesV2RequestNetworkPolicyCase1Subnets {
-  allow?: CreateSandboxesV2RequestNetworkPolicyCase1SubnetsAllowList;
-  deny?: CreateSandboxesV2RequestNetworkPolicyCase1SubnetsDenyList;
+  allow?: CreateSandboxesV2RequestNetworkPolicyCase1SubnetsAllowList | undefined;
+  deny?: CreateSandboxesV2RequestNetworkPolicyCase1SubnetsDenyList | undefined;
 }
 export interface CreateSandboxesV2RequestNetworkPolicyCase1 {
-  allow?: CreateSandboxesV2RequestNetworkPolicyCase1Allow;
-  subnets?: CreateSandboxesV2RequestNetworkPolicyCase1Subnets;
+  allow?: CreateSandboxesV2RequestNetworkPolicyCase1Allow | undefined;
+  subnets?: CreateSandboxesV2RequestNetworkPolicyCase1Subnets | undefined;
 }
 export type CreateSandboxesV2RequestNetworkPolicy =
   | CreateSandboxesV2RequestNetworkPolicyCase0
@@ -1180,13 +1297,13 @@ export interface CreateSandboxesV2RequestSourceCase0 {
   /** The URL of the Git repository to clone. */
   url: string;
   /** Username for Git authentication. Required together with password for private repositories. */
-  username?: string;
+  username?: string | undefined;
   /** Password or personal access token for Git authentication. Required together with username for private repositories. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Create a shallow clone with history truncated to the specified number of commits. Useful for faster cloning of large repositories. */
-  depth?: number;
+  depth?: number | undefined;
   /** The specific commit SHA, branch name, or tag to checkout after cloning. */
-  revision?: string;
+  revision?: string | undefined;
 }
 /** Download and extract a gzipped tarball into the sandbox. */
 export interface CreateSandboxesV2RequestSourceCase1 {
@@ -1217,7 +1334,7 @@ export interface CreateSandboxesV2RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
   /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
-  mode?: CreateSandboxesV2RequestMountsValueMode | (string & {});
+  mode?: CreateSandboxesV2RequestMountsValueMode | (string & {}) | undefined;
 }
 /** List of drives to mount to the sandbox at the provided path. */
 export type CreateSandboxesV2RequestMountsMap = {
@@ -1277,54 +1394,54 @@ export interface CreateSandboxesV2RequestKeepLastSnapshots {
   /** Number of most recent snapshots to keep. */
   count: number;
   /** Expiration time in milliseconds for kept snapshots. Falls back to snapshotExpiration. */
-  expiration?: CreateSandboxesV2RequestKeepLastSnapshotsExpiration;
+  expiration?: CreateSandboxesV2RequestKeepLastSnapshotsExpiration | undefined;
   /** Whether to immediately delete evicted snapshots. Defaults to true. */
-  deleteEvicted?: boolean;
+  deleteEvicted?: boolean | undefined;
 }
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
 export type CreateSandboxesV2RequestTagsMap = { [key: string]: string | undefined };
 export interface CreateSandboxesV2Request {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  networkPolicy?: CreateSandboxesV2RequestNetworkPolicy;
+  slug?: string | undefined;
+  networkPolicy?: CreateSandboxesV2RequestNetworkPolicy | undefined;
   /** The runtime environment for the sandbox. Determines the pre-installed language runtimes and tools available. */
-  runtime?: CreateSandboxesV2RequestRuntime | (string & {});
+  runtime?: CreateSandboxesV2RequestRuntime | (string & {}) | undefined;
   /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
-  architecture?: CreateSandboxesV2RequestArchitecture | (string & {});
+  architecture?: CreateSandboxesV2RequestArchitecture | (string & {}) | undefined;
   /** Resources to define the VM */
-  resources?: CreateSandboxesByNameForkV2RequestResources;
+  resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
   /** The source from which to initialize the sandbox filesystem. Can be a Git repository, a tarball URL, or an existing snapshot. */
-  source?: CreateSandboxesV2RequestSource;
+  source?: CreateSandboxesV2RequestSource | undefined;
   /** The target project slug or ID in which the sandbox will be assigned to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
-  ports?: CreateSandboxesV2RequestPortsList;
+  ports?: CreateSandboxesV2RequestPortsList | undefined;
   /** Image to use for the sandbox. */
-  image?: string;
+  image?: string | undefined;
   /** Maximum duration in milliseconds that the sandbox can run before being automatically stopped. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-  env?: CreateSandboxesV2RequestEnvMap;
+  env?: CreateSandboxesV2RequestEnvMap | undefined;
   /** List of drives to mount to the sandbox at the provided path. */
-  mounts?: CreateSandboxesV2RequestMountsMap;
+  mounts?: CreateSandboxesV2RequestMountsMap | undefined;
   /** The Vercel region in which to create the sandbox. */
-  region?: CreateSandboxesV2RequestRegion | (string & {});
+  region?: CreateSandboxesV2RequestRegion | (string & {}) | undefined;
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
-  failoverRegions?: CreateSandboxesV2RequestFailoverRegionsList;
+  failoverRegions?: CreateSandboxesV2RequestFailoverRegionsList | undefined;
   /** The Connect network id for the target Secure Compute private network. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
-  name?: string;
+  name?: string | undefined;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to true. */
-  persistent?: boolean;
+  persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
-  snapshotExpiration?: CreateSandboxesV2RequestSnapshotExpiration;
+  snapshotExpiration?: CreateSandboxesV2RequestSnapshotExpiration | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. */
-  keepLastSnapshots?: CreateSandboxesV2RequestKeepLastSnapshots;
+  keepLastSnapshots?: CreateSandboxesV2RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-  tags?: CreateSandboxesV2RequestTagsMap;
+  tags?: CreateSandboxesV2RequestTagsMap | undefined;
 }
 export type CreateSandboxesV2ResponseRoutesList = Array<SandboxPublicRoute>;
 export interface CreateSandboxesV2Response {
@@ -1380,13 +1497,19 @@ export type CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatchHea
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList;
+  method?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList
+    | undefined;
 }
 export interface CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItem {
   /** The domain (or pattern) of requests to add headers for. Supports wildcards like *.example.com. */
@@ -1394,7 +1517,7 @@ export interface CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItem {
   /** HTTP headers to inject into requests for this domain. Existing headers with the same name will be overridden. */
   headers: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemHeadersMap;
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatch;
+  match?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesItemMatch | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
 export type CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesList =
@@ -1404,13 +1527,13 @@ export interface CreateSandboxesV3RequestNetworkPolicyCase0 {
   /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
   mode: CreateSandboxesV3RequestNetworkPolicyCase0Mode | (string & {});
   /** List of domain names the sandbox is allowed to connect to. Only applies when mode is \"custom\". Supports wildcard patterns (e.g., \"*.example.com\" matches all subdomains). */
-  allowedDomains?: CreateSandboxesV3RequestNetworkPolicyCase0AllowedDomainsList;
+  allowedDomains?: CreateSandboxesV3RequestNetworkPolicyCase0AllowedDomainsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. Traffic to these addresses bypasses domain-based restrictions. */
-  allowedCIDRs?: CreateSandboxesV3RequestNetworkPolicyCase0AllowedCIDRsList;
+  allowedCIDRs?: CreateSandboxesV3RequestNetworkPolicyCase0AllowedCIDRsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: CreateSandboxesV3RequestNetworkPolicyCase0DeniedCIDRsList;
+  deniedCIDRs?: CreateSandboxesV3RequestNetworkPolicyCase0DeniedCIDRsList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
-  injectionRules?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesList;
+  injectionRules?: CreateSandboxesV3RequestNetworkPolicyCase0InjectionRulesList | undefined;
 }
 export type CreateSandboxesV3RequestNetworkPolicyCase1AllowCase0List = Array<string>;
 /** Match on the request path. Comparison is case-sensitive. */
@@ -1444,19 +1567,27 @@ export type CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchHe
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList;
+  method?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList
+    | undefined;
 }
 export type CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap = {
   [key: string]: string | undefined;
 };
 export interface CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem {
-  headers?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap;
+  headers?:
+    | CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap
+    | undefined;
 }
 export type CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList =
   Array<CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem>;
@@ -1469,20 +1600,24 @@ export interface CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemRe
   /** HTTP status code returned to the sandbox. */
   statusCode: number;
   /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
-  headers?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  headers?:
+    | CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap
+    | undefined;
   /** UTF-8 response body. Requires `contentType`. */
-  body?: string;
+  body?: string | undefined;
   /** Value of the `Content-Type` response header. Required when `body` is set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
-  transform?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
+  match?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemMatch | undefined;
+  transform?:
+    | CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemTransformList
+    | undefined;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
-  forwardURL?: string;
+  forwardURL?: string | undefined;
   /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
-  response?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
+  response?: CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItemResponse | undefined;
 }
 export type CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueList =
   Array<CreateSandboxesV3RequestNetworkPolicyCase1AllowCase1ValueItem>;
@@ -1496,12 +1631,12 @@ export type CreateSandboxesV3RequestNetworkPolicyCase1Allow =
 export type CreateSandboxesV3RequestNetworkPolicyCase1SubnetsAllowList = Array<string>;
 export type CreateSandboxesV3RequestNetworkPolicyCase1SubnetsDenyList = Array<string>;
 export interface CreateSandboxesV3RequestNetworkPolicyCase1Subnets {
-  allow?: CreateSandboxesV3RequestNetworkPolicyCase1SubnetsAllowList;
-  deny?: CreateSandboxesV3RequestNetworkPolicyCase1SubnetsDenyList;
+  allow?: CreateSandboxesV3RequestNetworkPolicyCase1SubnetsAllowList | undefined;
+  deny?: CreateSandboxesV3RequestNetworkPolicyCase1SubnetsDenyList | undefined;
 }
 export interface CreateSandboxesV3RequestNetworkPolicyCase1 {
-  allow?: CreateSandboxesV3RequestNetworkPolicyCase1Allow;
-  subnets?: CreateSandboxesV3RequestNetworkPolicyCase1Subnets;
+  allow?: CreateSandboxesV3RequestNetworkPolicyCase1Allow | undefined;
+  subnets?: CreateSandboxesV3RequestNetworkPolicyCase1Subnets | undefined;
 }
 export type CreateSandboxesV3RequestNetworkPolicy =
   | CreateSandboxesV3RequestNetworkPolicyCase0
@@ -1531,7 +1666,7 @@ export interface CreateSandboxesV3RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
   /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
-  mode?: CreateSandboxesV3RequestMountsValueMode | (string & {});
+  mode?: CreateSandboxesV3RequestMountsValueMode | (string & {}) | undefined;
 }
 /** List of drives to mount to the sandbox at the provided path. */
 export type CreateSandboxesV3RequestMountsMap = {
@@ -1591,52 +1726,52 @@ export interface CreateSandboxesV3RequestKeepLastSnapshots {
   /** Number of most recent snapshots to keep. */
   count: number;
   /** Expiration time in milliseconds for kept snapshots. Falls back to snapshotExpiration. */
-  expiration?: CreateSandboxesV3RequestKeepLastSnapshotsExpiration;
+  expiration?: CreateSandboxesV3RequestKeepLastSnapshotsExpiration | undefined;
   /** Whether to immediately delete evicted snapshots. Defaults to true. */
-  deleteEvicted?: boolean;
+  deleteEvicted?: boolean | undefined;
 }
 /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
 export type CreateSandboxesV3RequestTagsMap = { [key: string]: string | undefined };
 export interface CreateSandboxesV3Request {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  networkPolicy?: CreateSandboxesV3RequestNetworkPolicy;
+  slug?: string | undefined;
+  networkPolicy?: CreateSandboxesV3RequestNetworkPolicy | undefined;
   /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
-  architecture?: CreateSandboxesV3RequestArchitecture | (string & {});
+  architecture?: CreateSandboxesV3RequestArchitecture | (string & {}) | undefined;
   /** Resources to define the VM */
-  resources?: CreateSandboxesByNameForkV2RequestResources;
+  resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
   /** The source from which to initialize the sandbox filesystem. Can be a Git repository, a tarball URL, or an existing snapshot. */
-  source?: CreateSandboxesV3RequestSource;
+  source?: CreateSandboxesV3RequestSource | undefined;
   /** The target project slug or ID in which the sandbox will be assigned to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
-  ports?: CreateSandboxesV3RequestPortsList;
+  ports?: CreateSandboxesV3RequestPortsList | undefined;
   /** Image to use for the sandbox. */
-  image?: string;
+  image?: string | undefined;
   /** Maximum duration in milliseconds that the sandbox can run before being automatically stopped. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-  env?: CreateSandboxesV3RequestEnvMap;
+  env?: CreateSandboxesV3RequestEnvMap | undefined;
   /** List of drives to mount to the sandbox at the provided path. */
-  mounts?: CreateSandboxesV3RequestMountsMap;
+  mounts?: CreateSandboxesV3RequestMountsMap | undefined;
   /** The Vercel region in which to create the sandbox. */
-  region?: CreateSandboxesV3RequestRegion | (string & {});
+  region?: CreateSandboxesV3RequestRegion | (string & {}) | undefined;
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
-  failoverRegions?: CreateSandboxesV3RequestFailoverRegionsList;
+  failoverRegions?: CreateSandboxesV3RequestFailoverRegionsList | undefined;
   /** The Connect network id for the target Secure Compute private network. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
-  name?: string;
+  name?: string | undefined;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to true. */
-  persistent?: boolean;
+  persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
-  snapshotExpiration?: CreateSandboxesV3RequestSnapshotExpiration;
+  snapshotExpiration?: CreateSandboxesV3RequestSnapshotExpiration | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. */
-  keepLastSnapshots?: CreateSandboxesV3RequestKeepLastSnapshots;
+  keepLastSnapshots?: CreateSandboxesV3RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-  tags?: CreateSandboxesV3RequestTagsMap;
+  tags?: CreateSandboxesV3RequestTagsMap | undefined;
 }
 export type CreateSandboxesV3ResponseRoutesList = Array<SandboxPublicRoute>;
 export interface CreateSandboxesV3Response {
@@ -1692,13 +1827,19 @@ export type CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatchHea
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList;
+  method?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList
+    | undefined;
 }
 export interface CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItem {
   /** The domain (or pattern) of requests to add headers for. Supports wildcards like *.example.com. */
@@ -1706,7 +1847,7 @@ export interface CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItem {
   /** HTTP headers to inject into requests for this domain. Existing headers with the same name will be overridden. */
   headers: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemHeadersMap;
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatch;
+  match?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesItemMatch | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
 export type CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesList =
@@ -1716,13 +1857,13 @@ export interface CreateSandboxesV4RequestNetworkPolicyCase0 {
   /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
   mode: CreateSandboxesV4RequestNetworkPolicyCase0Mode | (string & {});
   /** List of domain names the sandbox is allowed to connect to. Only applies when mode is \"custom\". Supports wildcard patterns (e.g., \"*.example.com\" matches all subdomains). */
-  allowedDomains?: CreateSandboxesV4RequestNetworkPolicyCase0AllowedDomainsList;
+  allowedDomains?: CreateSandboxesV4RequestNetworkPolicyCase0AllowedDomainsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. Traffic to these addresses bypasses domain-based restrictions. */
-  allowedCIDRs?: CreateSandboxesV4RequestNetworkPolicyCase0AllowedCIDRsList;
+  allowedCIDRs?: CreateSandboxesV4RequestNetworkPolicyCase0AllowedCIDRsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: CreateSandboxesV4RequestNetworkPolicyCase0DeniedCIDRsList;
+  deniedCIDRs?: CreateSandboxesV4RequestNetworkPolicyCase0DeniedCIDRsList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
-  injectionRules?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesList;
+  injectionRules?: CreateSandboxesV4RequestNetworkPolicyCase0InjectionRulesList | undefined;
 }
 export type CreateSandboxesV4RequestNetworkPolicyCase1AllowCase0List = Array<string>;
 /** Match on the request path. Comparison is case-sensitive. */
@@ -1756,19 +1897,27 @@ export type CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatchHe
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList;
+  method?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList;
+  queryString?:
+    | CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList;
+  headers?:
+    | CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList
+    | undefined;
 }
 export type CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap = {
   [key: string]: string | undefined;
 };
 export interface CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem {
-  headers?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap;
+  headers?:
+    | CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap
+    | undefined;
 }
 export type CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformList =
   Array<CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformItem>;
@@ -1781,20 +1930,24 @@ export interface CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemRe
   /** HTTP status code returned to the sandbox. */
   statusCode: number;
   /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
-  headers?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  headers?:
+    | CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap
+    | undefined;
   /** UTF-8 response body. Requires `contentType`. */
-  body?: string;
+  body?: string | undefined;
   /** Value of the `Content-Type` response header. Required when `body` is set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatch;
-  transform?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
+  match?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemMatch | undefined;
+  transform?:
+    | CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemTransformList
+    | undefined;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
-  forwardURL?: string;
+  forwardURL?: string | undefined;
   /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
-  response?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse;
+  response?: CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItemResponse | undefined;
 }
 export type CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueList =
   Array<CreateSandboxesV4RequestNetworkPolicyCase1AllowCase1ValueItem>;
@@ -1808,12 +1961,12 @@ export type CreateSandboxesV4RequestNetworkPolicyCase1Allow =
 export type CreateSandboxesV4RequestNetworkPolicyCase1SubnetsAllowList = Array<string>;
 export type CreateSandboxesV4RequestNetworkPolicyCase1SubnetsDenyList = Array<string>;
 export interface CreateSandboxesV4RequestNetworkPolicyCase1Subnets {
-  allow?: CreateSandboxesV4RequestNetworkPolicyCase1SubnetsAllowList;
-  deny?: CreateSandboxesV4RequestNetworkPolicyCase1SubnetsDenyList;
+  allow?: CreateSandboxesV4RequestNetworkPolicyCase1SubnetsAllowList | undefined;
+  deny?: CreateSandboxesV4RequestNetworkPolicyCase1SubnetsDenyList | undefined;
 }
 export interface CreateSandboxesV4RequestNetworkPolicyCase1 {
-  allow?: CreateSandboxesV4RequestNetworkPolicyCase1Allow;
-  subnets?: CreateSandboxesV4RequestNetworkPolicyCase1Subnets;
+  allow?: CreateSandboxesV4RequestNetworkPolicyCase1Allow | undefined;
+  subnets?: CreateSandboxesV4RequestNetworkPolicyCase1Subnets | undefined;
 }
 export type CreateSandboxesV4RequestNetworkPolicy =
   | CreateSandboxesV4RequestNetworkPolicyCase0
@@ -1843,7 +1996,7 @@ export interface CreateSandboxesV4RequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
   /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
-  mode?: CreateSandboxesV4RequestMountsValueMode | (string & {});
+  mode?: CreateSandboxesV4RequestMountsValueMode | (string & {}) | undefined;
 }
 /** List of drives to mount to the sandbox at the provided path. */
 export type CreateSandboxesV4RequestMountsMap = {
@@ -1902,9 +2055,9 @@ export interface CreateSandboxesV4RequestKeepLastSnapshotsCase1 {
   /** Number of most recent snapshots to keep. */
   count: number;
   /** Expiration time in milliseconds for kept snapshots. Falls back to snapshotExpiration. */
-  expiration?: CreateSandboxesV4RequestKeepLastSnapshotsCase1Expiration;
+  expiration?: CreateSandboxesV4RequestKeepLastSnapshotsCase1Expiration | undefined;
   /** Whether to immediately delete evicted snapshots. Defaults to true. */
-  deleteEvicted?: boolean;
+  deleteEvicted?: boolean | undefined;
 }
 /** Protect the N most recent snapshots with different expiration/deletion behavior. Persistent sandboxes default to keeping only the last snapshot (evicted snapshots are deleted). Set to null to disable the limit. */
 export type CreateSandboxesV4RequestKeepLastSnapshots =
@@ -1914,44 +2067,44 @@ export type CreateSandboxesV4RequestKeepLastSnapshots =
 export type CreateSandboxesV4RequestTagsMap = { [key: string]: string | undefined };
 export interface CreateSandboxesV4Request {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  networkPolicy?: CreateSandboxesV4RequestNetworkPolicy;
+  slug?: string | undefined;
+  networkPolicy?: CreateSandboxesV4RequestNetworkPolicy | undefined;
   /** CPU architecture. Inherits a snapshot or single image manifest when omitted. Image indexes default to amd64. Must match the source. ARM64 creation requires API v3 or v4 without runtime and team access. */
-  architecture?: CreateSandboxesV4RequestArchitecture | (string & {});
+  architecture?: CreateSandboxesV4RequestArchitecture | (string & {}) | undefined;
   /** Resources to define the VM */
-  resources?: CreateSandboxesByNameForkV2RequestResources;
+  resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
   /** The source from which to initialize the sandbox filesystem. Can be a Git repository, a tarball URL, or an existing snapshot. */
-  source?: CreateSandboxesV4RequestSource;
+  source?: CreateSandboxesV4RequestSource | undefined;
   /** The target project slug or ID in which the sandbox will be assigned to. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
-  ports?: CreateSandboxesV4RequestPortsList;
+  ports?: CreateSandboxesV4RequestPortsList | undefined;
   /** Image to use for the sandbox. */
-  image?: string;
+  image?: string | undefined;
   /** Maximum duration in milliseconds that the sandbox can run before being automatically stopped. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Default environment variables for the sandbox. These are inherited by all commands unless overridden. */
-  env?: CreateSandboxesV4RequestEnvMap;
+  env?: CreateSandboxesV4RequestEnvMap | undefined;
   /** List of drives to mount to the sandbox at the provided path. */
-  mounts?: CreateSandboxesV4RequestMountsMap;
+  mounts?: CreateSandboxesV4RequestMountsMap | undefined;
   /** The Vercel region in which to create the sandbox. */
-  region?: CreateSandboxesV4RequestRegion | (string & {});
+  region?: CreateSandboxesV4RequestRegion | (string & {}) | undefined;
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
-  failoverRegions?: CreateSandboxesV4RequestFailoverRegionsList;
+  failoverRegions?: CreateSandboxesV4RequestFailoverRegionsList | undefined;
   /** The Connect network id for the target Secure Compute private network. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
-  name?: string;
+  name?: string | undefined;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. Defaults to true. */
-  persistent?: boolean;
+  persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Defaults to 7 days. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
-  snapshotExpiration?: CreateSandboxesV4RequestSnapshotExpiration;
+  snapshotExpiration?: CreateSandboxesV4RequestSnapshotExpiration | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. Persistent sandboxes default to keeping only the last snapshot (evicted snapshots are deleted). Set to null to disable the limit. */
-  keepLastSnapshots?: CreateSandboxesV4RequestKeepLastSnapshots;
+  keepLastSnapshots?: CreateSandboxesV4RequestKeepLastSnapshots | undefined;
   /** Key-value tags to associate with the sandbox. Maximum 5 tags. */
-  tags?: CreateSandboxesV4RequestTagsMap;
+  tags?: CreateSandboxesV4RequestTagsMap | undefined;
 }
 export type CreateSandboxesV4ResponseRoutesList = Array<SandboxPublicRoute>;
 export interface CreateSandboxesV4Response {
@@ -1963,49 +2116,55 @@ export interface CreateSessionDirectoryRequest {
   /** The unique identifier of the session to create the directory in. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The base directory for resolving relative paths. If not specified, paths are resolved from the sandbox home directory. */
-  cwd?: string;
+  cwd?: string | undefined;
   /** The path of the directory to create. Can be absolute or relative to the working directory. */
   path: string;
   /** If true, creates parent directories as needed (like `mkdir -p`). If false, fails if parent directories do not exist. */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export type CreateSessionDirectoryResponse = unknown;
 export interface DeleteDriveRequest {
   /** Name for the drive. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
   name: string;
   /** The project ID or name associated with the drive. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
+/** The workload type of this drive. */
+export type DriveWorkloadType = "sandbox" | "v0";
 /** This object contains information related to a Vercel Sandbox Drive. */
 export interface Drive {
   /** The time when the drive was created, in milliseconds since the epoch. */
   createdAt: number;
   /** Current sandbox name the drive is attached to, if any. */
-  currentSandboxName?: string;
+  currentSandboxName?: string | undefined;
   /** Current session ID the drive is attached to, if any. */
-  currentSessionId?: string;
+  currentSessionId?: string | undefined;
   /** The unique drive ID. */
   id: string;
   /** The maximum drive size in bytes. */
   maxSizeBytes: number;
   /** The unique drive name within the project. */
   name: string;
+  /** The ID of the source drive when this drive is a fork. */
+  parentDriveId?: string | undefined;
   /** The project that owns the drive. */
   projectId: string;
   /** The region where the drive is stored. */
   region: string;
+  /** The ID of the original drive at the root of this fork. */
+  rootDriveId?: string | undefined;
   /** The last time the drive was updated, in milliseconds since the epoch. */
   updatedAt: number;
-  /** Whether this drive is managed by v0 on the customer's behalf. */
-  v0?: boolean;
+  /** The workload type of this drive. */
+  workloadType?: DriveWorkloadType | undefined;
 }
 export interface DeleteDriveResponse {
   drive: Drive;
@@ -2014,13 +2173,13 @@ export interface DeleteSandboxRequest {
   /** The sandbox name to delete. */
   name: string;
   /** The project ID that owns the named sandbox. When provided, takes precedence over OIDC project context. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** When true, snapshots of the deleted sandbox that are not referenced by any other sandbox are also deleted asynchronously. Defaults to false. */
-  deleteOrphanSnapshots?: boolean;
+  deleteOrphanSnapshots?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteSandboxResponse {
   sandbox: NamedSandbox;
@@ -2029,9 +2188,9 @@ export interface DeleteSessionSnapshotRequest {
   /** The unique identifier of the snapshot to delete. */
   snapshotId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteSessionSnapshotResponse {
   snapshot: Snapshot;
@@ -2040,26 +2199,52 @@ export interface ExtendSessionTimeoutRequest {
   /** The unique identifier of the session to extend the timeout for. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The amount of time in milliseconds to add to the current timeout. Must be at least 1000ms (1 second). */
   duration: number;
 }
 export interface ExtendSessionTimeoutResponse {
   session: Session;
 }
+export interface ForkDriveRequest {
+  /** Name of the source drive to fork. */
+  name: string;
+  /** The project ID or name associated with the drive. Required unless using a Vercel OIDC token scoped to a project. */
+  projectId?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export interface ForkDriveResponse {
+  drive: Drive;
+}
+export interface GetDriveRequest {
+  /** The drive name or ID. */
+  nameOrId: string;
+  /** The project ID or name associated with the drive. Required unless using a Vercel OIDC token scoped to a project. */
+  projectId?: string | undefined;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+}
+export interface GetDriveResponse {
+  drive: Drive;
+}
 export interface GetNamedSandboxRequest {
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
   name: string;
   /** The project ID or name (required when not using OIDC token). */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Whether to automatically resume a stopped named sandbox by creating a new instance from its snapshot. Defaults to false. */
-  resume?: boolean;
+  resume?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetNamedSandboxResponseRoutesList = Array<SandboxPublicRoute>;
 export interface GetNamedSandboxResponse {
@@ -2093,15 +2278,15 @@ export interface GetOrCreateDriveRequest {
   /** Name for the drive. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
   name: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The project ID or name to associate the drive with. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string;
-  /** Maximum drive size in bytes. Defaults to 1 TiB when omitted (1 GiB for Hobby). The maximum quota is 16 TiB. Request a quota above 16 TiB at https://vercel.com/help. */
-  maxSizeBytes?: number;
+  projectId?: string | undefined;
+  /** Maximum drive size in bytes. Must be a multiple of 4096 bytes. Defaults to 1 TiB when omitted (1 GiB for Hobby). The maximum quota is 16 TiB. Request a quota above 16 TiB at https://vercel.com/help. */
+  maxSizeBytes?: number | undefined;
   /** Region where the drive is stored. Defaults to iad1. */
-  region?: GetOrCreateDriveRequestRegion | (string & {});
+  region?: GetOrCreateDriveRequestRegion | (string & {}) | undefined;
 }
 export interface GetOrCreateDriveResponse {
   drive: Drive;
@@ -2110,9 +2295,9 @@ export interface GetSessionRequest {
   /** The unique identifier of the session to retrieve. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetSessionResponseRoutesList = Array<SandboxPublicRoute>;
 export interface GetSessionResponse {
@@ -2125,11 +2310,11 @@ export interface GetSessionCommandRequest {
   /** The unique identifier of the command to retrieve. */
   cmdId: string;
   /** If set to "true", the request will block until the command finishes execution. Useful for synchronously waiting for command completion. */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The arguments of the command. */
 export type SessionCommandArgsList = Array<string>;
@@ -2140,7 +2325,7 @@ export interface SessionCommand {
   /** The current working directory of the command. */
   cwd: string;
   /** Duration of the command execution in milliseconds. */
-  durationMs?: number;
+  durationMs?: number | undefined;
   /** If the command did finish, the exit code. */
   exitCode: number | null;
   /** The ID of the command. */
@@ -2161,18 +2346,18 @@ export interface GetSessionCommandLogsRequest {
   /** The unique identifier of the command to stream logs for. */
   cmdId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetSessionCommandLogsResponse {}
 export interface GetSessionSnapshotRequest {
   /** The unique identifier of the snapshot to retrieve. */
   snapshotId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface GetSessionSnapshotResponse {
   snapshot: Snapshot;
@@ -2183,9 +2368,9 @@ export interface KillSessionCommandRequest {
   /** The unique identifier of the command to terminate. */
   cmdId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The POSIX signal number to send to the process. Common values: 15 (SIGTERM) for graceful termination, 9 (SIGKILL) for forced termination. */
   signal: number;
 }
@@ -2198,21 +2383,21 @@ export type ListDrivesRequestSortBy = "createdAt" | "updatedAt" | "name";
 export type ListDrivesRequestSortOrder = "asc" | "desc";
 export interface ListDrivesRequest {
   /** The project ID or name associated with the drives. Required unless using a Vercel OIDC token scoped to a project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Maximum number of drives to return in the response. Used for pagination. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Field to sort drives by. */
-  sortBy?: ListDrivesRequestSortBy | (string & {});
+  sortBy?: ListDrivesRequestSortBy | (string & {}) | undefined;
   /** Filter drives whose name starts with this prefix. Only valid when sortBy=name. */
-  namePrefix?: string;
+  namePrefix?: string | undefined;
   /** Sort direction for results. */
-  sortOrder?: ListDrivesRequestSortOrder | (string & {});
+  sortOrder?: ListDrivesRequestSortOrder | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListDrivesResponseDrivesList = Array<Drive>;
 export interface ListDrivesResponsePagination {
@@ -2238,25 +2423,25 @@ export type ListNamedSandboxesRequestTagsCase1List = Array<string>;
 export type ListNamedSandboxesRequestTags = string | ListNamedSandboxesRequestTagsCase1List;
 export interface ListNamedSandboxesRequest {
   /** The unique identifier or name of the project to list named sandboxes for. */
-  project?: string;
+  project?: string | undefined;
   /** Maximum number of named sandboxes to return in the response. Used for pagination. */
-  limit?: number;
+  limit?: number | undefined;
   /** Field to sort by. */
-  sortBy?: ListNamedSandboxesRequestSortBy | (string & {});
+  sortBy?: ListNamedSandboxesRequestSortBy | (string & {}) | undefined;
   /** Filter named sandboxes whose name starts with this prefix. Only valid when sortBy=name. */
-  namePrefix?: string;
+  namePrefix?: string | undefined;
   /** Opaque pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction. Defaults to desc. */
-  sortOrder?: ListNamedSandboxesRequestSortOrder | (string & {});
+  sortOrder?: ListNamedSandboxesRequestSortOrder | (string & {}) | undefined;
   /** Filter named sandboxes by status. Only valid when sortBy is createdAt. */
-  status?: ListNamedSandboxesRequestStatus | (string & {});
+  status?: ListNamedSandboxesRequestStatus | (string & {}) | undefined;
   /** Filter sandboxes by tag. Format: \"key:value\". Only one tag filter is supported at a time. */
-  tags?: ListNamedSandboxesRequestTags;
+  tags?: ListNamedSandboxesRequestTags | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListNamedSandboxesResponsePagination = ListDrivesResponsePagination;
 export type ListNamedSandboxesResponseSandboxesList = Array<NamedSandbox>;
@@ -2268,9 +2453,9 @@ export interface ListSessionCommandsRequest {
   /** The unique identifier of the session to list commands for. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListSessionCommandsResponseCommandsList = Array<SessionCommand>;
 export interface ListSessionCommandsResponse {
@@ -2280,19 +2465,19 @@ export interface ListSessionCommandsResponse {
 export type ListSessionsRequestSortOrder = "asc" | "desc";
 export interface ListSessionsRequest {
   /** The unique identifier or name of the project to list sessions for. */
-  project?: string;
+  project?: string | undefined;
   /** Filter sessions by sandbox name. Only sessions belonging to the specified sandbox are returned. */
-  name?: string;
+  name?: string | undefined;
   /** Maximum number of sessions to return in the response. Used for pagination. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for results by creation time. */
-  sortOrder?: ListSessionsRequestSortOrder | (string & {});
+  sortOrder?: ListSessionsRequestSortOrder | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListSessionsResponseBodyCase1Pagination = ListDrivesResponsePagination;
 export type ListSessionsResponseBodyCase1SessionsList = Array<Session>;
@@ -2306,19 +2491,19 @@ export type ListSessionsResponse = ListSessionsResponseBody;
 export type ListSessionSnapshotsRequestSortOrder = "asc" | "desc";
 export interface ListSessionSnapshotsRequest {
   /** The unique identifier or name of the project to list snapshots for. */
-  project?: string;
+  project?: string | undefined;
   /** Name for the sandbox. Must be unique per project and URL-safe (alphanumeric, hyphens, underscores). */
-  name?: string;
+  name?: string | undefined;
   /** Maximum number of snapshots to return in the response. Used for pagination. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for results by creation time. */
-  sortOrder?: ListSessionSnapshotsRequestSortOrder | (string & {});
+  sortOrder?: ListSessionSnapshotsRequestSortOrder | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListSessionSnapshotsResponseBodyCase1Pagination = ListDrivesResponsePagination;
 export type ListSessionSnapshotsResponseBodyCase1SnapshotsList = Array<Snapshot>;
@@ -2332,11 +2517,11 @@ export interface ReadSessionFileRequest {
   /** The unique identifier of the session to read the file from. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The base directory for resolving relative paths. If not specified, paths are resolved from the sandbox home directory. */
-  cwd?: string;
+  cwd?: string | undefined;
   /** The path of the file to read. Can be absolute or relative to the working directory. */
   path: string;
 }
@@ -2348,28 +2533,28 @@ export type RunSessionCommandRequestEnvMap = { [key: string]: string | undefined
 export interface RunSessionCommandRequest {
   /** The unique identifier of the session in which to execute the command. */
   sessionId: string;
-  /** The unique identifier of the command to stream logs for. */
-  cmdId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The executable or shell command to run. This is the program name without arguments. */
   command: string;
   /** Arguments to pass to the command. Each argument should be a separate array element. */
-  args?: RunSessionCommandRequestArgsList;
+  args?: RunSessionCommandRequestArgsList | undefined;
   /** The working directory in which to execute the command. Defaults to the sandbox home directory if not specified. */
-  cwd?: string;
+  cwd?: string | undefined;
   /** Additional environment variables to set for this command. These are merged with the sandbox environment. */
-  env?: RunSessionCommandRequestEnvMap;
+  env?: RunSessionCommandRequestEnvMap | undefined;
   /** Execute the command with root (superuser) privileges. */
-  sudo?: boolean;
+  sudo?: boolean | undefined;
   /** If true, returns an ND-JSON stream that emits the command status when started and again when finished. Useful for synchronously waiting for command completion. */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** If true, stream the logs of the command execution in real-time via ND-JSON. This is only applicable if `wait` is also true. */
-  logs?: boolean;
+  logs?: boolean | undefined;
   /** Maximum duration in milliseconds the command may run before it is killed with SIGKILL, up to 5 hours. Enforced at exec time, independently of `wait`. */
-  timeout?: number;
+  timeout?: number | undefined;
+  /** If true, keeps the command stdin open so it can be written to with the stdin endpoint while the command runs. When false, the command reads from an empty stdin. */
+  attachStdin?: boolean | undefined;
 }
 export interface RunSessionCommandResponse {
   command: SessionCommand;
@@ -2378,9 +2563,9 @@ export interface StopSessionRequest {
   /** The unique identifier of the session to stop. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface StopSessionResponseBodyCase0 {
   session: Session;
@@ -2404,9 +2589,9 @@ export interface UpdateSandboxRequestKeepLastSnapshotsCase1 {
   /** Number of most recent snapshots to keep. */
   count: number;
   /** Expiration time in milliseconds for kept snapshots. Falls back to snapshotExpiration. */
-  expiration?: UpdateSandboxRequestKeepLastSnapshotsCase1Expiration;
+  expiration?: UpdateSandboxRequestKeepLastSnapshotsCase1Expiration | undefined;
   /** Whether to immediately delete evicted snapshots. Defaults to true. */
-  deleteEvicted?: boolean;
+  deleteEvicted?: boolean | undefined;
 }
 /** Protect the N most recent snapshots with different expiration/deletion behavior. Set to null to clear. */
 export type UpdateSandboxRequestKeepLastSnapshots =
@@ -2459,13 +2644,17 @@ export type UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatchHeaders
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatchMethodList;
+  method?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList;
+  queryString?:
+    | UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList;
+  headers?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatchHeadersList | undefined;
 }
 export interface UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItem {
   /** The domain (or pattern) of requests to add headers for. Supports wildcards like *.example.com. */
@@ -2473,7 +2662,7 @@ export interface UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItem {
   /** HTTP headers to inject into requests for this domain. Existing headers with the same name will be overridden. */
   headers: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemHeadersMap;
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatch;
+  match?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesItemMatch | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
 export type UpdateSandboxRequestNetworkPolicyCase0InjectionRulesList =
@@ -2483,13 +2672,13 @@ export interface UpdateSandboxRequestNetworkPolicyCase0 {
   /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
   mode: UpdateSandboxRequestNetworkPolicyCase0Mode | (string & {});
   /** List of domain names the sandbox is allowed to connect to. Only applies when mode is \"custom\". Supports wildcard patterns (e.g., \"*.example.com\" matches all subdomains). */
-  allowedDomains?: UpdateSandboxRequestNetworkPolicyCase0AllowedDomainsList;
+  allowedDomains?: UpdateSandboxRequestNetworkPolicyCase0AllowedDomainsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. Traffic to these addresses bypasses domain-based restrictions. */
-  allowedCIDRs?: UpdateSandboxRequestNetworkPolicyCase0AllowedCIDRsList;
+  allowedCIDRs?: UpdateSandboxRequestNetworkPolicyCase0AllowedCIDRsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: UpdateSandboxRequestNetworkPolicyCase0DeniedCIDRsList;
+  deniedCIDRs?: UpdateSandboxRequestNetworkPolicyCase0DeniedCIDRsList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
-  injectionRules?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesList;
+  injectionRules?: UpdateSandboxRequestNetworkPolicyCase0InjectionRulesList | undefined;
 }
 export type UpdateSandboxRequestNetworkPolicyCase1AllowCase0List = Array<string>;
 /** Match on the request path. Comparison is case-sensitive. */
@@ -2523,19 +2712,25 @@ export type UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatchHeader
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList;
+  method?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList;
+  queryString?:
+    | UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList;
+  headers?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatchHeadersList | undefined;
 }
 export type UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap = {
   [key: string]: string | undefined;
 };
 export interface UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformItem {
-  headers?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap;
+  headers?:
+    | UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformItemHeadersMap
+    | undefined;
 }
 export type UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformList =
   Array<UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformItem>;
@@ -2548,20 +2743,20 @@ export interface UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemRespon
   /** HTTP status code returned to the sandbox. */
   statusCode: number;
   /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
-  headers?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap;
+  headers?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponseHeadersMap | undefined;
   /** UTF-8 response body. Requires `contentType`. */
-  body?: string;
+  body?: string | undefined;
   /** Value of the `Content-Type` response header. Required when `body` is set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatch;
-  transform?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformList;
+  match?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemMatch | undefined;
+  transform?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemTransformList | undefined;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
-  forwardURL?: string;
+  forwardURL?: string | undefined;
   /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
-  response?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse;
+  response?: UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItemResponse | undefined;
 }
 export type UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueList =
   Array<UpdateSandboxRequestNetworkPolicyCase1AllowCase1ValueItem>;
@@ -2575,12 +2770,12 @@ export type UpdateSandboxRequestNetworkPolicyCase1Allow =
 export type UpdateSandboxRequestNetworkPolicyCase1SubnetsAllowList = Array<string>;
 export type UpdateSandboxRequestNetworkPolicyCase1SubnetsDenyList = Array<string>;
 export interface UpdateSandboxRequestNetworkPolicyCase1Subnets {
-  allow?: UpdateSandboxRequestNetworkPolicyCase1SubnetsAllowList;
-  deny?: UpdateSandboxRequestNetworkPolicyCase1SubnetsDenyList;
+  allow?: UpdateSandboxRequestNetworkPolicyCase1SubnetsAllowList | undefined;
+  deny?: UpdateSandboxRequestNetworkPolicyCase1SubnetsDenyList | undefined;
 }
 export interface UpdateSandboxRequestNetworkPolicyCase1 {
-  allow?: UpdateSandboxRequestNetworkPolicyCase1Allow;
-  subnets?: UpdateSandboxRequestNetworkPolicyCase1Subnets;
+  allow?: UpdateSandboxRequestNetworkPolicyCase1Allow | undefined;
+  subnets?: UpdateSandboxRequestNetworkPolicyCase1Subnets | undefined;
 }
 export type UpdateSandboxRequestNetworkPolicy =
   | UpdateSandboxRequestNetworkPolicyCase0
@@ -2636,7 +2831,7 @@ export interface UpdateSandboxRequestMountsValue {
   /** Name of the drive to mount. The drive must already exist. */
   drive: string;
   /** Mount the drive as read-write, or as a read-only snapshot. One writer is permitted at a time. */
-  mode?: UpdateSandboxRequestMountsValueMode | (string & {});
+  mode?: UpdateSandboxRequestMountsValueMode | (string & {}) | undefined;
 }
 /** Drives to mount to the sandbox at the provided path. Replaces the current mounts; an empty object removes them all. Changes take effect when the next session starts. */
 export type UpdateSandboxRequestMountsMap = {
@@ -2652,42 +2847,42 @@ export interface UpdateSandboxRequest {
   /** The sandbox to update. */
   name: string;
   /** The project ID that owns the named sandbox. When provided, takes precedence over OIDC project context. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Whether to automatically resume a stopped named sandbox by creating a new instance from its snapshot. Defaults to false. */
-  resume?: boolean;
+  resume?: boolean | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Resources to define the VM */
-  resources?: CreateSandboxesByNameForkV2RequestResources;
+  resources?: CreateSandboxesByNameForkV2RequestResources | undefined;
   /** The runtime environment for the sandbox. Determines the pre-installed language runtimes and tools available. */
-  runtime?: UpdateSandboxRequestRuntime | (string & {});
+  runtime?: UpdateSandboxRequestRuntime | (string & {}) | undefined;
   /** Maximum duration in milliseconds that the sandbox can run before being automatically stopped. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Whether the sandbox persists its state across restarts via automatic snapshots. */
-  persistent?: boolean;
+  persistent?: boolean | undefined;
   /** Default snapshot expiration time in milliseconds. Set to 0 to disable expiration. When set, this value is used as the default expiration for all snapshots created for this sandbox. */
-  snapshotExpiration?: UpdateSandboxRequestSnapshotExpiration;
+  snapshotExpiration?: UpdateSandboxRequestSnapshotExpiration | undefined;
   /** Protect the N most recent snapshots with different expiration/deletion behavior. Set to null to clear. */
-  keepLastSnapshots?: UpdateSandboxRequestKeepLastSnapshots;
-  networkPolicy?: UpdateSandboxRequestNetworkPolicy;
+  keepLastSnapshots?: UpdateSandboxRequestKeepLastSnapshots | undefined;
+  networkPolicy?: UpdateSandboxRequestNetworkPolicy | undefined;
   /** The Vercel region in which to create the sandbox. */
-  region?: UpdateSandboxRequestRegion | (string & {});
+  region?: UpdateSandboxRequestRegion | (string & {}) | undefined;
   /** The regions the sandbox falls back to when it cannot be created in `region`. */
-  failoverRegions?: UpdateSandboxRequestFailoverRegionsList;
+  failoverRegions?: UpdateSandboxRequestFailoverRegionsList | undefined;
   /** Drives to mount to the sandbox at the provided path. Replaces the current mounts; an empty object removes them all. Changes take effect when the next session starts. */
-  mounts?: UpdateSandboxRequestMountsMap;
+  mounts?: UpdateSandboxRequestMountsMap | undefined;
   /** The Connect network id for the target Secure Compute private network. Set to null to remove the sandbox from Secure Compute. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** Default environment variables for the sandbox. Set to empty object to clear. */
-  env?: UpdateSandboxRequestEnvMap;
+  env?: UpdateSandboxRequestEnvMap | undefined;
   /** List of ports to expose from the sandbox. Each port will be accessible via a unique URL. Maximum of 15 ports can be exposed. */
-  ports?: UpdateSandboxRequestPortsList;
+  ports?: UpdateSandboxRequestPortsList | undefined;
   /** The snapshot ID to set as the current snapshot. Must be active and belong to the same project. */
-  currentSnapshotId?: string;
+  currentSnapshotId?: string | undefined;
   /** Key-value tags to associate with the sandbox. Replaces existing tags. Set to empty object to clear. Maximum 5 tags. */
-  tags?: UpdateSandboxRequestTagsMap;
+  tags?: UpdateSandboxRequestTagsMap | undefined;
 }
 export type UpdateSandboxResponseBodyCase0RoutesList = Array<SandboxPublicRoute>;
 export interface UpdateSandboxResponseBodyCase0 {
@@ -2753,13 +2948,19 @@ export type UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatchHea
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatchMethodList;
+  method?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatchQueryStringList;
+  queryString?:
+    | UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatchHeadersList;
+  headers?:
+    | UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatchHeadersList
+    | undefined;
 }
 export interface UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItem {
   /** The domain (or pattern) of requests to add headers for. Supports wildcards like *.example.com. */
@@ -2767,7 +2968,7 @@ export interface UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItem {
   /** HTTP headers to inject into requests for this domain. Existing headers with the same name will be overridden. */
   headers: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemHeadersMap;
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatch;
+  match?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesItemMatch | undefined;
 }
 /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
 export type UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesList =
@@ -2777,13 +2978,13 @@ export interface UpdateSessionNetworkPolicyRequestBodyCase0 {
   /** The network access policy mode. Use \"allow-all\" to permit all outbound traffic. Use \"deny-all\" to block all outbound traffic. Use \"custom\" to specify explicit allow/deny rules. */
   mode: UpdateSessionNetworkPolicyRequestBodyCase0Mode | (string & {});
   /** List of domain names the sandbox is allowed to connect to. Only applies when mode is \"custom\". Supports wildcard patterns (e.g., \"*.example.com\" matches all subdomains). */
-  allowedDomains?: UpdateSessionNetworkPolicyRequestBodyCase0AllowedDomainsList;
+  allowedDomains?: UpdateSessionNetworkPolicyRequestBodyCase0AllowedDomainsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is allowed to connect to. Traffic to these addresses bypasses domain-based restrictions. */
-  allowedCIDRs?: UpdateSessionNetworkPolicyRequestBodyCase0AllowedCIDRsList;
+  allowedCIDRs?: UpdateSessionNetworkPolicyRequestBodyCase0AllowedCIDRsList | undefined;
   /** List of IP address ranges (in CIDR notation) the sandbox is blocked from connecting to. These rules take precedence over all allowed rules. */
-  deniedCIDRs?: UpdateSessionNetworkPolicyRequestBodyCase0DeniedCIDRsList;
+  deniedCIDRs?: UpdateSessionNetworkPolicyRequestBodyCase0DeniedCIDRsList | undefined;
   /** HTTP header injection rules for outgoing requests matching specific domains. Traffic to matching domains will be intercepted instead of proxied through encrypted connections. */
-  injectionRules?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesList;
+  injectionRules?: UpdateSessionNetworkPolicyRequestBodyCase0InjectionRulesList | undefined;
 }
 export type UpdateSessionNetworkPolicyRequestBodyCase1AllowCase0List = Array<string>;
 /** Match on the request path. Comparison is case-sensitive. */
@@ -2817,19 +3018,27 @@ export type UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatchHe
 /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
 export interface UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatch {
   /** Match on the request path. Comparison is case-sensitive. */
-  path?: CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath;
+  path?:
+    | CreateSandboxesByNameForkV2RequestNetworkPolicyCase0InjectionRulesItemMatchPath
+    | undefined;
   /** HTTP methods to match. Any single match succeeds (OR semantics). */
-  method?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatchMethodList;
+  method?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatchMethodList | undefined;
   /** Query-string entry matchers. Multiple entries are ANDed. Query parameter names and values are both compared case-sensitively (RFC 3986). When a request has multiple values for the same key, any matching value satisfies the matcher. */
-  queryString?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatchQueryStringList;
+  queryString?:
+    | UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatchQueryStringList
+    | undefined;
   /** Header matchers. Multiple entries are ANDed. Header names are compared case-insensitively (RFC 9110); header values are compared case-sensitively. When a request has multiple values for the same header, any matching value satisfies the matcher. */
-  headers?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatchHeadersList;
+  headers?:
+    | UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatchHeadersList
+    | undefined;
 }
 export type UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformItemHeadersMap = {
   [key: string]: string | undefined;
 };
 export interface UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformItem {
-  headers?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformItemHeadersMap;
+  headers?:
+    | UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformItemHeadersMap
+    | undefined;
 }
 export type UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformList =
   Array<UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformItem>;
@@ -2842,20 +3051,24 @@ export interface UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemRe
   /** HTTP status code returned to the sandbox. */
   statusCode: number;
   /** HTTP response headers. Framing and hop-by-hop headers are managed by the proxy and cannot be set. */
-  headers?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponseHeadersMap;
+  headers?:
+    | UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponseHeadersMap
+    | undefined;
   /** UTF-8 response body. Requires `contentType`. */
-  body?: string;
+  body?: string | undefined;
   /** Value of the `Content-Type` response header. Required when `body` is set. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItem {
   /** Optional L7 match. When provided, the injection rule only applies to requests that satisfy every specified dimension. When multiple injection rules target the same domain they are evaluated in order and the first match wins; a rule without `match` matches any request and shadows later rules for the same domain. */
-  match?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatch;
-  transform?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformList;
+  match?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemMatch | undefined;
+  transform?:
+    | UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemTransformList
+    | undefined;
   /** HTTP/1.1 proxy URL to forward traffic to. Must not include username, password, query string, or fragment. */
-  forwardURL?: string;
+  forwardURL?: string | undefined;
   /** Answer matching requests from the proxy with this response instead of forwarding them to the origin. Combine with a `match` on an earlier rule to allow one sub-path and reject the rest of a domain. */
-  response?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse;
+  response?: UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItemResponse | undefined;
 }
 export type UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueList =
   Array<UpdateSessionNetworkPolicyRequestBodyCase1AllowCase1ValueItem>;
@@ -2869,12 +3082,12 @@ export type UpdateSessionNetworkPolicyRequestBodyCase1Allow =
 export type UpdateSessionNetworkPolicyRequestBodyCase1SubnetsAllowList = Array<string>;
 export type UpdateSessionNetworkPolicyRequestBodyCase1SubnetsDenyList = Array<string>;
 export interface UpdateSessionNetworkPolicyRequestBodyCase1Subnets {
-  allow?: UpdateSessionNetworkPolicyRequestBodyCase1SubnetsAllowList;
-  deny?: UpdateSessionNetworkPolicyRequestBodyCase1SubnetsDenyList;
+  allow?: UpdateSessionNetworkPolicyRequestBodyCase1SubnetsAllowList | undefined;
+  deny?: UpdateSessionNetworkPolicyRequestBodyCase1SubnetsDenyList | undefined;
 }
 export interface UpdateSessionNetworkPolicyRequestBodyCase1 {
-  allow?: UpdateSessionNetworkPolicyRequestBodyCase1Allow;
-  subnets?: UpdateSessionNetworkPolicyRequestBodyCase1Subnets;
+  allow?: UpdateSessionNetworkPolicyRequestBodyCase1Allow | undefined;
+  subnets?: UpdateSessionNetworkPolicyRequestBodyCase1Subnets | undefined;
 }
 export type UpdateSessionNetworkPolicyRequestBody =
   | UpdateSessionNetworkPolicyRequestBodyCase0
@@ -2883,23 +3096,43 @@ export interface UpdateSessionNetworkPolicyRequest {
   /** The unique identifier of the session to update the network policy for. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  body?: UpdateSessionNetworkPolicyRequestBody;
+  slug?: string | undefined;
+  body?: UpdateSessionNetworkPolicyRequestBody | undefined;
 }
 export interface UpdateSessionNetworkPolicyResponse {
   session: Session;
+}
+export interface WriteSessionCommandStdinRequest {
+  /** The unique identifier of the session containing the command. */
+  sessionId: string;
+  /** The unique identifier of the command to write to. */
+  cmdId: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
+  /** Base64-encoded bytes to write to the command stdin. The request body is limited to 1 MB, so send at most about 700 KB of data per request. */
+  data?: string | undefined;
+  /** The position in the command stdin where `data` starts. Bytes before the total already written are skipped, so a resent request does not write them twice. Fails with 409 if it is past the bytes written so far. Without it, `data` is appended. */
+  offset?: number | undefined;
+  /** If true, closes the command stdin after writing `data`. Use this for commands that wait for end of input. */
+  close?: boolean | undefined;
+}
+export interface WriteSessionCommandStdinResponse {
+  bytesWritten?: number | undefined;
+  command: SessionCommand;
 }
 export interface WriteSessionFilesRequest {
   /** The unique identifier of the session to write files to. */
   sessionId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The target directory where the tarball contents will be extracted. If not specified, files are extracted to the sandbox home directory. */
-  xCwd?: string;
+  xCwd?: string | undefined;
 }
 export type WriteSessionFilesResponse = unknown;
 export type CreateSandboxesByNameForkV2Error =
@@ -2917,8 +3150,8 @@ export const createSandboxesByNameForkV2: API.OperationMethod<
   CreateSandboxesByNameForkV2Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(281, __c35, 1) as any as S.Schema<CreateSandboxesByNameForkV2Request>,
-  output: __S(288, __c36, 0) as any as S.Schema<CreateSandboxesByNameForkV2Response>,
+  input: __S(609, __c38, 1) as any as S.Schema<CreateSandboxesByNameForkV2Request>,
+  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesByNameForkV2Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2941,8 +3174,8 @@ export const createSandboxesByNameForkV3: API.OperationMethod<
   CreateSandboxesByNameForkV3Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<CreateSandboxesByNameForkV3Request>,
-  output: __S(288, __c36, 0) as any as S.Schema<CreateSandboxesByNameForkV3Response>,
+  input: __S(752, __c47, 0) as any as S.Schema<CreateSandboxesByNameForkV3Request>,
+  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesByNameForkV3Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -2964,10 +3197,10 @@ export const createSandboxesSessionsBySessionIdSnapshotV2: API.OperationMethod<
   CreateSandboxesSessionsBySessionIdSnapshotV2Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV2Request>,
+  input: __S(768, __c48, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV2Request>,
   output: __S(
-    368,
-    __c46,
+    784,
+    __c49,
     0,
   ) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV2Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
@@ -2991,10 +3224,10 @@ export const createSandboxesSessionsBySessionIdSnapshotV3: API.OperationMethod<
   CreateSandboxesSessionsBySessionIdSnapshotV3Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV3Request>,
+  input: __S(816, __c51, 0) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV3Request>,
   output: __S(
-    368,
-    __c46,
+    784,
+    __c49,
     0,
   ) as any as S.Schema<CreateSandboxesSessionsBySessionIdSnapshotV3Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
@@ -3020,7 +3253,7 @@ export const createSandboxesV2: API.OperationMethod<
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateSandboxesV2Request>,
-  output: __S(288, __c36, 0) as any as S.Schema<CreateSandboxesV2Response>,
+  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesV2Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3043,8 +3276,8 @@ export const createSandboxesV3: API.OperationMethod<
   CreateSandboxesV3Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c1, 1) as any as S.Schema<CreateSandboxesV3Request>,
-  output: __S(288, __c36, 0) as any as S.Schema<CreateSandboxesV3Response>,
+  input: __S(17, __c1, 1) as any as S.Schema<CreateSandboxesV3Request>,
+  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesV3Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3067,8 +3300,8 @@ export const createSandboxesV4: API.OperationMethod<
   CreateSandboxesV4Error,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateSandboxesV4Request>,
-  output: __S(288, __c36, 0) as any as S.Schema<CreateSandboxesV4Response>,
+  input: __S(32, __c2, 0) as any as S.Schema<CreateSandboxesV4Request>,
+  output: __S(624, __c39, 0) as any as S.Schema<CreateSandboxesV4Response>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3089,8 +3322,8 @@ export const createSessionDirectory: API.OperationMethod<
   CreateSessionDirectoryError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateSessionDirectoryRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<CreateSessionDirectoryResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateSessionDirectoryRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<CreateSessionDirectoryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3098,7 +3331,13 @@ export const createSessionDirectory: API.OperationMethod<
   span: "CreateSessionDirectory",
 }));
 
-export type DeleteDriveError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
+export type DeleteDriveError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | VercelOpError;
 /** Delete a drive Deletes a drive by project and name. Attached drives cannot be deleted. Stop or replace the session currently using the drive before retrying deletion. */
 export const deleteDrive: API.OperationMethod<
   DeleteDriveRequest,
@@ -3106,33 +3345,43 @@ export const deleteDrive: API.OperationMethod<
   DeleteDriveError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DeleteDriveRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DeleteDriveResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  input: __S(80, __c5, 0) as any as S.Schema<DeleteDriveRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<DeleteDriveResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDrive",
 }));
 
-export type DeleteSandboxError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Delete a sandbox Deletes a sandbox by name. If sandboxes are currently running, they will be stopped first. This operation deletes all sandbox entities with the given name and the named sandbox metadata. Returns 404 if the sandbox does not exist or was deleted by a concurrent request. */
+export type DeleteSandboxError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
+/** Delete a sandbox Deletes a sandbox by name. If sandboxes are currently running, they will be stopped first. This operation deletes all sandbox entities with the given name and the named sandbox metadata. When the config item is already missing, the returned sandbox uses stored metadata and defaults; config fields may be stale. */
 export const deleteSandbox: API.OperationMethod<
   DeleteSandboxRequest,
   DeleteSandboxResponse,
   DeleteSandboxError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeleteSandboxRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<DeleteSandboxResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteSandboxRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<DeleteSandboxResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSandbox",
 }));
 
-export type DeleteSessionSnapshotError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type DeleteSessionSnapshotError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
 /** Delete a snapshot Permanently deletes a snapshot and frees its associated storage. This action cannot be undone. After deletion, the snapshot can no longer be used to create new sessions. */
 export const deleteSessionSnapshot: API.OperationMethod<
   DeleteSessionSnapshotRequest,
@@ -3140,9 +3389,9 @@ export const deleteSessionSnapshot: API.OperationMethod<
   DeleteSessionSnapshotError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteSessionSnapshotRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<DeleteSessionSnapshotResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteSessionSnapshotRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<DeleteSessionSnapshotResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3162,13 +3411,54 @@ export const extendSessionTimeout: API.OperationMethod<
   ExtendSessionTimeoutError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ExtendSessionTimeoutRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<ExtendSessionTimeoutResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<ExtendSessionTimeoutRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<ExtendSessionTimeoutResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExtendSessionTimeout",
+}));
+
+export type ForkDriveError =
+  | BadRequest
+  | PaymentRequired
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | VercelOpError;
+/** Fork a drive Fork the provided drive into a new one with the provided name, inheriting the region and max size. */
+export const forkDrive: API.OperationMethod<
+  ForkDriveRequest,
+  ForkDriveResponse,
+  ForkDriveError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<ForkDriveRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<ForkDriveResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ForkDrive",
+}));
+
+export type GetDriveError = BadRequest | Forbidden | NotFound | UnprocessableEntity | VercelOpError;
+/** Get a drive Gets an existing drive by project and name or drive ID. Returns 404 if doesn't exist. */
+export const getDrive: API.OperationMethod<
+  GetDriveRequest,
+  GetDriveResponse,
+  GetDriveError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<GetDriveRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetDriveResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetDrive",
 }));
 
 export type GetNamedSandboxError =
@@ -3186,8 +3476,8 @@ export const getNamedSandbox: API.OperationMethod<
   GetNamedSandboxError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetNamedSandboxRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<GetNamedSandboxResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetNamedSandboxRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<GetNamedSandboxResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3201,6 +3491,7 @@ export type GetOrCreateDriveError =
   | Forbidden
   | NotFound
   | Conflict
+  | UnprocessableEntity
   | VercelOpError;
 /** Get or create a drive Gets an existing drive by project and name, or creates it when it does not exist. */
 export const getOrCreateDrive: API.OperationMethod<
@@ -3209,16 +3500,21 @@ export const getOrCreateDrive: API.OperationMethod<
   GetOrCreateDriveError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetOrCreateDriveRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<GetOrCreateDriveResponse>,
-  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
+  input: __S(256, __c16, 0) as any as S.Schema<GetOrCreateDriveRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetOrCreateDriveResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrCreateDrive",
 }));
 
-export type GetSessionError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type GetSessionError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
 /** Get a session Retrieves detailed information about a specific session, including its current status, resource configuration, and exposed routes. */
 export const getSession: API.OperationMethod<
   GetSessionRequest,
@@ -3226,9 +3522,9 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<GetSessionResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(272, __c17, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<GetSessionResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3248,8 +3544,8 @@ export const getSessionCommand: API.OperationMethod<
   GetSessionCommandError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<GetSessionCommandRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<GetSessionCommandResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetSessionCommandRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<GetSessionCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3270,8 +3566,8 @@ export const getSessionCommandLogs: API.OperationMethod<
   GetSessionCommandLogsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<GetSessionCommandLogsRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<GetSessionCommandLogsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetSessionCommandLogsRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<GetSessionCommandLogsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3279,7 +3575,12 @@ export const getSessionCommandLogs: API.OperationMethod<
   span: "GetSessionCommandLogs",
 }));
 
-export type GetSessionSnapshotError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type GetSessionSnapshotError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
 /** Get a snapshot Retrieves detailed information about a specific snapshot, including its creation time, size, expiration date, and the source session it was created from. */
 export const getSessionSnapshot: API.OperationMethod<
   GetSessionSnapshotRequest,
@@ -3287,9 +3588,9 @@ export const getSessionSnapshot: API.OperationMethod<
   GetSessionSnapshotError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<GetSessionSnapshotRequest>,
-  output: __S(80, __c10, 0) as any as S.Schema<GetSessionSnapshotResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(368, __c23, 0) as any as S.Schema<GetSessionSnapshotRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<GetSessionSnapshotResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3309,8 +3610,8 @@ export const killSessionCommand: API.OperationMethod<
   KillSessionCommandError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<KillSessionCommandRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<KillSessionCommandResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<KillSessionCommandRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<KillSessionCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3318,7 +3619,12 @@ export const killSessionCommand: API.OperationMethod<
   span: "KillSessionCommand",
 }));
 
-export type ListDrivesError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type ListDrivesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
 /** List drives Retrieves a paginated list of drives belonging to a specific project. */
 export const listDrives: API.OperationMethod<
   ListDrivesRequest,
@@ -3326,33 +3632,43 @@ export const listDrives: API.OperationMethod<
   ListDrivesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ListDrivesRequest>,
-  output: __S(186, __c23, 2) as any as S.Schema<ListDrivesResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(400, __c25, 0) as any as S.Schema<ListDrivesRequest>,
+  output: __S(402, __c25, 2) as any as S.Schema<ListDrivesResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDrives",
 }));
 
-export type ListNamedSandboxesError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List sandboxes Retrieves a paginated list of named sandboxes belonging to a specific project. Results can be sorted by creation time or name, and optionally filtered by name prefix or status. */
+export type ListNamedSandboxesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
+/** List sandboxes Retrieves a paginated list of named sandboxes belonging to a specific project. Results can be sorted by creation time or name, and optionally filtered by name prefix or status. Overdue sessions for running and stopping sandboxes are recovered before returning the page, so an entry may no longer match its queried status after recovery. */
 export const listNamedSandboxes: API.OperationMethod<
   ListNamedSandboxesRequest,
   ListNamedSandboxesResponse,
   ListNamedSandboxesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ListNamedSandboxesRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<ListNamedSandboxesResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(432, __c27, 0) as any as S.Schema<ListNamedSandboxesRequest>,
+  output: __S(434, __c27, 2) as any as S.Schema<ListNamedSandboxesResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNamedSandboxes",
 }));
 
-export type ListSessionCommandsError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type ListSessionCommandsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
 /** List commands Retrieves a list of all commands that have been executed in a session, including their current status, exit codes, and execution times, ordered from the most recent to the oldest. */
 export const listSessionCommands: API.OperationMethod<
   ListSessionCommandsRequest,
@@ -3360,16 +3676,21 @@ export const listSessionCommands: API.OperationMethod<
   ListSessionCommandsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<ListSessionCommandsRequest>,
-  output: __S(210, __c26, 2) as any as S.Schema<ListSessionCommandsResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(448, __c28, 0) as any as S.Schema<ListSessionCommandsRequest>,
+  output: __S(450, __c28, 2) as any as S.Schema<ListSessionCommandsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSessionCommands",
 }));
 
-export type ListSessionsError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type ListSessionsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
 /** List sessions Retrieves a paginated list of sessions belonging to a specific sandbox. Results are sorted by creation time and paginated using an opaque cursor. */
 export const listSessions: API.OperationMethod<
   ListSessionsRequest,
@@ -3377,16 +3698,21 @@ export const listSessions: API.OperationMethod<
   ListSessionsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<ListSessionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(464, __c29, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<ListSessionsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSessions",
 }));
 
-export type ListSessionSnapshotsError = BadRequest | Forbidden | NotFound | VercelOpError;
+export type ListSessionSnapshotsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | VercelOpError;
 /** List snapshots Retrieves a paginated list of snapshots for a specific project. */
 export const listSessionSnapshots: API.OperationMethod<
   ListSessionSnapshotsRequest,
@@ -3394,9 +3720,9 @@ export const listSessionSnapshots: API.OperationMethod<
   ListSessionSnapshotsError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<ListSessionSnapshotsRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<ListSessionSnapshotsResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(480, __c30, 0) as any as S.Schema<ListSessionSnapshotsRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<ListSessionSnapshotsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3416,8 +3742,8 @@ export const readSessionFile: API.OperationMethod<
   ReadSessionFileError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ReadSessionFileRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<ReadSessionFileResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ReadSessionFileRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ReadSessionFileResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3438,8 +3764,8 @@ export const runSessionCommand: API.OperationMethod<
   RunSessionCommandError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<RunSessionCommandRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<RunSessionCommandResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<RunSessionCommandRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<RunSessionCommandResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3460,8 +3786,8 @@ export const stopSession: API.OperationMethod<
   StopSessionError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<StopSessionRequest>,
-  output: __S(249, __c31, 1) as any as S.Schema<StopSessionResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<StopSessionRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<StopSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3474,7 +3800,6 @@ export type UpdateSandboxError =
   | PaymentRequired
   | Forbidden
   | NotFound
-  | Conflict
   | UnprocessableEntity
   | VercelOpError;
 /** Update a sandbox Updates the configuration of a sandbox. Only the provided fields will be modified; omitted fields remain unchanged. */
@@ -3484,9 +3809,9 @@ export const updateSandbox: API.OperationMethod<
   UpdateSandboxError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<UpdateSandboxRequest>,
-  output: __S(257, __c32, 1) as any as S.Schema<UpdateSandboxResponse>,
-  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  input: __S(544, __c34, 0) as any as S.Schema<UpdateSandboxRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<UpdateSandboxResponse>,
+  errors: [BadRequest, PaymentRequired, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3506,13 +3831,36 @@ export const updateSessionNetworkPolicy: API.OperationMethod<
   UpdateSessionNetworkPolicyError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<UpdateSessionNetworkPolicyRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<UpdateSessionNetworkPolicyResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateSessionNetworkPolicyRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<UpdateSessionNetworkPolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSessionNetworkPolicy",
+}));
+
+export type WriteSessionCommandStdinError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | VercelOpError;
+/** Write to command stdin Writes data to the stdin of a running command, and optionally closes it. The command must have been started with `attachStdin` set to true. Writes are applied in the order they are received. Send them one at a time to keep the data in order. A write returns once the command has accepted the data, and fails with a 504 after 30 seconds if the command is not reading stdin. Each write counts against the sandbox control plane rate limit, so batch small writes where possible. Set `offset` to the position in stdin where `data` starts to make a request safe to resend, for example after a 502 or 504: bytes the command has already received are skipped, and an offset past them fails with a 409. The response returns `bytesWritten`, the total written so far, and a 504 includes it in the error when the sandbox reports it. A request with no `data` and no `close` writes nothing and returns it. */
+export const writeSessionCommandStdin: API.OperationMethod<
+  WriteSessionCommandStdinRequest,
+  WriteSessionCommandStdinResponse,
+  WriteSessionCommandStdinError,
+  VercelOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(576, __c36, 0) as any as S.Schema<WriteSessionCommandStdinRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<WriteSessionCommandStdinResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  protocol: VercelProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WriteSessionCommandStdin",
 }));
 
 export type WriteSessionFilesError =
@@ -3528,8 +3876,8 @@ export const writeSessionFiles: API.OperationMethod<
   WriteSessionFilesError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<WriteSessionFilesRequest>,
-  output: __S(32, __c4, 0) as any as S.Schema<WriteSessionFilesResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<WriteSessionFilesRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<WriteSessionFilesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -3556,22 +3904,22 @@ function __c0(j: number): any {
           networkPolicy: S.optional(S.Unknown),
           runtime: S.optional(S.String),
           architecture: S.optional(S.String),
-          resources: S.optional(__S(328, __c41, 0)),
+          resources: S.optional(__S(704, __c44, 0)),
           source: S.optional(S.Unknown),
           projectId: S.optional(S.String),
-          ports: S.optional(__S(329, __c41, 1)),
+          ports: S.optional(__S(705, __c44, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(304, __c38, 0)),
-          mounts: S.optional(__S(313, __c39, 1)),
+          env: S.optional(__S(656, __c41, 0)),
+          mounts: S.optional(__S(707, __c44, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(314, __c39, 2)),
+          failoverRegions: S.optional(__S(672, __c42, 0)),
           networkId: S.optional(S.String),
           name: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
           keepLastSnapshots: S.optional(__S(0, __c0, 0)),
-          tags: S.optional(__S(304, __c38, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesV2Request" });
   }
@@ -3593,22 +3941,22 @@ function __c1(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
           architecture: S.optional(S.String),
-          resources: S.optional(__S(328, __c41, 0)),
+          resources: S.optional(__S(704, __c44, 0)),
           source: S.optional(S.Unknown),
           projectId: S.optional(S.String),
-          ports: S.optional(__S(329, __c41, 1)),
+          ports: S.optional(__S(705, __c44, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(304, __c38, 0)),
-          mounts: S.optional(__S(313, __c39, 1)),
+          env: S.optional(__S(656, __c41, 0)),
+          mounts: S.optional(__S(707, __c44, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(314, __c39, 2)),
+          failoverRegions: S.optional(__S(672, __c42, 0)),
           networkId: S.optional(S.String),
           name: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
-          keepLastSnapshots: S.optional(__S(8, __c1, 0)),
-          tags: S.optional(__S(304, __c38, 0)),
+          keepLastSnapshots: S.optional(__S(16, __c1, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/sandboxes", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesV3Request" });
   }
@@ -3622,22 +3970,22 @@ function __c2(j: number): any {
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
           architecture: S.optional(S.String),
-          resources: S.optional(__S(328, __c41, 0)),
+          resources: S.optional(__S(704, __c44, 0)),
           source: S.optional(S.Unknown),
           projectId: S.optional(S.String),
-          ports: S.optional(__S(329, __c41, 1)),
+          ports: S.optional(__S(705, __c44, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(304, __c38, 0)),
-          mounts: S.optional(__S(313, __c39, 1)),
+          env: S.optional(__S(656, __c41, 0)),
+          mounts: S.optional(__S(707, __c44, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(314, __c39, 2)),
+          failoverRegions: S.optional(__S(672, __c42, 0)),
           networkId: S.optional(S.String),
           name: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
           keepLastSnapshots: S.optional(S.Unknown),
-          tags: S.optional(__S(304, __c38, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v4/sandboxes", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesV4Request" });
   }
@@ -3685,7 +4033,7 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          drive: __S(56, __c7, 0),
+          drive: __S(112, __c7, 0),
         }),
       ).annotate({ identifier: "DeleteDriveResponse" });
   }
@@ -3701,10 +4049,12 @@ function __c7(j: number): any {
           id: S.String,
           maxSizeBytes: S.Number,
           name: S.String,
+          parentDriveId: S.optional(S.String),
           projectId: S.String,
           region: S.String,
+          rootDriveId: S.optional(S.String),
           updatedAt: S.Number,
-          v0: S.optional(S.Boolean),
+          workloadType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Drive" });
   }
@@ -3724,7 +4074,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sandbox: __S(298, __c37, 2),
+          sandbox: __S(644, __c40, 4),
         }),
       ).annotate({ identifier: "DeleteSandboxResponse" });
   }
@@ -3748,7 +4098,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          snapshot: __S(376, __c47, 0),
+          snapshot: __S(800, __c50, 0),
         }),
       ).annotate({ identifier: "DeleteSessionSnapshotResponse" });
   }
@@ -3777,12 +4127,38 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          session: __S(348, __c43, 4),
+          session: __S(744, __c46, 8),
         }),
       ).annotate({ identifier: "ExtendSessionTimeoutResponse" });
   }
 }
 function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/drives/{name}/fork", code: 200 })),
+      ).annotate({ identifier: "ForkDriveRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nameOrId: S.String.pipe(T.Label()),
+          projectId: S.optional(S.String.pipe(T.Query())),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/drives/{nameOrId}", code: 200 })),
+      ).annotate({ identifier: "GetDriveRequest" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3798,14 +4174,14 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resumed: S.Boolean,
-          routes: __S(321, __c40, 1),
-          sandbox: __S(298, __c37, 2),
-          session: __S(348, __c43, 4),
+          routes: __S(689, __c43, 1),
+          sandbox: __S(644, __c40, 4),
+          session: __S(744, __c46, 8),
         }),
       ).annotate({ identifier: "GetNamedSandboxResponse" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3820,7 +4196,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetOrCreateDriveRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3833,13 +4209,13 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          routes: __S(321, __c40, 1),
-          session: __S(348, __c43, 4),
+          routes: __S(689, __c43, 1),
+          session: __S(744, __c46, 8),
         }),
       ).annotate({ identifier: "GetSessionResponse" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3859,12 +4235,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetSessionCommandRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          args: __S(336, __c42, 0),
+          args: __S(720, __c45, 0),
           cwd: S.String,
           durationMs: S.optional(S.Number),
           exitCode: S.NullOr(S.Number),
@@ -3876,17 +4252,17 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SessionCommand" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          command: __S(136, __c17, 0),
+          command: __S(304, __c19, 0),
         }),
       ).annotate({ identifier: "GetSessionCommandResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3905,7 +4281,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetSessionCommandLogsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -3913,7 +4289,7 @@ function __c20(j: number): any {
       });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3925,7 +4301,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetSessionSnapshotRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3945,7 +4321,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "KillSessionCommandRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3961,17 +4337,17 @@ function __c23(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes/drives", code: 200 })),
       ).annotate({ identifier: "ListDrivesRequest" });
     case 1:
-      return S.Array(__S(56, __c7, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          drives: __S(185, __c23, 1),
-          pagination: __S(192, __c24, 0),
+          drives: __S(401, __c25, 1),
+          pagination: __S(416, __c26, 0),
         }),
       ).annotate({ identifier: "ListDrivesResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3982,7 +4358,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListDrivesResponsePagination" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4000,17 +4376,17 @@ function __c25(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/sandboxes", code: 200 })),
       ).annotate({ identifier: "ListNamedSandboxesRequest" });
     case 1:
-      return S.Array(__S(298, __c37, 2));
+      return S.Array(__S(644, __c40, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(192, __c24, 0),
-          sandboxes: __S(201, __c25, 1),
+          pagination: __S(416, __c26, 0),
+          sandboxes: __S(433, __c27, 1),
         }),
       ).annotate({ identifier: "ListNamedSandboxesResponse" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4023,16 +4399,16 @@ function __c26(j: number): any {
         ),
       ).annotate({ identifier: "ListSessionCommandsRequest" });
     case 1:
-      return S.Array(__S(136, __c17, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          commands: __S(209, __c26, 1),
+          commands: __S(449, __c28, 1),
         }),
       ).annotate({ identifier: "ListSessionCommandsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4052,7 +4428,7 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4072,7 +4448,7 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4088,30 +4464,30 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ReadSessionFileRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sessionId: S.String.pipe(T.Label()),
-          cmdId: S.String.pipe(T.Query()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           command: S.String,
-          args: S.optional(__S(336, __c42, 0)),
+          args: S.optional(__S(720, __c45, 0)),
           cwd: S.optional(S.String),
-          env: S.optional(__S(304, __c38, 0)),
+          env: S.optional(__S(656, __c41, 0)),
           sudo: S.optional(S.Boolean),
           wait: S.optional(S.Boolean),
           logs: S.optional(S.Boolean),
           timeout: S.optional(S.Number),
+          attachStdin: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/sandboxes/sessions/{sessionId}/cmd", code: 200 }),
         ),
       ).annotate({ identifier: "RunSessionCommandRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4129,7 +4505,7 @@ function __c31(j: number): any {
       });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4139,7 +4515,7 @@ function __c32(j: number): any {
           resume: S.optional(S.Boolean.pipe(T.Query())),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
-          resources: S.optional(__S(328, __c41, 0)),
+          resources: S.optional(__S(704, __c44, 0)),
           runtime: S.optional(S.String),
           timeout: S.optional(S.Number),
           persistent: S.optional(S.Boolean),
@@ -4147,13 +4523,13 @@ function __c32(j: number): any {
           keepLastSnapshots: S.optional(S.Unknown),
           networkPolicy: S.optional(S.Unknown),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(314, __c39, 2)),
-          mounts: S.optional(__S(313, __c39, 1)),
+          failoverRegions: S.optional(__S(672, __c42, 0)),
+          mounts: S.optional(__S(707, __c44, 3)),
           networkId: S.optional(S.String),
-          env: S.optional(__S(304, __c38, 0)),
-          ports: S.optional(__S(329, __c41, 1)),
+          env: S.optional(__S(656, __c41, 0)),
+          ports: S.optional(__S(705, __c44, 1)),
           currentSnapshotId: S.optional(S.String),
-          tags: S.optional(__S(304, __c38, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v2/sandboxes/{name}", code: 200 })),
       ).annotate({ identifier: "UpdateSandboxRequest" });
     case 1:
@@ -4162,7 +4538,7 @@ function __c32(j: number): any {
       });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4181,7 +4557,36 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateSessionNetworkPolicyRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: S.String.pipe(T.Label()),
+          cmdId: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
+          data: S.optional(S.String),
+          offset: S.optional(S.Number),
+          close: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/sandboxes/sessions/{sessionId}/cmd/{cmdId}/stdin",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "WriteSessionCommandStdinRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          bytesWritten: S.optional(S.Number),
+          command: __S(304, __c19, 0),
+        }),
+      ).annotate({ identifier: "WriteSessionCommandStdinResponse" });
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4196,7 +4601,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "WriteSessionFilesRequest" });
   }
 }
-function __c35(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4214,36 +4619,36 @@ function __c35(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
-          resources: S.optional(__S(328, __c41, 0)),
-          ports: S.optional(__S(329, __c41, 1)),
+          resources: S.optional(__S(704, __c44, 0)),
+          ports: S.optional(__S(705, __c44, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(304, __c38, 0)),
-          mounts: S.optional(__S(313, __c39, 1)),
+          env: S.optional(__S(656, __c41, 0)),
+          mounts: S.optional(__S(707, __c44, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(314, __c39, 2)),
+          failoverRegions: S.optional(__S(672, __c42, 0)),
           networkId: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
-          keepLastSnapshots: S.optional(__S(280, __c35, 0)),
-          tags: S.optional(__S(304, __c38, 0)),
+          keepLastSnapshots: S.optional(__S(608, __c38, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/sandboxes/{name}/fork", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesByNameForkV2Request" });
   }
 }
-function __c36(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          routes: __S(321, __c40, 1),
-          sandbox: __S(298, __c37, 2),
-          session: __S(348, __c43, 4),
+          routes: __S(689, __c43, 1),
+          sandbox: __S(644, __c40, 4),
+          session: __S(744, __c46, 8),
         }),
       ).annotate({ identifier: "CreateSandboxesByNameForkV2Response" });
   }
 }
-function __c37(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4256,14 +4661,24 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allowedCIDRs: S.optional(__S(336, __c42, 0)),
-          allowedDomains: S.optional(__S(336, __c42, 0)),
-          deniedCIDRs: S.optional(__S(336, __c42, 0)),
+          drive: S.String,
+          mode: S.optional(S.String),
+          snapshot: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NamedSandboxMountsValue" });
+    case 2:
+      return S.Record(S.String, __S(641, __c40, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          allowedCIDRs: S.optional(__S(720, __c45, 0)),
+          allowedDomains: S.optional(__S(720, __c45, 0)),
+          deniedCIDRs: S.optional(__S(720, __c45, 0)),
           mode: S.String,
           s3Key: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamedSandboxNetworkPolicy" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           architecture: S.optional(S.String),
@@ -4272,80 +4687,37 @@ function __c37(j: number): any {
           currentSnapshotId: S.optional(S.String),
           cwd: S.optional(S.String),
           expiresAt: S.optional(S.Number),
-          failoverRegions: S.optional(__S(314, __c39, 2)),
+          failoverRegions: S.optional(__S(672, __c42, 0)),
           image: S.optional(S.String),
-          keepLastSnapshots: S.optional(__S(296, __c37, 0)),
+          keepLastSnapshots: S.optional(__S(640, __c40, 0)),
           memory: S.optional(S.Number),
-          mounts: S.optional(__S(313, __c39, 1)),
+          mounts: S.optional(__S(642, __c40, 2)),
           name: S.String,
           networkId: S.optional(S.String),
-          networkPolicy: S.optional(__S(297, __c37, 1)),
+          networkPolicy: S.optional(__S(643, __c40, 3)),
           persistent: S.Boolean,
           region: S.optional(S.String),
           runtime: S.optional(S.String),
           snapshotExpiration: S.optional(S.Number),
           status: S.String,
           statusUpdatedAt: S.Number,
-          tags: S.optional(__S(304, __c38, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
           timeout: S.optional(S.Number),
           totalActiveCpuDurationMs: S.optional(S.Number),
           totalDurationMs: S.optional(S.Number),
           totalEgressBytes: S.optional(S.Number),
           totalIngressBytes: S.optional(S.Number),
           updatedAt: S.Number,
-          v0: S.optional(S.Boolean),
           vcpus: S.optional(S.Number),
+          workloadType: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamedSandbox" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          drive: S.String,
-          mode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateSandboxesByNameForkV2RequestMountsValue" });
-    case 1:
-      return S.Record(S.String, __S(312, __c39, 0));
-    case 2:
-      return S.Array(S.String);
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          port: S.Number,
-          subdomain: S.String,
-          system: S.optional(S.Boolean),
-          url: S.String,
-        }),
-      ).annotate({ identifier: "SandboxPublicRoute" });
-    case 1:
-      return S.Array(__S(320, __c40, 0));
   }
 }
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          vcpus: S.optional(S.Number),
-          memory: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CreateSandboxesByNameForkV2RequestResources" });
-    case 1:
-      return S.Array(S.Number);
+      return S.Record(S.String, S.String);
   }
 }
 function __c42(j: number): any {
@@ -4359,30 +4731,96 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain: S.String,
-          headerNames: S.optional(__S(336, __c42, 0)),
+          port: S.Number,
+          subdomain: S.String,
+          system: S.optional(S.Boolean),
+          url: S.String,
         }),
-      ).annotate({ identifier: "SandboxInjectionRule" });
+      ).annotate({ identifier: "SandboxPublicRoute" });
     case 1:
-      return S.Array(__S(344, __c43, 0));
+      return S.Array(__S(688, __c43, 0));
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          vcpus: S.optional(S.Number),
+          memory: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CreateSandboxesByNameForkV2RequestResources" });
+    case 1:
+      return S.Array(S.Number);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allowedCIDRs: S.optional(__S(336, __c42, 0)),
-          allowedDomains: S.optional(__S(336, __c42, 0)),
-          deniedCIDRs: S.optional(__S(336, __c42, 0)),
-          injectionRules: S.optional(__S(345, __c43, 1)),
+          drive: S.String,
+          mode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSandboxesByNameForkV2RequestMountsValue" });
+    case 3:
+      return S.Record(S.String, __S(706, __c44, 2));
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          forwardURL: S.String,
+          matchDimensions: S.optional(__S(720, __c45, 0)),
+        }),
+      ).annotate({ identifier: "SandboxForwardRule" });
+    case 1:
+      return S.Array(__S(736, __c46, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          headerNames: S.optional(__S(720, __c45, 0)),
+          matchDimensions: S.optional(__S(720, __c45, 0)),
+        }),
+      ).annotate({ identifier: "SandboxInjectionRule" });
+    case 3:
+      return S.Array(__S(738, __c46, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          matchDimensions: S.optional(__S(720, __c45, 0)),
+          statusCode: S.Number,
+        }),
+      ).annotate({ identifier: "SandboxResponseRule" });
+    case 5:
+      return S.Array(__S(740, __c46, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          allowedCIDRs: S.optional(__S(720, __c45, 0)),
+          allowedDomains: S.optional(__S(720, __c45, 0)),
+          deniedCIDRs: S.optional(__S(720, __c45, 0)),
+          forwardRules: S.optional(__S(737, __c46, 1)),
+          injectionRules: S.optional(__S(739, __c46, 3)),
           mode: S.String,
+          responseRules: S.optional(__S(741, __c46, 5)),
         }),
       ).annotate({ identifier: "SandboxNetworkPolicy" });
-    case 3:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           egress: S.Number,
           ingress: S.Number,
         }),
       ).annotate({ identifier: "SessionNetworkTransfer" });
-    case 4:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           abortedAt: S.optional(S.Number),
@@ -4393,8 +4831,8 @@ function __c43(j: number): any {
           duration: S.optional(S.Number),
           id: S.String,
           memory: S.Number,
-          networkPolicy: S.optional(__S(346, __c43, 2)),
-          networkTransfer: S.optional(__S(347, __c43, 3)),
+          networkPolicy: S.optional(__S(742, __c46, 6)),
+          networkTransfer: S.optional(__S(743, __c46, 7)),
           projectId: S.String,
           region: S.String,
           requestedAt: S.Number,
@@ -4408,13 +4846,13 @@ function __c43(j: number): any {
           stoppedAt: S.optional(S.Number),
           timeout: S.Number,
           updatedAt: S.Number,
-          v0: S.optional(S.Boolean),
           vcpus: S.Number,
+          workloadType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Session" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4424,24 +4862,24 @@ function __c44(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           networkPolicy: S.optional(S.Unknown),
-          resources: S.optional(__S(328, __c41, 0)),
-          ports: S.optional(__S(329, __c41, 1)),
+          resources: S.optional(__S(704, __c44, 0)),
+          ports: S.optional(__S(705, __c44, 1)),
           image: S.optional(S.String),
           timeout: S.optional(S.Number),
-          env: S.optional(__S(304, __c38, 0)),
-          mounts: S.optional(__S(313, __c39, 1)),
+          env: S.optional(__S(656, __c41, 0)),
+          mounts: S.optional(__S(707, __c44, 3)),
           region: S.optional(S.String),
-          failoverRegions: S.optional(__S(314, __c39, 2)),
+          failoverRegions: S.optional(__S(672, __c42, 0)),
           networkId: S.optional(S.String),
           persistent: S.optional(S.Boolean),
           snapshotExpiration: S.optional(S.Unknown),
           keepLastSnapshots: S.optional(S.Unknown),
-          tags: S.optional(__S(304, __c38, 0)),
+          tags: S.optional(__S(656, __c41, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v3/sandboxes/{name}/fork", code: 200 })),
       ).annotate({ identifier: "CreateSandboxesByNameForkV3Request" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4456,18 +4894,18 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateSandboxesSessionsBySessionIdSnapshotV2Request" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          session: __S(348, __c43, 4),
-          snapshot: __S(376, __c47, 0),
+          session: __S(744, __c46, 8),
+          snapshot: __S(800, __c50, 0),
         }),
       ).annotate({ identifier: "CreateSandboxesSessionsBySessionIdSnapshotV2Response" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4480,17 +4918,17 @@ function __c47(j: number): any {
           lastUsedAt: S.Number,
           parentId: S.optional(S.String),
           region: S.optional(S.String),
-          regions: S.optional(__S(336, __c42, 0)),
+          regions: S.optional(__S(720, __c45, 0)),
           sizeBytes: S.Number,
           sourceSessionId: S.String,
           status: S.String,
           updatedAt: S.Number,
-          v0: S.optional(S.Boolean),
+          workloadType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Snapshot" });
   }
 }
-function __c48(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

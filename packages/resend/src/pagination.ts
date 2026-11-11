@@ -19,7 +19,7 @@ import * as Stream from "effect/Stream";
 export const paginateResend: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(new Error("Resend cursor pagination requires inputToken"));
+    return Pagination.missingPaginationConfig("Resend cursor pagination requires inputToken");
   }
   const hasNextPath = pagination.hasNextPage ?? "has_more";
   const itemsPath = pagination.items ?? "data";

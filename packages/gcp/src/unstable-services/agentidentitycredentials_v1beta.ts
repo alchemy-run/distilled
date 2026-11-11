@@ -85,74 +85,74 @@ export class NotFound
 
 /** Request message for `FinalizeCredentials`. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_FinalizeCredentialsRequest {
-  /** Required. The same `consent_nonce` value that was provided during retrieval in the [UriConsentRequired](https://cloud.google.com/iam/docs/reference/agentidentitycredentials/rest/v1/projects.locations.authProviders.credentials/retrieve#UriConsentRequired) metadata. */
-  consentNonce?: string;
   /** Required. The identity of the end user. */
-  userId?: string;
+  userId?: string | undefined;
+  /** Required. The same `consent_nonce` value that was provided during retrieval in the [UriConsentRequired](https://cloud.google.com/iam/docs/reference/agentidentitycredentials/rest/v1/projects.locations.authProviders.credentials/retrieve#UriConsentRequired) metadata. */
+  consentNonce?: string | undefined;
   /** Required. The encrypted state passed back from the consent flow. */
-  userIdValidationState?: string;
+  userIdValidationState?: string | undefined;
 }
 export interface FinalizeProjectsLocationsAuthProvidersCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
   /** Request body */
-  body?: GoogleCloudAgentidentitycredentialsV1beta_FinalizeCredentialsRequest;
+  body?: GoogleCloudAgentidentitycredentialsV1beta_FinalizeCredentialsRequest | undefined;
 }
 /** Response message for `FinalizeCredentials`. Intentionally empty. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_FinalizeCredentialsResponse {}
 export type StringList = Array<string>;
 /** Request message for `RetrieveCredentials`. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest {
-  /** Optional. The URI to redirect the user to after consent is completed. This field is required for auth providers using the 3-legged OAuth flow. For other auth provider types, this field is unused but not rejected. */
-  continueUri?: string;
-  /** Required. The identity of the end user. */
-  userId?: string;
   /** Optional. Input only. Set this field only if the previous token was expired or invalid. This value must be the full, previously returned token string. Setting this field triggers a refresh of the access token with a stored refresh token, if possible, or a new consent flow. */
-  forceRefreshToken?: string;
+  forceRefreshToken?: string | undefined;
+  /** Required. The identity of the end user. */
+  userId?: string | undefined;
+  /** Optional. The URI to redirect the user to after consent is completed. This field is required for auth providers using the 3-legged OAuth flow. For other auth provider types, this field is unused but not rejected. */
+  continueUri?: string | undefined;
   /** Optional. The OAuth scopes required for this access. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
 }
 export interface GetProjectsLocationsAuthProvidersCredentialsRequest {
   /** Required. The resource name of the auth provider. Format: `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
   authProvider: string;
   /** Request body */
-  body?: GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest;
-}
-/** Indicates the user has rejected the permission delegation or canceled the request. */
-export interface GoogleCloudAgentidentitycredentialsV1beta_ConsentRejected {}
-/** Message indicating successful retrieval of credentials. */
-export interface GoogleCloudAgentidentitycredentialsV1beta_Success {
-  /** The scopes actually associated with the retrieved token. End users may have rejected some requested scopes, or the third-party authorization servers can return a different set of scopes than what was asked for. Callers should verify that all required scopes for their intended use are included in this list. */
-  scopes?: StringList;
-  /** The retrieved access token or credential for the end user. On an MCP tool call, for an invalid token the OAuth spec states that this should return `401` or `403`, but MCP servers may implement this differently. If you get any flavor of `PERMISSION_DENIED`, retry your original request to `RetrieveCredentials` with force_refresh_token set to the expired/invalid token string, which will fetch a new token or initiate a new consent flow. */
-  token?: string;
-  /** The HTTP header name where the token should be placed. */
-  header?: string;
-  /** The expiration time of the token. This does not guarantee that the token will be valid until this time, since the token could be revoked earlier. There could also be clock skew between the auth provider and the client so it may expire slightly earlier. If not set, the token might be permanent or it may be that the service does not (or cannot) know when it will expire. */
-  expireTime?: string;
+  body?: GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsRequest | undefined;
 }
 /** Indicates that the user must visit the provided URI to consent to delegate permission to the agent to act on their behalf. The caller can either poll the `RetrieveCredentials` method, or await the /ValidateUserId callback. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired {
   /** Output only. The unique ID of the credentials retrieval operation. */
-  uid?: string;
-  /** Output only. A one-time, randomly generated value that validates the entire consent flow is handled by a single user, avoiding CSRF attacks. It must be submitted with the `FinalizeCredentials` request to complete the OAuth exchange. This will always be present. Implemented per [RFC 6819 Section 5.3.5](https://www.rfc-editor.org/rfc/rfc6819#section-5.3.5). */
-  consentNonce?: string;
+  uid?: string | undefined;
   /** Output only. The URL where the user should be redirected to grant consent. This will always be present. */
-  authorizationUri?: string;
+  authorizationUri?: string | undefined;
+  /** Output only. A one-time, randomly generated value that validates the entire consent flow is handled by a single user, avoiding CSRF attacks. It must be submitted with the `FinalizeCredentials` request to complete the OAuth exchange. This will always be present. Implemented per [RFC 6819 Section 5.3.5](https://www.rfc-editor.org/rfc/rfc6819#section-5.3.5). */
+  consentNonce?: string | undefined;
 }
 /** Indicates that the credential retrieval is pending. The caller should retry the `RetrieveCredentials` request after some time. */
-export type GoogleCloudAgentidentitycredentialsV1beta_Pending =
-  GoogleCloudAgentidentitycredentialsV1beta_ConsentRejected;
+export interface GoogleCloudAgentidentitycredentialsV1beta_Pending {}
+/** Message indicating successful retrieval of credentials. */
+export interface GoogleCloudAgentidentitycredentialsV1beta_Success {
+  /** The HTTP header name where the token should be placed. */
+  header?: string | undefined;
+  /** The expiration time of the token. This does not guarantee that the token will be valid until this time, since the token could be revoked earlier. There could also be clock skew between the auth provider and the client so it may expire slightly earlier. If not set, the token might be permanent or it may be that the service does not (or cannot) know when it will expire. */
+  expireTime?: string | undefined;
+  /** The scopes actually associated with the retrieved token. End users may have rejected some requested scopes, or the third-party authorization servers can return a different set of scopes than what was asked for. Callers should verify that all required scopes for their intended use are included in this list. */
+  scopes?: StringList | undefined;
+  /** The retrieved access token or credential for the end user. On an MCP tool call, for an invalid token the OAuth spec states that this should return `401` or `403`, but MCP servers may implement this differently. If you get any flavor of `PERMISSION_DENIED`, retry your original request to `RetrieveCredentials` with force_refresh_token set to the expired/invalid token string, which will fetch a new token or initiate a new consent flow. */
+  token?: string | undefined;
+}
+/** Indicates the user has rejected the permission delegation or canceled the request. */
+export type GoogleCloudAgentidentitycredentialsV1beta_ConsentRejected =
+  GoogleCloudAgentidentitycredentialsV1beta_Pending;
 /** Response message for `RetrieveCredentials`. Contains the access tokens and related artifacts. */
 export interface GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsResponse {
-  /** Message indicating consent was rejected. */
-  consentRejected?: GoogleCloudAgentidentitycredentialsV1beta_ConsentRejected;
-  /** Message indicating credentials were successfully retrieved. */
-  success?: GoogleCloudAgentidentitycredentialsV1beta_Success;
   /** Message indicating URI-based consent is required. */
-  uriConsentRequired?: GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired;
+  uriConsentRequired?: GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired | undefined;
   /** Message indicating credential retrieval is pending. */
-  pending?: GoogleCloudAgentidentitycredentialsV1beta_ConsentRejected;
+  pending?: GoogleCloudAgentidentitycredentialsV1beta_Pending | undefined;
+  /** Message indicating credentials were successfully retrieved. */
+  success?: GoogleCloudAgentidentitycredentialsV1beta_Success | undefined;
+  /** Message indicating consent was rejected. */
+  consentRejected?: GoogleCloudAgentidentitycredentialsV1beta_Pending | undefined;
 }
 export type FinalizeProjectsLocationsAuthProvidersCredentialsError =
   | NotFound
@@ -216,8 +216,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consentNonce: S.optional(S.String),
           userId: S.optional(S.String),
+          consentNonce: S.optional(S.String),
           userIdValidationState: S.optional(S.String),
         }),
       ).annotate({
@@ -253,9 +253,9 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          continueUri: S.optional(S.String),
-          userId: S.optional(S.String),
           forceRefreshToken: S.optional(S.String),
+          userId: S.optional(S.String),
+          continueUri: S.optional(S.String),
           scopes: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({
@@ -277,27 +277,27 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(16, __c2, 0)),
-          token: S.optional(S.String),
-          header: S.optional(S.String),
-          expireTime: S.optional(S.String),
+          uid: S.optional(S.String),
+          authorizationUri: S.optional(S.String),
+          consentNonce: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudAgentidentitycredentialsV1beta_Success" });
+      ).annotate({ identifier: "GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          uid: S.optional(S.String),
-          consentNonce: S.optional(S.String),
-          authorizationUri: S.optional(S.String),
+          header: S.optional(S.String),
+          expireTime: S.optional(S.String),
+          scopes: S.optional(__S(16, __c2, 0)),
+          token: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudAgentidentitycredentialsV1beta_UriConsentRequired" });
+      ).annotate({ identifier: "GoogleCloudAgentidentitycredentialsV1beta_Success" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          consentRejected: S.optional(__S(8, __c1, 0)),
-          success: S.optional(__S(19, __c2, 3)),
-          uriConsentRequired: S.optional(__S(20, __c2, 4)),
+          uriConsentRequired: S.optional(__S(19, __c2, 3)),
           pending: S.optional(__S(8, __c1, 0)),
+          success: S.optional(__S(20, __c2, 4)),
+          consentRejected: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({
         identifier: "GoogleCloudAgentidentitycredentialsV1beta_RetrieveCredentialsResponse",

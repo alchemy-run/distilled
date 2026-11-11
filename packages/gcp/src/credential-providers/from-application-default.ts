@@ -78,11 +78,15 @@ const readCredentialsFile = (path: string): Effect.Effect<Json | undefined, GCPC
     ),
     Effect.flatMap((text) => {
       if (text === undefined) return Effect.succeed(undefined);
+      const notAnObject = fail(`The credentials file ${path} is not a JSON object.`);
       try {
         const json: unknown = JSON.parse(text);
-        if (typeof json === "object" && json !== null) return Effect.succeed(json as Json);
-      } catch {}
-      return fail(`The credentials file ${path} is not a JSON object.`);
+        return typeof json === "object" && json !== null
+          ? Effect.succeed(json as Json)
+          : notAnObject;
+      } catch {
+        return notAnObject;
+      }
     }),
   );
 

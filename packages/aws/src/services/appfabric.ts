@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -186,26 +187,26 @@ export type ResultStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | "EXPIRED" | 
 export type Email = string | redacted.Redacted<string>;
 export type SensitiveString2048 = string | redacted.Redacted<string>;
 export interface TaskError {
-  errorCode?: string;
-  errorMessage?: string;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface UserAccessResultItem {
-  app?: string;
-  tenantId?: string;
-  tenantDisplayName?: string;
-  taskId?: string;
-  resultStatus?: ResultStatus;
-  email?: string | redacted.Redacted<string>;
-  userId?: string | redacted.Redacted<string>;
-  userFullName?: string | redacted.Redacted<string>;
-  userFirstName?: string | redacted.Redacted<string>;
-  userLastName?: string | redacted.Redacted<string>;
-  userStatus?: string;
-  taskError?: TaskError;
+  app?: string | undefined;
+  tenantId?: string | undefined;
+  tenantDisplayName?: string | undefined;
+  taskId?: string | undefined;
+  resultStatus?: ResultStatus | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
+  userId?: string | redacted.Redacted<string> | undefined;
+  userFullName?: string | redacted.Redacted<string> | undefined;
+  userFirstName?: string | redacted.Redacted<string> | undefined;
+  userLastName?: string | redacted.Redacted<string> | undefined;
+  userStatus?: string | undefined;
+  taskError?: TaskError | undefined;
 }
 export type UserAccessResultsList = UserAccessResultItem[];
 export interface BatchGetUserAccessTasksResponse {
-  userAccessResultsList?: UserAccessResultItem[];
+  userAccessResultsList?: UserAccessResultItem[] | undefined;
 }
 export type RedirectUri = string;
 export interface AuthRequest {
@@ -215,7 +216,7 @@ export interface AuthRequest {
 export interface ConnectAppAuthorizationRequest {
   appBundleIdentifier: string;
   appAuthorizationIdentifier: string;
-  authRequest?: AuthRequest;
+  authRequest?: AuthRequest | undefined;
 }
 export type Arn = string;
 export interface Tenant {
@@ -247,8 +248,8 @@ export interface ApiKeyCredential {
   apiKey: string | redacted.Redacted<string>;
 }
 export type Credential =
-  | { oauth2Credential: Oauth2Credential; apiKeyCredential?: never }
-  | { oauth2Credential?: never; apiKeyCredential: ApiKeyCredential };
+  | { oauth2Credential: Oauth2Credential; apiKeyCredential?: undefined }
+  | { oauth2Credential?: undefined; apiKeyCredential: ApiKeyCredential };
 export type AuthType = "oauth2" | "apiKey" | (string & {});
 export type TagKey = string;
 export type TagValue = string;
@@ -263,8 +264,8 @@ export interface CreateAppAuthorizationRequest {
   credential: Credential;
   tenant: Tenant;
   authType: AuthType;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type Persona = "admin" | "endUser" | (string & {});
 export interface AppAuthorization {
@@ -276,20 +277,20 @@ export interface AppAuthorization {
   status: AppAuthorizationStatus;
   createdAt: Date;
   updatedAt: Date;
-  persona?: Persona;
-  authUrl?: string;
+  persona?: Persona | undefined;
+  authUrl?: string | undefined;
 }
 export interface CreateAppAuthorizationResponse {
   appAuthorization: AppAuthorization;
 }
 export interface CreateAppBundleRequest {
-  clientToken?: string;
-  customerManagedKeyIdentifier?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  customerManagedKeyIdentifier?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface AppBundle {
   arn: string;
-  customerManagedKeyArn?: string;
+  customerManagedKeyArn?: string | undefined;
 }
 export interface CreateAppBundleResponse {
   appBundle: AppBundle;
@@ -300,8 +301,8 @@ export interface CreateIngestionRequest {
   app: string;
   tenantId: string;
   ingestionType: IngestionType;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type IngestionState = "enabled" | "disabled" | (string & {});
 export interface Ingestion {
@@ -328,15 +329,15 @@ export type String63 = string;
 export type String120 = string;
 export interface S3Bucket {
   bucketName: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export type String64 = string;
 export interface FirehoseStream {
   streamName: string;
 }
 export type Destination =
-  | { s3Bucket: S3Bucket; firehoseStream?: never }
-  | { s3Bucket?: never; firehoseStream: FirehoseStream };
+  | { s3Bucket: S3Bucket; firehoseStream?: undefined }
+  | { s3Bucket?: undefined; firehoseStream: FirehoseStream };
 export interface AuditLogDestinationConfiguration {
   destination: Destination;
 }
@@ -346,8 +347,8 @@ export interface CreateIngestionDestinationRequest {
   ingestionIdentifier: string;
   processingConfiguration: ProcessingConfiguration;
   destinationConfiguration: DestinationConfiguration;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type IngestionDestinationStatus = "Active" | "Failed" | (string & {});
 export interface IngestionDestination {
@@ -355,10 +356,10 @@ export interface IngestionDestination {
   ingestionArn: string;
   processingConfiguration: ProcessingConfiguration;
   destinationConfiguration: DestinationConfiguration;
-  status?: IngestionDestinationStatus;
-  statusReason?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  status?: IngestionDestinationStatus | undefined;
+  statusReason?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateIngestionDestinationResponse {
   ingestionDestination: IngestionDestination;
@@ -414,17 +415,17 @@ export interface GetIngestionDestinationResponse {
 export type MaxResults = number;
 export interface ListAppAuthorizationsRequest {
   appBundleIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AppAuthorizationSummaryList = AppAuthorizationSummary[];
 export interface ListAppAuthorizationsResponse {
   appAuthorizationSummaryList: AppAuthorizationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAppBundlesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AppBundleSummary {
   arn: string;
@@ -432,13 +433,13 @@ export interface AppBundleSummary {
 export type AppBundleSummaryList = AppBundleSummary[];
 export interface ListAppBundlesResponse {
   appBundleSummaryList: AppBundleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIngestionDestinationsRequest {
   appBundleIdentifier: string;
   ingestionIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IngestionDestinationSummary {
   arn: string;
@@ -446,12 +447,12 @@ export interface IngestionDestinationSummary {
 export type IngestionDestinationList = IngestionDestinationSummary[];
 export interface ListIngestionDestinationsResponse {
   ingestionDestinations: IngestionDestinationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListIngestionsRequest {
   appBundleIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IngestionSummary {
   arn: string;
@@ -462,13 +463,13 @@ export interface IngestionSummary {
 export type IngestionList = IngestionSummary[];
 export interface ListIngestionsResponse {
   ingestions: IngestionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface StartIngestionRequest {
   ingestionIdentifier: string;
@@ -482,12 +483,12 @@ export interface StartUserAccessTasksRequest {
 export interface UserAccessTaskItem {
   app: string;
   tenantId: string;
-  taskId?: string;
-  error?: TaskError;
+  taskId?: string | undefined;
+  error?: TaskError | undefined;
 }
 export type UserAccessTasksList = UserAccessTaskItem[];
 export interface StartUserAccessTasksResponse {
-  userAccessTasksList?: UserAccessTaskItem[];
+  userAccessTasksList?: UserAccessTaskItem[] | undefined;
 }
 export interface StopIngestionRequest {
   ingestionIdentifier: string;
@@ -508,8 +509,8 @@ export interface UntagResourceResponse {}
 export interface UpdateAppAuthorizationRequest {
   appBundleIdentifier: string;
   appAuthorizationIdentifier: string;
-  credential?: Credential;
-  tenant?: Tenant;
+  credential?: Credential | undefined;
+  tenant?: Tenant | undefined;
 }
 export interface UpdateAppAuthorizationResponse {
   appAuthorization: AppAuthorization;
@@ -548,7 +549,7 @@ export type BatchGetUserAccessTasksError =
  * `StartUserAccessTasks` action.
  */
 export const batchGetUserAccessTasks: API.OperationMethod<
-  BatchGetUserAccessTasksRequest,
+  BatchGetUserAccessTasksRequest & RegionInput,
   BatchGetUserAccessTasksResponse,
   BatchGetUserAccessTasksError,
   Credentials | HttpClient.HttpClient
@@ -581,7 +582,7 @@ export type ConnectAppAuthorizationError =
  * call the APIs of the application.
  */
 export const connectAppAuthorization: API.OperationMethod<
-  ConnectAppAuthorizationRequest,
+  ConnectAppAuthorizationRequest & RegionInput,
   ConnectAppAuthorizationResponse,
   ConnectAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -616,7 +617,7 @@ export type CreateAppAuthorizationError =
  * application.
  */
 export const createAppAuthorization: API.OperationMethod<
-  CreateAppAuthorizationRequest,
+  CreateAppAuthorizationRequest & RegionInput,
   CreateAppAuthorizationResponse,
   CreateAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -651,7 +652,7 @@ export type CreateAppBundleError =
  * Creates an app bundle to collect data from an application using AppFabric.
  */
 export const createAppBundle: API.OperationMethod<
-  CreateAppBundleRequest,
+  CreateAppBundleRequest & RegionInput,
   CreateAppBundleResponse,
   CreateAppBundleError,
   Credentials | HttpClient.HttpClient
@@ -685,7 +686,7 @@ export type CreateIngestionError =
  * Creates a data ingestion for an application.
  */
 export const createIngestion: API.OperationMethod<
-  CreateIngestionRequest,
+  CreateIngestionRequest & RegionInput,
   CreateIngestionResponse,
   CreateIngestionError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +721,7 @@ export type CreateIngestionDestinationError =
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
 export const createIngestionDestination: API.OperationMethod<
-  CreateIngestionDestinationRequest,
+  CreateIngestionDestinationRequest & RegionInput,
   CreateIngestionDestinationResponse,
   CreateIngestionDestinationError,
   Credentials | HttpClient.HttpClient
@@ -754,7 +755,7 @@ export type DeleteAppAuthorizationError =
  * delete an app authorization.
  */
 export const deleteAppAuthorization: API.OperationMethod<
-  DeleteAppAuthorizationRequest,
+  DeleteAppAuthorizationRequest & RegionInput,
   DeleteAppAuthorizationResponse,
   DeleteAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -787,7 +788,7 @@ export type DeleteAppBundleError =
  * delete an app bundle.
  */
 export const deleteAppBundle: API.OperationMethod<
-  DeleteAppBundleRequest,
+  DeleteAppBundleRequest & RegionInput,
   DeleteAppBundleResponse,
   DeleteAppBundleError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +821,7 @@ export type DeleteIngestionError =
  * associated ingestion destinations before you can delete an app ingestion.
  */
 export const deleteIngestion: API.OperationMethod<
-  DeleteIngestionRequest,
+  DeleteIngestionRequest & RegionInput,
   DeleteIngestionResponse,
   DeleteIngestionError,
   Credentials | HttpClient.HttpClient
@@ -857,7 +858,7 @@ export type DeleteIngestionDestinationError =
  * associated ingestion is enabled, the ingestion will fail and is eventually disabled.
  */
 export const deleteIngestionDestination: API.OperationMethod<
-  DeleteIngestionDestinationRequest,
+  DeleteIngestionDestinationRequest & RegionInput,
   DeleteIngestionDestinationResponse,
   DeleteIngestionDestinationError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type GetAppAuthorizationError =
  * Returns information about an app authorization.
  */
 export const getAppAuthorization: API.OperationMethod<
-  GetAppAuthorizationRequest,
+  GetAppAuthorizationRequest & RegionInput,
   GetAppAuthorizationResponse,
   GetAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -921,7 +922,7 @@ export type GetAppBundleError =
  * Returns information about an app bundle.
  */
 export const getAppBundle: API.OperationMethod<
-  GetAppBundleRequest,
+  GetAppBundleRequest & RegionInput,
   GetAppBundleResponse,
   GetAppBundleError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type GetIngestionError =
  * Returns information about an ingestion.
  */
 export const getIngestion: API.OperationMethod<
-  GetIngestionRequest,
+  GetIngestionRequest & RegionInput,
   GetIngestionResponse,
   GetIngestionError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +986,7 @@ export type GetIngestionDestinationError =
  * Returns information about an ingestion destination.
  */
 export const getIngestionDestination: API.OperationMethod<
-  GetIngestionDestinationRequest,
+  GetIngestionDestinationRequest & RegionInput,
   GetIngestionDestinationResponse,
   GetIngestionDestinationError,
   Credentials | HttpClient.HttpClient
@@ -1017,7 +1018,7 @@ export type ListAppAuthorizationsError =
  * Returns a list of all app authorizations configured for an app bundle.
  */
 export const listAppAuthorizations: API.PaginatedOperationMethod<
-  ListAppAuthorizationsRequest,
+  ListAppAuthorizationsRequest & RegionInput,
   ListAppAuthorizationsResponse,
   ListAppAuthorizationsError,
   Credentials | HttpClient.HttpClient,
@@ -1055,7 +1056,7 @@ export type ListAppBundlesError =
  * Returns a list of app bundles.
  */
 export const listAppBundles: API.PaginatedOperationMethod<
-  ListAppBundlesRequest,
+  ListAppBundlesRequest & RegionInput,
   ListAppBundlesResponse,
   ListAppBundlesError,
   Credentials | HttpClient.HttpClient,
@@ -1093,7 +1094,7 @@ export type ListIngestionDestinationsError =
  * Returns a list of all ingestion destinations configured for an ingestion.
  */
 export const listIngestionDestinations: API.PaginatedOperationMethod<
-  ListIngestionDestinationsRequest,
+  ListIngestionDestinationsRequest & RegionInput,
   ListIngestionDestinationsResponse,
   ListIngestionDestinationsError,
   Credentials | HttpClient.HttpClient,
@@ -1132,7 +1133,7 @@ export type ListIngestionsError =
  * Returns a list of all ingestions configured for an app bundle.
  */
 export const listIngestions: API.PaginatedOperationMethod<
-  ListIngestionsRequest,
+  ListIngestionsRequest & RegionInput,
   ListIngestionsResponse,
   ListIngestionsError,
   Credentials | HttpClient.HttpClient,
@@ -1171,7 +1172,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1204,7 +1205,7 @@ export type StartIngestionError =
  * Starts (enables) an ingestion, which collects data from an application.
  */
 export const startIngestion: API.OperationMethod<
-  StartIngestionRequest,
+  StartIngestionRequest & RegionInput,
   StartIngestionResponse,
   StartIngestionError,
   Credentials | HttpClient.HttpClient
@@ -1240,7 +1241,7 @@ export type StartUserAccessTasksError =
  * terminated when the API calls to the application time out.
  */
 export const startUserAccessTasks: API.OperationMethod<
-  StartUserAccessTasksRequest,
+  StartUserAccessTasksRequest & RegionInput,
   StartUserAccessTasksResponse,
   StartUserAccessTasksError,
   Credentials | HttpClient.HttpClient
@@ -1273,7 +1274,7 @@ export type StopIngestionError =
  * Stops (disables) an ingestion.
  */
 export const stopIngestion: API.OperationMethod<
-  StopIngestionRequest,
+  StopIngestionRequest & RegionInput,
   StopIngestionResponse,
   StopIngestionError,
   Credentials | HttpClient.HttpClient
@@ -1306,7 +1307,7 @@ export type TagResourceError =
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1338,7 +1339,7 @@ export type UntagResourceError =
  * Removes a tag or tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1374,7 +1375,7 @@ export type UpdateAppAuthorizationError =
  * authorization will set it back to a `PendingConnect` state.
  */
 export const updateAppAuthorization: API.OperationMethod<
-  UpdateAppAuthorizationRequest,
+  UpdateAppAuthorizationRequest & RegionInput,
   UpdateAppAuthorizationResponse,
   UpdateAppAuthorizationError,
   Credentials | HttpClient.HttpClient
@@ -1409,7 +1410,7 @@ export type UpdateIngestionDestinationError =
  * processed by Amazon Web Services AppFabric and where it's delivered.
  */
 export const updateIngestionDestination: API.OperationMethod<
-  UpdateIngestionDestinationRequest,
+  UpdateIngestionDestinationRequest & RegionInput,
   UpdateIngestionDestinationResponse,
   UpdateIngestionDestinationError,
   Credentials | HttpClient.HttpClient

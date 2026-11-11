@@ -14,7 +14,9 @@
  *   debug (opt in):  spans for distilled's internals too, INTERNAL spans
  *               at trace level `Debug`: first-call setup, serialize, sign,
  *               deserialize, one `Attempt` per try, backoff sleeps, and the
- *               caller's `code.*` attributes. Its code lives in
+ *               caller's `code.*` attributes; and `Effect.logDebug` lines
+ *               for each call and HTTP exchange, the same for every SDK,
+ *               with or without an exporter. Its code lives in
  *               `./telemetry-debug.ts`, so only programs that import it
  *               bundle it:
  *
@@ -61,12 +63,34 @@ export interface DebugHooks {
     parent: Tracer.Span,
     member: string,
   ) => Stream.Stream<A, E, R>;
-  /** Log each request and response line to stderr (`./debug.ts`). */
-  readonly logRequests: boolean;
+  /**
+   * The operation call with its debug log lines: `Effect.logDebug` at the
+   * start (with the input) and on exit (with the output), every line inside
+   * annotated with the operation. With `schemas`, input and output are
+   * logged with their sensitive values `Redacted` (`./sensitive.ts`);
+   * without, they are left out.
+   */
+  readonly call: <A, E, R>(
+    info: OperationInfo,
+    input: unknown,
+    schemas: OperationSchemas | undefined,
+    effect: Effect.Effect<A, E, R>,
+  ) => Effect.Effect<A, E, R>;
+  /** One HTTP exchange (`sent`) with its debug log lines. */
+  readonly http: (
+    request: HttpClientRequest.HttpClientRequest,
+    sent: Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError>,
+  ) => Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError>;
   /** OTel `code.*` attributes for the caller's line. */
   readonly callSite: (
     callSite: (() => string | undefined) | undefined,
   ) => Record<string, unknown> | undefined;
+}
+
+/** An operation's input and output schemas, for the debug log lines. */
+export interface OperationSchemas {
+  readonly input: AST.AST;
+  readonly output: AST.AST;
 }
 
 export const Debug = /*@__PURE__*/ Context.Reference<DebugHooks | undefined>(
@@ -89,6 +113,21 @@ export interface Call {
 
 export const OperationSpan = /*@__PURE__*/ Context.Reference<Call | undefined>(
   "@distilled.cloud/core/Telemetry/OperationSpan",
+  { defaultValue: () => undefined },
+);
+
+/**
+ * The untraced call's propagation (no exporter, so no operation span): the
+ * caller's parent span and the service's header format. Requests carry the
+ * parent's own trace context, as an OTel no-op tracer forwards it.
+ */
+interface Forward {
+  readonly span: Tracer.AnySpan;
+  readonly propagate: NonNullable<ServiceTelemetry["propagate"]>;
+}
+
+const Forward = /*@__PURE__*/ Context.Reference<Forward | undefined>(
+  "@distilled.cloud/core/Telemetry/Forward",
   { defaultValue: () => undefined },
 );
 
@@ -365,7 +404,7 @@ export const operationInfo = (
   };
 };
 
-const flatten = (
+export const flatten = (
   rules: Readonly<Record<string, ReadonlyArray<AttributeRule>>> | undefined,
 ): Array<readonly [string, AttributeRule]> => {
   const out: Array<readonly [string, AttributeRule]> = [];
@@ -376,7 +415,7 @@ const flatten = (
 };
 
 /** Attributes the rules read from a value (the input or the output). Redacted values are skipped. */
-const readRules = (
+export const readRules = (
   rules: OperationInfo["input"],
   value: unknown,
   set: (key: string, value: unknown) => void,
@@ -484,31 +523,51 @@ export const annotateResponse = (
   }
 };
 
+/** The trace header for `span` in the service's format. */
+const traceHeader = (
+  request: HttpClientRequest.HttpClientRequest,
+  propagate: NonNullable<ServiceTelemetry["propagate"]>,
+  span: Tracer.AnySpan,
+): HttpClientRequest.HttpClientRequest =>
+  propagate === "w3c"
+    ? HttpClientRequest.setHeader(
+        request,
+        "traceparent",
+        `00-${span.traceId}-${span.spanId}-${span.sampled ? "01" : "00"}`,
+      )
+    : HttpClientRequest.setHeader(request, ...propagate(span));
+
 /**
  * `client.execute(request)` for the traced call on this fiber: the
  * request facts before it is sent, the response facts when it returns.
- * Untraced calls pay one context read.
+ * Untraced calls pay two context reads, and forward the caller's trace
+ * header if there is a parent span.
  */
 export const execute = (
   context: Context.Context<any>,
   client: HttpClient.HttpClient,
   request: HttpClientRequest.HttpClientRequest,
 ): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> => {
+  const debug = Context.get(context, Debug);
+  const sent = tracedExecute(context, client, request);
+  return debug === undefined ? sent : debug.http(request, sent);
+};
+
+const tracedExecute = (
+  context: Context.Context<any>,
+  client: HttpClient.HttpClient,
+  request: HttpClientRequest.HttpClientRequest,
+): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> => {
   const call = Context.get(context, OperationSpan);
-  if (call === undefined) return client.execute(request);
+  if (call === undefined) {
+    const forward = Context.get(context, Forward);
+    return client.execute(
+      forward === undefined ? request : traceHeader(request, forward.propagate, forward.span),
+    );
+  }
   annotateRequest(context, request.method, request.url);
   const propagate = call.info.propagate;
-  if (propagate !== undefined) {
-    const span = call.attempt ?? call.span;
-    request =
-      propagate === "w3c"
-        ? HttpClientRequest.setHeader(
-            request,
-            "traceparent",
-            `00-${span.traceId}-${span.spanId}-${span.sampled ? "01" : "00"}`,
-          )
-        : HttpClientRequest.setHeader(request, ...propagate(span));
-  }
+  if (propagate !== undefined) request = traceHeader(request, propagate, call.attempt ?? call.span);
   return Effect.map(client.execute(request), (response) => {
     annotateResponse(
       context,
@@ -664,6 +723,8 @@ const withFailureFrame = <A, E, R>(
  *
  *   no exporter: no span. Effect's HTTP span is switched off too (nobody
  *                would see it); the failure frame still names the call.
+ *                Requests still carry the caller's parent span, if any,
+ *                in the service's trace header (`traceparent`, X-Ray).
  *   operation:   one CLIENT span. Effect's HTTP span is switched off and
  *                protocols copy its facts (status, host, request id) onto
  *                this span, so one span per call.
@@ -683,9 +744,11 @@ export const operationSpan = <A, E, R>(
   callSite: (() => string | undefined) | undefined,
   input: unknown,
   run: (input: unknown) => Effect.Effect<A, E, R>,
+  schemas?: OperationSchemas,
 ): Effect.Effect<A, E, R> => {
   const measure = fiber.getRef(Metrics);
-  const traced = traceCall(fiber, debug, info, callSite, input, run);
+  let traced = traceCall(fiber, debug, info, callSite, input, run);
+  if (debug !== undefined) traced = debug.call(info, input, schemas, traced);
   return measure === undefined ? traced : measure(info, traced);
 };
 
@@ -698,14 +761,15 @@ const traceCall = <A, E, R>(
   run: (input: unknown) => Effect.Effect<A, E, R>,
 ): Effect.Effect<A, E, R> => {
   if (!exporting(fiber)) {
-    const body = run(input);
-    return withFailureFrame(
-      debug !== undefined
-        ? body
-        : Effect.provideService(body, HttpClient.TracerDisabledWhen, always),
-      info.name,
-      callSite,
-    );
+    let body = run(input);
+    if (debug === undefined)
+      body = Effect.provideService(body, HttpClient.TracerDisabledWhen, always);
+    const propagate = info.propagate;
+    if (propagate !== undefined) {
+      const span = Context.getOrUndefined(fiber.context, Tracer.ParentSpan);
+      if (span !== undefined) body = Effect.provideService(body, Forward, { span, propagate });
+    }
+    return withFailureFrame(body, info.name, callSite);
   }
   const attributes: Record<string, unknown> =
     debug !== undefined
