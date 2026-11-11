@@ -25,5 +25,21 @@
         "MasterUserPassword": { "sensitive": true }
       }
     }
+  },
+  "operations": {
+    "deleteDBCluster": {
+      "syntheticErrors": [
+        {
+          "name": "DBClusterDeletionProtected",
+          "from": "InvalidParameterCombination",
+          "message": { "includes": "Cannot delete protected Cluster" }
+        }
+      ]
+    }
+  },
+  "errors": {
+    "DBClusterDeletionProtected": {
+      "message": { "type": "string" }
+    }
   }
 }
