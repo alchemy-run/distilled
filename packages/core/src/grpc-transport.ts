@@ -83,14 +83,18 @@ export const respond = (
     readonly reliableTrailers?: boolean;
   },
 ): HttpClientResponse.HttpClientResponse => {
+  // `Response` refuses a body on these, so the transport's is let go.
+  const bodiless = reply.status === 204 || reply.status === 205 || reply.status === 304;
+  if (bodiless) void reply.body.cancel().catch(() => undefined);
+  const response = HttpClientResponse.fromWeb(
+    request,
+    new Response(bodiless ? null : reply.body, { status: reply.status, headers: reply.headers }),
+  );
   trailersByRequest.set(request, {
     trailers: reply.trailers,
     reliable: reply.reliableTrailers ?? true,
   });
-  return HttpClientResponse.fromWeb(
-    request,
-    new Response(reply.body, { status: reply.status, headers: reply.headers }),
-  );
+  return response;
 };
 
 /**
