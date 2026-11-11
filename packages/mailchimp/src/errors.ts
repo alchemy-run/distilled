@@ -62,3 +62,20 @@ export class MailchimpParseError
     body: Schema.Unknown,
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
+
+/**
+ * A Transactional API failure (`{ status: "error", code, name, message }`)
+ * on a status that neither the operation nor the core map covers. `name` is
+ * the vendor's discriminator (`Invalid_Key`, `Unknown_Template`).
+ */
+export class MailchimpTransactionalError
+  extends /*@__PURE__*/ Schema.TaggedError<MailchimpTransactionalError>()(
+    "MailchimpTransactionalError",
+    {
+      status: Schema.Number,
+      code: /*@__PURE__*/ Schema.optional(Schema.Number),
+      name: /*@__PURE__*/ Schema.optional(Schema.String),
+      message: Schema.String,
+      body: Schema.Unknown,
+    },
+  ) {}

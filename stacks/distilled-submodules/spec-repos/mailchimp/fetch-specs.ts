@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 /**
- * Mirrors the Mailchimp Marketing API spec into ../specs/.
+ * Mirrors Mailchimp's API documents into ../specs/.
  *
- * Mailchimp publishes the Swagger 2.0 document its own client libraries are
- * generated from in mailchimp/mailchimp-client-lib-codegen. Only that one
- * file is downloaded, straight from raw.githubusercontent.com — the
- * repository is never cloned.
+ * Mailchimp publishes the Swagger 2.0 documents its own client libraries are
+ * generated from in mailchimp/mailchimp-client-lib-codegen. Only those files
+ * are downloaded, straight from raw.githubusercontent.com — the repository
+ * is never cloned.
  *
  * Usage:
  *   node fetch-specs.ts
  *
- * The spec is saved to:
- *   ../specs/marketing.json
+ * Specs are saved to:
+ *   ../specs/marketing.json               Marketing API (v3.0), Swagger 2.0
+ *   ../specs/transactional.json           Transactional API (formerly
+ *   ../specs/transactional.openapi.json   Mandrill), Swagger 2.0 + OpenAPI 3.1
  */
 
 import { mkdirSync } from "fs";
@@ -21,37 +23,67 @@ import { writeFile } from "fs/promises";
 const REPO = "mailchimp/mailchimp-client-lib-codegen";
 /** Branch (or tag/commit) to mirror. */
 const REF = "main";
-const SPEC_PATH = "spec/marketing.json";
 
 const SPECS_DIR = "../specs";
-const OUTPUT_PATH = `${SPECS_DIR}/marketing.json`;
+
+interface SpecFile {
+  /** Path within the upstream repository. */
+  readonly source: string;
+  /** Path within ../specs/ to write. */
+  readonly output: string;
+}
+
+// The two Transactional documents describe the same 99 routes. The Swagger
+// one carries the vendor's method names and the request/response shapes the
+// generator reads; the OpenAPI 3.1 one is the only place the per-route error
+// responses are declared.
+const FILES: readonly SpecFile[] = [
+  { source: "spec/marketing.json", output: "marketing.json" },
+  { source: "spec/transactional.json", output: "transactional.json" },
+  {
+    source: "spec/transactional.openapi.json",
+    output: "transactional.openapi.json",
+  },
+];
+
+const isApiDocument = (spec: Record<string, unknown>): boolean =>
+  (spec.swagger === "2.0" || typeof spec.openapi === "string") &&
+  typeof spec.paths === "object" &&
+  spec.paths !== null;
 
 mkdirSync(SPECS_DIR, { recursive: true });
 
 async function main() {
-  const url = `https://raw.githubusercontent.com/${REPO}/${REF}/${SPEC_PATH}`;
-  console.log(`Fetching ${url}...`);
+  for (const file of FILES) {
+    const url = `https://raw.githubusercontent.com/${REPO}/${REF}/${file.source}`;
+    console.log(`Fetching ${url}...`);
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    }
+
+    const spec = (await response.json()) as Record<string, unknown>;
+
+    // A rate-limit body or a gutted response is still valid JSON.
+    if (!isApiDocument(spec)) {
+      throw new Error(
+        `${url} returned JSON without \`swagger\`/\`openapi\` and \`paths\` — not a Mailchimp API document`,
+      );
+    }
+
+    const outputPath = `${SPECS_DIR}/${file.output}`;
+    console.log(`Writing ${outputPath}...`);
+    // 2-space indent + trailing newline, so a whitespace-only change upstream
+    // produces no diff.
+    await writeFile(outputPath, JSON.stringify(spec, null, 2) + "\n");
+
+    const version =
+      typeof spec.openapi === "string" ? `OpenAPI ${spec.openapi}` : `Swagger ${spec.swagger}`;
+    console.log(`  ${file.output}: ${version} — ${Object.keys(spec.paths as object).length} paths`);
   }
 
-  const spec = (await response.json()) as Record<string, unknown>;
-
-  // A rate-limit body or a gutted response is still valid JSON.
-  if (spec.swagger !== "2.0" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned JSON without \`swagger: "2.0"\`/\`paths\` — not the Marketing API document`,
-    );
-  }
-
-  console.log(`Writing ${OUTPUT_PATH}...`);
-  // 2-space indent + trailing newline, so a whitespace-only change upstream
-  // produces no diff.
-  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-
-  console.log(`Done! Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`);
+  console.log("Done!");
 }
 
 main().catch((err) => {

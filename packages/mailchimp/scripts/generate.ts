@@ -1,18 +1,20 @@
 #!/usr/bin/env -S node --conditions=bun
-import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
- * generate — turn the Smithy JSON model in .generated-specs into the Mailchimp
- * Effect SDK.
+ * generate — turn the Smithy JSON models in .generated-specs into the
+ * Mailchimp Effect SDK.
  *
- * Input:  .generated-specs/marketing.json  (written by scripts/convert.ts)
- * Output: src/services/marketing.ts  +  src/services/index.ts
+ * Input:  .generated-specs/marketing.json       (written by scripts/convert.ts)
+ *         .generated-specs/transactional.json
+ * Output: src/services/marketing.ts  +  src/services/transactional.ts
+ *         +  src/services/index.ts
  *
- * PAGINATION. Mailchimp pages with `count`/`offset` in and
+ * PAGINATION. The Marketing API pages with `count`/`offset` in and
  * `{ <collection>: [...], total_items }` out, where the collection member is
  * named after the resource (`members`, `lists`, `merge_fields`). There is no
  * next-page token, so the converter's `detectPagination` never fires and
  * {@link stampPagination} marks the operations directly.
  */
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
@@ -67,7 +69,15 @@ const stampPagination = (model: any): string => {
   return `paginated ${paginated.length} operation(s); ${skipped.length} with count/offset left unpaginated (${skipped.join(", ")})`;
 };
 
-const mailchimpSpec: SdkSpec = {
+const namespaceOf = (model: any): string => {
+  for (const id of Object.keys(model?.shapes ?? {})) {
+    const ns = String(id).split("#")[0] ?? "";
+    if (ns.startsWith("com.mailchimp.")) return ns;
+  }
+  throw new Error("model has no com.mailchimp.* shapes");
+};
+
+const marketingSpec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   // The document carries no `x-nullable` markers, so an undocumented `null`
@@ -109,12 +119,31 @@ const mailchimpSpec: SdkSpec = {
   sourceNote: ".generated-specs (specs/spec-mirror-mailchimp)",
 };
 
+/**
+ * The Transactional API: no pagination, its own protocol and key. The
+ * statuses each route declares become generated error classes (`NotFound`,
+ * `PaymentRequired`, …) with status matchers, as in the other SDKs.
+ */
+const transactionalSpec: SdkSpec = {
+  ...marketingSpec,
+  paginationProfiles: {},
+  operationDecl: {
+    contextType: "MailchimpTransactionalOpContext",
+    commonErrorType: "MailchimpTransactionalOpError",
+    commonErrorClasses: ["MailchimpTransactionalError", "UnknownMailchimpError"],
+    protocol: "MailchimpTransactionalProtocol",
+    retry: "Retry.Retry",
+  },
+};
+
 runGeneratorCli({
-  description: "Generate the Mailchimp Marketing Effect SDK from the Smithy model",
+  description: "Generate the Mailchimp Effect SDK from the Smithy models",
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts.
   patchesDir: false,
-  transformModel: stampPagination,
-  spec: () => mailchimpSpec,
+  transformModel: (model, resource) =>
+    resource === "marketing" ? stampPagination(model) : undefined,
+  spec: (model) =>
+    namespaceOf(model) === "com.mailchimp.transactional" ? transactionalSpec : marketingSpec,
 });
