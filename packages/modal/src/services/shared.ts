@@ -65,7 +65,6 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface SharedVolumeGetOrCreateRequest {
   deploymentName?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;
   /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */

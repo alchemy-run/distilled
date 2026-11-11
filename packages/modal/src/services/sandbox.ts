@@ -291,9 +291,9 @@ export interface Sandbox {
   cloudBucketMounts?: CloudBucketMountList | undefined;
   volumeMounts?: VolumeMountList | undefined;
   ptyInfo?: PTYInfo | undefined;
-  /** _experimental_scheduler */
+  /** If set, tasks will be scheduled using the new scheduler, which also knows to look at fine-grained placement constraints. */
   schedulerPlacement?: SchedulerPlacement | undefined;
-  /** _experimental_resources */
+  /** for internal debugging use only */
   workerId?: string | undefined;
   openPorts?: PortSpecs | undefined;
   i6pnEnabled?: boolean | undefined;
@@ -353,7 +353,6 @@ export interface CreateSandboxRequest {
   environmentName?: string | undefined;
   tags?: SandboxTagList | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -366,6 +365,7 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
+/** Used for both tasks and function outputs */
 export interface GenericResult {
   /** Status of the task or function output. */
   status: GenericResultGenericStatus;
@@ -483,7 +483,6 @@ export interface TunnelData {
 export type TunnelDataList = Array<TunnelData>;
 export interface SandboxInfo {
   id: string;
-  /** modal.client.Sandbox definition */
   createdAt: number;
   taskInfo?: TaskInfo | undefined;
   appId: string;
@@ -1274,6 +1273,7 @@ export const sandboxGetStatsV2: API.OperationMethod<
 }));
 
 export type SandboxGetTaskIdError = ModalOpError;
+/** needed for modal container exec */
 export const sandboxGetTaskId: API.OperationMethod<
   SandboxGetTaskIdRequest,
   SandboxGetTaskIdResponse,
@@ -1290,7 +1290,6 @@ export const sandboxGetTaskId: API.OperationMethod<
 }));
 
 export type SandboxGetTaskIdV2Error = SandboxNotFound | ModalOpError;
-/** needed for modal container exec */
 export const sandboxGetTaskIdV2: API.OperationMethod<
   SandboxGetTaskIdV2Request,
   SandboxGetTaskIdV2Response,

@@ -58,8 +58,8 @@ export interface GenericPayloadType {
   /** sub-type for generic types like lists */
   subTypes?: GenericPayloadTypeList | undefined;
 }
+/** TODO: rename into NamedPayloadType or similar */
 export interface ClassParameterSpec {
-  /** TODO: rename into NamedPayloadType or similar */
   name?: string | undefined;
   /** TODO: deprecate - use full_type instead */
   type?: ParameterType | (string & {}) | undefined;
@@ -102,7 +102,7 @@ export interface FunctionHandleMetadata {
   functionType?: FunctionFunctionType | (string & {}) | undefined;
   webUrl?: string | undefined;
   isMethod?: boolean | undefined;
-  /** use_function_id, pre-0.67 class method placeholders */
+  /** used for methods */
   useMethodName?: string | undefined;
   definitionId?: string | undefined;
   classParameterInfo?: ClassParameterInfo | undefined;
@@ -133,7 +133,7 @@ export interface CreateClassRequest {
   appId?: string | undefined;
   existingClassId?: string | undefined;
   methods?: ClassMethodList | undefined;
-  /** removed class_function_id */
+  /** True starting with 0.67.x clients, which don't create method placeholder functions */
   onlyClassFunction?: boolean | undefined;
 }
 export interface ClassHandleMetadata {
@@ -148,9 +148,8 @@ export interface CreateClassResponse {
 export interface GetClassRequest {
   appName?: string | undefined;
   objectTag?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
-  /** workspace_name */
+  /** True starting with 0.67.x clients, which don't create method placeholder functions */
   onlyClassFunction?: boolean | undefined;
   appVersion?: number | undefined;
 }

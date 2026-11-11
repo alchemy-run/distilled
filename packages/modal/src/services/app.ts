@@ -180,7 +180,6 @@ export interface AppFetchLogsResponse {
   batches: TaskLogsBatchList;
 }
 export interface AppGetByDeploymentNameRequest {
-  /** removed namespace */
   name?: string | undefined;
   environmentName?: string | undefined;
 }
@@ -315,8 +314,8 @@ export interface GenericPayloadType {
   /** sub-type for generic types like lists */
   subTypes: GenericPayloadTypeList;
 }
+/** TODO: rename into NamedPayloadType or similar */
 export interface ClassParameterSpec {
-  /** TODO: rename into NamedPayloadType or similar */
   name: string;
   /** TODO: deprecate - use full_type instead */
   type: ParameterType;
@@ -359,7 +358,7 @@ export interface FunctionHandleMetadata {
   functionType: FunctionFunctionType;
   webUrl: string;
   isMethod: boolean;
-  /** use_function_id, pre-0.67 class method placeholders */
+  /** used for methods */
   useMethodName: string;
   definitionId: string;
   classParameterInfo?: ClassParameterInfo | undefined;
@@ -394,7 +393,6 @@ export interface ClassHandleMetadata {
   classFunctionId: string;
   classFunctionMetadata?: FunctionHandleMetadata | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -407,6 +405,7 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
+/** Used for both tasks and function outputs */
 export interface GenericResult {
   /** Status of the task or function output. */
   status: GenericResultGenericStatus;
@@ -668,7 +667,6 @@ export type AppDeployVisibility =
   | "APP_DEPLOY_VISIBILITY_PUBLIC";
 export interface DeployAppRequest {
   appId?: string | undefined;
-  /** namespace */
   name?: string | undefined;
   objectEntity?: string | undefined;
   visibility?: AppDeployVisibility | (string & {}) | undefined;

@@ -258,8 +258,8 @@ export interface GenericPayloadType {
   /** sub-type for generic types like lists */
   subTypes?: GenericPayloadTypeList | undefined;
 }
+/** TODO: rename into NamedPayloadType or similar */
 export interface ClassParameterSpec {
-  /** TODO: rename into NamedPayloadType or similar */
   name?: string | undefined;
   /** TODO: deprecate - use full_type instead */
   type?: ParameterType | (string & {}) | undefined;
@@ -379,7 +379,6 @@ export interface Function {
   retryPolicy?: FunctionRetryPolicy | undefined;
   /** To be replaced by autoscaler_settings.max_containers */
   concurrencyLimit?: number | undefined;
-  /** old fields */
   timeoutSecs?: number | undefined;
   ptyInfo?: PTYInfo | undefined;
   classSerialized?: string | undefined;
@@ -416,13 +415,12 @@ export interface Function {
   maxInputs?: number | undefined;
   s3Mounts?: S3MountList | undefined;
   cloudBucketMounts?: CloudBucketMountList | undefined;
-  /** _experimental_scheduler */
+  /** If set, tasks will be scheduled using the new scheduler, which also knows to look at fine-grained placement constraints. */
   schedulerPlacement?: SchedulerPlacement | undefined;
-  /** _experimental_scheduler_placement */
+  /** if "Function" is actually a class grouping multiple methods */
   isClass?: boolean | undefined;
-  /** use_method_name, pre-0.67 class method placeholders */
   classParameterInfo?: ClassParameterInfo | undefined;
-  /** _experimental_resources */
+  /** Maximum number of inputs to fetch at once */
   batchMaxSize?: number | undefined;
   /** Miliseconds to block before a response is needed */
   batchLingerMs?: string | undefined;
@@ -482,7 +480,6 @@ export interface Function {
   /** True when the function is a Sessioned Server. Only valid together with is_server. */
   isSessioned?: boolean | undefined;
 }
-/** use_method_name, pre-0.67 class method placeholders */
 export interface FunctionDataRankedFunction {
   rank?: number | undefined;
   function?: Function | undefined;
@@ -550,7 +547,7 @@ export interface CreateFunctionRequest {
   /** Deprecated: now passed in the Function definition */
   schedule?: Schedule | undefined;
   existingFunctionId?: string | undefined;
-  /** defer_updates */
+  /** supersedes 'function' field above */
   functionData?: FunctionData | undefined;
 }
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
@@ -560,7 +557,7 @@ export interface FunctionHandleMetadata {
   functionType: FunctionFunctionType;
   webUrl: string;
   isMethod: boolean;
-  /** use_function_id, pre-0.67 class method placeholders */
+  /** used for methods */
   useMethodName: string;
   definitionId: string;
   classParameterInfo?: ClassParameterInfo | undefined;
@@ -766,11 +763,10 @@ export interface InputCategoryInfo {
 export interface FunctionCallInfo {
   functionCallId: string;
   idx: number;
-  /** old fields */
+  /** when the call was created */
   createdAt: number;
   /** if cron job, when run was scheduled */
   scheduledAt: number;
-  /** old fields */
   pendingInputs?: InputCategoryInfo | undefined;
   failedInputs?: InputCategoryInfo | undefined;
   succeededInputs?: InputCategoryInfo | undefined;
@@ -803,7 +799,6 @@ export interface FunctionGetByIdResponse {
 export interface FunctionGetCallGraphRequest {
   functionCallId?: string | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -1028,7 +1023,6 @@ export interface FunctionPutInputsItem {
   idx?: number | undefined;
   input?: FunctionInput | undefined;
   r2Failed?: boolean | undefined;
-  /** r2_latency_ms */
   r2ThroughputBytesS?: string | undefined;
   blobUploadResults?: BlobUploadResultList | undefined;
 }
@@ -1068,7 +1062,7 @@ export interface FunctionPrecreateRequest {
   existingFunctionId?: string | undefined;
   functionType?: FunctionFunctionType | (string & {}) | undefined;
   webhookConfig?: WebhookConfig | undefined;
-  /** use_method_name, pre-0.67 class method placeholders Mapping of method names to method definitions, only non-empty for class service functions */
+  /** Mapping of method names to method definitions, only non-empty for class service functions */
   methodDefinitions?: MethodDefinitionMap | undefined;
   functionSchema?: FunctionSchema | undefined;
   supportedInputFormats?: DataFormatList | undefined;
@@ -1086,6 +1080,7 @@ export interface FunctionPutInputsRequest {
 export interface FunctionPutInputsResponse {
   inputs: FunctionPutInputsResponseItemList;
 }
+/** Used for both tasks and function outputs */
 export interface GenericResult {
   /** Status of the task or function output. */
   status?: GenericResultGenericStatus | (string & {}) | undefined;
@@ -1154,7 +1149,6 @@ export interface FunctionUpdateSchedulingParamsResponse {
 export interface GetFunctionRequest {
   appName?: string | undefined;
   objectTag?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
   appVersion?: number | undefined;
 }
@@ -1173,7 +1167,7 @@ export interface GetFunctionBlobResponse {
 }
 export interface GetFunctionInputsRequest {
   functionId?: string | undefined;
-  /** average_call_time */
+  /** Container aims to fetch multiple inputs at the same time */
   inputConcurrency?: number | undefined;
   /** Maximum number of inputs to fetch at once */
   batchMaxSize?: number | undefined;
@@ -1184,7 +1178,6 @@ export interface GetFunctionInputsItem {
   inputId: string;
   input?: FunctionInput | undefined;
   killSwitch: boolean;
-  /** previously used */
   functionCallId: string;
   functionCallInvocationType: FunctionCallInvocationType;
   retryCount: number;
@@ -1413,6 +1406,7 @@ export const functionCallPutDataOut: API.OperationMethod<
 }));
 
 export type FunctionFinishInputsError = ModalOpError;
+/** For map RPCs, to signal that all inputs have been sent */
 export const functionFinishInputs: API.OperationMethod<
   FunctionFinishInputsRequest,
   FunctionFinishInputsResponse,
@@ -1509,7 +1503,6 @@ export const functionGetFlashAuthToken: API.OperationMethod<
 }));
 
 export type FunctionGetMetricsError = ModalOpError;
-/** For containers to request next call */
 export const functionGetMetrics: API.OperationMethod<
   FunctionGetMetricsRequest,
   FunctionGetMetricsResponse,
@@ -1526,7 +1519,6 @@ export const functionGetMetrics: API.OperationMethod<
 }));
 
 export type FunctionGetSchedulingParamsError = FunctionNotFound | ModalOpError;
-/** Returns the next result(s) for an entire function call (FunctionMap) */
 export const functionGetSchedulingParams: API.OperationMethod<
   FunctionGetSchedulingParamsRequest,
   FunctionGetSchedulingParamsResponse,
@@ -1639,6 +1631,7 @@ export const functionPutInputs: API.OperationMethod<
 }));
 
 export type FunctionPutOutputsError = ModalOpError;
+/** For containers to return result */
 export const functionPutOutputs: API.OperationMethod<
   FunctionPutOutputsRequest,
   FunctionPutOutputsResponse,
@@ -1655,7 +1648,6 @@ export const functionPutOutputs: API.OperationMethod<
 }));
 
 export type FunctionRetryInputsError = ModalOpError;
-/** For containers to return result */
 export const functionRetryInputs: API.OperationMethod<
   FunctionRetryInputsRequest,
   FunctionRetryInputsResponse,
@@ -1704,7 +1696,6 @@ export const functionUpdateSchedulingParams: API.OperationMethod<
 }));
 
 export type GetFunctionError = FunctionNotFound | ModalOpError;
-/** For map RPCs, to signal that all inputs have been sent */
 export const getFunction: API.OperationMethod<
   GetFunctionRequest,
   GetFunctionResponse,
@@ -1737,6 +1728,7 @@ export const getFunctionBlob: API.OperationMethod<
 }));
 
 export type GetFunctionInputsError = ModalOpError;
+/** For containers to request next call */
 export const getFunctionInputs: API.OperationMethod<
   GetFunctionInputsRequest,
   GetFunctionInputsResponse,
@@ -1753,6 +1745,7 @@ export const getFunctionInputs: API.OperationMethod<
 }));
 
 export type GetFunctionOutputsError = FunctionCallNotFound | ModalOpError;
+/** Returns the next result(s) for an entire function call (FunctionMap) */
 export const getFunctionOutputs: API.OperationMethod<
   GetFunctionOutputsRequest,
   GetFunctionOutputsResponse,

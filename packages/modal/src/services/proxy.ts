@@ -103,7 +103,6 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface ProxyGetOrCreateRequest {
   deploymentName?: string | undefined;
-  /** namespace */
   environmentName?: string | undefined;
   /** must be UNSPECIFIED */
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;

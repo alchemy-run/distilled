@@ -109,7 +109,6 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface DictGetOrCreateRequest {
   deploymentName?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;
   /** Unused after 1.4.0 */

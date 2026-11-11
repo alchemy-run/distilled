@@ -111,7 +111,6 @@ export type ObjectCreationType =
 export type StringMap = { [key: string]: string | undefined };
 export interface SecretGetOrCreateRequest {
   deploymentName?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
   /** Not used atm */
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;

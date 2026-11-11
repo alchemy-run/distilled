@@ -130,7 +130,6 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface QueueGetOrCreateRequest {
   deploymentName?: string | undefined;
-  /** removed namespace */
   environmentName?: string | undefined;
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }

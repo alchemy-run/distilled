@@ -93,7 +93,7 @@ export interface ServiceUserEnvironmentRoleEntry {
   environmentName: string;
   /** Built-in token, or the custom definition's name. */
   roleStr: string;
-  /** environment_role_definition_id Set on reads when `role` is ENVIRONMENT_ROLE_CUSTOM. */
+  /** Set on reads when `role` is ENVIRONMENT_ROLE_CUSTOM. */
   environmentRoleDefinition?: EnvironmentRoleDefinition | undefined;
 }
 export type ServiceUserEnvironmentRoleEntryList = Array<ServiceUserEnvironmentRoleEntry>;

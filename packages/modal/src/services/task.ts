@@ -69,7 +69,6 @@ export interface TaskGetCommandRouterAccessResponse {
 export interface TaskGetInfoRequest {
   taskId?: string | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -82,6 +81,7 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
+/** Used for both tasks and function outputs */
 export interface GenericResult {
   /** Status of the task or function output. */
   status?: GenericResultGenericStatus | (string & {}) | undefined;

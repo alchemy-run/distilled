@@ -46,7 +46,6 @@ export class DomainNotFound
 export interface CreateDomainRequest {
   domainName?: string | undefined;
 }
-/** now unused internal experimental values */
 export type DNSRecordType = "DNS_RECORD_TYPE_A" | "DNS_RECORD_TYPE_TXT" | "DNS_RECORD_TYPE_CNAME";
 export interface DNSRecord {
   type: DNSRecordType;

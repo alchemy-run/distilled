@@ -317,9 +317,9 @@ export interface Sandbox {
   cloudBucketMounts?: CloudBucketMountList | undefined;
   volumeMounts?: VolumeMountList | undefined;
   ptyInfo?: PTYInfo | undefined;
-  /** _experimental_scheduler */
+  /** If set, tasks will be scheduled using the new scheduler, which also knows to look at fine-grained placement constraints. */
   schedulerPlacement?: SchedulerPlacement | undefined;
-  /** _experimental_resources */
+  /** for internal debugging use only */
   workerId?: string | undefined;
   openPorts?: PortSpecs | undefined;
   i6pnEnabled?: boolean | undefined;
