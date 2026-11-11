@@ -1,0 +1,62 @@
+{
+  "description": "Linear error contracts. Linear sets extensions.code on every error and reuses the same codes across the whole graph, so every tag is global. Codes and messages were observed against api.linear.app on 2026-10-02 (see README.md); RATELIMITED is from https://linear.app/developers/rate-limiting. Entity-not-found shares INPUT_ERROR with other input failures, so it adds a message matcher and wins as the more specific match. LinearNotFound is global rather than attached per coordinate (as Railway does) because any root that takes an id or a filter can raise it and the message matcher already scopes it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/LinearAuthenticationError",
+      "value": {
+        "description": "API key or access token missing or rejected.",
+        "category": "auth",
+        "matchers": [{ "code": "AUTHENTICATION_ERROR" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/LinearRateLimited",
+      "value": {
+        "description": "Request or complexity rate limit exceeded. Linear answers HTTP 400; the reset time is in the X-RateLimit-*-Reset headers.",
+        "category": "throttling",
+        "retryable": true,
+        "matchers": [{ "code": "RATELIMITED" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/LinearValidationError",
+      "value": {
+        "description": "The GraphQL document failed schema validation.",
+        "category": "badRequest",
+        "matchers": [{ "code": "GRAPHQL_VALIDATION_FAILED" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/LinearInvalidInput",
+      "value": {
+        "description": "An argument or input field was rejected.",
+        "category": "badRequest",
+        "matchers": [{ "code": "INVALID_INPUT" }, { "code": "INPUT_ERROR" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/LinearNotFound",
+      "value": {
+        "description": "An entity the operation references does not exist or is not visible to the token.",
+        "category": "notFound",
+        "matchers": [{ "code": "INPUT_ERROR", "messageIncludes": "Entity not found" }]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/globalErrors",
+      "value": [
+        "LinearAuthenticationError",
+        "LinearRateLimited",
+        "LinearValidationError",
+        "LinearInvalidInput",
+        "LinearNotFound"
+      ]
+    }
+  ]
+}
