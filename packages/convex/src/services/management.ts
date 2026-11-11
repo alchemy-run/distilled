@@ -258,7 +258,7 @@ export interface CreateCustomRoleRequest {
   /** Team ID */
   teamId: number;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   statements: CreateCustomRoleRequestStatementsList;
 }
 export type CustomRoleResponseStatementsList = Array<RoleStatement>;
@@ -266,9 +266,9 @@ export interface CustomRoleResponse {
   id: number;
   teamId: number;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   statements: CustomRoleResponseStatementsList;
-  creator?: number | null;
+  creator?: number | null | undefined;
   createTime: number;
 }
 export type CreateDeployKeyRequestAllowedActionsItem =
@@ -306,9 +306,9 @@ export interface CreateDeployKeyRequest {
   deploymentName: string;
   /** Name for the deploy key. */
   name: string;
-  allowedActions?: CreateDeployKeyRequestAllowedActionsList;
+  allowedActions?: CreateDeployKeyRequestAllowedActionsList | undefined;
   /** Timestamp in milliseconds when this deploy key will expire. Must be at least 30 minutes in the future. */
-  expiresAt?: number | null;
+  expiresAt?: number | null | undefined;
 }
 export interface PlatformCreateDeployKeyResponse {
   /** The generated deploy key. */
@@ -320,14 +320,14 @@ export interface CreateDeploymentRequest {
   projectId: number;
   type: CreateDeploymentType | (string & {});
   /** The class to use for this deployment. If not provided, the default deployment class for your team will be used. */
-  class?: string | null;
-  region?: string | null;
+  class?: string | null | undefined;
+  region?: string | null | undefined;
   /** An identifier that uniquely identifies this deployment within the project. By providing a reference, you can create multiple dev and prod deployments in the project. If you don't provide a reference, the endpoint will create the default production deployment for the project, or the default development deployment for the member that creates it (i.e. the deployment used by default when running `npx convex deploy` or `npx convex dev` respectively). When not providing a reference, a reference will be automatically generated. */
-  reference?: string | null;
+  reference?: string | null | undefined;
   /** When creating a prod deployment, whether the deployment is the default production deployment for the project (i.e. the one used by default when running `npx convex deploy`). When creating a dev deployment, whether the deployment is the default development deployment for the member that creates it (i.e. the one used by default when running `npx convex dev`). This option can't be set on other types of deployments. If not provided, defaults to `true` when creating a dev or prod deployment without providing a reference (and defaults to `false` otherwise). */
-  isDefault?: boolean | null;
+  isDefault?: boolean | null | undefined;
   /** Timestamp in milliseconds when this deployment will be deleted. Preview deployments have this set by default unless overridden. Must be at least 30 minutes in the future and cannot exceed the team's preview deployment retention days entitlement from now. Set to `null` to clear the expiration. */
-  expiresAt?: number | null;
+  expiresAt?: number | null | undefined;
 }
 export type PlatformDeploymentResponseCase0Kind = "cloud";
 export interface PlatformDeploymentResponseCase0 {
@@ -337,13 +337,13 @@ export interface PlatformDeploymentResponseCase0 {
   /** Timestamp in milliseconds when this deployment was created. */
   createTime: number;
   /** Timestamp in milliseconds of the last deploy to this deployment, if any. */
-  lastDeployTime?: number | null;
+  lastDeployTime?: number | null | undefined;
   /** The type of this deployment. */
   deploymentType: string;
   /** The project this deployment belongs to. */
   projectId: number;
-  creator?: number | null;
-  previewIdentifier?: string | null;
+  creator?: number | null | undefined;
+  previewIdentifier?: string | null | undefined;
   /** The region where this deployment is hosted. */
   region: string;
   /** For prod deployments, whether they are the default prod deployment of the project. For dev deployments, whether they are the default dev deployment for the member that created it. For other deployments, set to false. */
@@ -351,15 +351,15 @@ export interface PlatformDeploymentResponseCase0 {
   /** An identifier that uniquely identifies this deployment within the project. */
   reference: string;
   /** Controls whether the dashboard requires a confirmation before allowing edits during a browser session for this deployment. If not set, defaults to true for prod deployments and false for dev and preview deployments. */
-  dashboardEditConfirmation?: boolean | null;
+  dashboardEditConfirmation?: boolean | null | undefined;
   /** The full backend URL for this deployment (e.g. "https://joyful-capybara-123.convex.cloud" or "https://calm-cow-456.eu-west-1.convex.cloud"). This is always a `.convex.cloud` URL, even when the deployment is using custom domains. To get the canonical URL, use [`/get_canonical_urls`](https://docs.convex.dev/deployment-api/get-canonical-urls). */
   deploymentUrl: string;
   /** Timestamp in milliseconds when this deployment will be deleted. Preview deployments have this set by default unless overridden. */
-  expiresAt?: number | null;
+  expiresAt?: number | null | undefined;
   /** The deployment class for this deployment. */
   class: string;
   /** Whether to send function logs to the client. If `null`, the deployment-type default is used (true for dev/preview, false for prod). */
-  sendLogsToClient?: boolean | null;
+  sendLogsToClient?: boolean | null | undefined;
   kind: PlatformDeploymentResponseCase0Kind;
 }
 export type PlatformDeploymentResponseCase1Kind = "local";
@@ -374,7 +374,7 @@ export interface PlatformDeploymentResponseCase1 {
   projectId: number;
   /** The member who created this deployment. */
   creator: number;
-  previewIdentifier?: string | null;
+  previewIdentifier?: string | null | undefined;
   /** The port where this local deployment is running. */
   port: number;
   /** The device name where this local deployment is running. */
@@ -391,7 +391,7 @@ export interface CreatePersonalAccessTokenRequest {
   /** Name for the personal access token. */
   name: string;
   /** Timestamp in milliseconds when this personal access token will expire. Must be at least 30 minutes in the future. */
-  expiresAt?: number | null;
+  expiresAt?: number | null | undefined;
 }
 export interface CreatePersonalAccessTokenResponse {
   /** The generated personal access token. */
@@ -403,7 +403,7 @@ export interface CreatePreviewDeployKeyRequest {
   /** Name for the preview deploy key. */
   name: string;
   /** Timestamp in milliseconds when this preview deploy key will expire. Must be at least 30 minutes in the future. */
-  expiresAt?: number | null;
+  expiresAt?: number | null | undefined;
 }
 export interface PlatformCreatePreviewDeployKeyResponse {
   /** The generated preview deploy key. */
@@ -415,11 +415,11 @@ export interface CreateProjectRequest {
   teamId: number;
   /** The full name of the project as it will appear in the dashboard. Spaces and punctuations allowed. */
   projectName: string;
-  deploymentType?: CreateDeploymentType | (string & {}) | null;
+  deploymentType?: CreateDeploymentType | (string & {}) | null | undefined;
   /** When creating a deployment, the class to use for the deployment. If not provided, the default deployment class for your team will be used. */
-  deploymentClass?: string | null;
-  deploymentRegion?: string | null;
-  tags?: CreateProjectRequestTagsList | null;
+  deploymentClass?: string | null | undefined;
+  deploymentRegion?: string | null | undefined;
+  tags?: CreateProjectRequestTagsList | null | undefined;
 }
 export interface PlatformCreateProjectResponse {
   /** Deprecated alias for `id`, kept for backwards compatibility. */
@@ -428,9 +428,9 @@ export interface PlatformCreateProjectResponse {
   /** The shortened version of the project name used in Convex Dashboard URLs. */
   slug: string;
   /** The readable identifier for this deployment, something like playful-otter-123. Only present when a deployment was requested. */
-  deploymentName?: string | null;
+  deploymentName?: string | null | undefined;
   /** Deployment cloud URL, where this deployment lives. Only present when a deployment was requested. */
-  deploymentUrl?: string | null;
+  deploymentUrl?: string | null | undefined;
 }
 export interface CreateTeamRequest {
   defaultRegion: string;
@@ -445,25 +445,25 @@ export interface TeamResponse {
   id: number;
   name: string;
   slug: string;
-  creator?: number | null;
+  creator?: number | null | undefined;
   suspended: boolean;
   referralCode: string;
-  referredBy?: number | null;
-  managedBy?: ManagedBy | null;
-  defaultRegion?: string | null;
-  ssoLoginId?: string | null;
-  managedByUrl?: string | null;
+  referredBy?: number | null | undefined;
+  managedBy?: ManagedBy | null | undefined;
+  defaultRegion?: string | null | undefined;
+  ssoLoginId?: string | null | undefined;
+  managedByUrl?: string | null | undefined;
 }
 export interface CreateTeamAccessTokenArgs {
   /** Name for the access token. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Timestamp in milliseconds when this token will expire. Must be at least 30 minutes in the future. Defaults to no expiry if omitted. */
-  expiresAt?: number | null;
+  expiresAt?: number | null | undefined;
 }
 export interface CreateTeamAccessTokenRequest {
   /** Team ID */
   teamId: number;
-  body?: CreateTeamAccessTokenArgs | null;
+  body?: CreateTeamAccessTokenArgs | null | undefined;
 }
 export interface CreateTeamAccessTokenResponse {
   accessToken: Redacted.Redacted<string>;
@@ -542,14 +542,14 @@ export interface ProjectResponse {
   /** Timestamp in milliseconds. */
   createTime: number;
   /** The name of the default production deployment for this project, if one exists (e.g. "happy-otter-123"). */
-  prodDeploymentName?: string | null;
+  prodDeploymentName?: string | null | undefined;
   /** The name of the requesting member's default development deployment for this project, if one exists (an active local deployment or default cloud dev deployment). */
-  devDeploymentName?: string | null;
+  devDeploymentName?: string | null | undefined;
   /** The reference of the default production deployment for this project, if one exists (e.g. "production"). */
-  prodDeploymentReference?: string | null;
+  prodDeploymentReference?: string | null | undefined;
   /** The reference of the requesting member's default development deployment for this project, if one exists and is a cloud deployment (e.g. "dev/jane-doe"). */
-  devDeploymentReference?: string | null;
-  tags?: ProjectResponseTagsList | null;
+  devDeploymentReference?: string | null | undefined;
+  tags?: ProjectResponseTagsList | null | undefined;
 }
 export interface GetProjectBySlugRequest {
   /** Team ID or slug */
@@ -561,11 +561,11 @@ export interface GetProjectDeploymentRequest {
   /** Project ID */
   projectId: number;
   /** The reference of the deployment to retrieve. */
-  reference?: string;
+  reference?: string | undefined;
   /** If true, retrieve the default production deployment. */
-  defaultProd?: boolean;
+  defaultProd?: boolean | undefined;
   /** If true, retrieve the default dev deployment for the calling user. */
-  defaultDev?: boolean;
+  defaultDev?: boolean | undefined;
 }
 export type GetProjectDeploymentResponse = PlatformDeploymentResponse;
 export interface GetProjectDeploymentBySlugRequest {
@@ -574,11 +574,11 @@ export interface GetProjectDeploymentBySlugRequest {
   /** Project slug */
   projectSlug: string;
   /** The reference of the deployment to retrieve. */
-  reference?: string;
+  reference?: string | undefined;
   /** If true, retrieve the default production deployment. */
-  defaultProd?: boolean;
+  defaultProd?: boolean | undefined;
   /** If true, retrieve the default dev deployment for the calling user. */
-  defaultDev?: boolean;
+  defaultDev?: boolean | undefined;
 }
 export type GetProjectDeploymentBySlugResponse = PlatformDeploymentResponse;
 export interface GetTokenDetailsRequest {}
@@ -620,7 +620,7 @@ export interface InviteTeamMemberRequest {
   /** Role to assign when the invitation is accepted. Pass `custom` together with a non-empty `customRoles` list to invite a member into a custom role; `admin` and `developer` must be sent without `customRoles`. */
   role: Role | (string & {});
   /** Custom roles to attach when `role` is `custom`. Required and non-empty in that case, and forbidden otherwise. */
-  customRoles?: InviteTeamMemberRequestCustomRolesList | null;
+  customRoles?: InviteTeamMemberRequestCustomRolesList | null | undefined;
 }
 export interface InviteTeamMemberResponse {}
 export type ListAuditLogEventsRequestAction =
@@ -711,12 +711,12 @@ export interface ListAuditLogEventsRequest {
   /** End of the time range, in milliseconds since epoch. */
   to: number;
   /** Only return events performed by this member. */
-  memberId?: number;
-  action?: ListAuditLogEventsRequestAction | (string & {});
+  memberId?: number | undefined;
+  action?: ListAuditLogEventsRequestAction | (string & {}) | undefined;
   /** Maximum number of events to return (1-100, defaults to 15). */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor from a previous response to fetch the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type AuditLogActorCase0Kind = "system";
 /** The internal Convex system. */
@@ -733,11 +733,11 @@ export interface AuditLogActorCase1 {
 export type AuditLogActorCase2Kind = "token";
 /** A token. */
 export interface AuditLogActorCase2 {
-  memberId?: number | null;
+  memberId?: number | null | undefined;
   /** Token ID. `0` for legacy audit log rows created before token IDs were recorded. */
   tokenId: number;
   /** Client ID of the OAuth application the token was issued to or is managed by, if any. */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
   kind: AuditLogActorCase2Kind;
 }
 export type AuditLogActorCase3Kind = "integration";
@@ -844,14 +844,14 @@ export interface AuditLogEventResponse {
   /** Additional JSON metadata about the audit log event */
   metadata: unknown;
   /** IP address of the client that performed the action, if known. */
-  clientIp?: string | null;
+  clientIp?: string | null | undefined;
   /** User agent of the client that performed the action, if known. */
-  clientUserAgent?: string | null;
+  clientUserAgent?: string | null | undefined;
 }
 export type ListAuditLogEventsResponseItemsList = Array<AuditLogEventResponse>;
 export interface PaginationMetadata {
   hasMore: boolean;
-  nextCursor?: string | null;
+  nextCursor?: string | null | undefined;
 }
 export interface ListAuditLogEventsResponse {
   items: ListAuditLogEventsResponseItemsList;
@@ -871,7 +871,7 @@ export interface PlatformCustomDomainResponse {
   /** The custom domain name. */
   domain: string;
   /** Timestamp in milliseconds when this domain was verified, or null if not yet verified. */
-  verificationTime?: number | null;
+  verificationTime?: number | null | undefined;
 }
 /** List of custom domains configured for this deployment. */
 export type PlatformListCustomDomainsResponseDomainsList = Array<PlatformCustomDomainResponse>;
@@ -883,9 +883,9 @@ export interface ListCustomRolesRequest {
   /** Team ID */
   teamId: number;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Max results per page (default: 100, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListCustomRolesResponseItemsList = Array<CustomRoleResponse>;
 export interface ListCustomRolesResponse {
@@ -896,9 +896,9 @@ export interface ListDefaultEnvironmentVariablesRequest {
   /** Project ID */
   projectId: number;
   /** Filter by exact environment variable name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter by deployment type */
-  deploymentType?: string;
+  deploymentType?: string | undefined;
 }
 /** The deployment types that this env var name + value apply to. Note that when filtering by a particular deployment type, all items in the result will have a single element in `deploymentType`. */
 export type DefaultEnvironmentVariableResponseDeploymentTypesList = Array<string>;
@@ -955,11 +955,11 @@ export interface PlatformDeployKeyResponse {
   /** Timestamp in milliseconds when this token was created. */
   creationTime: number;
   /** Timestamp in milliseconds when this token was last used (if ever). */
-  lastUsedTime?: number | null;
+  lastUsedTime?: number | null | undefined;
   /** Timestamp in milliseconds when this deploy key will expire. */
-  expiresAt?: number | null;
-  creator?: number | null;
-  managedBy?: ManagedBy | null;
+  expiresAt?: number | null | undefined;
+  creator?: number | null | undefined;
+  managedBy?: ManagedBy | null | undefined;
   allowedActions: PlatformDeployKeyResponseAllowedActionsList;
 }
 export type ListDeployKeysResponseBodyList = Array<PlatformDeployKeyResponse>;
@@ -993,11 +993,11 @@ export interface ListDeploymentsRequest {
   /** Project ID */
   projectId: number;
   /** If true, include local deployments in the response (filtered to only show local deployments created by the requesting team member). */
-  includeLocal?: boolean;
+  includeLocal?: boolean | undefined;
   /** If true, only include default deployments. If false, only include non-default deployments. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Only include deployments of the given deployment type. */
-  deploymentType?: string;
+  deploymentType?: string | undefined;
 }
 export type ListDeploymentsResponseBodyList = Array<PlatformDeploymentResponse>;
 export type ListDeploymentsResponse = ListDeploymentsResponseBodyList;
@@ -1025,7 +1025,7 @@ export interface InvitationResponse {
   expired: boolean;
   role: Role;
   /** The custom roles attached to this invitation. Present iff `role` is `custom`. */
-  customRoles?: InvitationResponseCustomRolesList | null;
+  customRoles?: InvitationResponseCustomRolesList | null | undefined;
 }
 export type PlatformListInvitationsResponseItemsList = Array<InvitationResponse>;
 export interface PlatformListInvitationsResponse {
@@ -1033,18 +1033,18 @@ export interface PlatformListInvitationsResponse {
 }
 export interface ListPersonalAccessTokensRequest {
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of tokens to return (default 10, max 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface PersonalAccessTokenResponse {
   /** Stable identifier for this access token. */
   id: number;
   name: string;
   creationTime: number;
-  lastUsedTime?: number | null;
-  expiresAt?: number | null;
-  ssoTeamId?: number | null;
+  lastUsedTime?: number | null | undefined;
+  expiresAt?: number | null | undefined;
+  ssoTeamId?: number | null | undefined;
 }
 export type PaginatedPersonalAccessTokensResponseItemsList = Array<PersonalAccessTokenResponse>;
 export interface PaginatedPersonalAccessTokensResponse {
@@ -1055,7 +1055,7 @@ export interface ListPreviewDeployKeysRequest {
   /** Project ID */
   projectId: number;
   /** If true, include managed preview deploy keys (e.g., created by external integrations like Vercel) in the response. Defaults to false. */
-  includeManaged?: boolean;
+  includeManaged?: boolean | undefined;
 }
 /** The list of preview deploy keys. */
 export type PlatformListPreviewDeployKeysResponseItemsList = Array<PlatformDeployKeyResponse>;
@@ -1068,13 +1068,13 @@ export interface ListProjectsRequest {
   /** Team ID */
   teamId: number;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of projects to return (1-100, defaults to 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Search query to filter projects by name or slug (case-insensitive) */
-  q?: string;
+  q?: string | undefined;
   /** Only return projects with this tag. This parameter can be provided more than once to match projects with any of several tags */
-  tag?: ListProjectsRequestTagList;
+  tag?: ListProjectsRequestTagList | undefined;
 }
 export type PlatformPaginatedProjectsResponseItemsList = Array<ProjectResponse>;
 export interface PlatformPaginatedProjectsResponse {
@@ -1085,9 +1085,9 @@ export interface ListProjectTagsRequest {
   /** Team ID */
   teamId: number;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of tags to return (default: 100, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ProjectTagResponse {
   name: string;
@@ -1101,9 +1101,9 @@ export interface ListTeamAccessTokensRequest {
   /** Team ID */
   teamId: number;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of tokens to return (default 10, max 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface TeamAccessTokenResponse {
   /** The id of this access token. */
@@ -1113,10 +1113,10 @@ export interface TeamAccessTokenResponse {
   /** Timestamp in milliseconds when the token was created. */
   creationTime: number;
   /** Timestamp in milliseconds when the token was last used, if ever. */
-  lastUsedTime?: number | null;
+  lastUsedTime?: number | null | undefined;
   /** Timestamp in milliseconds when the token expires, if set. */
-  expiresAt?: number | null;
-  creator?: number | null;
+  expiresAt?: number | null | undefined;
+  creator?: number | null | undefined;
 }
 /** The team access tokens created by the authenticated member. */
 export type ListTeamAccessTokensResponseItemsList = Array<TeamAccessTokenResponse>;
@@ -1129,23 +1129,23 @@ export interface ListTeamDeploymentsRequest {
   /** Team ID */
   teamId: number;
   /** Cursor for pagination */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Max results per page (default: 100, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
   /** Sort field: createTime, lastDeployTime, reference */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Sort order: asc, desc */
-  sortOrder?: string;
+  sortOrder?: string | undefined;
   /** Filter by type: dev, prod, preview, custom */
-  deploymentType?: string;
+  deploymentType?: string | undefined;
   /** Search by deployment name or reference */
-  q?: string;
+  q?: string | undefined;
   /** Filter by project ID */
-  projectId?: number;
+  projectId?: number | undefined;
   /** Filter by creator member ID */
-  creator?: number;
+  creator?: number | undefined;
   /** Filter by default deployment status */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
 }
 export type PaginatedDeploymentsResponseItemsList = Array<PlatformDeploymentResponse>;
 export interface PaginatedDeploymentsResponse {
@@ -1161,23 +1161,25 @@ export type TeamMemberCustomRolesList = Array<TeamMemberCustomRole>;
 export interface TeamMember {
   id: number;
   /** The name of the team member */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The email of the team member */
   email: string;
   /** The role of the team member. `custom` indicates the member's permissions come from the attached `customRoles`. */
   role: Role;
   /** The custom roles attached to this team member. Present iff `role` is `custom`. */
-  customRoles?: TeamMemberCustomRolesList | null;
+  customRoles?: TeamMemberCustomRolesList | null | undefined;
+  directoryManaged?: boolean | null | undefined;
 }
 export type PlatformListTeamMembersResponseItemsList = Array<TeamMember>;
 export interface PlatformListTeamMembersResponse {
   items: PlatformListTeamMembersResponseItemsList;
+  directorySynced?: boolean | null | undefined;
 }
 /** The wire format of the claims sent to the gateway. All three are absent when we cannot identify the caller. A caller in the root component has a `function_name` but no `component_path`. */
 export interface AttributionClaims {
-  componentPath?: string | null;
-  functionName?: string | null;
-  functionType?: string | null;
+  componentPath?: string | null | undefined;
+  functionName?: string | null | undefined;
+  functionType?: string | null | undefined;
 }
 export interface MintAiGatewayJwtRequest {
   /** Local deployment name */
@@ -1199,16 +1201,16 @@ export interface UpdateCustomRoleRequest {
   teamId: number;
   id: number;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   statements: UpdateCustomRoleRequestStatementsList;
 }
 export interface DefaultEnvironmentVariableChangeArgs {
   name: string;
   deploymentType: string;
   /** Set to a value to upsert the default environment variable with the given name and type. If null, will delete the environment variable with the given name and deployment type if it exists (and do nothing if it doesn't exist). */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Apply this change to every existing cloud deployment of the selected type, overwriting/deleting any existing values. Defaults to false. */
-  applyToExistingDeployments?: boolean;
+  applyToExistingDeployments?: boolean | undefined;
 }
 export type UpdateDefaultEnvironmentVariablesRequestChangesList =
   Array<DefaultEnvironmentVariableChangeArgs>;
@@ -1222,18 +1224,18 @@ export interface UpdateDeploymentRequest {
   /** Deployment Name */
   deploymentName: string;
   /** The reference of the deployment. When provided, must match the following rules: - be unique across deployment references in the project - 3 to 100 characters (included) - only lowercase letters, numbers, "-"" and "/" - not follow the deployment name format [a-z]+-[a-z]+-[0-9]+ (e.g. "happy-capybara-123") - not start with "local-"" - not be one of the following reserved keywords: "prod", "dev", "cloud", "local", "default", "name", "new", "existing", "deployment", "preview" */
-  reference?: string | null;
+  reference?: string | null | undefined;
   /** Controls whether the dashboard requires a confirmation before allowing edits during a browser session for this deployment. If set to `null`, the setting is reset to the default behavior (true for prod deployments, false for dev and preview deployments). If set to `true` or `false`, the setting is explicitly overridden. */
-  dashboardEditConfirmation?: boolean | null;
+  dashboardEditConfirmation?: boolean | null | undefined;
   /** Timestamp in milliseconds when this deployment will be deleted. Preview deployments have this set by default unless overridden. Must be at least 30 minutes in the future and cannot exceed the team's preview deployment retention days entitlement from now. Set to `null` to clear the expiration. */
-  expiresAt?: number | null;
+  expiresAt?: number | null | undefined;
   /** Whether to send function logs to the client. If set to `null`, the setting is reset to the deployment-type default (true for dev/preview, false for prod). If set to `true` or `false`, the setting is explicitly overridden. */
-  sendLogsToClient?: boolean | null;
+  sendLogsToClient?: boolean | null | undefined;
   /** The deployment class to move this deployment to (e.g. "s16", "s256"). Requires the deployment class selection entitlement. */
-  class?: string | null;
+  class?: string | null | undefined;
   /** For a prod deployment, whether the deployment is the default production deployment for the project (i.e. the one used by default when running `npx convex deploy`). For a dev deployment, whether the deployment is the default development deployment for the member that created it (i.e. the one used by default when running `npx convex dev`). Setting this to `true` will fail on preview or custom deployments, or if there is already a matching default deployment in the project. */
-  isDefault?: boolean | null;
-  deploymentType?: string | null;
+  isDefault?: boolean | null | undefined;
+  deploymentType?: string | null | undefined;
 }
 export interface UpdateDeploymentResponse {}
 /** Replaces the project's full set of tags; `[]` clears them. If omitted, the tags are left unchanged. */
@@ -1241,10 +1243,10 @@ export type UpdateProjectRequestTagsList = Array<string>;
 export interface UpdateProjectRequest {
   /** Project ID */
   projectId: number;
-  name?: string | null;
-  slug?: string | null;
+  name?: string | null | undefined;
+  slug?: string | null | undefined;
   /** Replaces the project's full set of tags; `[]` clears them. If omitted, the tags are left unchanged. */
-  tags?: UpdateProjectRequestTagsList | null;
+  tags?: UpdateProjectRequestTagsList | null | undefined;
 }
 /** Replace the member's custom roles. Mutually exclusive with `role`. Must be non-empty. Sets the member's role to `custom`. */
 export type UpdateTeamMemberRoleRequestCustomRolesList = Array<number>;
@@ -1252,9 +1254,9 @@ export interface UpdateTeamMemberRoleRequest {
   /** Team ID */
   teamId: number;
   memberId: number;
-  role?: Role | (string & {}) | null;
+  role?: Role | (string & {}) | null | undefined;
   /** Replace the member's custom roles. Mutually exclusive with `role`. Must be non-empty. Sets the member's role to `custom`. */
-  customRoles?: UpdateTeamMemberRoleRequestCustomRolesList | null;
+  customRoles?: UpdateTeamMemberRoleRequestCustomRolesList | null | undefined;
 }
 export interface UpdateTeamMemberRoleResponse {}
 export type CancelTeamMemberInviteError =
@@ -3292,6 +3294,7 @@ function __c52(j: number): any {
           email: S.String,
           role: S.String,
           customRoles: S.optional(S.NullOr(__S(181, __c45, 1))),
+          directoryManaged: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "TeamMember" });
     case 2:
@@ -3300,6 +3303,7 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: __S(210, __c52, 2),
+          directorySynced: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "PlatformListTeamMembersResponse" });
   }

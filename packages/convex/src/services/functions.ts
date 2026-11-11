@@ -25,21 +25,21 @@ const TELEMETRY = {
 export interface ActionRequest {
   path: string;
   args: unknown;
-  format?: string | null;
+  format?: string | null | undefined;
 }
 export type UdfResponseCase0LogLinesList = Array<string>;
 export type UdfResponseCase0Status = "success";
 export interface UdfResponseCase0 {
   value: unknown;
-  logLines?: UdfResponseCase0LogLinesList;
+  logLines?: UdfResponseCase0LogLinesList | undefined;
   status: UdfResponseCase0Status;
 }
 export type UdfResponseCase1LogLinesList = Array<string>;
 export type UdfResponseCase1Status = "error";
 export interface UdfResponseCase1 {
   errorMessage: string;
-  errorData?: unknown | null;
-  logLines?: UdfResponseCase1LogLinesList;
+  errorData?: unknown | null | undefined;
+  logLines?: UdfResponseCase1LogLinesList | undefined;
   status: UdfResponseCase1Status;
 }
 export type UdfResponse = UdfResponseCase0 | UdfResponseCase1;
@@ -51,26 +51,26 @@ export interface Ts {
 export interface MutationRequest {
   path: string;
   args: unknown;
-  format?: string | null;
+  format?: string | null | undefined;
 }
 export type MutationResponse = UdfResponse;
 export interface QueryRequest {
   path: string;
   args: unknown;
-  format?: string | null;
+  format?: string | null | undefined;
 }
 export type QueryResponse = UdfResponse;
 export interface QueryAtTimestampRequest {
   path: string;
   args: unknown;
   ts: string;
-  format?: string | null;
+  format?: string | null | undefined;
 }
 export type QueryAtTimestampResponse = UdfResponse;
 export interface UdfPostRequest {
   path: string;
   args: unknown;
-  format?: string | null;
+  format?: string | null | undefined;
 }
 export type QueryBatchRequestQueriesList = Array<UdfPostRequest>;
 export interface QueryBatchRequest {
@@ -86,13 +86,13 @@ export interface QueryGetRequest {
   /** Function arguments as JSON string */
   args: string;
   /** Response format */
-  format?: string;
+  format?: string | undefined;
 }
 export type QueryGetResponse = UdfResponse;
 export interface RunFunctionByPathRequest {
   functionIdentifier: string;
   args: unknown;
-  format?: string | null;
+  format?: string | null | undefined;
 }
 export type RunFunctionByPathResponse = UdfResponse;
 export type ActionError = ConvexOpError;

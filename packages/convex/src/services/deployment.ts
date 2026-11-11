@@ -72,28 +72,12 @@ export class EnvironmentVariableNameInvalid
     [{ body: { "/code": "EnvironmentVariableNameInvalid" } }],
   ) {}
 
-export class InvalidLogStreamId
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<InvalidLogStreamId>()("InvalidLogStreamId", {
-      message: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ body: { "/code": "InvalidLogStreamId" } }],
-  ) {}
-
 export class InvalidUsageLimitId
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<InvalidUsageLimitId>()("InvalidUsageLimitId", {
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ body: { "/code": "InvalidId" } }],
-  ) {}
-
-export class LogStreamingNotEnabled
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<LogStreamingNotEnabled>()("LogStreamingNotEnabled", {
-      message: S.String,
-    }).pipe(C.withAuthError),
-    [{ body: { "/code": "LogStreamingNotEnabled" } }],
   ) {}
 
 export class MalformedAccessToken
@@ -165,9 +149,9 @@ export interface CreateLogStreamArgsCase0 {
   /** Optional comma-separated list of tags. These are sent to Datadog in each log event via the `ddtags` field. */
   ddTags: CreateLogStreamArgsCase0DdTagsList;
   /** Service name used as a special tag in Datadog. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** The topics this log stream is subscribed to. Omit to subscribe to all topics, including ones added in the future. */
-  topics?: CreateLogStreamArgsCase0TopicsList | null;
+  topics?: CreateLogStreamArgsCase0TopicsList | null | undefined;
   logStreamType: CreateLogStreamArgsCase0LogStreamType;
 }
 export type WebhookFormat = "json" | "jsonl";
@@ -180,7 +164,7 @@ export interface CreateLogStreamArgsCase1 {
   /** Format for the webhook payload. JSONL sends one object per line of request, JSON sends one array per request. */
   format: WebhookFormat | (string & {});
   /** The topics this log stream is subscribed to. Omit to subscribe to all topics, including ones added in the future. */
-  topics?: CreateLogStreamArgsCase1TopicsList | null;
+  topics?: CreateLogStreamArgsCase1TopicsList | null | undefined;
   logStreamType: CreateLogStreamArgsCase1LogStreamType;
 }
 export interface AxiomAttribute {
@@ -200,9 +184,9 @@ export interface CreateLogStreamArgsCase2 {
   /** Optional list of attributes. These are extra fields and values sent to Axiom in each log event. */
   attributes: CreateLogStreamArgsCase2AttributesList;
   /** Optional ingest endpoint for Axiom */
-  ingestUrl?: string | null;
+  ingestUrl?: string | null | undefined;
   /** The topics this log stream is subscribed to. Omit to subscribe to all topics, including ones added in the future. */
-  topics?: CreateLogStreamArgsCase2TopicsList | null;
+  topics?: CreateLogStreamArgsCase2TopicsList | null | undefined;
   logStreamType: CreateLogStreamArgsCase2LogStreamType;
 }
 /** Tags to add to all events routed to Sentry. */
@@ -212,7 +196,7 @@ export interface CreateLogStreamArgsCase3 {
   /** Sentry Data Source Name (DSN) to route exceptions to. */
   dsn: Redacted.Redacted<string>;
   /** Tags to add to all events routed to Sentry. */
-  tags?: CreateLogStreamArgsCase3TagsMap | null;
+  tags?: CreateLogStreamArgsCase3TagsMap | null | undefined;
   logStreamType: CreateLogStreamArgsCase3LogStreamType;
 }
 /** The topics this log stream is subscribed to. Omit to subscribe to all topics, including ones added in the future. */
@@ -222,11 +206,11 @@ export interface CreateLogStreamArgsCase4 {
   /** PostHog project token. */
   apiKey: Redacted.Redacted<string>;
   /** PostHog host URL. Defaults to https://us.i.posthog.com. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** OTLP service.name attribute. Defaults to the deployment name. */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
   /** The topics this log stream is subscribed to. Omit to subscribe to all topics, including ones added in the future. */
-  topics?: CreateLogStreamArgsCase4TopicsList | null;
+  topics?: CreateLogStreamArgsCase4TopicsList | null | undefined;
   logStreamType: CreateLogStreamArgsCase4LogStreamType;
 }
 export type CreateLogStreamArgsCase5LogStreamType = "postHogErrorTracking";
@@ -234,7 +218,7 @@ export interface CreateLogStreamArgsCase5 {
   /** PostHog project token. */
   apiKey: Redacted.Redacted<string>;
   /** PostHog host URL. Defaults to https://us.i.posthog.com. */
-  host?: string | null;
+  host?: string | null | undefined;
   logStreamType: CreateLogStreamArgsCase5LogStreamType;
 }
 export type InclusionDefault = "excluded" | "included";
@@ -250,13 +234,10 @@ export interface CreateLogStreamArgsCase6 {
   /** AWS region the bucket lives in, e.g. `us-east-1`. */
   region: string;
   /** Key prefix within the bucket. Omit to write at the bucket root. */
-  prefix?: string | null;
-  /** Access key of an IAM user that can write to the bucket. Send both key fields, or `roleArn` instead. */
-  accessKeyId?: Redacted.Redacted<string> | null;
-  secretAccessKey?: Redacted.Redacted<string> | null;
-  /** ARN of a role in the bucket's account that Convex assumes to write. Send an empty string to create the export first: the response carries the `roleExternalId` the role's trust policy needs, and the export waits until an update supplies the ARN. */
-  roleArn?: string | null;
-  selection?: Selection | null;
+  prefix?: string | null | undefined;
+  /** ARN of a role in the bucket's account that Convex assumes to write. Omit it to create the export first: the response carries the `roleExternalId` the role's trust policy needs, and the export waits until an update supplies the ARN. */
+  roleArn?: string | undefined;
+  selection?: Selection | null | undefined;
   logStreamType: CreateLogStreamArgsCase6LogStreamType;
 }
 export type CreateLogStreamArgs =
@@ -305,8 +286,8 @@ export interface CreateLogStreamResponseCase5 {
 export type CreateLogStreamResponseCase6LogStreamType = "s3Export";
 export interface CreateLogStreamResponseCase6 {
   id: string;
-  /** Set for role exports. The role's trust policy must require it as `sts:ExternalId`. */
-  roleExternalId?: string | null;
+  /** The role's trust policy must require it as `sts:ExternalId`. */
+  roleExternalId: string;
   logStreamType: CreateLogStreamResponseCase6LogStreamType;
 }
 export type CreateLogStreamResponse =
@@ -318,10 +299,6 @@ export type CreateLogStreamResponse =
   | CreateLogStreamResponseCase5
   | CreateLogStreamResponseCase6;
 export type CreateIntegrationResponse = CreateLogStreamResponse;
-export interface CreateLogStreamRequest {
-  body: CreateLogStreamArgs;
-}
-export type CreateLogStreamResponse2 = CreateLogStreamResponse;
 /** The calendar-aligned window a limit is measured over. */
 export type UsageLimitWindow = "day" | "month";
 export type UsageLimitType = "warning" | "disable";
@@ -348,11 +325,6 @@ export interface DeleteIntegrationRequest {
   id: string;
 }
 export interface DeleteIntegrationResponse {}
-export interface DeleteLogStreamRequest {
-  /** id of the log stream to delete */
-  id: string;
-}
-export interface DeleteLogStreamResponse {}
 export interface DeleteUsageLimitRequest {
   /** id of the usage limit to delete */
   id: string;
@@ -457,11 +429,11 @@ export type DeploymentInfoResponseCase0Kind = "cloud";
 export interface DeploymentInfoResponseCase0 {
   teamId: number;
   projectId: number;
-  projectName?: string | null;
-  projectSlug?: string | null;
+  projectName?: string | null | undefined;
+  projectSlug?: string | null | undefined;
   id: number;
   deploymentType: string;
-  reference?: string | null;
+  reference?: string | null | undefined;
   kind: DeploymentInfoResponseCase0Kind;
 }
 export type DeploymentInfoResponseCase1Kind = "selfHosted";
@@ -516,9 +488,9 @@ export interface LogStreamConfigCase0 {
   /** Optional comma-separated list of tags. These are sent to Datadog in each log event via the `ddtags` field. */
   ddTags: LogStreamConfigCase0DdTagsList;
   /** Service name used as a special tag in Datadog. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
-  topics?: LogStreamConfigCase0TopicsList | null;
+  topics?: LogStreamConfigCase0TopicsList | null | undefined;
   logStreamType: LogStreamConfigCase0LogStreamType;
 }
 /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
@@ -535,7 +507,7 @@ export interface LogStreamConfigCase1 {
   /** Use this secret to verify webhook signatures. */
   hmacSecret: string;
   /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
-  topics?: LogStreamConfigCase1TopicsList | null;
+  topics?: LogStreamConfigCase1TopicsList | null | undefined;
   logStreamType: LogStreamConfigCase1LogStreamType;
 }
 /** Optional list of attributes. These are extra fields and values sent to Axiom in each log event. */
@@ -552,9 +524,9 @@ export interface LogStreamConfigCase2 {
   /** Optional list of attributes. These are extra fields and values sent to Axiom in each log event. */
   attributes: LogStreamConfigCase2AttributesList;
   /** Optional ingest endpoint for Axiom */
-  ingestUrl?: string | null;
+  ingestUrl?: string | null | undefined;
   /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
-  topics?: LogStreamConfigCase2TopicsList | null;
+  topics?: LogStreamConfigCase2TopicsList | null | undefined;
   logStreamType: LogStreamConfigCase2LogStreamType;
 }
 /** Tags to add to all events routed to Sentry. */
@@ -565,7 +537,7 @@ export interface LogStreamConfigCase3 {
   /** Status of the log stream */
   status: LogStreamStatus;
   /** Tags to add to all events routed to Sentry. */
-  tags?: LogStreamConfigCase3TagsMap | null;
+  tags?: LogStreamConfigCase3TagsMap | null | undefined;
   logStreamType: LogStreamConfigCase3LogStreamType;
 }
 /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
@@ -576,11 +548,11 @@ export interface LogStreamConfigCase4 {
   /** Status of the log stream */
   status: LogStreamStatus;
   /** PostHog host URL. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** OTLP service.name attribute. */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
   /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
-  topics?: LogStreamConfigCase4TopicsList | null;
+  topics?: LogStreamConfigCase4TopicsList | null | undefined;
   logStreamType: LogStreamConfigCase4LogStreamType;
 }
 export type LogStreamConfigCase5LogStreamType = "postHogErrorTracking";
@@ -589,7 +561,7 @@ export interface LogStreamConfigCase5 {
   /** Status of the log stream */
   status: LogStreamStatus;
   /** PostHog host URL. */
-  host?: string | null;
+  host?: string | null | undefined;
   logStreamType: LogStreamConfigCase5LogStreamType;
 }
 export type LogStreamConfigCase6LogStreamType = "s3Export";
@@ -602,13 +574,11 @@ export interface LogStreamConfigCase6 {
   /** AWS region the bucket lives in. */
   region: string;
   /** Key prefix within the bucket. */
-  prefix?: string | null;
-  /** AWS access key ID used to write to the bucket. The matching secret access key is write-only and is never returned. Absent for role exports. */
-  accessKeyId?: string | null;
-  /** ARN of the role Convex assumes to write. Empty until the admin pastes it. Absent for access-key exports. */
-  roleArn?: string | null;
+  prefix?: string | null | undefined;
+  /** ARN of the role Convex assumes to write. Empty until the admin pastes it. */
+  roleArn: string;
   /** Value the role's trust policy must require as `sts:ExternalId`. */
-  roleExternalId?: string | null;
+  roleExternalId: string;
   /** The components and tables being exported. */
   selection: Selection;
   logStreamType: LogStreamConfigCase6LogStreamType;
@@ -622,22 +592,17 @@ export type LogStreamConfig =
   | LogStreamConfigCase5
   | LogStreamConfigCase6;
 export type GetIntegrationResponse = LogStreamConfig;
-export interface GetLogStreamRequest {
-  /** id of the log stream to retrieve */
-  id: string;
-}
-export type GetLogStreamResponse = LogStreamConfig;
 export interface ListActiveSyncsRequest {
   /** Maximum number of syncs to return (defaults to 50, capped at 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor from a previous response to fetch the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Page of active data syncs, most recently updated first. A sync is active if it fetched a page from `/api/v1/data/sync` within the past 3 days. */
 export type ListActiveSyncsResponseSyncsList = Array<ActiveDataSync>;
 export interface PaginationMetadata {
   hasMore: boolean;
-  nextCursor?: string | null;
+  nextCursor?: string | null | undefined;
 }
 /** Response of the active-syncs listing API (`/api/v1/data/list_active_syncs`). */
 export interface ListActiveSyncsResponse {
@@ -649,9 +614,9 @@ export interface ListAuditLogEventsRequest {
   /** Only return events on or after this time, in milliseconds since epoch. Pass the same value on every page of a paginated request. */
   from: number;
   /** Maximum number of events to return (defaults to 15, capped at 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor from a previous response to fetch the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type AuditLogActorCase0Kind = "system";
 /** The internal Convex system. */
@@ -668,11 +633,11 @@ export interface AuditLogActorCase1 {
 export type AuditLogActorCase2Kind = "token";
 /** A deploy key or access token. */
 export interface AuditLogActorCase2 {
-  memberId?: number | null;
+  memberId?: number | null | undefined;
   /** Token ID. `0` for legacy audit log rows created before token IDs were recorded. */
   tokenId: number;
   /** Client ID of the OAuth application, if the token belongs to one. */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
   kind: AuditLogActorCase2Kind;
 }
 /** The identity that performed an audit log action. */
@@ -726,9 +691,9 @@ export interface DeploymentAuditLogEventResponse {
   /** Additional JSON metadata about the audit log event. */
   metadata: unknown;
   /** IP address of the client that performed the action, if known. */
-  clientIp?: string | null;
+  clientIp?: string | null | undefined;
   /** User agent of the client that performed the action, if known. */
-  clientUserAgent?: string | null;
+  clientUserAgent?: string | null | undefined;
 }
 /** The audit log events for this page, from least to most recent. */
 export type ListDeploymentAuditLogEventsResponseItemsList = Array<DeploymentAuditLogEventResponse>;
@@ -745,9 +710,6 @@ export interface ListEnvVarsResponse {
 export interface ListIntegrationsRequest {}
 export type ListIntegrationsResponseBodyList = Array<LogStreamConfig>;
 export type ListIntegrationsResponse = ListIntegrationsResponseBodyList;
-export interface ListLogStreamsRequest {}
-export type ListLogStreamsResponseBodyList = Array<LogStreamConfig>;
-export type ListLogStreamsResponse = ListLogStreamsResponseBodyList;
 export interface ListUsageLimitsRequest {}
 export type ListUsageLimitsResponseUsageLimitsList = Array<UsageLimitConfigResponse>;
 export interface ListUsageLimitsResponse {
@@ -765,16 +727,11 @@ export interface RotateLogStreamSecretResponse {
   logStreamType: RotateLogStreamSecretResponseLogStreamType;
 }
 export type RotateIntegrationWebhookSecretResponse = RotateLogStreamSecretResponse;
-export interface RotateWebhookSecretRequest {
-  /** id of the webhook log stream for which to rotate the secret */
-  id: string;
-}
-export type RotateWebhookSecretResponse = RotateLogStreamSecretResponse;
 export interface StartDataSyncRequest {
   /** Opaque cursor returned by a previous call. Omit to start from scratch. */
-  cursor?: string | null;
+  cursor?: string | null | undefined;
   /** When set, only sync the selected subset of the data. Selects the components, tables, and columns to export. Each key is a component path (`""` for the root component), mapped to the selection for that component. The selection may change between calls of the same sync: newly selected tables are synced from scratch, possibly moving the sync into `snapshotting` state if necessary, and emit a truncate on the first page they appear so the consumer starts them from a clean slate. Deselected tables stop being synced. */
-  selection?: Selection;
+  selection?: Selection | undefined;
 }
 /** The literal string `snapshotting`, discriminating "snapshotting" status objects. */
 export type DataSyncSnapshottingType = "snapshotting";
@@ -847,12 +804,12 @@ export interface UpdateCanonicalUrlRequest {
   /** Whether to update the canonical URL for convex.cloud or convex.site */
   requestDestination: RequestDestination | (string & {});
   /** The new canonical URL. Omit this to reset the canonical URl to the default value. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface UpdateCanonicalUrlResponse {}
 export interface UpdateEnvVarRequest {
   name: string;
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type UpdateEnvironmentVariablesRequestChangesList = Array<UpdateEnvVarRequest>;
 export interface UpdateEnvironmentVariablesRequest {
@@ -865,15 +822,15 @@ export type UpdateLogStreamArgsCase0DdTagsList = Array<string>;
 export type UpdateLogStreamArgsCase0TopicsList = Array<LogTopic | (string & {})>;
 export type UpdateLogStreamArgsCase0LogStreamType = "datadog";
 export interface UpdateLogStreamArgsCase0 {
-  siteLocation?: DatadogSiteLocation | (string & {}) | null;
+  siteLocation?: DatadogSiteLocation | (string & {}) | null | undefined;
   /** Datadog API key for authentication. */
-  ddApiKey?: Redacted.Redacted<string> | null;
+  ddApiKey?: Redacted.Redacted<string> | null | undefined;
   /** Optional comma-separated list of tags. These are sent to Datadog in each log event via the `ddtags` field. */
-  ddTags?: UpdateLogStreamArgsCase0DdTagsList | null;
+  ddTags?: UpdateLogStreamArgsCase0DdTagsList | null | undefined;
   /** Service name used as a special tag in Datadog. */
-  service?: string | null;
+  service?: string | null | undefined;
   /** The topics this log stream is subscribed to. Omit to keep the current subscription, or pass `null` to subscribe to all topics (including ones added in the future). */
-  topics?: UpdateLogStreamArgsCase0TopicsList | null;
+  topics?: UpdateLogStreamArgsCase0TopicsList | null | undefined;
   logStreamType: UpdateLogStreamArgsCase0LogStreamType;
 }
 /** The topics this log stream is subscribed to. Omit to keep the current subscription, or pass `null` to subscribe to all topics (including ones added in the future). */
@@ -881,10 +838,10 @@ export type UpdateLogStreamArgsCase1TopicsList = Array<LogTopic | (string & {})>
 export type UpdateLogStreamArgsCase1LogStreamType = "webhook";
 export interface UpdateLogStreamArgsCase1 {
   /** URL to send logs to. */
-  url?: string | null;
-  format?: WebhookFormat | (string & {}) | null;
+  url?: string | null | undefined;
+  format?: WebhookFormat | (string & {}) | null | undefined;
   /** The topics this log stream is subscribed to. Omit to keep the current subscription, or pass `null` to subscribe to all topics (including ones added in the future). */
-  topics?: UpdateLogStreamArgsCase1TopicsList | null;
+  topics?: UpdateLogStreamArgsCase1TopicsList | null | undefined;
   logStreamType: UpdateLogStreamArgsCase1LogStreamType;
 }
 /** Optional list of attributes. These are extra fields and values sent to Axiom in each log event. */
@@ -894,15 +851,15 @@ export type UpdateLogStreamArgsCase2TopicsList = Array<LogTopic | (string & {})>
 export type UpdateLogStreamArgsCase2LogStreamType = "axiom";
 export interface UpdateLogStreamArgsCase2 {
   /** Axiom API key for authentication. */
-  apiKey?: Redacted.Redacted<string> | null;
+  apiKey?: Redacted.Redacted<string> | null | undefined;
   /** Name of the dataset in Axiom. This is where the logs will be sent. */
-  datasetName?: string | null;
+  datasetName?: string | null | undefined;
   /** Optional list of attributes. These are extra fields and values sent to Axiom in each log event. */
-  attributes?: UpdateLogStreamArgsCase2AttributesList | null;
+  attributes?: UpdateLogStreamArgsCase2AttributesList | null | undefined;
   /** Optional ingest endpoint for Axiom */
-  ingestUrl?: string | null;
+  ingestUrl?: string | null | undefined;
   /** The topics this log stream is subscribed to. Omit to keep the current subscription, or pass `null` to subscribe to all topics (including ones added in the future). */
-  topics?: UpdateLogStreamArgsCase2TopicsList | null;
+  topics?: UpdateLogStreamArgsCase2TopicsList | null | undefined;
   logStreamType: UpdateLogStreamArgsCase2LogStreamType;
 }
 /** Tags to add to all events routed to Sentry. */
@@ -910,9 +867,9 @@ export type UpdateLogStreamArgsCase3TagsMap = { [key: string]: string | undefine
 export type UpdateLogStreamArgsCase3LogStreamType = "sentry";
 export interface UpdateLogStreamArgsCase3 {
   /** Sentry Data Source Name (DSN) to route exceptions to. */
-  dsn?: Redacted.Redacted<string> | null;
+  dsn?: Redacted.Redacted<string> | null | undefined;
   /** Tags to add to all events routed to Sentry. */
-  tags?: UpdateLogStreamArgsCase3TagsMap | null;
+  tags?: UpdateLogStreamArgsCase3TagsMap | null | undefined;
   logStreamType: UpdateLogStreamArgsCase3LogStreamType;
 }
 /** The topics this log stream is subscribed to. Omit to keep the current subscription, or pass `null` to subscribe to all topics (including ones added in the future). */
@@ -920,30 +877,28 @@ export type UpdateLogStreamArgsCase4TopicsList = Array<LogTopic | (string & {})>
 export type UpdateLogStreamArgsCase4LogStreamType = "postHogLogs";
 export interface UpdateLogStreamArgsCase4 {
   /** PostHog project token. */
-  apiKey?: Redacted.Redacted<string> | null;
+  apiKey?: Redacted.Redacted<string> | null | undefined;
   /** PostHog host URL. */
-  host?: string | null;
+  host?: string | null | undefined;
   /** OTLP service.name attribute. */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
   /** The topics this log stream is subscribed to. Omit to keep the current subscription, or pass `null` to subscribe to all topics (including ones added in the future). */
-  topics?: UpdateLogStreamArgsCase4TopicsList | null;
+  topics?: UpdateLogStreamArgsCase4TopicsList | null | undefined;
   logStreamType: UpdateLogStreamArgsCase4LogStreamType;
 }
 export type UpdateLogStreamArgsCase5LogStreamType = "postHogErrorTracking";
 export interface UpdateLogStreamArgsCase5 {
   /** PostHog project token. */
-  apiKey?: Redacted.Redacted<string> | null;
+  apiKey?: Redacted.Redacted<string> | null | undefined;
   /** PostHog host URL. */
-  host?: string | null;
+  host?: string | null | undefined;
   logStreamType: UpdateLogStreamArgsCase5LogStreamType;
 }
 export type UpdateLogStreamArgsCase6LogStreamType = "s3Export";
 export interface UpdateLogStreamArgsCase6 {
-  /** A new secret for the export's access key ID. Access-key exports only. */
-  secretAccessKey?: Redacted.Redacted<string> | null;
   /** The role ARN from the customer's stack. Role exports only; sets or replaces the ARN, within the same AWS account. */
-  roleArn?: string | null;
-  selection?: Selection | null;
+  roleArn?: string | null | undefined;
+  selection?: Selection | null | undefined;
   logStreamType: UpdateLogStreamArgsCase6LogStreamType;
 }
 export type UpdateLogStreamArgs =
@@ -960,12 +915,6 @@ export interface UpdateIntegrationRequest {
   body: UpdateLogStreamArgs;
 }
 export interface UpdateIntegrationResponse {}
-export interface UpdateLogStreamRequest {
-  /** id of the log stream to update */
-  id: string;
-  body: UpdateLogStreamArgs;
-}
-export interface UpdateLogStreamResponse {}
 export interface UpdateUsageLimitRequest {
   /** id of the usage limit to update */
   id: string;
@@ -988,34 +937,12 @@ export const createIntegration: API.OperationMethod<
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateIntegrationRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<CreateIntegrationResponse>,
+  output: __S(1, __c0, 1) as any as S.Schema<CreateIntegrationResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateIntegration",
-}));
-
-export type CreateLogStreamError =
-  | LogStreamingNotEnabled
-  | MalformedAccessToken
-  | BadDeployKey
-  | OperationNotPermitted
-  | ConvexOpError;
-/** Create log stream Create a new log stream for the deployment. Errors if a log stream of the given type already exists. */
-export const createLogStream: API.OperationMethod<
-  CreateLogStreamRequest,
-  CreateLogStreamResponse2,
-  CreateLogStreamError,
-  ConvexOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateLogStreamRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<CreateLogStreamResponse2>,
-  errors: [LogStreamingNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
-  protocol: ConvexDeploymentProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateLogStream",
 }));
 
 export type CreateUsageLimitError =
@@ -1031,8 +958,8 @@ export const createUsageLimit: API.OperationMethod<
   CreateUsageLimitError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<CreateUsageLimitRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<UsageLimitResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<CreateUsageLimitRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UsageLimitResponse>,
   errors: [DuplicateUsageLimit, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1052,35 +979,13 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DeleteIntegrationResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<DeleteIntegrationResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
-}));
-
-export type DeleteLogStreamError =
-  | InvalidLogStreamId
-  | MalformedAccessToken
-  | BadDeployKey
-  | OperationNotPermitted
-  | ConvexOpError;
-/** Delete log stream Delete the deployment's log stream with the given id. */
-export const deleteLogStream: API.OperationMethod<
-  DeleteLogStreamRequest,
-  DeleteLogStreamResponse,
-  DeleteLogStreamError,
-  ConvexOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeleteLogStreamRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DeleteLogStreamResponse>,
-  errors: [InvalidLogStreamId, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
-  protocol: ConvexDeploymentProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteLogStream",
 }));
 
 export type DeleteUsageLimitError =
@@ -1097,8 +1002,8 @@ export const deleteUsageLimit: API.OperationMethod<
   DeleteUsageLimitError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteUsageLimitRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DeleteUsageLimitResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeleteUsageLimitRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<DeleteUsageLimitResponse>,
   errors: [
     UsageLimitNotFound,
     InvalidUsageLimitId,
@@ -1125,8 +1030,8 @@ export const getActiveSync: API.OperationMethod<
   GetActiveSyncError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetActiveSyncRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<ActiveDataSync>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetActiveSyncRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<ActiveDataSync>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1146,8 +1051,8 @@ export const getCanonicalUrls: API.OperationMethod<
   GetCanonicalUrlsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<GetCanonicalUrlsRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<GetCanonicalUrlsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetCanonicalUrlsRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<GetCanonicalUrlsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1167,8 +1072,8 @@ export const getCurrentUsage: API.OperationMethod<
   GetCurrentUsageError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetCurrentUsageRequest>,
-  output: __S(108, __c13, 4) as any as S.Schema<GetCurrentUsageResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetCurrentUsageRequest>,
+  output: __S(84, __c10, 4) as any as S.Schema<GetCurrentUsageResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1188,8 +1093,8 @@ export const getDeploymentInfo: API.OperationMethod<
   GetDeploymentInfoError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetDeploymentInfoRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<GetDeploymentInfoResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetDeploymentInfoRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<GetDeploymentInfoResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1209,35 +1114,13 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<GetIntegrationResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(97, __c12, 1) as any as S.Schema<GetIntegrationResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIntegration",
-}));
-
-export type GetLogStreamError =
-  | InvalidLogStreamId
-  | MalformedAccessToken
-  | BadDeployKey
-  | OperationNotPermitted
-  | ConvexOpError;
-/** Get log stream Get the config for a specific log stream by id. */
-export const getLogStream: API.OperationMethod<
-  GetLogStreamRequest,
-  GetLogStreamResponse,
-  GetLogStreamError,
-  ConvexOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<GetLogStreamRequest>,
-  output: __S(128, __c16, 0) as any as S.Schema<GetLogStreamResponse>,
-  errors: [InvalidLogStreamId, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
-  protocol: ConvexDeploymentProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetLogStream",
 }));
 
 export type ListActiveSyncsError =
@@ -1253,8 +1136,8 @@ export const listActiveSyncs: API.OperationMethod<
   ListActiveSyncsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<ListActiveSyncsRequest>,
-  output: __S(146, __c18, 2) as any as S.Schema<ListActiveSyncsResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<ListActiveSyncsRequest>,
+  output: __S(106, __c13, 2) as any as S.Schema<ListActiveSyncsResponse>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1277,8 +1160,8 @@ export const listAuditLogEvents: API.PaginatedOperationMethod<
   DeploymentAuditLogEventResponse
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(160, __c20, 0) as any as S.Schema<ListAuditLogEventsRequest>,
-    output: __S(163, __c20, 3) as any as S.Schema<ListDeploymentAuditLogEventsResponse>,
+    input: __S(120, __c15, 0) as any as S.Schema<ListAuditLogEventsRequest>,
+    output: __S(123, __c15, 3) as any as S.Schema<ListDeploymentAuditLogEventsResponse>,
     errors: [AuditLogsTooOld, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
     protocol: ConvexDeploymentProtocol,
     retry: Retry.Retry,
@@ -1307,8 +1190,8 @@ export const listEnvironmentVariables: API.OperationMethod<
   ListEnvironmentVariablesError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(169, __c21, 1) as any as S.Schema<ListEnvironmentVariablesRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<ListEnvVarsResponse>,
+  input: __S(129, __c16, 1) as any as S.Schema<ListEnvironmentVariablesRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<ListEnvVarsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1328,34 +1211,13 @@ export const listIntegrations: API.OperationMethod<
   ListIntegrationsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<ListIntegrationsResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<ListIntegrationsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIntegrations",
-}));
-
-export type ListLogStreamsError =
-  | MalformedAccessToken
-  | BadDeployKey
-  | OperationNotPermitted
-  | ConvexOpError;
-/** List log streams List configs for all existing log streams in a deployment. */
-export const listLogStreams: API.OperationMethod<
-  ListLogStreamsRequest,
-  ListLogStreamsResponse,
-  ListLogStreamsError,
-  ConvexOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ListLogStreamsRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<ListLogStreamsResponse>,
-  errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
-  protocol: ConvexDeploymentProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListLogStreams",
 }));
 
 export type ListUsageLimitsError =
@@ -1370,8 +1232,8 @@ export const listUsageLimits: API.OperationMethod<
   ListUsageLimitsError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<ListUsageLimitsRequest>,
-  output: __S(202, __c25, 2) as any as S.Schema<ListUsageLimitsResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<ListUsageLimitsRequest>,
+  output: __S(146, __c18, 2) as any as S.Schema<ListUsageLimitsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1391,8 +1253,8 @@ export const pauseDeployment: API.OperationMethod<
   PauseDeploymentError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<PauseDeploymentRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<PauseDeploymentResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<PauseDeploymentRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<PauseDeploymentResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1412,35 +1274,13 @@ export const rotateIntegrationWebhookSecret: API.OperationMethod<
   RotateIntegrationWebhookSecretError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<RotateIntegrationWebhookSecretRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<RotateIntegrationWebhookSecretResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<RotateIntegrationWebhookSecretRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<RotateIntegrationWebhookSecretResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RotateIntegrationWebhookSecret",
-}));
-
-export type RotateWebhookSecretError =
-  | InvalidLogStreamId
-  | MalformedAccessToken
-  | BadDeployKey
-  | OperationNotPermitted
-  | ConvexOpError;
-/** Rotate webhook log stream secret Rotate the secret for the webhook log stream. */
-export const rotateWebhookSecret: API.OperationMethod<
-  RotateWebhookSecretRequest,
-  RotateWebhookSecretResponse,
-  RotateWebhookSecretError,
-  ConvexOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<RotateWebhookSecretRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<RotateWebhookSecretResponse>,
-  errors: [InvalidLogStreamId, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
-  protocol: ConvexDeploymentProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RotateWebhookSecret",
 }));
 
 export type StartDataSyncError =
@@ -1456,8 +1296,8 @@ export const startDataSync: API.OperationMethod<
   StartDataSyncError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(241, __c30, 1) as any as S.Schema<StartDataSyncRequest>,
-  output: __S(246, __c30, 6) as any as S.Schema<DataSyncResponse>,
+  input: __S(169, __c21, 1) as any as S.Schema<StartDataSyncRequest>,
+  output: __S(174, __c21, 6) as any as S.Schema<DataSyncResponse>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1478,8 +1318,8 @@ export const unpauseDeployment: API.OperationMethod<
   UnpauseDeploymentError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<UnpauseDeploymentRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<UnpauseDeploymentResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<UnpauseDeploymentRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<UnpauseDeploymentResponse>,
   errors: [UnpauseDeploymentFailed, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1499,8 +1339,8 @@ export const updateCanonicalUrl: API.OperationMethod<
   UpdateCanonicalUrlError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<UpdateCanonicalUrlRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<UpdateCanonicalUrlResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<UpdateCanonicalUrlRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<UpdateCanonicalUrlResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
@@ -1522,8 +1362,8 @@ export const updateEnvironmentVariables: API.OperationMethod<
   UpdateEnvironmentVariablesError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(266, __c33, 2) as any as S.Schema<UpdateEnvironmentVariablesRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<UpdateEnvironmentVariablesResponse>,
+  input: __S(194, __c24, 2) as any as S.Schema<UpdateEnvironmentVariablesRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<UpdateEnvironmentVariablesResponse>,
   errors: [
     AuthConfigMissingEnvironmentVariable,
     EnvironmentVariableNameInvalid,
@@ -1549,42 +1389,13 @@ export const updateIntegration: API.OperationMethod<
   UpdateIntegrationError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<UpdateIntegrationRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<UpdateIntegrationResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<UpdateIntegrationRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<UpdateIntegrationResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateIntegration",
-}));
-
-export type UpdateLogStreamError =
-  | LogStreamingNotEnabled
-  | InvalidLogStreamId
-  | MalformedAccessToken
-  | BadDeployKey
-  | OperationNotPermitted
-  | ConvexOpError;
-/** Update log stream Update an existing log stream for the deployment. Omit a field to keep the existing value, and use `null` to unset a field. */
-export const updateLogStream: API.OperationMethod<
-  UpdateLogStreamRequest,
-  UpdateLogStreamResponse,
-  UpdateLogStreamError,
-  ConvexOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<UpdateLogStreamRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<UpdateLogStreamResponse>,
-  errors: [
-    LogStreamingNotEnabled,
-    InvalidLogStreamId,
-    MalformedAccessToken,
-    BadDeployKey,
-    OperationNotPermitted,
-  ],
-  protocol: ConvexDeploymentProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateLogStream",
 }));
 
 export type UpdateUsageLimitError =
@@ -1601,8 +1412,8 @@ export const updateUsageLimit: API.OperationMethod<
   UpdateUsageLimitError,
   ConvexOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<UpdateUsageLimitRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<UsageLimitResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<UpdateUsageLimitRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UsageLimitResponse>,
   errors: [
     UsageLimitNotFound,
     InvalidUsageLimitId,
@@ -1625,27 +1436,13 @@ function __c0(j: number): any {
           body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/integrations", code: 200 })),
       ).annotate({ identifier: "CreateIntegrationRequest" });
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateIntegrationResponse",
       });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/create_log_stream", code: 200 })),
-      ).annotate({ identifier: "CreateLogStreamRequest" });
-  }
-}
-function __c3(j: number): any {
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1659,7 +1456,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateUsageLimitRequest" });
   }
 }
-function __c4(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1674,17 +1471,17 @@ function __c4(j: number): any {
       ).annotate({ identifier: "UsageLimitConfigResponse" });
   }
 }
-function __c5(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          usageLimit: __S(32, __c4, 0),
+          usageLimit: __S(16, __c2, 0),
         }),
       ).annotate({ identifier: "UsageLimitResponse" });
   }
 }
-function __c6(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1694,23 +1491,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c7(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteIntegrationResponse" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/delete_log_stream/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteLogStreamRequest" });
-  }
-}
-function __c9(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1720,7 +1507,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteUsageLimitRequest" });
   }
 }
-function __c10(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1730,7 +1517,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetActiveSyncRequest" });
   }
 }
-function __c11(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1742,7 +1529,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ActiveDataSync" });
   }
 }
-function __c12(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1757,7 +1544,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetCanonicalUrlsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1774,21 +1561,21 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unit: S.String,
-          usage: __S(105, __c13, 1),
+          usage: __S(81, __c10, 1),
         }),
       ).annotate({ identifier: "MetricUsageResponse" });
     case 3:
-      return S.Record(S.String, __S(106, __c13, 2));
+      return S.Record(S.String, __S(82, __c10, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          metrics: __S(107, __c13, 3),
+          metrics: __S(83, __c10, 3),
           seedStatus: S.String,
         }),
       ).annotate({ identifier: "GetCurrentUsageResponse" });
   }
 }
-function __c14(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1800,7 +1587,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1808,27 +1595,13 @@ function __c15(j: number): any {
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/integrations/{id}", code: 200 })),
       ).annotate({ identifier: "GetIntegrationRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "GetIntegrationResponse",
       });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/get_log_stream/{id}", code: 200 })),
-      ).annotate({ identifier: "GetLogStreamRequest" });
-  }
-}
-function __c18(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1838,17 +1611,17 @@ function __c18(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/data/list_active_syncs", code: 200 })),
       ).annotate({ identifier: "ListActiveSyncsRequest" });
     case 1:
-      return S.Array(__S(88, __c11, 0));
+      return S.Array(__S(64, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          syncs: __S(145, __c18, 1),
-          pagination: __S(152, __c19, 0),
+          syncs: __S(105, __c13, 1),
+          pagination: __S(112, __c14, 0),
         }),
       ).annotate({ identifier: "ListActiveSyncsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1859,7 +1632,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PaginationMetadata" });
   }
 }
-function __c20(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1883,17 +1656,17 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentAuditLogEventResponse" });
     case 2:
-      return S.Array(__S(161, __c20, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(162, __c20, 2),
-          pagination: __S(152, __c19, 0),
+          items: __S(122, __c15, 2),
+          pagination: __S(112, __c14, 0),
         }),
       ).annotate({ identifier: "ListDeploymentAuditLogEventsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -1904,54 +1677,42 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          environmentVariables: __S(168, __c21, 0),
+          environmentVariables: __S(128, __c16, 0),
         }),
       ).annotate({ identifier: "ListEnvVarsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/integrations", code: 200 })),
       ).annotate({ identifier: "ListIntegrationsRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
     case 1:
-      return S.suspend(() => __S(184, __c23, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() => __S(137, __c17, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIntegrationsResponse",
       });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/list_log_streams", code: 200 })),
-      ).annotate({ identifier: "ListLogStreamsRequest" });
-  }
-}
-function __c25(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/list_usage_limits", code: 200 })),
       ).annotate({ identifier: "ListUsageLimitsRequest" });
     case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          usageLimits: __S(201, __c25, 1),
+          usageLimits: __S(145, __c18, 1),
         }),
       ).annotate({ identifier: "ListUsageLimitsResponse" });
   }
 }
-function __c26(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1959,7 +1720,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "PauseDeploymentRequest" });
   }
 }
-function __c27(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1969,34 +1730,20 @@ function __c27(j: number): any {
           T.Http({ method: "POST", uri: "/integrations/{id}/rotate_webhook_secret", code: 200 }),
         ),
       ).annotate({ identifier: "RotateIntegrationWebhookSecretRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           hmacSecret: S.String.pipe(T.SensitiveValue({})),
           logStreamType: S.String,
         }),
       ).annotate({ identifier: "RotateLogStreamSecretResponse" });
-    case 1:
-      return S.suspend(() => __S(224, __c28, 0).pipe(T.RawResponseRoot())).annotate({
+    case 2:
+      return S.suspend(() => __S(161, __c20, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RotateIntegrationWebhookSecretResponse",
       });
   }
 }
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/rotate_webhook_secret/{id}", code: 200 })),
-      ).annotate({ identifier: "RotateWebhookSecretRequest" });
-  }
-}
-function __c30(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2011,7 +1758,7 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.NullOr(S.String)),
-          selection: S.optional(__S(240, __c30, 0)),
+          selection: S.optional(__S(168, __c21, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/data/sync", code: 200 })),
       ).annotate({ identifier: "StartDataSyncRequest" });
     case 2:
@@ -2022,7 +1769,7 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "DataSyncTruncate" });
     case 3:
-      return S.Array(__S(242, __c30, 2));
+      return S.Array(__S(170, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2034,20 +1781,20 @@ function __c30(j: number): any {
         }),
       ).annotate({ identifier: "DataSyncValue" });
     case 5:
-      return S.Array(__S(244, __c30, 4));
+      return S.Array(__S(172, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           status: S.Unknown,
-          truncates: __S(243, __c30, 3),
-          values: __S(245, __c30, 5),
+          truncates: __S(171, __c21, 3),
+          values: __S(173, __c21, 5),
           syncId: S.String,
-          pagination: __S(152, __c19, 0),
+          pagination: __S(112, __c14, 0),
         }),
       ).annotate({ identifier: "DataSyncResponse" });
   }
 }
-function __c31(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2055,7 +1802,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UnpauseDeploymentRequest" });
   }
 }
-function __c32(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2066,7 +1813,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateCanonicalUrlRequest" });
   }
 }
-function __c33(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2076,16 +1823,16 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvVarRequest" });
     case 1:
-      return S.Array(__S(264, __c33, 0));
+      return S.Array(__S(192, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          changes: __S(265, __c33, 1),
+          changes: __S(193, __c24, 1),
         }).pipe(T.Http({ method: "POST", uri: "/update_environment_variables", code: 200 })),
       ).annotate({ identifier: "UpdateEnvironmentVariablesRequest" });
   }
 }
-function __c34(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2096,18 +1843,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateIntegrationRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/update_log_stream/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateLogStreamRequest" });
-  }
-}
-function __c36(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
