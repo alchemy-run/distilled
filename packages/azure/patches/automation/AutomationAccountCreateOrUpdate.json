@@ -1,0 +1,25 @@
+{
+  "description": "Recovering a soft-deleted Automation account is a PUT with `properties.createMode: \"Recover\"` and the deleted account's `properties.automationAccountId` (portal-only feature, absent from the spec). Free-trial subscriptions allow one account per region and count soft-deleted accounts for 30 days, so recreating an account requires recovering it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#AutomationAccountCreateOrUpdateProperties/members/createMode",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Set to `Recover` to restore a soft-deleted account with the same name."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.automation#AutomationAccountCreateOrUpdateProperties/members/automationAccountId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Automation account ID (GUID) of the soft-deleted account to recover; required with `createMode: Recover`."
+        }
+      }
+    }
+  ]
+}

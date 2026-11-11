@@ -1,0 +1,56 @@
+{
+  "description": "ConfigurationGroupValue properties are polymorphic on configurationType (Open/Secret) and the schema reference on idType (Open/Secret); the converted model keeps only discriminators, so the payload (`configurationValue`, `secretConfigurationValue`) and reference `id` are stripped. Add them.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatInput/members/configurationValue",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Configuration values as a JSON string (`configurationType: Open`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatInput/members/secretConfigurationValue",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Secret configuration values as a JSON string (`configurationType: Secret`).",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormat/members/configurationValue",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Configuration values as a JSON string (`configurationType: Open`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatInputConfigurationGroupSchemaResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.hybridnetwork#ConfigurationGroupValuePropertiesFormatConfigurationGroupSchemaResourceReference/members/id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource id of the referenced resource."
+        }
+      }
+    }
+  ]
+}

@@ -72,20 +72,8 @@ export const MoonIcon = (props: { class?: string }) => (
 
 export const SearchIcon = (props: { class?: string }) => (
   <svg class={props.class} viewBox="0 0 16 16" aria-hidden="true">
-    <circle
-      cx="7"
-      cy="7"
-      r="4.5"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-    />
-    <path
-      d="m10.5 10.5 3 3"
-      stroke="currentColor"
-      stroke-width="1.5"
-      stroke-linecap="round"
-    />
+    <circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5" />
+    <path d="m10.5 10.5 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
   </svg>
 );
 
@@ -104,18 +92,8 @@ export const CaretIcon = (props: { class?: string }) => (
 
 export const CopyIcon = (props: { class?: string }) => (
   <svg class={props.class} viewBox="0 0 16 16" aria-hidden="true">
-    <path
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.4"
-      d="M5.5 3.5h7v9h-7z"
-    />
-    <path
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.4"
-      d="M3.5 10.5v-8h6"
-    />
+    <path fill="none" stroke="currentColor" stroke-width="1.4" d="M5.5 3.5h7v9h-7z" />
+    <path fill="none" stroke="currentColor" stroke-width="1.4" d="M3.5 10.5v-8h6" />
   </svg>
 );
 

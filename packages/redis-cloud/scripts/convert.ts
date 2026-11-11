@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Redis Cloud OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -7,14 +7,14 @@
  * Output: .generated-specs/redisCloud.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Redis Cloud's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Redis Cloud's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "redisCloud",
@@ -40,5 +40,20 @@ await runOpenApiConvert({
     namespace: "com.rediscloud.api",
     serviceName: "RedisCloud",
     skipDeprecated: true,
+    // Spring numbers these `proxyDataIntegrationWorkspace_<n>` in an order
+    // that changes between spec releases; pin each method to its name so a
+    // spec update cannot silently move an export onto another HTTP method.
+    operationNames: {
+      "GET /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace5",
+      "DELETE /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace6",
+      "POST /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace7",
+      "PUT /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace8",
+      "PATCH /v1/subscriptions/{subscriptionId}/data-integration-workspace":
+        "proxyDataIntegrationWorkspace9",
+    },
   },
 });

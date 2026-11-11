@@ -1,0 +1,33 @@
+{
+  "description": "Type creating a capacity commitment with a plan the edition does not sell (HTTP 400). It surfaced as the generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#CommitmentPlanNotSupported",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The commitment plan is not sold for the requested edition (e.g. FLEX_FLAT_RATE is end of sale for editions) (HTTP 400). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "[Ee]nd of sale|Editions commitment|Plan must be"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#CreateProjectsLocationsCapacityCommitments/errors/-",
+      "value": {
+        "target": "com.gcp.bigqueryreservation_v1#CommitmentPlanNotSupported"
+      }
+    }
+  ]
+}

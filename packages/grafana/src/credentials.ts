@@ -1,5 +1,6 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Grafana credentials — hand-written.
+ * Grafana credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -17,7 +18,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Grafana OSS default listen address (the instance origin, not `/api`). */
 export const DEFAULT_API_BASE_URL = "http://localhost:3000";
@@ -28,21 +28,21 @@ export interface Config {
   readonly orgId?: number | string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GrafanaCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "GrafanaCredentials",
+  ) {}
 
-/** Layer from a plain service-account token + optional instance URL / org. */
+/** Layer from a redacted service-account token + optional instance URL / org. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly orgId?: number | string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.apiKey),
+      token: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       orgId: config.orgId,
     }),
@@ -52,9 +52,9 @@ export const fromApiKey = (config: {
  * Reads GRAFANA_TOKEN (required), GRAFANA_URL (optional instance origin),
  * and GRAFANA_ORG_ID (optional).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const token = process.env.GRAFANA_TOKEN;
 
     if (!token) {
@@ -68,5 +68,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
       apiBaseUrl: process.env.GRAFANA_URL ?? DEFAULT_API_BASE_URL,
       orgId: process.env.GRAFANA_ORG_ID,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

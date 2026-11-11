@@ -1,0 +1,25 @@
+{
+  "description": "SecurityPolicyPropertiesParameters is polymorphic on `type`; the converted model keeps only `type`, so S.Struct strips the WebApplicationFirewall payload (wafPolicy, associations) on encode and decode. Add the subtype members to the base shape.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cdn#SecurityPolicyPropertiesParameters/members/wafPolicy",
+      "value": {
+        "target": "com.azure.cdn#ResourceReference",
+        "traits": {
+          "smithy.api#documentation": "WebApplicationFirewall: the Front Door WAF policy (Microsoft.Network/frontDoorWebApplicationFirewallPolicies)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cdn#SecurityPolicyPropertiesParameters/members/associations",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "WebApplicationFirewall: domains (`{ domains: [{ id }], patternsToMatch: string[] }[]`) the policy applies to."
+        }
+      }
+    }
+  ]
+}

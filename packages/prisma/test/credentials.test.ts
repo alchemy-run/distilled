@@ -1,9 +1,9 @@
-import { expect, test } from "bun:test";
 import * as Prisma from "@distilled.cloud/prisma";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import { expect, test } from "vitest";
 
 const credentials = (env: Record<string, string>) =>
   Effect.gen(function* () {
@@ -13,10 +13,7 @@ const credentials = (env: Record<string, string>) =>
     Effect.provide(
       Layer.mergeAll(
         Prisma.CredentialsFromEnv,
-        Layer.succeed(
-          ConfigProvider.ConfigProvider,
-          ConfigProvider.fromUnknown(env),
-        ),
+        Layer.succeed(ConfigProvider.ConfigProvider, ConfigProvider.fromUnknown(env)),
       ),
     ),
   );
@@ -26,7 +23,7 @@ test("reads PRISMA_API_TOKEN through the renamed package", () =>
     credentials({ PRISMA_API_TOKEN: "primary-token" }).pipe(
       Effect.tap((config) =>
         Effect.sync(() => {
-          expect(Redacted.value(config.apiToken)).toBe("primary-token");
+          expect(Redacted.value(config.apiToken!)).toBe("primary-token");
           expect(config.apiBaseUrl).toBe("https://api.prisma.io");
         }),
       ),
@@ -38,7 +35,7 @@ test("preserves the legacy token environment variable", () =>
     credentials({ PRISMA_POSTGRES_API_TOKEN: "legacy-token" }).pipe(
       Effect.tap((config) =>
         Effect.sync(() => {
-          expect(Redacted.value(config.apiToken)).toBe("legacy-token");
+          expect(Redacted.value(config.apiToken!)).toBe("legacy-token");
         }),
       ),
     ),
@@ -52,7 +49,7 @@ test("prefers the Prisma token when both names are configured", () =>
     }).pipe(
       Effect.tap((config) =>
         Effect.sync(() => {
-          expect(Redacted.value(config.apiToken)).toBe("primary-token");
+          expect(Redacted.value(config.apiToken!)).toBe("primary-token");
         }),
       ),
     ),

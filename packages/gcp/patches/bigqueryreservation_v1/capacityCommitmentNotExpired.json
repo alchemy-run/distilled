@@ -1,0 +1,33 @@
+{
+  "description": "Type deleting a capacity commitment before its commitment end time (HTTP 400 FAILED_PRECONDITION). It surfaced as the generic BadRequest, so callers matched its message to wait out the committed period.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#CapacityCommitmentNotExpired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The capacity commitment is still inside its committed period and cannot be deleted yet (HTTP 400 FAILED_PRECONDITION). Retry after `commitmentEndTime`.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "[Cc]ommitment_end_time|cannot be deleted|committed period|[Pp]recondition|still active"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigqueryreservation_v1#DeleteProjectsLocationsCapacityCommitments/errors/-",
+      "value": {
+        "target": "com.gcp.bigqueryreservation_v1#CapacityCommitmentNotExpired"
+      }
+    }
+  ]
+}

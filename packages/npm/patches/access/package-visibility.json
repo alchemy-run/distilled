@@ -1,0 +1,22 @@
+{
+  "description": "getPackageVisibility returns `{ \"public\": boolean }`, not the `{ [package]: \"public\" | \"private\" }` map the spec declares. Live: `GET https://registry.npmjs.org/-/package/%40npmcli%2Farborist/visibility` and `GET https://registry.npmjs.org/-/package/react/visibility` both answered `200 {\"public\":true}` (2026-11-09).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.npmjs.registry.access#GetPackageVisibilityResponse/members",
+      "value": {
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Whether the package is public."
+          }
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.npmjs.registry.access#GetPackageVisibilityResponseBodyMap"
+    }
+  ]
+}

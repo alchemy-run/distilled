@@ -1,0 +1,33 @@
+{
+  "description": "Type the rejection of user-creds operations on a Standard-edition database (HTTP 400 FAILED_PRECONDITION). It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#EnterpriseDatabaseRequired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "User creds need an Enterprise-edition database (HTTP 400 FAILED_PRECONDITION: 'This operation requires an Enterprise database.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "requires an Enterprise database"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#CreateProjectsDatabasesUserCreds/errors/-",
+      "value": {
+        "target": "com.gcp.firestore_v1#EnterpriseDatabaseRequired"
+      }
+    }
+  ]
+}

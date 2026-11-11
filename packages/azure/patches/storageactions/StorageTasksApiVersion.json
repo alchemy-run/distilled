@@ -1,0 +1,115 @@
+{
+  "description": "ARM does not serve api-version 2026-03-01 for Microsoft.StorageActions/storageTasks yet (only 2023-01-01). Pin every storageactions operation to 2023-01-01; the request/response shapes are unchanged.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksCreate/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksCreate/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksGet/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksDelete/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksListByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksListByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksListBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksListBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTaskAssignmentList/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTaskAssignmentList/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksReportList/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksReportList/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksPreviewActions/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksPreviewActions/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksStopAllAssignments/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#StorageTasksStopAllAssignments/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#OperationsList/traits/smithy.api#http/apiVersion",
+      "value": "2023-01-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storageactions#OperationsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2023-01-01"
+    }
+  ]
+}

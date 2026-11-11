@@ -1,0 +1,38 @@
+{
+  "description": "Type the error deleteCertificatePack returns for a pack Cloudflare's certificate service will not delete — observed on a `status: \"deleted\"` tombstone (e.g. the advanced pack Cloudflare auto-orders for a Worker custom domain, after the domain is detached). It surfaces as a code-less HTTP 400 `Bad response certificate service` until Cloudflare purges the tombstone (~1–2 minutes).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ssl#CertificatePackNotDeletable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Bad response certificate service"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ssl#DeleteCertificatePack/errors/-",
+      "value": {
+        "target": "com.cloudflare.ssl#CertificatePackNotDeletable"
+      }
+    }
+  ]
+}

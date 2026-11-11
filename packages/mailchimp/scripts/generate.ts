@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Mailchimp
  * Effect SDK.
@@ -12,15 +13,14 @@
  * next-page token, so the converter's `detectPagination` never fires and
  * {@link stampPagination} marks the operations directly.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import {
+  ERROR_MATCHERS_TRAIT,
+  NULLABLE_TRAIT,
+  RAW_RESPONSE_TRAIT,
+} from "@distilled.cloud/dev/codegen/openapi";
 
-const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
-const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
-const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const PAGINATED_TRAIT = "smithy.api#paginated";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
  * Stamp `smithy.api#paginated` on every operation that takes both `count` and
@@ -41,9 +41,7 @@ const stampPagination = (model: any): string => {
     const input = shape.input?.target ? shapes[shape.input.target] : undefined;
     if (!input?.members?.count || !input?.members?.offset) continue;
 
-    const output = shape.output?.target
-      ? shapes[shape.output.target]
-      : undefined;
+    const output = shape.output?.target ? shapes[shape.output.target] : undefined;
     const members: Record<string, any> = output?.members ?? {};
     const lists = Object.entries(members).filter(
       ([name, m]) => name !== "_links" && shapes[m.target]?.type === "list",
@@ -93,6 +91,9 @@ const mailchimpSpec: SdkSpec = {
   paginationProfiles: {
     offset: {
       strategy: "paginateOffset",
+      // `outputToken` (`total_items`) is absent on a few feeds, where a short
+      // page ends the traversal.
+      requires: () => ["inputToken", "items"],
       itemsFallback: "items",
     },
   },
@@ -109,9 +110,9 @@ const mailchimpSpec: SdkSpec = {
 };
 
 runGeneratorCli({
-  description:
-    "Generate the Mailchimp Marketing Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  description: "Generate the Mailchimp Marketing Effect SDK from the Smithy model",
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts.
   patchesDir: false,
   transformModel: stampPagination,

@@ -41,37 +41,27 @@
     {
       "op": "add",
       "path": "/shapes/com.cloudflare.r2#CreateSuperSlurperJob/errors",
-      "value": [
-        { "target": "com.cloudflare.r2#SuperSlurperPreconnectivityFailed" }
-      ]
+      "value": [{ "target": "com.cloudflare.r2#SuperSlurperPreconnectivityFailed" }]
     },
     {
       "op": "add",
       "path": "/shapes/com.cloudflare.r2#GetSuperSlurperJob/errors",
-      "value": [
-        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
-      ]
+      "value": [{ "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }]
     },
     {
       "op": "add",
       "path": "/shapes/com.cloudflare.r2#AbortSuperSlurperJob/errors",
-      "value": [
-        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
-      ]
+      "value": [{ "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }]
     },
     {
       "op": "add",
       "path": "/shapes/com.cloudflare.r2#PauseSuperSlurperJob/errors",
-      "value": [
-        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
-      ]
+      "value": [{ "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }]
     },
     {
       "op": "add",
       "path": "/shapes/com.cloudflare.r2#ResumeSuperSlurperJob/errors",
-      "value": [
-        { "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }
-      ]
+      "value": [{ "target": "com.cloudflare.r2#SuperSlurperJobOperationFailed" }]
     }
   ]
 }

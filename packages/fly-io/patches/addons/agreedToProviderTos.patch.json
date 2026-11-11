@@ -64,11 +64,6 @@
           "smithy.api#documentation": "Whether the organization has agreed to an add-on provider's ToS."
         }
       }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.flyio.addons#FlyAddons/operations/-",
-      "value": { "target": "com.flyio.addons#AgreedToProviderTos" }
     }
   ]
 }

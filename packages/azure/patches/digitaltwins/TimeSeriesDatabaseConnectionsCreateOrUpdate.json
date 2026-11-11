@@ -1,0 +1,247 @@
+{
+  "description": "TimeSeriesDatabaseConnectionProperties is polymorphic on connectionType (AzureDataExplorer); the converted model keeps only the base members, so S.Struct strips every ADX / EventHub field on encode and decode. Add the flattened AzureDataExplorerConnectionProperties members to the input and output property shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/adxResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The resource ID of the Azure Data Explorer cluster.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/adxEndpointUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/adxDatabaseName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer database.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/adxTableName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/adxTwinLifecycleEventsTableName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/adxRelationshipLifecycleEventsTableName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/eventHubEndpointUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/eventHubEntityPath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The EventHub name in the EventHub namespace for identity-based authentication.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/eventHubNamespaceResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The resource ID of the EventHub namespace.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/eventHubConsumerGroup",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionPropertiesInput/members/recordPropertyAndItemRemovals",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Whether to record property and item removals ('true' / 'false'). Defaults to 'false'.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/adxResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The resource ID of the Azure Data Explorer cluster.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/adxEndpointUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/adxDatabaseName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer database.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/adxTableName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/adxTwinLifecycleEventsTableName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/adxRelationshipLifecycleEventsTableName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/eventHubEndpointUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/eventHubEntityPath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The EventHub name in the EventHub namespace for identity-based authentication.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/eventHubNamespaceResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The resource ID of the EventHub namespace.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/eventHubConsumerGroup",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#TimeSeriesDatabaseConnectionProperties/members/recordPropertyAndItemRemovals",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Whether to record property and item removals ('true' / 'false'). Defaults to 'false'.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    }
+  ]
+}

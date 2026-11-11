@@ -9,16 +9,14 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2")
-    format("woff2");
+  src: url("@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2") format("woff2");
 }
 @font-face {
   font-family: "Fraunces";
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
-  src: url("@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2")
-    format("woff2");
+  src: url("@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2") format("woff2");
 }
 
 /* ───────────── Theme tokens ─────────────
@@ -141,14 +139,11 @@
   --color-discord: #5865f2;
   --color-npm: #cb3837;
 
-  --font-serif:
-    "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto,
-    "Helvetica Neue", sans-serif;
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Inter, Roboto, "Helvetica Neue", sans-serif;
   --font-mono:
-    ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas,
-    monospace;
+    ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
 
   --radius-card: 10px;
   --spacing-gutter: clamp(1.25rem, 4vw, 2.5rem);
@@ -356,12 +351,7 @@
     right: 0;
     top: -0.6rem;
     height: 1.2rem;
-    background: linear-gradient(
-      transparent,
-      var(--bg) 40%,
-      var(--bg) 60%,
-      transparent
-    );
+    background: linear-gradient(transparent, var(--bg) 40%, var(--bg) 60%, transparent);
     pointer-events: none;
     z-index: 0;
   }
@@ -788,15 +778,11 @@
   }
   .loop-drop {
     fill: var(--accent);
-    filter: drop-shadow(
-      0 0 6px color-mix(in oklab, var(--accent) 70%, transparent)
-    );
+    filter: drop-shadow(0 0 6px color-mix(in oklab, var(--accent) 70%, transparent));
   }
   .loop-drop--b {
     fill: var(--rose);
-    filter: drop-shadow(
-      0 0 6px color-mix(in oklab, var(--rose) 70%, transparent)
-    );
+    filter: drop-shadow(0 0 6px color-mix(in oklab, var(--rose) 70%, transparent));
   }
 
   @media (prefers-reduced-motion: no-preference) {

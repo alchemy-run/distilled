@@ -1,0 +1,194 @@
+{
+  "description": "Type the API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Cloud TPU API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell a disabled service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Cloud TPU API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#CreateProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#CreateProjectsLocationsQueuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#DeleteProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#DeleteProjectsLocationsQueuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GenerateServiceIdentityProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetGuestAttributesProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocationsAcceleratorTypes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocationsQueuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#GetProjectsLocationsRuntimeVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsAcceleratorTypes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsQueuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ListProjectsLocationsRuntimeVersions/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#PatchProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#ResetProjectsLocationsQueuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#StartProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.tpu_v2#StopProjectsLocationsNodes/errors/-",
+      "value": {
+        "target": "com.gcp.tpu_v2#ServiceDisabled"
+      }
+    }
+  ]
+}

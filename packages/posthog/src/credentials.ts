@@ -1,5 +1,6 @@
+import * as EffectConfig from "@distilled.cloud/core/config";
 /**
- * PostHog credentials — hand-written.
+ * PostHog credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's posthog credentials module:
  * the `Credentials` service holds an *effect* that resolves the current
@@ -7,10 +8,10 @@
  * and formats the `Authorization: Bearer <key>` header.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 
 /**
  * Default PostHog API host (US Cloud).
@@ -23,39 +24,38 @@ export const DEFAULT_API_BASE_URL = "https://us.posthog.com";
 
 export interface Config {
   /** PostHog Personal API key (sent as `Authorization: Bearer <key>`). */
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   /** Base host URL, e.g. `https://us.posthog.com`. */
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PosthogCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "PosthogCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.String("POSTHOG_API_KEY"),
-  apiBaseUrl: EffectConfig.String("POSTHOG_HOST").pipe(
-    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  apiKey: /*@__PURE__*/ EffectConfig.Redacted("POSTHOG_API_KEY"),
+  apiBaseUrl: /*@__PURE__*/ EffectConfig.String("POSTHOG_HOST").pipe(
+    /*@__PURE__*/ EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message: "POSTHOG_API_KEY environment variable is required",
         }),
     ),
-    Effect.orDie,
   ),
 );
 
-/** Convenience layer from a plain key + optional host override. */
+/** Convenience layer from a redacted key + optional host override. */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(

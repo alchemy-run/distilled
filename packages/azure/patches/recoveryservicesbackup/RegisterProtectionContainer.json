@@ -1,0 +1,185 @@
+{
+  "description": "ProtectionContainer is polymorphic on containerType (AzureStorageContainer, AzureVMAppContainerProtectionContainer, ...); the converted model keeps only base members, so S.Struct strips sourceResourceId and acquireStorageAccountLock and a storage account cannot be registered. Add the subtype members to the input and output shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/sourceResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/acquireStorageAccountLock",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/protectedItemCount",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Number of items backed up in this container (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/storageAccountVersion",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Storage account version (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/resourceGroup",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Resource group of the registered resource (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/workloadType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Workload type for the container (VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/operationType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Operation type, e.g. `Register` or `Reregister` (VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/extendedInfo",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Additional container information (VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainerInput/members/lastUpdatedTime",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Time the container was last refreshed (VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/sourceResourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/acquireStorageAccountLock",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/protectedItemCount",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Number of items backed up in this container (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/storageAccountVersion",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Storage account version (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/resourceGroup",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Resource group of the registered resource (StorageContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/workloadType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Workload type for the container (VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/operationType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Operation type, e.g. `Register` or `Reregister` (VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/extendedInfo",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Additional container information (VMAppContainer)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionContainer/members/lastUpdatedTime",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Time the container was last refreshed (VMAppContainer)."
+        }
+      }
+    }
+  ]
+}

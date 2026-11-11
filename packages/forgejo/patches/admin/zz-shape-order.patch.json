@@ -1,0 +1,23 @@
+{
+  "description": "Keeps the shape order the converter wrote while these fixes were OpenAPI spec patches: the spec patches changed which error class an operation used first, and so the order the converter created the shapes in.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.forgejo.admin#AdminCreateOrg",
+      "path": "/shapes/com.forgejo.admin#AdminCreateOrg",
+      "before": "com.forgejo.admin#BadRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.forgejo.admin#AdminCreateOrgRequest",
+      "path": "/shapes/com.forgejo.admin#AdminCreateOrgRequest",
+      "before": "com.forgejo.admin#AdminCreateOrg"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.forgejo.admin#AdminCreateOrgRequestVisibility",
+      "path": "/shapes/com.forgejo.admin#AdminCreateOrgRequestVisibility",
+      "before": "com.forgejo.admin#AdminCreateOrgRequest"
+    }
+  ]
+}

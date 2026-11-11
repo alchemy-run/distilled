@@ -1,22 +1,27 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Lex Runtime Service",
   serviceShapeName: "AWSDeepSenseRunTimeService",
 });
-const auth = T.AwsAuthSigv4({ name: "lex" });
-const ver = T.ServiceVersion("2016-11-28");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "lex" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2016-11-28");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -28,14 +33,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -68,9 +69,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime.lex-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -78,9 +77,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://runtime.lex.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if ("aws" === _.getAttr(PartitionResult, "name")) {
           return e(`https://runtime.lex.${Region}.amazonaws.com`);
@@ -88,83 +85,97 @@ const rules = T.EndpointResolver((p, _) => {
         if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
           return e(`https://runtime.lex.${Region}.amazonaws.com`);
         }
-        return e(
-          `https://runtime.lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://runtime.lex.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://runtime.lex.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LexRuntimeService",
+  service: "LexRuntimeService",
+  propagate: TxXray.propagate,
+} as const;
 
 export class BadGatewayException
   extends /*@__PURE__*/ S.TaggedError<BadGatewayException>()(
     "BadGatewayException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(502),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(502),
   ).pipe(C.withServerError) {}
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class DependencyFailedException
   extends /*@__PURE__*/ S.TaggedError<DependencyFailedException>()(
     "DependencyFailedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(424),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(424),
   ) {}
 export class InternalFailureException
   extends /*@__PURE__*/ S.TaggedError<InternalFailureException>()(
     "InternalFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
     {
-      retryAfterSeconds: S.optional(S.String).pipe(T.HttpHeader("Retry-After")),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.String).pipe(
+        /*@__PURE__*/ T.HttpHeader("Retry-After"),
+      ),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(429),
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class LoopDetectedException
   extends /*@__PURE__*/ S.TaggedError<LoopDetectedException>()(
     "LoopDetectedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(508),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(508),
   ).pipe(C.withServerError) {}
 export class NotAcceptableException
   extends /*@__PURE__*/ S.TaggedError<NotAcceptableException>()(
     "NotAcceptableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(406),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(406),
   ).pipe(C.withBadRequestError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class RequestTimeoutException
   extends /*@__PURE__*/ S.TaggedError<RequestTimeoutException>()(
     "RequestTimeoutException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(408),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(408),
   ).pipe(C.withTimeoutError) {}
 export class UnsupportedMediaTypeException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedMediaTypeException>()(
     "UnsupportedMediaTypeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(415),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(415),
   ).pipe(C.withBadRequestError) {}
 export type BotName = string;
 export type BotAlias = string;
@@ -174,87 +185,22 @@ export interface DeleteSessionRequest {
   botAlias: string;
   userId: string;
 }
-export const DeleteSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-    userId: S.String.pipe(T.HttpLabel("userId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSessionRequest",
-}) as any as S.Schema<DeleteSessionRequest>;
 export interface DeleteSessionResponse {
-  botName?: string;
-  botAlias?: string;
-  userId?: string;
-  sessionId?: string;
+  botName?: string | undefined;
+  botAlias?: string | undefined;
+  userId?: string | undefined;
+  sessionId?: string | undefined;
 }
-export const DeleteSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.optional(S.String),
-    botAlias: S.optional(S.String),
-    userId: S.optional(S.String),
-    sessionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteSessionResponse",
-}) as any as S.Schema<DeleteSessionResponse>;
 export type IntentSummaryCheckpointLabel = string;
 export interface GetSessionRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  checkpointLabelFilter?: string;
+  checkpointLabelFilter?: string | undefined;
 }
-export const GetSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-    userId: S.String.pipe(T.HttpLabel("userId")),
-    checkpointLabelFilter: S.optional(S.String).pipe(
-      T.HttpQuery("checkpointLabelFilter"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetSessionRequest",
-}) as any as S.Schema<GetSessionRequest>;
 export type IntentName = string;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
-export type ConfirmationStatus =
-  | "None"
-  | "Confirmed"
-  | "Denied"
-  | (string & {});
-export const ConfirmationStatus = S.String;
-
+export type ConfirmationStatus = "None" | "Confirmed" | "Denied" | (string & {});
 export type DialogActionType =
   | "ElicitIntent"
   | "ConfirmIntent"
@@ -262,37 +208,17 @@ export type DialogActionType =
   | "Close"
   | "Delegate"
   | (string & {});
-export const DialogActionType = S.String;
-
-export type FulfillmentState =
-  | "Fulfilled"
-  | "Failed"
-  | "ReadyForFulfillment"
-  | (string & {});
-export const FulfillmentState = S.String;
-
+export type FulfillmentState = "Fulfilled" | "Failed" | "ReadyForFulfillment" | (string & {});
 export interface IntentSummary {
-  intentName?: string;
-  checkpointLabel?: string;
-  slots?: { [key: string]: string | undefined };
-  confirmationStatus?: ConfirmationStatus;
+  intentName?: string | undefined;
+  checkpointLabel?: string | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
+  confirmationStatus?: ConfirmationStatus | undefined;
   dialogActionType: DialogActionType;
-  fulfillmentState?: FulfillmentState;
-  slotToElicit?: string;
+  fulfillmentState?: FulfillmentState | undefined;
+  slotToElicit?: string | undefined;
 }
-export const IntentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intentName: S.optional(S.String),
-    checkpointLabel: S.optional(S.String),
-    slots: S.optional(StringMap),
-    confirmationStatus: S.optional(ConfirmationStatus),
-    dialogActionType: DialogActionType,
-    fulfillmentState: S.optional(FulfillmentState),
-    slotToElicit: S.optional(S.String),
-  }),
-).annotate({ identifier: "IntentSummary" }) as any as S.Schema<IntentSummary>;
 export type IntentSummaryList = IntentSummary[];
-export const IntentSummaryList = /*@__PURE__*/ S.Array(IntentSummary);
 export type Text = string | redacted.Redacted<string>;
 export type MessageFormatType =
   | "PlainText"
@@ -300,135 +226,54 @@ export type MessageFormatType =
   | "SSML"
   | "Composite"
   | (string & {});
-export const MessageFormatType = S.String;
-
 export interface DialogAction {
   type: DialogActionType;
-  intentName?: string;
-  slots?: { [key: string]: string | undefined };
-  slotToElicit?: string;
-  fulfillmentState?: FulfillmentState;
-  message?: string | redacted.Redacted<string>;
-  messageFormat?: MessageFormatType;
+  intentName?: string | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
+  slotToElicit?: string | undefined;
+  fulfillmentState?: FulfillmentState | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  messageFormat?: MessageFormatType | undefined;
 }
-export const DialogAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: DialogActionType,
-    intentName: S.optional(S.String),
-    slots: S.optional(StringMap),
-    slotToElicit: S.optional(S.String),
-    fulfillmentState: S.optional(FulfillmentState),
-    message: S.optional(SensitiveString),
-    messageFormat: S.optional(MessageFormatType),
-  }),
-).annotate({ identifier: "DialogAction" }) as any as S.Schema<DialogAction>;
 export type ActiveContextName = string;
 export type ActiveContextTimeToLiveInSeconds = number;
 export type ActiveContextTurnsToLive = number;
 export interface ActiveContextTimeToLive {
-  timeToLiveInSeconds?: number;
-  turnsToLive?: number;
+  timeToLiveInSeconds?: number | undefined;
+  turnsToLive?: number | undefined;
 }
-export const ActiveContextTimeToLive = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    timeToLiveInSeconds: S.optional(S.Number),
-    turnsToLive: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ActiveContextTimeToLive",
-}) as any as S.Schema<ActiveContextTimeToLive>;
 export type ParameterName = string;
 export type ActiveContextParametersMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
 };
-export const ActiveContextParametersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  SensitiveString.pipe(S.optional),
-);
 export interface ActiveContext {
   name: string;
   timeToLive: ActiveContextTimeToLive;
   parameters: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
-export const ActiveContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    timeToLive: ActiveContextTimeToLive,
-    parameters: ActiveContextParametersMap,
-  }),
-).annotate({ identifier: "ActiveContext" }) as any as S.Schema<ActiveContext>;
 export type ActiveContextsList = ActiveContext[];
-export const ActiveContextsList = /*@__PURE__*/ S.Array(ActiveContext);
 export interface GetSessionResponse {
-  recentIntentSummaryView?: IntentSummary[];
-  sessionAttributes?: { [key: string]: string | undefined };
-  sessionId?: string;
-  dialogAction?: DialogAction;
-  activeContexts?: ActiveContext[];
+  recentIntentSummaryView?: IntentSummary[] | undefined;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  sessionId?: string | undefined;
+  dialogAction?: DialogAction | undefined;
+  activeContexts?: ActiveContext[] | undefined;
 }
-export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recentIntentSummaryView: S.optional(IntentSummaryList),
-    sessionAttributes: S.optional(StringMap),
-    sessionId: S.optional(S.String),
-    dialogAction: S.optional(DialogAction),
-    activeContexts: S.optional(ActiveContextsList),
-  }),
-).annotate({
-  identifier: "GetSessionResponse",
-}) as any as S.Schema<GetSessionResponse>;
-export type SynthesizedJsonAttributesString =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonAttributesString = string | redacted.Redacted<string>;
 export type HttpContentType = string;
 export type Accept = string;
-export type SynthesizedJsonActiveContextsString =
-  | string
-  | redacted.Redacted<string>;
+export type SynthesizedJsonActiveContextsString = string | redacted.Redacted<string>;
 export interface PostContentRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: string | redacted.Redacted<string>;
-  requestAttributes?: string | redacted.Redacted<string>;
+  sessionAttributes?: string | redacted.Redacted<string> | undefined;
+  requestAttributes?: string | redacted.Redacted<string> | undefined;
   contentType: string;
-  accept?: string;
+  accept?: string | undefined;
   inputStream: T.StreamingInputBody;
-  activeContexts?: string | redacted.Redacted<string>;
+  activeContexts?: string | redacted.Redacted<string> | undefined;
 }
-export const PostContentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-    userId: S.String.pipe(T.HttpLabel("userId")),
-    sessionAttributes: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-session-attributes"),
-    ),
-    requestAttributes: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-request-attributes"),
-    ),
-    contentType: S.String.pipe(T.HttpHeader("Content-Type")),
-    accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
-    inputStream: T.StreamingInput.pipe(T.HttpPayload()),
-    activeContexts: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-active-contexts"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/content",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PostContentRequest",
-}) as any as S.Schema<PostContentRequest>;
 export type SynthesizedJsonString = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type DialogState =
@@ -439,159 +284,53 @@ export type DialogState =
   | "ReadyForFulfillment"
   | "Failed"
   | (string & {});
-export const DialogState = S.String;
-
 export type SensitiveStringUnbounded = string | redacted.Redacted<string>;
 export type BotVersion = string;
 export interface PostContentResponse {
-  contentType?: string;
-  intentName?: string;
-  nluIntentConfidence?: string;
-  alternativeIntents?: string;
-  slots?: string;
-  sessionAttributes?: string;
-  sentimentResponse?: string;
-  message?: string | redacted.Redacted<string>;
-  encodedMessage?: string | redacted.Redacted<string>;
-  messageFormat?: MessageFormatType;
-  dialogState?: DialogState;
-  slotToElicit?: string;
-  inputTranscript?: string;
-  encodedInputTranscript?: string | redacted.Redacted<string>;
-  audioStream?: T.StreamingOutputBody;
-  botVersion?: string;
-  sessionId?: string;
-  activeContexts?: string | redacted.Redacted<string>;
+  contentType?: string | undefined;
+  intentName?: string | undefined;
+  nluIntentConfidence?: string | undefined;
+  alternativeIntents?: string | undefined;
+  slots?: string | undefined;
+  sessionAttributes?: string | undefined;
+  sentimentResponse?: string | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  encodedMessage?: string | redacted.Redacted<string> | undefined;
+  messageFormat?: MessageFormatType | undefined;
+  dialogState?: DialogState | undefined;
+  slotToElicit?: string | undefined;
+  inputTranscript?: string | undefined;
+  encodedInputTranscript?: string | redacted.Redacted<string> | undefined;
+  audioStream?: T.StreamingOutputBody | undefined;
+  botVersion?: string | undefined;
+  sessionId?: string | undefined;
+  activeContexts?: string | redacted.Redacted<string> | undefined;
 }
-export const PostContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    intentName: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-intent-name"),
-    ),
-    nluIntentConfidence: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-nlu-intent-confidence"),
-    ),
-    alternativeIntents: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-alternative-intents"),
-    ),
-    slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
-    sessionAttributes: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-session-attributes"),
-    ),
-    sentimentResponse: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-sentiment"),
-    ),
-    message: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-message"),
-    ),
-    encodedMessage: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-encoded-message"),
-    ),
-    messageFormat: S.optional(MessageFormatType).pipe(
-      T.HttpHeader("x-amz-lex-message-format"),
-    ),
-    dialogState: S.optional(DialogState).pipe(
-      T.HttpHeader("x-amz-lex-dialog-state"),
-    ),
-    slotToElicit: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-slot-to-elicit"),
-    ),
-    inputTranscript: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-input-transcript"),
-    ),
-    encodedInputTranscript: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-encoded-input-transcript"),
-    ),
-    audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    botVersion: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-bot-version"),
-    ),
-    sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    activeContexts: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-active-contexts"),
-    ),
-  }),
-).annotate({
-  identifier: "PostContentResponse",
-}) as any as S.Schema<PostContentResponse>;
 export interface PostTextRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: { [key: string]: string | undefined };
-  requestAttributes?: { [key: string]: string | undefined };
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  requestAttributes?: { [key: string]: string | undefined } | undefined;
   inputText: string | redacted.Redacted<string>;
-  activeContexts?: ActiveContext[];
+  activeContexts?: ActiveContext[] | undefined;
 }
-export const PostTextRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-    userId: S.String.pipe(T.HttpLabel("userId")),
-    sessionAttributes: S.optional(StringMap),
-    requestAttributes: S.optional(StringMap),
-    inputText: SensitiveString,
-    activeContexts: S.optional(ActiveContextsList),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/text",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PostTextRequest",
-}) as any as S.Schema<PostTextRequest>;
 export interface IntentConfidence {
-  score?: number;
+  score?: number | undefined;
 }
-export const IntentConfidence = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ score: S.optional(S.Number) }),
-).annotate({
-  identifier: "IntentConfidence",
-}) as any as S.Schema<IntentConfidence>;
 export interface PredictedIntent {
-  intentName?: string;
-  nluIntentConfidence?: IntentConfidence;
-  slots?: { [key: string]: string | undefined };
+  intentName?: string | undefined;
+  nluIntentConfidence?: IntentConfidence | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
 }
-export const PredictedIntent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intentName: S.optional(S.String),
-    nluIntentConfidence: S.optional(IntentConfidence),
-    slots: S.optional(StringMap),
-  }),
-).annotate({
-  identifier: "PredictedIntent",
-}) as any as S.Schema<PredictedIntent>;
 export type IntentList = PredictedIntent[];
-export const IntentList = /*@__PURE__*/ S.Array(PredictedIntent);
 export type SentimentLabel = string;
 export type SentimentScore = string;
 export interface SentimentResponse {
-  sentimentLabel?: string;
-  sentimentScore?: string;
+  sentimentLabel?: string | undefined;
+  sentimentScore?: string | undefined;
 }
-export const SentimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    sentimentLabel: S.optional(S.String),
-    sentimentScore: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SentimentResponse",
-}) as any as S.Schema<SentimentResponse>;
-export type ContentType =
-  | "application/vnd.amazonaws.card.generic"
-  | (string & {});
-export const ContentType = S.String;
-
+export type ContentType = "application/vnd.amazonaws.card.generic" | (string & {});
 export type StringWithLength = string;
 export type StringUrlWithLength = string;
 export type ButtonTextStringWithLength = string;
@@ -600,163 +339,60 @@ export interface Button {
   text: string;
   value: string;
 }
-export const Button = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ text: S.String, value: S.String }),
-).annotate({ identifier: "Button" }) as any as S.Schema<Button>;
 export type ListOfButtons = Button[];
-export const ListOfButtons = /*@__PURE__*/ S.Array(Button);
 export interface GenericAttachment {
-  title?: string;
-  subTitle?: string;
-  attachmentLinkUrl?: string;
-  imageUrl?: string;
-  buttons?: Button[];
+  title?: string | undefined;
+  subTitle?: string | undefined;
+  attachmentLinkUrl?: string | undefined;
+  imageUrl?: string | undefined;
+  buttons?: Button[] | undefined;
 }
-export const GenericAttachment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    title: S.optional(S.String),
-    subTitle: S.optional(S.String),
-    attachmentLinkUrl: S.optional(S.String),
-    imageUrl: S.optional(S.String),
-    buttons: S.optional(ListOfButtons),
-  }),
-).annotate({
-  identifier: "GenericAttachment",
-}) as any as S.Schema<GenericAttachment>;
 export type GenericAttachmentList = GenericAttachment[];
-export const GenericAttachmentList = /*@__PURE__*/ S.Array(GenericAttachment);
 export interface ResponseCard {
-  version?: string;
-  contentType?: ContentType;
-  genericAttachments?: GenericAttachment[];
+  version?: string | undefined;
+  contentType?: ContentType | undefined;
+  genericAttachments?: GenericAttachment[] | undefined;
 }
-export const ResponseCard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    version: S.optional(S.String),
-    contentType: S.optional(ContentType),
-    genericAttachments: S.optional(GenericAttachmentList),
-  }),
-).annotate({ identifier: "ResponseCard" }) as any as S.Schema<ResponseCard>;
 export interface PostTextResponse {
-  intentName?: string;
-  nluIntentConfidence?: IntentConfidence;
-  alternativeIntents?: PredictedIntent[];
-  slots?: { [key: string]: string | undefined };
-  sessionAttributes?: { [key: string]: string | undefined };
-  message?: string | redacted.Redacted<string>;
-  sentimentResponse?: SentimentResponse;
-  messageFormat?: MessageFormatType;
-  dialogState?: DialogState;
-  slotToElicit?: string;
-  responseCard?: ResponseCard;
-  sessionId?: string;
-  botVersion?: string;
-  activeContexts?: ActiveContext[];
+  intentName?: string | undefined;
+  nluIntentConfidence?: IntentConfidence | undefined;
+  alternativeIntents?: PredictedIntent[] | undefined;
+  slots?: { [key: string]: string | undefined } | undefined;
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  sentimentResponse?: SentimentResponse | undefined;
+  messageFormat?: MessageFormatType | undefined;
+  dialogState?: DialogState | undefined;
+  slotToElicit?: string | undefined;
+  responseCard?: ResponseCard | undefined;
+  sessionId?: string | undefined;
+  botVersion?: string | undefined;
+  activeContexts?: ActiveContext[] | undefined;
 }
-export const PostTextResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intentName: S.optional(S.String),
-    nluIntentConfidence: S.optional(IntentConfidence),
-    alternativeIntents: S.optional(IntentList),
-    slots: S.optional(StringMap),
-    sessionAttributes: S.optional(StringMap),
-    message: S.optional(SensitiveString),
-    sentimentResponse: S.optional(SentimentResponse),
-    messageFormat: S.optional(MessageFormatType),
-    dialogState: S.optional(DialogState),
-    slotToElicit: S.optional(S.String),
-    responseCard: S.optional(ResponseCard),
-    sessionId: S.optional(S.String),
-    botVersion: S.optional(S.String),
-    activeContexts: S.optional(ActiveContextsList),
-  }),
-).annotate({
-  identifier: "PostTextResponse",
-}) as any as S.Schema<PostTextResponse>;
 export interface PutSessionRequest {
   botName: string;
   botAlias: string;
   userId: string;
-  sessionAttributes?: { [key: string]: string | undefined };
-  dialogAction?: DialogAction;
-  recentIntentSummaryView?: IntentSummary[];
-  accept?: string;
-  activeContexts?: ActiveContext[];
+  sessionAttributes?: { [key: string]: string | undefined } | undefined;
+  dialogAction?: DialogAction | undefined;
+  recentIntentSummaryView?: IntentSummary[] | undefined;
+  accept?: string | undefined;
+  activeContexts?: ActiveContext[] | undefined;
 }
-export const PutSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.String.pipe(T.HttpLabel("botName")),
-    botAlias: S.String.pipe(T.HttpLabel("botAlias")),
-    userId: S.String.pipe(T.HttpLabel("userId")),
-    sessionAttributes: S.optional(StringMap),
-    dialogAction: S.optional(DialogAction),
-    recentIntentSummaryView: S.optional(IntentSummaryList),
-    accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
-    activeContexts: S.optional(ActiveContextsList),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutSessionRequest",
-}) as any as S.Schema<PutSessionRequest>;
 export interface PutSessionResponse {
-  contentType?: string;
-  intentName?: string;
-  slots?: string;
-  sessionAttributes?: string;
-  message?: string | redacted.Redacted<string>;
-  encodedMessage?: string | redacted.Redacted<string>;
-  messageFormat?: MessageFormatType;
-  dialogState?: DialogState;
-  slotToElicit?: string;
-  audioStream?: T.StreamingOutputBody;
-  sessionId?: string;
-  activeContexts?: string | redacted.Redacted<string>;
+  contentType?: string | undefined;
+  intentName?: string | undefined;
+  slots?: string | undefined;
+  sessionAttributes?: string | undefined;
+  message?: string | redacted.Redacted<string> | undefined;
+  encodedMessage?: string | redacted.Redacted<string> | undefined;
+  messageFormat?: MessageFormatType | undefined;
+  dialogState?: DialogState | undefined;
+  slotToElicit?: string | undefined;
+  audioStream?: T.StreamingOutputBody | undefined;
+  sessionId?: string | undefined;
+  activeContexts?: string | redacted.Redacted<string> | undefined;
 }
-export const PutSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    intentName: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-intent-name"),
-    ),
-    slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
-    sessionAttributes: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-session-attributes"),
-    ),
-    message: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-message"),
-    ),
-    encodedMessage: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-encoded-message"),
-    ),
-    messageFormat: S.optional(MessageFormatType).pipe(
-      T.HttpHeader("x-amz-lex-message-format"),
-    ),
-    dialogState: S.optional(DialogState).pipe(
-      T.HttpHeader("x-amz-lex-dialog-state"),
-    ),
-    slotToElicit: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-lex-slot-to-elicit"),
-    ),
-    audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
-    activeContexts: S.optional(SensitiveString).pipe(
-      T.HttpHeader("x-amz-lex-active-contexts"),
-    ),
-  }),
-).annotate({
-  identifier: "PutSessionResponse",
-}) as any as S.Schema<PutSessionResponse>;
 export type ErrorMessage = string;
 export type DeleteSessionError =
   | BadRequestException
@@ -769,13 +405,13 @@ export type DeleteSessionError =
  * Removes session information for a specified bot, alias, and user ID.
  */
 export const deleteSession: API.OperationMethod<
-  DeleteSessionRequest,
+  DeleteSessionRequest & RegionInput,
   DeleteSessionResponse,
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSessionRequest,
-  output: DeleteSessionResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteSessionRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<DeleteSessionResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -786,6 +422,8 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  telemetry: TELEMETRY,
+  span: "DeleteSession",
 }));
 
 export type GetSessionError =
@@ -799,13 +437,13 @@ export type GetSessionError =
  * ID.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSessionRequest,
-  output: GetSessionResponse,
+  input: __S(16, __c1, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<GetSessionResponse>,
   errors: [
     BadRequestException,
     InternalFailureException,
@@ -815,6 +453,8 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  telemetry: TELEMETRY,
+  span: "GetSession",
 }));
 
 export type PostContentError =
@@ -892,13 +532,13 @@ export type PostContentError =
  * Conversation Context.
  */
 export const postContent: API.OperationMethod<
-  PostContentRequest,
+  PostContentRequest & RegionInput,
   PostContentResponse,
   PostContentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PostContentRequest,
-  output: PostContentResponse,
+  input: __S(64, __c4, 0) as any as S.Schema<PostContentRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<PostContentResponse>,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -915,6 +555,8 @@ export const postContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostContent",
+  telemetry: TELEMETRY,
+  span: "PostContent",
 }));
 
 export type PostTextError =
@@ -986,13 +628,13 @@ export type PostTextError =
  * Conversation Context.
  */
 export const postText: API.OperationMethod<
-  PostTextRequest,
+  PostTextRequest & RegionInput,
   PostTextResponse,
   PostTextError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PostTextRequest,
-  output: PostTextResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<PostTextRequest>,
+  output: __S(90, __c5, 10) as any as S.Schema<PostTextResponse>,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -1006,6 +648,8 @@ export const postText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostText",
+  telemetry: TELEMETRY,
+  span: "PostText",
 }));
 
 export type PutSessionError =
@@ -1027,13 +671,13 @@ export type PutSessionError =
  * Sessions.
  */
 export const putSession: API.OperationMethod<
-  PutSessionRequest,
+  PutSessionRequest & RegionInput,
   PutSessionResponse,
   PutSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutSessionRequest,
-  output: PutSessionResponse,
+  input: __S(96, __c6, 0) as any as S.Schema<PutSessionRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<PutSessionResponse>,
   errors: [
     BadGatewayException,
     BadRequestException,
@@ -1047,4 +691,336 @@ export const putSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSession",
+  telemetry: TELEMETRY,
+  span: "PutSession",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          botName: S.String.pipe(T.HttpLabel("botName")),
+          botAlias: S.String.pipe(T.HttpLabel("botAlias")),
+          userId: S.String.pipe(T.HttpLabel("userId")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "DELETE",
+              uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          botName: S.optional(S.String),
+          botAlias: S.optional(S.String),
+          userId: S.optional(S.String),
+          sessionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteSessionResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          botName: S.String.pipe(T.HttpLabel("botName")),
+          botAlias: S.String.pipe(T.HttpLabel("botAlias")),
+          userId: S.String.pipe(T.HttpLabel("userId")),
+          checkpointLabelFilter: S.optional(S.String).pipe(T.HttpQuery("checkpointLabelFilter")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          recentIntentSummaryView: S.optional(__S(49, __c3, 1)),
+          sessionAttributes: S.optional(__S(32, __c2, 0)),
+          sessionId: S.optional(S.String),
+          dialogAction: S.optional(__S(50, __c3, 2)),
+          activeContexts: S.optional(__S(36, __c2, 4)),
+        }),
+      ).annotate({ identifier: "GetSessionResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ timeToLiveInSeconds: S.optional(S.Number), turnsToLive: S.optional(S.Number) }),
+      ).annotate({ identifier: "ActiveContextTimeToLive" });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, timeToLive: __S(33, __c2, 1), parameters: __S(34, __c2, 2) }),
+      ).annotate({ identifier: "ActiveContext" });
+    case 4:
+      return S.Array(__S(35, __c2, 3));
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          intentName: S.optional(S.String),
+          checkpointLabel: S.optional(S.String),
+          slots: S.optional(__S(32, __c2, 0)),
+          confirmationStatus: S.optional(S.String),
+          dialogActionType: S.String,
+          fulfillmentState: S.optional(S.String),
+          slotToElicit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IntentSummary" });
+    case 1:
+      return S.Array(__S(48, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          intentName: S.optional(S.String),
+          slots: S.optional(__S(32, __c2, 0)),
+          slotToElicit: S.optional(S.String),
+          fulfillmentState: S.optional(S.String),
+          message: S.optional(SensitiveString),
+          messageFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DialogAction" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          botName: S.String.pipe(T.HttpLabel("botName")),
+          botAlias: S.String.pipe(T.HttpLabel("botAlias")),
+          userId: S.String.pipe(T.HttpLabel("userId")),
+          sessionAttributes: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-session-attributes"),
+          ),
+          requestAttributes: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-request-attributes"),
+          ),
+          contentType: S.String.pipe(T.HttpHeader("Content-Type")),
+          accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
+          inputStream: T.StreamingInput.pipe(T.HttpPayload()),
+          activeContexts: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-active-contexts"),
+          ),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/content",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PostContentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          intentName: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-intent-name")),
+          nluIntentConfidence: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-lex-nlu-intent-confidence"),
+          ),
+          alternativeIntents: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-lex-alternative-intents"),
+          ),
+          slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
+          sessionAttributes: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-lex-session-attributes"),
+          ),
+          sentimentResponse: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-sentiment")),
+          message: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-message")),
+          encodedMessage: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-encoded-message"),
+          ),
+          messageFormat: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-message-format")),
+          dialogState: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-dialog-state")),
+          slotToElicit: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slot-to-elicit")),
+          inputTranscript: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-input-transcript")),
+          encodedInputTranscript: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-encoded-input-transcript"),
+          ),
+          audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+          botVersion: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-bot-version")),
+          sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
+          activeContexts: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-active-contexts"),
+          ),
+        }),
+      ).annotate({ identifier: "PostContentResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          botName: S.String.pipe(T.HttpLabel("botName")),
+          botAlias: S.String.pipe(T.HttpLabel("botAlias")),
+          userId: S.String.pipe(T.HttpLabel("userId")),
+          sessionAttributes: S.optional(__S(32, __c2, 0)),
+          requestAttributes: S.optional(__S(32, __c2, 0)),
+          inputText: SensitiveString,
+          activeContexts: S.optional(__S(36, __c2, 4)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/text" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PostTextRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ score: S.optional(S.Number) })).annotate({
+        identifier: "IntentConfidence",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          intentName: S.optional(S.String),
+          nluIntentConfidence: S.optional(__S(81, __c5, 1)),
+          slots: S.optional(__S(32, __c2, 0)),
+        }),
+      ).annotate({ identifier: "PredictedIntent" });
+    case 3:
+      return S.Array(__S(82, __c5, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ sentimentLabel: S.optional(S.String), sentimentScore: S.optional(S.String) }),
+      ).annotate({ identifier: "SentimentResponse" });
+    case 5:
+      return S.suspend(() => S.Struct({ text: S.String, value: S.String })).annotate({
+        identifier: "Button",
+      });
+    case 6:
+      return S.Array(__S(85, __c5, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          subTitle: S.optional(S.String),
+          attachmentLinkUrl: S.optional(S.String),
+          imageUrl: S.optional(S.String),
+          buttons: S.optional(__S(86, __c5, 6)),
+        }),
+      ).annotate({ identifier: "GenericAttachment" });
+    case 8:
+      return S.Array(__S(87, __c5, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.optional(S.String),
+          contentType: S.optional(S.String),
+          genericAttachments: S.optional(__S(88, __c5, 8)),
+        }),
+      ).annotate({ identifier: "ResponseCard" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          intentName: S.optional(S.String),
+          nluIntentConfidence: S.optional(__S(81, __c5, 1)),
+          alternativeIntents: S.optional(__S(83, __c5, 3)),
+          slots: S.optional(__S(32, __c2, 0)),
+          sessionAttributes: S.optional(__S(32, __c2, 0)),
+          message: S.optional(SensitiveString),
+          sentimentResponse: S.optional(__S(84, __c5, 4)),
+          messageFormat: S.optional(S.String),
+          dialogState: S.optional(S.String),
+          slotToElicit: S.optional(S.String),
+          responseCard: S.optional(__S(89, __c5, 9)),
+          sessionId: S.optional(S.String),
+          botVersion: S.optional(S.String),
+          activeContexts: S.optional(__S(36, __c2, 4)),
+        }),
+      ).annotate({ identifier: "PostTextResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          botName: S.String.pipe(T.HttpLabel("botName")),
+          botAlias: S.String.pipe(T.HttpLabel("botAlias")),
+          userId: S.String.pipe(T.HttpLabel("userId")),
+          sessionAttributes: S.optional(__S(32, __c2, 0)),
+          dialogAction: S.optional(__S(50, __c3, 2)),
+          recentIntentSummaryView: S.optional(__S(49, __c3, 1)),
+          accept: S.optional(S.String).pipe(T.HttpHeader("Accept")),
+          activeContexts: S.optional(__S(36, __c2, 4)),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/bot/{botName}/alias/{botAlias}/user/{userId}/session",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
+          intentName: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-intent-name")),
+          slots: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slots")),
+          sessionAttributes: S.optional(S.String).pipe(
+            T.HttpHeader("x-amz-lex-session-attributes"),
+          ),
+          message: S.optional(SensitiveString).pipe(T.HttpHeader("x-amz-lex-message")),
+          encodedMessage: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-encoded-message"),
+          ),
+          messageFormat: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-message-format")),
+          dialogState: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-dialog-state")),
+          slotToElicit: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-slot-to-elicit")),
+          audioStream: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
+          sessionId: S.optional(S.String).pipe(T.HttpHeader("x-amz-lex-session-id")),
+          activeContexts: S.optional(SensitiveString).pipe(
+            T.HttpHeader("x-amz-lex-active-contexts"),
+          ),
+        }),
+      ).annotate({ identifier: "PutSessionResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

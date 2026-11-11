@@ -1,5 +1,6 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Porkbun credentials — hand-written.
+ * Porkbun credentials -- hand-written.
  *
  * Porkbun authenticates with a public API key and a secret API key, sent as
  * `X-API-Key` / `X-Secret-API-Key` (header auth; the JSON-body form is
@@ -11,7 +12,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.porkbun.com/api/json/v3";
 
@@ -21,10 +21,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PorkbunCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "PorkbunCredentials",
+  ) {}
 
 /** Auth headers for a resolved credentials config. */
 export const formatHeaders = (config: Config): Record<string, string> => ({
@@ -32,17 +32,17 @@ export const formatHeaders = (config: Config): Record<string, string> => ({
   "X-Secret-API-Key": Redacted.value(config.secretApiKey),
 });
 
-/** Layer from a plain API key pair + optional base URL. */
+/** Layer from a redacted API key pair + optional base URL. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
-  readonly secretApiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly secretApiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
-      secretApiKey: Redacted.make(config.secretApiKey),
+      apiKey: config.apiKey,
+      secretApiKey: config.secretApiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
@@ -51,16 +51,15 @@ export const fromApiKey = (config: {
  * Reads PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY (required) and
  * PORKBUN_API_BASE_URL (optional).
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.PORKBUN_API_KEY;
     const secretApiKey = process.env.PORKBUN_SECRET_API_KEY;
 
     if (!apiKey || !secretApiKey) {
       return yield* new ConfigError({
-        message:
-          "PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY environment variables are required",
+        message: "PORKBUN_API_KEY and PORKBUN_SECRET_API_KEY environment variables are required",
       });
     }
 
@@ -69,5 +68,5 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
       secretApiKey: Redacted.make(secretApiKey),
       apiBaseUrl: process.env.PORKBUN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

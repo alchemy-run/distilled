@@ -1,16 +1,16 @@
+import * as EffectConfig from "@distilled.cloud/core/config";
 /**
- * PlanetScale credentials — hand-written.
+ * PlanetScale credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's planetscale credentials module.
  * Dual-mode: service tokens (PlanetScale's non-standard
  * `Authorization: <tokenId>:<token>` scheme) and OAuth access tokens
  * (`Authorization: Bearer <accessToken>`). The `Credentials` service holds an
  * *effect* that resolves the current credentials, so callers that rotate or
- * refresh tokens (e.g. alchemy's AuthProvider) Just Work — the protocol
+ * refresh tokens (e.g. alchemy's AuthProvider) Just Work -- the protocol
  * resolves it per request.
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
-import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -38,7 +38,7 @@ export interface ServiceTokenConfig {
  *
  * PlanetScale OAuth has no PKCE flow and refreshes require the app's
  * client_secret, so refresh is handled by the caller (e.g. Alchemy's
- * AuthProvider) rather than here — this config only carries the resolved
+ * AuthProvider) rather than here -- this config only carries the resolved
  * access token used to authenticate API requests.
  */
 export interface OAuthConfig {
@@ -50,10 +50,10 @@ export interface OAuthConfig {
 
 export type Config = ServiceTokenConfig | OAuthConfig;
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PlanetScaleCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "PlanetScaleCredentials",
+  ) {}
 
 /**
  * Build the `Authorization` header for a resolved set of credentials.
@@ -71,7 +71,7 @@ export const formatHeaders = (config: Config): Record<string, string> =>
  * Build a `Credentials` Layer from an OAuth access token.
  */
 export const fromOAuth = (input: {
-  accessToken: string | Redacted.Redacted<string>;
+  accessToken: Redacted.Redacted<string>;
   organization: string;
   apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
@@ -79,38 +79,33 @@ export const fromOAuth = (input: {
     Credentials,
     Effect.succeed({
       type: "oauth",
-      accessToken:
-        typeof input.accessToken === "string"
-          ? Redacted.make(input.accessToken)
-          : input.accessToken,
+      accessToken: input.accessToken,
       organization: input.organization,
       apiBaseUrl: input.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
 
-const envConfig = EffectConfig.all({
-  tokenId: EffectConfig.String("PLANETSCALE_API_TOKEN_ID"),
-  token: EffectConfig.String("PLANETSCALE_API_TOKEN"),
-  organization: EffectConfig.String("PLANETSCALE_ORGANIZATION"),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  tokenId: /*@__PURE__*/ EffectConfig.Redacted("PLANETSCALE_API_TOKEN_ID"),
+  token: /*@__PURE__*/ EffectConfig.Redacted("PLANETSCALE_API_TOKEN"),
+  organization: /*@__PURE__*/ EffectConfig.String("PLANETSCALE_ORGANIZATION"),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig
-    .pipe(
-      Effect.mapError(
-        () =>
-          new ConfigError({
-            message:
-              "PLANETSCALE_API_TOKEN_ID, PLANETSCALE_API_TOKEN, and PLANETSCALE_ORGANIZATION environment variables are required",
-          }),
-      ),
-      Effect.map(({ tokenId, token, organization }) => ({
-        tokenId: Redacted.make(tokenId),
-        token: Redacted.make(token),
-        organization,
-        apiBaseUrl: DEFAULT_API_BASE_URL,
-      })),
-    )
-    .pipe(Effect.orDie),
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
+      () =>
+        new ConfigError({
+          message:
+            "PLANETSCALE_API_TOKEN_ID, PLANETSCALE_API_TOKEN, and PLANETSCALE_ORGANIZATION environment variables are required",
+        }),
+    ),
+    /*@__PURE__*/ Effect.map(({ tokenId, token, organization }) => ({
+      tokenId,
+      token,
+      organization,
+      apiBaseUrl: DEFAULT_API_BASE_URL,
+    })),
+  ),
 );

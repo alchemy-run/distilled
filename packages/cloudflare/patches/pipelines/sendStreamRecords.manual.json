@@ -1,0 +1,152 @@
+{
+  "description": "Add the HTTP ingest operation POST https://{stream_id}.ingest.cloudflare.com \u2014 the per-stream endpoint is documented in prose (developers.cloudflare.com/basin-pipelines/streams/writing-to-streams) but not in the API reference. The body is a bare JSON array of events; success is { success, result: { committed } }; failures are a single { success:false, error:{ code, message } } (codes probed live 2026-10-05: 1000 stream missing / 404, 1002 not an array of objects / 400, 1003 invalid UTF-8 JSON / 400). Code 1000 is also a global Cloudflare code, so the per-op class must claim it. Records that violate a structured stream's schema are still committed (200) and dropped later during processing. The operation carries com.cloudflare.protocols#verbatimPayload so event keys are sent exactly as given (the service key dictionary would otherwise rename e.g. createdAt \u2192 created_at).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pipelines#IngestStreamNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 1000
+            }
+          ],
+          "smithy.api#documentation": "1000: the stream does not exist (HTTP ingest)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pipelines#InvalidIngestData",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 1002
+            },
+            {
+              "code": 1003
+            }
+          ],
+          "smithy.api#documentation": "1002 / 1003: the body is not a non-empty array of JSON objects, or not valid UTF-8 JSON."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pipelines#SendStreamRecordsEventList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pipelines#SendStreamRecordsRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "stream_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The stream ID; selects the ingest host."
+            }
+          },
+          "records": {
+            "target": "com.cloudflare.pipelines#SendStreamRecordsEventList",
+            "traits": {
+              "smithy.api#httpPayload": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The events, sent as the bare JSON array body. At most 5 MB per request."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pipelines#SendStreamRecordsResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "committed": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "How many events the stream accepted."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pipelines#SendStreamRecords",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.pipelines#SendStreamRecordsRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.pipelines#SendStreamRecordsResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.pipelines#IngestStreamNotFound"
+          },
+          {
+            "target": "com.cloudflare.pipelines#InvalidIngestData"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "POST",
+            "uri": "/",
+            "code": 200
+          },
+          "com.cloudflare.protocols#host": "https://{stream_id}.ingest.cloudflare.com",
+          "smithy.api#documentation": "Send events to a stream's HTTP ingest endpoint. Needs the stream's HTTP input enabled, and a token with Pipelines Send when it requires authentication.",
+          "com.cloudflare.protocols#verbatimPayload": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pipelines#Pipelines/operations/-",
+      "value": {
+        "target": "com.cloudflare.pipelines#SendStreamRecords"
+      }
+    }
+  ]
+}

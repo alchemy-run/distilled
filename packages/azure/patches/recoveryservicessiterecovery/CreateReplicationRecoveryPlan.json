@@ -1,0 +1,36 @@
+{
+  "description": "ASR RecoveryPlan provider-specific details are polymorphic on instanceType (A2A, Azure, HyperVReplicaAzure, InMageRcm, ...); the converted model keeps only the `instanceType` discriminator, so S.Struct strips every subtype field on encode and decode. Retype them as untyped documents.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#CreateRecoveryPlanInputProperties/members/providerSpecificInput",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The provider specific input. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: \"A2A\", ... }]`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#RecoveryPlanProperties/members/providerSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The provider id and provider specific details. Polymorphic on `instanceType` (list of provider-specific objects, e.g. `[{ instanceType: \"A2A\", ... }]`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#RecoveryPlanAction/members/customDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The custom details. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`).",
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

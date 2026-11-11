@@ -7,7 +7,7 @@
  * @example
  * ```ts
  * import * as Effect from "effect/Effect";
- * import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+ * import * as FetchHttpClient from "effect/http/FetchHttpClient";
  * import * as Mailchimp from "@distilled.cloud/mailchimp";
  *
  * const program = Mailchimp.setListMember({
@@ -24,11 +24,7 @@
 export * from "./credentials.ts";
 export * as T from "./traits.ts";
 export * as Retry from "./retry.ts";
-export {
-  MailchimpProtocol,
-  type MailchimpOpError,
-  type MailchimpOpContext,
-} from "./protocol.ts";
+export { MailchimpProtocol, type MailchimpOpError, type MailchimpOpContext } from "./protocol.ts";
 export * from "./errors.ts";
 export { paginateOffset } from "./pagination.ts";
 export { md5, subscriberHash } from "./subscriber-hash.ts";

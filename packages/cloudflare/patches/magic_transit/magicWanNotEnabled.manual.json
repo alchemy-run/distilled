@@ -1,0 +1,234 @@
+{
+  "description": "Type the Magic WAN entitlement rejection: accounts without Magic WAN get HTTP 403 code 1101 'forbidden: feature not enabled' on every site/app operation (previously only the generic status-403 Forbidden).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#MagicWanNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 1101,
+              "message": {
+                "includes": "feature not enabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#CreateApp/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#CreateSite/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#CreateSiteAcl/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#CreateSiteLan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#CreateSiteWan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#DeleteApp/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#DeleteSite/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#DeleteSiteAcl/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#DeleteSiteLan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#DeleteSiteWan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#GetSite/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#GetSiteAcl/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#GetSiteLan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#GetSiteWan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#ListApps/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#ListSiteAcls/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#ListSiteLans/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#ListSiteWans/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#ListSites/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#PatchApp/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#PatchSite/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#PatchSiteAcl/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#PatchSiteLan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#PatchSiteWan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#UpdateApp/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#UpdateSite/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#UpdateSiteAcl/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#UpdateSiteLan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.magic_transit#UpdateSiteWan/errors/-",
+      "value": {
+        "target": "com.cloudflare.magic_transit#MagicWanNotEnabled"
+      }
+    }
+  ]
+}

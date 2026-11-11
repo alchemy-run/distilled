@@ -1,23 +1,27 @@
 {
   "name": "@distilled.cloud/gcp",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.18",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/gcp"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "browser": {
+    "./lib/_bundle/sdk.js": "./lib/_browser/_bundle/sdk.js"
+  },
   "exports": {
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
       "bun": "./src/credentials.ts",
       "worker": "./src/credentials.ts",
+      "browser": "./lib/credentials.browser.js",
       "default": "./lib/credentials.js"
     },
     "./Errors": {
@@ -38,6 +42,18 @@
       "worker": "./src/retry.ts",
       "default": "./lib/retry.js"
     },
+    "./Region": {
+      "types": "./lib/region.d.ts",
+      "bun": "./src/region.ts",
+      "worker": "./src/region.ts",
+      "default": "./lib/region.js"
+    },
+    "./Endpoint": {
+      "types": "./lib/endpoint.d.ts",
+      "bun": "./src/endpoint.ts",
+      "worker": "./src/endpoint.ts",
+      "default": "./lib/endpoint.js"
+    },
     "./Traits": {
       "types": "./lib/traits.d.ts",
       "bun": "./src/traits.ts",
@@ -48,27 +64,30 @@
       "types": "./lib/unstable-services/*.d.ts",
       "bun": "./src/unstable-services/*.ts",
       "worker": "./src/unstable-services/*.ts",
+      "distilled-lazy": "./lib/unstable-services.lazy/*.js",
       "default": "./lib/unstable-services/*.js"
     },
     ".": {
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
+      "browser": "./lib/index.browser.js",
       "default": "./lib/index.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     }
   },
   "scripts": {
-    "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts && bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services",
-    "typecheck": "tsc -p tsconfig.json",
-    "typecheck:strict": "tsc -p tsconfig.strict.json",
+    "build": "tsrs -b",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsrs -p tsconfig.json",
+    "typecheck:strict": "tsrs -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-gcp",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-gcp"
   },
@@ -76,11 +95,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "@distilled.cloud/dev": "workspace:*",
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-11-08"
   }
 }

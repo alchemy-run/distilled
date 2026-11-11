@@ -1,0 +1,110 @@
+{
+  "description": "Type the HTTP 400 FAILED_PRECONDITION Cloud Talent Solution returns on every tenant/company/job read and write until the project is onboarded for job/behavioral data access (only deletes are allowed). It surfaced as a generic BadRequest, so callers matched on the message.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#TalentDataPermissionRequired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project has not granted Cloud Talent Solution permission to access job and behavioral data (HTTP 400: 'Service must be permitted to access job and behavioral data'). Onboard the project in the Talent Solution console; not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Service must be permitted to access job and behavioral data"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#CreateProjectsTenants/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#CreateProjectsTenantsCompanies/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#CreateProjectsTenantsJobs/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#GetProjectsTenants/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#GetProjectsTenantsCompanies/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#GetProjectsTenantsJobs/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#ListProjectsTenants/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#ListProjectsTenantsCompanies/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#ListProjectsTenantsJobs/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#PatchProjectsTenants/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#PatchProjectsTenantsCompanies/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.jobs_v4#PatchProjectsTenantsJobs/errors/-",
+      "value": {
+        "target": "com.gcp.jobs_v4#TalentDataPermissionRequired"
+      }
+    }
+  ]
+}

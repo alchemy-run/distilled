@@ -1,18 +1,18 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
- * generate — turn the hand-authored Smithy model into the Effect ZeroSSL SDK.
+ * generate — turn the ZeroSSL Smithy model into the Effect ZeroSSL SDK.
  *
- * Input:  manual-specs/zerossl.json — written by hand from ZeroSSL's REST docs,
- *         typed errors included; no conversion step, no patch chain.
+ * Input:  .generated-specs/zerossl.json — written by scripts/convert.ts from
+ *         the ZeroSSL API reference (Markdown) in the spec mirror.
  * Output: src/services/zerossl.ts  +  src/services/index.ts
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const spec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
@@ -42,7 +42,7 @@ const spec: SdkSpec = {
             : "S.String"
       },`,
   },
-  sourceNote: "manual-specs/zerossl.json (hand-authored Smithy)",
+  sourceNote: ".generated-specs/zerossl.json (from the ZeroSSL API reference)",
   operationDecl: {
     contextType: "ZeroSslOpContext",
     commonErrorType: "ZeroSslOpError",
@@ -50,14 +50,14 @@ const spec: SdkSpec = {
     protocol: "ZeroSslProtocol",
     retry: "Retry.Retry",
   },
-  postProcess: (code) =>
-    code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
+  postProcess: (code) => code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
 };
 
 runGeneratorCli({
   description: "Generate the ZeroSSL Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
-  smithyDir: "manual-specs",
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
+  smithyDir: ".generated-specs",
   patchesDir: false,
   spec: () => spec,
 });

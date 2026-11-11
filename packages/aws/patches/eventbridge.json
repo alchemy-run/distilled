@@ -10,7 +10,8 @@
     "OperationDisabledException": ["BadRequestError"],
     "LimitExceededException": ["QuotaError"],
     "PolicyLengthExceededException": ["QuotaError"],
-    "EventBusHasRules": ["ConflictError"]
+    "EventBusHasRules": ["ConflictError"],
+    "EndpointRoleNotAssumable": ["RetryableError"]
   },
   "operations": {
     "deleteEventBus": {
@@ -33,6 +34,28 @@
     },
     "listTagsForResource": {
       "errors": ["ThrottlingException"]
+    },
+    "createEndpoint": {
+      "syntheticErrors": [
+        {
+          "name": "EndpointRoleNotAssumable",
+          "from": "ValidationException",
+          "message": {
+            "includes": "cannot be assumed by principal"
+          }
+        }
+      ]
+    },
+    "updateEndpoint": {
+      "syntheticErrors": [
+        {
+          "name": "EndpointRoleNotAssumable",
+          "from": "ValidationException",
+          "message": {
+            "includes": "cannot be assumed by principal"
+          }
+        }
+      ]
     }
   }
 }

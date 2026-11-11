@@ -1,6 +1,6 @@
+import * as Cloudflare from "@alchemy.run/cloudflare";
+import * as GitHub from "@alchemy.run/github";
 import * as Alchemy from "alchemy";
-import * as Cloudflare from "alchemy/Cloudflare";
-import * as GitHub from "alchemy/GitHub";
 import * as Output from "alchemy/Output";
 import * as RemovalPolicy from "alchemy/RemovalPolicy";
 import * as Effect from "effect/Effect";
@@ -19,9 +19,7 @@ const Website = Cloudflare.Website.StaticSite(
     // public types omit `ref` (`ResourceClassLike` has no such method). The
     // version API accepts a literal script name; that is the preview-base
     // worker we name explicitly below.
-    const previewParent = stack.stage.startsWith("pr-")
-      ? PREVIEW_WORKER
-      : undefined;
+    const previewParent = stack.stage.startsWith("pr-") ? PREVIEW_WORKER : undefined;
     const name =
       stack.stage === "preview-base"
         ? PREVIEW_WORKER
@@ -40,9 +38,7 @@ const Website = Cloudflare.Website.StaticSite(
         ? {
             parent: previewParent,
             alias: stack.stage,
-            message: process.env.PULL_REQUEST
-              ? `PR #${process.env.PULL_REQUEST}`
-              : undefined,
+            message: process.env.PULL_REQUEST ? `PR #${process.env.PULL_REQUEST}` : undefined,
           }
         : undefined,
       // A PR version's URL is its aliased preview URL, which only serves
@@ -93,9 +89,7 @@ const Website = Cloudflare.Website.StaticSite(
     } satisfies Cloudflare.Website.StaticSiteProps<{}>;
   }),
 ).pipe(
-  RemovalPolicy.retain(
-    Alchemy.Stack.pipe(Effect.map(({ stage }) => !stage.startsWith("pr-"))),
-  ),
+  RemovalPolicy.retain(Alchemy.Stack.pipe(Effect.map(({ stage }) => !stage.startsWith("pr-")))),
 );
 
 export default Alchemy.Stack(

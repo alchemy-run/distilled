@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -6,19 +7,20 @@
  * Output: src/services/turso.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Turso's provider spec: the
+ * `@distilled.cloud/dev/codegen`; this script is Turso's provider spec: the
  * openapi-converter trait vocabulary (nullable / raw-response / sensitive /
  * error matchers) and the protocol/retry names. Turso is plain bearer-REST —
  * no envelope, no pagination profiles (the API exposes raw `page`/`page_size`
  * fields on its one pageable endpoint; v0 emitted no paginated ops either).
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
+
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /** Turso's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
@@ -38,8 +40,13 @@ const spec: SdkSpec = {
 
   memberTraitPipes: {
     // Sensitive strings: Redacted-wrapped on decode by the REST protocol.
-    "smithy.api#sensitive": "T.SensitiveValue",
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
+  // ...so their TS type is the Redacted the protocol actually delivers.
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
 
   // The spec's few oneOf unions (e.g. `Extensions` = "all" | extension list)
   // are plain value alternatives, not key-discriminated object cases — emit
@@ -62,13 +69,22 @@ const spec: SdkSpec = {
 
   // No commonErrorClasses → the default header's errors import is empty;
   // drop it rather than shipping a dead `import {} from "../errors.ts"`.
-  postProcess: (code) =>
-    code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) => {
+    const withoutErrors = code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, "");
+    return withoutErrors.includes("Redacted.Redacted<")
+      ? withoutErrors.replace(
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport type * as Redacted from "effect/Redacted";\n`,
+        )
+      : withoutErrors;
+  },
 };
 
 runGeneratorCli({
   description: "Generate the Turso Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.
   patchesDir: false,

@@ -1,22 +1,27 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "PCS",
   serviceShapeName: "AWSParallelComputingService",
 });
-const auth = T.AwsAuthSigv4({ name: "pcs" });
-const ver = T.ServiceVersion("2023-02-10");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "pcs" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2023-02-10");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -28,14 +33,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,254 +59,171 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://pcs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://pcs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://pcs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://pcs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://pcs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://pcs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://pcs.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "PCS",
+  service: "PCS",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       resourceId: S.String,
       resourceType: S.String,
     },
-    T.HttpError(409),
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(T.HttpError(500), T.Retryable()),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(500), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       resourceId: S.String,
       resourceType: S.String,
     },
-    T.HttpError(404),
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       serviceCode: S.String,
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
-      quotaCode: S.optional(S.String),
+      resourceId: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
+      quotaCode: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(402),
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      retryAfterSeconds: S.optional(S.Number).pipe(T.HttpHeader("Retry-After")),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number).pipe(
+        /*@__PURE__*/ T.HttpHeader("Retry-After"),
+      ),
     },
-    T.all(T.HttpError(429), T.Retryable()),
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(429), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      reason: S.suspend(() => ValidationExceptionReason).annotate({
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      reason: /*@__PURE__*/ S.suspend(() => S.String).annotate({
         identifier: "ValidationExceptionReason",
       }),
-      fieldList: S.optional(
-        S.suspend(() => ValidationExceptionFieldList).annotate({
+      fieldList: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(289, __c18, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
     },
-    T.HttpError(400),
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type ClusterName = string;
 export type SchedulerType = "SLURM" | (string & {});
-export const SchedulerType = S.String;
-
 export interface SchedulerRequest {
   type: SchedulerType;
   version: string;
 }
-export const SchedulerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: SchedulerType, version: S.String }),
-).annotate({
-  identifier: "SchedulerRequest",
-}) as any as S.Schema<SchedulerRequest>;
 export type Size = "SMALL" | "MEDIUM" | "LARGE" | (string & {});
-export const Size = S.String;
-
 export type SubnetId = string;
 export type SubnetIdList = string[];
-export const SubnetIdList = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
-export const SecurityGroupIdList = /*@__PURE__*/ S.Array(S.String);
 export type NetworkType = "IPV4" | "IPV6" | (string & {});
-export const NetworkType = S.String;
-
 export interface NetworkingRequest {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  networkType?: NetworkType;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  networkType?: NetworkType | undefined;
 }
-export const NetworkingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subnetIds: S.optional(SubnetIdList),
-    securityGroupIds: S.optional(SecurityGroupIdList),
-    networkType: S.optional(NetworkType),
-  }),
-).annotate({
-  identifier: "NetworkingRequest",
-}) as any as S.Schema<NetworkingRequest>;
 export interface SlurmCustomSetting {
   parameterName: string;
   parameterValue: string;
 }
-export const SlurmCustomSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ parameterName: S.String, parameterValue: S.String }),
-).annotate({
-  identifier: "SlurmCustomSetting",
-}) as any as S.Schema<SlurmCustomSetting>;
 export type SlurmCustomSettings = SlurmCustomSetting[];
-export const SlurmCustomSettings = /*@__PURE__*/ S.Array(SlurmCustomSetting);
 export interface SlurmdbdCustomSetting {
   parameterName: string;
   parameterValue: string;
 }
-export const SlurmdbdCustomSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ parameterName: S.String, parameterValue: S.String }),
-).annotate({
-  identifier: "SlurmdbdCustomSetting",
-}) as any as S.Schema<SlurmdbdCustomSetting>;
 export type SlurmdbdCustomSettings = SlurmdbdCustomSetting[];
-export const SlurmdbdCustomSettings = /*@__PURE__*/ S.Array(
-  SlurmdbdCustomSetting,
-);
 export interface CgroupCustomSetting {
   parameterName: string;
   parameterValue: string;
 }
-export const CgroupCustomSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ parameterName: S.String, parameterValue: S.String }),
-).annotate({
-  identifier: "CgroupCustomSetting",
-}) as any as S.Schema<CgroupCustomSetting>;
 export type CgroupCustomSettings = CgroupCustomSetting[];
-export const CgroupCustomSettings = /*@__PURE__*/ S.Array(CgroupCustomSetting);
 export type AccountingMode = "STANDARD" | "NONE" | (string & {});
-export const AccountingMode = S.String;
-
 export interface AccountingRequest {
-  defaultPurgeTimeInDays?: number;
+  defaultPurgeTimeInDays?: number | undefined;
   mode: AccountingMode;
 }
-export const AccountingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultPurgeTimeInDays: S.optional(S.Number),
-    mode: AccountingMode,
-  }),
-).annotate({
-  identifier: "AccountingRequest",
-}) as any as S.Schema<AccountingRequest>;
 export type SlurmRestMode = "STANDARD" | "NONE" | (string & {});
-export const SlurmRestMode = S.String;
-
 export interface SlurmRestRequest {
   mode: SlurmRestMode;
 }
-export const SlurmRestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mode: SlurmRestMode }),
-).annotate({
-  identifier: "SlurmRestRequest",
-}) as any as S.Schema<SlurmRestRequest>;
 export interface ClusterSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  slurmdbdCustomSettings?: SlurmdbdCustomSetting[];
-  cgroupCustomSettings?: CgroupCustomSetting[];
-  accounting?: AccountingRequest;
-  slurmRest?: SlurmRestRequest;
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
+  cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  accounting?: AccountingRequest | undefined;
+  slurmRest?: SlurmRestRequest | undefined;
 }
-export const ClusterSlurmConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scaleDownIdleTimeInSeconds: S.optional(S.Number),
-    slurmCustomSettings: S.optional(SlurmCustomSettings),
-    slurmdbdCustomSettings: S.optional(SlurmdbdCustomSettings),
-    cgroupCustomSettings: S.optional(CgroupCustomSettings),
-    accounting: S.optional(AccountingRequest),
-    slurmRest: S.optional(SlurmRestRequest),
-  }),
-).annotate({
-  identifier: "ClusterSlurmConfigurationRequest",
-}) as any as S.Schema<ClusterSlurmConfigurationRequest>;
 export type SBClientToken = string;
 export type TagKey = string;
 export type TagValue = string;
 export type RequestTagMap = { [key: string]: string | undefined };
-export const RequestTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface CreateClusterRequest {
   clusterName: string;
   scheduler: SchedulerRequest;
   size: Size;
   networking: NetworkingRequest;
-  slurmConfiguration?: ClusterSlurmConfigurationRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  slurmConfiguration?: ClusterSlurmConfigurationRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterName: S.String,
-    scheduler: SchedulerRequest,
-    size: Size,
-    networking: NetworkingRequest,
-    slurmConfiguration: S.optional(ClusterSlurmConfigurationRequest),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(RequestTagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateClusterRequest",
-}) as any as S.Schema<CreateClusterRequest>;
 export type ClusterStatus =
   | "CREATING"
   | "ACTIVE"
@@ -318,121 +236,58 @@ export type ClusterStatus =
   | "SUSPENDED"
   | "RESUMING"
   | (string & {});
-export const ClusterStatus = S.String;
-
 export interface Scheduler {
   type: SchedulerType;
   version: string;
 }
-export const Scheduler = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: SchedulerType, version: S.String }),
-).annotate({ identifier: "Scheduler" }) as any as S.Schema<Scheduler>;
 export interface SlurmAuthKey {
   secretArn: string;
   secretVersion: string;
 }
-export const SlurmAuthKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ secretArn: S.String, secretVersion: S.String }),
-).annotate({ identifier: "SlurmAuthKey" }) as any as S.Schema<SlurmAuthKey>;
 export interface JwtKey {
   secretArn: string;
   secretVersion: string;
 }
-export const JwtKey = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ secretArn: S.String, secretVersion: S.String }),
-).annotate({ identifier: "JwtKey" }) as any as S.Schema<JwtKey>;
 export interface JwtAuth {
-  jwtKey?: JwtKey;
+  jwtKey?: JwtKey | undefined;
 }
-export const JwtAuth = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ jwtKey: S.optional(JwtKey) }),
-).annotate({ identifier: "JwtAuth" }) as any as S.Schema<JwtAuth>;
 export interface Accounting {
-  defaultPurgeTimeInDays?: number;
+  defaultPurgeTimeInDays?: number | undefined;
   mode: AccountingMode;
 }
-export const Accounting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultPurgeTimeInDays: S.optional(S.Number),
-    mode: AccountingMode,
-  }),
-).annotate({ identifier: "Accounting" }) as any as S.Schema<Accounting>;
 export interface SlurmRest {
   mode: SlurmRestMode;
 }
-export const SlurmRest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mode: SlurmRestMode }),
-).annotate({ identifier: "SlurmRest" }) as any as S.Schema<SlurmRest>;
 export interface ClusterSlurmConfiguration {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  slurmdbdCustomSettings?: SlurmdbdCustomSetting[];
-  cgroupCustomSettings?: CgroupCustomSetting[];
-  authKey?: SlurmAuthKey;
-  jwtAuth?: JwtAuth;
-  accounting?: Accounting;
-  slurmRest?: SlurmRest;
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
+  cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  authKey?: SlurmAuthKey | undefined;
+  jwtAuth?: JwtAuth | undefined;
+  accounting?: Accounting | undefined;
+  slurmRest?: SlurmRest | undefined;
 }
-export const ClusterSlurmConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scaleDownIdleTimeInSeconds: S.optional(S.Number),
-    slurmCustomSettings: S.optional(SlurmCustomSettings),
-    slurmdbdCustomSettings: S.optional(SlurmdbdCustomSettings),
-    cgroupCustomSettings: S.optional(CgroupCustomSettings),
-    authKey: S.optional(SlurmAuthKey),
-    jwtAuth: S.optional(JwtAuth),
-    accounting: S.optional(Accounting),
-    slurmRest: S.optional(SlurmRest),
-  }),
-).annotate({
-  identifier: "ClusterSlurmConfiguration",
-}) as any as S.Schema<ClusterSlurmConfiguration>;
 export interface Networking {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  networkType?: NetworkType;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  networkType?: NetworkType | undefined;
 }
-export const Networking = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    subnetIds: S.optional(SubnetIdList),
-    securityGroupIds: S.optional(SecurityGroupIdList),
-    networkType: S.optional(NetworkType),
-  }),
-).annotate({ identifier: "Networking" }) as any as S.Schema<Networking>;
-export type EndpointType =
-  | "SLURMCTLD"
-  | "SLURMDBD"
-  | "SLURMRESTD"
-  | (string & {});
-export const EndpointType = S.String;
-
+export type EndpointType = "SLURMCTLD" | "SLURMDBD" | "SLURMRESTD" | (string & {});
 export interface Endpoint {
   type: EndpointType;
   privateIpAddress: string;
-  publicIpAddress?: string;
-  ipv6Address?: string;
+  publicIpAddress?: string | undefined;
+  ipv6Address?: string | undefined;
   port: string;
 }
-export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: EndpointType,
-    privateIpAddress: S.String,
-    publicIpAddress: S.optional(S.String),
-    ipv6Address: S.optional(S.String),
-    port: S.String,
-  }),
-).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+const Endpoint = /*@__PURE__*/ __L.at(__c23, 0) as any as S.Schema<Endpoint>;
 export type Endpoints = Endpoint[];
-export const Endpoints = /*@__PURE__*/ S.Array(Endpoint);
 export interface ErrorInfo {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
-export const ErrorInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
-).annotate({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
 export type ErrorInfoList = ErrorInfo[];
-export const ErrorInfoList = /*@__PURE__*/ S.Array(ErrorInfo);
 export interface Cluster {
   name: string;
   id: string;
@@ -442,215 +297,94 @@ export interface Cluster {
   modifiedAt: Date;
   scheduler: Scheduler;
   size: Size;
-  slurmConfiguration?: ClusterSlurmConfiguration;
+  slurmConfiguration?: ClusterSlurmConfiguration | undefined;
   networking: Networking;
-  endpoints?: Endpoint[];
-  errorInfo?: ErrorInfo[];
+  endpoints?: Endpoint[] | undefined;
+  errorInfo?: ErrorInfo[] | undefined;
 }
-export const Cluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    id: S.String,
-    arn: S.String,
-    status: ClusterStatus,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    scheduler: Scheduler,
-    size: Size,
-    slurmConfiguration: S.optional(ClusterSlurmConfiguration),
-    networking: Networking,
-    endpoints: S.optional(Endpoints),
-    errorInfo: S.optional(ErrorInfoList),
-  }),
-).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export interface CreateClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
-export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: S.optional(Cluster) }),
-).annotate({
-  identifier: "CreateClusterResponse",
-}) as any as S.Schema<CreateClusterResponse>;
 export type ClusterIdentifier = string;
 export type ComputeNodeGroupName = string;
 export type AmiId = string;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type PurchaseOption =
   | "ONDEMAND"
   | "SPOT"
   | "CAPACITY_BLOCK"
   | "INTERRUPTIBLE_CAPACITY_RESERVATION"
   | (string & {});
-export const PurchaseOption = S.String;
-
 export interface CustomLaunchTemplate {
   id: string;
   version: string;
 }
-export const CustomLaunchTemplate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, version: S.String }),
-).annotate({
-  identifier: "CustomLaunchTemplate",
-}) as any as S.Schema<CustomLaunchTemplate>;
 export type InstanceProfileArn = string;
 export interface ScalingConfigurationRequest {
   minInstanceCount: number;
   maxInstanceCount: number;
 }
-export const ScalingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ minInstanceCount: S.Number, maxInstanceCount: S.Number }),
-).annotate({
-  identifier: "ScalingConfigurationRequest",
-}) as any as S.Schema<ScalingConfigurationRequest>;
 export interface InstanceConfig {
-  instanceType?: string;
+  instanceType?: string | undefined;
 }
-export const InstanceConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ instanceType: S.optional(S.String) }),
-).annotate({ identifier: "InstanceConfig" }) as any as S.Schema<InstanceConfig>;
 export type InstanceList = InstanceConfig[];
-export const InstanceList = /*@__PURE__*/ S.Array(InstanceConfig);
 export type SpotAllocationStrategy =
   | "lowest-price"
   | "capacity-optimized"
   | "price-capacity-optimized"
   | (string & {});
-export const SpotAllocationStrategy = S.String;
-
 export interface SpotOptions {
-  allocationStrategy?: SpotAllocationStrategy;
+  allocationStrategy?: SpotAllocationStrategy | undefined;
 }
-export const SpotOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ allocationStrategy: S.optional(SpotAllocationStrategy) }),
-).annotate({ identifier: "SpotOptions" }) as any as S.Schema<SpotOptions>;
+export type GresCustomSettingMap = { [key: string]: string | undefined };
+export type GresCustomSettings = { [key: string]: string | undefined }[];
 export interface ComputeNodeGroupSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  gresCustomSettings?: { [key: string]: string | undefined }[] | undefined;
 }
-export const ComputeNodeGroupSlurmConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      scaleDownIdleTimeInSeconds: S.optional(S.Number),
-      slurmCustomSettings: S.optional(SlurmCustomSettings),
-    }),
-  ).annotate({
-    identifier: "ComputeNodeGroupSlurmConfigurationRequest",
-  }) as any as S.Schema<ComputeNodeGroupSlurmConfigurationRequest>;
 export interface ScriptSource {
   scriptLocation: string;
-  s3VersionId?: string;
-  checksum?: string;
+  s3VersionId?: string | undefined;
+  checksum?: string | undefined;
 }
-export const ScriptSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scriptLocation: S.String,
-    s3VersionId: S.optional(S.String),
-    checksum: S.optional(S.String),
-  }),
-).annotate({ identifier: "ScriptSource" }) as any as S.Schema<ScriptSource>;
 export type NodeLifecycleScriptArgument = string;
 export type NodeLifecycleScriptArguments = string[];
-export const NodeLifecycleScriptArguments = /*@__PURE__*/ S.Array(S.String);
-export type OnError =
-  | "TERMINATE"
-  | "STOP_SEQUENCE"
-  | "CONTINUE"
-  | (string & {});
-export const OnError = S.String;
-
+export type OnError = "TERMINATE" | "STOP_SEQUENCE" | "CONTINUE" | (string & {});
 export type ExecutionPolicy = "FIRST_BOOT_ONLY" | "EVERY_BOOT" | (string & {});
-export const ExecutionPolicy = S.String;
-
 export interface NodeLifecycleScript {
   name: string;
   scriptSource: ScriptSource;
-  arguments?: string[];
-  onError?: OnError;
-  executionPolicy?: ExecutionPolicy;
+  arguments?: string[] | undefined;
+  onError?: OnError | undefined;
+  executionPolicy?: ExecutionPolicy | undefined;
 }
-export const NodeLifecycleScript = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    scriptSource: ScriptSource,
-    arguments: S.optional(NodeLifecycleScriptArguments),
-    onError: S.optional(OnError),
-    executionPolicy: S.optional(ExecutionPolicy),
-  }),
-).annotate({
-  identifier: "NodeLifecycleScript",
-}) as any as S.Schema<NodeLifecycleScript>;
 export type NodeLifecycleScriptList = NodeLifecycleScript[];
-export const NodeLifecycleScriptList =
-  /*@__PURE__*/ S.Array(NodeLifecycleScript);
 export interface NodeLifecycleStages {
-  nodeBootstrapped?: NodeLifecycleScript[];
-  nodeReady?: NodeLifecycleScript[];
+  nodeBootstrapped?: NodeLifecycleScript[] | undefined;
+  nodeReady?: NodeLifecycleScript[] | undefined;
 }
-export const NodeLifecycleStages = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nodeBootstrapped: S.optional(NodeLifecycleScriptList),
-    nodeReady: S.optional(NodeLifecycleScriptList),
-  }),
-).annotate({
-  identifier: "NodeLifecycleStages",
-}) as any as S.Schema<NodeLifecycleStages>;
-export type ScriptCachingPolicy =
-  | "CACHE_ONCE"
-  | "REFRESH_ON_REBOOT"
-  | (string & {});
-export const ScriptCachingPolicy = S.String;
-
+export type ScriptCachingPolicy = "CACHE_ONCE" | "REFRESH_ON_REBOOT" | (string & {});
 export interface NodeLifecycleActionsRequest {
   stages: NodeLifecycleStages;
-  scriptCachingPolicy?: ScriptCachingPolicy;
+  scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
-export const NodeLifecycleActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stages: NodeLifecycleStages,
-    scriptCachingPolicy: S.optional(ScriptCachingPolicy),
-  }),
-).annotate({
-  identifier: "NodeLifecycleActionsRequest",
-}) as any as S.Schema<NodeLifecycleActionsRequest>;
 export interface CreateComputeNodeGroupRequest {
   clusterIdentifier: string;
   computeNodeGroupName: string;
-  amiId?: string;
+  amiId?: string | undefined;
   subnetIds: string[];
-  purchaseOption?: PurchaseOption;
+  purchaseOption?: PurchaseOption | undefined;
   customLaunchTemplate: CustomLaunchTemplate;
   iamInstanceProfileArn: string;
   scalingConfiguration: ScalingConfigurationRequest;
   instanceConfigs: InstanceConfig[];
-  spotOptions?: SpotOptions;
-  slurmConfiguration?: ComputeNodeGroupSlurmConfigurationRequest;
-  nodeLifecycleActions?: NodeLifecycleActionsRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  spotOptions?: SpotOptions | undefined;
+  slurmConfiguration?: ComputeNodeGroupSlurmConfigurationRequest | undefined;
+  nodeLifecycleActions?: NodeLifecycleActionsRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateComputeNodeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    computeNodeGroupName: S.String,
-    amiId: S.optional(S.String),
-    subnetIds: StringList,
-    purchaseOption: S.optional(PurchaseOption),
-    customLaunchTemplate: CustomLaunchTemplate,
-    iamInstanceProfileArn: S.String,
-    scalingConfiguration: ScalingConfigurationRequest,
-    instanceConfigs: InstanceList,
-    spotOptions: S.optional(SpotOptions),
-    slurmConfiguration: S.optional(ComputeNodeGroupSlurmConfigurationRequest),
-    nodeLifecycleActions: S.optional(NodeLifecycleActionsRequest),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(RequestTagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateComputeNodeGroupRequest",
-}) as any as S.Schema<CreateComputeNodeGroupRequest>;
 export type ComputeNodeGroupStatus =
   | "CREATING"
   | "ACTIVE"
@@ -664,41 +398,19 @@ export type ComputeNodeGroupStatus =
   | "SUSPENDED"
   | "RESUMING"
   | (string & {});
-export const ComputeNodeGroupStatus = S.String;
-
 export interface ScalingConfiguration {
   minInstanceCount: number;
   maxInstanceCount: number;
 }
-export const ScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ minInstanceCount: S.Number, maxInstanceCount: S.Number }),
-).annotate({
-  identifier: "ScalingConfiguration",
-}) as any as S.Schema<ScalingConfiguration>;
 export interface ComputeNodeGroupSlurmConfiguration {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  gresCustomSettings?: { [key: string]: string | undefined }[] | undefined;
 }
-export const ComputeNodeGroupSlurmConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scaleDownIdleTimeInSeconds: S.optional(S.Number),
-    slurmCustomSettings: S.optional(SlurmCustomSettings),
-  }),
-).annotate({
-  identifier: "ComputeNodeGroupSlurmConfiguration",
-}) as any as S.Schema<ComputeNodeGroupSlurmConfiguration>;
 export interface NodeLifecycleActions {
   stages: NodeLifecycleStages;
-  scriptCachingPolicy?: ScriptCachingPolicy;
+  scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
-export const NodeLifecycleActions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stages: NodeLifecycleStages,
-    scriptCachingPolicy: S.optional(ScriptCachingPolicy),
-  }),
-).annotate({
-  identifier: "NodeLifecycleActions",
-}) as any as S.Schema<NodeLifecycleActions>;
 export interface ComputeNodeGroup {
   name: string;
   id: string;
@@ -707,95 +419,37 @@ export interface ComputeNodeGroup {
   createdAt: Date;
   modifiedAt: Date;
   status: ComputeNodeGroupStatus;
-  amiId?: string;
+  amiId?: string | undefined;
   subnetIds: string[];
-  purchaseOption?: PurchaseOption;
+  purchaseOption?: PurchaseOption | undefined;
   customLaunchTemplate: CustomLaunchTemplate;
   iamInstanceProfileArn: string;
   scalingConfiguration: ScalingConfiguration;
   instanceConfigs: InstanceConfig[];
-  spotOptions?: SpotOptions;
-  slurmConfiguration?: ComputeNodeGroupSlurmConfiguration;
-  nodeLifecycleActions?: NodeLifecycleActions;
-  errorInfo?: ErrorInfo[];
+  spotOptions?: SpotOptions | undefined;
+  slurmConfiguration?: ComputeNodeGroupSlurmConfiguration | undefined;
+  nodeLifecycleActions?: NodeLifecycleActions | undefined;
+  errorInfo?: ErrorInfo[] | undefined;
 }
-export const ComputeNodeGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    id: S.String,
-    arn: S.String,
-    clusterId: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    status: ComputeNodeGroupStatus,
-    amiId: S.optional(S.String),
-    subnetIds: SubnetIdList,
-    purchaseOption: S.optional(PurchaseOption),
-    customLaunchTemplate: CustomLaunchTemplate,
-    iamInstanceProfileArn: S.String,
-    scalingConfiguration: ScalingConfiguration,
-    instanceConfigs: InstanceList,
-    spotOptions: S.optional(SpotOptions),
-    slurmConfiguration: S.optional(ComputeNodeGroupSlurmConfiguration),
-    nodeLifecycleActions: S.optional(NodeLifecycleActions),
-    errorInfo: S.optional(ErrorInfoList),
-  }),
-).annotate({
-  identifier: "ComputeNodeGroup",
-}) as any as S.Schema<ComputeNodeGroup>;
 export interface CreateComputeNodeGroupResponse {
-  computeNodeGroup?: ComputeNodeGroup;
+  computeNodeGroup?: ComputeNodeGroup | undefined;
 }
-export const CreateComputeNodeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ computeNodeGroup: S.optional(ComputeNodeGroup) }),
-).annotate({
-  identifier: "CreateComputeNodeGroupResponse",
-}) as any as S.Schema<CreateComputeNodeGroupResponse>;
 export type QueueName = string;
 export interface ComputeNodeGroupConfiguration {
-  computeNodeGroupId?: string;
+  computeNodeGroupId?: string | undefined;
 }
-export const ComputeNodeGroupConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ computeNodeGroupId: S.optional(S.String) }),
-).annotate({
-  identifier: "ComputeNodeGroupConfiguration",
-}) as any as S.Schema<ComputeNodeGroupConfiguration>;
 export type ComputeNodeGroupConfigurationList = ComputeNodeGroupConfiguration[];
-export const ComputeNodeGroupConfigurationList = /*@__PURE__*/ S.Array(
-  ComputeNodeGroupConfiguration,
-);
 export interface QueueSlurmConfigurationRequest {
-  slurmCustomSettings?: SlurmCustomSetting[];
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
 }
-export const QueueSlurmConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ slurmCustomSettings: S.optional(SlurmCustomSettings) }),
-).annotate({
-  identifier: "QueueSlurmConfigurationRequest",
-}) as any as S.Schema<QueueSlurmConfigurationRequest>;
 export interface CreateQueueRequest {
   clusterIdentifier: string;
   queueName: string;
-  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[];
-  slurmConfiguration?: QueueSlurmConfigurationRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[] | undefined;
+  slurmConfiguration?: QueueSlurmConfigurationRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const CreateQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    queueName: S.String,
-    computeNodeGroupConfigurations: S.optional(
-      ComputeNodeGroupConfigurationList,
-    ),
-    slurmConfiguration: S.optional(QueueSlurmConfigurationRequest),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    tags: S.optional(RequestTagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateQueueRequest",
-}) as any as S.Schema<CreateQueueRequest>;
 export type QueueStatus =
   | "CREATING"
   | "ACTIVE"
@@ -808,16 +462,9 @@ export type QueueStatus =
   | "SUSPENDED"
   | "RESUMING"
   | (string & {});
-export const QueueStatus = S.String;
-
 export interface QueueSlurmConfiguration {
-  slurmCustomSettings?: SlurmCustomSetting[];
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
 }
-export const QueueSlurmConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ slurmCustomSettings: S.optional(SlurmCustomSettings) }),
-).annotate({
-  identifier: "QueueSlurmConfiguration",
-}) as any as S.Schema<QueueSlurmConfiguration>;
 export interface Queue {
   name: string;
   id: string;
@@ -827,171 +474,56 @@ export interface Queue {
   modifiedAt: Date;
   status: QueueStatus;
   computeNodeGroupConfigurations: ComputeNodeGroupConfiguration[];
-  slurmConfiguration?: QueueSlurmConfiguration;
-  errorInfo?: ErrorInfo[];
+  slurmConfiguration?: QueueSlurmConfiguration | undefined;
+  errorInfo?: ErrorInfo[] | undefined;
 }
-export const Queue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    id: S.String,
-    arn: S.String,
-    clusterId: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    status: QueueStatus,
-    computeNodeGroupConfigurations: ComputeNodeGroupConfigurationList,
-    slurmConfiguration: S.optional(QueueSlurmConfiguration),
-    errorInfo: S.optional(ErrorInfoList),
-  }),
-).annotate({ identifier: "Queue" }) as any as S.Schema<Queue>;
 export interface CreateQueueResponse {
-  queue?: Queue;
+  queue?: Queue | undefined;
 }
-export const CreateQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queue: S.optional(Queue) }),
-).annotate({
-  identifier: "CreateQueueResponse",
-}) as any as S.Schema<CreateQueueResponse>;
 export interface DeleteClusterRequest {
   clusterIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
 export interface DeleteClusterResponse {}
-export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteClusterResponse",
-}) as any as S.Schema<DeleteClusterResponse>;
 export type ComputeNodeGroupIdentifier = string;
 export interface DeleteComputeNodeGroupRequest {
   clusterIdentifier: string;
   computeNodeGroupIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteComputeNodeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    computeNodeGroupIdentifier: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteComputeNodeGroupRequest",
-}) as any as S.Schema<DeleteComputeNodeGroupRequest>;
 export interface DeleteComputeNodeGroupResponse {}
-export const DeleteComputeNodeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteComputeNodeGroupResponse",
-}) as any as S.Schema<DeleteComputeNodeGroupResponse>;
 export type QueueIdentifier = string;
 export interface DeleteQueueRequest {
   clusterIdentifier: string;
   queueIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    queueIdentifier: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
 export interface DeleteQueueResponse {}
-export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteQueueResponse",
-}) as any as S.Schema<DeleteQueueResponse>;
 export interface GetClusterRequest {
   clusterIdentifier: string;
 }
-export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterIdentifier: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
 export interface GetClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
-export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: S.optional(Cluster) }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
 export interface GetComputeNodeGroupRequest {
   clusterIdentifier: string;
   computeNodeGroupIdentifier: string;
 }
-export const GetComputeNodeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    computeNodeGroupIdentifier: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetComputeNodeGroupRequest",
-}) as any as S.Schema<GetComputeNodeGroupRequest>;
 export interface GetComputeNodeGroupResponse {
-  computeNodeGroup?: ComputeNodeGroup;
+  computeNodeGroup?: ComputeNodeGroup | undefined;
 }
-export const GetComputeNodeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ computeNodeGroup: S.optional(ComputeNodeGroup) }),
-).annotate({
-  identifier: "GetComputeNodeGroupResponse",
-}) as any as S.Schema<GetComputeNodeGroupResponse>;
 export interface GetQueueRequest {
   clusterIdentifier: string;
   queueIdentifier: string;
 }
-export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusterIdentifier: S.String, queueIdentifier: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
 export interface GetQueueResponse {
-  queue?: Queue;
+  queue?: Queue | undefined;
 }
-export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queue: S.optional(Queue) }),
-).annotate({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
 export type MaxResults = number;
 export interface ListClustersRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListClustersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListClustersRequest",
-}) as any as S.Schema<ListClustersRequest>;
 export interface ClusterSummary {
   name: string;
   id: string;
@@ -1000,43 +532,16 @@ export interface ClusterSummary {
   modifiedAt: Date;
   status: ClusterStatus;
 }
-export const ClusterSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    id: S.String,
-    arn: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    status: ClusterStatus,
-  }),
-).annotate({ identifier: "ClusterSummary" }) as any as S.Schema<ClusterSummary>;
 export type ClusterList = ClusterSummary[];
-export const ClusterList = /*@__PURE__*/ S.Array(ClusterSummary);
 export interface ListClustersResponse {
   clusters: ClusterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListClustersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ clusters: ClusterList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListClustersResponse",
-}) as any as S.Schema<ListClustersResponse>;
 export interface ListComputeNodeGroupsRequest {
   clusterIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListComputeNodeGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListComputeNodeGroupsRequest",
-}) as any as S.Schema<ListComputeNodeGroupsRequest>;
 export interface ComputeNodeGroupSummary {
   name: string;
   id: string;
@@ -1046,51 +551,16 @@ export interface ComputeNodeGroupSummary {
   modifiedAt: Date;
   status: ComputeNodeGroupStatus;
 }
-export const ComputeNodeGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    id: S.String,
-    arn: S.String,
-    clusterId: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    status: ComputeNodeGroupStatus,
-  }),
-).annotate({
-  identifier: "ComputeNodeGroupSummary",
-}) as any as S.Schema<ComputeNodeGroupSummary>;
 export type ComputeNodeGroupList = ComputeNodeGroupSummary[];
-export const ComputeNodeGroupList = /*@__PURE__*/ S.Array(
-  ComputeNodeGroupSummary,
-);
 export interface ListComputeNodeGroupsResponse {
   computeNodeGroups: ComputeNodeGroupSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListComputeNodeGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    computeNodeGroups: ComputeNodeGroupList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListComputeNodeGroupsResponse",
-}) as any as S.Schema<ListComputeNodeGroupsResponse>;
 export interface ListQueuesRequest {
   clusterIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListQueuesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListQueuesRequest",
-}) as any as S.Schema<ListQueuesRequest>;
 export interface QueueSummary {
   name: string;
   id: string;
@@ -1100,331 +570,123 @@ export interface QueueSummary {
   modifiedAt: Date;
   status: QueueStatus;
 }
-export const QueueSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    id: S.String,
-    arn: S.String,
-    clusterId: S.String,
-    createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    status: QueueStatus,
-  }),
-).annotate({ identifier: "QueueSummary" }) as any as S.Schema<QueueSummary>;
 export type QueueList = QueueSummary[];
-export const QueueList = /*@__PURE__*/ S.Array(QueueSummary);
 export interface ListQueuesResponse {
   queues: QueueSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export const ListQueuesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queues: QueueList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListQueuesResponse",
-}) as any as S.Schema<ListQueuesResponse>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export type ResponseTagMap = { [key: string]: string | undefined };
-export const ResponseTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(ResponseTagMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export type BootstrapId = string;
 export interface RegisterComputeNodeGroupInstanceRequest {
   clusterIdentifier: string;
   bootstrapId: string;
 }
-export const RegisterComputeNodeGroupInstanceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ clusterIdentifier: S.String, bootstrapId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "RegisterComputeNodeGroupInstanceRequest",
-}) as any as S.Schema<RegisterComputeNodeGroupInstanceRequest>;
 export type SharedSecret = string | redacted.Redacted<string>;
 export interface RegisterComputeNodeGroupInstanceResponse {
   nodeID: string;
   sharedSecret: string | redacted.Redacted<string>;
   endpoints: Endpoint[];
-  clusterName?: string;
-  computeNodeGroupId?: string;
-  computeNodeGroupName?: string;
-  nodeLifecycleActions?: NodeLifecycleActions;
+  clusterName?: string | undefined;
+  computeNodeGroupId?: string | undefined;
+  computeNodeGroupName?: string | undefined;
+  nodeLifecycleActions?: NodeLifecycleActions | undefined;
+  schedulerVersion?: string | undefined;
 }
-export const RegisterComputeNodeGroupInstanceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nodeID: S.String,
-      sharedSecret: SensitiveString,
-      endpoints: Endpoints,
-      clusterName: S.optional(S.String),
-      computeNodeGroupId: S.optional(S.String),
-      computeNodeGroupName: S.optional(S.String),
-      nodeLifecycleActions: S.optional(NodeLifecycleActions),
-    }),
-).annotate({
-  identifier: "RegisterComputeNodeGroupInstanceResponse",
-}) as any as S.Schema<RegisterComputeNodeGroupInstanceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeys,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccountingRequest {
-  defaultPurgeTimeInDays?: number;
-  mode?: AccountingMode;
+  defaultPurgeTimeInDays?: number | undefined;
+  mode?: AccountingMode | undefined;
 }
-export const UpdateAccountingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    defaultPurgeTimeInDays: S.optional(S.Number),
-    mode: S.optional(AccountingMode),
-  }),
-).annotate({
-  identifier: "UpdateAccountingRequest",
-}) as any as S.Schema<UpdateAccountingRequest>;
 export interface UpdateSlurmRestRequest {
-  mode?: SlurmRestMode;
+  mode?: SlurmRestMode | undefined;
 }
-export const UpdateSlurmRestRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ mode: S.optional(SlurmRestMode) }),
-).annotate({
-  identifier: "UpdateSlurmRestRequest",
-}) as any as S.Schema<UpdateSlurmRestRequest>;
 export interface UpdateClusterSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  slurmdbdCustomSettings?: SlurmdbdCustomSetting[];
-  cgroupCustomSettings?: CgroupCustomSetting[];
-  accounting?: UpdateAccountingRequest;
-  slurmRest?: UpdateSlurmRestRequest;
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
+  cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  accounting?: UpdateAccountingRequest | undefined;
+  slurmRest?: UpdateSlurmRestRequest | undefined;
 }
-export const UpdateClusterSlurmConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      scaleDownIdleTimeInSeconds: S.optional(S.Number),
-      slurmCustomSettings: S.optional(SlurmCustomSettings),
-      slurmdbdCustomSettings: S.optional(SlurmdbdCustomSettings),
-      cgroupCustomSettings: S.optional(CgroupCustomSettings),
-      accounting: S.optional(UpdateAccountingRequest),
-      slurmRest: S.optional(UpdateSlurmRestRequest),
-    }),
-).annotate({
-  identifier: "UpdateClusterSlurmConfigurationRequest",
-}) as any as S.Schema<UpdateClusterSlurmConfigurationRequest>;
 export interface UpdateSchedulerRequest {
   version: string;
 }
-export const UpdateSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ version: S.String }),
-).annotate({
-  identifier: "UpdateSchedulerRequest",
-}) as any as S.Schema<UpdateSchedulerRequest>;
 export interface UpdateClusterRequest {
   clusterIdentifier: string;
-  clientToken?: string;
-  slurmConfiguration?: UpdateClusterSlurmConfigurationRequest;
-  scheduler?: UpdateSchedulerRequest;
+  clientToken?: string | undefined;
+  slurmConfiguration?: UpdateClusterSlurmConfigurationRequest | undefined;
+  scheduler?: UpdateSchedulerRequest | undefined;
 }
-export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    slurmConfiguration: S.optional(UpdateClusterSlurmConfigurationRequest),
-    scheduler: S.optional(UpdateSchedulerRequest),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
 export interface UpdateClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
-export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cluster: S.optional(Cluster) }),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
 export interface UpdateComputeNodeGroupSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  gresCustomSettings?: { [key: string]: string | undefined }[] | undefined;
 }
-export const UpdateComputeNodeGroupSlurmConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      scaleDownIdleTimeInSeconds: S.optional(S.Number),
-      slurmCustomSettings: S.optional(SlurmCustomSettings),
-    }),
-  ).annotate({
-    identifier: "UpdateComputeNodeGroupSlurmConfigurationRequest",
-  }) as any as S.Schema<UpdateComputeNodeGroupSlurmConfigurationRequest>;
 export interface UpdateNodeLifecycleActionsRequest {
   stages: NodeLifecycleStages;
-  scriptCachingPolicy?: ScriptCachingPolicy;
+  scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
-export const UpdateNodeLifecycleActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stages: NodeLifecycleStages,
-    scriptCachingPolicy: S.optional(ScriptCachingPolicy),
-  }),
-).annotate({
-  identifier: "UpdateNodeLifecycleActionsRequest",
-}) as any as S.Schema<UpdateNodeLifecycleActionsRequest>;
 export interface UpdateComputeNodeGroupRequest {
   clusterIdentifier: string;
   computeNodeGroupIdentifier: string;
-  amiId?: string;
-  subnetIds?: string[];
-  customLaunchTemplate?: CustomLaunchTemplate;
-  purchaseOption?: PurchaseOption;
-  spotOptions?: SpotOptions;
-  scalingConfiguration?: ScalingConfigurationRequest;
-  iamInstanceProfileArn?: string;
-  slurmConfiguration?: UpdateComputeNodeGroupSlurmConfigurationRequest;
-  nodeLifecycleActions?: UpdateNodeLifecycleActionsRequest;
-  clientToken?: string;
+  amiId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  customLaunchTemplate?: CustomLaunchTemplate | undefined;
+  purchaseOption?: PurchaseOption | undefined;
+  spotOptions?: SpotOptions | undefined;
+  scalingConfiguration?: ScalingConfigurationRequest | undefined;
+  iamInstanceProfileArn?: string | undefined;
+  slurmConfiguration?: UpdateComputeNodeGroupSlurmConfigurationRequest | undefined;
+  nodeLifecycleActions?: UpdateNodeLifecycleActionsRequest | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateComputeNodeGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    computeNodeGroupIdentifier: S.String,
-    amiId: S.optional(S.String),
-    subnetIds: S.optional(StringList),
-    customLaunchTemplate: S.optional(CustomLaunchTemplate),
-    purchaseOption: S.optional(PurchaseOption),
-    spotOptions: S.optional(SpotOptions),
-    scalingConfiguration: S.optional(ScalingConfigurationRequest),
-    iamInstanceProfileArn: S.optional(S.String),
-    slurmConfiguration: S.optional(
-      UpdateComputeNodeGroupSlurmConfigurationRequest,
-    ),
-    nodeLifecycleActions: S.optional(UpdateNodeLifecycleActionsRequest),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateComputeNodeGroupRequest",
-}) as any as S.Schema<UpdateComputeNodeGroupRequest>;
 export interface UpdateComputeNodeGroupResponse {
-  computeNodeGroup?: ComputeNodeGroup;
+  computeNodeGroup?: ComputeNodeGroup | undefined;
 }
-export const UpdateComputeNodeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ computeNodeGroup: S.optional(ComputeNodeGroup) }),
-).annotate({
-  identifier: "UpdateComputeNodeGroupResponse",
-}) as any as S.Schema<UpdateComputeNodeGroupResponse>;
 export interface UpdateQueueSlurmConfigurationRequest {
-  slurmCustomSettings?: SlurmCustomSetting[];
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
 }
-export const UpdateQueueSlurmConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ slurmCustomSettings: S.optional(SlurmCustomSettings) }),
-).annotate({
-  identifier: "UpdateQueueSlurmConfigurationRequest",
-}) as any as S.Schema<UpdateQueueSlurmConfigurationRequest>;
 export interface UpdateQueueRequest {
   clusterIdentifier: string;
   queueIdentifier: string;
-  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[];
-  slurmConfiguration?: UpdateQueueSlurmConfigurationRequest;
-  clientToken?: string;
+  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[] | undefined;
+  slurmConfiguration?: UpdateQueueSlurmConfigurationRequest | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateQueueRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clusterIdentifier: S.String,
-    queueIdentifier: S.String,
-    computeNodeGroupConfigurations: S.optional(
-      ComputeNodeGroupConfigurationList,
-    ),
-    slurmConfiguration: S.optional(UpdateQueueSlurmConfigurationRequest),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateQueueRequest",
-}) as any as S.Schema<UpdateQueueRequest>;
 export interface UpdateQueueResponse {
-  queue?: Queue;
+  queue?: Queue | undefined;
 }
-export const UpdateQueueResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ queue: S.optional(Queue) }),
-).annotate({
-  identifier: "UpdateQueueResponse",
-}) as any as S.Schema<UpdateQueueResponse>;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = S.String;
-
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
 export type CreateClusterError =
   | AccessDeniedException
   | ConflictException
@@ -1439,13 +701,13 @@ export type CreateClusterError =
  * It takes time for PCS to create the cluster. The cluster is in a `Creating` state until it is ready to use. There can only be 1 cluster in a `Creating` state per Amazon Web Services Region per Amazon Web Services account. `CreateCluster` fails with a `ServiceQuotaExceededException` if there is already a cluster in a `Creating` state.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateClusterRequest,
-  output: CreateClusterResponse,
+  input: __S(305, __c19, 1) as any as S.Schema<CreateClusterRequest>,
+  output: __S(344, __c21, 8) as any as S.Schema<CreateClusterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1457,6 +719,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateComputeNodeGroupError =
@@ -1472,13 +736,13 @@ export type CreateComputeNodeGroupError =
  * Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
  */
 export const createComputeNodeGroup: API.OperationMethod<
-  CreateComputeNodeGroupRequest,
+  CreateComputeNodeGroupRequest & RegionInput,
   CreateComputeNodeGroupResponse,
   CreateComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateComputeNodeGroupRequest,
-  output: CreateComputeNodeGroupResponse,
+  input: __S(416, __c26, 0) as any as S.Schema<CreateComputeNodeGroupRequest>,
+  output: __S(456, __c28, 8) as any as S.Schema<CreateComputeNodeGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1491,6 +755,8 @@ export const createComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "CreateComputeNodeGroup",
 }));
 
 export type CreateQueueError =
@@ -1506,13 +772,13 @@ export type CreateQueueError =
  * Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateQueueRequest,
-  output: CreateQueueResponse,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateQueueRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<CreateQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1525,6 +791,8 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  telemetry: TELEMETRY,
+  span: "CreateQueue",
 }));
 
 export type DeleteClusterError =
@@ -1539,13 +807,13 @@ export type DeleteClusterError =
  * Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteClusterRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteClusterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1557,6 +825,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteComputeNodeGroupError =
@@ -1571,13 +841,13 @@ export type DeleteComputeNodeGroupError =
  * Deletes a compute node group. You must delete all queues associated with the compute node group first.
  */
 export const deleteComputeNodeGroup: API.OperationMethod<
-  DeleteComputeNodeGroupRequest,
+  DeleteComputeNodeGroupRequest & RegionInput,
   DeleteComputeNodeGroupResponse,
   DeleteComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteComputeNodeGroupRequest,
-  output: DeleteComputeNodeGroupResponse,
+  input: __S(32, __c2, 0) as any as S.Schema<DeleteComputeNodeGroupRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteComputeNodeGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1589,6 +859,8 @@ export const deleteComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteComputeNodeGroup",
 }));
 
 export type DeleteQueueError =
@@ -1603,13 +875,13 @@ export type DeleteQueueError =
  * Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteQueueRequest,
-  output: DeleteQueueResponse,
+  input: __S(48, __c3, 0) as any as S.Schema<DeleteQueueRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1621,6 +893,8 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteQueue",
 }));
 
 export type GetClusterError =
@@ -1635,13 +909,13 @@ export type GetClusterError =
  * Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
  */
 export const getCluster: API.OperationMethod<
-  GetClusterRequest,
+  GetClusterRequest & RegionInput,
   GetClusterResponse,
   GetClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetClusterRequest,
-  output: GetClusterResponse,
+  input: __S(64, __c4, 0) as any as S.Schema<GetClusterRequest>,
+  output: __S(344, __c21, 8) as any as S.Schema<GetClusterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1653,6 +927,8 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
+  telemetry: TELEMETRY,
+  span: "GetCluster",
 }));
 
 export type GetComputeNodeGroupError =
@@ -1667,13 +943,13 @@ export type GetComputeNodeGroupError =
  * Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
  */
 export const getComputeNodeGroup: API.OperationMethod<
-  GetComputeNodeGroupRequest,
+  GetComputeNodeGroupRequest & RegionInput,
   GetComputeNodeGroupResponse,
   GetComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetComputeNodeGroupRequest,
-  output: GetComputeNodeGroupResponse,
+  input: __S(80, __c5, 0) as any as S.Schema<GetComputeNodeGroupRequest>,
+  output: __S(456, __c28, 8) as any as S.Schema<GetComputeNodeGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1685,6 +961,8 @@ export const getComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "GetComputeNodeGroup",
 }));
 
 export type GetQueueError =
@@ -1699,13 +977,13 @@ export type GetQueueError =
  * Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
  */
 export const getQueue: API.OperationMethod<
-  GetQueueRequest,
+  GetQueueRequest & RegionInput,
   GetQueueResponse,
   GetQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetQueueRequest,
-  output: GetQueueResponse,
+  input: __S(96, __c6, 0) as any as S.Schema<GetQueueRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<GetQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1717,6 +995,8 @@ export const getQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueue",
+  telemetry: TELEMETRY,
+  span: "GetQueue",
 }));
 
 export type ListClustersError =
@@ -1731,14 +1011,14 @@ export type ListClustersError =
  * Returns a list of running clusters in your account.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
   ClusterSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListClustersRequest,
-  output: ListClustersResponse,
+  input: __S(112, __c7, 0) as any as S.Schema<ListClustersRequest>,
+  output: __S(115, __c7, 3) as any as S.Schema<ListClustersResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1756,6 +1036,8 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListClusters",
 })) as any;
 
 export type ListComputeNodeGroupsError =
@@ -1770,14 +1052,14 @@ export type ListComputeNodeGroupsError =
  * Returns a list of all compute node groups associated with a cluster.
  */
 export const listComputeNodeGroups: API.PaginatedOperationMethod<
-  ListComputeNodeGroupsRequest,
+  ListComputeNodeGroupsRequest & RegionInput,
   ListComputeNodeGroupsResponse,
   ListComputeNodeGroupsError,
   Credentials | HttpClient.HttpClient,
   ComputeNodeGroupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListComputeNodeGroupsRequest,
-  output: ListComputeNodeGroupsResponse,
+  input: __S(128, __c8, 0) as any as S.Schema<ListComputeNodeGroupsRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<ListComputeNodeGroupsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1795,6 +1077,8 @@ export const listComputeNodeGroups: API.PaginatedOperationMethod<
     items: "computeNodeGroups",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListComputeNodeGroups",
 })) as any;
 
 export type ListQueuesError =
@@ -1809,14 +1093,14 @@ export type ListQueuesError =
  * Returns a list of all queues associated with a cluster.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
   QueueSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListQueuesRequest,
-  output: ListQueuesResponse,
+  input: __S(160, __c10, 0) as any as S.Schema<ListQueuesRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<ListQueuesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1834,6 +1118,8 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "queues",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListQueues",
 })) as any;
 
 export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
@@ -1841,17 +1127,19 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Returns a list of all tags on an PCS resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(176, __c11, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type RegisterComputeNodeGroupInstanceError =
@@ -1864,17 +1152,19 @@ export type RegisterComputeNodeGroupInstanceError =
  * PCS uses this API action to register the compute nodes it launches in your account.
  */
 export const registerComputeNodeGroupInstance: API.OperationMethod<
-  RegisterComputeNodeGroupInstanceRequest,
+  RegisterComputeNodeGroupInstanceRequest & RegionInput,
   RegisterComputeNodeGroupInstanceResponse,
   RegisterComputeNodeGroupInstanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterComputeNodeGroupInstanceRequest,
-  output: RegisterComputeNodeGroupInstanceResponse,
+  input: __S(192, __c12, 0) as any as S.Schema<RegisterComputeNodeGroupInstanceRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<RegisterComputeNodeGroupInstanceResponse>,
   errors: [AccessDeniedException, InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterComputeNodeGroupInstance",
+  telemetry: TELEMETRY,
+  span: "RegisterComputeNodeGroupInstance",
 }));
 
 export type TagResourceError =
@@ -1885,17 +1175,19 @@ export type TagResourceError =
  * Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(208, __c13, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<TagResourceResponse>,
   errors: [ResourceNotFoundException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError = ResourceNotFoundException | CommonErrors;
@@ -1903,17 +1195,19 @@ export type UntagResourceError = ResourceNotFoundException | CommonErrors;
  * Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(224, __c14, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateClusterError =
@@ -1930,13 +1224,13 @@ export type UpdateClusterError =
  * You can only update clusters that are in `ACTIVE`, `UPDATE_FAILED`, or `SUSPENDED` state. All associated resources (queues and compute node groups) must be in `ACTIVE` state before you can update the cluster.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateClusterRequest,
-  output: UpdateClusterResponse,
+  input: __S(244, __c15, 4) as any as S.Schema<UpdateClusterRequest>,
+  output: __S(344, __c21, 8) as any as S.Schema<UpdateClusterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1948,6 +1242,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateComputeNodeGroupError =
@@ -1963,13 +1259,13 @@ export type UpdateComputeNodeGroupError =
  * Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
  */
 export const updateComputeNodeGroup: API.OperationMethod<
-  UpdateComputeNodeGroupRequest,
+  UpdateComputeNodeGroupRequest & RegionInput,
   UpdateComputeNodeGroupResponse,
   UpdateComputeNodeGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateComputeNodeGroupRequest,
-  output: UpdateComputeNodeGroupResponse,
+  input: __S(256, __c16, 0) as any as S.Schema<UpdateComputeNodeGroupRequest>,
+  output: __S(456, __c28, 8) as any as S.Schema<UpdateComputeNodeGroupResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1982,6 +1278,8 @@ export const updateComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeNodeGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateComputeNodeGroup",
 }));
 
 export type UpdateQueueError =
@@ -1997,13 +1295,13 @@ export type UpdateQueueError =
  * Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
  */
 export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
+  UpdateQueueRequest & RegionInput,
   UpdateQueueResponse,
   UpdateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateQueueRequest,
-  output: UpdateQueueResponse,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateQueueRequest>,
+  output: __S(484, __c30, 4) as any as S.Schema<UpdateQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2016,4 +1314,606 @@ export const updateQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateQueue",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteClusterRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteClusterResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          computeNodeGroupIdentifier: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteComputeNodeGroupRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          queueIdentifier: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteQueueRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ clusterIdentifier: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetClusterRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ clusterIdentifier: S.String, computeNodeGroupIdentifier: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetComputeNodeGroupRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ clusterIdentifier: S.String, queueIdentifier: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetQueueRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListClustersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          arn: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "ClusterSummary" });
+    case 2:
+      return S.Array(__S(113, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ clusters: __S(114, __c7, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListClustersResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListComputeNodeGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ computeNodeGroups: __S(145, __c9, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListComputeNodeGroupsResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          arn: S.String,
+          clusterId: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "ComputeNodeGroupSummary" });
+    case 1:
+      return S.Array(__S(144, __c9, 0));
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListQueuesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ queues: __S(145, __c9, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListQueuesResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(400, __c25, 0)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ clusterIdentifier: S.String, bootstrapId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RegisterComputeNodeGroupInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nodeID: S.String,
+          sharedSecret: SensitiveString,
+          endpoints: __S(320, __c20, 0),
+          clusterName: S.optional(S.String),
+          computeNodeGroupId: S.optional(S.String),
+          computeNodeGroupName: S.optional(S.String),
+          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          schedulerVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegisterComputeNodeGroupInstanceResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tags: __S(400, __c25, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(352, __c22, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ defaultPurgeTimeInDays: S.optional(S.Number), mode: S.optional(S.String) }),
+      ).annotate({ identifier: "UpdateAccountingRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ mode: S.optional(S.String) })).annotate({
+        identifier: "UpdateSlurmRestRequest",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scaleDownIdleTimeInSeconds: S.optional(S.Number),
+          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
+          slurmdbdCustomSettings: S.optional(__S(385, __c24, 1)),
+          cgroupCustomSettings: S.optional(__S(385, __c24, 1)),
+          accounting: S.optional(__S(240, __c15, 0)),
+          slurmRest: S.optional(__S(241, __c15, 1)),
+        }),
+      ).annotate({ identifier: "UpdateClusterSlurmConfigurationRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ version: S.String })).annotate({
+        identifier: "UpdateSchedulerRequest",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          slurmConfiguration: S.optional(__S(242, __c15, 2)),
+          scheduler: S.optional(__S(243, __c15, 3)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateClusterRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          computeNodeGroupIdentifier: S.String,
+          amiId: S.optional(S.String),
+          subnetIds: S.optional(__S(352, __c22, 0)),
+          customLaunchTemplate: S.optional(__S(448, __c28, 0)),
+          purchaseOption: S.optional(S.String),
+          spotOptions: S.optional(__S(452, __c28, 4)),
+          scalingConfiguration: S.optional(__S(449, __c28, 1)),
+          iamInstanceProfileArn: S.optional(S.String),
+          slurmConfiguration: S.optional(__S(454, __c28, 6)),
+          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateComputeNodeGroupRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          queueIdentifier: S.String,
+          computeNodeGroupConfigurations: S.optional(__S(481, __c30, 1)),
+          slurmConfiguration: S.optional(__S(482, __c30, 2)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateQueueRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(288, __c18, 0));
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scaleDownIdleTimeInSeconds: S.optional(S.Number),
+          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
+          slurmdbdCustomSettings: S.optional(__S(385, __c24, 1)),
+          cgroupCustomSettings: S.optional(__S(385, __c24, 1)),
+          accounting: S.optional(__S(338, __c21, 2)),
+          slurmRest: S.optional(__S(339, __c21, 3)),
+        }),
+      ).annotate({ identifier: "ClusterSlurmConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          clusterName: S.String,
+          scheduler: __S(336, __c21, 0),
+          size: S.String,
+          networking: __S(337, __c21, 1),
+          slurmConfiguration: S.optional(__S(304, __c19, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          tags: S.optional(__S(400, __c25, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateClusterRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(Endpoint);
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ type: S.String, version: S.String })).annotate({
+        identifier: "SchedulerRequest",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subnetIds: S.optional(__S(352, __c22, 0)),
+          securityGroupIds: S.optional(__S(352, __c22, 0)),
+          networkType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkingRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ defaultPurgeTimeInDays: S.optional(S.Number), mode: S.String }),
+      ).annotate({ identifier: "AccountingRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ mode: S.String })).annotate({
+        identifier: "SlurmRestRequest",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ secretArn: S.String, secretVersion: S.String })).annotate({
+        identifier: "SlurmAuthKey",
+      });
+    case 5:
+      return S.suspend(() => S.Struct({ jwtKey: S.optional(__S(340, __c21, 4)) })).annotate({
+        identifier: "JwtAuth",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          scaleDownIdleTimeInSeconds: S.optional(S.Number),
+          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
+          slurmdbdCustomSettings: S.optional(__S(385, __c24, 1)),
+          cgroupCustomSettings: S.optional(__S(385, __c24, 1)),
+          authKey: S.optional(__S(340, __c21, 4)),
+          jwtAuth: S.optional(__S(341, __c21, 5)),
+          accounting: S.optional(__S(338, __c21, 2)),
+          slurmRest: S.optional(__S(339, __c21, 3)),
+        }),
+      ).annotate({ identifier: "ClusterSlurmConfiguration" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          arn: S.String,
+          status: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          scheduler: __S(336, __c21, 0),
+          size: S.String,
+          slurmConfiguration: S.optional(__S(342, __c21, 6)),
+          networking: __S(337, __c21, 1),
+          endpoints: S.optional(__S(320, __c20, 0)),
+          errorInfo: S.optional(__S(387, __c24, 3)),
+        }),
+      ).annotate({ identifier: "Cluster" });
+    case 8:
+      return S.suspend(() => S.Struct({ cluster: S.optional(__S(343, __c21, 7)) })).annotate({
+        identifier: "CreateClusterResponse",
+      });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          privateIpAddress: S.String,
+          publicIpAddress: S.optional(S.String),
+          ipv6Address: S.optional(S.String),
+          port: S.String,
+        }),
+      ).annotate({ identifier: "Endpoint" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ parameterName: S.String, parameterValue: S.String }),
+      ).annotate({ identifier: "SlurmCustomSetting" });
+    case 1:
+      return S.Array(__S(384, __c24, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "ErrorInfo" });
+    case 3:
+      return S.Array(__S(386, __c24, 2));
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          computeNodeGroupName: S.String,
+          amiId: S.optional(S.String),
+          subnetIds: __S(352, __c22, 0),
+          purchaseOption: S.optional(S.String),
+          customLaunchTemplate: __S(448, __c28, 0),
+          iamInstanceProfileArn: S.String,
+          scalingConfiguration: __S(449, __c28, 1),
+          instanceConfigs: __S(451, __c28, 3),
+          spotOptions: S.optional(__S(452, __c28, 4)),
+          slurmConfiguration: S.optional(__S(454, __c28, 6)),
+          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          tags: S.optional(__S(400, __c25, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateComputeNodeGroupRequest" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scriptLocation: S.String,
+          s3VersionId: S.optional(S.String),
+          checksum: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScriptSource" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          scriptSource: __S(432, __c27, 0),
+          arguments: S.optional(__S(352, __c22, 0)),
+          onError: S.optional(S.String),
+          executionPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NodeLifecycleScript" });
+    case 2:
+      return S.Array(__S(433, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nodeBootstrapped: S.optional(__S(434, __c27, 2)),
+          nodeReady: S.optional(__S(434, __c27, 2)),
+        }),
+      ).annotate({ identifier: "NodeLifecycleStages" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ stages: __S(435, __c27, 3), scriptCachingPolicy: S.optional(S.String) }),
+      ).annotate({ identifier: "NodeLifecycleActionsRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ id: S.String, version: S.String })).annotate({
+        identifier: "CustomLaunchTemplate",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ minInstanceCount: S.Number, maxInstanceCount: S.Number }),
+      ).annotate({ identifier: "ScalingConfigurationRequest" });
+    case 2:
+      return S.suspend(() => S.Struct({ instanceType: S.optional(S.String) })).annotate({
+        identifier: "InstanceConfig",
+      });
+    case 3:
+      return S.Array(__S(450, __c28, 2));
+    case 4:
+      return S.suspend(() => S.Struct({ allocationStrategy: S.optional(S.String) })).annotate({
+        identifier: "SpotOptions",
+      });
+    case 5:
+      return S.Array(__S(400, __c25, 0));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          scaleDownIdleTimeInSeconds: S.optional(S.Number),
+          slurmCustomSettings: S.optional(__S(385, __c24, 1)),
+          gresCustomSettings: S.optional(__S(453, __c28, 5)),
+        }),
+      ).annotate({ identifier: "ComputeNodeGroupSlurmConfigurationRequest" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          arn: S.String,
+          clusterId: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          status: S.String,
+          amiId: S.optional(S.String),
+          subnetIds: __S(352, __c22, 0),
+          purchaseOption: S.optional(S.String),
+          customLaunchTemplate: __S(448, __c28, 0),
+          iamInstanceProfileArn: S.String,
+          scalingConfiguration: __S(449, __c28, 1),
+          instanceConfigs: __S(451, __c28, 3),
+          spotOptions: S.optional(__S(452, __c28, 4)),
+          slurmConfiguration: S.optional(__S(454, __c28, 6)),
+          nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          errorInfo: S.optional(__S(387, __c24, 3)),
+        }),
+      ).annotate({ identifier: "ComputeNodeGroup" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ computeNodeGroup: S.optional(__S(455, __c28, 7)) }),
+      ).annotate({ identifier: "CreateComputeNodeGroupResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clusterIdentifier: S.String,
+          queueName: S.String,
+          computeNodeGroupConfigurations: S.optional(__S(481, __c30, 1)),
+          slurmConfiguration: S.optional(__S(482, __c30, 2)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          tags: S.optional(__S(400, __c25, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateQueueRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ computeNodeGroupId: S.optional(S.String) })).annotate({
+        identifier: "ComputeNodeGroupConfiguration",
+      });
+    case 1:
+      return S.Array(__S(480, __c30, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ slurmCustomSettings: S.optional(__S(385, __c24, 1)) }),
+      ).annotate({ identifier: "QueueSlurmConfigurationRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          id: S.String,
+          arn: S.String,
+          clusterId: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          status: S.String,
+          computeNodeGroupConfigurations: __S(481, __c30, 1),
+          slurmConfiguration: S.optional(__S(482, __c30, 2)),
+          errorInfo: S.optional(__S(387, __c24, 3)),
+        }),
+      ).annotate({ identifier: "Queue" });
+    case 4:
+      return S.suspend(() => S.Struct({ queue: S.optional(__S(483, __c30, 3)) })).annotate({
+        identifier: "CreateQueueResponse",
+      });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

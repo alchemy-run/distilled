@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Chronosphere Config V1 OpenAPI spec into a Smithy 2.0
  * JSON model.
@@ -8,14 +8,14 @@
  * Output: .generated-specs/chronosphere.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Chronosphere's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Chronosphere's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
-import * as fs from "node:fs";
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { readModel, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const modelPath = path.join(root, ".generated-specs", "chronosphere.json");
 
 await runOpenApiConvert({
@@ -47,7 +47,7 @@ await runOpenApiConvert({
  * wire names stay on `smithy.api#httpQuery`.
  */
 const QUERY = "smithy.api#httpQuery";
-const model = JSON.parse(fs.readFileSync(modelPath, "utf8")) as {
+const model = readModel(modelPath) as {
   shapes: Record<string, any>;
 };
 
@@ -92,5 +92,5 @@ for (const shape of Object.values(model.shapes)) {
   stamped++;
 }
 
-fs.writeFileSync(modelPath, JSON.stringify(model, null, 2) + "\n");
+writeModel(modelPath, model);
 console.log(`📄 stamped cursor pagination on ${stamped} operation(s)`);

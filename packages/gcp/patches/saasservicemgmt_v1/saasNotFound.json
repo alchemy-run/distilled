@@ -1,0 +1,54 @@
+{
+  "description": "Type the 400 INVALID_ARGUMENT unit kind / tenant create and patch return when the referenced Saas cannot be read (\"cannot get UnitKind's Saas \\\"...\\\". Error: rpc error: code = NotFound|PermissionDenied ...\"). A Saas created seconds earlier reports PermissionDenied here until it propagates. It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#SaasNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The referenced Saas does not exist or is not readable yet (HTTP 400 INVALID_ARGUMENT: \"cannot get UnitKind's Saas ...\"). Retry briefly right after creating the Saas.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "cannot get \\w+'s Saas"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#CreateProjectsLocationsUnitKinds/errors/-",
+      "value": {
+        "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#PatchProjectsLocationsUnitKinds/errors/-",
+      "value": {
+        "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#CreateProjectsLocationsTenants/errors/-",
+      "value": {
+        "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.saasservicemgmt_v1#PatchProjectsLocationsTenants/errors/-",
+      "value": {
+        "target": "com.gcp.saasservicemgmt_v1#SaasNotFound"
+      }
+    }
+  ]
+}

@@ -1,24 +1,25 @@
 {
   "name": "@distilled.cloud/github",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.18",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/github"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
-  "module": "src/index.ts",
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
+      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./Credentials": {
@@ -27,17 +28,35 @@
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
     },
+    "./App": {
+      "types": "./lib/app.d.ts",
+      "bun": "./src/app.ts",
+      "worker": "./src/app.ts",
+      "default": "./lib/app.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
       "worker": "./src/errors.ts",
       "default": "./lib/errors.js"
     },
+    "./OAuth": {
+      "types": "./lib/oauth.d.ts",
+      "bun": "./src/oauth.ts",
+      "worker": "./src/oauth.ts",
+      "default": "./lib/oauth.js"
+    },
     "./Protocol": {
       "types": "./lib/protocol.d.ts",
       "bun": "./src/protocol.ts",
       "worker": "./src/protocol.ts",
       "default": "./lib/protocol.js"
+    },
+    "./Pagination": {
+      "types": "./lib/pagination.d.ts",
+      "bun": "./src/pagination.ts",
+      "worker": "./src/pagination.ts",
+      "default": "./lib/pagination.js"
     },
     "./Retry": {
       "types": "./lib/retry.d.ts",
@@ -51,18 +70,25 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./GraphQL": {
+      "types": "./lib/graphql-index.d.ts",
+      "bun": "./src/graphql-index.ts",
+      "worker": "./src/graphql-index.ts",
+      "default": "./lib/graphql-index.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     }
   },
   "scripts": {
-    "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json",
+    "build": "tsrs -b",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsrs -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-github",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-github"
   },
@@ -70,11 +96,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "@distilled.cloud/dev": "workspace:*",
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-11-07"
   }
 }

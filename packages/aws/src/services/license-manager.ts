@@ -1,25 +1,28 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace(
-  "https://license-manager.amazonaws.com/doc/2018_08_01",
-);
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("https://license-manager.amazonaws.com/doc/2018_08_01");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "License Manager",
   serviceShapeName: "AWSLicenseManager",
 });
-const auth = T.AwsAuthSigv4({ name: "license-manager" });
-const ver = T.ServiceVersion("2018-08-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "license-manager" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-08-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -31,14 +34,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -65,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://license-manager-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,99 +72,110 @@ const rules = T.EndpointResolver((p, _) => {
               `https://license-manager.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://license-manager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://license-manager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://license-manager.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "LicenseManager",
+  service: "LicenseManager",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ServiceAccessDenied", httpResponseCode: 401 }),
-      T.HttpError(401),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ServiceAccessDenied", httpResponseCode: 401 }),
+      /*@__PURE__*/ T.HttpError(401),
     ),
   ).pipe(C.withAuthError) {}
 export class AuthorizationException
   extends /*@__PURE__*/ S.TaggedError<AuthorizationException>()(
     "AuthorizationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AuthorizationFailure", httpResponseCode: 403 }),
-      T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "AuthorizationFailure", httpResponseCode: 403 }),
+      /*@__PURE__*/ T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
-      T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
+      /*@__PURE__*/ T.HttpError(409),
     ),
   ).pipe(C.withConflictError) {}
 export class EntitlementNotAllowedException
   extends /*@__PURE__*/ S.TaggedError<EntitlementNotAllowedException>()(
     "EntitlementNotAllowedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class FailedDependencyException
   extends /*@__PURE__*/ S.TaggedError<FailedDependencyException>()(
     "FailedDependencyException",
     {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(S.String),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+      ErrorCode: /*@__PURE__*/ S.optional(S.String),
     },
-    T.all(
-      T.AwsQueryError({ code: "FailedDependency", httpResponseCode: 424 }),
-      T.HttpError(424),
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "FailedDependency", httpResponseCode: 424 }),
+      /*@__PURE__*/ T.HttpError(424),
     ),
   ) {}
 export class FilterLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<FilterLimitExceededException>()(
     "FilterLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "FilterLimitExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "FilterLimitExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "InvalidParameterValueProvided",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidResourceStateException
   extends /*@__PURE__*/ S.TaggedError<InvalidResourceStateException>()(
     "InvalidResourceStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidResourceState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidResourceState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class LicenseConfigurationNotFound
   extends /*@__PURE__*/ S.TaggedError<LicenseConfigurationNotFound>()(
     "LicenseConfigurationNotFound",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
       from: "InvalidParameterValueException",
       message: { includes: "Invalid license configuration ARN" },
     }),
@@ -175,97 +183,79 @@ export class LicenseConfigurationNotFound
 export class LicenseUsageException
   extends /*@__PURE__*/ S.TaggedError<LicenseUsageException>()(
     "LicenseUsageException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "LicenseUsageFailure", httpResponseCode: 412 }),
-      T.HttpError(412),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "LicenseUsageFailure", httpResponseCode: 412 }),
+      /*@__PURE__*/ T.HttpError(412),
     ),
   ) {}
 export class NoEntitlementsAllowedException
   extends /*@__PURE__*/ S.TaggedError<NoEntitlementsAllowedException>()(
     "NoEntitlementsAllowedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class RateLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<RateLimitExceededException>()(
     "RateLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "RateLimitExceeded", httpResponseCode: 429 }),
-      T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "RateLimitExceeded", httpResponseCode: 429 }),
+      /*@__PURE__*/ T.HttpError(429),
     ),
   ).pipe(C.withThrottlingError) {}
 export class RedirectException
   extends /*@__PURE__*/ S.TaggedError<RedirectException>()(
     "RedirectException",
     {
-      Location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      Location: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.HttpHeader("Location")),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(308),
+    /*@__PURE__*/ T.HttpError(308),
   ) {}
 export class ResourceLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ResourceLimitExceededException>()(
     "ResourceLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceLimitExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ResourceLimitExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidResource.NotFound",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidResource.NotFound", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServerInternalException
   extends /*@__PURE__*/ S.TaggedError<ServerInternalException>()(
     "ServerInternalException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
-      T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InternalError", httpResponseCode: 500 }),
+      /*@__PURE__*/ T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
 export class UnsupportedDigitalSignatureMethodException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedDigitalSignatureMethodException>()(
     "UnsupportedDigitalSignatureMethodException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type Arn = string;
 export interface AcceptGrantRequest {
   GrantArn: string;
 }
-export const AcceptGrantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GrantArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcceptGrantRequest",
-}) as any as S.Schema<AcceptGrantRequest>;
 export type GrantStatus =
   | "PENDING_WORKFLOW"
   | "PENDING_ACCEPT"
@@ -277,50 +267,16 @@ export type GrantStatus =
   | "DISABLED"
   | "WORKFLOW_COMPLETED"
   | (string & {});
-export const GrantStatus = S.String;
-
 export interface AcceptGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
-export const AcceptGrantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArn: S.optional(S.String),
-    Status: S.optional(GrantStatus),
-    Version: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "AcceptGrantResponse",
-}) as any as S.Schema<AcceptGrantResponse>;
 export interface CheckInLicenseRequest {
   LicenseConsumptionToken: string;
-  Beneficiary?: string;
+  Beneficiary?: string | undefined;
 }
-export const CheckInLicenseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConsumptionToken: S.String,
-    Beneficiary: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CheckInLicenseRequest",
-}) as any as S.Schema<CheckInLicenseRequest>;
 export interface CheckInLicenseResponse {}
-export const CheckInLicenseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CheckInLicenseResponse",
-}) as any as S.Schema<CheckInLicenseResponse>;
 export type EntitlementDataUnit =
   | "Count"
   | "None"
@@ -350,154 +306,60 @@ export type EntitlementDataUnit =
   | "Terabits/Second"
   | "Count/Second"
   | (string & {});
-export const EntitlementDataUnit = S.String;
-
 export interface EntitlementData {
   Name: string;
-  Value?: string;
+  Value?: string | undefined;
   Unit: EntitlementDataUnit;
 }
-export const EntitlementData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Value: S.optional(S.String),
-    Unit: EntitlementDataUnit,
-  }),
-).annotate({
-  identifier: "EntitlementData",
-}) as any as S.Schema<EntitlementData>;
 export type EntitlementDataList = EntitlementData[];
-export const EntitlementDataList = /*@__PURE__*/ S.Array(EntitlementData);
 export type DigitalSignatureMethod = "JWT_PS384" | (string & {});
-export const DigitalSignatureMethod = S.String;
-
 export interface Metadata {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
-export const Metadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Metadata" }) as any as S.Schema<Metadata>;
 export type MetadataList = Metadata[];
-export const MetadataList = /*@__PURE__*/ S.Array(Metadata);
 export type ClientToken = string;
 export interface CheckoutBorrowLicenseRequest {
   LicenseArn: string;
   Entitlements: EntitlementData[];
   DigitalSignatureMethod: DigitalSignatureMethod;
-  NodeId?: string;
-  CheckoutMetadata?: Metadata[];
+  NodeId?: string | undefined;
+  CheckoutMetadata?: Metadata[] | undefined;
   ClientToken: string;
 }
-export const CheckoutBorrowLicenseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.String,
-    Entitlements: EntitlementDataList,
-    DigitalSignatureMethod: DigitalSignatureMethod,
-    NodeId: S.optional(S.String),
-    CheckoutMetadata: S.optional(MetadataList),
-    ClientToken: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CheckoutBorrowLicenseRequest",
-}) as any as S.Schema<CheckoutBorrowLicenseRequest>;
 export type SignedToken = string;
 export type ISO8601DateTime = string;
 export interface CheckoutBorrowLicenseResponse {
-  LicenseArn?: string;
-  LicenseConsumptionToken?: string;
-  EntitlementsAllowed?: EntitlementData[];
-  NodeId?: string;
-  SignedToken?: string;
-  IssuedAt?: string;
-  Expiration?: string;
-  CheckoutMetadata?: Metadata[];
+  LicenseArn?: string | undefined;
+  LicenseConsumptionToken?: string | undefined;
+  EntitlementsAllowed?: EntitlementData[] | undefined;
+  NodeId?: string | undefined;
+  SignedToken?: string | undefined;
+  IssuedAt?: string | undefined;
+  Expiration?: string | undefined;
+  CheckoutMetadata?: Metadata[] | undefined;
 }
-export const CheckoutBorrowLicenseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.optional(S.String),
-    LicenseConsumptionToken: S.optional(S.String),
-    EntitlementsAllowed: S.optional(EntitlementDataList),
-    NodeId: S.optional(S.String),
-    SignedToken: S.optional(S.String),
-    IssuedAt: S.optional(S.String),
-    Expiration: S.optional(S.String),
-    CheckoutMetadata: S.optional(MetadataList),
-  }).pipe(ns),
-).annotate({
-  identifier: "CheckoutBorrowLicenseResponse",
-}) as any as S.Schema<CheckoutBorrowLicenseResponse>;
 export type CheckoutType = "PROVISIONAL" | "PERPETUAL" | (string & {});
-export const CheckoutType = S.String;
-
 export interface CheckoutLicenseRequest {
   ProductSKU: string;
   CheckoutType: CheckoutType;
   KeyFingerprint: string;
   Entitlements: EntitlementData[];
   ClientToken: string;
-  Beneficiary?: string;
-  NodeId?: string;
+  Beneficiary?: string | undefined;
+  NodeId?: string | undefined;
 }
-export const CheckoutLicenseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProductSKU: S.String,
-    CheckoutType: CheckoutType,
-    KeyFingerprint: S.String,
-    Entitlements: EntitlementDataList,
-    ClientToken: S.String,
-    Beneficiary: S.optional(S.String),
-    NodeId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CheckoutLicenseRequest",
-}) as any as S.Schema<CheckoutLicenseRequest>;
 export interface CheckoutLicenseResponse {
-  CheckoutType?: CheckoutType;
-  LicenseConsumptionToken?: string;
-  EntitlementsAllowed?: EntitlementData[];
-  SignedToken?: string;
-  NodeId?: string;
-  IssuedAt?: string;
-  Expiration?: string;
-  LicenseArn?: string;
+  CheckoutType?: CheckoutType | undefined;
+  LicenseConsumptionToken?: string | undefined;
+  EntitlementsAllowed?: EntitlementData[] | undefined;
+  SignedToken?: string | undefined;
+  NodeId?: string | undefined;
+  IssuedAt?: string | undefined;
+  Expiration?: string | undefined;
+  LicenseArn?: string | undefined;
 }
-export const CheckoutLicenseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CheckoutType: S.optional(CheckoutType),
-    LicenseConsumptionToken: S.optional(S.String),
-    EntitlementsAllowed: S.optional(EntitlementDataList),
-    SignedToken: S.optional(S.String),
-    NodeId: S.optional(S.String),
-    IssuedAt: S.optional(S.String),
-    Expiration: S.optional(S.String),
-    LicenseArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CheckoutLicenseResponse",
-}) as any as S.Schema<CheckoutLicenseResponse>;
 export type PrincipalArnList = string[];
-export const PrincipalArnList = /*@__PURE__*/ S.Array(S.String);
 export type AllowedOperation =
   | "CreateGrant"
   | "CheckoutLicense"
@@ -506,20 +368,23 @@ export type AllowedOperation =
   | "ExtendConsumptionLicense"
   | "ListPurchasedLicenses"
   | "CreateToken"
+  | "ListReceivedLicenses"
   | (string & {});
-export const AllowedOperation = S.String;
-
 export type AllowedOperationList = AllowedOperation[];
-export const AllowedOperationList = /*@__PURE__*/ S.Array(AllowedOperation);
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
+export type GrantType = "BuyerGrant" | "DelegateGrant" | (string & {});
+export type ActivationOverrideBehavior =
+  | "DISTRIBUTED_GRANTS_ONLY"
+  | "ALL_GRANTS_PERMITTED_BY_ISSUER"
+  | (string & {});
+export interface Options {
+  ActivationOverrideBehavior?: ActivationOverrideBehavior | undefined;
+  DesiredStatus?: GrantStatus | undefined;
+}
 export interface CreateGrantRequest {
   ClientToken: string;
   GrantName: string;
@@ -527,122 +392,39 @@ export interface CreateGrantRequest {
   Principals: string[];
   HomeRegion: string;
   AllowedOperations: AllowedOperation[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
+  GrantType?: GrantType | undefined;
+  Options?: Options | undefined;
 }
-export const CreateGrantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.String,
-    GrantName: S.String,
-    LicenseArn: S.String,
-    Principals: PrincipalArnList,
-    HomeRegion: S.String,
-    AllowedOperations: AllowedOperationList,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGrantRequest",
-}) as any as S.Schema<CreateGrantRequest>;
 export interface CreateGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
-export const CreateGrantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArn: S.optional(S.String),
-    Status: S.optional(GrantStatus),
-    Version: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateGrantResponse",
-}) as any as S.Schema<CreateGrantResponse>;
 export type StatusReasonMessage = string;
-export type ActivationOverrideBehavior =
-  | "DISTRIBUTED_GRANTS_ONLY"
-  | "ALL_GRANTS_PERMITTED_BY_ISSUER"
-  | (string & {});
-export const ActivationOverrideBehavior = S.String;
-
-export interface Options {
-  ActivationOverrideBehavior?: ActivationOverrideBehavior;
-}
-export const Options = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ActivationOverrideBehavior: S.optional(ActivationOverrideBehavior),
-  }),
-).annotate({ identifier: "Options" }) as any as S.Schema<Options>;
 export interface CreateGrantVersionRequest {
   ClientToken: string;
   GrantArn: string;
-  GrantName?: string;
-  AllowedOperations?: AllowedOperation[];
-  Status?: GrantStatus;
-  StatusReason?: string;
-  SourceVersion?: string;
-  Options?: Options;
+  GrantName?: string | undefined;
+  AllowedOperations?: AllowedOperation[] | undefined;
+  Status?: GrantStatus | undefined;
+  StatusReason?: string | undefined;
+  SourceVersion?: string | undefined;
+  Options?: Options | undefined;
 }
-export const CreateGrantVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientToken: S.String,
-    GrantArn: S.String,
-    GrantName: S.optional(S.String),
-    AllowedOperations: S.optional(AllowedOperationList),
-    Status: S.optional(GrantStatus),
-    StatusReason: S.optional(S.String),
-    SourceVersion: S.optional(S.String),
-    Options: S.optional(Options),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGrantVersionRequest",
-}) as any as S.Schema<CreateGrantVersionRequest>;
 export interface CreateGrantVersionResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
-export const CreateGrantVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArn: S.optional(S.String),
-    Status: S.optional(GrantStatus),
-    Version: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateGrantVersionResponse",
-}) as any as S.Schema<CreateGrantVersionResponse>;
 export interface Issuer {
   Name: string;
-  SignKey?: string;
+  SignKey?: string | undefined;
 }
-export const Issuer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, SignKey: S.optional(S.String) }),
-).annotate({ identifier: "Issuer" }) as any as S.Schema<Issuer>;
 export interface DatetimeRange {
   Begin: string;
-  End?: string;
+  End?: string | undefined;
 }
-export const DatetimeRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Begin: S.String, End: S.optional(S.String) }),
-).annotate({ identifier: "DatetimeRange" }) as any as S.Schema<DatetimeRange>;
 export type BoxBoolean = boolean;
 export type EntitlementUnit =
   | "Count"
@@ -673,63 +455,29 @@ export type EntitlementUnit =
   | "Terabits/Second"
   | "Count/Second"
   | (string & {});
-export const EntitlementUnit = S.String;
-
 export interface Entitlement {
   Name: string;
-  Value?: string;
-  MaxCount?: number;
-  Overage?: boolean;
+  Value?: string | undefined;
+  MaxCount?: number | undefined;
+  Overage?: boolean | undefined;
   Unit: EntitlementUnit;
-  AllowCheckIn?: boolean;
+  AllowCheckIn?: boolean | undefined;
 }
-export const Entitlement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Value: S.optional(S.String),
-    MaxCount: S.optional(S.Number),
-    Overage: S.optional(S.Boolean),
-    Unit: EntitlementUnit,
-    AllowCheckIn: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Entitlement" }) as any as S.Schema<Entitlement>;
 export type EntitlementList = Entitlement[];
-export const EntitlementList = /*@__PURE__*/ S.Array(Entitlement);
 export type RenewType = "None" | "Weekly" | "Monthly" | (string & {});
-export const RenewType = S.String;
-
 export type BoxInteger = number;
 export interface ProvisionalConfiguration {
   MaxTimeToLiveInMinutes: number;
 }
-export const ProvisionalConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaxTimeToLiveInMinutes: S.Number }),
-).annotate({
-  identifier: "ProvisionalConfiguration",
-}) as any as S.Schema<ProvisionalConfiguration>;
 export interface BorrowConfiguration {
   AllowEarlyCheckIn: boolean;
   MaxTimeToLiveInMinutes: number;
 }
-export const BorrowConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AllowEarlyCheckIn: S.Boolean, MaxTimeToLiveInMinutes: S.Number }),
-).annotate({
-  identifier: "BorrowConfiguration",
-}) as any as S.Schema<BorrowConfiguration>;
 export interface ConsumptionConfiguration {
-  RenewType?: RenewType;
-  ProvisionalConfiguration?: ProvisionalConfiguration;
-  BorrowConfiguration?: BorrowConfiguration;
+  RenewType?: RenewType | undefined;
+  ProvisionalConfiguration?: ProvisionalConfiguration | undefined;
+  BorrowConfiguration?: BorrowConfiguration | undefined;
 }
-export const ConsumptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RenewType: S.optional(RenewType),
-    ProvisionalConfiguration: S.optional(ProvisionalConfiguration),
-    BorrowConfiguration: S.optional(BorrowConfiguration),
-  }),
-).annotate({
-  identifier: "ConsumptionConfiguration",
-}) as any as S.Schema<ConsumptionConfiguration>;
 export interface CreateLicenseRequest {
   LicenseName: string;
   ProductName: string;
@@ -740,38 +488,10 @@ export interface CreateLicenseRequest {
   Entitlements: Entitlement[];
   Beneficiary: string;
   ConsumptionConfiguration: ConsumptionConfiguration;
-  LicenseMetadata?: Metadata[];
+  LicenseMetadata?: Metadata[] | undefined;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const CreateLicenseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseName: S.String,
-    ProductName: S.String,
-    ProductSKU: S.String,
-    Issuer: Issuer,
-    HomeRegion: S.String,
-    Validity: DatetimeRange,
-    Entitlements: EntitlementList,
-    Beneficiary: S.String,
-    ConsumptionConfiguration: ConsumptionConfiguration,
-    LicenseMetadata: S.optional(MetadataList),
-    ClientToken: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLicenseRequest",
-}) as any as S.Schema<CreateLicenseRequest>;
 export type LicenseStatus =
   | "AVAILABLE"
   | "PENDING_AVAILABLE"
@@ -781,451 +501,159 @@ export type LicenseStatus =
   | "PENDING_DELETE"
   | "DELETED"
   | (string & {});
-export const LicenseStatus = S.String;
-
 export interface CreateLicenseResponse {
-  LicenseArn?: string;
-  Status?: LicenseStatus;
-  Version?: string;
+  LicenseArn?: string | undefined;
+  Status?: LicenseStatus | undefined;
+  Version?: string | undefined;
 }
-export const CreateLicenseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.optional(S.String),
-    Status: S.optional(LicenseStatus),
-    Version: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateLicenseResponse",
-}) as any as S.Schema<CreateLicenseResponse>;
 export type LicenseAssetResourceName = string;
 export type LicenseAssetResourceDescription = string;
 export interface LicenseAssetGroupConfiguration {
-  UsageDimension?: string;
+  UsageDimension?: string | undefined;
 }
-export const LicenseAssetGroupConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UsageDimension: S.optional(S.String) }),
-).annotate({
-  identifier: "LicenseAssetGroupConfiguration",
-}) as any as S.Schema<LicenseAssetGroupConfiguration>;
-export type LicenseAssetGroupConfigurationList =
-  LicenseAssetGroupConfiguration[];
-export const LicenseAssetGroupConfigurationList = /*@__PURE__*/ S.Array(
-  LicenseAssetGroupConfiguration,
-);
+export type LicenseAssetGroupConfigurationList = LicenseAssetGroupConfiguration[];
 export type LicenseAssetRulesetArnList = string[];
-export const LicenseAssetRulesetArnList = /*@__PURE__*/ S.Array(S.String);
 export interface LicenseAssetGroupProperty {
   Key: string;
   Value: string;
 }
-export const LicenseAssetGroupProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({
-  identifier: "LicenseAssetGroupProperty",
-}) as any as S.Schema<LicenseAssetGroupProperty>;
 export type LicenseAssetGroupPropertyList = LicenseAssetGroupProperty[];
-export const LicenseAssetGroupPropertyList = /*@__PURE__*/ S.Array(
-  LicenseAssetGroupProperty,
-);
 export interface CreateLicenseAssetGroupRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   LicenseAssetGroupConfigurations: LicenseAssetGroupConfiguration[];
   AssociatedLicenseAssetRulesetARNs: string[];
-  Properties?: LicenseAssetGroupProperty[];
-  Tags?: Tag[];
+  Properties?: LicenseAssetGroupProperty[] | undefined;
+  Tags?: Tag[] | undefined;
   ClientToken: string;
 }
-export const CreateLicenseAssetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    LicenseAssetGroupConfigurations: LicenseAssetGroupConfigurationList,
-    AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList,
-    Properties: S.optional(LicenseAssetGroupPropertyList),
-    Tags: S.optional(TagList),
-    ClientToken: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLicenseAssetGroupRequest",
-}) as any as S.Schema<CreateLicenseAssetGroupRequest>;
 export interface CreateLicenseAssetGroupResponse {
   LicenseAssetGroupArn: string;
   Status: string;
 }
-export const CreateLicenseAssetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetGroupArn: S.String, Status: S.String }).pipe(ns),
-).annotate({
-  identifier: "CreateLicenseAssetGroupResponse",
-}) as any as S.Schema<CreateLicenseAssetGroupResponse>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface MatchingRuleStatement {
   KeyToMatch: string;
   Constraint: string;
   ValueToMatch: string[];
 }
-export const MatchingRuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyToMatch: S.String,
-    Constraint: S.String,
-    ValueToMatch: StringList,
-  }),
-).annotate({
-  identifier: "MatchingRuleStatement",
-}) as any as S.Schema<MatchingRuleStatement>;
 export type MatchingRuleStatementList = MatchingRuleStatement[];
-export const MatchingRuleStatementList = /*@__PURE__*/ S.Array(
-  MatchingRuleStatement,
-);
 export interface ScriptRuleStatement {
   KeyToMatch: string;
   Script: string;
 }
-export const ScriptRuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyToMatch: S.String, Script: S.String }),
-).annotate({
-  identifier: "ScriptRuleStatement",
-}) as any as S.Schema<ScriptRuleStatement>;
 export type ScriptRuleStatementList = ScriptRuleStatement[];
-export const ScriptRuleStatementList =
-  /*@__PURE__*/ S.Array(ScriptRuleStatement);
 export interface AndRuleStatement {
-  MatchingRuleStatements?: MatchingRuleStatement[];
-  ScriptRuleStatements?: ScriptRuleStatement[];
+  MatchingRuleStatements?: MatchingRuleStatement[] | undefined;
+  ScriptRuleStatements?: ScriptRuleStatement[] | undefined;
 }
-export const AndRuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MatchingRuleStatements: S.optional(MatchingRuleStatementList),
-    ScriptRuleStatements: S.optional(ScriptRuleStatementList),
-  }),
-).annotate({
-  identifier: "AndRuleStatement",
-}) as any as S.Schema<AndRuleStatement>;
 export interface OrRuleStatement {
-  MatchingRuleStatements?: MatchingRuleStatement[];
-  ScriptRuleStatements?: ScriptRuleStatement[];
+  MatchingRuleStatements?: MatchingRuleStatement[] | undefined;
+  ScriptRuleStatements?: ScriptRuleStatement[] | undefined;
 }
-export const OrRuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MatchingRuleStatements: S.optional(MatchingRuleStatementList),
-    ScriptRuleStatements: S.optional(ScriptRuleStatementList),
-  }),
-).annotate({
-  identifier: "OrRuleStatement",
-}) as any as S.Schema<OrRuleStatement>;
 export interface LicenseConfigurationRuleStatement {
-  AndRuleStatement?: AndRuleStatement;
-  OrRuleStatement?: OrRuleStatement;
-  MatchingRuleStatement?: MatchingRuleStatement;
+  AndRuleStatement?: AndRuleStatement | undefined;
+  OrRuleStatement?: OrRuleStatement | undefined;
+  MatchingRuleStatement?: MatchingRuleStatement | undefined;
 }
-export const LicenseConfigurationRuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AndRuleStatement: S.optional(AndRuleStatement),
-    OrRuleStatement: S.optional(OrRuleStatement),
-    MatchingRuleStatement: S.optional(MatchingRuleStatement),
-  }),
-).annotate({
-  identifier: "LicenseConfigurationRuleStatement",
-}) as any as S.Schema<LicenseConfigurationRuleStatement>;
 export interface LicenseRuleStatement {
-  AndRuleStatement?: AndRuleStatement;
-  OrRuleStatement?: OrRuleStatement;
-  MatchingRuleStatement?: MatchingRuleStatement;
+  AndRuleStatement?: AndRuleStatement | undefined;
+  OrRuleStatement?: OrRuleStatement | undefined;
+  MatchingRuleStatement?: MatchingRuleStatement | undefined;
 }
-export const LicenseRuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AndRuleStatement: S.optional(AndRuleStatement),
-    OrRuleStatement: S.optional(OrRuleStatement),
-    MatchingRuleStatement: S.optional(MatchingRuleStatement),
-  }),
-).annotate({
-  identifier: "LicenseRuleStatement",
-}) as any as S.Schema<LicenseRuleStatement>;
 export interface InstanceRuleStatement {
-  AndRuleStatement?: AndRuleStatement;
-  OrRuleStatement?: OrRuleStatement;
-  MatchingRuleStatement?: MatchingRuleStatement;
-  ScriptRuleStatement?: ScriptRuleStatement;
+  AndRuleStatement?: AndRuleStatement | undefined;
+  OrRuleStatement?: OrRuleStatement | undefined;
+  MatchingRuleStatement?: MatchingRuleStatement | undefined;
+  ScriptRuleStatement?: ScriptRuleStatement | undefined;
 }
-export const InstanceRuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AndRuleStatement: S.optional(AndRuleStatement),
-    OrRuleStatement: S.optional(OrRuleStatement),
-    MatchingRuleStatement: S.optional(MatchingRuleStatement),
-    ScriptRuleStatement: S.optional(ScriptRuleStatement),
-  }),
-).annotate({
-  identifier: "InstanceRuleStatement",
-}) as any as S.Schema<InstanceRuleStatement>;
 export interface RuleStatement {
-  LicenseConfigurationRuleStatement?: LicenseConfigurationRuleStatement;
-  LicenseRuleStatement?: LicenseRuleStatement;
-  InstanceRuleStatement?: InstanceRuleStatement;
+  LicenseConfigurationRuleStatement?: LicenseConfigurationRuleStatement | undefined;
+  LicenseRuleStatement?: LicenseRuleStatement | undefined;
+  InstanceRuleStatement?: InstanceRuleStatement | undefined;
 }
-export const RuleStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConfigurationRuleStatement: S.optional(
-      LicenseConfigurationRuleStatement,
-    ),
-    LicenseRuleStatement: S.optional(LicenseRuleStatement),
-    InstanceRuleStatement: S.optional(InstanceRuleStatement),
-  }),
-).annotate({ identifier: "RuleStatement" }) as any as S.Schema<RuleStatement>;
 export interface LicenseAssetRule {
   RuleStatement: RuleStatement;
 }
-export const LicenseAssetRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleStatement: RuleStatement }),
-).annotate({
-  identifier: "LicenseAssetRule",
-}) as any as S.Schema<LicenseAssetRule>;
 export type LicenseAssetRuleList = LicenseAssetRule[];
-export const LicenseAssetRuleList = /*@__PURE__*/ S.Array(LicenseAssetRule);
 export interface CreateLicenseAssetRulesetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Rules: LicenseAssetRule[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   ClientToken: string;
 }
-export const CreateLicenseAssetRulesetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    Rules: LicenseAssetRuleList,
-    Tags: S.optional(TagList),
-    ClientToken: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLicenseAssetRulesetRequest",
-}) as any as S.Schema<CreateLicenseAssetRulesetRequest>;
 export interface CreateLicenseAssetRulesetResponse {
   LicenseAssetRulesetArn: string;
 }
-export const CreateLicenseAssetRulesetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(ns),
-).annotate({
-  identifier: "CreateLicenseAssetRulesetResponse",
-}) as any as S.Schema<CreateLicenseAssetRulesetResponse>;
-export type LicenseCountingType =
-  | "vCPU"
-  | "Instance"
-  | "Core"
-  | "Socket"
-  | (string & {});
-export const LicenseCountingType = S.String;
-
+export type LicenseCountingType = "vCPU" | "Instance" | "Core" | "Socket" | (string & {});
 export type BoxLong = number;
 export interface ProductInformationFilter {
   ProductInformationFilterName: string;
-  ProductInformationFilterValue?: string[];
+  ProductInformationFilterValue?: string[] | undefined;
   ProductInformationFilterComparator: string;
 }
-export const ProductInformationFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProductInformationFilterName: S.String,
-    ProductInformationFilterValue: S.optional(StringList),
-    ProductInformationFilterComparator: S.String,
-  }),
-).annotate({
-  identifier: "ProductInformationFilter",
-}) as any as S.Schema<ProductInformationFilter>;
 export type ProductInformationFilterList = ProductInformationFilter[];
-export const ProductInformationFilterList = /*@__PURE__*/ S.Array(
-  ProductInformationFilter,
-);
 export interface ProductInformation {
   ResourceType: string;
   ProductInformationFilterList: ProductInformationFilter[];
 }
-export const ProductInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceType: S.String,
-    ProductInformationFilterList: ProductInformationFilterList,
-  }),
-).annotate({
-  identifier: "ProductInformation",
-}) as any as S.Schema<ProductInformation>;
 export type ProductInformationList = ProductInformation[];
-export const ProductInformationList = /*@__PURE__*/ S.Array(ProductInformation);
 export interface CreateLicenseConfigurationRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   LicenseCountingType: LicenseCountingType;
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  LicenseRules?: string[];
-  Tags?: Tag[];
-  DisassociateWhenNotFound?: boolean;
-  ProductInformationList?: ProductInformation[];
-  LicenseExpiry?: number;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  LicenseRules?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  LicenseExpiry?: number | undefined;
 }
-export const CreateLicenseConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    LicenseCountingType: LicenseCountingType,
-    LicenseCount: S.optional(S.Number),
-    LicenseCountHardLimit: S.optional(S.Boolean),
-    LicenseRules: S.optional(StringList),
-    Tags: S.optional(TagList),
-    DisassociateWhenNotFound: S.optional(S.Boolean),
-    ProductInformationList: S.optional(ProductInformationList),
-    LicenseExpiry: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLicenseConfigurationRequest",
-}) as any as S.Schema<CreateLicenseConfigurationRequest>;
 export interface CreateLicenseConfigurationResponse {
-  LicenseConfigurationArn?: string;
+  LicenseConfigurationArn?: string | undefined;
 }
-export const CreateLicenseConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseConfigurationArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateLicenseConfigurationResponse",
-}) as any as S.Schema<CreateLicenseConfigurationResponse>;
 export type UsageOperation = string;
 export type ProductCodeId = string;
 export type ProductCodeType = "marketplace" | (string & {});
-export const ProductCodeType = S.String;
-
 export interface ProductCodeListItem {
   ProductCodeId: string;
   ProductCodeType: ProductCodeType;
 }
-export const ProductCodeListItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProductCodeId: S.String, ProductCodeType: ProductCodeType }),
-).annotate({
-  identifier: "ProductCodeListItem",
-}) as any as S.Schema<ProductCodeListItem>;
 export type ProductCodeList = ProductCodeListItem[];
-export const ProductCodeList = /*@__PURE__*/ S.Array(ProductCodeListItem);
 export interface LicenseConversionContext {
-  UsageOperation?: string;
-  ProductCodes?: ProductCodeListItem[];
+  UsageOperation?: string | undefined;
+  ProductCodes?: ProductCodeListItem[] | undefined;
 }
-export const LicenseConversionContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UsageOperation: S.optional(S.String),
-    ProductCodes: S.optional(ProductCodeList),
-  }),
-).annotate({
-  identifier: "LicenseConversionContext",
-}) as any as S.Schema<LicenseConversionContext>;
 export interface CreateLicenseConversionTaskForResourceRequest {
   ResourceArn: string;
   SourceLicenseContext: LicenseConversionContext;
   DestinationLicenseContext: LicenseConversionContext;
 }
-export const CreateLicenseConversionTaskForResourceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ResourceArn: S.String,
-      SourceLicenseContext: LicenseConversionContext,
-      DestinationLicenseContext: LicenseConversionContext,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateLicenseConversionTaskForResourceRequest",
-  }) as any as S.Schema<CreateLicenseConversionTaskForResourceRequest>;
 export type LicenseConversionTaskId = string;
 export interface CreateLicenseConversionTaskForResourceResponse {
-  LicenseConversionTaskId?: string;
+  LicenseConversionTaskId?: string | undefined;
 }
-export const CreateLicenseConversionTaskForResourceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ LicenseConversionTaskId: S.optional(S.String) }).pipe(ns),
-  ).annotate({
-    identifier: "CreateLicenseConversionTaskForResourceResponse",
-  }) as any as S.Schema<CreateLicenseConversionTaskForResourceResponse>;
 export type ReportGeneratorName = string;
 export type ReportType =
   | "LicenseConfigurationSummaryReport"
   | "LicenseConfigurationUsageReport"
   | "LicenseAssetGroupUsageReport"
   | (string & {});
-export const ReportType = S.String;
-
 export type ReportTypeList = ReportType[];
-export const ReportTypeList = /*@__PURE__*/ S.Array(ReportType);
 export type ArnList = string[];
-export const ArnList = /*@__PURE__*/ S.Array(S.String);
 export interface ReportContext {
-  licenseConfigurationArns?: string[];
-  licenseAssetGroupArns?: string[];
-  reportStartDate?: Date;
-  reportEndDate?: Date;
+  licenseConfigurationArns?: string[] | undefined;
+  licenseAssetGroupArns?: string[] | undefined;
+  reportStartDate?: Date | undefined;
+  reportEndDate?: Date | undefined;
 }
-export const ReportContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    licenseConfigurationArns: S.optional(ArnList),
-    licenseAssetGroupArns: S.optional(ArnList),
-    reportStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    reportEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "ReportContext" }) as any as S.Schema<ReportContext>;
-export type ReportFrequencyType =
-  | "DAY"
-  | "WEEK"
-  | "MONTH"
-  | "ONE_TIME"
-  | (string & {});
-export const ReportFrequencyType = S.String;
-
+export type ReportFrequencyType = "DAY" | "WEEK" | "MONTH" | "ONE_TIME" | (string & {});
 export interface ReportFrequency {
-  value?: number;
-  period?: ReportFrequencyType;
+  value?: number | undefined;
+  period?: ReportFrequencyType | undefined;
 }
-export const ReportFrequency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: S.optional(S.Number),
-    period: S.optional(ReportFrequencyType),
-  }),
-).annotate({
-  identifier: "ReportFrequency",
-}) as any as S.Schema<ReportFrequency>;
 export type ClientRequestToken = string;
 export interface CreateLicenseManagerReportGeneratorRequest {
   ReportGeneratorName: string;
@@ -1233,44 +661,12 @@ export interface CreateLicenseManagerReportGeneratorRequest {
   ReportContext: ReportContext;
   ReportFrequency: ReportFrequency;
   ClientToken: string;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateLicenseManagerReportGeneratorRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ReportGeneratorName: S.String,
-      Type: ReportTypeList,
-      ReportContext: ReportContext,
-      ReportFrequency: ReportFrequency,
-      ClientToken: S.String,
-      Description: S.optional(S.String),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateLicenseManagerReportGeneratorRequest",
-  }) as any as S.Schema<CreateLicenseManagerReportGeneratorRequest>;
 export interface CreateLicenseManagerReportGeneratorResponse {
-  LicenseManagerReportGeneratorArn?: string;
+  LicenseManagerReportGeneratorArn?: string | undefined;
 }
-export const CreateLicenseManagerReportGeneratorResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ LicenseManagerReportGeneratorArn: S.optional(S.String) }).pipe(
-      ns,
-    ),
-  ).annotate({
-    identifier: "CreateLicenseManagerReportGeneratorResponse",
-  }) as any as S.Schema<CreateLicenseManagerReportGeneratorResponse>;
 export interface CreateLicenseVersionRequest {
   LicenseArn: string;
   LicenseName: string;
@@ -1278,392 +674,95 @@ export interface CreateLicenseVersionRequest {
   Issuer: Issuer;
   HomeRegion: string;
   Validity: DatetimeRange;
-  LicenseMetadata?: Metadata[];
+  LicenseMetadata?: Metadata[] | undefined;
   Entitlements: Entitlement[];
   ConsumptionConfiguration: ConsumptionConfiguration;
   Status: LicenseStatus;
   ClientToken: string;
-  SourceVersion?: string;
-  ResetUsage?: boolean;
+  SourceVersion?: string | undefined;
+  ResetUsage?: boolean | undefined;
 }
-export const CreateLicenseVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.String,
-    LicenseName: S.String,
-    ProductName: S.String,
-    Issuer: Issuer,
-    HomeRegion: S.String,
-    Validity: DatetimeRange,
-    LicenseMetadata: S.optional(MetadataList),
-    Entitlements: EntitlementList,
-    ConsumptionConfiguration: ConsumptionConfiguration,
-    Status: LicenseStatus,
-    ClientToken: S.String,
-    SourceVersion: S.optional(S.String),
-    ResetUsage: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLicenseVersionRequest",
-}) as any as S.Schema<CreateLicenseVersionRequest>;
 export interface CreateLicenseVersionResponse {
-  LicenseArn?: string;
-  Version?: string;
-  Status?: LicenseStatus;
+  LicenseArn?: string | undefined;
+  Version?: string | undefined;
+  Status?: LicenseStatus | undefined;
 }
-export const CreateLicenseVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.optional(S.String),
-    Version: S.optional(S.String),
-    Status: S.optional(LicenseStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateLicenseVersionResponse",
-}) as any as S.Schema<CreateLicenseVersionResponse>;
 export type MaxSize3StringList = string[];
-export const MaxSize3StringList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateTokenRequest {
   LicenseArn: string;
-  RoleArns?: string[];
-  ExpirationInDays?: number;
-  TokenProperties?: string[];
+  RoleArns?: string[] | undefined;
+  ExpirationInDays?: number | undefined;
+  TokenProperties?: string[] | undefined;
   ClientToken: string;
 }
-export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.String,
-    RoleArns: S.optional(ArnList),
-    ExpirationInDays: S.optional(S.Number),
-    TokenProperties: S.optional(MaxSize3StringList),
-    ClientToken: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
 export type TokenType = "REFRESH_TOKEN" | (string & {});
-export const TokenType = S.String;
-
 export type TokenString = string;
 export interface CreateTokenResponse {
-  TokenId?: string;
-  TokenType?: TokenType;
-  Token?: string | redacted.Redacted<string>;
+  TokenId?: string | undefined;
+  TokenType?: TokenType | undefined;
+  Token?: string | redacted.Redacted<string> | undefined;
 }
-export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TokenId: S.optional(S.String),
-    TokenType: S.optional(TokenType),
-    Token: S.optional(SensitiveString),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
 export interface DeleteGrantRequest {
   GrantArn: string;
-  StatusReason?: string;
+  StatusReason?: string | undefined;
   Version: string;
 }
-export const DeleteGrantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArn: S.String,
-    StatusReason: S.optional(S.String),
-    Version: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGrantRequest",
-}) as any as S.Schema<DeleteGrantRequest>;
 export interface DeleteGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
-export const DeleteGrantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArn: S.optional(S.String),
-    Status: S.optional(GrantStatus),
-    Version: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteGrantResponse",
-}) as any as S.Schema<DeleteGrantResponse>;
 export interface DeleteLicenseRequest {
   LicenseArn: string;
   SourceVersion: string;
 }
-export const DeleteLicenseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseArn: S.String, SourceVersion: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLicenseRequest",
-}) as any as S.Schema<DeleteLicenseRequest>;
-export type LicenseDeletionStatus =
-  | "PENDING_DELETE"
-  | "DELETED"
-  | (string & {});
-export const LicenseDeletionStatus = S.String;
-
+export type LicenseDeletionStatus = "PENDING_DELETE" | "DELETED" | (string & {});
 export interface DeleteLicenseResponse {
-  Status?: LicenseDeletionStatus;
-  DeletionDate?: string;
+  Status?: LicenseDeletionStatus | undefined;
+  DeletionDate?: string | undefined;
 }
-export const DeleteLicenseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(LicenseDeletionStatus),
-    DeletionDate: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteLicenseResponse",
-}) as any as S.Schema<DeleteLicenseResponse>;
 export interface DeleteLicenseAssetGroupRequest {
   LicenseAssetGroupArn: string;
 }
-export const DeleteLicenseAssetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetGroupArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLicenseAssetGroupRequest",
-}) as any as S.Schema<DeleteLicenseAssetGroupRequest>;
-export type LicenseAssetGroupStatus =
-  | "ACTIVE"
-  | "DISABLED"
-  | "DELETED"
-  | (string & {});
-export const LicenseAssetGroupStatus = S.String;
-
+export type LicenseAssetGroupStatus = "ACTIVE" | "DISABLED" | "DELETED" | (string & {});
 export interface DeleteLicenseAssetGroupResponse {
   Status: LicenseAssetGroupStatus;
 }
-export const DeleteLicenseAssetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: LicenseAssetGroupStatus }).pipe(ns),
-).annotate({
-  identifier: "DeleteLicenseAssetGroupResponse",
-}) as any as S.Schema<DeleteLicenseAssetGroupResponse>;
 export interface DeleteLicenseAssetRulesetRequest {
   LicenseAssetRulesetArn: string;
 }
-export const DeleteLicenseAssetRulesetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLicenseAssetRulesetRequest",
-}) as any as S.Schema<DeleteLicenseAssetRulesetRequest>;
 export interface DeleteLicenseAssetRulesetResponse {}
-export const DeleteLicenseAssetRulesetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLicenseAssetRulesetResponse",
-}) as any as S.Schema<DeleteLicenseAssetRulesetResponse>;
 export interface DeleteLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
 }
-export const DeleteLicenseConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseConfigurationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLicenseConfigurationRequest",
-}) as any as S.Schema<DeleteLicenseConfigurationRequest>;
 export interface DeleteLicenseConfigurationResponse {}
-export const DeleteLicenseConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLicenseConfigurationResponse",
-}) as any as S.Schema<DeleteLicenseConfigurationResponse>;
 export interface DeleteLicenseManagerReportGeneratorRequest {
   LicenseManagerReportGeneratorArn: string;
 }
-export const DeleteLicenseManagerReportGeneratorRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ LicenseManagerReportGeneratorArn: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteLicenseManagerReportGeneratorRequest",
-  }) as any as S.Schema<DeleteLicenseManagerReportGeneratorRequest>;
 export interface DeleteLicenseManagerReportGeneratorResponse {}
-export const DeleteLicenseManagerReportGeneratorResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteLicenseManagerReportGeneratorResponse",
-  }) as any as S.Schema<DeleteLicenseManagerReportGeneratorResponse>;
 export interface DeleteTokenRequest {
   TokenId: string;
 }
-export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TokenId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
 export interface DeleteTokenResponse {}
-export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteTokenResponse",
-}) as any as S.Schema<DeleteTokenResponse>;
 export interface ExtendLicenseConsumptionRequest {
   LicenseConsumptionToken: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
-export const ExtendLicenseConsumptionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConsumptionToken: S.String,
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ExtendLicenseConsumptionRequest",
-}) as any as S.Schema<ExtendLicenseConsumptionRequest>;
 export interface ExtendLicenseConsumptionResponse {
-  LicenseConsumptionToken?: string;
-  Expiration?: string;
+  LicenseConsumptionToken?: string | undefined;
+  Expiration?: string | undefined;
 }
-export const ExtendLicenseConsumptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConsumptionToken: S.optional(S.String),
-    Expiration: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ExtendLicenseConsumptionResponse",
-}) as any as S.Schema<ExtendLicenseConsumptionResponse>;
 export interface GetAccessTokenRequest {
   Token: string | redacted.Redacted<string>;
-  TokenProperties?: string[];
+  TokenProperties?: string[] | undefined;
 }
-export const GetAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Token: SensitiveString,
-    TokenProperties: S.optional(MaxSize3StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetAccessTokenRequest",
-}) as any as S.Schema<GetAccessTokenRequest>;
 export interface GetAccessTokenResponse {
-  AccessToken?: string | redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
 }
-export const GetAccessTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AccessToken: S.optional(SensitiveString) }).pipe(ns),
-).annotate({
-  identifier: "GetAccessTokenResponse",
-}) as any as S.Schema<GetAccessTokenResponse>;
 export interface GetGrantRequest {
   GrantArn: string;
-  Version?: string;
+  Version?: string | undefined;
 }
-export const GetGrantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GrantArn: S.String, Version: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGrantRequest",
-}) as any as S.Schema<GetGrantRequest>;
 export interface Grant {
   GrantArn: string;
   GrantName: string;
@@ -1672,227 +771,76 @@ export interface Grant {
   GranteePrincipalArn: string;
   HomeRegion: string;
   GrantStatus: GrantStatus;
-  StatusReason?: string;
+  StatusReason?: string | undefined;
   Version: string;
   GrantedOperations: AllowedOperation[];
-  Options?: Options;
+  Options?: Options | undefined;
+  GrantType?: GrantType | undefined;
 }
-export const Grant = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArn: S.String,
-    GrantName: S.String,
-    ParentArn: S.String,
-    LicenseArn: S.String,
-    GranteePrincipalArn: S.String,
-    HomeRegion: S.String,
-    GrantStatus: GrantStatus,
-    StatusReason: S.optional(S.String),
-    Version: S.String,
-    GrantedOperations: AllowedOperationList,
-    Options: S.optional(Options),
-  }),
-).annotate({ identifier: "Grant" }) as any as S.Schema<Grant>;
 export interface GetGrantResponse {
-  Grant?: Grant;
+  Grant?: Grant | undefined;
 }
-export const GetGrantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Grant: S.optional(Grant) }).pipe(ns),
-).annotate({
-  identifier: "GetGrantResponse",
-}) as any as S.Schema<GetGrantResponse>;
 export interface GetLicenseRequest {
   LicenseArn: string;
-  Version?: string;
+  Version?: string | undefined;
 }
-export const GetLicenseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseArn: S.String, Version: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLicenseRequest",
-}) as any as S.Schema<GetLicenseRequest>;
 export interface IssuerDetails {
-  Name?: string;
-  SignKey?: string;
-  KeyFingerprint?: string;
+  Name?: string | undefined;
+  SignKey?: string | undefined;
+  KeyFingerprint?: string | undefined;
 }
-export const IssuerDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    SignKey: S.optional(S.String),
-    KeyFingerprint: S.optional(S.String),
-  }),
-).annotate({ identifier: "IssuerDetails" }) as any as S.Schema<IssuerDetails>;
 export interface License {
-  LicenseArn?: string;
-  LicenseName?: string;
-  ProductName?: string;
-  ProductSKU?: string;
-  Issuer?: IssuerDetails;
-  HomeRegion?: string;
-  Status?: LicenseStatus;
-  Validity?: DatetimeRange;
-  Beneficiary?: string;
-  Entitlements?: Entitlement[];
-  ConsumptionConfiguration?: ConsumptionConfiguration;
-  LicenseMetadata?: Metadata[];
-  CreateTime?: string;
-  Version?: string;
+  LicenseArn?: string | undefined;
+  LicenseName?: string | undefined;
+  ProductName?: string | undefined;
+  ProductSKU?: string | undefined;
+  Issuer?: IssuerDetails | undefined;
+  HomeRegion?: string | undefined;
+  Status?: LicenseStatus | undefined;
+  Validity?: DatetimeRange | undefined;
+  Beneficiary?: string | undefined;
+  Entitlements?: Entitlement[] | undefined;
+  ConsumptionConfiguration?: ConsumptionConfiguration | undefined;
+  LicenseMetadata?: Metadata[] | undefined;
+  CreateTime?: string | undefined;
+  Version?: string | undefined;
 }
-export const License = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.optional(S.String),
-    LicenseName: S.optional(S.String),
-    ProductName: S.optional(S.String),
-    ProductSKU: S.optional(S.String),
-    Issuer: S.optional(IssuerDetails),
-    HomeRegion: S.optional(S.String),
-    Status: S.optional(LicenseStatus),
-    Validity: S.optional(DatetimeRange),
-    Beneficiary: S.optional(S.String),
-    Entitlements: S.optional(EntitlementList),
-    ConsumptionConfiguration: S.optional(ConsumptionConfiguration),
-    LicenseMetadata: S.optional(MetadataList),
-    CreateTime: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({ identifier: "License" }) as any as S.Schema<License>;
 export interface GetLicenseResponse {
-  License?: License;
+  License?: License | undefined;
 }
-export const GetLicenseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ License: S.optional(License) }).pipe(ns),
-).annotate({
-  identifier: "GetLicenseResponse",
-}) as any as S.Schema<GetLicenseResponse>;
 export interface GetLicenseAssetGroupRequest {
   LicenseAssetGroupArn: string;
 }
-export const GetLicenseAssetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetGroupArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLicenseAssetGroupRequest",
-}) as any as S.Schema<GetLicenseAssetGroupRequest>;
 export interface LicenseAssetGroup {
   Name: string;
-  Description?: string;
-  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[];
+  Description?: string | undefined;
+  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[] | undefined;
   AssociatedLicenseAssetRulesetARNs: string[];
-  Properties?: LicenseAssetGroupProperty[];
+  Properties?: LicenseAssetGroupProperty[] | undefined;
   LicenseAssetGroupArn: string;
   Status: LicenseAssetGroupStatus;
-  StatusMessage?: string;
-  LatestUsageAnalysisTime?: Date;
-  LatestResourceDiscoveryTime?: Date;
+  StatusMessage?: string | undefined;
+  LatestUsageAnalysisTime?: Date | undefined;
+  LatestResourceDiscoveryTime?: Date | undefined;
 }
-export const LicenseAssetGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    LicenseAssetGroupConfigurations: S.optional(
-      LicenseAssetGroupConfigurationList,
-    ),
-    AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList,
-    Properties: S.optional(LicenseAssetGroupPropertyList),
-    LicenseAssetGroupArn: S.String,
-    Status: LicenseAssetGroupStatus,
-    StatusMessage: S.optional(S.String),
-    LatestUsageAnalysisTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestResourceDiscoveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "LicenseAssetGroup",
-}) as any as S.Schema<LicenseAssetGroup>;
 export interface GetLicenseAssetGroupResponse {
   LicenseAssetGroup: LicenseAssetGroup;
 }
-export const GetLicenseAssetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetGroup: LicenseAssetGroup }).pipe(ns),
-).annotate({
-  identifier: "GetLicenseAssetGroupResponse",
-}) as any as S.Schema<GetLicenseAssetGroupResponse>;
 export interface GetLicenseAssetRulesetRequest {
   LicenseAssetRulesetArn: string;
 }
-export const GetLicenseAssetRulesetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLicenseAssetRulesetRequest",
-}) as any as S.Schema<GetLicenseAssetRulesetRequest>;
 export interface LicenseAssetRuleset {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Rules: LicenseAssetRule[];
   LicenseAssetRulesetArn: string;
 }
-export const LicenseAssetRuleset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    Rules: LicenseAssetRuleList,
-    LicenseAssetRulesetArn: S.String,
-  }),
-).annotate({
-  identifier: "LicenseAssetRuleset",
-}) as any as S.Schema<LicenseAssetRuleset>;
 export interface GetLicenseAssetRulesetResponse {
   LicenseAssetRuleset: LicenseAssetRuleset;
 }
-export const GetLicenseAssetRulesetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetRuleset: LicenseAssetRuleset }).pipe(ns),
-).annotate({
-  identifier: "GetLicenseAssetRulesetResponse",
-}) as any as S.Schema<GetLicenseAssetRulesetResponse>;
 export interface GetLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
 }
-export const GetLicenseConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseConfigurationArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLicenseConfigurationRequest",
-}) as any as S.Schema<GetLicenseConfigurationRequest>;
 export type ResourceType =
   | "EC2_INSTANCE"
   | "EC2_HOST"
@@ -1900,1138 +848,348 @@ export type ResourceType =
   | "RDS"
   | "SYSTEMS_MANAGER_MANAGED_INSTANCE"
   | (string & {});
-export const ResourceType = S.String;
-
 export interface ConsumedLicenseSummary {
-  ResourceType?: ResourceType;
-  ConsumedLicenses?: number;
+  ResourceType?: ResourceType | undefined;
+  ConsumedLicenses?: number | undefined;
 }
-export const ConsumedLicenseSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceType: S.optional(ResourceType),
-    ConsumedLicenses: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ConsumedLicenseSummary",
-}) as any as S.Schema<ConsumedLicenseSummary>;
 export type ConsumedLicenseSummaryList = ConsumedLicenseSummary[];
-export const ConsumedLicenseSummaryList = /*@__PURE__*/ S.Array(
-  ConsumedLicenseSummary,
-);
 export interface ManagedResourceSummary {
-  ResourceType?: ResourceType;
-  AssociationCount?: number;
+  ResourceType?: ResourceType | undefined;
+  AssociationCount?: number | undefined;
 }
-export const ManagedResourceSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceType: S.optional(ResourceType),
-    AssociationCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ManagedResourceSummary",
-}) as any as S.Schema<ManagedResourceSummary>;
 export type ManagedResourceSummaryList = ManagedResourceSummary[];
-export const ManagedResourceSummaryList = /*@__PURE__*/ S.Array(
-  ManagedResourceSummary,
-);
 export interface AutomatedDiscoveryInformation {
-  LastRunTime?: Date;
+  LastRunTime?: Date | undefined;
 }
-export const AutomatedDiscoveryInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LastRunTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "AutomatedDiscoveryInformation",
-}) as any as S.Schema<AutomatedDiscoveryInformation>;
 export interface GetLicenseConfigurationResponse {
-  LicenseConfigurationId?: string;
-  LicenseConfigurationArn?: string;
-  Name?: string;
-  Description?: string;
-  LicenseCountingType?: LicenseCountingType;
-  LicenseRules?: string[];
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  ConsumedLicenses?: number;
-  Status?: string;
-  OwnerAccountId?: string;
-  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[];
-  ManagedResourceSummaryList?: ManagedResourceSummary[];
-  Tags?: Tag[];
-  ProductInformationList?: ProductInformation[];
-  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation;
-  DisassociateWhenNotFound?: boolean;
-  LicenseExpiry?: number;
+  LicenseConfigurationId?: string | undefined;
+  LicenseConfigurationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LicenseCountingType?: LicenseCountingType | undefined;
+  LicenseRules?: string[] | undefined;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  ConsumedLicenses?: number | undefined;
+  Status?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[] | undefined;
+  ManagedResourceSummaryList?: ManagedResourceSummary[] | undefined;
+  Tags?: Tag[] | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  LicenseExpiry?: number | undefined;
 }
-export const GetLicenseConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConfigurationId: S.optional(S.String),
-    LicenseConfigurationArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    LicenseCountingType: S.optional(LicenseCountingType),
-    LicenseRules: S.optional(StringList),
-    LicenseCount: S.optional(S.Number),
-    LicenseCountHardLimit: S.optional(S.Boolean),
-    ConsumedLicenses: S.optional(S.Number),
-    Status: S.optional(S.String),
-    OwnerAccountId: S.optional(S.String),
-    ConsumedLicenseSummaryList: S.optional(ConsumedLicenseSummaryList),
-    ManagedResourceSummaryList: S.optional(ManagedResourceSummaryList),
-    Tags: S.optional(TagList),
-    ProductInformationList: S.optional(ProductInformationList),
-    AutomatedDiscoveryInformation: S.optional(AutomatedDiscoveryInformation),
-    DisassociateWhenNotFound: S.optional(S.Boolean),
-    LicenseExpiry: S.optional(S.Number),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetLicenseConfigurationResponse",
-}) as any as S.Schema<GetLicenseConfigurationResponse>;
 export interface GetLicenseConversionTaskRequest {
   LicenseConversionTaskId: string;
 }
-export const GetLicenseConversionTaskRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseConversionTaskId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLicenseConversionTaskRequest",
-}) as any as S.Schema<GetLicenseConversionTaskRequest>;
-export type LicenseConversionTaskStatus =
-  | "IN_PROGRESS"
-  | "SUCCEEDED"
-  | "FAILED"
-  | (string & {});
-export const LicenseConversionTaskStatus = S.String;
-
+export type LicenseConversionTaskStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface GetLicenseConversionTaskResponse {
-  LicenseConversionTaskId?: string;
-  ResourceArn?: string;
-  SourceLicenseContext?: LicenseConversionContext;
-  DestinationLicenseContext?: LicenseConversionContext;
-  StatusMessage?: string;
-  Status?: LicenseConversionTaskStatus;
-  StartTime?: Date;
-  LicenseConversionTime?: Date;
-  EndTime?: Date;
+  LicenseConversionTaskId?: string | undefined;
+  ResourceArn?: string | undefined;
+  SourceLicenseContext?: LicenseConversionContext | undefined;
+  DestinationLicenseContext?: LicenseConversionContext | undefined;
+  StatusMessage?: string | undefined;
+  Status?: LicenseConversionTaskStatus | undefined;
+  StartTime?: Date | undefined;
+  LicenseConversionTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
-export const GetLicenseConversionTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConversionTaskId: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    SourceLicenseContext: S.optional(LicenseConversionContext),
-    DestinationLicenseContext: S.optional(LicenseConversionContext),
-    StatusMessage: S.optional(S.String),
-    Status: S.optional(LicenseConversionTaskStatus),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LicenseConversionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetLicenseConversionTaskResponse",
-}) as any as S.Schema<GetLicenseConversionTaskResponse>;
 export interface GetLicenseManagerReportGeneratorRequest {
   LicenseManagerReportGeneratorArn: string;
 }
-export const GetLicenseManagerReportGeneratorRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ LicenseManagerReportGeneratorArn: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "GetLicenseManagerReportGeneratorRequest",
-}) as any as S.Schema<GetLicenseManagerReportGeneratorRequest>;
 export interface S3Location {
-  bucket?: string;
-  keyPrefix?: string;
+  bucket?: string | undefined;
+  keyPrefix?: string | undefined;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ bucket: S.optional(S.String), keyPrefix: S.optional(S.String) }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface ReportGenerator {
-  ReportGeneratorName?: string;
-  ReportType?: ReportType[];
-  ReportContext?: ReportContext;
-  ReportFrequency?: ReportFrequency;
-  LicenseManagerReportGeneratorArn?: string;
-  LastRunStatus?: string;
-  LastRunFailureReason?: string;
-  LastReportGenerationTime?: string;
-  ReportCreatorAccount?: string;
-  Description?: string;
-  S3Location?: S3Location;
-  CreateTime?: string;
-  Tags?: Tag[];
+  ReportGeneratorName?: string | undefined;
+  ReportType?: ReportType[] | undefined;
+  ReportContext?: ReportContext | undefined;
+  ReportFrequency?: ReportFrequency | undefined;
+  LicenseManagerReportGeneratorArn?: string | undefined;
+  LastRunStatus?: string | undefined;
+  LastRunFailureReason?: string | undefined;
+  LastReportGenerationTime?: string | undefined;
+  ReportCreatorAccount?: string | undefined;
+  Description?: string | undefined;
+  S3Location?: S3Location | undefined;
+  CreateTime?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const ReportGenerator = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportGeneratorName: S.optional(S.String),
-    ReportType: S.optional(ReportTypeList),
-    ReportContext: S.optional(ReportContext),
-    ReportFrequency: S.optional(ReportFrequency),
-    LicenseManagerReportGeneratorArn: S.optional(S.String),
-    LastRunStatus: S.optional(S.String),
-    LastRunFailureReason: S.optional(S.String),
-    LastReportGenerationTime: S.optional(S.String),
-    ReportCreatorAccount: S.optional(S.String),
-    Description: S.optional(S.String),
-    S3Location: S.optional(S3Location),
-    CreateTime: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }),
-).annotate({
-  identifier: "ReportGenerator",
-}) as any as S.Schema<ReportGenerator>;
 export interface GetLicenseManagerReportGeneratorResponse {
-  ReportGenerator?: ReportGenerator;
+  ReportGenerator?: ReportGenerator | undefined;
 }
-export const GetLicenseManagerReportGeneratorResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ ReportGenerator: S.optional(ReportGenerator) }).pipe(ns),
-).annotate({
-  identifier: "GetLicenseManagerReportGeneratorResponse",
-}) as any as S.Schema<GetLicenseManagerReportGeneratorResponse>;
 export interface GetLicenseUsageRequest {
   LicenseArn: string;
 }
-export const GetLicenseUsageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetLicenseUsageRequest",
-}) as any as S.Schema<GetLicenseUsageRequest>;
 export interface EntitlementUsage {
   Name: string;
   ConsumedValue: string;
-  MaxCount?: string;
+  MaxCount?: string | undefined;
   Unit: EntitlementDataUnit;
 }
-export const EntitlementUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    ConsumedValue: S.String,
-    MaxCount: S.optional(S.String),
-    Unit: EntitlementDataUnit,
-  }),
-).annotate({
-  identifier: "EntitlementUsage",
-}) as any as S.Schema<EntitlementUsage>;
 export type EntitlementUsageList = EntitlementUsage[];
-export const EntitlementUsageList = /*@__PURE__*/ S.Array(EntitlementUsage);
 export interface LicenseUsage {
-  EntitlementUsages?: EntitlementUsage[];
+  EntitlementUsages?: EntitlementUsage[] | undefined;
 }
-export const LicenseUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EntitlementUsages: S.optional(EntitlementUsageList) }),
-).annotate({ identifier: "LicenseUsage" }) as any as S.Schema<LicenseUsage>;
 export interface GetLicenseUsageResponse {
-  LicenseUsage?: LicenseUsage;
+  LicenseUsage?: LicenseUsage | undefined;
 }
-export const GetLicenseUsageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseUsage: S.optional(LicenseUsage) }).pipe(ns),
-).annotate({
-  identifier: "GetLicenseUsageResponse",
-}) as any as S.Schema<GetLicenseUsageResponse>;
 export interface GetServiceSettingsRequest {}
-export const GetServiceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetServiceSettingsRequest",
-}) as any as S.Schema<GetServiceSettingsRequest>;
 export interface OrganizationConfiguration {
   EnableIntegration: boolean;
 }
-export const OrganizationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EnableIntegration: S.Boolean }),
-).annotate({
-  identifier: "OrganizationConfiguration",
-}) as any as S.Schema<OrganizationConfiguration>;
 export interface CrossAccountDiscoveryServiceStatus {
-  Message?: string;
+  Message?: string | undefined;
 }
-export const CrossAccountDiscoveryServiceStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }),
-).annotate({
-  identifier: "CrossAccountDiscoveryServiceStatus",
-}) as any as S.Schema<CrossAccountDiscoveryServiceStatus>;
 export interface RegionStatus {
-  Status?: string;
+  Status?: string | undefined;
 }
-export const RegionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(S.String) }),
-).annotate({ identifier: "RegionStatus" }) as any as S.Schema<RegionStatus>;
 export type RegionStatusMap = { [key: string]: RegionStatus | undefined };
-export const RegionStatusMap = /*@__PURE__*/ S.Record(
-  S.String,
-  RegionStatus.pipe(S.optional),
-);
 export interface CrossRegionDiscoveryStatus {
-  Message?: { [key: string]: RegionStatus | undefined };
+  Message?: { [key: string]: RegionStatus | undefined } | undefined;
 }
-export const CrossRegionDiscoveryStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.optional(RegionStatusMap) }),
-).annotate({
-  identifier: "CrossRegionDiscoveryStatus",
-}) as any as S.Schema<CrossRegionDiscoveryStatus>;
 export interface ServiceStatus {
-  CrossAccountDiscovery?: CrossAccountDiscoveryServiceStatus;
-  CrossRegionDiscovery?: CrossRegionDiscoveryStatus;
+  CrossAccountDiscovery?: CrossAccountDiscoveryServiceStatus | undefined;
+  CrossRegionDiscovery?: CrossRegionDiscoveryStatus | undefined;
 }
-export const ServiceStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CrossAccountDiscovery: S.optional(CrossAccountDiscoveryServiceStatus),
-    CrossRegionDiscovery: S.optional(CrossRegionDiscoveryStatus),
-  }),
-).annotate({ identifier: "ServiceStatus" }) as any as S.Schema<ServiceStatus>;
 export interface GetServiceSettingsResponse {
-  S3BucketArn?: string;
-  SnsTopicArn?: string;
-  OrganizationConfiguration?: OrganizationConfiguration;
-  EnableCrossAccountsDiscovery?: boolean;
-  LicenseManagerResourceShareArn?: string;
-  CrossRegionDiscoveryHomeRegion?: string;
-  CrossRegionDiscoverySourceRegions?: string[];
-  ServiceStatus?: ServiceStatus;
+  S3BucketArn?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  OrganizationConfiguration?: OrganizationConfiguration | undefined;
+  EnableCrossAccountsDiscovery?: boolean | undefined;
+  LicenseManagerResourceShareArn?: string | undefined;
+  CrossRegionDiscoveryHomeRegion?: string | undefined;
+  CrossRegionDiscoverySourceRegions?: string[] | undefined;
+  ServiceStatus?: ServiceStatus | undefined;
 }
-export const GetServiceSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3BucketArn: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    OrganizationConfiguration: S.optional(OrganizationConfiguration),
-    EnableCrossAccountsDiscovery: S.optional(S.Boolean),
-    LicenseManagerResourceShareArn: S.optional(S.String),
-    CrossRegionDiscoveryHomeRegion: S.optional(S.String),
-    CrossRegionDiscoverySourceRegions: S.optional(StringList),
-    ServiceStatus: S.optional(ServiceStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetServiceSettingsResponse",
-}) as any as S.Schema<GetServiceSettingsResponse>;
 export interface ListAssetsForLicenseAssetGroupRequest {
   LicenseAssetGroupArn: string;
   AssetType: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAssetsForLicenseAssetGroupRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LicenseAssetGroupArn: S.String,
-      AssetType: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListAssetsForLicenseAssetGroupRequest",
-}) as any as S.Schema<ListAssetsForLicenseAssetGroupRequest>;
 export interface Asset {
-  AssetArn?: string;
-  LatestAssetDiscoveryTime?: Date;
+  AssetArn?: string | undefined;
+  LatestAssetDiscoveryTime?: Date | undefined;
 }
-export const Asset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssetArn: S.optional(S.String),
-    LatestAssetDiscoveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "Asset" }) as any as S.Schema<Asset>;
 export type AssetList = Asset[];
-export const AssetList = /*@__PURE__*/ S.Array(Asset);
 export interface ListAssetsForLicenseAssetGroupResponse {
-  Assets?: Asset[];
-  NextToken?: string;
+  Assets?: Asset[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAssetsForLicenseAssetGroupResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Assets: S.optional(AssetList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListAssetsForLicenseAssetGroupResponse",
-}) as any as S.Schema<ListAssetsForLicenseAssetGroupResponse>;
 export interface ListAssociationsForLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAssociationsForLicenseConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseConfigurationArn: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListAssociationsForLicenseConfigurationRequest",
-  }) as any as S.Schema<ListAssociationsForLicenseConfigurationRequest>;
 export interface LicenseConfigurationAssociation {
-  ResourceArn?: string;
-  ResourceType?: ResourceType;
-  ResourceOwnerId?: string;
-  AssociationTime?: Date;
-  AmiAssociationScope?: string;
+  ResourceArn?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceOwnerId?: string | undefined;
+  AssociationTime?: Date | undefined;
+  AmiAssociationScope?: string | undefined;
 }
-export const LicenseConfigurationAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(ResourceType),
-    ResourceOwnerId: S.optional(S.String),
-    AssociationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AmiAssociationScope: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LicenseConfigurationAssociation",
-}) as any as S.Schema<LicenseConfigurationAssociation>;
-export type LicenseConfigurationAssociations =
-  LicenseConfigurationAssociation[];
-export const LicenseConfigurationAssociations = /*@__PURE__*/ S.Array(
-  LicenseConfigurationAssociation,
-);
+export type LicenseConfigurationAssociations = LicenseConfigurationAssociation[];
 export interface ListAssociationsForLicenseConfigurationResponse {
-  LicenseConfigurationAssociations?: LicenseConfigurationAssociation[];
-  NextToken?: string;
+  LicenseConfigurationAssociations?: LicenseConfigurationAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAssociationsForLicenseConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseConfigurationAssociations: S.optional(
-        LicenseConfigurationAssociations,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListAssociationsForLicenseConfigurationResponse",
-  }) as any as S.Schema<ListAssociationsForLicenseConfigurationResponse>;
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
-export const FilterValues = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("item")),
-);
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Values: S.optional(FilterValues) }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export type MaxSize100 = number;
 export interface ListDistributedGrantsRequest {
-  GrantArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  GrantArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListDistributedGrantsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArns: S.optional(ArnList),
-    Filters: S.optional(FilterList),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDistributedGrantsRequest",
-}) as any as S.Schema<ListDistributedGrantsRequest>;
 export type GrantList = Grant[];
-export const GrantList = /*@__PURE__*/ S.Array(Grant);
 export interface ListDistributedGrantsResponse {
-  Grants?: Grant[];
-  NextToken?: string;
+  Grants?: Grant[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListDistributedGrantsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Grants: S.optional(GrantList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDistributedGrantsResponse",
-}) as any as S.Schema<ListDistributedGrantsResponse>;
 export interface ListFailuresForLicenseConfigurationOperationsRequest {
   LicenseConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFailuresForLicenseConfigurationOperationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseConfigurationArn: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListFailuresForLicenseConfigurationOperationsRequest",
-  }) as any as S.Schema<ListFailuresForLicenseConfigurationOperationsRequest>;
 export interface LicenseOperationFailure {
-  ResourceArn?: string;
-  ResourceType?: ResourceType;
-  ErrorMessage?: string;
-  FailureTime?: Date;
-  OperationName?: string;
-  ResourceOwnerId?: string;
-  OperationRequestedBy?: string;
-  MetadataList?: Metadata[];
+  ResourceArn?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ErrorMessage?: string | undefined;
+  FailureTime?: Date | undefined;
+  OperationName?: string | undefined;
+  ResourceOwnerId?: string | undefined;
+  OperationRequestedBy?: string | undefined;
+  MetadataList?: Metadata[] | undefined;
 }
-export const LicenseOperationFailure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(ResourceType),
-    ErrorMessage: S.optional(S.String),
-    FailureTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OperationName: S.optional(S.String),
-    ResourceOwnerId: S.optional(S.String),
-    OperationRequestedBy: S.optional(S.String),
-    MetadataList: S.optional(MetadataList),
-  }),
-).annotate({
-  identifier: "LicenseOperationFailure",
-}) as any as S.Schema<LicenseOperationFailure>;
 export type LicenseOperationFailureList = LicenseOperationFailure[];
-export const LicenseOperationFailureList = /*@__PURE__*/ S.Array(
-  LicenseOperationFailure,
-);
 export interface ListFailuresForLicenseConfigurationOperationsResponse {
-  LicenseOperationFailureList?: LicenseOperationFailure[];
-  NextToken?: string;
+  LicenseOperationFailureList?: LicenseOperationFailure[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFailuresForLicenseConfigurationOperationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseOperationFailureList: S.optional(LicenseOperationFailureList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListFailuresForLicenseConfigurationOperationsResponse",
-  }) as any as S.Schema<ListFailuresForLicenseConfigurationOperationsResponse>;
 export type Filters = Filter[];
-export const Filters = /*@__PURE__*/ S.Array(
-  Filter.pipe(T.XmlName("item")).annotate({ identifier: "Filter" }),
-);
 export interface ListLicenseAssetGroupsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseAssetGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(Filters),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLicenseAssetGroupsRequest",
-}) as any as S.Schema<ListLicenseAssetGroupsRequest>;
 export type LicenseAssetGroupList = LicenseAssetGroup[];
-export const LicenseAssetGroupList = /*@__PURE__*/ S.Array(LicenseAssetGroup);
 export interface ListLicenseAssetGroupsResponse {
-  LicenseAssetGroups?: LicenseAssetGroup[];
-  NextToken?: string;
+  LicenseAssetGroups?: LicenseAssetGroup[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseAssetGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseAssetGroups: S.optional(LicenseAssetGroupList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLicenseAssetGroupsResponse",
-}) as any as S.Schema<ListLicenseAssetGroupsResponse>;
 export interface ListLicenseAssetRulesetsRequest {
-  Filters?: Filter[];
-  ShowAWSManagedLicenseAssetRulesets?: boolean;
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  ShowAWSManagedLicenseAssetRulesets?: boolean | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseAssetRulesetsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(Filters),
-    ShowAWSManagedLicenseAssetRulesets: S.optional(S.Boolean),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLicenseAssetRulesetsRequest",
-}) as any as S.Schema<ListLicenseAssetRulesetsRequest>;
 export type LicenseAssetRulesetList = LicenseAssetRuleset[];
-export const LicenseAssetRulesetList =
-  /*@__PURE__*/ S.Array(LicenseAssetRuleset);
 export interface ListLicenseAssetRulesetsResponse {
-  LicenseAssetRulesets?: LicenseAssetRuleset[];
-  NextToken?: string;
+  LicenseAssetRulesets?: LicenseAssetRuleset[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseAssetRulesetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseAssetRulesets: S.optional(LicenseAssetRulesetList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLicenseAssetRulesetsResponse",
-}) as any as S.Schema<ListLicenseAssetRulesetsResponse>;
 export interface ListLicenseConfigurationsRequest {
-  LicenseConfigurationArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  LicenseConfigurationArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
-export const ListLicenseConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConfigurationArns: S.optional(StringList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(Filters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLicenseConfigurationsRequest",
-}) as any as S.Schema<ListLicenseConfigurationsRequest>;
 export interface LicenseConfiguration {
-  LicenseConfigurationId?: string;
-  LicenseConfigurationArn?: string;
-  Name?: string;
-  Description?: string;
-  LicenseCountingType?: LicenseCountingType;
-  LicenseRules?: string[];
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  DisassociateWhenNotFound?: boolean;
-  ConsumedLicenses?: number;
-  Status?: string;
-  OwnerAccountId?: string;
-  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[];
-  ManagedResourceSummaryList?: ManagedResourceSummary[];
-  ProductInformationList?: ProductInformation[];
-  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation;
-  LicenseExpiry?: number;
+  LicenseConfigurationId?: string | undefined;
+  LicenseConfigurationArn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LicenseCountingType?: LicenseCountingType | undefined;
+  LicenseRules?: string[] | undefined;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  ConsumedLicenses?: number | undefined;
+  Status?: string | undefined;
+  OwnerAccountId?: string | undefined;
+  ConsumedLicenseSummaryList?: ConsumedLicenseSummary[] | undefined;
+  ManagedResourceSummaryList?: ManagedResourceSummary[] | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  AutomatedDiscoveryInformation?: AutomatedDiscoveryInformation | undefined;
+  LicenseExpiry?: number | undefined;
 }
-export const LicenseConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConfigurationId: S.optional(S.String),
-    LicenseConfigurationArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    LicenseCountingType: S.optional(LicenseCountingType),
-    LicenseRules: S.optional(StringList),
-    LicenseCount: S.optional(S.Number),
-    LicenseCountHardLimit: S.optional(S.Boolean),
-    DisassociateWhenNotFound: S.optional(S.Boolean),
-    ConsumedLicenses: S.optional(S.Number),
-    Status: S.optional(S.String),
-    OwnerAccountId: S.optional(S.String),
-    ConsumedLicenseSummaryList: S.optional(ConsumedLicenseSummaryList),
-    ManagedResourceSummaryList: S.optional(ManagedResourceSummaryList),
-    ProductInformationList: S.optional(ProductInformationList),
-    AutomatedDiscoveryInformation: S.optional(AutomatedDiscoveryInformation),
-    LicenseExpiry: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LicenseConfiguration",
-}) as any as S.Schema<LicenseConfiguration>;
 export type LicenseConfigurations = LicenseConfiguration[];
-export const LicenseConfigurations =
-  /*@__PURE__*/ S.Array(LicenseConfiguration);
 export interface ListLicenseConfigurationsResponse {
-  LicenseConfigurations?: LicenseConfiguration[];
-  NextToken?: string;
+  LicenseConfigurations?: LicenseConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConfigurations: S.optional(LicenseConfigurations),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLicenseConfigurationsResponse",
-}) as any as S.Schema<ListLicenseConfigurationsResponse>;
 export interface ListLicenseConfigurationsForOrganizationRequest {
-  LicenseConfigurationArns?: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  LicenseConfigurationArns?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
-export const ListLicenseConfigurationsForOrganizationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseConfigurationArns: S.optional(StringList),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-      Filters: S.optional(Filters),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListLicenseConfigurationsForOrganizationRequest",
-  }) as any as S.Schema<ListLicenseConfigurationsForOrganizationRequest>;
 export interface ListLicenseConfigurationsForOrganizationResponse {
-  LicenseConfigurations?: LicenseConfiguration[];
-  NextToken?: string;
+  LicenseConfigurations?: LicenseConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseConfigurationsForOrganizationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseConfigurations: S.optional(LicenseConfigurations),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListLicenseConfigurationsForOrganizationResponse",
-  }) as any as S.Schema<ListLicenseConfigurationsForOrganizationResponse>;
 export interface ListLicenseConversionTasksRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: Filter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
-export const ListLicenseConversionTasksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    Filters: S.optional(Filters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLicenseConversionTasksRequest",
-}) as any as S.Schema<ListLicenseConversionTasksRequest>;
 export interface LicenseConversionTask {
-  LicenseConversionTaskId?: string;
-  ResourceArn?: string;
-  SourceLicenseContext?: LicenseConversionContext;
-  DestinationLicenseContext?: LicenseConversionContext;
-  Status?: LicenseConversionTaskStatus;
-  StatusMessage?: string;
-  StartTime?: Date;
-  LicenseConversionTime?: Date;
-  EndTime?: Date;
+  LicenseConversionTaskId?: string | undefined;
+  ResourceArn?: string | undefined;
+  SourceLicenseContext?: LicenseConversionContext | undefined;
+  DestinationLicenseContext?: LicenseConversionContext | undefined;
+  Status?: LicenseConversionTaskStatus | undefined;
+  StatusMessage?: string | undefined;
+  StartTime?: Date | undefined;
+  LicenseConversionTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
-export const LicenseConversionTask = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConversionTaskId: S.optional(S.String),
-    ResourceArn: S.optional(S.String),
-    SourceLicenseContext: S.optional(LicenseConversionContext),
-    DestinationLicenseContext: S.optional(LicenseConversionContext),
-    Status: S.optional(LicenseConversionTaskStatus),
-    StatusMessage: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LicenseConversionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "LicenseConversionTask",
-}) as any as S.Schema<LicenseConversionTask>;
 export type LicenseConversionTasks = LicenseConversionTask[];
-export const LicenseConversionTasks = /*@__PURE__*/ S.Array(
-  LicenseConversionTask,
-);
 export interface ListLicenseConversionTasksResponse {
-  LicenseConversionTasks?: LicenseConversionTask[];
-  NextToken?: string;
+  LicenseConversionTasks?: LicenseConversionTask[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseConversionTasksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConversionTasks: S.optional(LicenseConversionTasks),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLicenseConversionTasksResponse",
-}) as any as S.Schema<ListLicenseConversionTasksResponse>;
 export interface ListLicenseManagerReportGeneratorsRequest {
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListLicenseManagerReportGeneratorsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Filters: S.optional(FilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListLicenseManagerReportGeneratorsRequest",
-  }) as any as S.Schema<ListLicenseManagerReportGeneratorsRequest>;
 export type ReportGeneratorList = ReportGenerator[];
-export const ReportGeneratorList = /*@__PURE__*/ S.Array(ReportGenerator);
 export interface ListLicenseManagerReportGeneratorsResponse {
-  ReportGenerators?: ReportGenerator[];
-  NextToken?: string;
+  ReportGenerators?: ReportGenerator[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseManagerReportGeneratorsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ReportGenerators: S.optional(ReportGeneratorList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListLicenseManagerReportGeneratorsResponse",
-  }) as any as S.Schema<ListLicenseManagerReportGeneratorsResponse>;
 export interface ListLicensesRequest {
-  LicenseArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  LicenseArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListLicensesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArns: S.optional(ArnList),
-    Filters: S.optional(FilterList),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLicensesRequest",
-}) as any as S.Schema<ListLicensesRequest>;
 export type LicenseList = License[];
-export const LicenseList = /*@__PURE__*/ S.Array(License);
 export interface ListLicensesResponse {
-  Licenses?: License[];
-  NextToken?: string;
+  Licenses?: License[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicensesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Licenses: S.optional(LicenseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLicensesResponse",
-}) as any as S.Schema<ListLicensesResponse>;
 export interface ListLicenseSpecificationsForResourceRequest {
   ResourceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseSpecificationsForResourceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ResourceArn: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListLicenseSpecificationsForResourceRequest",
-  }) as any as S.Schema<ListLicenseSpecificationsForResourceRequest>;
 export interface LicenseSpecification {
   LicenseConfigurationArn: string;
-  AmiAssociationScope?: string;
+  AmiAssociationScope?: string | undefined;
 }
-export const LicenseSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConfigurationArn: S.String,
-    AmiAssociationScope: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LicenseSpecification",
-}) as any as S.Schema<LicenseSpecification>;
 export type LicenseSpecifications = LicenseSpecification[];
-export const LicenseSpecifications =
-  /*@__PURE__*/ S.Array(LicenseSpecification);
 export interface ListLicenseSpecificationsForResourceResponse {
-  LicenseSpecifications?: LicenseSpecification[];
-  NextToken?: string;
+  LicenseSpecifications?: LicenseSpecification[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseSpecificationsForResourceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseSpecifications: S.optional(LicenseSpecifications),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListLicenseSpecificationsForResourceResponse",
-  }) as any as S.Schema<ListLicenseSpecificationsForResourceResponse>;
 export interface ListLicenseVersionsRequest {
   LicenseArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListLicenseVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLicenseVersionsRequest",
-}) as any as S.Schema<ListLicenseVersionsRequest>;
 export interface ListLicenseVersionsResponse {
-  Licenses?: License[];
-  NextToken?: string;
+  Licenses?: License[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLicenseVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Licenses: S.optional(LicenseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLicenseVersionsResponse",
-}) as any as S.Schema<ListLicenseVersionsResponse>;
 export interface ListReceivedGrantsRequest {
-  GrantArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  GrantArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListReceivedGrantsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArns: S.optional(ArnList),
-    Filters: S.optional(FilterList),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReceivedGrantsRequest",
-}) as any as S.Schema<ListReceivedGrantsRequest>;
 export interface ListReceivedGrantsResponse {
-  Grants?: Grant[];
-  NextToken?: string;
+  Grants?: Grant[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListReceivedGrantsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Grants: S.optional(GrantList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListReceivedGrantsResponse",
-}) as any as S.Schema<ListReceivedGrantsResponse>;
 export interface ListReceivedGrantsForOrganizationRequest {
   LicenseArn: string;
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListReceivedGrantsForOrganizationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LicenseArn: S.String,
-      Filters: S.optional(FilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListReceivedGrantsForOrganizationRequest",
-}) as any as S.Schema<ListReceivedGrantsForOrganizationRequest>;
 export interface ListReceivedGrantsForOrganizationResponse {
-  Grants?: Grant[];
-  NextToken?: string;
+  Grants?: Grant[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListReceivedGrantsForOrganizationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Grants: S.optional(GrantList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListReceivedGrantsForOrganizationResponse",
-  }) as any as S.Schema<ListReceivedGrantsForOrganizationResponse>;
 export interface ListReceivedLicensesRequest {
-  LicenseArns?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  LicenseArns?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListReceivedLicensesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArns: S.optional(ArnList),
-    Filters: S.optional(FilterList),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListReceivedLicensesRequest",
-}) as any as S.Schema<ListReceivedLicensesRequest>;
 export type ReceivedStatus =
   | "PENDING_WORKFLOW"
   | "PENDING_ACCEPT"
@@ -3042,571 +1200,181 @@ export type ReceivedStatus =
   | "DISABLED"
   | "WORKFLOW_COMPLETED"
   | (string & {});
-export const ReceivedStatus = S.String;
-
 export interface ReceivedMetadata {
-  ReceivedStatus?: ReceivedStatus;
-  ReceivedStatusReason?: string;
-  AllowedOperations?: AllowedOperation[];
+  ReceivedStatus?: ReceivedStatus | undefined;
+  ReceivedStatusReason?: string | undefined;
+  AllowedOperations?: AllowedOperation[] | undefined;
+  GrantType?: GrantType | undefined;
 }
-export const ReceivedMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReceivedStatus: S.optional(ReceivedStatus),
-    ReceivedStatusReason: S.optional(S.String),
-    AllowedOperations: S.optional(AllowedOperationList),
-  }),
-).annotate({
-  identifier: "ReceivedMetadata",
-}) as any as S.Schema<ReceivedMetadata>;
 export interface GrantedLicense {
-  LicenseArn?: string;
-  LicenseName?: string;
-  ProductName?: string;
-  ProductSKU?: string;
-  Issuer?: IssuerDetails;
-  HomeRegion?: string;
-  Status?: LicenseStatus;
-  Validity?: DatetimeRange;
-  Beneficiary?: string;
-  Entitlements?: Entitlement[];
-  ConsumptionConfiguration?: ConsumptionConfiguration;
-  LicenseMetadata?: Metadata[];
-  CreateTime?: string;
-  Version?: string;
-  ReceivedMetadata?: ReceivedMetadata;
+  LicenseArn?: string | undefined;
+  LicenseName?: string | undefined;
+  ProductName?: string | undefined;
+  ProductSKU?: string | undefined;
+  Issuer?: IssuerDetails | undefined;
+  HomeRegion?: string | undefined;
+  Status?: LicenseStatus | undefined;
+  Validity?: DatetimeRange | undefined;
+  Beneficiary?: string | undefined;
+  Entitlements?: Entitlement[] | undefined;
+  ConsumptionConfiguration?: ConsumptionConfiguration | undefined;
+  LicenseMetadata?: Metadata[] | undefined;
+  CreateTime?: string | undefined;
+  Version?: string | undefined;
+  ReceivedMetadata?: ReceivedMetadata | undefined;
 }
-export const GrantedLicense = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseArn: S.optional(S.String),
-    LicenseName: S.optional(S.String),
-    ProductName: S.optional(S.String),
-    ProductSKU: S.optional(S.String),
-    Issuer: S.optional(IssuerDetails),
-    HomeRegion: S.optional(S.String),
-    Status: S.optional(LicenseStatus),
-    Validity: S.optional(DatetimeRange),
-    Beneficiary: S.optional(S.String),
-    Entitlements: S.optional(EntitlementList),
-    ConsumptionConfiguration: S.optional(ConsumptionConfiguration),
-    LicenseMetadata: S.optional(MetadataList),
-    CreateTime: S.optional(S.String),
-    Version: S.optional(S.String),
-    ReceivedMetadata: S.optional(ReceivedMetadata),
-  }),
-).annotate({ identifier: "GrantedLicense" }) as any as S.Schema<GrantedLicense>;
 export type GrantedLicenseList = GrantedLicense[];
-export const GrantedLicenseList = /*@__PURE__*/ S.Array(GrantedLicense);
 export interface ListReceivedLicensesResponse {
-  Licenses?: GrantedLicense[];
-  NextToken?: string;
+  Licenses?: GrantedLicense[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListReceivedLicensesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Licenses: S.optional(GrantedLicenseList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListReceivedLicensesResponse",
-}) as any as S.Schema<ListReceivedLicensesResponse>;
 export interface ListReceivedLicensesForOrganizationRequest {
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListReceivedLicensesForOrganizationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Filters: S.optional(FilterList),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListReceivedLicensesForOrganizationRequest",
-  }) as any as S.Schema<ListReceivedLicensesForOrganizationRequest>;
 export interface ListReceivedLicensesForOrganizationResponse {
-  Licenses?: GrantedLicense[];
-  NextToken?: string;
+  Licenses?: GrantedLicense[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListReceivedLicensesForOrganizationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Licenses: S.optional(GrantedLicenseList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListReceivedLicensesForOrganizationResponse",
-  }) as any as S.Schema<ListReceivedLicensesForOrganizationResponse>;
 export type InventoryFilterCondition =
   | "EQUALS"
   | "NOT_EQUALS"
   | "BEGINS_WITH"
   | "CONTAINS"
   | (string & {});
-export const InventoryFilterCondition = S.String;
-
 export interface InventoryFilter {
   Name: string;
   Condition: InventoryFilterCondition;
-  Value?: string;
+  Value?: string | undefined;
 }
-export const InventoryFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Condition: InventoryFilterCondition,
-    Value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InventoryFilter",
-}) as any as S.Schema<InventoryFilter>;
 export type InventoryFilterList = InventoryFilter[];
-export const InventoryFilterList = /*@__PURE__*/ S.Array(InventoryFilter);
 export interface ListResourceInventoryRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: InventoryFilter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: InventoryFilter[] | undefined;
 }
-export const ListResourceInventoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Filters: S.optional(InventoryFilterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListResourceInventoryRequest",
-}) as any as S.Schema<ListResourceInventoryRequest>;
 export interface ResourceInventory {
-  ResourceId?: string;
-  ResourceType?: ResourceType;
-  ResourceArn?: string;
-  Platform?: string;
-  PlatformVersion?: string;
-  ResourceOwningAccountId?: string;
-  MarketplaceProductCodes?: string[];
-  UsageOperation?: string;
-  AmiId?: string;
-  HostId?: string;
-  Region?: string;
-  InstanceType?: string;
+  ResourceId?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceArn?: string | undefined;
+  Platform?: string | undefined;
+  PlatformVersion?: string | undefined;
+  ResourceOwningAccountId?: string | undefined;
+  MarketplaceProductCodes?: string[] | undefined;
+  UsageOperation?: string | undefined;
+  AmiId?: string | undefined;
+  HostId?: string | undefined;
+  Region?: string | undefined;
+  InstanceType?: string | undefined;
 }
-export const ResourceInventory = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.optional(S.String),
-    ResourceType: S.optional(ResourceType),
-    ResourceArn: S.optional(S.String),
-    Platform: S.optional(S.String),
-    PlatformVersion: S.optional(S.String),
-    ResourceOwningAccountId: S.optional(S.String),
-    MarketplaceProductCodes: S.optional(StringList),
-    UsageOperation: S.optional(S.String),
-    AmiId: S.optional(S.String),
-    HostId: S.optional(S.String),
-    Region: S.optional(S.String),
-    InstanceType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceInventory",
-}) as any as S.Schema<ResourceInventory>;
 export type ResourceInventoryList = ResourceInventory[];
-export const ResourceInventoryList = /*@__PURE__*/ S.Array(ResourceInventory);
 export interface ListResourceInventoryResponse {
-  ResourceInventoryList?: ResourceInventory[];
-  NextToken?: string;
+  ResourceInventoryList?: ResourceInventory[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListResourceInventoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceInventoryList: S.optional(ResourceInventoryList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListResourceInventoryResponse",
-}) as any as S.Schema<ListResourceInventoryResponse>;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface ListTokensRequest {
-  TokenIds?: string[];
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxResults?: number;
+  TokenIds?: string[] | undefined;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
-export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TokenIds: S.optional(StringList),
-    Filters: S.optional(FilterList),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTokensRequest",
-}) as any as S.Schema<ListTokensRequest>;
 export interface TokenData {
-  TokenId?: string;
-  TokenType?: string;
-  LicenseArn?: string;
-  ExpirationTime?: string;
-  TokenProperties?: string[];
-  RoleArns?: string[];
-  Status?: string;
+  TokenId?: string | undefined;
+  TokenType?: string | undefined;
+  LicenseArn?: string | undefined;
+  ExpirationTime?: string | undefined;
+  TokenProperties?: string[] | undefined;
+  RoleArns?: string[] | undefined;
+  Status?: string | undefined;
 }
-export const TokenData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TokenId: S.optional(S.String),
-    TokenType: S.optional(S.String),
-    LicenseArn: S.optional(S.String),
-    ExpirationTime: S.optional(S.String),
-    TokenProperties: S.optional(MaxSize3StringList),
-    RoleArns: S.optional(ArnList),
-    Status: S.optional(S.String),
-  }),
-).annotate({ identifier: "TokenData" }) as any as S.Schema<TokenData>;
 export type TokenList = TokenData[];
-export const TokenList = /*@__PURE__*/ S.Array(TokenData);
 export interface ListTokensResponse {
-  Tokens?: TokenData[];
-  NextToken?: string;
+  Tokens?: TokenData[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListTokensResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Tokens: S.optional(TokenList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTokensResponse",
-}) as any as S.Schema<ListTokensResponse>;
 export interface ListUsageForLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
-export const ListUsageForLicenseConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LicenseConfigurationArn: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-      Filters: S.optional(Filters),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ListUsageForLicenseConfigurationRequest",
-}) as any as S.Schema<ListUsageForLicenseConfigurationRequest>;
 export interface LicenseConfigurationUsage {
-  ResourceArn?: string;
-  ResourceType?: ResourceType;
-  ResourceStatus?: string;
-  ResourceOwnerId?: string;
-  AssociationTime?: Date;
-  ConsumedLicenses?: number;
+  ResourceArn?: string | undefined;
+  ResourceType?: ResourceType | undefined;
+  ResourceStatus?: string | undefined;
+  ResourceOwnerId?: string | undefined;
+  AssociationTime?: Date | undefined;
+  ConsumedLicenses?: number | undefined;
 }
-export const LicenseConfigurationUsage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.optional(S.String),
-    ResourceType: S.optional(ResourceType),
-    ResourceStatus: S.optional(S.String),
-    ResourceOwnerId: S.optional(S.String),
-    AssociationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ConsumedLicenses: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LicenseConfigurationUsage",
-}) as any as S.Schema<LicenseConfigurationUsage>;
 export type LicenseConfigurationUsageList = LicenseConfigurationUsage[];
-export const LicenseConfigurationUsageList = /*@__PURE__*/ S.Array(
-  LicenseConfigurationUsage,
-);
 export interface ListUsageForLicenseConfigurationResponse {
-  LicenseConfigurationUsageList?: LicenseConfigurationUsage[];
-  NextToken?: string;
+  LicenseConfigurationUsageList?: LicenseConfigurationUsage[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListUsageForLicenseConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LicenseConfigurationUsageList: S.optional(LicenseConfigurationUsageList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "ListUsageForLicenseConfigurationResponse",
-}) as any as S.Schema<ListUsageForLicenseConfigurationResponse>;
 export interface RejectGrantRequest {
   GrantArn: string;
 }
-export const RejectGrantRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GrantArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RejectGrantRequest",
-}) as any as S.Schema<RejectGrantRequest>;
 export interface RejectGrantResponse {
-  GrantArn?: string;
-  Status?: GrantStatus;
-  Version?: string;
+  GrantArn?: string | undefined;
+  Status?: GrantStatus | undefined;
+  Version?: string | undefined;
 }
-export const RejectGrantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GrantArn: S.optional(S.String),
-    Status: S.optional(GrantStatus),
-    Version: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "RejectGrantResponse",
-}) as any as S.Schema<RejectGrantResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateLicenseAssetGroupRequest {
-  Name?: string;
-  Description?: string;
-  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LicenseAssetGroupConfigurations?: LicenseAssetGroupConfiguration[] | undefined;
   AssociatedLicenseAssetRulesetARNs: string[];
-  Properties?: LicenseAssetGroupProperty[];
+  Properties?: LicenseAssetGroupProperty[] | undefined;
   LicenseAssetGroupArn: string;
-  Status?: LicenseAssetGroupStatus;
+  Status?: LicenseAssetGroupStatus | undefined;
   ClientToken: string;
 }
-export const UpdateLicenseAssetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    LicenseAssetGroupConfigurations: S.optional(
-      LicenseAssetGroupConfigurationList,
-    ),
-    AssociatedLicenseAssetRulesetARNs: LicenseAssetRulesetArnList,
-    Properties: S.optional(LicenseAssetGroupPropertyList),
-    LicenseAssetGroupArn: S.String,
-    Status: S.optional(LicenseAssetGroupStatus),
-    ClientToken: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLicenseAssetGroupRequest",
-}) as any as S.Schema<UpdateLicenseAssetGroupRequest>;
 export interface UpdateLicenseAssetGroupResponse {
   LicenseAssetGroupArn: string;
   Status: string;
 }
-export const UpdateLicenseAssetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetGroupArn: S.String, Status: S.String }).pipe(ns),
-).annotate({
-  identifier: "UpdateLicenseAssetGroupResponse",
-}) as any as S.Schema<UpdateLicenseAssetGroupResponse>;
 export interface UpdateLicenseAssetRulesetRequest {
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   Rules: LicenseAssetRule[];
   LicenseAssetRulesetArn: string;
   ClientToken: string;
 }
-export const UpdateLicenseAssetRulesetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Rules: LicenseAssetRuleList,
-    LicenseAssetRulesetArn: S.String,
-    ClientToken: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLicenseAssetRulesetRequest",
-}) as any as S.Schema<UpdateLicenseAssetRulesetRequest>;
 export interface UpdateLicenseAssetRulesetResponse {
   LicenseAssetRulesetArn: string;
 }
-export const UpdateLicenseAssetRulesetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(ns),
-).annotate({
-  identifier: "UpdateLicenseAssetRulesetResponse",
-}) as any as S.Schema<UpdateLicenseAssetRulesetResponse>;
-export type LicenseConfigurationStatus =
-  | "AVAILABLE"
-  | "DISABLED"
-  | (string & {});
-export const LicenseConfigurationStatus = S.String;
-
+export type LicenseConfigurationStatus = "AVAILABLE" | "DISABLED" | (string & {});
 export interface UpdateLicenseConfigurationRequest {
   LicenseConfigurationArn: string;
-  LicenseConfigurationStatus?: LicenseConfigurationStatus;
-  LicenseRules?: string[];
-  LicenseCount?: number;
-  LicenseCountHardLimit?: boolean;
-  Name?: string;
-  Description?: string;
-  ProductInformationList?: ProductInformation[];
-  DisassociateWhenNotFound?: boolean;
-  LicenseExpiry?: number;
+  LicenseConfigurationStatus?: LicenseConfigurationStatus | undefined;
+  LicenseRules?: string[] | undefined;
+  LicenseCount?: number | undefined;
+  LicenseCountHardLimit?: boolean | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ProductInformationList?: ProductInformation[] | undefined;
+  DisassociateWhenNotFound?: boolean | undefined;
+  LicenseExpiry?: number | undefined;
 }
-export const UpdateLicenseConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseConfigurationArn: S.String,
-    LicenseConfigurationStatus: S.optional(LicenseConfigurationStatus),
-    LicenseRules: S.optional(StringList),
-    LicenseCount: S.optional(S.Number),
-    LicenseCountHardLimit: S.optional(S.Boolean),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    ProductInformationList: S.optional(ProductInformationList),
-    DisassociateWhenNotFound: S.optional(S.Boolean),
-    LicenseExpiry: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateLicenseConfigurationRequest",
-}) as any as S.Schema<UpdateLicenseConfigurationRequest>;
 export interface UpdateLicenseConfigurationResponse {}
-export const UpdateLicenseConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateLicenseConfigurationResponse",
-}) as any as S.Schema<UpdateLicenseConfigurationResponse>;
 export interface UpdateLicenseManagerReportGeneratorRequest {
   LicenseManagerReportGeneratorArn: string;
   ReportGeneratorName: string;
@@ -3614,101 +1382,23 @@ export interface UpdateLicenseManagerReportGeneratorRequest {
   ReportContext: ReportContext;
   ReportFrequency: ReportFrequency;
   ClientToken: string;
-  Description?: string;
+  Description?: string | undefined;
 }
-export const UpdateLicenseManagerReportGeneratorRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LicenseManagerReportGeneratorArn: S.String,
-      ReportGeneratorName: S.String,
-      Type: ReportTypeList,
-      ReportContext: ReportContext,
-      ReportFrequency: ReportFrequency,
-      ClientToken: S.String,
-      Description: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateLicenseManagerReportGeneratorRequest",
-  }) as any as S.Schema<UpdateLicenseManagerReportGeneratorRequest>;
 export interface UpdateLicenseManagerReportGeneratorResponse {}
-export const UpdateLicenseManagerReportGeneratorResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateLicenseManagerReportGeneratorResponse",
-  }) as any as S.Schema<UpdateLicenseManagerReportGeneratorResponse>;
 export interface UpdateLicenseSpecificationsForResourceRequest {
   ResourceArn: string;
-  AddLicenseSpecifications?: LicenseSpecification[];
-  RemoveLicenseSpecifications?: LicenseSpecification[];
+  AddLicenseSpecifications?: LicenseSpecification[] | undefined;
+  RemoveLicenseSpecifications?: LicenseSpecification[] | undefined;
 }
-export const UpdateLicenseSpecificationsForResourceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ResourceArn: S.String,
-      AddLicenseSpecifications: S.optional(LicenseSpecifications),
-      RemoveLicenseSpecifications: S.optional(LicenseSpecifications),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "UpdateLicenseSpecificationsForResourceRequest",
-  }) as any as S.Schema<UpdateLicenseSpecificationsForResourceRequest>;
 export interface UpdateLicenseSpecificationsForResourceResponse {}
-export const UpdateLicenseSpecificationsForResourceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "UpdateLicenseSpecificationsForResourceResponse",
-  }) as any as S.Schema<UpdateLicenseSpecificationsForResourceResponse>;
 export interface UpdateServiceSettingsRequest {
-  S3BucketArn?: string;
-  SnsTopicArn?: string;
-  OrganizationConfiguration?: OrganizationConfiguration;
-  EnableCrossAccountsDiscovery?: boolean;
-  EnabledDiscoverySourceRegions?: string[];
+  S3BucketArn?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  OrganizationConfiguration?: OrganizationConfiguration | undefined;
+  EnableCrossAccountsDiscovery?: boolean | undefined;
+  EnabledDiscoverySourceRegions?: string[] | undefined;
 }
-export const UpdateServiceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3BucketArn: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    OrganizationConfiguration: S.optional(OrganizationConfiguration),
-    EnableCrossAccountsDiscovery: S.optional(S.Boolean),
-    EnabledDiscoverySourceRegions: S.optional(StringList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateServiceSettingsRequest",
-}) as any as S.Schema<UpdateServiceSettingsRequest>;
 export interface UpdateServiceSettingsResponse {}
-export const UpdateServiceSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateServiceSettingsResponse",
-}) as any as S.Schema<UpdateServiceSettingsResponse>;
 export type Message = string;
 export type Location = string;
 export type AcceptGrantError =
@@ -3724,13 +1414,13 @@ export type AcceptGrantError =
  * Accepts the specified grant.
  */
 export const acceptGrant: API.OperationMethod<
-  AcceptGrantRequest,
+  AcceptGrantRequest & RegionInput,
   AcceptGrantResponse,
   AcceptGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptGrantRequest,
-  output: AcceptGrantResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<AcceptGrantRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<AcceptGrantResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -3743,6 +1433,8 @@ export const acceptGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptGrant",
+  telemetry: TELEMETRY,
+  span: "AcceptGrant",
 }));
 
 export type CheckInLicenseError =
@@ -3759,13 +1451,13 @@ export type CheckInLicenseError =
  * Checks in the specified license. Check in a license when it is no longer in use.
  */
 export const checkInLicense: API.OperationMethod<
-  CheckInLicenseRequest,
+  CheckInLicenseRequest & RegionInput,
   CheckInLicenseResponse,
   CheckInLicenseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CheckInLicenseRequest,
-  output: CheckInLicenseResponse,
+  input: __S(32, __c2, 0) as any as S.Schema<CheckInLicenseRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<CheckInLicenseResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -3779,6 +1471,8 @@ export const checkInLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckInLicense",
+  telemetry: TELEMETRY,
+  span: "CheckInLicense",
 }));
 
 export type CheckoutBorrowLicenseError =
@@ -3798,13 +1492,13 @@ export type CheckoutBorrowLicenseError =
  * Checks out the specified license for offline use.
  */
 export const checkoutBorrowLicense: API.OperationMethod<
-  CheckoutBorrowLicenseRequest,
+  CheckoutBorrowLicenseRequest & RegionInput,
   CheckoutBorrowLicenseResponse,
   CheckoutBorrowLicenseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CheckoutBorrowLicenseRequest,
-  output: CheckoutBorrowLicenseResponse,
+  input: __S(64, __c4, 0) as any as S.Schema<CheckoutBorrowLicenseRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<CheckoutBorrowLicenseResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -3821,6 +1515,8 @@ export const checkoutBorrowLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckoutBorrowLicense",
+  telemetry: TELEMETRY,
+  span: "CheckoutBorrowLicense",
 }));
 
 export type CheckoutLicenseError =
@@ -3842,13 +1538,13 @@ export type CheckoutLicenseError =
  * specify the account as the beneficiary.
  */
 export const checkoutLicense: API.OperationMethod<
-  CheckoutLicenseRequest,
+  CheckoutLicenseRequest & RegionInput,
   CheckoutLicenseResponse,
   CheckoutLicenseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CheckoutLicenseRequest,
-  output: CheckoutLicenseResponse,
+  input: __S(112, __c7, 0) as any as S.Schema<CheckoutLicenseRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<CheckoutLicenseResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -3864,6 +1560,8 @@ export const checkoutLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckoutLicense",
+  telemetry: TELEMETRY,
+  span: "CheckoutLicense",
 }));
 
 export type CreateGrantError =
@@ -3879,15 +1577,31 @@ export type CreateGrantError =
  * Creates a grant for the specified license. A grant shares the use of license
  * entitlements with a specific Amazon Web Services account, an organization, or an
  * organizational unit (OU). For more information, see Granted licenses in License Manager in the *License Manager User Guide*.
+ *
+ * Set the type of grant with the `GrantType` field:
+ *
+ * - `BuyerGrant` - The default grant type, created by the seller when a
+ * customer subscribes to a product. The seller creates a license for the subscription
+ * and a buyer grant for the customer. With a buyer grant, the customer can use,
+ * consume, and distribute the license, according to the permissions the seller sets in
+ * the product contract.
+ *
+ * - `DelegateGrant` - A delegate grant gives the grantee read-only
+ * visibility into the licenses and grants that you have distributed to buyers for a
+ * product. The grantee can monitor that activity on your behalf, and can also listen
+ * for the related Amazon EventBridge events. A delegate grant conveys no entitlement to
+ * use the licenses, and its only allowed operation is `ListReceivedLicenses`.
+ * You must create the delegate grant, and its license, from the same
+ * Amazon Web Services account that you used to create those buyer licenses and grants.
  */
 export const createGrant: API.OperationMethod<
-  CreateGrantRequest,
+  CreateGrantRequest & RegionInput,
   CreateGrantResponse,
   CreateGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGrantRequest,
-  output: CreateGrantResponse,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateGrantRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CreateGrantResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -3900,6 +1614,8 @@ export const createGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrant",
+  telemetry: TELEMETRY,
+  span: "CreateGrant",
 }));
 
 export type CreateGrantVersionError =
@@ -3916,13 +1632,13 @@ export type CreateGrantVersionError =
  * Granted licenses in License Manager in the *License Manager User Guide*.
  */
 export const createGrantVersion: API.OperationMethod<
-  CreateGrantVersionRequest,
+  CreateGrantVersionRequest & RegionInput,
   CreateGrantVersionResponse,
   CreateGrantVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGrantVersionRequest,
-  output: CreateGrantVersionResponse,
+  input: __S(208, __c13, 0) as any as S.Schema<CreateGrantVersionRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<CreateGrantVersionResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -3935,6 +1651,8 @@ export const createGrantVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrantVersion",
+  telemetry: TELEMETRY,
+  span: "CreateGrantVersion",
 }));
 
 export type CreateLicenseError =
@@ -3950,13 +1668,13 @@ export type CreateLicenseError =
  * Creates a license.
  */
 export const createLicense: API.OperationMethod<
-  CreateLicenseRequest,
+  CreateLicenseRequest & RegionInput,
   CreateLicenseResponse,
   CreateLicenseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseRequest,
-  output: CreateLicenseResponse,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateLicenseRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<CreateLicenseResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -3969,6 +1687,8 @@ export const createLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicense",
+  telemetry: TELEMETRY,
+  span: "CreateLicense",
 }));
 
 export type CreateLicenseAssetGroupError =
@@ -3983,13 +1703,13 @@ export type CreateLicenseAssetGroupError =
  * Creates a license asset group.
  */
 export const createLicenseAssetGroup: API.OperationMethod<
-  CreateLicenseAssetGroupRequest,
+  CreateLicenseAssetGroupRequest & RegionInput,
   CreateLicenseAssetGroupResponse,
   CreateLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseAssetGroupRequest,
-  output: CreateLicenseAssetGroupResponse,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateLicenseAssetGroupRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<CreateLicenseAssetGroupResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4001,6 +1721,8 @@ export const createLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseAssetGroup",
 }));
 
 export type CreateLicenseAssetRulesetError =
@@ -4015,13 +1737,13 @@ export type CreateLicenseAssetRulesetError =
  * Creates a license asset ruleset.
  */
 export const createLicenseAssetRuleset: API.OperationMethod<
-  CreateLicenseAssetRulesetRequest,
+  CreateLicenseAssetRulesetRequest & RegionInput,
   CreateLicenseAssetRulesetResponse,
   CreateLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseAssetRulesetRequest,
-  output: CreateLicenseAssetRulesetResponse,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateLicenseAssetRulesetRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<CreateLicenseAssetRulesetResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4033,6 +1755,8 @@ export const createLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseAssetRuleset",
 }));
 
 export type CreateLicenseConfigurationError =
@@ -4053,13 +1777,13 @@ export type CreateLicenseConfigurationError =
  * license must be associated with a host), and the number of licenses purchased and used.
  */
 export const createLicenseConfiguration: API.OperationMethod<
-  CreateLicenseConfigurationRequest,
+  CreateLicenseConfigurationRequest & RegionInput,
   CreateLicenseConfigurationResponse,
   CreateLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseConfigurationRequest,
-  output: CreateLicenseConfigurationResponse,
+  input: __S(368, __c23, 0) as any as S.Schema<CreateLicenseConfigurationRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<CreateLicenseConfigurationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4071,6 +1795,8 @@ export const createLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseConfiguration",
 }));
 
 export type CreateLicenseConversionTaskForResourceError =
@@ -4085,13 +1811,13 @@ export type CreateLicenseConversionTaskForResourceError =
  * Creates a new license conversion task.
  */
 export const createLicenseConversionTaskForResource: API.OperationMethod<
-  CreateLicenseConversionTaskForResourceRequest,
+  CreateLicenseConversionTaskForResourceRequest & RegionInput,
   CreateLicenseConversionTaskForResourceResponse,
   CreateLicenseConversionTaskForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseConversionTaskForResourceRequest,
-  output: CreateLicenseConversionTaskForResourceResponse,
+  input: __S(400, __c25, 0) as any as S.Schema<CreateLicenseConversionTaskForResourceRequest>,
+  output: __S(401, __c25, 1) as any as S.Schema<CreateLicenseConversionTaskForResourceResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4103,6 +1829,8 @@ export const createLicenseConversionTaskForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseConversionTaskForResource",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseConversionTaskForResource",
 }));
 
 export type CreateLicenseManagerReportGeneratorError =
@@ -4119,13 +1847,13 @@ export type CreateLicenseManagerReportGeneratorError =
  * Creates a report generator.
  */
 export const createLicenseManagerReportGenerator: API.OperationMethod<
-  CreateLicenseManagerReportGeneratorRequest,
+  CreateLicenseManagerReportGeneratorRequest & RegionInput,
   CreateLicenseManagerReportGeneratorResponse,
   CreateLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseManagerReportGeneratorRequest,
-  output: CreateLicenseManagerReportGeneratorResponse,
+  input: __S(432, __c27, 0) as any as S.Schema<CreateLicenseManagerReportGeneratorRequest>,
+  output: __S(433, __c27, 1) as any as S.Schema<CreateLicenseManagerReportGeneratorResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4139,6 +1867,8 @@ export const createLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseManagerReportGenerator",
 }));
 
 export type CreateLicenseVersionError =
@@ -4155,13 +1885,13 @@ export type CreateLicenseVersionError =
  * Creates a new version of the specified license.
  */
 export const createLicenseVersion: API.OperationMethod<
-  CreateLicenseVersionRequest,
+  CreateLicenseVersionRequest & RegionInput,
   CreateLicenseVersionResponse,
   CreateLicenseVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLicenseVersionRequest,
-  output: CreateLicenseVersionResponse,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateLicenseVersionRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<CreateLicenseVersionResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4175,6 +1905,8 @@ export const createLicenseVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseVersion",
+  telemetry: TELEMETRY,
+  span: "CreateLicenseVersion",
 }));
 
 export type CreateTokenError =
@@ -4195,13 +1927,13 @@ export type CreateTokenError =
  * call License Manager to manage the specified license.
  */
 export const createToken: API.OperationMethod<
-  CreateTokenRequest,
+  CreateTokenRequest & RegionInput,
   CreateTokenResponse,
   CreateTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateTokenRequest,
-  output: CreateTokenResponse,
+  input: __S(480, __c30, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<CreateTokenResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4215,6 +1947,8 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
+  telemetry: TELEMETRY,
+  span: "CreateToken",
 }));
 
 export type DeleteGrantError =
@@ -4230,13 +1964,13 @@ export type DeleteGrantError =
  * Deletes the specified grant.
  */
 export const deleteGrant: API.OperationMethod<
-  DeleteGrantRequest,
+  DeleteGrantRequest & RegionInput,
   DeleteGrantResponse,
   DeleteGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGrantRequest,
-  output: DeleteGrantResponse,
+  input: __S(496, __c31, 0) as any as S.Schema<DeleteGrantRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<DeleteGrantResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4249,6 +1983,8 @@ export const deleteGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGrant",
+  telemetry: TELEMETRY,
+  span: "DeleteGrant",
 }));
 
 export type DeleteLicenseError =
@@ -4265,13 +2001,13 @@ export type DeleteLicenseError =
  * Deletes the specified license.
  */
 export const deleteLicense: API.OperationMethod<
-  DeleteLicenseRequest,
+  DeleteLicenseRequest & RegionInput,
   DeleteLicenseResponse,
   DeleteLicenseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLicenseRequest,
-  output: DeleteLicenseResponse,
+  input: __S(512, __c32, 0) as any as S.Schema<DeleteLicenseRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<DeleteLicenseResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4285,6 +2021,8 @@ export const deleteLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicense",
+  telemetry: TELEMETRY,
+  span: "DeleteLicense",
 }));
 
 export type DeleteLicenseAssetGroupError =
@@ -4299,13 +2037,13 @@ export type DeleteLicenseAssetGroupError =
  * Deletes a license asset group.
  */
 export const deleteLicenseAssetGroup: API.OperationMethod<
-  DeleteLicenseAssetGroupRequest,
+  DeleteLicenseAssetGroupRequest & RegionInput,
   DeleteLicenseAssetGroupResponse,
   DeleteLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLicenseAssetGroupRequest,
-  output: DeleteLicenseAssetGroupResponse,
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteLicenseAssetGroupRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<DeleteLicenseAssetGroupResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4317,6 +2055,8 @@ export const deleteLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseAssetGroup",
 }));
 
 export type DeleteLicenseAssetRulesetError =
@@ -4331,13 +2071,13 @@ export type DeleteLicenseAssetRulesetError =
  * Deletes a license asset ruleset.
  */
 export const deleteLicenseAssetRuleset: API.OperationMethod<
-  DeleteLicenseAssetRulesetRequest,
+  DeleteLicenseAssetRulesetRequest & RegionInput,
   DeleteLicenseAssetRulesetResponse,
   DeleteLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLicenseAssetRulesetRequest,
-  output: DeleteLicenseAssetRulesetResponse,
+  input: __S(544, __c34, 0) as any as S.Schema<DeleteLicenseAssetRulesetRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteLicenseAssetRulesetResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4349,6 +2089,8 @@ export const deleteLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseAssetRuleset",
 }));
 
 export type DeleteLicenseConfigurationError =
@@ -4365,13 +2107,13 @@ export type DeleteLicenseConfigurationError =
  * You cannot delete a license configuration that is in use.
  */
 export const deleteLicenseConfiguration: API.OperationMethod<
-  DeleteLicenseConfigurationRequest,
+  DeleteLicenseConfigurationRequest & RegionInput,
   DeleteLicenseConfigurationResponse,
   DeleteLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLicenseConfigurationRequest,
-  output: DeleteLicenseConfigurationResponse,
+  input: __S(560, __c35, 0) as any as S.Schema<DeleteLicenseConfigurationRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteLicenseConfigurationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4383,6 +2125,8 @@ export const deleteLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseConfiguration",
 }));
 
 export type DeleteLicenseManagerReportGeneratorError =
@@ -4402,13 +2146,13 @@ export type DeleteLicenseManagerReportGeneratorError =
  * The action cannot be reversed. It has no effect on the previous reports from this generator.
  */
 export const deleteLicenseManagerReportGenerator: API.OperationMethod<
-  DeleteLicenseManagerReportGeneratorRequest,
+  DeleteLicenseManagerReportGeneratorRequest & RegionInput,
   DeleteLicenseManagerReportGeneratorResponse,
   DeleteLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLicenseManagerReportGeneratorRequest,
-  output: DeleteLicenseManagerReportGeneratorResponse,
+  input: __S(576, __c36, 0) as any as S.Schema<DeleteLicenseManagerReportGeneratorRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteLicenseManagerReportGeneratorResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4422,6 +2166,8 @@ export const deleteLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "DeleteLicenseManagerReportGenerator",
 }));
 
 export type DeleteTokenError =
@@ -4437,13 +2183,13 @@ export type DeleteTokenError =
  * Deletes the specified token. Must be called in the license home Region.
  */
 export const deleteToken: API.OperationMethod<
-  DeleteTokenRequest,
+  DeleteTokenRequest & RegionInput,
   DeleteTokenResponse,
   DeleteTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteTokenRequest,
-  output: DeleteTokenResponse,
+  input: __S(592, __c37, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4456,6 +2202,8 @@ export const deleteToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteToken",
+  telemetry: TELEMETRY,
+  span: "DeleteToken",
 }));
 
 export type ExtendLicenseConsumptionError =
@@ -4471,13 +2219,13 @@ export type ExtendLicenseConsumptionError =
  * Extends the expiration date for license consumption.
  */
 export const extendLicenseConsumption: API.OperationMethod<
-  ExtendLicenseConsumptionRequest,
+  ExtendLicenseConsumptionRequest & RegionInput,
   ExtendLicenseConsumptionResponse,
   ExtendLicenseConsumptionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ExtendLicenseConsumptionRequest,
-  output: ExtendLicenseConsumptionResponse,
+  input: __S(608, __c38, 0) as any as S.Schema<ExtendLicenseConsumptionRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<ExtendLicenseConsumptionResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4490,6 +2238,8 @@ export const extendLicenseConsumption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendLicenseConsumption",
+  telemetry: TELEMETRY,
+  span: "ExtendLicenseConsumption",
 }));
 
 export type GetAccessTokenError =
@@ -4505,13 +2255,13 @@ export type GetAccessTokenError =
  * are valid for one hour.
  */
 export const getAccessToken: API.OperationMethod<
-  GetAccessTokenRequest,
+  GetAccessTokenRequest & RegionInput,
   GetAccessTokenResponse,
   GetAccessTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccessTokenRequest,
-  output: GetAccessTokenResponse,
+  input: __S(624, __c39, 0) as any as S.Schema<GetAccessTokenRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<GetAccessTokenResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4523,6 +2273,8 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
+  telemetry: TELEMETRY,
+  span: "GetAccessToken",
 }));
 
 export type GetGrantError =
@@ -4539,13 +2291,13 @@ export type GetGrantError =
  * Gets detailed information about the specified grant.
  */
 export const getGrant: API.OperationMethod<
-  GetGrantRequest,
+  GetGrantRequest & RegionInput,
   GetGrantResponse,
   GetGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGrantRequest,
-  output: GetGrantResponse,
+  input: __S(640, __c40, 0) as any as S.Schema<GetGrantRequest>,
+  output: __S(641, __c40, 1) as any as S.Schema<GetGrantResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4559,6 +2311,8 @@ export const getGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGrant",
+  telemetry: TELEMETRY,
+  span: "GetGrant",
 }));
 
 export type GetLicenseError =
@@ -4574,13 +2328,13 @@ export type GetLicenseError =
  * Gets detailed information about the specified license.
  */
 export const getLicense: API.OperationMethod<
-  GetLicenseRequest,
+  GetLicenseRequest & RegionInput,
   GetLicenseResponse,
   GetLicenseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseRequest,
-  output: GetLicenseResponse,
+  input: __S(672, __c42, 0) as any as S.Schema<GetLicenseRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<GetLicenseResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4593,6 +2347,8 @@ export const getLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicense",
+  telemetry: TELEMETRY,
+  span: "GetLicense",
 }));
 
 export type GetLicenseAssetGroupError =
@@ -4607,13 +2363,13 @@ export type GetLicenseAssetGroupError =
  * Gets a license asset group.
  */
 export const getLicenseAssetGroup: API.OperationMethod<
-  GetLicenseAssetGroupRequest,
+  GetLicenseAssetGroupRequest & RegionInput,
   GetLicenseAssetGroupResponse,
   GetLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseAssetGroupRequest,
-  output: GetLicenseAssetGroupResponse,
+  input: __S(720, __c45, 0) as any as S.Schema<GetLicenseAssetGroupRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<GetLicenseAssetGroupResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4625,6 +2381,8 @@ export const getLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "GetLicenseAssetGroup",
 }));
 
 export type GetLicenseAssetRulesetError =
@@ -4639,13 +2397,13 @@ export type GetLicenseAssetRulesetError =
  * Gets a license asset ruleset.
  */
 export const getLicenseAssetRuleset: API.OperationMethod<
-  GetLicenseAssetRulesetRequest,
+  GetLicenseAssetRulesetRequest & RegionInput,
   GetLicenseAssetRulesetResponse,
   GetLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseAssetRulesetRequest,
-  output: GetLicenseAssetRulesetResponse,
+  input: __S(752, __c47, 0) as any as S.Schema<GetLicenseAssetRulesetRequest>,
+  output: __S(753, __c47, 1) as any as S.Schema<GetLicenseAssetRulesetResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4657,6 +2415,8 @@ export const getLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "GetLicenseAssetRuleset",
 }));
 
 export type GetLicenseConfigurationError =
@@ -4671,13 +2431,13 @@ export type GetLicenseConfigurationError =
  * Gets detailed information about the specified license configuration.
  */
 export const getLicenseConfiguration: API.OperationMethod<
-  GetLicenseConfigurationRequest,
+  GetLicenseConfigurationRequest & RegionInput,
   GetLicenseConfigurationResponse,
   GetLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseConfigurationRequest,
-  output: GetLicenseConfigurationResponse,
+  input: __S(784, __c49, 0) as any as S.Schema<GetLicenseConfigurationRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetLicenseConfigurationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4689,6 +2449,8 @@ export const getLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "GetLicenseConfiguration",
 }));
 
 export type GetLicenseConversionTaskError =
@@ -4702,13 +2464,13 @@ export type GetLicenseConversionTaskError =
  * Gets information about the specified license type conversion task.
  */
 export const getLicenseConversionTask: API.OperationMethod<
-  GetLicenseConversionTaskRequest,
+  GetLicenseConversionTaskRequest & RegionInput,
   GetLicenseConversionTaskResponse,
   GetLicenseConversionTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseConversionTaskRequest,
-  output: GetLicenseConversionTaskResponse,
+  input: __S(816, __c51, 0) as any as S.Schema<GetLicenseConversionTaskRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<GetLicenseConversionTaskResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4719,6 +2481,8 @@ export const getLicenseConversionTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseConversionTask",
+  telemetry: TELEMETRY,
+  span: "GetLicenseConversionTask",
 }));
 
 export type GetLicenseManagerReportGeneratorError =
@@ -4735,13 +2499,13 @@ export type GetLicenseManagerReportGeneratorError =
  * Gets information about the specified report generator.
  */
 export const getLicenseManagerReportGenerator: API.OperationMethod<
-  GetLicenseManagerReportGeneratorRequest,
+  GetLicenseManagerReportGeneratorRequest & RegionInput,
   GetLicenseManagerReportGeneratorResponse,
   GetLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseManagerReportGeneratorRequest,
-  output: GetLicenseManagerReportGeneratorResponse,
+  input: __S(832, __c52, 0) as any as S.Schema<GetLicenseManagerReportGeneratorRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<GetLicenseManagerReportGeneratorResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4755,6 +2519,8 @@ export const getLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "GetLicenseManagerReportGenerator",
 }));
 
 export type GetLicenseUsageError =
@@ -4769,13 +2535,13 @@ export type GetLicenseUsageError =
  * Gets detailed information about the usage of the specified license.
  */
 export const getLicenseUsage: API.OperationMethod<
-  GetLicenseUsageRequest,
+  GetLicenseUsageRequest & RegionInput,
   GetLicenseUsageResponse,
   GetLicenseUsageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetLicenseUsageRequest,
-  output: GetLicenseUsageResponse,
+  input: __S(864, __c54, 0) as any as S.Schema<GetLicenseUsageRequest>,
+  output: __S(868, __c54, 4) as any as S.Schema<GetLicenseUsageResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4787,6 +2553,8 @@ export const getLicenseUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseUsage",
+  telemetry: TELEMETRY,
+  span: "GetLicenseUsage",
 }));
 
 export type GetServiceSettingsError =
@@ -4799,13 +2567,13 @@ export type GetServiceSettingsError =
  * Gets the License Manager settings for the current Region.
  */
 export const getServiceSettings: API.OperationMethod<
-  GetServiceSettingsRequest,
+  GetServiceSettingsRequest & RegionInput,
   GetServiceSettingsResponse,
   GetServiceSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetServiceSettingsRequest,
-  output: GetServiceSettingsResponse,
+  input: __S(880, __c55, 0) as any as S.Schema<GetServiceSettingsRequest>,
+  output: __S(886, __c55, 6) as any as S.Schema<GetServiceSettingsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4815,6 +2583,8 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  telemetry: TELEMETRY,
+  span: "GetServiceSettings",
 }));
 
 export type ListAssetsForLicenseAssetGroupError =
@@ -4829,13 +2599,13 @@ export type ListAssetsForLicenseAssetGroupError =
  * Lists assets for a license asset group.
  */
 export const listAssetsForLicenseAssetGroup: API.OperationMethod<
-  ListAssetsForLicenseAssetGroupRequest,
+  ListAssetsForLicenseAssetGroupRequest & RegionInput,
   ListAssetsForLicenseAssetGroupResponse,
   ListAssetsForLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAssetsForLicenseAssetGroupRequest,
-  output: ListAssetsForLicenseAssetGroupResponse,
+  input: __S(912, __c57, 0) as any as S.Schema<ListAssetsForLicenseAssetGroupRequest>,
+  output: __S(915, __c57, 3) as any as S.Schema<ListAssetsForLicenseAssetGroupResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4847,6 +2617,8 @@ export const listAssetsForLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssetsForLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "ListAssetsForLicenseAssetGroup",
 }));
 
 export type ListAssociationsForLicenseConfigurationError =
@@ -4865,13 +2637,13 @@ export type ListAssociationsForLicenseConfigurationError =
  * the license rules).
  */
 export const listAssociationsForLicenseConfiguration: API.OperationMethod<
-  ListAssociationsForLicenseConfigurationRequest,
+  ListAssociationsForLicenseConfigurationRequest & RegionInput,
   ListAssociationsForLicenseConfigurationResponse,
   ListAssociationsForLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAssociationsForLicenseConfigurationRequest,
-  output: ListAssociationsForLicenseConfigurationResponse,
+  input: __S(928, __c58, 0) as any as S.Schema<ListAssociationsForLicenseConfigurationRequest>,
+  output: __S(931, __c58, 3) as any as S.Schema<ListAssociationsForLicenseConfigurationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4883,6 +2655,8 @@ export const listAssociationsForLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociationsForLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "ListAssociationsForLicenseConfiguration",
 }));
 
 export type ListDistributedGrantsError =
@@ -4898,13 +2672,13 @@ export type ListDistributedGrantsError =
  * Lists the grants distributed for the specified license.
  */
 export const listDistributedGrants: API.OperationMethod<
-  ListDistributedGrantsRequest,
+  ListDistributedGrantsRequest & RegionInput,
   ListDistributedGrantsResponse,
   ListDistributedGrantsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDistributedGrantsRequest,
-  output: ListDistributedGrantsResponse,
+  input: __S(944, __c59, 0) as any as S.Schema<ListDistributedGrantsRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<ListDistributedGrantsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4917,6 +2691,8 @@ export const listDistributedGrants: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDistributedGrants",
+  telemetry: TELEMETRY,
+  span: "ListDistributedGrants",
 }));
 
 export type ListFailuresForLicenseConfigurationOperationsError =
@@ -4930,13 +2706,21 @@ export type ListFailuresForLicenseConfigurationOperationsError =
  * Lists the license configuration operations that failed.
  */
 export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
-  ListFailuresForLicenseConfigurationOperationsRequest,
+  ListFailuresForLicenseConfigurationOperationsRequest & RegionInput,
   ListFailuresForLicenseConfigurationOperationsResponse,
   ListFailuresForLicenseConfigurationOperationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListFailuresForLicenseConfigurationOperationsRequest,
-  output: ListFailuresForLicenseConfigurationOperationsResponse,
+  input: __S(
+    1008,
+    __c63,
+    0,
+  ) as any as S.Schema<ListFailuresForLicenseConfigurationOperationsRequest>,
+  output: __S(
+    1011,
+    __c63,
+    3,
+  ) as any as S.Schema<ListFailuresForLicenseConfigurationOperationsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4947,6 +2731,8 @@ export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFailuresForLicenseConfigurationOperations",
+  telemetry: TELEMETRY,
+  span: "ListFailuresForLicenseConfigurationOperations",
 }));
 
 export type ListLicenseAssetGroupsError =
@@ -4961,13 +2747,13 @@ export type ListLicenseAssetGroupsError =
  * Lists license asset groups.
  */
 export const listLicenseAssetGroups: API.OperationMethod<
-  ListLicenseAssetGroupsRequest,
+  ListLicenseAssetGroupsRequest & RegionInput,
   ListLicenseAssetGroupsResponse,
   ListLicenseAssetGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseAssetGroupsRequest,
-  output: ListLicenseAssetGroupsResponse,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListLicenseAssetGroupsRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<ListLicenseAssetGroupsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -4979,6 +2765,8 @@ export const listLicenseAssetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseAssetGroups",
+  telemetry: TELEMETRY,
+  span: "ListLicenseAssetGroups",
 }));
 
 export type ListLicenseAssetRulesetsError =
@@ -4993,13 +2781,13 @@ export type ListLicenseAssetRulesetsError =
  * Lists license asset rulesets.
  */
 export const listLicenseAssetRulesets: API.OperationMethod<
-  ListLicenseAssetRulesetsRequest,
+  ListLicenseAssetRulesetsRequest & RegionInput,
   ListLicenseAssetRulesetsResponse,
   ListLicenseAssetRulesetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseAssetRulesetsRequest,
-  output: ListLicenseAssetRulesetsResponse,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListLicenseAssetRulesetsRequest>,
+  output: __S(1058, __c66, 2) as any as S.Schema<ListLicenseAssetRulesetsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5011,6 +2799,8 @@ export const listLicenseAssetRulesets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseAssetRulesets",
+  telemetry: TELEMETRY,
+  span: "ListLicenseAssetRulesets",
 }));
 
 export type ListLicenseConfigurationsError =
@@ -5025,13 +2815,13 @@ export type ListLicenseConfigurationsError =
  * Lists the license configurations for your account.
  */
 export const listLicenseConfigurations: API.OperationMethod<
-  ListLicenseConfigurationsRequest,
+  ListLicenseConfigurationsRequest & RegionInput,
   ListLicenseConfigurationsResponse,
   ListLicenseConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseConfigurationsRequest,
-  output: ListLicenseConfigurationsResponse,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListLicenseConfigurationsRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<ListLicenseConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5043,6 +2833,8 @@ export const listLicenseConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConfigurations",
+  telemetry: TELEMETRY,
+  span: "ListLicenseConfigurations",
 }));
 
 export type ListLicenseConfigurationsForOrganizationError =
@@ -5057,13 +2849,13 @@ export type ListLicenseConfigurationsForOrganizationError =
  * Lists license configurations for an organization.
  */
 export const listLicenseConfigurationsForOrganization: API.OperationMethod<
-  ListLicenseConfigurationsForOrganizationRequest,
+  ListLicenseConfigurationsForOrganizationRequest & RegionInput,
   ListLicenseConfigurationsForOrganizationResponse,
   ListLicenseConfigurationsForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseConfigurationsForOrganizationRequest,
-  output: ListLicenseConfigurationsForOrganizationResponse,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListLicenseConfigurationsForOrganizationRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<ListLicenseConfigurationsForOrganizationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5075,6 +2867,8 @@ export const listLicenseConfigurationsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConfigurationsForOrganization",
+  telemetry: TELEMETRY,
+  span: "ListLicenseConfigurationsForOrganization",
 }));
 
 export type ListLicenseConversionTasksError =
@@ -5088,13 +2882,13 @@ export type ListLicenseConversionTasksError =
  * Lists the license type conversion tasks for your account.
  */
 export const listLicenseConversionTasks: API.OperationMethod<
-  ListLicenseConversionTasksRequest,
+  ListLicenseConversionTasksRequest & RegionInput,
   ListLicenseConversionTasksResponse,
   ListLicenseConversionTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseConversionTasksRequest,
-  output: ListLicenseConversionTasksResponse,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListLicenseConversionTasksRequest>,
+  output: __S(1123, __c70, 3) as any as S.Schema<ListLicenseConversionTasksResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5105,6 +2899,8 @@ export const listLicenseConversionTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseConversionTasks",
+  telemetry: TELEMETRY,
+  span: "ListLicenseConversionTasks",
 }));
 
 export type ListLicenseManagerReportGeneratorsError =
@@ -5121,13 +2917,13 @@ export type ListLicenseManagerReportGeneratorsError =
  * Lists the report generators for your account.
  */
 export const listLicenseManagerReportGenerators: API.OperationMethod<
-  ListLicenseManagerReportGeneratorsRequest,
+  ListLicenseManagerReportGeneratorsRequest & RegionInput,
   ListLicenseManagerReportGeneratorsResponse,
   ListLicenseManagerReportGeneratorsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseManagerReportGeneratorsRequest,
-  output: ListLicenseManagerReportGeneratorsResponse,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListLicenseManagerReportGeneratorsRequest>,
+  output: __S(1138, __c71, 2) as any as S.Schema<ListLicenseManagerReportGeneratorsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5141,6 +2937,8 @@ export const listLicenseManagerReportGenerators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseManagerReportGenerators",
+  telemetry: TELEMETRY,
+  span: "ListLicenseManagerReportGenerators",
 }));
 
 export type ListLicensesError =
@@ -5155,13 +2953,13 @@ export type ListLicensesError =
  * Lists the licenses for your account.
  */
 export const listLicenses: API.OperationMethod<
-  ListLicensesRequest,
+  ListLicensesRequest & RegionInput,
   ListLicensesResponse,
   ListLicensesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicensesRequest,
-  output: ListLicensesResponse,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListLicensesRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<ListLicensesResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5173,6 +2971,8 @@ export const listLicenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenses",
+  telemetry: TELEMETRY,
+  span: "ListLicenses",
 }));
 
 export type ListLicenseSpecificationsForResourceError =
@@ -5186,13 +2986,13 @@ export type ListLicenseSpecificationsForResourceError =
  * Describes the license configurations for the specified resource.
  */
 export const listLicenseSpecificationsForResource: API.OperationMethod<
-  ListLicenseSpecificationsForResourceRequest,
+  ListLicenseSpecificationsForResourceRequest & RegionInput,
   ListLicenseSpecificationsForResourceResponse,
   ListLicenseSpecificationsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseSpecificationsForResourceRequest,
-  output: ListLicenseSpecificationsForResourceResponse,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListLicenseSpecificationsForResourceRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<ListLicenseSpecificationsForResourceResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5203,6 +3003,8 @@ export const listLicenseSpecificationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseSpecificationsForResource",
+  telemetry: TELEMETRY,
+  span: "ListLicenseSpecificationsForResource",
 }));
 
 export type ListLicenseVersionsError =
@@ -5216,13 +3018,13 @@ export type ListLicenseVersionsError =
  * Lists all versions of the specified license.
  */
 export const listLicenseVersions: API.OperationMethod<
-  ListLicenseVersionsRequest,
+  ListLicenseVersionsRequest & RegionInput,
   ListLicenseVersionsResponse,
   ListLicenseVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListLicenseVersionsRequest,
-  output: ListLicenseVersionsResponse,
+  input: __S(1216, __c76, 0) as any as S.Schema<ListLicenseVersionsRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<ListLicenseVersionsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5233,6 +3035,8 @@ export const listLicenseVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLicenseVersions",
+  telemetry: TELEMETRY,
+  span: "ListLicenseVersions",
 }));
 
 export type ListReceivedGrantsError =
@@ -5250,13 +3054,13 @@ export type ListReceivedGrantsError =
  * (OU) to which this member account belongs.
  */
 export const listReceivedGrants: API.OperationMethod<
-  ListReceivedGrantsRequest,
+  ListReceivedGrantsRequest & RegionInput,
   ListReceivedGrantsResponse,
   ListReceivedGrantsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListReceivedGrantsRequest,
-  output: ListReceivedGrantsResponse,
+  input: __S(1232, __c77, 0) as any as S.Schema<ListReceivedGrantsRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<ListReceivedGrantsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5269,6 +3073,8 @@ export const listReceivedGrants: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedGrants",
+  telemetry: TELEMETRY,
+  span: "ListReceivedGrants",
 }));
 
 export type ListReceivedGrantsForOrganizationError =
@@ -5284,13 +3090,13 @@ export type ListReceivedGrantsForOrganizationError =
  * Lists the grants received for all accounts in the organization.
  */
 export const listReceivedGrantsForOrganization: API.OperationMethod<
-  ListReceivedGrantsForOrganizationRequest,
+  ListReceivedGrantsForOrganizationRequest & RegionInput,
   ListReceivedGrantsForOrganizationResponse,
   ListReceivedGrantsForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListReceivedGrantsForOrganizationRequest,
-  output: ListReceivedGrantsForOrganizationResponse,
+  input: __S(1248, __c78, 0) as any as S.Schema<ListReceivedGrantsForOrganizationRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<ListReceivedGrantsForOrganizationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5303,6 +3109,8 @@ export const listReceivedGrantsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedGrantsForOrganization",
+  telemetry: TELEMETRY,
+  span: "ListReceivedGrantsForOrganization",
 }));
 
 export type ListReceivedLicensesError =
@@ -5318,13 +3126,13 @@ export type ListReceivedLicensesError =
  * Lists received licenses.
  */
 export const listReceivedLicenses: API.OperationMethod<
-  ListReceivedLicensesRequest,
+  ListReceivedLicensesRequest & RegionInput,
   ListReceivedLicensesResponse,
   ListReceivedLicensesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListReceivedLicensesRequest,
-  output: ListReceivedLicensesResponse,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListReceivedLicensesRequest>,
+  output: __S(1283, __c80, 3) as any as S.Schema<ListReceivedLicensesResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5337,6 +3145,8 @@ export const listReceivedLicenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedLicenses",
+  telemetry: TELEMETRY,
+  span: "ListReceivedLicenses",
 }));
 
 export type ListReceivedLicensesForOrganizationError =
@@ -5352,13 +3162,13 @@ export type ListReceivedLicensesForOrganizationError =
  * Lists the licenses received for all accounts in the organization.
  */
 export const listReceivedLicensesForOrganization: API.OperationMethod<
-  ListReceivedLicensesForOrganizationRequest,
+  ListReceivedLicensesForOrganizationRequest & RegionInput,
   ListReceivedLicensesForOrganizationResponse,
   ListReceivedLicensesForOrganizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListReceivedLicensesForOrganizationRequest,
-  output: ListReceivedLicensesForOrganizationResponse,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListReceivedLicensesForOrganizationRequest>,
+  output: __S(1283, __c80, 3) as any as S.Schema<ListReceivedLicensesForOrganizationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5371,6 +3181,8 @@ export const listReceivedLicensesForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceivedLicensesForOrganization",
+  telemetry: TELEMETRY,
+  span: "ListReceivedLicensesForOrganization",
 }));
 
 export type ListResourceInventoryError =
@@ -5386,13 +3198,13 @@ export type ListResourceInventoryError =
  * Lists resources managed using Systems Manager inventory.
  */
 export const listResourceInventory: API.OperationMethod<
-  ListResourceInventoryRequest,
+  ListResourceInventoryRequest & RegionInput,
   ListResourceInventoryResponse,
   ListResourceInventoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListResourceInventoryRequest,
-  output: ListResourceInventoryResponse,
+  input: __S(1314, __c82, 2) as any as S.Schema<ListResourceInventoryRequest>,
+  output: __S(1317, __c82, 5) as any as S.Schema<ListResourceInventoryResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5405,6 +3217,8 @@ export const listResourceInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceInventory",
+  telemetry: TELEMETRY,
+  span: "ListResourceInventory",
 }));
 
 export type ListTagsForResourceError =
@@ -5420,13 +3234,13 @@ export type ListTagsForResourceError =
  * License Manager, see the TagResource operation.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(1329, __c83, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5438,6 +3252,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type ListTokensError =
@@ -5451,13 +3267,13 @@ export type ListTokensError =
  * Lists your tokens.
  */
 export const listTokens: API.OperationMethod<
-  ListTokensRequest,
+  ListTokensRequest & RegionInput,
   ListTokensResponse,
   ListTokensError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTokensRequest,
-  output: ListTokensResponse,
+  input: __S(1344, __c84, 0) as any as S.Schema<ListTokensRequest>,
+  output: __S(1347, __c84, 3) as any as S.Schema<ListTokensResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5468,6 +3284,8 @@ export const listTokens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTokens",
+  telemetry: TELEMETRY,
+  span: "ListTokens",
 }));
 
 export type ListUsageForLicenseConfigurationError =
@@ -5484,13 +3302,13 @@ export type ListUsageForLicenseConfigurationError =
  * current license consumption for any license inventory and configuration.
  */
 export const listUsageForLicenseConfiguration: API.OperationMethod<
-  ListUsageForLicenseConfigurationRequest,
+  ListUsageForLicenseConfigurationRequest & RegionInput,
   ListUsageForLicenseConfigurationResponse,
   ListUsageForLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListUsageForLicenseConfigurationRequest,
-  output: ListUsageForLicenseConfigurationResponse,
+  input: __S(1360, __c85, 0) as any as S.Schema<ListUsageForLicenseConfigurationRequest>,
+  output: __S(1363, __c85, 3) as any as S.Schema<ListUsageForLicenseConfigurationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5502,6 +3320,8 @@ export const listUsageForLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsageForLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "ListUsageForLicenseConfiguration",
 }));
 
 export type RejectGrantError =
@@ -5517,13 +3337,13 @@ export type RejectGrantError =
  * Rejects the specified grant.
  */
 export const rejectGrant: API.OperationMethod<
-  RejectGrantRequest,
+  RejectGrantRequest & RegionInput,
   RejectGrantResponse,
   RejectGrantError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectGrantRequest,
-  output: RejectGrantResponse,
+  input: __S(1376, __c86, 0) as any as S.Schema<RejectGrantRequest>,
+  output: __S(16, __c1, 0) as any as S.Schema<RejectGrantResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5536,6 +3356,8 @@ export const rejectGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectGrant",
+  telemetry: TELEMETRY,
+  span: "RejectGrant",
 }));
 
 export type TagResourceError =
@@ -5559,13 +3381,13 @@ export type TagResourceError =
  * - Report generators
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(1392, __c87, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5577,6 +3399,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -5591,13 +3415,13 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(1408, __c88, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5609,6 +3433,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateLicenseAssetGroupError =
@@ -5623,13 +3449,13 @@ export type UpdateLicenseAssetGroupError =
  * Updates a license asset group.
  */
 export const updateLicenseAssetGroup: API.OperationMethod<
-  UpdateLicenseAssetGroupRequest,
+  UpdateLicenseAssetGroupRequest & RegionInput,
   UpdateLicenseAssetGroupResponse,
   UpdateLicenseAssetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLicenseAssetGroupRequest,
-  output: UpdateLicenseAssetGroupResponse,
+  input: __S(1424, __c89, 0) as any as S.Schema<UpdateLicenseAssetGroupRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<UpdateLicenseAssetGroupResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5641,6 +3467,8 @@ export const updateLicenseAssetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseAssetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseAssetGroup",
 }));
 
 export type UpdateLicenseAssetRulesetError =
@@ -5655,13 +3483,13 @@ export type UpdateLicenseAssetRulesetError =
  * Updates a license asset ruleset.
  */
 export const updateLicenseAssetRuleset: API.OperationMethod<
-  UpdateLicenseAssetRulesetRequest,
+  UpdateLicenseAssetRulesetRequest & RegionInput,
   UpdateLicenseAssetRulesetResponse,
   UpdateLicenseAssetRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLicenseAssetRulesetRequest,
-  output: UpdateLicenseAssetRulesetResponse,
+  input: __S(1440, __c90, 0) as any as S.Schema<UpdateLicenseAssetRulesetRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<UpdateLicenseAssetRulesetResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5673,6 +3501,8 @@ export const updateLicenseAssetRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseAssetRuleset",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseAssetRuleset",
 }));
 
 export type UpdateLicenseConfigurationError =
@@ -5689,13 +3519,13 @@ export type UpdateLicenseConfigurationError =
  * Modifies the attributes of an existing license configuration.
  */
 export const updateLicenseConfiguration: API.OperationMethod<
-  UpdateLicenseConfigurationRequest,
+  UpdateLicenseConfigurationRequest & RegionInput,
   UpdateLicenseConfigurationResponse,
   UpdateLicenseConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLicenseConfigurationRequest,
-  output: UpdateLicenseConfigurationResponse,
+  input: __S(1456, __c91, 0) as any as S.Schema<UpdateLicenseConfigurationRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<UpdateLicenseConfigurationResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5709,6 +3539,8 @@ export const updateLicenseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseConfiguration",
 }));
 
 export type UpdateLicenseManagerReportGeneratorError =
@@ -5727,13 +3559,13 @@ export type UpdateLicenseManagerReportGeneratorError =
  * After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
  */
 export const updateLicenseManagerReportGenerator: API.OperationMethod<
-  UpdateLicenseManagerReportGeneratorRequest,
+  UpdateLicenseManagerReportGeneratorRequest & RegionInput,
   UpdateLicenseManagerReportGeneratorResponse,
   UpdateLicenseManagerReportGeneratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLicenseManagerReportGeneratorRequest,
-  output: UpdateLicenseManagerReportGeneratorResponse,
+  input: __S(1472, __c92, 0) as any as S.Schema<UpdateLicenseManagerReportGeneratorRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<UpdateLicenseManagerReportGeneratorResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5747,6 +3579,8 @@ export const updateLicenseManagerReportGenerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseManagerReportGenerator",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseManagerReportGenerator",
 }));
 
 export type UpdateLicenseSpecificationsForResourceError =
@@ -5767,13 +3601,13 @@ export type UpdateLicenseSpecificationsForResourceError =
  * as they send license configurations to the operation that creates the resource.
  */
 export const updateLicenseSpecificationsForResource: API.OperationMethod<
-  UpdateLicenseSpecificationsForResourceRequest,
+  UpdateLicenseSpecificationsForResourceRequest & RegionInput,
   UpdateLicenseSpecificationsForResourceResponse,
   UpdateLicenseSpecificationsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLicenseSpecificationsForResourceRequest,
-  output: UpdateLicenseSpecificationsForResourceResponse,
+  input: __S(1488, __c93, 0) as any as S.Schema<UpdateLicenseSpecificationsForResourceRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<UpdateLicenseSpecificationsForResourceResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5787,6 +3621,8 @@ export const updateLicenseSpecificationsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLicenseSpecificationsForResource",
+  telemetry: TELEMETRY,
+  span: "UpdateLicenseSpecificationsForResource",
 }));
 
 export type UpdateServiceSettingsError =
@@ -5802,13 +3638,13 @@ export type UpdateServiceSettingsError =
  * Updates License Manager settings for the current Region.
  */
 export const updateServiceSettings: API.OperationMethod<
-  UpdateServiceSettingsRequest,
+  UpdateServiceSettingsRequest & RegionInput,
   UpdateServiceSettingsResponse,
   UpdateServiceSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateServiceSettingsRequest,
-  output: UpdateServiceSettingsResponse,
+  input: __S(1504, __c94, 0) as any as S.Schema<UpdateServiceSettingsRequest>,
+  output: __S(48, __c3, 0) as any as S.Schema<UpdateServiceSettingsResponse>,
   errors: [
     AccessDeniedException,
     AuthorizationException,
@@ -5821,4 +3657,1715 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateServiceSettings",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GrantArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AcceptGrantRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GrantArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          Version: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "AcceptGrantResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseConsumptionToken: S.String, Beneficiary: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CheckInLicenseRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "CheckInLicenseResponse",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.String,
+          Entitlements: __S(81, __c5, 1),
+          DigitalSignatureMethod: S.String,
+          NodeId: S.optional(S.String),
+          CheckoutMetadata: S.optional(__S(97, __c6, 1)),
+          ClientToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CheckoutBorrowLicenseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.optional(S.String),
+          LicenseConsumptionToken: S.optional(S.String),
+          EntitlementsAllowed: S.optional(__S(81, __c5, 1)),
+          NodeId: S.optional(S.String),
+          SignedToken: S.optional(S.String),
+          IssuedAt: S.optional(S.String),
+          Expiration: S.optional(S.String),
+          CheckoutMetadata: S.optional(__S(97, __c6, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CheckoutBorrowLicenseResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Value: S.optional(S.String), Unit: S.String }),
+      ).annotate({ identifier: "EntitlementData" });
+    case 1:
+      return S.Array(__S(80, __c5, 0));
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Metadata" });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductSKU: S.String,
+          CheckoutType: S.String,
+          KeyFingerprint: S.String,
+          Entitlements: __S(81, __c5, 1),
+          ClientToken: S.String,
+          Beneficiary: S.optional(S.String),
+          NodeId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CheckoutLicenseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CheckoutType: S.optional(S.String),
+          LicenseConsumptionToken: S.optional(S.String),
+          EntitlementsAllowed: S.optional(__S(81, __c5, 1)),
+          SignedToken: S.optional(S.String),
+          NodeId: S.optional(S.String),
+          IssuedAt: S.optional(S.String),
+          Expiration: S.optional(S.String),
+          LicenseArn: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CheckoutLicenseResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientToken: S.String,
+          GrantName: S.String,
+          LicenseArn: S.String,
+          Principals: __S(192, __c12, 0),
+          HomeRegion: S.String,
+          AllowedOperations: __S(144, __c9, 0),
+          Tags: S.optional(__S(177, __c11, 1)),
+          GrantType: S.optional(S.String),
+          Options: S.optional(__S(160, __c10, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateGrantRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ActivationOverrideBehavior: S.optional(S.String),
+          DesiredStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Options" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(__S(176, __c11, 0));
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClientToken: S.String,
+          GrantArn: S.String,
+          GrantName: S.optional(S.String),
+          AllowedOperations: S.optional(__S(144, __c9, 0)),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          SourceVersion: S.optional(S.String),
+          Options: S.optional(__S(160, __c10, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateGrantVersionRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseName: S.String,
+          ProductName: S.String,
+          ProductSKU: S.String,
+          Issuer: __S(240, __c15, 0),
+          HomeRegion: S.String,
+          Validity: __S(256, __c16, 0),
+          Entitlements: __S(258, __c16, 2),
+          Beneficiary: S.String,
+          ConsumptionConfiguration: __S(261, __c16, 5),
+          LicenseMetadata: S.optional(__S(97, __c6, 1)),
+          ClientToken: S.String,
+          Tags: S.optional(__S(177, __c11, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLicenseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          Version: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateLicenseResponse" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.String, SignKey: S.optional(S.String) })).annotate({
+        identifier: "Issuer",
+      });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Begin: S.String, End: S.optional(S.String) })).annotate({
+        identifier: "DatetimeRange",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Value: S.optional(S.String),
+          MaxCount: S.optional(S.Number),
+          Overage: S.optional(S.Boolean),
+          Unit: S.String,
+          AllowCheckIn: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Entitlement" });
+    case 2:
+      return S.Array(__S(257, __c16, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ MaxTimeToLiveInMinutes: S.Number })).annotate({
+        identifier: "ProvisionalConfiguration",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ AllowEarlyCheckIn: S.Boolean, MaxTimeToLiveInMinutes: S.Number }),
+      ).annotate({ identifier: "BorrowConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          RenewType: S.optional(S.String),
+          ProvisionalConfiguration: S.optional(__S(259, __c16, 3)),
+          BorrowConfiguration: S.optional(__S(260, __c16, 4)),
+        }),
+      ).annotate({ identifier: "ConsumptionConfiguration" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Description: S.optional(S.String),
+          LicenseAssetGroupConfigurations: __S(289, __c18, 1),
+          AssociatedLicenseAssetRulesetARNs: __S(192, __c12, 0),
+          Properties: S.optional(__S(291, __c18, 3)),
+          Tags: S.optional(__S(177, __c11, 1)),
+          ClientToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLicenseAssetGroupRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ UsageDimension: S.optional(S.String) })).annotate({
+        identifier: "LicenseAssetGroupConfiguration",
+      });
+    case 1:
+      return S.Array(__S(288, __c18, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "LicenseAssetGroupProperty",
+      });
+    case 3:
+      return S.Array(__S(290, __c18, 2));
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseAssetGroupArn: S.String, Status: S.String }).pipe(ns),
+      ).annotate({ identifier: "CreateLicenseAssetGroupResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Description: S.optional(S.String),
+          Rules: __S(345, __c21, 9),
+          Tags: S.optional(__S(177, __c11, 1)),
+          ClientToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLicenseAssetRulesetRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ KeyToMatch: S.String, Constraint: S.String, ValueToMatch: __S(192, __c12, 0) }),
+      ).annotate({ identifier: "MatchingRuleStatement" });
+    case 1:
+      return S.Array(__S(336, __c21, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ KeyToMatch: S.String, Script: S.String })).annotate({
+        identifier: "ScriptRuleStatement",
+      });
+    case 3:
+      return S.Array(__S(338, __c21, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          MatchingRuleStatements: S.optional(__S(337, __c21, 1)),
+          ScriptRuleStatements: S.optional(__S(339, __c21, 3)),
+        }),
+      ).annotate({ identifier: "AndRuleStatement" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          AndRuleStatement: S.optional(__S(340, __c21, 4)),
+          OrRuleStatement: S.optional(__S(340, __c21, 4)),
+          MatchingRuleStatement: S.optional(__S(336, __c21, 0)),
+        }),
+      ).annotate({ identifier: "LicenseConfigurationRuleStatement" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          AndRuleStatement: S.optional(__S(340, __c21, 4)),
+          OrRuleStatement: S.optional(__S(340, __c21, 4)),
+          MatchingRuleStatement: S.optional(__S(336, __c21, 0)),
+          ScriptRuleStatement: S.optional(__S(338, __c21, 2)),
+        }),
+      ).annotate({ identifier: "InstanceRuleStatement" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationRuleStatement: S.optional(__S(341, __c21, 5)),
+          LicenseRuleStatement: S.optional(__S(341, __c21, 5)),
+          InstanceRuleStatement: S.optional(__S(342, __c21, 6)),
+        }),
+      ).annotate({ identifier: "RuleStatement" });
+    case 8:
+      return S.suspend(() => S.Struct({ RuleStatement: __S(343, __c21, 7) })).annotate({
+        identifier: "LicenseAssetRule",
+      });
+    case 9:
+      return S.Array(__S(344, __c21, 8));
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(ns)).annotate({
+        identifier: "CreateLicenseAssetRulesetResponse",
+      });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Description: S.optional(S.String),
+          LicenseCountingType: S.String,
+          LicenseCount: S.optional(S.Number),
+          LicenseCountHardLimit: S.optional(S.Boolean),
+          LicenseRules: S.optional(__S(192, __c12, 0)),
+          Tags: S.optional(__S(177, __c11, 1)),
+          DisassociateWhenNotFound: S.optional(S.Boolean),
+          ProductInformationList: S.optional(__S(387, __c24, 3)),
+          LicenseExpiry: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLicenseConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ LicenseConfigurationArn: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "CreateLicenseConfigurationResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProductInformationFilterName: S.String,
+          ProductInformationFilterValue: S.optional(__S(192, __c12, 0)),
+          ProductInformationFilterComparator: S.String,
+        }),
+      ).annotate({ identifier: "ProductInformationFilter" });
+    case 1:
+      return S.Array(__S(384, __c24, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ResourceType: S.String, ProductInformationFilterList: __S(385, __c24, 1) }),
+      ).annotate({ identifier: "ProductInformation" });
+    case 3:
+      return S.Array(__S(386, __c24, 2));
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          SourceLicenseContext: __S(418, __c26, 2),
+          DestinationLicenseContext: __S(418, __c26, 2),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLicenseConversionTaskForResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ LicenseConversionTaskId: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "CreateLicenseConversionTaskForResourceResponse" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ProductCodeId: S.String, ProductCodeType: S.String }),
+      ).annotate({ identifier: "ProductCodeListItem" });
+    case 1:
+      return S.Array(__S(416, __c26, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          UsageOperation: S.optional(S.String),
+          ProductCodes: S.optional(__S(417, __c26, 1)),
+        }),
+      ).annotate({ identifier: "LicenseConversionContext" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReportGeneratorName: S.String,
+          Type: __S(144, __c9, 0),
+          ReportContext: __S(448, __c28, 0),
+          ReportFrequency: __S(449, __c28, 1),
+          ClientToken: S.String,
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(177, __c11, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLicenseManagerReportGeneratorRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ LicenseManagerReportGeneratorArn: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "CreateLicenseManagerReportGeneratorResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          licenseConfigurationArns: S.optional(__S(192, __c12, 0)),
+          licenseAssetGroupArns: S.optional(__S(192, __c12, 0)),
+          reportStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          reportEndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ReportContext" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ value: S.optional(S.Number), period: S.optional(S.String) }),
+      ).annotate({ identifier: "ReportFrequency" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.String,
+          LicenseName: S.String,
+          ProductName: S.String,
+          Issuer: __S(240, __c15, 0),
+          HomeRegion: S.String,
+          Validity: __S(256, __c16, 0),
+          LicenseMetadata: S.optional(__S(97, __c6, 1)),
+          Entitlements: __S(258, __c16, 2),
+          ConsumptionConfiguration: __S(261, __c16, 5),
+          Status: S.String,
+          ClientToken: S.String,
+          SourceVersion: S.optional(S.String),
+          ResetUsage: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLicenseVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.optional(S.String),
+          Version: S.optional(S.String),
+          Status: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateLicenseVersionResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.String,
+          RoleArns: S.optional(__S(192, __c12, 0)),
+          ExpirationInDays: S.optional(S.Number),
+          TokenProperties: S.optional(__S(192, __c12, 0)),
+          ClientToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TokenId: S.optional(S.String),
+          TokenType: S.optional(S.String),
+          Token: S.optional(SensitiveString),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateTokenResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GrantArn: S.String,
+          StatusReason: S.optional(S.String),
+          Version: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteGrantRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseArn: S.String, SourceVersion: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteLicenseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Status: S.optional(S.String), DeletionDate: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "DeleteLicenseResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseAssetGroupArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteLicenseAssetGroupRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Status: S.String }).pipe(ns)).annotate({
+        identifier: "DeleteLicenseAssetGroupResponse",
+      });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteLicenseAssetRulesetRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseConfigurationArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteLicenseConfigurationRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseManagerReportGeneratorArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteLicenseManagerReportGeneratorRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TokenId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteTokenRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseConsumptionToken: S.String, DryRun: S.optional(S.Boolean) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ExtendLicenseConsumptionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConsumptionToken: S.optional(S.String),
+          Expiration: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ExtendLicenseConsumptionResponse" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Token: SensitiveString, TokenProperties: S.optional(__S(192, __c12, 0)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccessTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AccessToken: S.optional(SensitiveString) }).pipe(ns),
+      ).annotate({ identifier: "GetAccessTokenResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GrantArn: S.String, Version: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetGrantRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Grant: S.optional(__S(656, __c41, 0)) }).pipe(ns)).annotate(
+        { identifier: "GetGrantResponse" },
+      );
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GrantArn: S.String,
+          GrantName: S.String,
+          ParentArn: S.String,
+          LicenseArn: S.String,
+          GranteePrincipalArn: S.String,
+          HomeRegion: S.String,
+          GrantStatus: S.String,
+          StatusReason: S.optional(S.String),
+          Version: S.String,
+          GrantedOperations: __S(144, __c9, 0),
+          Options: S.optional(__S(160, __c10, 0)),
+          GrantType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Grant" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseArn: S.String, Version: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLicenseRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ License: S.optional(__S(688, __c43, 0)) }).pipe(ns),
+      ).annotate({ identifier: "GetLicenseResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.optional(S.String),
+          LicenseName: S.optional(S.String),
+          ProductName: S.optional(S.String),
+          ProductSKU: S.optional(S.String),
+          Issuer: S.optional(__S(704, __c44, 0)),
+          HomeRegion: S.optional(S.String),
+          Status: S.optional(S.String),
+          Validity: S.optional(__S(256, __c16, 0)),
+          Beneficiary: S.optional(S.String),
+          Entitlements: S.optional(__S(258, __c16, 2)),
+          ConsumptionConfiguration: S.optional(__S(261, __c16, 5)),
+          LicenseMetadata: S.optional(__S(97, __c6, 1)),
+          CreateTime: S.optional(S.String),
+          Version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "License" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          SignKey: S.optional(S.String),
+          KeyFingerprint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IssuerDetails" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseAssetGroupArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLicenseAssetGroupRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ LicenseAssetGroup: __S(736, __c46, 0) }).pipe(ns)).annotate(
+        { identifier: "GetLicenseAssetGroupResponse" },
+      );
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Description: S.optional(S.String),
+          LicenseAssetGroupConfigurations: S.optional(__S(289, __c18, 1)),
+          AssociatedLicenseAssetRulesetARNs: __S(192, __c12, 0),
+          Properties: S.optional(__S(291, __c18, 3)),
+          LicenseAssetGroupArn: S.String,
+          Status: S.String,
+          StatusMessage: S.optional(S.String),
+          LatestUsageAnalysisTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LatestResourceDiscoveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "LicenseAssetGroup" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseAssetRulesetArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLicenseAssetRulesetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ LicenseAssetRuleset: __S(768, __c48, 0) }).pipe(ns),
+      ).annotate({ identifier: "GetLicenseAssetRulesetResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Description: S.optional(S.String),
+          Rules: __S(345, __c21, 9),
+          LicenseAssetRulesetArn: S.String,
+        }),
+      ).annotate({ identifier: "LicenseAssetRuleset" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseConfigurationArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLicenseConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationId: S.optional(S.String),
+          LicenseConfigurationArn: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          LicenseCountingType: S.optional(S.String),
+          LicenseRules: S.optional(__S(192, __c12, 0)),
+          LicenseCount: S.optional(S.Number),
+          LicenseCountHardLimit: S.optional(S.Boolean),
+          ConsumedLicenses: S.optional(S.Number),
+          Status: S.optional(S.String),
+          OwnerAccountId: S.optional(S.String),
+          ConsumedLicenseSummaryList: S.optional(__S(801, __c50, 1)),
+          ManagedResourceSummaryList: S.optional(__S(803, __c50, 3)),
+          Tags: S.optional(__S(177, __c11, 1)),
+          ProductInformationList: S.optional(__S(387, __c24, 3)),
+          AutomatedDiscoveryInformation: S.optional(__S(804, __c50, 4)),
+          DisassociateWhenNotFound: S.optional(S.Boolean),
+          LicenseExpiry: S.optional(S.Number),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetLicenseConfigurationResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceType: S.optional(S.String), ConsumedLicenses: S.optional(S.Number) }),
+      ).annotate({ identifier: "ConsumedLicenseSummary" });
+    case 1:
+      return S.Array(__S(800, __c50, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ResourceType: S.optional(S.String), AssociationCount: S.optional(S.Number) }),
+      ).annotate({ identifier: "ManagedResourceSummary" });
+    case 3:
+      return S.Array(__S(802, __c50, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ LastRunTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))) }),
+      ).annotate({ identifier: "AutomatedDiscoveryInformation" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseConversionTaskId: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLicenseConversionTaskRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConversionTaskId: S.optional(S.String),
+          ResourceArn: S.optional(S.String),
+          SourceLicenseContext: S.optional(__S(418, __c26, 2)),
+          DestinationLicenseContext: S.optional(__S(418, __c26, 2)),
+          StatusMessage: S.optional(S.String),
+          Status: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LicenseConversionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetLicenseConversionTaskResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseManagerReportGeneratorArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLicenseManagerReportGeneratorRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReportGenerator: S.optional(__S(849, __c53, 1)) }).pipe(ns),
+      ).annotate({ identifier: "GetLicenseManagerReportGeneratorResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucket: S.optional(S.String), keyPrefix: S.optional(S.String) }),
+      ).annotate({ identifier: "S3Location" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReportGeneratorName: S.optional(S.String),
+          ReportType: S.optional(__S(144, __c9, 0)),
+          ReportContext: S.optional(__S(448, __c28, 0)),
+          ReportFrequency: S.optional(__S(449, __c28, 1)),
+          LicenseManagerReportGeneratorArn: S.optional(S.String),
+          LastRunStatus: S.optional(S.String),
+          LastRunFailureReason: S.optional(S.String),
+          LastReportGenerationTime: S.optional(S.String),
+          ReportCreatorAccount: S.optional(S.String),
+          Description: S.optional(S.String),
+          S3Location: S.optional(__S(848, __c53, 0)),
+          CreateTime: S.optional(S.String),
+          Tags: S.optional(__S(177, __c11, 1)),
+        }),
+      ).annotate({ identifier: "ReportGenerator" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetLicenseUsageRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          ConsumedValue: S.String,
+          MaxCount: S.optional(S.String),
+          Unit: S.String,
+        }),
+      ).annotate({ identifier: "EntitlementUsage" });
+    case 2:
+      return S.Array(__S(865, __c54, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ EntitlementUsages: S.optional(__S(866, __c54, 2)) }),
+      ).annotate({ identifier: "LicenseUsage" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ LicenseUsage: S.optional(__S(867, __c54, 3)) }).pipe(ns),
+      ).annotate({ identifier: "GetLicenseUsageResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetServiceSettingsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Message: S.optional(S.String) })).annotate({
+        identifier: "CrossAccountDiscoveryServiceStatus",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ Status: S.optional(S.String) })).annotate({
+        identifier: "RegionStatus",
+      });
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ __S(882, __c55, 2).pipe(S.optional));
+    case 4:
+      return S.suspend(() => S.Struct({ Message: S.optional(__S(883, __c55, 3)) })).annotate({
+        identifier: "CrossRegionDiscoveryStatus",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          CrossAccountDiscovery: S.optional(__S(881, __c55, 1)),
+          CrossRegionDiscovery: S.optional(__S(884, __c55, 4)),
+        }),
+      ).annotate({ identifier: "ServiceStatus" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          S3BucketArn: S.optional(S.String),
+          SnsTopicArn: S.optional(S.String),
+          OrganizationConfiguration: S.optional(__S(896, __c56, 0)),
+          EnableCrossAccountsDiscovery: S.optional(S.Boolean),
+          LicenseManagerResourceShareArn: S.optional(S.String),
+          CrossRegionDiscoveryHomeRegion: S.optional(S.String),
+          CrossRegionDiscoverySourceRegions: S.optional(__S(192, __c12, 0)),
+          ServiceStatus: S.optional(__S(885, __c55, 5)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetServiceSettingsResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ EnableIntegration: S.Boolean })).annotate({
+        identifier: "OrganizationConfiguration",
+      });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseAssetGroupArn: S.String,
+          AssetType: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAssetsForLicenseAssetGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AssetArn: S.optional(S.String),
+          LatestAssetDiscoveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Asset" });
+    case 2:
+      return S.Array(__S(913, __c57, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Assets: S.optional(__S(914, __c57, 2)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListAssetsForLicenseAssetGroupResponse" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationArn: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAssociationsForLicenseConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          ResourceOwnerId: S.optional(S.String),
+          AssociationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AmiAssociationScope: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LicenseConfigurationAssociation" });
+    case 2:
+      return S.Array(__S(929, __c58, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationAssociations: S.optional(__S(930, __c58, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListAssociationsForLicenseConfigurationResponse" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GrantArns: S.optional(__S(192, __c12, 0)),
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListDistributedGrantsRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("item")));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(960, __c60, 0)) }),
+      ).annotate({ identifier: "Filter" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(961, __c60, 1));
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(656, __c41, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Grants: S.optional(__S(992, __c62, 0)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListDistributedGrantsResponse" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationArn: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFailuresForLicenseConfigurationOperationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+          FailureTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          OperationName: S.optional(S.String),
+          ResourceOwnerId: S.optional(S.String),
+          OperationRequestedBy: S.optional(S.String),
+          MetadataList: S.optional(__S(97, __c6, 1)),
+        }),
+      ).annotate({ identifier: "LicenseOperationFailure" });
+    case 2:
+      return S.Array(__S(1009, __c63, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseOperationFailureList: S.optional(__S(1010, __c63, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListFailuresForLicenseConfigurationOperationsResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(1040, __c65, 0)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseAssetGroupsRequest" });
+    case 1:
+      return S.Array(__S(736, __c46, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseAssetGroups: S.optional(__S(1025, __c64, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLicenseAssetGroupsResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(
+        /*@__PURE__*/ __S(961, __c60, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("item"))
+          .annotate({ identifier: "Filter" }),
+      );
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(1040, __c65, 0)),
+          ShowAWSManagedLicenseAssetRulesets: S.optional(S.Boolean),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseAssetRulesetsRequest" });
+    case 1:
+      return S.Array(__S(768, __c48, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseAssetRulesets: S.optional(__S(1057, __c66, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLicenseAssetRulesetsResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationArns: S.optional(__S(192, __c12, 0)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(1040, __c65, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseConfigurationsRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationId: S.optional(S.String),
+          LicenseConfigurationArn: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          LicenseCountingType: S.optional(S.String),
+          LicenseRules: S.optional(__S(192, __c12, 0)),
+          LicenseCount: S.optional(S.Number),
+          LicenseCountHardLimit: S.optional(S.Boolean),
+          DisassociateWhenNotFound: S.optional(S.Boolean),
+          ConsumedLicenses: S.optional(S.Number),
+          Status: S.optional(S.String),
+          OwnerAccountId: S.optional(S.String),
+          ConsumedLicenseSummaryList: S.optional(__S(801, __c50, 1)),
+          ManagedResourceSummaryList: S.optional(__S(803, __c50, 3)),
+          ProductInformationList: S.optional(__S(387, __c24, 3)),
+          AutomatedDiscoveryInformation: S.optional(__S(804, __c50, 4)),
+          LicenseExpiry: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LicenseConfiguration" });
+    case 1:
+      return S.Array(__S(1088, __c68, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurations: S.optional(__S(1089, __c68, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLicenseConfigurationsResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationArns: S.optional(__S(192, __c12, 0)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(1040, __c65, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseConfigurationsForOrganizationRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          Filters: S.optional(__S(1040, __c65, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseConversionTasksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConversionTaskId: S.optional(S.String),
+          ResourceArn: S.optional(S.String),
+          SourceLicenseContext: S.optional(__S(418, __c26, 2)),
+          DestinationLicenseContext: S.optional(__S(418, __c26, 2)),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LicenseConversionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "LicenseConversionTask" });
+    case 2:
+      return S.Array(__S(1121, __c70, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConversionTasks: S.optional(__S(1122, __c70, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLicenseConversionTasksResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseManagerReportGeneratorsRequest" });
+    case 1:
+      return S.Array(__S(849, __c53, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ReportGenerators: S.optional(__S(1137, __c71, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLicenseManagerReportGeneratorsResponse" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArns: S.optional(__S(192, __c12, 0)),
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicensesRequest" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(688, __c43, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Licenses: S.optional(__S(1168, __c73, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLicensesResponse" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseSpecificationsForResourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseSpecifications: S.optional(__S(1201, __c75, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListLicenseSpecificationsForResourceResponse" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LicenseConfigurationArn: S.String, AmiAssociationScope: S.optional(S.String) }),
+      ).annotate({ identifier: "LicenseSpecification" });
+    case 1:
+      return S.Array(__S(1200, __c75, 0));
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.String,
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLicenseVersionsRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GrantArns: S.optional(__S(192, __c12, 0)),
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListReceivedGrantsRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.String,
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListReceivedGrantsForOrganizationRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArns: S.optional(__S(192, __c12, 0)),
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListReceivedLicensesRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReceivedStatus: S.optional(S.String),
+          ReceivedStatusReason: S.optional(S.String),
+          AllowedOperations: S.optional(__S(144, __c9, 0)),
+          GrantType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReceivedMetadata" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseArn: S.optional(S.String),
+          LicenseName: S.optional(S.String),
+          ProductName: S.optional(S.String),
+          ProductSKU: S.optional(S.String),
+          Issuer: S.optional(__S(704, __c44, 0)),
+          HomeRegion: S.optional(S.String),
+          Status: S.optional(S.String),
+          Validity: S.optional(__S(256, __c16, 0)),
+          Beneficiary: S.optional(S.String),
+          Entitlements: S.optional(__S(258, __c16, 2)),
+          ConsumptionConfiguration: S.optional(__S(261, __c16, 5)),
+          LicenseMetadata: S.optional(__S(97, __c6, 1)),
+          CreateTime: S.optional(S.String),
+          Version: S.optional(S.String),
+          ReceivedMetadata: S.optional(__S(1280, __c80, 0)),
+        }),
+      ).annotate({ identifier: "GrantedLicense" });
+    case 2:
+      return S.Array(__S(1281, __c80, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Licenses: S.optional(__S(1282, __c80, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListReceivedLicensesResponse" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListReceivedLicensesForOrganizationRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Condition: S.String, Value: S.optional(S.String) }),
+      ).annotate({ identifier: "InventoryFilter" });
+    case 1:
+      return S.Array(__S(1312, __c82, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(1313, __c82, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListResourceInventoryRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceId: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          ResourceArn: S.optional(S.String),
+          Platform: S.optional(S.String),
+          PlatformVersion: S.optional(S.String),
+          ResourceOwningAccountId: S.optional(S.String),
+          MarketplaceProductCodes: S.optional(__S(192, __c12, 0)),
+          UsageOperation: S.optional(S.String),
+          AmiId: S.optional(S.String),
+          HostId: S.optional(S.String),
+          Region: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceInventory" });
+    case 4:
+      return S.Array(__S(1315, __c82, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceInventoryList: S.optional(__S(1316, __c82, 4)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListResourceInventoryResponse" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(177, __c11, 1)) }).pipe(ns)).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TokenIds: S.optional(__S(192, __c12, 0)),
+          Filters: S.optional(__S(976, __c61, 0)),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListTokensRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TokenId: S.optional(S.String),
+          TokenType: S.optional(S.String),
+          LicenseArn: S.optional(S.String),
+          ExpirationTime: S.optional(S.String),
+          TokenProperties: S.optional(__S(192, __c12, 0)),
+          RoleArns: S.optional(__S(192, __c12, 0)),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TokenData" });
+    case 2:
+      return S.Array(__S(1345, __c84, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Tokens: S.optional(__S(1346, __c84, 2)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListTokensResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationArn: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Filters: S.optional(__S(1040, __c65, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListUsageForLicenseConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.optional(S.String),
+          ResourceType: S.optional(S.String),
+          ResourceStatus: S.optional(S.String),
+          ResourceOwnerId: S.optional(S.String),
+          AssociationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ConsumedLicenses: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LicenseConfigurationUsage" });
+    case 2:
+      return S.Array(__S(1361, __c85, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationUsageList: S.optional(__S(1362, __c85, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListUsageForLicenseConfigurationResponse" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GrantArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RejectGrantRequest" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Tags: __S(177, __c11, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(192, __c12, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          LicenseAssetGroupConfigurations: S.optional(__S(289, __c18, 1)),
+          AssociatedLicenseAssetRulesetARNs: __S(192, __c12, 0),
+          Properties: S.optional(__S(291, __c18, 3)),
+          LicenseAssetGroupArn: S.String,
+          Status: S.optional(S.String),
+          ClientToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLicenseAssetGroupRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Rules: __S(345, __c21, 9),
+          LicenseAssetRulesetArn: S.String,
+          ClientToken: S.String,
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLicenseAssetRulesetRequest" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseConfigurationArn: S.String,
+          LicenseConfigurationStatus: S.optional(S.String),
+          LicenseRules: S.optional(__S(192, __c12, 0)),
+          LicenseCount: S.optional(S.Number),
+          LicenseCountHardLimit: S.optional(S.Boolean),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          ProductInformationList: S.optional(__S(387, __c24, 3)),
+          DisassociateWhenNotFound: S.optional(S.Boolean),
+          LicenseExpiry: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLicenseConfigurationRequest" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseManagerReportGeneratorArn: S.String,
+          ReportGeneratorName: S.String,
+          Type: __S(144, __c9, 0),
+          ReportContext: __S(448, __c28, 0),
+          ReportFrequency: __S(449, __c28, 1),
+          ClientToken: S.String,
+          Description: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLicenseManagerReportGeneratorRequest" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceArn: S.String,
+          AddLicenseSpecifications: S.optional(__S(1201, __c75, 1)),
+          RemoveLicenseSpecifications: S.optional(__S(1201, __c75, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLicenseSpecificationsForResourceRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          S3BucketArn: S.optional(S.String),
+          SnsTopicArn: S.optional(S.String),
+          OrganizationConfiguration: S.optional(__S(896, __c56, 0)),
+          EnableCrossAccountsDiscovery: S.optional(S.Boolean),
+          EnabledDiscoverySourceRegions: S.optional(__S(192, __c12, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateServiceSettingsRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

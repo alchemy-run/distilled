@@ -1,0 +1,136 @@
+{
+  "description": "From tasks-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"tasks\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.tasks#BadRequest"
+        },
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksCreate/errors/0",
+      "value": {
+        "target": "com.posthog.tasks#BadRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksCreate/errors/2",
+      "value": {
+        "target": "com.posthog.tasks#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.tasks#BadRequest"
+        },
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.tasks#BadRequest"
+        },
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksStagedArtifactsFinalizeUploadCreate/errors/1",
+      "value": {
+        "target": "com.posthog.tasks#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksStagedArtifactsPrepareUploadCreate/errors/1",
+      "value": {
+        "target": "com.posthog.tasks#Forbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksRepositoriesRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.tasks#TasksRepositoryReadinessRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.tasks#BadRequest"
+        },
+        {
+          "target": "com.posthog.tasks#Forbidden"
+        },
+        {
+          "target": "com.posthog.tasks#NotFound"
+        }
+      ]
+    }
+  ]
+}

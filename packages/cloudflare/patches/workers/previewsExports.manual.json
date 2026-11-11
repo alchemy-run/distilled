@@ -1,0 +1,16 @@
+{
+  "description": "Hand-authored: Wrangler sends the declarative exports map on Preview deployments too (cloudflare/workers-sdk@fdd4b53: packages/deploy-helpers/src/preview/preview.ts sets request.exports = getPreviewExports(config.exports)). Reuse PutScriptMetadataExports so worker-entrypoint cache overrides and Durable Object exports share one shape; keep the key dictionary cleared so export names stay verbatim.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreatePreviewDeploymentMetadata/members/exports",
+      "value": {
+        "target": "com.cloudflare.workers#PutScriptMetadataExports",
+        "traits": {
+          "com.cloudflare.protocols#keyDictionary": {},
+          "smithy.api#documentation": "Per-export settings keyed by the verbatim export name (default for the default export)."
+        }
+      }
+    }
+  ]
+}

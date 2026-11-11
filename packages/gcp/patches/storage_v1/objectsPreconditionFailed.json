@@ -1,0 +1,29 @@
+{
+  "description": "Type objects.delete's and objects.patch's HTTP 412 when an ifGenerationMatch / ifMetagenerationMatch precondition does not hold ('At least one of the pre-conditions you specified did not hold.'). 412 is not in the core status map, so it landed as UnknownGCPError. Compare-and-swap callers (alchemy's GCS state-store lock) need to tell a lost race from a real failure.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#ObjectPreconditionFailed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 412,
+          "smithy.api#documentation": "The object's live generation or metageneration does not match the request's ifGenerationMatch / ifMetagenerationMatch precondition (HTTP 412). Another writer changed or replaced the object.",
+          "com.gcp.protocols#errorMatchers": [{ "status": 412 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#DeleteObjects/errors/-",
+      "value": { "target": "com.gcp.storage_v1#ObjectPreconditionFailed" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#PatchObjects/errors/-",
+      "value": { "target": "com.gcp.storage_v1#ObjectPreconditionFailed" }
+    }
+  ]
+}

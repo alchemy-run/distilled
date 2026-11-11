@@ -1,0 +1,85 @@
+{
+  "description": "StorageConnectorSource is polymorphic (discriminator type: DataShare -> DataShareSource) and the converter kept only the base `type` member, so a connector could not send its connection or auth details. Flatten DataShareSource onto the base: `connection` ({ type, dataShareUri }) and `authProperties` ({ type, identityResourceId }). Also add `authProperties` to StorageConnectorSourceUpdate (DataShareSourceUpdate) so a PATCH can rotate the managed identity.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#StorageConnectorConnection",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Type of the connection, e.g. `DataShare`. Not mutable once the Storage Connector is created.",
+              "smithy.api#required": {}
+            }
+          },
+          "dataShareUri": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The URI of the backing DataShare, in the format `azds://<region>:<DataShareName>:<DataShareIdentifier>`."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The connection properties of the backing data source"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#StorageConnectorAuthProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Type of the authentication properties, e.g. `ManagedIdentity`.",
+              "smithy.api#required": {}
+            }
+          },
+          "identityResourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "ARM resource ID of the managed identity used to authenticate to the backing data source."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The authentication properties of the backing data source"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#StorageConnectorSource/members/connection",
+      "value": {
+        "target": "com.azure.storage#StorageConnectorConnection",
+        "traits": {
+          "smithy.api#documentation": "Details for how to connect to the backing data store. Not mutable once created."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#StorageConnectorSource/members/authProperties",
+      "value": {
+        "target": "com.azure.storage#StorageConnectorAuthProperties",
+        "traits": {
+          "smithy.api#documentation": "Details for how to authenticate to the backing data store."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#StorageConnectorSourceUpdate/members/authProperties",
+      "value": {
+        "target": "com.azure.storage#StorageConnectorAuthProperties",
+        "traits": {
+          "smithy.api#documentation": "Details for how to authenticate to the backing data store."
+        }
+      }
+    }
+  ]
+}

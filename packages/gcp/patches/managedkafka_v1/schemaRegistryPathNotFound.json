@@ -1,0 +1,68 @@
+{
+  "description": "Type the Schema Registry missing-parent error. Addressing a subject or version whose parent registry or context no longer exists returns HTTP 400 'Path is invalid due to missing resources or invalid resource order.'; it surfaced as an out-of-union BadRequest, so deletes could not treat it as already gone.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#SchemaRegistryPathNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A parent schema registry or context in the path does not exist (HTTP 400).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Path is invalid due to missing resources"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryPathNotFound"
+      }
+    }
+  ]
+}

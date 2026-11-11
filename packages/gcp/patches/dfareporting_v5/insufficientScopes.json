@@ -1,0 +1,1552 @@
+{
+  "description": "Type the missing-OAuth-scope rejection. It surfaced as a plain Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The OAuth token lacks the dfatrafficking/dfareporting scope (HTTP 403: \"Request had insufficient authentication scopes.\"). Service-account tokens with only cloud-platform scope hit this.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#BatchinsertConversions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#BatchupdateConversions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteAdvertiserGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteContentCategories/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteCreativeFieldValues/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteCreativeFields/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteDynamicTargetingKeys/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteEventTags/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeletePlacementStrategies/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteReports/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#DeleteUserRoles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GenerateCodeDynamicProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GeneratetagFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GeneratetagsPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAccountActiveAdSummaries/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAccountPermissionGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAccountPermissions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAccountUserProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAdvertiserGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAdvertiserLandingPages/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetBillingProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetChangeLogs/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetConnectionTypes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetContentCategories/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetCountries/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetCreativeFieldValues/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetCreativeFields/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetCreativeGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetDirectorySites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetDynamicFeeds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetDynamicProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetEventTags/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetFiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetFloodlightActivityGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetFloodlightConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetMobileApps/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetMobileCarriers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetOperatingSystemVersions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetOperatingSystems/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetPlacementGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetPlacementStrategies/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetPlatformTypes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetPostalCodes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetRemarketingListShares/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetRemarketingLists/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetReports/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetReportsFiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetSites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetSizes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetStudioCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetSubaccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetTargetableRemarketingLists/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetTargetingTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetTvCampaignDetails/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetUserProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetUserRolePermissionGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetUserRolePermissions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetUserRoles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#GetVideoFormats/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertAccountUserProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertAds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertAdvertiserGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertAdvertiserLandingPages/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertBillingAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertCampaignCreativeAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertContentCategories/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertCreativeAssets/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertCreativeFieldValues/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertCreativeFields/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertCreativeGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertDirectorySites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertDynamicFeeds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertDynamicProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertDynamicTargetingKeys/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertEventTags/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertFloodlightActivityGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertPlacementGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertPlacementStrategies/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertRemarketingLists/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertReports/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertSites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertSizes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertStudioCreativeAssets/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertStudioCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertSubaccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertTargetingTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#InsertUserRoles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAccountPermissionGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAccountPermissions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAccountUserProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAdvertiserGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAdvertiserInvoices/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAdvertiserLandingPages/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListBillingAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListBillingProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListBillingRates/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListBrowsers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCampaignCreativeAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListChangeLogs/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListConnectionTypes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListContentCategories/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCountries/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCreativeFieldValues/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCreativeFields/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCreativeGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListDirectorySites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListDynamicTargetingKeys/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListEventTags/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListFiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListFloodlightActivityGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListFloodlightConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListLanguages/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListMetros/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListMobileApps/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListMobileCarriers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListOperatingSystemVersions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListOperatingSystems/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListPlacementGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListPlacementStrategies/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListPlatformTypes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListPostalCodes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListRegions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListRemarketingLists/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListReports/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListReportsFiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListSites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListSizes/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListSubaccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListTargetableRemarketingLists/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListTargetingTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListTvCampaignSummaries/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListUserProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListUserRolePermissionGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListUserRolePermissions/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListUserRoles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#ListVideoFormats/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchAccountUserProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchAds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchAdvertiserGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchAdvertiserLandingPages/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchContentCategories/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchCreativeFieldValues/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchCreativeFields/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchCreativeGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchEventTags/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchFloodlightActivityGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchFloodlightConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchPlacementGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchPlacementStrategies/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchPlacements/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchRemarketingListShares/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchRemarketingLists/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchSites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchSubaccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchTargetingTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PatchUserRoles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PublishDynamicProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#PublishStudioCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#QueryDimensionValues/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#QueryReportData/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#QueryReportsCompatibleFields/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#RetransformDynamicFeeds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#RunReports/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateAccountUserProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateAds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateAdvertiserGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateAdvertiserLandingPages/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateAdvertisers/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateBillingProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateCampaigns/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateContentCategories/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateCreativeFieldValues/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateCreativeFields/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateCreativeGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateDynamicFeeds/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateDynamicProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateEventTags/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateFloodlightActivities/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateFloodlightActivityGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateFloodlightConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdatePlacementGroups/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdatePlacementStrategies/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdatePlacements/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateRemarketingListShares/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateRemarketingLists/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateReports/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateSites/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateSubaccounts/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateTargetingTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dfareporting_v5#UpdateUserRoles/errors/-",
+      "value": {
+        "target": "com.gcp.dfareporting_v5#InsufficientScopes"
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Boat credentials — hand-written.
+ * Boat credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -9,40 +10,50 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://boat.dev/api/v1";
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
+  /**
+   * Optional default organization (wallet): an org id (`team_...`), an org
+   * name, or `personal`. Sent on every request as the `X-Boat-Org` header
+   * when set; omitted, Boat uses the account's active wallet. A per-call
+   * `xBoatOrg` or `org` overrides it. `/environments` routes ignore the
+   * header and need `org` on the call.
+   */
+  readonly org?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("BoatCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "BoatCredentials",
+  ) {}
 
-/** Layer from a plain API key + optional base URL. */
+/** Layer from a redacted API key + optional base URL / default org. */
 export const fromApiKey = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+  readonly org?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+      org: config.org,
     }),
   );
 
 /**
- * Reads `BOAT_API_KEY` (required) and `BOAT_API_BASE_URL` (optional).
- * `BOAT_API_BASE` is accepted as the vendor-docs alias for the base URL.
+ * Reads `BOAT_API_KEY` (required), `BOAT_API_BASE_URL` (optional) and
+ * `BOAT_ORG` (optional default org). `BOAT_API_BASE` is accepted as the
+ * vendor-docs alias for the base URL.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const apiKey = process.env.BOAT_API_KEY;
 
     if (!apiKey) {
@@ -54,9 +65,8 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     return {
       apiKey: Redacted.make(apiKey),
       apiBaseUrl:
-        process.env.BOAT_API_BASE_URL ??
-        process.env.BOAT_API_BASE ??
-        DEFAULT_API_BASE_URL,
+        process.env.BOAT_API_BASE_URL ?? process.env.BOAT_API_BASE ?? DEFAULT_API_BASE_URL,
+      org: process.env.BOAT_ORG || undefined,
     };
-  }).pipe(Effect.orDie),
+  }),
 );

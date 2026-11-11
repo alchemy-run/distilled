@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Squarespace Commerce OpenAPI spec and a snapshot of vendor
  * docs to ../specs/.
@@ -9,7 +9,7 @@
  * generate never crawls developers.squarespace.com at convert time.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Written to:
  *   ../specs/openapi.json
@@ -58,6 +58,7 @@ const DOCS: { url: string; output: string; mustInclude: string }[] = [
 ];
 
 import { mkdirSync } from "fs";
+import { writeFile as fsWriteFile } from "fs/promises";
 import { dirname } from "path";
 
 mkdirSync(SPECS_DIR, { recursive: true });
@@ -71,16 +72,14 @@ const fetchText = async (url: string, accept: string): Promise<Response> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 };
 
 const writeFile = async (path: string, body: string): Promise<void> => {
   mkdirSync(dirname(path), { recursive: true });
-  await Bun.write(path, body.endsWith("\n") ? body : `${body}\n`);
+  await fsWriteFile(path, body.endsWith("\n") ? body : `${body}\n`);
 };
 
 async function main() {
@@ -98,10 +97,8 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  await fsWriteFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   for (const doc of DOCS) {
     console.log(`Fetching ${doc.url}...`);

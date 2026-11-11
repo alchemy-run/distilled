@@ -2,15 +2,15 @@ name: CI
 
 # Typecheck gate for PRs and pushes to main.
 #
-# `tsconfig.base.json` sets `noCheck: true` so day-to-day `tsc -b` (and
+# `tsconfig.base.json` sets `noCheck: true` so day-to-day `tsrs -b` (and
 # every editor/intellisense engine) only EMITS the generated SDKs instead
 # of checking them — checking 20 generated SDKs costs minutes and GBs.
 # CI is where that cost is worth paying: `typecheck:ci` re-enables
-# checking (`tsc -b --noCheck false`) across every package, so a
+# checking (`tsrs -b --noCheck false`) across every package, so a
 # generator or patch bug can't reach npm.
 #
 # `stacks/*` are workspace members but are NOT in the root tsconfig's project
-# references, so `tsc -b` never sees them. They get their own job.
+# references, so `tsrs -b` never sees them. They get their own job.
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -45,6 +45,119 @@ jobs:
       - name: Run Typecheck
         run: pnpm typecheck:ci
 
+  test:
+    name: Test
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Every test in the repo (vitest.config.ts): core's protocol, codegen and
+      # cross-SDK checks (packages/core/test/sdks.test.ts), plus the tests for
+      # hand-written provider code in each package's test/. No network, no
+      # credentials.
+      - name: Run tests
+        run: pnpm vitest run
+
+  bundlers:
+    name: Bundlers
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Builds and packs core, aws4signer, s3, aws, cloudflare and prisma, then
+      # bundles a program that triggers every lazy import() of the published
+      # SDKs with esbuild, rolldown, Vite, webpack and wrangler's settings, and
+      # runs each bundle (benches/bundlers). No network.
+      - name: Bundle the published SDKs
+        run: pnpm --filter @distilled.cloud/bench-bundlers test
+
+  lint:
+    name: Lint
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # oxlint (oxlint.config.ts). Errors fail the job; warnings don't. Shipped
+      # SDK code (packages/*/src) must not die: no Effect.die / orDie, no
+      # Effect.promise, no `throw` inside Effect code, no empty `catch`, no
+      # code built from strings (scripts/oxlint-plugin.ts).
+      - name: Run oxlint
+        run: pnpm lint
+
+  conformance:
+    name: Conformance (gRPC and protobuf)
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The suites are the only submodules CI checks out: shallow, one commit.
+      - name: Fetch the conformance suites
+        run: git submodule update --init --depth 1 -- packages/core/conformance/connect packages/core/conformance/protobuf
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Building conformance_test_runner takes minutes; key it on the pinned
+      # protobuf commit.
+      - name: Read the pinned protobuf commit
+        id: pin
+        run: echo "sha=$(git rev-parse HEAD:packages/core/conformance/protobuf)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the protobuf conformance runner
+        id: runner
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
+          key: protobuf-conformance-runner-v2-${{ runner.os }}-${{ steps.pin.outputs.sha }}
+
+      - name: Run the protobuf conformance suite
+        run: packages/core/conformance/run.sh protobuf
+
+      - name: Save the protobuf conformance runner
+        if: steps.runner.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
+          key: ${{ steps.runner.outputs.cache-primary-key }}
+
+      - name: Run the gRPC conformance suite
+        run: packages/core/conformance/run.sh grpc
+
   typecheck-stacks:
     name: Typecheck (deployment stacks)
     runs-on: blacksmith-4vcpu-ubuntu-2404
@@ -52,7 +165,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -74,9 +187,6 @@ jobs:
       - name: Check spec mirrors
         run: pnpm specs:check
 
-      - name: Test Prisma credentials and spec mirror identities
-        run: bun test packages/prisma/test/credentials.test.ts stacks/distilled-submodules/SpecRepos.test.ts
-
   website:
     name: Website (typecheck & static build)
     runs-on: blacksmith-4vcpu-ubuntu-2404
@@ -84,7 +194,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm & Bun
+      - name: Setup pnpm
         uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
         with:
           cache: true
@@ -99,7 +209,7 @@ jobs:
         run: pnpm install --frozen-lockfile --filter "./website..."
 
       # website/ is a workspace member but is not under stacks/* and is not
-      # in the root tsconfig project references (so `tsc -b` never sees it).
+      # in the root tsconfig project references (so `tsrs -b` never sees it).
       - name: Typecheck
         run: pnpm --filter "./website" run typecheck
 
@@ -123,7 +233,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm, Node.js, Bun and install dependencies
+      - name: Setup pnpm, Node.js and install dependencies
         uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
@@ -132,3 +242,6 @@ jobs:
 
       - name: Check formatting
         run: pnpm format:check
+
+      - name: Check package versions
+        run: pnpm validate:publish-packages

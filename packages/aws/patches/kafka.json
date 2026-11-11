@@ -4,7 +4,63 @@
       "errors": ["NotFoundException"]
     },
     "listTopics": {
-      "errors": ["NotFoundException"]
+      "errors": ["NotFoundException"],
+      "syntheticErrors": [
+        {
+          "name": "ServerlessUnsupported",
+          "from": "ServerlessUnsupportedException",
+          "message": {
+            "includes": "not supported on serverless"
+          }
+        }
+      ]
+    },
+    "createTopic": {
+      "syntheticErrors": [
+        {
+          "name": "ServerlessUnsupported",
+          "from": "ServerlessUnsupportedException",
+          "message": {
+            "includes": "not supported on serverless"
+          }
+        }
+      ]
+    },
+    "deleteTopic": {
+      "syntheticErrors": [
+        {
+          "name": "ServerlessUnsupported",
+          "from": "ServerlessUnsupportedException",
+          "message": {
+            "includes": "not supported on serverless"
+          }
+        }
+      ]
+    },
+    "describeTopic": {
+      "syntheticErrors": [
+        {
+          "name": "ServerlessUnsupported",
+          "from": "ServerlessUnsupportedException",
+          "message": {
+            "includes": "not supported on serverless"
+          }
+        }
+      ]
+    },
+    "updateTopic": {
+      "syntheticErrors": [
+        {
+          "name": "ServerlessUnsupported",
+          "from": "ServerlessUnsupportedException",
+          "message": {
+            "includes": "not supported on serverless"
+          }
+        }
+      ]
     }
+  },
+  "errorCategories": {
+    "ServerlessUnsupported": ["BadRequestError"]
   }
 }

@@ -1,0 +1,292 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ActivateBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#AddTargetedAppsBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#AddTargetedPublishersBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#AddTargetedSitesBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#BatchApproveBiddersPublisherConnections/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#BatchRejectBiddersPublisherConnections/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#CloseBuyersUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#CreateBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#CreateBuyersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#CreateBuyersUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#DeleteBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetBidders/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetBiddersEndpoints/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetBiddersPublisherConnections/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetBuyers/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetBuyersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetBuyersUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetRemarketingTagBuyers/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#GetRemarketingTagBuyersUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBidders/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBiddersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBiddersEndpoints/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBiddersPublisherConnections/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBuyers/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBuyersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#ListBuyersUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#OpenBuyersUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#PatchBiddersEndpoints/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#PatchBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#PatchBuyersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#RemoveTargetedAppsBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#RemoveTargetedPublishersBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#RemoveTargetedSitesBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#SuspendBiddersPretargetingConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#UpdateBuyersUserLists/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.realtimebidding_v1#WatchBiddersCreatives/errors/-",
+      "value": {
+        "target": "com.gcp.realtimebidding_v1#InsufficientScopes"
+      }
+    }
+  ]
+}

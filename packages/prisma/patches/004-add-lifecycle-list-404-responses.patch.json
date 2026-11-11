@@ -3,66 +3,16 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1services/get/responses/404",
+      "path": "/shapes/com.prisma#GetV1Services/errors/1",
       "value": {
-        "description": "Project referenced by the projectId filter not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "hint": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["code", "message"]
-                }
-              },
-              "required": ["error"]
-            }
-          }
-        }
+        "target": "com.prisma#NotFound"
       }
     },
     {
       "op": "add",
-      "path": "/paths/~1v1~1environment-variables/get/responses/404",
+      "path": "/shapes/com.prisma#GetV1EnvironmentVariables/errors/0",
       "value": {
-        "description": "Project referenced by the projectId filter not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "error": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "hint": {
-                      "type": "string"
-                    }
-                  },
-                  "required": ["code", "message"]
-                }
-              },
-              "required": ["error"]
-            }
-          }
-        }
+        "target": "com.prisma#NotFound"
       }
     }
   ]

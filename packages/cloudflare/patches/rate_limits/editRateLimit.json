@@ -15,16 +15,6 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.rate_limits#EditRateLimit/input/target",
       "value": "com.cloudflare.rate_limits#EditRateLimitRequest"
-    },
-    {
-      "op": "move",
-      "from": "/shapes/com.cloudflare.rate_limits#EditResponse",
-      "path": "/shapes/com.cloudflare.rate_limits#EditRateLimitResponse"
-    },
-    {
-      "op": "replace",
-      "path": "/shapes/com.cloudflare.rate_limits#EditRateLimit/output/target",
-      "value": "com.cloudflare.rate_limits#EditRateLimitResponse"
     }
   ]
 }

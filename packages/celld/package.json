@@ -1,0 +1,80 @@
+{
+  "name": "@distilled.cloud/celld",
+  "version": "1.0.0-rc.18",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alchemy-run/distilled",
+    "directory": "packages/celld"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "bun": "./src/index.ts",
+      "worker": "./src/index.ts",
+      "distilled-lazy": "./lib/index.lazy.js",
+      "default": "./lib/index.js"
+    },
+    "./Endpoint": {
+      "types": "./lib/endpoint.d.ts",
+      "bun": "./src/endpoint.ts",
+      "worker": "./src/endpoint.ts",
+      "default": "./lib/endpoint.js"
+    },
+    "./Protocol": {
+      "types": "./lib/protocol.d.ts",
+      "bun": "./src/protocol.ts",
+      "worker": "./src/protocol.ts",
+      "default": "./lib/protocol.js"
+    },
+    "./Errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "worker": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./Services": {
+      "types": "./lib/services/index.d.ts",
+      "bun": "./src/services/index.ts",
+      "worker": "./src/services/index.ts",
+      "distilled-lazy": "./lib/services.lazy/index.js",
+      "default": "./lib/services/index.js"
+    },
+    "./*": {
+      "types": "./lib/services/*.d.ts",
+      "bun": "./src/services/*.ts",
+      "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
+      "default": "./lib/services/*.js"
+    }
+  },
+  "scripts": {
+    "build": "tsrs -b",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-celld",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-celld",
+    "typecheck": "tsrs -p tsconfig.json --noCheck false"
+  },
+  "dependencies": {
+    "@distilled.cloud/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@distilled.cloud/dev": "workspace:*",
+    "@types/node": "catalog:"
+  },
+  "peerDependencies": {
+    "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-10-08"
+  }
+}

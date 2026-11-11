@@ -1,24 +1,25 @@
 {
   "name": "@distilled.cloud/fly-io",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.18",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/fly-io"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
-  "module": "src/index.ts",
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
+      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./Credentials": {
@@ -61,38 +62,50 @@
       "types": "./lib/services/machines.d.ts",
       "bun": "./src/services/machines.ts",
       "worker": "./src/services/machines.ts",
+      "distilled-lazy": "./lib/services.lazy/machines.js",
       "default": "./lib/services/machines.js"
     },
     "./sprites": {
       "types": "./lib/services/sprites.d.ts",
       "bun": "./src/services/sprites.ts",
       "worker": "./src/services/sprites.ts",
+      "distilled-lazy": "./lib/services.lazy/sprites.js",
       "default": "./lib/services/sprites.js"
     },
     "./mpg": {
       "types": "./lib/services/mpg.d.ts",
       "bun": "./src/services/mpg.ts",
       "worker": "./src/services/mpg.ts",
+      "distilled-lazy": "./lib/services.lazy/mpg.js",
       "default": "./lib/services/mpg.js"
     },
     "./addons": {
       "types": "./lib/services/addons.d.ts",
       "bun": "./src/services/addons.ts",
       "worker": "./src/services/addons.ts",
+      "distilled-lazy": "./lib/services.lazy/addons.js",
       "default": "./lib/services/addons.js"
+    },
+    "./builders": {
+      "types": "./lib/services/builders.d.ts",
+      "bun": "./src/services/builders.ts",
+      "worker": "./src/services/builders.ts",
+      "distilled-lazy": "./lib/services.lazy/builders.js",
+      "default": "./lib/services/builders.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     }
   },
   "scripts": {
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json",
-    "build": "tsc -b",
+    "convert": "node --conditions=bun scripts/convert.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsrs -p tsconfig.json",
+    "build": "tsrs -b",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-fly-io",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-fly-io"
   },
@@ -100,11 +113,14 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "@distilled.cloud/dev": "workspace:*",
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-11-11",
+    "specUpdatedAt": "2026-11-07"
   }
 }

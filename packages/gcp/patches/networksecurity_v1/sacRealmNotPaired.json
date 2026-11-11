@@ -1,0 +1,33 @@
+{
+  "description": "Type the unpaired-realm rejection on SAC attachment create (HTTP 400 INVALID_ARGUMENT: 'The request was invalid: sac_realm must be attached to a partner realm'). A SAC realm must first be paired with the SSE partner's realm (Palo Alto Prisma Access / Symantec) outside of GCP; without that the attachment can never be created, so callers need a specific tag instead of an out-of-union BadRequest. Observed live 2026-09-29 in us-central1.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#SacRealmNotPaired",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The SAC realm is not attached to a partner (SSE vendor) realm yet (HTTP 400: 'sac_realm must be attached to a partner realm'). Pair the realm with the partner first; not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "must be attached to a partner realm"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#CreateProjectsLocationsSacAttachments/errors/-",
+      "value": {
+        "target": "com.gcp.networksecurity_v1#SacRealmNotPaired"
+      }
+    }
+  ]
+}

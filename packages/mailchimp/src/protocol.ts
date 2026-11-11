@@ -1,3 +1,7 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * MailchimpProtocol — hand-written.
  *
@@ -13,30 +17,28 @@
  * the message because the core status classes carry nothing else.
  */
 import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import { MailchimpApiError, UnknownMailchimpError } from "./errors.ts";
+import { MailchimpApiError, MailchimpParseError, UnknownMailchimpError } from "./errors.ts";
 
 export type MailchimpOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | MailchimpApiError
   | UnknownMailchimpError
+  | MailchimpParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 export type MailchimpOpContext = Credentials | HttpClient.HttpClient;
 
-const isRecord = (v: unknown): v is Record<string, unknown> =>
-  typeof v === "object" && v !== null;
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null;
 
-const str = (v: unknown): string | undefined =>
-  typeof v === "string" && v !== "" ? v : undefined;
+const str = (v: unknown): string | undefined => (typeof v === "string" && v !== "" ? v : undefined);
 
 const fieldErrors = (body: Record<string, unknown>): string[] =>
   Array.isArray(body.errors)
@@ -55,33 +57,31 @@ const problemMessage = (body: unknown): string | undefined => {
   return fields.length ? `${head} (${fields.join("; ")})` : head;
 };
 
-export const MailchimpProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
-    }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    // Basic auth: Mailchimp ignores the username.
-    headers: (creds) => ({
-      Authorization: `Basic ${btoa(`anystring:${Redacted.value(creds.apiKey)}`)}`,
-    }),
-    errorEnvelope: (body) => {
-      const message = problemMessage(body);
-      return message === undefined ? undefined : { message };
-    },
-    unknownError: ({ status, message, body }) => {
-      const problem = isRecord(body) ? body : undefined;
-      const fields = {
-        status,
-        type: str(problem?.type),
-        title: str(problem?.title),
-        message,
-        instance: str(problem?.instance),
-        body,
-      };
-      return problemMessage(body) !== undefined
-        ? new MailchimpApiError(fields)
-        : new UnknownMailchimpError(fields);
-    },
-  });
+export const MailchimpProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // Resolved on the calling fiber per request.
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  // Basic auth: Mailchimp ignores the username.
+  headers: (creds) => ({
+    Authorization: `Basic ${btoa(`anystring:${Redacted.value(creds.apiKey)}`)}`,
+  }),
+  errorEnvelope: (body) => {
+    const message = problemMessage(body);
+    return message === undefined ? undefined : { message };
+  },
+  unknownError: ({ status, message, body }) => {
+    const problem = isRecord(body) ? body : undefined;
+    const fields = {
+      status,
+      type: str(problem?.type),
+      title: str(problem?.title),
+      message,
+      instance: str(problem?.instance),
+      body,
+    };
+    return problemMessage(body) !== undefined
+      ? new MailchimpApiError(fields)
+      : new UnknownMailchimpError(fields);
+  },
+  parseError: ({ body, cause }) => new MailchimpParseError({ body, cause }),
+});

@@ -13,7 +13,7 @@ export const SAMPLES: ReadonlyArray<Sample> = [
     pkg: "aws",
     file: "fetch-object.ts",
     src: `«k:import» { Effect, Layer } «k:from» «s:"effect"»
-«k:import» { FetchHttpClient } «k:from» «s:"effect/unstable/http"»
+«k:import» { FetchHttpClient } «k:from» «s:"effect/http"»
 «k:import» * «k:as» S3 «k:from» «s:"@distilled.cloud/aws/s3"»
 «k:import» { Credentials, Region } «k:from» «s:"@distilled.cloud/aws"»
 
@@ -36,7 +36,7 @@ program.«f:pipe»(Effect.«f:provide»(AwsLive), Effect.runPromise)`,
     pkg: "cloudflare",
     file: "get-worker.ts",
     src: `«k:import» { Effect, Layer } «k:from» «s:"effect"»
-«k:import» { FetchHttpClient } «k:from» «s:"effect/unstable/http"»
+«k:import» { FetchHttpClient } «k:from» «s:"effect/http"»
 «k:import» * «k:as» Workers «k:from» «s:"@distilled.cloud/cloudflare/workers"»
 «k:import» { CredentialsFromEnv } «k:from»
   «s:"@distilled.cloud/cloudflare/Credentials"»
@@ -63,7 +63,7 @@ program.«f:pipe»(Effect.«f:provide»(CfLive), Effect.runPromise)`,
     file: "list-buckets.ts",
     src: `«k:import» { Effect, Layer } «k:from» «s:"effect"»
 «k:import» * «k:as» Stream «k:from» «s:"effect/Stream"»
-«k:import» { FetchHttpClient } «k:from» «s:"effect/unstable/http"»
+«k:import» { FetchHttpClient } «k:from» «s:"effect/http"»
 «k:import» * «k:as» Storage «k:from» «s:"@distilled.cloud/gcp/storage_v1"»
 «k:import» { CredentialsFromEnv } «k:from»
   «s:"@distilled.cloud/gcp/Credentials"»
@@ -88,7 +88,7 @@ program.«f:pipe»(Effect.«f:provide»(GcpLive), Effect.runPromise)`,
     pkg: "planetscale",
     file: "get-database.ts",
     src: `«k:import» { Effect, Layer } «k:from» «s:"effect"»
-«k:import» { FetchHttpClient } «k:from» «s:"effect/unstable/http"»
+«k:import» { FetchHttpClient } «k:from» «s:"effect/http"»
 «k:import» * «k:as» PlanetScale «k:from» «s:"@distilled.cloud/planetscale"»
 «k:import» { CredentialsFromEnv } «k:from»
   «s:"@distilled.cloud/planetscale/Credentials"»
@@ -114,7 +114,7 @@ program.«f:pipe»(Effect.«f:provide»(PsLive), Effect.runPromise)`,
     pkg: "stripe",
     file: "create-customer.ts",
     src: `«k:import» { Effect, Layer } «k:from» «s:"effect"»
-«k:import» { FetchHttpClient } «k:from» «s:"effect/unstable/http"»
+«k:import» { FetchHttpClient } «k:from» «s:"effect/http"»
 «k:import» * «k:as» Stripe «k:from» «s:"@distilled.cloud/stripe/stripe"»
 «k:import» { CredentialsFromEnv } «k:from»
   «s:"@distilled.cloud/stripe/Credentials"»

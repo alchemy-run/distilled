@@ -1,0 +1,45 @@
+{
+  "description": "ASR ReplicationProtectedItem provider-specific details are polymorphic on instanceType (A2A, Azure, HyperVReplicaAzure, InMageRcm, ...); the converted model keeps only the `instanceType` discriminator, so S.Struct strips every subtype field on encode and decode. Retype them as untyped documents.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#EnableProtectionInputProperties/members/providerSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The ReplicationProviderInput. For HyperVReplicaAzure provider, it will be AzureEnableProtectionInput object. For San provider, it will be SanEnableProtectionInput object. For HyperVReplicaAzure provider, it can be null. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#UpdateReplicationProtectedItemInputProperties/members/providerSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The provider specific input to update replication protected item. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#DisableProtectionInputProperties/members/replicationProviderInput",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Replication provider specific input. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#ReplicationProtectedItemProperties/members/providerSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The Replication provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    }
+  ]
+}

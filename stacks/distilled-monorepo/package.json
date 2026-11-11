@@ -4,16 +4,16 @@
   "type": "module",
   "scripts": {
     "deploy": "pnpm exec alchemy deploy",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsrs -p tsconfig.json"
   },
   "dependencies": {
-    "alchemy": "catalog:alchemy",
-    "effect": "catalog:alchemy",
-    "@effect/platform-bun": "catalog:alchemy",
-    "@effect/platform-node": "catalog:alchemy"
+    "@alchemy.run/cloudflare": "catalog:",
+    "@alchemy.run/github": "catalog:",
+    "@effect/platform-node": "catalog:",
+    "alchemy": "catalog:",
+    "effect": "catalog:"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "typescript": "catalog:"
+    "tsrs": "catalog:"
   }
 }

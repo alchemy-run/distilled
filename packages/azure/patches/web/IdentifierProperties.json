@@ -1,0 +1,10 @@
+{
+  "description": "The spec's IdentifierProperties member is wire name `value` (x-ms-client-name `id`); sending `properties.id` makes Microsoft.Web reject domain ownership identifiers with BadRequest \"The data is not valid (DomainVerificationIdentifiers).\"",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.azure.web#IdentifierProperties/members/id",
+      "path": "/shapes/com.azure.web#IdentifierProperties/members/value"
+    }
+  ]
+}

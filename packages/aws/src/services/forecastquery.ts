@@ -1,20 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "forecastquery",
   serviceShapeName: "AmazonForecastRuntime",
 });
-const auth = T.AwsAuthSigv4({ name: "forecast" });
-const ver = T.ServiceVersion("2018-06-26");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "forecast" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2018-06-26");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -26,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +61,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://forecastquery-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,136 +69,96 @@ const rules = T.EndpointResolver((p, _) => {
               `https://forecastquery.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://forecastquery.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://forecastquery.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://forecastquery.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "forecastquery",
+  service: "forecastquery",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class InvalidInputException
   extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
     "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidNextTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
     "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceInUseException
   extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
     "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export type Arn = string;
 export type AttributeName = string;
 export type AttributeValue = string;
 export type Filters = { [key: string]: string | undefined };
-export const Filters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type NextToken = string;
 export interface QueryForecastRequest {
   ForecastArn: string;
-  StartDate?: string;
-  EndDate?: string;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
   Filters: { [key: string]: string | undefined };
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const QueryForecastRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ForecastArn: S.String,
-    StartDate: S.optional(S.String),
-    EndDate: S.optional(S.String),
-    Filters: Filters,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "QueryForecastRequest",
-}) as any as S.Schema<QueryForecastRequest>;
 export type Statistic = string;
 export interface DataPoint {
-  Timestamp?: string;
-  Value?: number;
+  Timestamp?: string | undefined;
+  Value?: number | undefined;
 }
-export const DataPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Timestamp: S.optional(S.String), Value: S.optional(S.Number) }),
-).annotate({ identifier: "DataPoint" }) as any as S.Schema<DataPoint>;
 export type TimeSeries = DataPoint[];
-export const TimeSeries = /*@__PURE__*/ S.Array(DataPoint);
 export type Predictions = { [key: string]: DataPoint[] | undefined };
-export const Predictions = /*@__PURE__*/ S.Record(
-  S.String,
-  TimeSeries.pipe(S.optional),
-);
 export interface Forecast {
-  Predictions?: { [key: string]: DataPoint[] | undefined };
+  Predictions?: { [key: string]: DataPoint[] | undefined } | undefined;
 }
-export const Forecast = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Predictions: S.optional(Predictions) }),
-).annotate({ identifier: "Forecast" }) as any as S.Schema<Forecast>;
 export interface QueryForecastResponse {
-  Forecast?: Forecast;
+  Forecast?: Forecast | undefined;
 }
-export const QueryForecastResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Forecast: S.optional(Forecast) }),
-).annotate({
-  identifier: "QueryForecastResponse",
-}) as any as S.Schema<QueryForecastResponse>;
 export type LongArn = string;
 export interface QueryWhatIfForecastRequest {
   WhatIfForecastArn: string;
-  StartDate?: string;
-  EndDate?: string;
+  StartDate?: string | undefined;
+  EndDate?: string | undefined;
   Filters: { [key: string]: string | undefined };
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const QueryWhatIfForecastRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WhatIfForecastArn: S.String,
-    StartDate: S.optional(S.String),
-    EndDate: S.optional(S.String),
-    Filters: Filters,
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "QueryWhatIfForecastRequest",
-}) as any as S.Schema<QueryWhatIfForecastRequest>;
 export interface QueryWhatIfForecastResponse {
-  Forecast?: Forecast;
+  Forecast?: Forecast | undefined;
 }
-export const QueryWhatIfForecastResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Forecast: S.optional(Forecast) }),
-).annotate({
-  identifier: "QueryWhatIfForecastResponse",
-}) as any as S.Schema<QueryWhatIfForecastResponse>;
 export type ErrorMessage = string;
 export type QueryForecastError =
   | InvalidInputException
@@ -225,13 +184,13 @@ export type QueryForecastError =
  * used to create the predictor.
  */
 export const queryForecast: API.OperationMethod<
-  QueryForecastRequest,
+  QueryForecastRequest & RegionInput,
   QueryForecastResponse,
   QueryForecastError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: QueryForecastRequest,
-  output: QueryForecastResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<QueryForecastRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<QueryForecastResponse>,
   errors: [
     InvalidInputException,
     InvalidNextTokenException,
@@ -242,6 +201,8 @@ export const queryForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "QueryForecast",
+  telemetry: TELEMETRY,
+  span: "QueryForecast",
 }));
 
 export type QueryWhatIfForecastError =
@@ -255,13 +216,13 @@ export type QueryWhatIfForecastError =
  * Retrieves a what-if forecast.
  */
 export const queryWhatIfForecast: API.OperationMethod<
-  QueryWhatIfForecastRequest,
+  QueryWhatIfForecastRequest & RegionInput,
   QueryWhatIfForecastResponse,
   QueryWhatIfForecastError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: QueryWhatIfForecastRequest,
-  output: QueryWhatIfForecastResponse,
+  input: __S(16, __c2, 0) as any as S.Schema<QueryWhatIfForecastRequest>,
+  output: __S(13, __c1, 5) as any as S.Schema<QueryWhatIfForecastResponse>,
   errors: [
     InvalidInputException,
     InvalidNextTokenException,
@@ -272,4 +233,62 @@ export const queryWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "QueryWhatIfForecast",
+  telemetry: TELEMETRY,
+  span: "QueryWhatIfForecast",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ForecastArn: S.String,
+          StartDate: S.optional(S.String),
+          EndDate: S.optional(S.String),
+          Filters: __S(8, __c1, 0),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "QueryForecastRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Timestamp: S.optional(S.String), Value: S.optional(S.Number) }),
+      ).annotate({ identifier: "DataPoint" });
+    case 2:
+      return S.Array(__S(9, __c1, 1));
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ __S(10, __c1, 2).pipe(S.optional));
+    case 4:
+      return S.suspend(() => S.Struct({ Predictions: S.optional(__S(11, __c1, 3)) })).annotate({
+        identifier: "Forecast",
+      });
+    case 5:
+      return S.suspend(() => S.Struct({ Forecast: S.optional(__S(12, __c1, 4)) })).annotate({
+        identifier: "QueryForecastResponse",
+      });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          WhatIfForecastArn: S.String,
+          StartDate: S.optional(S.String),
+          EndDate: S.optional(S.String),
+          Filters: __S(8, __c1, 0),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "QueryWhatIfForecastRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

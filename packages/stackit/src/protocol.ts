@@ -1,5 +1,26 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type ConfigError,
+  type InvalidInput,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
+import {
+  type RestErrorEnvelope,
+  unwrapRedactedDeep,
+  validateSuccess,
+} from "@distilled.cloud/core/protocol-rest";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
+import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
- * StackitProtocol — the shared bearer-REST protocol instantiated for STACKIT.
+ * StackitProtocol -- the shared bearer-REST protocol instantiated for STACKIT.
  *
  * STACKIT speaks plain JSON with no success envelope. FAILURES are
  * `{ "message": "...", "error": "..." }` (the `ErrorMessage` schema most
@@ -9,38 +30,19 @@
  * region (`eu01` by default).
  *
  * Auth is `Authorization: Bearer <token>`. The API version is a PATH
- * segment (`/v1`, `/v2`, …), so the generated operations carry versioned
+ * segment (`/v1`, `/v2`, ...), so the generated operations carry versioned
  * routes against a version-less host.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type ConfigError,
-} from "@distilled.cloud/core/errors";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-  matchTypedError,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import { httpSymbol } from "@distilled.cloud/core/trait";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownStackitError } from "./errors.ts";
+import { StackitParseError, UnknownStackitError } from "./errors.ts";
 import type { DefaultErrors } from "./errors.ts";
 import type { StackitHttpTrait } from "./traits.ts";
 
@@ -53,8 +55,11 @@ import type { StackitHttpTrait } from "./traits.ts";
 export type StackitOpError =
   | DefaultErrors
   | UnknownStackitError
+  | StackitParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated STACKIT operation. */
 export type StackitOpContext = Credentials | HttpClient.HttpClient;
@@ -62,13 +67,13 @@ export type StackitOpContext = Credentials | HttpClient.HttpClient;
 /**
  * Rewrite a spec `servers` URL for the configured region.
  *
- *   • `{region}` still in the template (IaaS v1:
+ *   * `{region}` still in the template (IaaS v1:
  *     `https://iaas.api.{region}stackit.cloud`, default `eu01.`) is
  *     substituted. A glued `{region}stackit` means the spec's default
  *     includes the trailing dot.
- *   • `https://<svc>.api.stackit.cloud` becomes
+ *   * `https://<svc>.api.stackit.cloud` becomes
  *     `https://<svc>.api.<region>.stackit.cloud`.
- *   • `region === "global"` leaves the URL alone (after dropping any
+ *   * `region === "global"` leaves the URL alone (after dropping any
  *     leftover `{region}`).
  */
 export const applyRegion = (specUrl: string, region: string): string => {
@@ -99,40 +104,35 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
-const baseUrlFor = (creds: Config, inputAst: AST.AST): string => {
+const baseUrlFor = (creds: Config, inputAst: AST.AST): string | SdkError => {
   if (creds.apiBaseUrl !== undefined && creds.apiBaseUrl !== "") {
     return creds.apiBaseUrl;
   }
   const http = getAnn(inputAst, httpSymbol) as StackitHttpTrait | undefined;
   const specUrl = http?.baseUrl;
   if (typeof specUrl !== "string" || specUrl === "") {
-    throw new Error(
-      "STACKIT operation is missing T.Http({ baseUrl }) — regenerate from convert",
-    );
+    return new SdkError({
+      message: "STACKIT operation is missing T.Http({ baseUrl }) -- regenerate from convert",
+    });
   }
   return applyRegion(specUrl, creds.region);
 };
 
-export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
   API.Protocol,
-  API.Protocol.of({
-    encode: ({
-      input,
-      inputAst,
-    }: {
-      readonly input: unknown;
-      readonly inputAst: AST.AST;
-    }) =>
+  /*@__PURE__*/ API.Protocol.of({
+    encode: ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
       Effect.gen(function* () {
         const resolve = yield* Credentials;
         const creds = yield* resolve;
-        return buildRequest({
+        const baseUrl = baseUrlFor(creds, inputAst);
+        if (baseUrl instanceof SdkError) return yield* baseUrl;
+        return yield* buildRequest({
           input: unwrapRedactedDeep(input),
           inputAst,
-          baseUrl: baseUrlFor(creds, inputAst),
+          baseUrl,
           headers: {
             Authorization: `Bearer ${Redacted.value(creds.token)}`,
           },
@@ -148,12 +148,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
       readonly errors: ReadonlyArray<unknown>;
     }) =>
       Effect.gen(function* () {
-        const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
-        if (process.env.DISTILLED_DEBUG_HTTP) {
-          console.error(
-            `[distilled] <- ${response.status} ${text.slice(0, 400)}`,
-          );
-        }
+        const text = (yield* response.text.pipe(Effect.catch(fail))) ?? "";
         let json: unknown;
         let nonJson = false;
         if (text.trim().length > 0) {
@@ -168,26 +163,25 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
 
         if (status >= 400) {
           const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
-          const message =
-            env.message ??
-            (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+          const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
-          const typed = matchTypedError(errorClasses, status, [
-            {
-              code: typeof env.code === "number" ? env.code : undefined,
-              message,
-            },
-          ]);
+          const typed = matchTypedError(
+            errorClasses,
+            status,
+            [
+              {
+                code: typeof env.code === "number" ? env.code : undefined,
+                message,
+              },
+            ],
+            { body: nonJson ? text : json, headers },
+          );
           if (typed !== undefined) return yield* fail(typed);
 
           const StatusErrorClass = (
             HTTP_STATUS_MAP as Record<
               number,
-              | (new (args: {
-                  message: string;
-                  retryAfter?: unknown;
-                }) => unknown)
-              | undefined
+              (new (args: { message: string; retryAfter?: unknown }) => unknown) | undefined
             >
           )[status];
           if (StatusErrorClass) {
@@ -222,8 +216,15 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
           );
         }
 
+        // Strict mode checks the mapped body against the output schema, and
+        // parse errors withhold a body that can hold a secret (core
+        // `validateSuccess`).
         const body: unknown = nonJson ? text : (json ?? {});
-        return wrapSensitive(outputAst, mapKeys(outputAst, body, "decode"));
+        return yield* validateSuccess(
+          outputAst,
+          { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },
+          (info) => new StackitParseError(info),
+        ).pipe(Effect.catch(fail));
       }),
   }),
 );

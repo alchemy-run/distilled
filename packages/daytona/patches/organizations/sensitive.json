@@ -1,0 +1,15 @@
+{
+  "description": "createRegion returns the region proxy and SSH gateway API keys once, in plain text; mark them sensitive so they are Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateRegionResponse/members/proxyApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateRegionResponse/members/sshGatewayApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

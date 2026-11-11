@@ -45,7 +45,7 @@
               "smithy.api#httpPayload": {}
             }
           },
-          "cf_r2_jurisdiction": {
+          "jurisdiction": {
             "target": "smithy.api#String",
             "traits": {
               "smithy.api#httpHeader": "cf-r2-jurisdiction"

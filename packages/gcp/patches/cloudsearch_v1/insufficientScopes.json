@@ -1,0 +1,369 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#CheckAccessDebugDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#CreateSettingsDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#CreateSettingsSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#DeleteIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#DeleteQueueItemsIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#DeleteSchemaIndexingDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#DeleteSettingsDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#DeleteSettingsSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetCustomerSettings/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetIndexStats/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetOperations/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetQueryStats/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetSchemaIndexingDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetSearchapplicationStats/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetSessionStats/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetSettingsDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetSettingsSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetStatsIndexDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetStatsQuerySearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetStatsSessionSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetStatsUserSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#GetUserStats/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#IndexIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#InitializeCustomerV1/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListDebugDatasourcesItemsUnmappedids/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListDebugIdentitysourcesUnmappedids/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListForunmappedidentityDebugIdentitysourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListOperationsLro/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListQuerySources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListSettingsDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ListSettingsSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#PatchSettingsDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#PatchSettingsSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#PollIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#PushIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#RemoveActivityQuery/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#ResetSettingsSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#SearchByViewUrlDebugDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#SearchQuery/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#SuggestQuery/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#UnreserveIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#UpdateCustomerSettings/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#UpdateSchemaIndexingDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#UpdateSettingsDatasources/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#UpdateSettingsSearchapplications/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#UploadIndexingDatasourcesItems/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsearch_v1#UploadMedia/errors/-",
+      "value": {
+        "target": "com.gcp.cloudsearch_v1#InsufficientScopes"
+      }
+    }
+  ]
+}

@@ -1,14 +1,14 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Meilisearch OpenAPI spec (and a vendor docs snapshot) to
  * ../specs/.
  *
- * Meilisearch publishes ONE OpenAPI 3.1 document — the same file its docs
- * site offers for download. There is no git repo required; the mirror
+ * Meilisearch publishes ONE OpenAPI 3.1 document, attached to every GitHub
+ * release as `meilisearch-openapi.json`. No git clone is required; the mirror
  * snapshots the published JSON plus the docs index.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/openapi.json
@@ -16,13 +16,14 @@
  */
 
 const OPENAPI_SPEC_URL =
-  "https://www.meilisearch.com/docs/assets/open-api/meilisearch-openapi.json";
+  "https://github.com/meilisearch/meilisearch/releases/latest/download/meilisearch-openapi.json";
 const DOCS_INDEX_URL = "https://www.meilisearch.com/docs/llms.txt";
 const SPECS_DIR = "../specs";
 const OPENAPI_PATH = `${SPECS_DIR}/openapi.json`;
 const DOCS_INDEX_PATH = `${SPECS_DIR}/llms.txt`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -36,9 +37,7 @@ async function fetchJson(url: string): Promise<Record<string, unknown>> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return (await response.json()) as Record<string, unknown>;
 }
@@ -51,9 +50,7 @@ async function fetchText(url: string): Promise<string> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 }
@@ -71,7 +68,7 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OPENAPI_PATH}...`);
-  await Bun.write(OPENAPI_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Fetching vendor docs index from ${DOCS_INDEX_URL}...`);
   const docsIndex = await fetchText(DOCS_INDEX_URL);
@@ -79,14 +76,9 @@ async function main() {
     throw new Error(`${DOCS_INDEX_URL} returned an empty document`);
   }
   console.log(`Writing docs index to ${DOCS_INDEX_PATH}...`);
-  await Bun.write(
-    DOCS_INDEX_PATH,
-    docsIndex.endsWith("\n") ? docsIndex : docsIndex + "\n",
-  );
+  await writeFile(DOCS_INDEX_PATH, docsIndex.endsWith("\n") ? docsIndex : docsIndex + "\n");
 
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

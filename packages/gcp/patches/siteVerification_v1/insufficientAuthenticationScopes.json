@@ -1,0 +1,75 @@
+{
+  "description": "Type the HTTP 403 the Site Verification API returns for a token without its OAuth scope. It surfaced as a generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#InsufficientAuthenticationScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The credential lacks the https://www.googleapis.com/auth/siteverification OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the Site Verification API; not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#DeleteWebResource/errors/-",
+      "value": {
+        "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#GetTokenWebResource/errors/-",
+      "value": {
+        "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#GetWebResource/errors/-",
+      "value": {
+        "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#InsertWebResource/errors/-",
+      "value": {
+        "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#ListWebResource/errors/-",
+      "value": {
+        "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#PatchWebResource/errors/-",
+      "value": {
+        "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.siteVerification_v1#UpdateWebResource/errors/-",
+      "value": {
+        "target": "com.gcp.siteVerification_v1#InsufficientAuthenticationScopes"
+      }
+    }
+  ]
+}

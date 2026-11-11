@@ -1,10 +1,14 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * IntercomProtocol — hand-written.
+ * IntercomProtocol -- hand-written.
  *
  * Intercom speaks bearer-authenticated JSON REST (no response envelope), so
  * the protocol is one `makeRestProtocol` call from `core/protocol-rest`:
  *
- *   request:  credentials → `Authorization: Bearer <access token>` +
+ *   request:  credentials -> `Authorization: Bearer <access token>` +
  *             `Intercom-Version` + base URL (default
  *             https://api.intercom.io), resolved from the calling fiber on
  *             every request
@@ -16,18 +20,12 @@
  *             {@link UnknownIntercomError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownIntercomError } from "./errors.ts";
+import { UnknownIntercomError, IntercomParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Intercom operation. Generated
@@ -39,7 +37,10 @@ export type IntercomOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownIntercomError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | IntercomParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Intercom operation. */
 export type IntercomOpContext = Credentials | HttpClient.HttpClient;
@@ -71,30 +72,22 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const IntercomProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const IntercomProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    Accept: "application/json",
+    "Intercom-Version": creds.apiVersion,
+  }),
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownIntercomError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      Accept: "application/json",
-      "Intercom-Version": creds.apiVersion,
-    }),
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownIntercomError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+  parseError: ({ body, cause }) => new IntercomParseError({ body, cause }),
+});

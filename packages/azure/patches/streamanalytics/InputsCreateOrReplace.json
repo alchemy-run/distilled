@@ -1,0 +1,35 @@
+{
+  "description": "Input is polymorphic on `type` (Stream|Reference) and its `datasource` (Blob, EventHub, IoTHub, ...) and `serialization` (Json, Csv, Avro, ...) are polymorphic too; the converted model drops `datasource` entirely and keeps only `serialization.type`, so S.Struct strips the payload on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.streamanalytics#InputPropertiesInput/members/datasource",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.streamanalytics#InputProperties/members/datasource",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.streamanalytics#Serialization/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Serialization-type-specific properties (e.g. `{ encoding: \"UTF8\", format: \"LineSeparated\" }` for Json)."
+        }
+      }
+    }
+  ]
+}

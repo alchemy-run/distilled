@@ -1,0 +1,9 @@
+{
+  "description": "Data Share deletes are long-running: the 202 Accepted response can carry an empty body, so `status` is not required on OperationResponse.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.datashare#OperationResponse/members/status/traits/smithy.api#required"
+    }
+  ]
+}

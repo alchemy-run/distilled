@@ -12,7 +12,7 @@ npm install @distilled.cloud/sentry effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Sentry from "@distilled.cloud/sentry";
 
 const program = Effect.gen(function* () {

@@ -1,19 +1,24 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "CloudTrail Data",
   serviceShapeName: "CloudTrailDataService",
 });
-const auth = T.AwsAuthSigv4({ name: "cloudtrail-data" });
-const ver = T.ServiceVersion("2021-08-11");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "cloudtrail-data" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2021-08-11");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -25,14 +30,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,9 +60,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudtrail-data-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,101 +68,74 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudtrail-data.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudtrail-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudtrail-data.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://cloudtrail-data.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "CloudTrailData",
+  service: "CloudTrailData",
+  propagate: TxXray.propagate,
+} as const;
 
 export class ChannelInsufficientPermission
   extends /*@__PURE__*/ S.TaggedError<ChannelInsufficientPermission>()(
     "ChannelInsufficientPermission",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class ChannelNotFound
   extends /*@__PURE__*/ S.TaggedError<ChannelNotFound>()("ChannelNotFound", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ChannelUnsupportedSchema
-  extends /*@__PURE__*/ S.TaggedError<ChannelUnsupportedSchema>()(
-    "ChannelUnsupportedSchema",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ChannelUnsupportedSchema>()("ChannelUnsupportedSchema", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class DuplicatedAuditEventId
-  extends /*@__PURE__*/ S.TaggedError<DuplicatedAuditEventId>()(
-    "DuplicatedAuditEventId",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<DuplicatedAuditEventId>()("DuplicatedAuditEventId", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidChannelARN
-  extends /*@__PURE__*/ S.TaggedError<InvalidChannelARN>()(
-    "InvalidChannelARN",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidChannelARN>()("InvalidChannelARN", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class UnsupportedOperationException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
     "UnsupportedOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export type Uuid = string;
 export interface AuditEvent {
   id: string;
   eventData: string;
-  eventDataChecksum?: string;
+  eventDataChecksum?: string | undefined;
 }
-export const AuditEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    eventData: S.String,
-    eventDataChecksum: S.optional(S.String),
-  }),
-).annotate({ identifier: "AuditEvent" }) as any as S.Schema<AuditEvent>;
 export type AuditEvents = AuditEvent[];
-export const AuditEvents = /*@__PURE__*/ S.Array(AuditEvent);
 export type ChannelArn = string;
 export type ExternalId = string;
 export interface PutAuditEventsRequest {
   auditEvents: AuditEvent[];
   channelArn: string;
-  externalId?: string;
+  externalId?: string | undefined;
 }
-export const PutAuditEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    auditEvents: AuditEvents,
-    channelArn: S.String.pipe(T.HttpQuery("channelArn")),
-    externalId: S.optional(S.String).pipe(T.HttpQuery("externalId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/PutAuditEvents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutAuditEventsRequest",
-}) as any as S.Schema<PutAuditEventsRequest>;
 export interface AuditEventResultEntry {
   id: string;
   eventID: string;
 }
-export const AuditEventResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, eventID: S.String }),
-).annotate({
-  identifier: "AuditEventResultEntry",
-}) as any as S.Schema<AuditEventResultEntry>;
 export type AuditEventResultEntries = AuditEventResultEntry[];
-export const AuditEventResultEntries = /*@__PURE__*/ S.Array(
-  AuditEventResultEntry,
-);
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface ResultErrorEntry {
@@ -171,22 +143,11 @@ export interface ResultErrorEntry {
   errorCode: string;
   errorMessage: string;
 }
-export const ResultErrorEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, errorCode: S.String, errorMessage: S.String }),
-).annotate({
-  identifier: "ResultErrorEntry",
-}) as any as S.Schema<ResultErrorEntry>;
 export type ResultErrorEntries = ResultErrorEntry[];
-export const ResultErrorEntries = /*@__PURE__*/ S.Array(ResultErrorEntry);
 export interface PutAuditEventsResponse {
   successful: AuditEventResultEntry[];
   failed: ResultErrorEntry[];
 }
-export const PutAuditEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ successful: AuditEventResultEntries, failed: ResultErrorEntries }),
-).annotate({
-  identifier: "PutAuditEventsResponse",
-}) as any as S.Schema<PutAuditEventsResponse>;
 export type PutAuditEventsError =
   | ChannelInsufficientPermission
   | ChannelNotFound
@@ -203,13 +164,13 @@ export type PutAuditEventsError =
  * request.
  */
 export const putAuditEvents: API.OperationMethod<
-  PutAuditEventsRequest,
+  PutAuditEventsRequest & RegionInput,
   PutAuditEventsResponse,
   PutAuditEventsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutAuditEventsRequest,
-  output: PutAuditEventsResponse,
+  input: __S(2, __c0, 2) as any as S.Schema<PutAuditEventsRequest>,
+  output: __S(7, __c0, 7) as any as S.Schema<PutAuditEventsResponse>,
   errors: [
     ChannelInsufficientPermission,
     ChannelNotFound,
@@ -221,4 +182,48 @@ export const putAuditEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAuditEvents",
+  telemetry: TELEMETRY,
+  span: "PutAuditEvents",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, eventData: S.String, eventDataChecksum: S.optional(S.String) }),
+      ).annotate({ identifier: "AuditEvent" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          auditEvents: __S(1, __c0, 1),
+          channelArn: S.String.pipe(T.HttpQuery("channelArn")),
+          externalId: S.optional(S.String).pipe(T.HttpQuery("externalId")),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/PutAuditEvents" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutAuditEventsRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ id: S.String, eventID: S.String })).annotate({
+        identifier: "AuditEventResultEntry",
+      });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, errorCode: S.String, errorMessage: S.String }),
+      ).annotate({ identifier: "ResultErrorEntry" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ successful: __S(4, __c0, 4), failed: __S(6, __c0, 6) }),
+      ).annotate({ identifier: "PutAuditEventsResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

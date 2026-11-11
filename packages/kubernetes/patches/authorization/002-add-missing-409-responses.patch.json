@@ -1,0 +1,63 @@
+{
+  "description": "From 002-add-missing-409-responses.patch.json: Add 409 Conflict responses to create, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1NamespacedLocalSubjectAccessReview/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectAccessReview/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1SelfSubjectRulesReview/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.authorization#CreateAuthorizationV1SubjectAccessReview/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.authorization#Conflict"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.authorization#Conflict",
+      "before": "com.kubernetes.authorization#Authorization",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

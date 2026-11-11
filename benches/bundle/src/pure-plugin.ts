@@ -1,3 +1,5 @@
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 /**
  * Minimal port of Alchemy's `packages/alchemy/src/Bundle/PurePlugin.ts`
  * (`alchemy:annotate-pure`), kept dependency-free so the bench does not
@@ -31,8 +33,6 @@ import type {
   Statement,
   VariableDeclaration,
 } from "@oxc-project/types";
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
 import type { InputOptions, Plugin } from "rolldown";
 import { RolldownMagicString } from "rolldown";
 import { parseAst } from "rolldown/parseAst";
@@ -98,18 +98,14 @@ export const purePlugin = (options: PurePluginOptions = {}): Plugin => {
       filter: { id: SUPPORTED_FILE_RE },
       async handler(code, id, meta) {
         const cleanId = stripIdSuffix(id);
-        const info = await resolvePackageInfo(
-          path.dirname(cleanId),
-          pkgInfoCache,
-        );
+        const info = await resolvePackageInfo(path.dirname(cleanId), pkgInfoCache);
         const name = info?.name ?? packageNameFromId(cleanId);
         if (name === null || !isMatch(name)) return null;
         if (stats) stats.matchedModules++;
 
         const isEntry = entryPaths.has(cleanId);
         const sideEffectFreePkg = isSideEffectFree(info?.sideEffects);
-        const markSideEffectFree =
-          markSideEffectFreeOpt && !isEntry && sideEffectFreePkg;
+        const markSideEffectFree = markSideEffectFreeOpt && !isEntry && sideEffectFreePkg;
         if (stats && markSideEffectFree) stats.sideEffectFreeModules++;
 
         const anchors = collectPureAnchors(code, cleanId);
@@ -151,10 +147,7 @@ function inputFilePaths(opts: InputOptions): string[] {
           : [];
   const cwd = opts.cwd ?? process.cwd();
   return raw
-    .filter(
-      (entry): entry is string =>
-        typeof entry === "string" && !entry.startsWith("\0"),
-    )
+    .filter((entry): entry is string => typeof entry === "string" && !entry.startsWith("\0"))
     .map((entry) => path.resolve(cwd, entry));
 }
 
@@ -230,10 +223,7 @@ interface PureAnchors {
   readonly discarded: number[];
 }
 
-function collectPureAnchors(
-  code: string,
-  filename: string,
-): PureAnchors | null {
+function collectPureAnchors(code: string, filename: string): PureAnchors | null {
   let program: Program;
   try {
     program = parseAst(code, { sourceType: "module", lang: "ts" }, filename);
@@ -243,21 +233,14 @@ function collectPureAnchors(
   const bound: number[] = [];
   const discarded: number[] = [];
 
-  const visitCall = (
-    call: CallExpression | NewExpression,
-    isDiscarded: boolean,
-  ) => {
+  const visitCall = (call: CallExpression | NewExpression, isDiscarded: boolean) => {
     if (isIIFE(call)) return;
-    const anchor =
-      call.type === "NewExpression" ? call.start : call.callee.start;
+    const anchor = call.type === "NewExpression" ? call.start : call.callee.start;
     if (alreadyAnnotated(code, anchor)) return;
     (isDiscarded ? discarded : bound).push(anchor);
   };
 
-  const visitExpression = (
-    expr: Expression | null | undefined,
-    isDiscarded: boolean,
-  ) => {
+  const visitExpression = (expr: Expression | null | undefined, isDiscarded: boolean) => {
     if (!expr) return;
     switch (expr.type) {
       case "CallExpression":
@@ -335,9 +318,7 @@ function collectPureAnchors(
 
   for (const node of program.body) visitTopLevel(node as Statement);
 
-  return bound.length === 0 && discarded.length === 0
-    ? null
-    : { bound, discarded };
+  return bound.length === 0 && discarded.length === 0 ? null : { bound, discarded };
 }
 
 function isIIFE(node: CallExpression | NewExpression): boolean {
@@ -345,10 +326,7 @@ function isIIFE(node: CallExpression | NewExpression): boolean {
   while (callee.type === "ParenthesizedExpression") {
     callee = callee.expression;
   }
-  return (
-    callee.type === "FunctionExpression" ||
-    callee.type === "ArrowFunctionExpression"
-  );
+  return callee.type === "FunctionExpression" || callee.type === "ArrowFunctionExpression";
 }
 
 function alreadyAnnotated(code: string, pos: number): boolean {

@@ -1,0 +1,75 @@
+{
+  "description": "Schedule action and trigger are polymorphic on `actionType` / `triggerType`; the converted model keeps only the base members, so S.Struct strips the job definition and the cron/recurrence fields. Add them.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#ScheduleActionBase/members/jobDefinition",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "CreateJob: the job definition."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#ScheduleActionBase/members/createMonitorRequest",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "CreateMonitor: the monitor definition."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#ScheduleActionBase/members/endpointInvocationDefinition",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "InvokeBatchEndpoint: the endpoint invocation definition."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#TriggerBase/members/expression",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Cron: the cron expression."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#TriggerBase/members/frequency",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Recurrence: frequency (Minute, Hour, Day, Week, Month)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#TriggerBase/members/interval",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Recurrence: interval."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#TriggerBase/members/schedule",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Recurrence: the recurrence schedule (hours, minutes, weekDays, monthDays)."
+        }
+      }
+    }
+  ]
+}

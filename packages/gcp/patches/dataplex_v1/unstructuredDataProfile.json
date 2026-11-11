@@ -1,0 +1,605 @@
+{
+  "description": "Keep Dataplex's unstructured-data profile scans after a discovery flap. Google's REST reference (projects.locations.dataScans, checked 2026-10-09) still documents DataScan.unstructuredDataProfileSpec/Result, launched in Preview (REST only) on 2026-06-11 with no deprecation notice. Discovery alternates between revision 20260929 (has them) and 20261005 (drops them), and spec-mirror-gcp 42a9a9f captured the latter. This patch restores the unstructured/graph profile shapes, the DataScan and DataScanJob members, the UNSTRUCTURED_DATA_PROFILE type enum values, and DataDiscoverySpecStorageConfig.unstructuredDataOptions, copied from the revision 20260929 model.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions",
+      "value": {
+        "type": "structure",
+        "members": {
+          "globalEndpointEnabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Optional. Whether to use the global model endpoint."
+            }
+          },
+          "semanticInferenceEnabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Optional. Specifies whether deeper semantic inference over the objects' contents using GenAI is enabled."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Describes options for unstructured data discovery."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfile",
+      "value": {
+        "type": "structure",
+        "members": {
+          "nodeTypes": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileNodeTypeList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Node types."
+            }
+          },
+          "edgeTypes": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Edge types."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Contains the strict structure for graph-profile for semantic inference scan result."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeType",
+      "value": {
+        "type": "structure",
+        "members": {
+          "extractionHints": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints",
+            "traits": {
+              "smithy.api#documentation": "Output only. Extraction hints for the edge."
+            }
+          },
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Description of the edge type."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Name of the edge type."
+            }
+          },
+          "sourceNodeType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Source node type."
+            }
+          },
+          "foreignKeys": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Defines the Foreign Key constraints for the edge."
+            }
+          },
+          "fields": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Fields of the edge type."
+            }
+          },
+          "targetNodeType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Target node type."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Represents a type of edge (relationship) in the graph."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeExtractionHints",
+      "value": {
+        "type": "structure",
+        "members": {
+          "cardinality": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Expected connectivity topology and bounds of this relationship. Format: \"Topology - Description\" Example: \"1:N - One company can have multiple financial reports.\""
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Extraction hints (edge-level)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Description of the foreign key."
+            }
+          },
+          "referencedNodeType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. The node type this constraint references."
+            }
+          },
+          "fieldMappings": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Field Mappings. Mappings between local fields and the fields they reference in the referenced node type."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Name of the foreign key constraint."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Represents a foreign key constraint."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping",
+      "value": {
+        "type": "structure",
+        "members": {
+          "field": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Local field name forming part of the foreign key."
+            }
+          },
+          "referencedField": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Field name in the referenced node type."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Maps a local field to a referenced field."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMappingList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyFieldMapping"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKeyList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeForeignKey"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeTypeList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileEdgeType"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileField",
+      "value": {
+        "type": "structure",
+        "members": {
+          "mode": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldModeEnum",
+            "traits": {
+              "smithy.api#documentation": "Output only. The mode of the field."
+            }
+          },
+          "dataType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. The data type of the field, e.g., STRING, INTEGER, DATE."
+            }
+          },
+          "metadataType": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum",
+            "traits": {
+              "smithy.api#documentation": "Output only. The mapped metadata type."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Name of the field."
+            }
+          },
+          "fields": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Sub-fields of this field (for STRUCT types)."
+            }
+          },
+          "extractionHints": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldExtractionHints",
+            "traits": {
+              "smithy.api#documentation": "Output only. Extraction hints for the field."
+            }
+          },
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Description of the field."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Represents a field in a node or edge type."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldExtractionHints",
+      "value": {
+        "type": "structure",
+        "members": {
+          "normalization": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Standardizes extracted data (e.g., to ISO 3166-1 alpha-2)."
+            }
+          },
+          "synthesis": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Generates value from other data instead of direct extraction (e.g., hashing)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Extraction hints (field-level)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileField"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldMetadataTypeEnum",
+      "value": {
+        "type": "enum",
+        "members": {
+          "METADATA_TYPE_UNSPECIFIED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "METADATA_TYPE_UNSPECIFIED"
+            }
+          },
+          "BOOLEAN": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "BOOLEAN"
+            }
+          },
+          "NUMBER": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "NUMBER"
+            }
+          },
+          "STRING": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "STRING"
+            }
+          },
+          "BYTES": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "BYTES"
+            }
+          },
+          "DATETIME": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "DATETIME"
+            }
+          },
+          "TIMESTAMP": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "TIMESTAMP"
+            }
+          },
+          "GEOSPATIAL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "GEOSPATIAL"
+            }
+          },
+          "STRUCT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "STRUCT"
+            }
+          },
+          "OTHER": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "OTHER"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldModeEnum",
+      "value": {
+        "type": "enum",
+        "members": {
+          "MODE_UNSPECIFIED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "MODE_UNSPECIFIED"
+            }
+          },
+          "NULLABLE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "NULLABLE"
+            }
+          },
+          "REPEATED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "REPEATED"
+            }
+          },
+          "REQUIRED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "REQUIRED"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileNodeType",
+      "value": {
+        "type": "structure",
+        "members": {
+          "primaryKeys": {
+            "target": "com.gcp.dataplex_v1#StringList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Field names forming the primary keys. The order in this array defines the key's ordinal positions for composite keys."
+            }
+          },
+          "fields": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileFieldList",
+            "traits": {
+              "smithy.api#documentation": "Output only. Fields of the node type."
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Name of the node type."
+            }
+          },
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Description of the node type."
+            }
+          },
+          "extractionHints": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints",
+            "traits": {
+              "smithy.api#documentation": "Output only. Extraction hints for the node."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Represents a type of node in the graph."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileNodeTypeExtractionHints",
+      "value": {
+        "type": "structure",
+        "members": {
+          "cardinality": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Expected occurrence frequency of this node type within a document. Format: \"Bounds - Description\" Example: \"0:N - A document may contain multiple people names.\""
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Extraction hints (node-level)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileNodeTypeList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfileNodeType"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1UnstructuredDataProfileResult",
+      "value": {
+        "type": "structure",
+        "members": {
+          "description": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. The inferred description."
+            }
+          },
+          "graphProfile": {
+            "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1GraphProfile",
+            "traits": {
+              "smithy.api#documentation": "Output only. The inferred graph profile."
+            }
+          },
+          "partialFailureMessage": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Output only. Optional message for partial failures (e.g. node type extraction failed)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Contains the result of an unstructured data profile scan."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1UnstructuredDataProfileSpec",
+      "value": {
+        "type": "structure",
+        "members": {
+          "globalEndpointEnabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Optional. Whether to use the global model."
+            }
+          },
+          "customizedPrompt": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Optional. Customized prompt for unstructured data profile. The field will be used as part of the prompt, could be some instruction, specifying skill, or specific area to focus."
+            }
+          },
+          "graphProfilePublishingEnabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Optional. Whether to publish graph-profile as aspect on the catalog entry."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Contains the specification for an unstructured data profile scan."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataDiscoverySpecStorageConfig/members/unstructuredDataOptions",
+      "value": {
+        "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1DataDiscoverySpecStorageConfigUnstructuredDataOptions",
+        "traits": {
+          "smithy.api#documentation": "Optional. Specifies configuration for unstructured data discovery."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataScan/members/unstructuredDataProfileSpec",
+      "value": {
+        "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1UnstructuredDataProfileSpec",
+        "traits": {
+          "smithy.api#documentation": "Optional. Settings for an unstructured data profile scan."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataScan/members/unstructuredDataProfileResult",
+      "value": {
+        "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1UnstructuredDataProfileResult",
+        "traits": {
+          "smithy.api#documentation": "Output only. The result of an unstructured data profile scan."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataScanJob/members/unstructuredDataProfileResult",
+      "value": {
+        "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1UnstructuredDataProfileResult",
+        "traits": {
+          "smithy.api#documentation": "Output only. The result of an unstructured data profile scan."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataScanJob/members/unstructuredDataProfileSpec",
+      "value": {
+        "target": "com.gcp.dataplex_v1#GoogleCloudDataplexV1UnstructuredDataProfileSpec",
+        "traits": {
+          "smithy.api#documentation": "Output only. Settings for an unstructured data profile scan."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataScanJobTypeEnum/members/UNSTRUCTURED_DATA_PROFILE",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "UNSTRUCTURED_DATA_PROFILE"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GoogleCloudDataplexV1DataScanTypeEnum/members/UNSTRUCTURED_DATA_PROFILE",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "UNSTRUCTURED_DATA_PROFILE"
+        }
+      }
+    }
+  ]
+}

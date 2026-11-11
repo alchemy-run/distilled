@@ -1,0 +1,19 @@
+{
+  "description": "Live probe on 2026-10-07 UTC: after loginSessionCancel, Mutation.loginSessionConsume returns HTTP 200 with code BAD_USER_INPUT and message `Login session <code> does not exist` (trace 724937980177422481), which the provider-wide BAD_USER_INPUT matcher classified as RailwayValidationError. loginSessionVerify returns false and loginSessionCancel returns true for the same missing session. Type the missing session as a field-scoped not-found error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/RailwayLoginSessionNotFound",
+      "value": {
+        "description": "The login session does not exist: it was cancelled, consumed, or expired. Stop polling and start a new session.",
+        "category": "notFound",
+        "matchers": [{ "code": "BAD_USER_INPUT", "messageIncludes": "does not exist" }]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/loginSessionConsume/errors/-",
+      "value": "RailwayLoginSessionNotFound"
+    }
+  ]
+}

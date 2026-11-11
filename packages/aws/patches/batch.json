@@ -102,10 +102,7 @@
     "ComputeEnvironmentNotFound": ["NotFoundError"],
     "ComputeEnvironmentBeingModified": ["ConflictError", "RetryableError"],
     "ComputeEnvironmentInUse": ["DependencyViolationError", "RetryableError"],
-    "ComputeEnvironmentNotValid": [
-      "DependencyViolationError",
-      "RetryableError"
-    ],
+    "ComputeEnvironmentNotValid": ["DependencyViolationError", "RetryableError"],
     "JobQueueNotFound": ["NotFoundError"],
     "JobQueueAlreadyExists": ["AlreadyExistsError", "ConflictError"],
     "JobQueueBeingModified": ["ConflictError", "RetryableError"]

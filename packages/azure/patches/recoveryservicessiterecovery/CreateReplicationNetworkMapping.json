@@ -1,0 +1,35 @@
+{
+  "description": "ASR NetworkMapping provider-specific details are polymorphic on instanceType (A2A, Azure, HyperVReplicaAzure, InMageRcm, ...); the converted model keeps only the `instanceType` discriminator, so S.Struct strips every subtype field on encode and decode. Retype them as untyped documents.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#CreateNetworkMappingInputProperties/members/fabricSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Fabric specific input properties. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#UpdateNetworkMappingInputProperties/members/fabricSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Fabrics specific input network Id. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#NetworkMappingProperties/members/fabricSpecificSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The fabric specific settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    }
+  ]
+}

@@ -25,3 +25,21 @@ lib/
 # iterating on a fetch script). Never referenced by committed source; opt in
 # per command with DISTILLED_SPECS_LOCAL=1.
 packages/*/specs/.local/
+
+# Scratch copies `pnpm patches:audit` converts in; removed when it exits.
+packages/.audit-*/
+
+# pkg pack output (CI artifact hand-off)
+.pkg
+
+# Declaration output of packages/*/tsconfig.test.json (type-check only).
+.test-types/
+
+# Converted Smithy models. `generate` keeps them in memory; `pnpm convert`
+# writes them here only for you to read (patch authoring, patches:audit).
+packages/*/.generated-specs/
+packages/railway/.generated-graphql/
+packages/github/.generated-graphql/
+
+# Conformance runner builds (packages/core/conformance/README.md).
+packages/core/conformance/.build/

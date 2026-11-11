@@ -1,23 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://gamelift.amazonaws.com/doc/");
-const svc = T.AwsApiService({
-  sdkId: "GameLift",
-  serviceShapeName: "GameLift",
-});
-const auth = T.AwsAuthSigv4({ name: "gamelift" });
-const ver = T.ServiceVersion("2015-10-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://gamelift.amazonaws.com/doc/");
+const svc = /*@__PURE__*/ T.AwsApiService({ sdkId: "GameLift", serviceShapeName: "GameLift" });
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "gamelift" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2015-10-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -29,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,13 +57,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://gamelift-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://gamelift-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,337 +67,189 @@ const rules = T.EndpointResolver((p, _) => {
               `https://gamelift.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://gamelift.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://gamelift.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://gamelift.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "GameLift",
+  service: "GameLift",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class FleetCapacityExceededException
   extends /*@__PURE__*/ S.TaggedError<FleetCapacityExceededException>()(
     "FleetCapacityExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class GameSessionFullException
-  extends /*@__PURE__*/ S.TaggedError<GameSessionFullException>()(
-    "GameSessionFullException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<GameSessionFullException>()("GameSessionFullException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class IdempotentParameterMismatchException
   extends /*@__PURE__*/ S.TaggedError<IdempotentParameterMismatchException>()(
     "IdempotentParameterMismatchException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InternalServiceException
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()(
-    "InternalServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()("InternalServiceException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class InvalidFleetStatusException
   extends /*@__PURE__*/ S.TaggedError<InvalidFleetStatusException>()(
     "InvalidFleetStatusException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidGameSessionStatusException
   extends /*@__PURE__*/ S.TaggedError<InvalidGameSessionStatusException>()(
     "InvalidGameSessionStatusException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
-    "NotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()("NotFoundException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class NotReadyException
-  extends /*@__PURE__*/ S.TaggedError<NotReadyException>()(
-    "NotReadyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NotReadyException>()("NotReadyException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class OutOfCapacityException
-  extends /*@__PURE__*/ S.TaggedError<OutOfCapacityException>()(
-    "OutOfCapacityException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<OutOfCapacityException>()("OutOfCapacityException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class TaggingFailedException
-  extends /*@__PURE__*/ S.TaggedError<TaggingFailedException>()(
-    "TaggingFailedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TaggingFailedException>()("TaggingFailedException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export class TerminalRoutingStrategyException
   extends /*@__PURE__*/ S.TaggedError<TerminalRoutingStrategyException>()(
     "TerminalRoutingStrategyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
   ) {}
 export class UnauthorizedException
-  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
-    "UnauthorizedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()("UnauthorizedException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class UnsupportedRegionException
-  extends /*@__PURE__*/ S.TaggedError<UnsupportedRegionException>()(
-    "UnsupportedRegionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<UnsupportedRegionException>()("UnsupportedRegionException", {
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+  }) {}
 export type MatchmakingIdStringModel = string;
 export type PlayerId = string | redacted.Redacted<string>;
 export type PlayerIdsForAcceptMatch = (string | redacted.Redacted<string>)[];
-export const PlayerIdsForAcceptMatch = /*@__PURE__*/ S.Array(SensitiveString);
 export type AcceptanceType = "ACCEPT" | "REJECT" | (string & {});
-export const AcceptanceType = S.String;
-
 export interface AcceptMatchInput {
-  TicketId?: string;
-  PlayerIds?: (string | redacted.Redacted<string>)[];
-  AcceptanceType?: AcceptanceType;
+  TicketId?: string | undefined;
+  PlayerIds?: (string | redacted.Redacted<string>)[] | undefined;
+  AcceptanceType?: AcceptanceType | undefined;
 }
-export const AcceptMatchInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TicketId: S.optional(S.String),
-    PlayerIds: S.optional(PlayerIdsForAcceptMatch),
-    AcceptanceType: S.optional(AcceptanceType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcceptMatchInput",
-}) as any as S.Schema<AcceptMatchInput>;
 export interface AcceptMatchOutput {}
-export const AcceptMatchOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AcceptMatchOutput",
-}) as any as S.Schema<AcceptMatchOutput>;
 export type GameServerGroupNameOrArn = string;
 export type GameServerId = string;
 export type GameServerData = string | redacted.Redacted<string>;
 export type FilterInstanceStatus = "ACTIVE" | "DRAINING" | (string & {});
-export const FilterInstanceStatus = S.String;
-
 export type FilterInstanceStatuses = FilterInstanceStatus[];
-export const FilterInstanceStatuses =
-  /*@__PURE__*/ S.Array(FilterInstanceStatus);
 export interface ClaimFilterOption {
-  InstanceStatuses?: FilterInstanceStatus[];
+  InstanceStatuses?: FilterInstanceStatus[] | undefined;
 }
-export const ClaimFilterOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceStatuses: S.optional(FilterInstanceStatuses) }),
-).annotate({
-  identifier: "ClaimFilterOption",
-}) as any as S.Schema<ClaimFilterOption>;
 export interface ClaimGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
-  GameServerData?: string | redacted.Redacted<string>;
-  FilterOption?: ClaimFilterOption;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
+  FilterOption?: ClaimFilterOption | undefined;
 }
-export const ClaimGameServerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerId: S.optional(S.String),
-    GameServerData: S.optional(SensitiveString),
-    FilterOption: S.optional(ClaimFilterOption),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ClaimGameServerInput",
-}) as any as S.Schema<ClaimGameServerInput>;
 export type GameServerGroupName = string;
 export type GameServerGroupArn = string;
 export type GameServerInstanceId = string;
 export type GameServerConnectionInfo = string;
 export type GameServerClaimStatus = "CLAIMED" | (string & {});
-export const GameServerClaimStatus = S.String;
-
-export type GameServerUtilizationStatus =
-  | "AVAILABLE"
-  | "UTILIZED"
-  | (string & {});
-export const GameServerUtilizationStatus = S.String;
-
+export type GameServerUtilizationStatus = "AVAILABLE" | "UTILIZED" | (string & {});
 export interface GameServer {
-  GameServerGroupName?: string;
-  GameServerGroupArn?: string;
-  GameServerId?: string;
-  InstanceId?: string;
-  ConnectionInfo?: string;
-  GameServerData?: string | redacted.Redacted<string>;
-  ClaimStatus?: GameServerClaimStatus;
-  UtilizationStatus?: GameServerUtilizationStatus;
-  RegistrationTime?: Date;
-  LastClaimTime?: Date;
-  LastHealthCheckTime?: Date;
+  GameServerGroupName?: string | undefined;
+  GameServerGroupArn?: string | undefined;
+  GameServerId?: string | undefined;
+  InstanceId?: string | undefined;
+  ConnectionInfo?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
+  ClaimStatus?: GameServerClaimStatus | undefined;
+  UtilizationStatus?: GameServerUtilizationStatus | undefined;
+  RegistrationTime?: Date | undefined;
+  LastClaimTime?: Date | undefined;
+  LastHealthCheckTime?: Date | undefined;
 }
-export const GameServer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerGroupArn: S.optional(S.String),
-    GameServerId: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    ConnectionInfo: S.optional(S.String),
-    GameServerData: S.optional(SensitiveString),
-    ClaimStatus: S.optional(GameServerClaimStatus),
-    UtilizationStatus: S.optional(GameServerUtilizationStatus),
-    RegistrationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastClaimTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastHealthCheckTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "GameServer" }) as any as S.Schema<GameServer>;
 export interface ClaimGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
-export const ClaimGameServerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServer: S.optional(GameServer) }).pipe(ns),
-).annotate({
-  identifier: "ClaimGameServerOutput",
-}) as any as S.Schema<ClaimGameServerOutput>;
 export type NonBlankAndLengthConstraintString = string;
 export type NonZeroAndMaxString = string;
 export type RoutingStrategyType = "SIMPLE" | "TERMINAL" | (string & {});
-export const RoutingStrategyType = S.String;
-
 export type FleetId = string;
 export type FreeText = string;
 export interface RoutingStrategy {
-  Type?: RoutingStrategyType;
-  FleetId?: string;
-  Message?: string;
+  Type?: RoutingStrategyType | undefined;
+  FleetId?: string | undefined;
+  Message?: string | undefined;
 }
-export const RoutingStrategy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(RoutingStrategyType),
-    FleetId: S.optional(S.String),
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RoutingStrategy",
-}) as any as S.Schema<RoutingStrategy>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface CreateAliasInput {
-  Name?: string;
-  Description?: string;
-  RoutingStrategy?: RoutingStrategy;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  RoutingStrategy?: RoutingStrategy | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateAliasInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    RoutingStrategy: S.optional(RoutingStrategy),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateAliasInput",
-}) as any as S.Schema<CreateAliasInput>;
 export type AliasId = string;
 export type AliasArn = string;
 export interface Alias {
-  AliasId?: string;
-  Name?: string;
-  AliasArn?: string;
-  Description?: string;
-  RoutingStrategy?: RoutingStrategy;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  AliasId?: string | undefined;
+  Name?: string | undefined;
+  AliasArn?: string | undefined;
+  Description?: string | undefined;
+  RoutingStrategy?: RoutingStrategy | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
-export const Alias = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AliasId: S.optional(S.String),
-    Name: S.optional(S.String),
-    AliasArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    RoutingStrategy: S.optional(RoutingStrategy),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "Alias" }) as any as S.Schema<Alias>;
 export interface CreateAliasOutput {
-  Alias?: Alias;
+  Alias?: Alias | undefined;
 }
-export const CreateAliasOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Alias: S.optional(Alias) }).pipe(ns),
-).annotate({
-  identifier: "CreateAliasOutput",
-}) as any as S.Schema<CreateAliasOutput>;
 export type NonEmptyString = string;
 export interface S3Location {
-  Bucket?: string;
-  Key?: string;
-  RoleArn?: string;
-  ObjectVersion?: string;
+  Bucket?: string | undefined;
+  Key?: string | undefined;
+  RoleArn?: string | undefined;
+  ObjectVersion?: string | undefined;
 }
-export const S3Location = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.optional(S.String),
-    Key: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    ObjectVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export type OperatingSystem =
   | "WINDOWS_2012"
   | "AMAZON_LINUX"
@@ -412,241 +258,97 @@ export type OperatingSystem =
   | "AMAZON_LINUX_2023"
   | "WINDOWS_2022"
   | (string & {});
-export const OperatingSystem = S.String;
-
 export type ServerSdkVersion = string;
 export interface CreateBuildInput {
-  Name?: string;
-  Version?: string;
-  StorageLocation?: S3Location;
-  OperatingSystem?: OperatingSystem;
-  Tags?: Tag[];
-  ServerSdkVersion?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  StorageLocation?: S3Location | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Tags?: Tag[] | undefined;
+  ServerSdkVersion?: string | undefined;
 }
-export const CreateBuildInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Version: S.optional(S.String),
-    StorageLocation: S.optional(S3Location),
-    OperatingSystem: S.optional(OperatingSystem),
-    Tags: S.optional(TagList),
-    ServerSdkVersion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateBuildInput",
-}) as any as S.Schema<CreateBuildInput>;
 export type BuildId = string;
 export type BuildArn = string;
 export type BuildStatus = "INITIALIZED" | "READY" | "FAILED" | (string & {});
-export const BuildStatus = S.String;
-
 export type WholeNumberLong = number;
 export interface Build {
-  BuildId?: string;
-  BuildArn?: string;
-  Name?: string;
-  Version?: string;
-  Status?: BuildStatus;
-  SizeOnDisk?: number;
-  OperatingSystem?: OperatingSystem;
-  CreationTime?: Date;
-  ServerSdkVersion?: string;
+  BuildId?: string | undefined;
+  BuildArn?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  Status?: BuildStatus | undefined;
+  SizeOnDisk?: number | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  CreationTime?: Date | undefined;
+  ServerSdkVersion?: string | undefined;
 }
-export const Build = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BuildId: S.optional(S.String),
-    BuildArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Version: S.optional(S.String),
-    Status: S.optional(BuildStatus),
-    SizeOnDisk: S.optional(S.Number),
-    OperatingSystem: S.optional(OperatingSystem),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ServerSdkVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "Build" }) as any as S.Schema<Build>;
 export interface AwsCredentials {
-  AccessKeyId?: string;
-  SecretAccessKey?: string;
-  SessionToken?: string;
+  AccessKeyId?: string | undefined;
+  SecretAccessKey?: string | undefined;
+  SessionToken?: string | undefined;
 }
-export const AwsCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessKeyId: S.optional(S.String),
-    SecretAccessKey: S.optional(S.String),
-    SessionToken: S.optional(S.String),
-  }),
-).annotate({ identifier: "AwsCredentials" }) as any as S.Schema<AwsCredentials>;
 export interface CreateBuildOutput {
-  Build?: Build;
-  UploadCredentials?: AwsCredentials;
-  StorageLocation?: S3Location;
+  Build?: Build | undefined;
+  UploadCredentials?: AwsCredentials | undefined;
+  StorageLocation?: S3Location | undefined;
 }
-export const CreateBuildOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Build: S.optional(Build),
-    UploadCredentials: S.optional(AwsCredentials),
-    StorageLocation: S.optional(S3Location),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateBuildOutput",
-}) as any as S.Schema<CreateBuildOutput>;
 export type IamRoleArn = string;
 export type ContainerGroupDefinitionNameOrArn = string;
 export type PortNumber = number;
 export interface ConnectionPortRange {
-  FromPort?: number;
-  ToPort?: number;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
 }
-export const ConnectionPortRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FromPort: S.optional(S.Number), ToPort: S.optional(S.Number) }),
-).annotate({
-  identifier: "ConnectionPortRange",
-}) as any as S.Schema<ConnectionPortRange>;
 export type IpRange = string | redacted.Redacted<string>;
 export type IpProtocol = "TCP" | "UDP" | (string & {});
-export const IpProtocol = S.String;
-
 export interface IpPermission {
-  FromPort?: number;
-  ToPort?: number;
-  IpRange?: string | redacted.Redacted<string>;
-  Protocol?: IpProtocol;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
+  IpRange?: string | redacted.Redacted<string> | undefined;
+  Protocol?: IpProtocol | undefined;
 }
-export const IpPermission = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FromPort: S.optional(S.Number),
-    ToPort: S.optional(S.Number),
-    IpRange: S.optional(SensitiveString),
-    Protocol: S.optional(IpProtocol),
-  }),
-).annotate({ identifier: "IpPermission" }) as any as S.Schema<IpPermission>;
 export type IpPermissionsList = IpPermission[];
-export const IpPermissionsList = /*@__PURE__*/ S.Array(IpPermission);
 export type GameServerContainerGroupsPerInstance = number;
 export type ContainerFleetBillingType = "ON_DEMAND" | "SPOT" | (string & {});
-export const ContainerFleetBillingType = S.String;
-
 export type LocationStringModel = string;
 export interface LocationConfiguration {
-  Location?: string;
+  Location?: string | undefined;
 }
-export const LocationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Location: S.optional(S.String) }),
-).annotate({
-  identifier: "LocationConfiguration",
-}) as any as S.Schema<LocationConfiguration>;
 export type LocationConfigurationList = LocationConfiguration[];
-export const LocationConfigurationList = /*@__PURE__*/ S.Array(
-  LocationConfiguration,
-);
 export type MetricGroup = string;
 export type MetricGroupList = string[];
-export const MetricGroupList = /*@__PURE__*/ S.Array(S.String);
-export type ProtectionPolicy =
-  | "NoProtection"
-  | "FullProtection"
-  | (string & {});
-export const ProtectionPolicy = S.String;
-
+export type ProtectionPolicy = "NoProtection" | "FullProtection" | (string & {});
 export type WholeNumber = number;
 export interface GameSessionCreationLimitPolicy {
-  NewGameSessionsPerCreator?: number;
-  PolicyPeriodInMinutes?: number;
+  NewGameSessionsPerCreator?: number | undefined;
+  PolicyPeriodInMinutes?: number | undefined;
 }
-export const GameSessionCreationLimitPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NewGameSessionsPerCreator: S.optional(S.Number),
-    PolicyPeriodInMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GameSessionCreationLimitPolicy",
-}) as any as S.Schema<GameSessionCreationLimitPolicy>;
 export type LogDestination = "NONE" | "CLOUDWATCH" | "S3" | (string & {});
-export const LogDestination = S.String;
-
 export type LogGroupArnStringModel = string;
 export interface LogConfiguration {
-  LogDestination?: LogDestination;
-  S3BucketName?: string;
-  LogGroupArn?: string;
+  LogDestination?: LogDestination | undefined;
+  S3BucketName?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
-export const LogConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LogDestination: S.optional(LogDestination),
-    S3BucketName: S.optional(S.String),
-    LogGroupArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LogConfiguration",
-}) as any as S.Schema<LogConfiguration>;
-export type PlayerGatewayMode =
-  | "DISABLED"
-  | "ENABLED"
-  | "REQUIRED"
-  | (string & {});
-export const PlayerGatewayMode = S.String;
-
+export type PlayerGatewayMode = "DISABLED" | "ENABLED" | "REQUIRED" | (string & {});
 export interface CreateContainerFleetInput {
-  FleetRoleArn?: string;
-  Description?: string;
-  GameServerContainerGroupDefinitionName?: string;
-  PerInstanceContainerGroupDefinitionName?: string;
-  InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissions?: IpPermission[];
-  GameServerContainerGroupsPerInstance?: number;
-  InstanceType?: string;
-  BillingType?: ContainerFleetBillingType;
-  Locations?: LocationConfiguration[];
-  MetricGroups?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
-  LogConfiguration?: LogConfiguration;
-  Tags?: Tag[];
-  PlayerGatewayMode?: PlayerGatewayMode;
+  FleetRoleArn?: string | undefined;
+  Description?: string | undefined;
+  GameServerContainerGroupDefinitionName?: string | undefined;
+  PerInstanceContainerGroupDefinitionName?: string | undefined;
+  InstanceConnectionPortRange?: ConnectionPortRange | undefined;
+  InstanceInboundPermissions?: IpPermission[] | undefined;
+  GameServerContainerGroupsPerInstance?: number | undefined;
+  InstanceType?: string | undefined;
+  BillingType?: ContainerFleetBillingType | undefined;
+  Locations?: LocationConfiguration[] | undefined;
+  MetricGroups?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy | undefined;
+  LogConfiguration?: LogConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
 }
-export const CreateContainerFleetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetRoleArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    GameServerContainerGroupDefinitionName: S.optional(S.String),
-    PerInstanceContainerGroupDefinitionName: S.optional(S.String),
-    InstanceConnectionPortRange: S.optional(ConnectionPortRange),
-    InstanceInboundPermissions: S.optional(IpPermissionsList),
-    GameServerContainerGroupsPerInstance: S.optional(S.Number),
-    InstanceType: S.optional(S.String),
-    BillingType: S.optional(ContainerFleetBillingType),
-    Locations: S.optional(LocationConfigurationList),
-    MetricGroups: S.optional(MetricGroupList),
-    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
-    GameSessionCreationLimitPolicy: S.optional(GameSessionCreationLimitPolicy),
-    LogConfiguration: S.optional(LogConfiguration),
-    Tags: S.optional(TagList),
-    PlayerGatewayMode: S.optional(PlayerGatewayMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateContainerFleetInput",
-}) as any as S.Schema<CreateContainerFleetInput>;
 export type FleetArn = string;
 export type ContainerGroupDefinitionName = string;
 export type ContainerGroupDefinitionArn = string;
@@ -661,17 +363,10 @@ export type ContainerFleetStatus =
   | "DELETING"
   | "EXPIRED"
   | (string & {});
-export const ContainerFleetStatus = S.String;
-
 export type DeploymentId = string;
 export interface DeploymentDetails {
-  LatestDeploymentId?: string;
+  LatestDeploymentId?: string | undefined;
 }
-export const DeploymentDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LatestDeploymentId: S.optional(S.String) }),
-).annotate({
-  identifier: "DeploymentDetails",
-}) as any as S.Schema<DeploymentDetails>;
 export type ContainerFleetLocationStatus =
   | "PENDING"
   | "CREATING"
@@ -682,104 +377,55 @@ export type ContainerFleetLocationStatus =
   | "DELETING"
   | "EXPIRED"
   | (string & {});
-export const ContainerFleetLocationStatus = S.String;
-
 export type PlayerGatewayStatus = "DISABLED" | "ENABLED" | (string & {});
-export const PlayerGatewayStatus = S.String;
-
 export interface ContainerFleetLocationAttributes {
-  Location?: string;
-  Status?: ContainerFleetLocationStatus;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  Location?: string | undefined;
+  Status?: ContainerFleetLocationStatus | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
-export const ContainerFleetLocationAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Location: S.optional(S.String),
-    Status: S.optional(ContainerFleetLocationStatus),
-    PlayerGatewayStatus: S.optional(PlayerGatewayStatus),
-  }),
-).annotate({
-  identifier: "ContainerFleetLocationAttributes",
-}) as any as S.Schema<ContainerFleetLocationAttributes>;
-export type ContainerFleetLocationAttributesList =
-  ContainerFleetLocationAttributes[];
-export const ContainerFleetLocationAttributesList = /*@__PURE__*/ S.Array(
-  ContainerFleetLocationAttributes,
-);
+export type ContainerFleetLocationAttributesList = ContainerFleetLocationAttributes[];
 export interface ContainerFleet {
-  FleetId?: string;
-  FleetArn?: string;
-  FleetRoleArn?: string;
-  GameServerContainerGroupDefinitionName?: string;
-  GameServerContainerGroupDefinitionArn?: string;
-  PerInstanceContainerGroupDefinitionName?: string;
-  PerInstanceContainerGroupDefinitionArn?: string;
-  InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissions?: IpPermission[];
-  GameServerContainerGroupsPerInstance?: number;
-  MaximumGameServerContainerGroupsPerInstance?: number;
-  InstanceType?: string;
-  BillingType?: ContainerFleetBillingType;
-  Description?: string;
-  CreationTime?: Date;
-  MetricGroups?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
-  Status?: ContainerFleetStatus;
-  DeploymentDetails?: DeploymentDetails;
-  LogConfiguration?: LogConfiguration;
-  LocationAttributes?: ContainerFleetLocationAttributes[];
-  PlayerGatewayMode?: PlayerGatewayMode;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  FleetRoleArn?: string | undefined;
+  GameServerContainerGroupDefinitionName?: string | undefined;
+  GameServerContainerGroupDefinitionArn?: string | undefined;
+  PerInstanceContainerGroupDefinitionName?: string | undefined;
+  PerInstanceContainerGroupDefinitionArn?: string | undefined;
+  InstanceConnectionPortRange?: ConnectionPortRange | undefined;
+  InstanceInboundPermissions?: IpPermission[] | undefined;
+  GameServerContainerGroupsPerInstance?: number | undefined;
+  MaximumGameServerContainerGroupsPerInstance?: number | undefined;
+  InstanceType?: string | undefined;
+  BillingType?: ContainerFleetBillingType | undefined;
+  Description?: string | undefined;
+  CreationTime?: Date | undefined;
+  MetricGroups?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy | undefined;
+  Status?: ContainerFleetStatus | undefined;
+  DeploymentDetails?: DeploymentDetails | undefined;
+  LogConfiguration?: LogConfiguration | undefined;
+  LocationAttributes?: ContainerFleetLocationAttributes[] | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
 }
-export const ContainerFleet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    FleetRoleArn: S.optional(S.String),
-    GameServerContainerGroupDefinitionName: S.optional(S.String),
-    GameServerContainerGroupDefinitionArn: S.optional(S.String),
-    PerInstanceContainerGroupDefinitionName: S.optional(S.String),
-    PerInstanceContainerGroupDefinitionArn: S.optional(S.String),
-    InstanceConnectionPortRange: S.optional(ConnectionPortRange),
-    InstanceInboundPermissions: S.optional(IpPermissionsList),
-    GameServerContainerGroupsPerInstance: S.optional(S.Number),
-    MaximumGameServerContainerGroupsPerInstance: S.optional(S.Number),
-    InstanceType: S.optional(S.String),
-    BillingType: S.optional(ContainerFleetBillingType),
-    Description: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    MetricGroups: S.optional(MetricGroupList),
-    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
-    GameSessionCreationLimitPolicy: S.optional(GameSessionCreationLimitPolicy),
-    Status: S.optional(ContainerFleetStatus),
-    DeploymentDetails: S.optional(DeploymentDetails),
-    LogConfiguration: S.optional(LogConfiguration),
-    LocationAttributes: S.optional(ContainerFleetLocationAttributesList),
-    PlayerGatewayMode: S.optional(PlayerGatewayMode),
-  }),
-).annotate({ identifier: "ContainerFleet" }) as any as S.Schema<ContainerFleet>;
 export interface CreateContainerFleetOutput {
-  ContainerFleet?: ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-    };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  };
+  ContainerFleet?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })
+    | undefined;
 }
-export const CreateContainerFleetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerFleet: S.optional(ContainerFleet) }).pipe(ns),
-).annotate({
-  identifier: "CreateContainerFleetOutput",
-}) as any as S.Schema<CreateContainerFleetOutput>;
 export type ContainerGroupType = "GAME_SERVER" | "PER_INSTANCE" | (string & {});
-export const ContainerGroupType = S.String;
-
 export type ContainerTotalMemoryLimit = number;
 export type ContainerTotalVcpuLimit = number;
 export type NonZeroAnd128MaxAsciiString = string;
@@ -789,86 +435,36 @@ export type ContainerDependencyCondition =
   | "SUCCESS"
   | "HEALTHY"
   | (string & {});
-export const ContainerDependencyCondition = S.String;
-
 export interface ContainerDependency {
-  ContainerName?: string;
-  Condition?: ContainerDependencyCondition;
+  ContainerName?: string | undefined;
+  Condition?: ContainerDependencyCondition | undefined;
 }
-export const ContainerDependency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    Condition: S.optional(ContainerDependencyCondition),
-  }),
-).annotate({
-  identifier: "ContainerDependency",
-}) as any as S.Schema<ContainerDependency>;
 export type ContainerDependencyList = ContainerDependency[];
-export const ContainerDependencyList =
-  /*@__PURE__*/ S.Array(ContainerDependency);
 export type InstancePathString = string;
 export type ContainerPathString = string;
-export type ContainerMountPointAccessLevel =
-  | "READ_ONLY"
-  | "READ_AND_WRITE"
-  | (string & {});
-export const ContainerMountPointAccessLevel = S.String;
-
+export type ContainerMountPointAccessLevel = "READ_ONLY" | "READ_AND_WRITE" | (string & {});
 export interface ContainerMountPoint {
-  InstancePath?: string;
-  ContainerPath?: string;
-  AccessLevel?: ContainerMountPointAccessLevel;
+  InstancePath?: string | undefined;
+  ContainerPath?: string | undefined;
+  AccessLevel?: ContainerMountPointAccessLevel | undefined;
 }
-export const ContainerMountPoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstancePath: S.optional(S.String),
-    ContainerPath: S.optional(S.String),
-    AccessLevel: S.optional(ContainerMountPointAccessLevel),
-  }),
-).annotate({
-  identifier: "ContainerMountPoint",
-}) as any as S.Schema<ContainerMountPoint>;
 export type ContainerMountPointList = ContainerMountPoint[];
-export const ContainerMountPointList =
-  /*@__PURE__*/ S.Array(ContainerMountPoint);
 export type NonZeroAnd255MaxString = string;
 export interface ContainerEnvironment {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
-export const ContainerEnvironment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "ContainerEnvironment",
-}) as any as S.Schema<ContainerEnvironment>;
 export type ContainerEnvironmentList = ContainerEnvironment[];
-export const ContainerEnvironmentList =
-  /*@__PURE__*/ S.Array(ContainerEnvironment);
 export type ImageUriString = string;
 export interface ContainerPortRange {
-  FromPort?: number;
-  ToPort?: number;
-  Protocol?: IpProtocol;
+  FromPort?: number | undefined;
+  ToPort?: number | undefined;
+  Protocol?: IpProtocol | undefined;
 }
-export const ContainerPortRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FromPort: S.optional(S.Number),
-    ToPort: S.optional(S.Number),
-    Protocol: S.optional(IpProtocol),
-  }),
-).annotate({
-  identifier: "ContainerPortRange",
-}) as any as S.Schema<ContainerPortRange>;
 export type ContainerPortRangeList = ContainerPortRange[];
-export const ContainerPortRangeList = /*@__PURE__*/ S.Array(ContainerPortRange);
 export interface ContainerPortConfiguration {
-  ContainerPortRanges?: ContainerPortRange[];
+  ContainerPortRanges?: ContainerPortRange[] | undefined;
 }
-export const ContainerPortConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerPortRanges: S.optional(ContainerPortRangeList) }),
-).annotate({
-  identifier: "ContainerPortConfiguration",
-}) as any as S.Schema<ContainerPortConfiguration>;
 export type LinuxCapability =
   | "AUDIT_CONTROL"
   | "AUDIT_WRITE"
@@ -908,314 +504,156 @@ export type LinuxCapability =
   | "SYSLOG"
   | "WAKE_ALARM"
   | (string & {});
-export const LinuxCapability = S.String;
-
 export type LinuxCapabilityList = LinuxCapability[];
-export const LinuxCapabilityList = /*@__PURE__*/ S.Array(LinuxCapability);
 export interface LinuxCapabilities {
-  Include?: LinuxCapability[];
+  Include?: LinuxCapability[] | undefined;
 }
-export const LinuxCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Include: S.optional(LinuxCapabilityList) }),
-).annotate({
-  identifier: "LinuxCapabilities",
-}) as any as S.Schema<LinuxCapabilities>;
+export type ContainerVcpu = number;
 export interface GameServerContainerDefinitionInput {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  ImageUri?: string;
-  PortConfiguration?: ContainerPortConfiguration;
-  ServerSdkVersion?: string;
-  LinuxCapabilities?: LinuxCapabilities;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  ImageUri?: string | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  ServerSdkVersion?: string | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
+  Vcpu?: number | undefined;
 }
-export const GameServerContainerDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    DependsOn: S.optional(ContainerDependencyList),
-    MountPoints: S.optional(ContainerMountPointList),
-    EnvironmentOverride: S.optional(ContainerEnvironmentList),
-    ImageUri: S.optional(S.String),
-    PortConfiguration: S.optional(ContainerPortConfiguration),
-    ServerSdkVersion: S.optional(S.String),
-    LinuxCapabilities: S.optional(LinuxCapabilities),
-  }),
-).annotate({
-  identifier: "GameServerContainerDefinitionInput",
-}) as any as S.Schema<GameServerContainerDefinitionInput>;
 export type BooleanModel = boolean;
 export type ContainerCommandStringList = string[];
-export const ContainerCommandStringList = /*@__PURE__*/ S.Array(S.String);
 export type ContainerHealthCheckInterval = number;
 export type ContainerHealthCheckRetries = number;
 export type ContainerHealthCheckStartPeriod = number;
 export type ContainerHealthCheckTimeout = number;
 export interface ContainerHealthCheck {
-  Command?: string[];
-  Interval?: number;
-  Retries?: number;
-  StartPeriod?: number;
-  Timeout?: number;
+  Command?: string[] | undefined;
+  Interval?: number | undefined;
+  Retries?: number | undefined;
+  StartPeriod?: number | undefined;
+  Timeout?: number | undefined;
 }
-export const ContainerHealthCheck = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Command: S.optional(ContainerCommandStringList),
-    Interval: S.optional(S.Number),
-    Retries: S.optional(S.Number),
-    StartPeriod: S.optional(S.Number),
-    Timeout: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ContainerHealthCheck",
-}) as any as S.Schema<ContainerHealthCheck>;
 export type ContainerMemoryLimit = number;
-export type ContainerVcpu = number;
 export interface SupportContainerDefinitionInput {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  Essential?: boolean;
-  HealthCheck?: ContainerHealthCheck;
-  ImageUri?: string;
-  MemoryHardLimitMebibytes?: number;
-  PortConfiguration?: ContainerPortConfiguration;
-  Vcpu?: number;
-  LinuxCapabilities?: LinuxCapabilities;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  Essential?: boolean | undefined;
+  HealthCheck?: ContainerHealthCheck | undefined;
+  ImageUri?: string | undefined;
+  MemoryHardLimitMebibytes?: number | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  Vcpu?: number | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
 }
-export const SupportContainerDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    DependsOn: S.optional(ContainerDependencyList),
-    MountPoints: S.optional(ContainerMountPointList),
-    EnvironmentOverride: S.optional(ContainerEnvironmentList),
-    Essential: S.optional(S.Boolean),
-    HealthCheck: S.optional(ContainerHealthCheck),
-    ImageUri: S.optional(S.String),
-    MemoryHardLimitMebibytes: S.optional(S.Number),
-    PortConfiguration: S.optional(ContainerPortConfiguration),
-    Vcpu: S.optional(S.Number),
-    LinuxCapabilities: S.optional(LinuxCapabilities),
-  }),
-).annotate({
-  identifier: "SupportContainerDefinitionInput",
-}) as any as S.Schema<SupportContainerDefinitionInput>;
-export type SupportContainerDefinitionInputList =
-  SupportContainerDefinitionInput[];
-export const SupportContainerDefinitionInputList = /*@__PURE__*/ S.Array(
-  SupportContainerDefinitionInput,
-);
+export type SupportContainerDefinitionInputList = SupportContainerDefinitionInput[];
 export type ContainerOperatingSystem = "AMAZON_LINUX_2023" | (string & {});
-export const ContainerOperatingSystem = S.String;
-
 export interface CreateContainerGroupDefinitionInput {
-  Name?: string;
-  ContainerGroupType?: ContainerGroupType;
-  TotalMemoryLimitMebibytes?: number;
-  TotalVcpuLimit?: number;
-  GameServerContainerDefinition?: GameServerContainerDefinitionInput;
-  SupportContainerDefinitions?: SupportContainerDefinitionInput[];
-  OperatingSystem?: ContainerOperatingSystem;
-  VersionDescription?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  TotalMemoryLimitMebibytes?: number | undefined;
+  TotalVcpuLimit?: number | undefined;
+  GameServerContainerDefinition?: GameServerContainerDefinitionInput | undefined;
+  SupportContainerDefinitions?: SupportContainerDefinitionInput[] | undefined;
+  OperatingSystem?: ContainerOperatingSystem | undefined;
+  VersionDescription?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateContainerGroupDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    ContainerGroupType: S.optional(ContainerGroupType),
-    TotalMemoryLimitMebibytes: S.optional(S.Number),
-    TotalVcpuLimit: S.optional(S.Number),
-    GameServerContainerDefinition: S.optional(
-      GameServerContainerDefinitionInput,
-    ),
-    SupportContainerDefinitions: S.optional(
-      SupportContainerDefinitionInputList,
-    ),
-    OperatingSystem: S.optional(ContainerOperatingSystem),
-    VersionDescription: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateContainerGroupDefinitionInput",
-}) as any as S.Schema<CreateContainerGroupDefinitionInput>;
 export type Sha256 = string;
 export interface GameServerContainerDefinition {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  ImageUri?: string;
-  PortConfiguration?: ContainerPortConfiguration;
-  ResolvedImageDigest?: string;
-  ServerSdkVersion?: string;
-  LinuxCapabilities?: LinuxCapabilities;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  ImageUri?: string | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  ResolvedImageDigest?: string | undefined;
+  ServerSdkVersion?: string | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
+  Vcpu?: number | undefined;
 }
-export const GameServerContainerDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    DependsOn: S.optional(ContainerDependencyList),
-    MountPoints: S.optional(ContainerMountPointList),
-    EnvironmentOverride: S.optional(ContainerEnvironmentList),
-    ImageUri: S.optional(S.String),
-    PortConfiguration: S.optional(ContainerPortConfiguration),
-    ResolvedImageDigest: S.optional(S.String),
-    ServerSdkVersion: S.optional(S.String),
-    LinuxCapabilities: S.optional(LinuxCapabilities),
-  }),
-).annotate({
-  identifier: "GameServerContainerDefinition",
-}) as any as S.Schema<GameServerContainerDefinition>;
 export interface SupportContainerDefinition {
-  ContainerName?: string;
-  DependsOn?: ContainerDependency[];
-  MountPoints?: ContainerMountPoint[];
-  EnvironmentOverride?: ContainerEnvironment[];
-  Essential?: boolean;
-  HealthCheck?: ContainerHealthCheck;
-  ImageUri?: string;
-  MemoryHardLimitMebibytes?: number;
-  PortConfiguration?: ContainerPortConfiguration;
-  ResolvedImageDigest?: string;
-  Vcpu?: number;
-  LinuxCapabilities?: LinuxCapabilities;
+  ContainerName?: string | undefined;
+  DependsOn?: ContainerDependency[] | undefined;
+  MountPoints?: ContainerMountPoint[] | undefined;
+  EnvironmentOverride?: ContainerEnvironment[] | undefined;
+  Essential?: boolean | undefined;
+  HealthCheck?: ContainerHealthCheck | undefined;
+  ImageUri?: string | undefined;
+  MemoryHardLimitMebibytes?: number | undefined;
+  PortConfiguration?: ContainerPortConfiguration | undefined;
+  ResolvedImageDigest?: string | undefined;
+  Vcpu?: number | undefined;
+  LinuxCapabilities?: LinuxCapabilities | undefined;
 }
-export const SupportContainerDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    DependsOn: S.optional(ContainerDependencyList),
-    MountPoints: S.optional(ContainerMountPointList),
-    EnvironmentOverride: S.optional(ContainerEnvironmentList),
-    Essential: S.optional(S.Boolean),
-    HealthCheck: S.optional(ContainerHealthCheck),
-    ImageUri: S.optional(S.String),
-    MemoryHardLimitMebibytes: S.optional(S.Number),
-    PortConfiguration: S.optional(ContainerPortConfiguration),
-    ResolvedImageDigest: S.optional(S.String),
-    Vcpu: S.optional(S.Number),
-    LinuxCapabilities: S.optional(LinuxCapabilities),
-  }),
-).annotate({
-  identifier: "SupportContainerDefinition",
-}) as any as S.Schema<SupportContainerDefinition>;
 export type SupportContainerDefinitionList = SupportContainerDefinition[];
-export const SupportContainerDefinitionList = /*@__PURE__*/ S.Array(
-  SupportContainerDefinition,
-);
 export type PositiveInteger = number;
-export type ContainerGroupDefinitionStatus =
-  | "READY"
-  | "COPYING"
-  | "FAILED"
-  | (string & {});
-export const ContainerGroupDefinitionStatus = S.String;
-
+export type ContainerGroupDefinitionStatus = "READY" | "COPYING" | "FAILED" | (string & {});
 export interface ContainerGroupDefinition {
-  ContainerGroupDefinitionArn?: string;
-  CreationTime?: Date;
-  OperatingSystem?: ContainerOperatingSystem;
-  Name?: string;
-  ContainerGroupType?: ContainerGroupType;
-  TotalMemoryLimitMebibytes?: number;
-  TotalVcpuLimit?: number;
-  GameServerContainerDefinition?: GameServerContainerDefinition;
-  SupportContainerDefinitions?: SupportContainerDefinition[];
-  VersionNumber?: number;
-  VersionDescription?: string;
-  Status?: ContainerGroupDefinitionStatus;
-  StatusReason?: string;
+  ContainerGroupDefinitionArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  OperatingSystem?: ContainerOperatingSystem | undefined;
+  Name?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  TotalMemoryLimitMebibytes?: number | undefined;
+  TotalVcpuLimit?: number | undefined;
+  GameServerContainerDefinition?: GameServerContainerDefinition | undefined;
+  SupportContainerDefinitions?: SupportContainerDefinition[] | undefined;
+  VersionNumber?: number | undefined;
+  VersionDescription?: string | undefined;
+  Status?: ContainerGroupDefinitionStatus | undefined;
+  StatusReason?: string | undefined;
 }
-export const ContainerGroupDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerGroupDefinitionArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OperatingSystem: S.optional(ContainerOperatingSystem),
-    Name: S.optional(S.String),
-    ContainerGroupType: S.optional(ContainerGroupType),
-    TotalMemoryLimitMebibytes: S.optional(S.Number),
-    TotalVcpuLimit: S.optional(S.Number),
-    GameServerContainerDefinition: S.optional(GameServerContainerDefinition),
-    SupportContainerDefinitions: S.optional(SupportContainerDefinitionList),
-    VersionNumber: S.optional(S.Number),
-    VersionDescription: S.optional(S.String),
-    Status: S.optional(ContainerGroupDefinitionStatus),
-    StatusReason: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ContainerGroupDefinition",
-}) as any as S.Schema<ContainerGroupDefinition>;
 export interface CreateContainerGroupDefinitionOutput {
-  ContainerGroupDefinition?: ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinition?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & {
-        Command: ContainerCommandStringList;
-      };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  };
+      })
+    | undefined;
 }
-export const CreateContainerGroupDefinitionOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContainerGroupDefinition: S.optional(ContainerGroupDefinition),
-    }).pipe(ns),
-).annotate({
-  identifier: "CreateContainerGroupDefinitionOutput",
-}) as any as S.Schema<CreateContainerGroupDefinitionOutput>;
 export type BuildIdOrArn = string;
 export type ScriptIdOrArn = string;
 export type LaunchPathStringModel = string;
 export type LaunchParametersStringModel = string;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export type EC2InstanceType =
   | "t2.micro"
   | "t2.small"
@@ -1726,185 +1164,96 @@ export type EC2InstanceType =
   | "c8a.large"
   | "c8a.xlarge"
   | "c8a.2xlarge"
+  | "c8a.4xlarge"
+  | "c8a.8xlarge"
   | "c8i.large"
   | "c8i.xlarge"
   | "c8i.2xlarge"
+  | "c8i.4xlarge"
+  | "c8i.8xlarge"
   | "c9g.medium"
   | "c9g.large"
   | "c9g.xlarge"
   | "c9g.2xlarge"
+  | "c9g.4xlarge"
+  | "c9g.8xlarge"
   | "m8a.medium"
   | "m8a.large"
   | "m8a.xlarge"
   | "m8a.2xlarge"
+  | "m8a.4xlarge"
+  | "m8a.8xlarge"
   | "m8i.large"
   | "m8i.xlarge"
   | "m8i.2xlarge"
+  | "m8i.4xlarge"
+  | "m8i.8xlarge"
+  | "m9g.medium"
   | "m9g.large"
   | "m9g.xlarge"
   | "m9g.2xlarge"
+  | "m9g.4xlarge"
+  | "m9g.8xlarge"
   | (string & {});
-export const EC2InstanceType = S.String;
-
 export interface ServerProcess {
-  LaunchPath?: string;
-  Parameters?: string;
-  ConcurrentExecutions?: number;
+  LaunchPath?: string | undefined;
+  Parameters?: string | undefined;
+  ConcurrentExecutions?: number | undefined;
 }
-export const ServerProcess = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LaunchPath: S.optional(S.String),
-    Parameters: S.optional(S.String),
-    ConcurrentExecutions: S.optional(S.Number),
-  }),
-).annotate({ identifier: "ServerProcess" }) as any as S.Schema<ServerProcess>;
 export type ServerProcessList = ServerProcess[];
-export const ServerProcessList = /*@__PURE__*/ S.Array(ServerProcess);
 export type MaxConcurrentGameSessionActivations = number;
 export type GameSessionActivationTimeoutSeconds = number;
 export interface RuntimeConfiguration {
-  ServerProcesses?: ServerProcess[];
-  MaxConcurrentGameSessionActivations?: number;
-  GameSessionActivationTimeoutSeconds?: number;
+  ServerProcesses?: ServerProcess[] | undefined;
+  MaxConcurrentGameSessionActivations?: number | undefined;
+  GameSessionActivationTimeoutSeconds?: number | undefined;
 }
-export const RuntimeConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServerProcesses: S.optional(ServerProcessList),
-    MaxConcurrentGameSessionActivations: S.optional(S.Number),
-    GameSessionActivationTimeoutSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RuntimeConfiguration",
-}) as any as S.Schema<RuntimeConfiguration>;
 export interface ResourceCreationLimitPolicy {
-  NewGameSessionsPerCreator?: number;
-  PolicyPeriodInMinutes?: number;
+  NewGameSessionsPerCreator?: number | undefined;
+  PolicyPeriodInMinutes?: number | undefined;
 }
-export const ResourceCreationLimitPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NewGameSessionsPerCreator: S.optional(S.Number),
-    PolicyPeriodInMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ResourceCreationLimitPolicy",
-}) as any as S.Schema<ResourceCreationLimitPolicy>;
 export type FleetType = "ON_DEMAND" | "SPOT" | (string & {});
-export const FleetType = S.String;
-
 export type CertificateType = "DISABLED" | "GENERATED" | (string & {});
-export const CertificateType = S.String;
-
 export interface CertificateConfiguration {
-  CertificateType?: CertificateType;
+  CertificateType?: CertificateType | undefined;
 }
-export const CertificateConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CertificateType: S.optional(CertificateType) }),
-).annotate({
-  identifier: "CertificateConfiguration",
-}) as any as S.Schema<CertificateConfiguration>;
 export type ComputeType = "EC2" | "ANYWHERE" | (string & {});
-export const ComputeType = S.String;
-
 export type NonNegativeLimitedLengthDouble = string;
 export interface AnywhereConfiguration {
-  Cost?: string;
+  Cost?: string | undefined;
 }
-export const AnywhereConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cost: S.optional(S.String) }),
-).annotate({
-  identifier: "AnywhereConfiguration",
-}) as any as S.Schema<AnywhereConfiguration>;
-export type InstanceRoleCredentialsProvider =
-  | "SHARED_CREDENTIAL_FILE"
-  | (string & {});
-export const InstanceRoleCredentialsProvider = S.String;
-
-export type GameServerIpProtocolSupported =
-  | "IPv4"
-  | "DUAL_STACK"
-  | (string & {});
-export const GameServerIpProtocolSupported = S.String;
-
+export type InstanceRoleCredentialsProvider = "SHARED_CREDENTIAL_FILE" | (string & {});
+export type GameServerIpProtocolSupported = "IPv4" | "DUAL_STACK" | (string & {});
 export interface PlayerGatewayConfiguration {
-  GameServerIpProtocolSupported?: GameServerIpProtocolSupported;
+  GameServerIpProtocolSupported?: GameServerIpProtocolSupported | undefined;
 }
-export const PlayerGatewayConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerIpProtocolSupported: S.optional(GameServerIpProtocolSupported),
-  }),
-).annotate({
-  identifier: "PlayerGatewayConfiguration",
-}) as any as S.Schema<PlayerGatewayConfiguration>;
 export interface CreateFleetInput {
-  Name?: string;
-  Description?: string;
-  BuildId?: string;
-  ScriptId?: string;
-  ServerLaunchPath?: string;
-  ServerLaunchParameters?: string;
-  LogPaths?: string[];
-  EC2InstanceType?: EC2InstanceType;
-  EC2InboundPermissions?: IpPermission[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  RuntimeConfiguration?: RuntimeConfiguration;
-  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: string[];
-  PeerVpcAwsAccountId?: string;
-  PeerVpcId?: string;
-  FleetType?: FleetType;
-  InstanceRoleArn?: string;
-  CertificateConfiguration?: CertificateConfiguration;
-  Locations?: LocationConfiguration[];
-  Tags?: Tag[];
-  ComputeType?: ComputeType;
-  AnywhereConfiguration?: AnywhereConfiguration;
-  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider;
-  PlayerGatewayMode?: PlayerGatewayMode;
-  PlayerGatewayConfiguration?: PlayerGatewayConfiguration;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  BuildId?: string | undefined;
+  ScriptId?: string | undefined;
+  ServerLaunchPath?: string | undefined;
+  ServerLaunchParameters?: string | undefined;
+  LogPaths?: string[] | undefined;
+  EC2InstanceType?: EC2InstanceType | undefined;
+  EC2InboundPermissions?: IpPermission[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  RuntimeConfiguration?: RuntimeConfiguration | undefined;
+  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy | undefined;
+  MetricGroups?: string[] | undefined;
+  PeerVpcAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
+  FleetType?: FleetType | undefined;
+  InstanceRoleArn?: string | undefined;
+  CertificateConfiguration?: CertificateConfiguration | undefined;
+  Locations?: LocationConfiguration[] | undefined;
+  Tags?: Tag[] | undefined;
+  ComputeType?: ComputeType | undefined;
+  AnywhereConfiguration?: AnywhereConfiguration | undefined;
+  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
+  PlayerGatewayConfiguration?: PlayerGatewayConfiguration | undefined;
 }
-export const CreateFleetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    BuildId: S.optional(S.String),
-    ScriptId: S.optional(S.String),
-    ServerLaunchPath: S.optional(S.String),
-    ServerLaunchParameters: S.optional(S.String),
-    LogPaths: S.optional(StringList),
-    EC2InstanceType: S.optional(EC2InstanceType),
-    EC2InboundPermissions: S.optional(IpPermissionsList),
-    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
-    RuntimeConfiguration: S.optional(RuntimeConfiguration),
-    ResourceCreationLimitPolicy: S.optional(ResourceCreationLimitPolicy),
-    MetricGroups: S.optional(MetricGroupList),
-    PeerVpcAwsAccountId: S.optional(S.String),
-    PeerVpcId: S.optional(S.String),
-    FleetType: S.optional(FleetType),
-    InstanceRoleArn: S.optional(S.String),
-    CertificateConfiguration: S.optional(CertificateConfiguration),
-    Locations: S.optional(LocationConfigurationList),
-    Tags: S.optional(TagList),
-    ComputeType: S.optional(ComputeType),
-    AnywhereConfiguration: S.optional(AnywhereConfiguration),
-    InstanceRoleCredentialsProvider: S.optional(
-      InstanceRoleCredentialsProvider,
-    ),
-    PlayerGatewayMode: S.optional(PlayerGatewayMode),
-    PlayerGatewayConfiguration: S.optional(PlayerGatewayConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFleetInput",
-}) as any as S.Schema<CreateFleetInput>;
 export type FleetStatus =
   | "NEW"
   | "DOWNLOADING"
@@ -1918,170 +1267,73 @@ export type FleetStatus =
   | "NOT_FOUND"
   | "EXPIRED"
   | (string & {});
-export const FleetStatus = S.String;
-
 export type ScriptId = string;
 export type ScriptArn = string;
 export type FleetAction = "AUTO_SCALING" | (string & {});
-export const FleetAction = S.String;
-
 export type FleetActionList = FleetAction[];
-export const FleetActionList = /*@__PURE__*/ S.Array(FleetAction);
 export interface FleetAttributes {
-  FleetId?: string;
-  FleetArn?: string;
-  FleetType?: FleetType;
-  InstanceType?: EC2InstanceType;
-  Description?: string;
-  Name?: string;
-  CreationTime?: Date;
-  TerminationTime?: Date;
-  Status?: FleetStatus;
-  BuildId?: string;
-  BuildArn?: string;
-  ScriptId?: string;
-  ScriptArn?: string;
-  ServerLaunchPath?: string;
-  ServerLaunchParameters?: string;
-  LogPaths?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  OperatingSystem?: OperatingSystem;
-  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: string[];
-  StoppedActions?: FleetAction[];
-  InstanceRoleArn?: string;
-  CertificateConfiguration?: CertificateConfiguration;
-  ComputeType?: ComputeType;
-  AnywhereConfiguration?: AnywhereConfiguration;
-  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider;
-  PlayerGatewayMode?: PlayerGatewayMode;
-  PlayerGatewayConfiguration?: PlayerGatewayConfiguration;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  FleetType?: FleetType | undefined;
+  InstanceType?: EC2InstanceType | undefined;
+  Description?: string | undefined;
+  Name?: string | undefined;
+  CreationTime?: Date | undefined;
+  TerminationTime?: Date | undefined;
+  Status?: FleetStatus | undefined;
+  BuildId?: string | undefined;
+  BuildArn?: string | undefined;
+  ScriptId?: string | undefined;
+  ScriptArn?: string | undefined;
+  ServerLaunchPath?: string | undefined;
+  ServerLaunchParameters?: string | undefined;
+  LogPaths?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy | undefined;
+  MetricGroups?: string[] | undefined;
+  StoppedActions?: FleetAction[] | undefined;
+  InstanceRoleArn?: string | undefined;
+  CertificateConfiguration?: CertificateConfiguration | undefined;
+  ComputeType?: ComputeType | undefined;
+  AnywhereConfiguration?: AnywhereConfiguration | undefined;
+  InstanceRoleCredentialsProvider?: InstanceRoleCredentialsProvider | undefined;
+  PlayerGatewayMode?: PlayerGatewayMode | undefined;
+  PlayerGatewayConfiguration?: PlayerGatewayConfiguration | undefined;
 }
-export const FleetAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    FleetType: S.optional(FleetType),
-    InstanceType: S.optional(EC2InstanceType),
-    Description: S.optional(S.String),
-    Name: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TerminationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Status: S.optional(FleetStatus),
-    BuildId: S.optional(S.String),
-    BuildArn: S.optional(S.String),
-    ScriptId: S.optional(S.String),
-    ScriptArn: S.optional(S.String),
-    ServerLaunchPath: S.optional(S.String),
-    ServerLaunchParameters: S.optional(S.String),
-    LogPaths: S.optional(StringList),
-    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
-    OperatingSystem: S.optional(OperatingSystem),
-    ResourceCreationLimitPolicy: S.optional(ResourceCreationLimitPolicy),
-    MetricGroups: S.optional(MetricGroupList),
-    StoppedActions: S.optional(FleetActionList),
-    InstanceRoleArn: S.optional(S.String),
-    CertificateConfiguration: S.optional(CertificateConfiguration),
-    ComputeType: S.optional(ComputeType),
-    AnywhereConfiguration: S.optional(AnywhereConfiguration),
-    InstanceRoleCredentialsProvider: S.optional(
-      InstanceRoleCredentialsProvider,
-    ),
-    PlayerGatewayMode: S.optional(PlayerGatewayMode),
-    PlayerGatewayConfiguration: S.optional(PlayerGatewayConfiguration),
-  }),
-).annotate({
-  identifier: "FleetAttributes",
-}) as any as S.Schema<FleetAttributes>;
 export interface LocationState {
-  Location?: string;
-  Status?: FleetStatus;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  Location?: string | undefined;
+  Status?: FleetStatus | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
-export const LocationState = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Location: S.optional(S.String),
-    Status: S.optional(FleetStatus),
-    PlayerGatewayStatus: S.optional(PlayerGatewayStatus),
-  }),
-).annotate({ identifier: "LocationState" }) as any as S.Schema<LocationState>;
 export type LocationStateList = LocationState[];
-export const LocationStateList = /*@__PURE__*/ S.Array(LocationState);
 export interface CreateFleetOutput {
-  FleetAttributes?: FleetAttributes & {
-    CertificateConfiguration: CertificateConfiguration & {
-      CertificateType: CertificateType;
-    };
-    AnywhereConfiguration: AnywhereConfiguration & {
-      Cost: NonNegativeLimitedLengthDouble;
-    };
-  };
-  LocationStates?: LocationState[];
+  FleetAttributes?:
+    | (FleetAttributes & {
+        CertificateConfiguration: CertificateConfiguration & { CertificateType: CertificateType };
+        AnywhereConfiguration: AnywhereConfiguration & { Cost: NonNegativeLimitedLengthDouble };
+      })
+    | undefined;
+  LocationStates?: LocationState[] | undefined;
 }
-export const CreateFleetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetAttributes: S.optional(FleetAttributes),
-    LocationStates: S.optional(LocationStateList),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateFleetOutput",
-}) as any as S.Schema<CreateFleetOutput>;
 export type FleetIdOrArn = string;
 export interface CreateFleetLocationsInput {
-  FleetId?: string;
-  Locations?: LocationConfiguration[];
+  FleetId?: string | undefined;
+  Locations?: LocationConfiguration[] | undefined;
 }
-export const CreateFleetLocationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Locations: S.optional(LocationConfigurationList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateFleetLocationsInput",
-}) as any as S.Schema<CreateFleetLocationsInput>;
 export interface CreateFleetLocationsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  LocationStates?: LocationState[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  LocationStates?: LocationState[] | undefined;
 }
-export const CreateFleetLocationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    LocationStates: S.optional(LocationStateList),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateFleetLocationsOutput",
-}) as any as S.Schema<CreateFleetLocationsOutput>;
 export type LaunchTemplateId = string;
 export type LaunchTemplateName = string;
 export type LaunchTemplateVersion = string;
 export interface LaunchTemplateSpecification {
-  LaunchTemplateId?: string;
-  LaunchTemplateName?: string;
-  Version?: string;
+  LaunchTemplateId?: string | undefined;
+  LaunchTemplateName?: string | undefined;
+  Version?: string | undefined;
 }
-export const LaunchTemplateSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LaunchTemplateId: S.optional(S.String),
-    LaunchTemplateName: S.optional(S.String),
-    Version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LaunchTemplateSpecification",
-}) as any as S.Schema<LaunchTemplateSpecification>;
 export type GameServerGroupInstanceType =
   | "c4.large"
   | "c4.xlarge"
@@ -2172,100 +1424,37 @@ export type GameServerGroupInstanceType =
   | "m6g.12xlarge"
   | "m6g.16xlarge"
   | (string & {});
-export const GameServerGroupInstanceType = S.String;
-
 export type WeightedCapacity = string;
 export interface InstanceDefinition {
-  InstanceType?: GameServerGroupInstanceType;
-  WeightedCapacity?: string;
+  InstanceType?: GameServerGroupInstanceType | undefined;
+  WeightedCapacity?: string | undefined;
 }
-export const InstanceDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceType: S.optional(GameServerGroupInstanceType),
-    WeightedCapacity: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InstanceDefinition",
-}) as any as S.Schema<InstanceDefinition>;
 export type InstanceDefinitions = InstanceDefinition[];
-export const InstanceDefinitions = /*@__PURE__*/ S.Array(InstanceDefinition);
 export type NonNegativeDouble = number;
 export interface TargetTrackingConfiguration {
-  TargetValue?: number;
+  TargetValue?: number | undefined;
 }
-export const TargetTrackingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetValue: S.optional(S.Number) }),
-).annotate({
-  identifier: "TargetTrackingConfiguration",
-}) as any as S.Schema<TargetTrackingConfiguration>;
 export interface GameServerGroupAutoScalingPolicy {
-  EstimatedInstanceWarmup?: number;
-  TargetTrackingConfiguration?: TargetTrackingConfiguration;
+  EstimatedInstanceWarmup?: number | undefined;
+  TargetTrackingConfiguration?: TargetTrackingConfiguration | undefined;
 }
-export const GameServerGroupAutoScalingPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EstimatedInstanceWarmup: S.optional(S.Number),
-    TargetTrackingConfiguration: S.optional(TargetTrackingConfiguration),
-  }),
-).annotate({
-  identifier: "GameServerGroupAutoScalingPolicy",
-}) as any as S.Schema<GameServerGroupAutoScalingPolicy>;
-export type BalancingStrategy =
-  | "SPOT_ONLY"
-  | "SPOT_PREFERRED"
-  | "ON_DEMAND_ONLY"
-  | (string & {});
-export const BalancingStrategy = S.String;
-
-export type GameServerProtectionPolicy =
-  | "NO_PROTECTION"
-  | "FULL_PROTECTION"
-  | (string & {});
-export const GameServerProtectionPolicy = S.String;
-
+export type BalancingStrategy = "SPOT_ONLY" | "SPOT_PREFERRED" | "ON_DEMAND_ONLY" | (string & {});
+export type GameServerProtectionPolicy = "NO_PROTECTION" | "FULL_PROTECTION" | (string & {});
 export type VpcSubnet = string;
 export type VpcSubnets = string[];
-export const VpcSubnets = /*@__PURE__*/ S.Array(S.String);
 export interface CreateGameServerGroupInput {
-  GameServerGroupName?: string;
-  RoleArn?: string;
-  MinSize?: number;
-  MaxSize?: number;
-  LaunchTemplate?: LaunchTemplateSpecification;
-  InstanceDefinitions?: InstanceDefinition[];
-  AutoScalingPolicy?: GameServerGroupAutoScalingPolicy;
-  BalancingStrategy?: BalancingStrategy;
-  GameServerProtectionPolicy?: GameServerProtectionPolicy;
-  VpcSubnets?: string[];
-  Tags?: Tag[];
+  GameServerGroupName?: string | undefined;
+  RoleArn?: string | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  InstanceDefinitions?: InstanceDefinition[] | undefined;
+  AutoScalingPolicy?: GameServerGroupAutoScalingPolicy | undefined;
+  BalancingStrategy?: BalancingStrategy | undefined;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy | undefined;
+  VpcSubnets?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateGameServerGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    MinSize: S.optional(S.Number),
-    MaxSize: S.optional(S.Number),
-    LaunchTemplate: S.optional(LaunchTemplateSpecification),
-    InstanceDefinitions: S.optional(InstanceDefinitions),
-    AutoScalingPolicy: S.optional(GameServerGroupAutoScalingPolicy),
-    BalancingStrategy: S.optional(BalancingStrategy),
-    GameServerProtectionPolicy: S.optional(GameServerProtectionPolicy),
-    VpcSubnets: S.optional(VpcSubnets),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGameServerGroupInput",
-}) as any as S.Schema<CreateGameServerGroupInput>;
 export type AutoScalingGroupArn = string;
 export type GameServerGroupStatus =
   | "NEW"
@@ -2276,113 +1465,51 @@ export type GameServerGroupStatus =
   | "DELETED"
   | "ERROR"
   | (string & {});
-export const GameServerGroupStatus = S.String;
-
 export type GameServerGroupAction = "REPLACE_INSTANCE_TYPES" | (string & {});
-export const GameServerGroupAction = S.String;
-
 export type GameServerGroupActions = GameServerGroupAction[];
-export const GameServerGroupActions = /*@__PURE__*/ S.Array(
-  GameServerGroupAction,
-);
 export interface GameServerGroup {
-  GameServerGroupName?: string;
-  GameServerGroupArn?: string;
-  RoleArn?: string;
-  InstanceDefinitions?: InstanceDefinition[];
-  BalancingStrategy?: BalancingStrategy;
-  GameServerProtectionPolicy?: GameServerProtectionPolicy;
-  AutoScalingGroupArn?: string;
-  Status?: GameServerGroupStatus;
-  StatusReason?: string;
-  SuspendedActions?: GameServerGroupAction[];
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
+  GameServerGroupName?: string | undefined;
+  GameServerGroupArn?: string | undefined;
+  RoleArn?: string | undefined;
+  InstanceDefinitions?: InstanceDefinition[] | undefined;
+  BalancingStrategy?: BalancingStrategy | undefined;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy | undefined;
+  AutoScalingGroupArn?: string | undefined;
+  Status?: GameServerGroupStatus | undefined;
+  StatusReason?: string | undefined;
+  SuspendedActions?: GameServerGroupAction[] | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
-export const GameServerGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerGroupArn: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    InstanceDefinitions: S.optional(InstanceDefinitions),
-    BalancingStrategy: S.optional(BalancingStrategy),
-    GameServerProtectionPolicy: S.optional(GameServerProtectionPolicy),
-    AutoScalingGroupArn: S.optional(S.String),
-    Status: S.optional(GameServerGroupStatus),
-    StatusReason: S.optional(S.String),
-    SuspendedActions: S.optional(GameServerGroupActions),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "GameServerGroup",
-}) as any as S.Schema<GameServerGroup>;
 export interface CreateGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & {
-      InstanceType: GameServerGroupInstanceType;
-    })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
-export const CreateGameServerGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServerGroup: S.optional(GameServerGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateGameServerGroupOutput",
-}) as any as S.Schema<CreateGameServerGroupOutput>;
 export type AliasIdOrArn = string;
 export type GamePropertyKey = string;
 export type GamePropertyValue = string | redacted.Redacted<string>;
 export interface GameProperty {
-  Key?: string;
-  Value?: string | redacted.Redacted<string>;
+  Key?: string | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
 }
-export const GameProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(SensitiveString) }),
-).annotate({ identifier: "GameProperty" }) as any as S.Schema<GameProperty>;
 export type GamePropertyList = GameProperty[];
-export const GamePropertyList = /*@__PURE__*/ S.Array(GameProperty);
 export type IdStringModel = string;
 export type LargeGameSessionData = string | redacted.Redacted<string>;
 export interface CreateGameSessionInput {
-  FleetId?: string;
-  AliasId?: string;
-  MaximumPlayerSessionCount?: number;
-  Name?: string;
-  GameProperties?: GameProperty[];
-  CreatorId?: string;
-  GameSessionId?: string;
-  IdempotencyToken?: string;
-  GameSessionData?: string | redacted.Redacted<string>;
-  Location?: string;
+  FleetId?: string | undefined;
+  AliasId?: string | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Name?: string | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  CreatorId?: string | undefined;
+  GameSessionId?: string | undefined;
+  IdempotencyToken?: string | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  Location?: string | undefined;
 }
-export const CreateGameSessionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    AliasId: S.optional(S.String),
-    MaximumPlayerSessionCount: S.optional(S.Number),
-    Name: S.optional(S.String),
-    GameProperties: S.optional(GamePropertyList),
-    CreatorId: S.optional(S.String),
-    GameSessionId: S.optional(S.String),
-    IdempotencyToken: S.optional(S.String),
-    GameSessionData: S.optional(SensitiveString),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGameSessionInput",
-}) as any as S.Schema<CreateGameSessionInput>;
 export type GameSessionStatus =
   | "ACTIVE"
   | "ACTIVATING"
@@ -2390,281 +1517,117 @@ export type GameSessionStatus =
   | "TERMINATING"
   | "ERROR"
   | (string & {});
-export const GameSessionStatus = S.String;
-
 export type GameSessionStatusReason =
   | "INTERRUPTED"
   | "TRIGGERED_ON_PROCESS_TERMINATE"
   | "FORCE_TERMINATED"
   | (string & {});
-export const GameSessionStatusReason = S.String;
-
 export type IpAddress = string | redacted.Redacted<string>;
 export type DnsName = string;
-export type PlayerSessionCreationPolicy =
-  | "ACCEPT_ALL"
-  | "DENY_ALL"
-  | (string & {});
-export const PlayerSessionCreationPolicy = S.String;
-
+export type PlayerSessionCreationPolicy = "ACCEPT_ALL" | "DENY_ALL" | (string & {});
 export type MatchmakerData = string | redacted.Redacted<string>;
 export type ComputeName = string;
 export interface GameSession {
-  GameSessionId?: string;
-  Name?: string;
-  FleetId?: string;
-  FleetArn?: string;
-  CreationTime?: Date;
-  TerminationTime?: Date;
-  CurrentPlayerSessionCount?: number;
-  MaximumPlayerSessionCount?: number;
-  Status?: GameSessionStatus;
-  StatusReason?: GameSessionStatusReason;
-  GameProperties?: GameProperty[];
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy;
-  CreatorId?: string;
-  GameSessionData?: string | redacted.Redacted<string>;
-  MatchmakerData?: string | redacted.Redacted<string>;
-  Location?: string;
-  ComputeName?: string;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  GameSessionId?: string | undefined;
+  Name?: string | undefined;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  TerminationTime?: Date | undefined;
+  CurrentPlayerSessionCount?: number | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Status?: GameSessionStatus | undefined;
+  StatusReason?: GameSessionStatusReason | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy | undefined;
+  CreatorId?: string | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  MatchmakerData?: string | redacted.Redacted<string> | undefined;
+  Location?: string | undefined;
+  ComputeName?: string | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
-export const GameSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    Name: S.optional(S.String),
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TerminationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    CurrentPlayerSessionCount: S.optional(S.Number),
-    MaximumPlayerSessionCount: S.optional(S.Number),
-    Status: S.optional(GameSessionStatus),
-    StatusReason: S.optional(GameSessionStatusReason),
-    GameProperties: S.optional(GamePropertyList),
-    IpAddress: S.optional(SensitiveString),
-    DnsName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    PlayerSessionCreationPolicy: S.optional(PlayerSessionCreationPolicy),
-    CreatorId: S.optional(S.String),
-    GameSessionData: S.optional(SensitiveString),
-    MatchmakerData: S.optional(SensitiveString),
-    Location: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-    PlayerGatewayStatus: S.optional(PlayerGatewayStatus),
-  }),
-).annotate({ identifier: "GameSession" }) as any as S.Schema<GameSession>;
 export interface CreateGameSessionOutput {
-  GameSession?: GameSession & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  };
+  GameSession?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
-export const CreateGameSessionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSession: S.optional(GameSession) }).pipe(ns),
-).annotate({
-  identifier: "CreateGameSessionOutput",
-}) as any as S.Schema<CreateGameSessionOutput>;
 export type GameSessionQueueName = string;
 export interface PlayerLatencyPolicy {
-  MaximumIndividualPlayerLatencyMilliseconds?: number;
-  PolicyDurationSeconds?: number;
+  MaximumIndividualPlayerLatencyMilliseconds?: number | undefined;
+  PolicyDurationSeconds?: number | undefined;
 }
-export const PlayerLatencyPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaximumIndividualPlayerLatencyMilliseconds: S.optional(S.Number),
-    PolicyDurationSeconds: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PlayerLatencyPolicy",
-}) as any as S.Schema<PlayerLatencyPolicy>;
 export type PlayerLatencyPolicyList = PlayerLatencyPolicy[];
-export const PlayerLatencyPolicyList =
-  /*@__PURE__*/ S.Array(PlayerLatencyPolicy);
 export type ArnStringModel = string;
 export interface GameSessionQueueDestination {
-  DestinationArn?: string;
+  DestinationArn?: string | undefined;
 }
-export const GameSessionQueueDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DestinationArn: S.optional(S.String) }),
-).annotate({
-  identifier: "GameSessionQueueDestination",
-}) as any as S.Schema<GameSessionQueueDestination>;
 export type GameSessionQueueDestinationList = GameSessionQueueDestination[];
-export const GameSessionQueueDestinationList = /*@__PURE__*/ S.Array(
-  GameSessionQueueDestination,
-);
 export type LocationList = string[];
-export const LocationList = /*@__PURE__*/ S.Array(S.String);
 export interface FilterConfiguration {
-  AllowedLocations?: string[];
+  AllowedLocations?: string[] | undefined;
 }
-export const FilterConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AllowedLocations: S.optional(LocationList) }),
-).annotate({
-  identifier: "FilterConfiguration",
-}) as any as S.Schema<FilterConfiguration>;
-export type PriorityType =
-  | "LATENCY"
-  | "COST"
-  | "DESTINATION"
-  | "LOCATION"
-  | (string & {});
-export const PriorityType = S.String;
-
+export type PriorityType = "LATENCY" | "COST" | "DESTINATION" | "LOCATION" | (string & {});
 export type PriorityTypeList = PriorityType[];
-export const PriorityTypeList = /*@__PURE__*/ S.Array(PriorityType);
 export interface PriorityConfiguration {
-  PriorityOrder?: PriorityType[];
-  LocationOrder?: string[];
+  PriorityOrder?: PriorityType[] | undefined;
+  LocationOrder?: string[] | undefined;
 }
-export const PriorityConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PriorityOrder: S.optional(PriorityTypeList),
-    LocationOrder: S.optional(LocationList),
-  }),
-).annotate({
-  identifier: "PriorityConfiguration",
-}) as any as S.Schema<PriorityConfiguration>;
 export type QueueCustomEventData = string | redacted.Redacted<string>;
 export type QueueSnsArnStringModel = string;
 export interface CreateGameSessionQueueInput {
-  Name?: string;
-  TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
-  Destinations?: GameSessionQueueDestination[];
-  FilterConfiguration?: FilterConfiguration;
-  PriorityConfiguration?: PriorityConfiguration;
-  CustomEventData?: string | redacted.Redacted<string>;
-  NotificationTarget?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  TimeoutInSeconds?: number | undefined;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[] | undefined;
+  Destinations?: GameSessionQueueDestination[] | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  PriorityConfiguration?: PriorityConfiguration | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  NotificationTarget?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateGameSessionQueueInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    TimeoutInSeconds: S.optional(S.Number),
-    PlayerLatencyPolicies: S.optional(PlayerLatencyPolicyList),
-    Destinations: S.optional(GameSessionQueueDestinationList),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    PriorityConfiguration: S.optional(PriorityConfiguration),
-    CustomEventData: S.optional(SensitiveString),
-    NotificationTarget: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateGameSessionQueueInput",
-}) as any as S.Schema<CreateGameSessionQueueInput>;
 export type GameSessionQueueArn = string;
 export interface GameSessionQueue {
-  Name?: string;
-  GameSessionQueueArn?: string;
-  TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
-  Destinations?: GameSessionQueueDestination[];
-  FilterConfiguration?: FilterConfiguration;
-  PriorityConfiguration?: PriorityConfiguration;
-  CustomEventData?: string | redacted.Redacted<string>;
-  NotificationTarget?: string;
+  Name?: string | undefined;
+  GameSessionQueueArn?: string | undefined;
+  TimeoutInSeconds?: number | undefined;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[] | undefined;
+  Destinations?: GameSessionQueueDestination[] | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  PriorityConfiguration?: PriorityConfiguration | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  NotificationTarget?: string | undefined;
 }
-export const GameSessionQueue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    GameSessionQueueArn: S.optional(S.String),
-    TimeoutInSeconds: S.optional(S.Number),
-    PlayerLatencyPolicies: S.optional(PlayerLatencyPolicyList),
-    Destinations: S.optional(GameSessionQueueDestinationList),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    PriorityConfiguration: S.optional(PriorityConfiguration),
-    CustomEventData: S.optional(SensitiveString),
-    NotificationTarget: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GameSessionQueue",
-}) as any as S.Schema<GameSessionQueue>;
 export interface CreateGameSessionQueueOutput {
-  GameSessionQueue?: GameSessionQueue;
+  GameSessionQueue?: GameSessionQueue | undefined;
 }
-export const CreateGameSessionQueueOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSessionQueue: S.optional(GameSessionQueue) }).pipe(ns),
-).annotate({
-  identifier: "CreateGameSessionQueueOutput",
-}) as any as S.Schema<CreateGameSessionQueueOutput>;
 export type CustomInputLocationStringModel = string;
 export interface CreateLocationInput {
-  LocationName?: string;
-  Tags?: Tag[];
+  LocationName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateLocationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocationName: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateLocationInput",
-}) as any as S.Schema<CreateLocationInput>;
 export type LocationArnModel = string;
 export interface UDPEndpoint {
-  Domain?: string;
-  Port?: number;
+  Domain?: string | undefined;
+  Port?: number | undefined;
 }
-export const UDPEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Domain: S.optional(S.String), Port: S.optional(S.Number) }),
-).annotate({ identifier: "UDPEndpoint" }) as any as S.Schema<UDPEndpoint>;
 export interface PingBeacon {
-  UDPEndpoint?: UDPEndpoint;
+  UDPEndpoint?: UDPEndpoint | undefined;
 }
-export const PingBeacon = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UDPEndpoint: S.optional(UDPEndpoint) }),
-).annotate({ identifier: "PingBeacon" }) as any as S.Schema<PingBeacon>;
 export interface LocationModel {
-  LocationName?: string;
-  LocationArn?: string;
-  PingBeacon?: PingBeacon;
+  LocationName?: string | undefined;
+  LocationArn?: string | undefined;
+  PingBeacon?: PingBeacon | undefined;
 }
-export const LocationModel = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocationName: S.optional(S.String),
-    LocationArn: S.optional(S.String),
-    PingBeacon: S.optional(PingBeacon),
-  }),
-).annotate({ identifier: "LocationModel" }) as any as S.Schema<LocationModel>;
 export interface CreateLocationOutput {
-  Location?: LocationModel;
+  Location?: LocationModel | undefined;
 }
-export const CreateLocationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Location: S.optional(LocationModel) }).pipe(ns),
-).annotate({
-  identifier: "CreateLocationOutput",
-}) as any as S.Schema<CreateLocationOutput>;
 export type QueueArnsList = string[];
-export const QueueArnsList = /*@__PURE__*/ S.Array(S.String);
 export type MatchmakingRequestTimeoutInteger = number;
 export type MatchmakingAcceptanceTimeoutInteger = number;
 export type MatchmakingRuleSetName = string;
@@ -2672,1475 +1635,456 @@ export type SnsArnStringModel = string;
 export type CustomEventData = string | redacted.Redacted<string>;
 export type GameSessionData = string | redacted.Redacted<string>;
 export type BackfillMode = "AUTOMATIC" | "MANUAL" | (string & {});
-export const BackfillMode = S.String;
-
 export type FlexMatchMode = "STANDALONE" | "WITH_QUEUE" | (string & {});
-export const FlexMatchMode = S.String;
-
 export interface CreateMatchmakingConfigurationInput {
-  Name?: string;
-  Description?: string;
-  GameSessionQueueArns?: string[];
-  RequestTimeoutSeconds?: number;
-  AcceptanceTimeoutSeconds?: number;
-  AcceptanceRequired?: boolean;
-  RuleSetName?: string;
-  NotificationTarget?: string;
-  AdditionalPlayerCount?: number;
-  CustomEventData?: string | redacted.Redacted<string>;
-  GameProperties?: GameProperty[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  BackfillMode?: BackfillMode;
-  FlexMatchMode?: FlexMatchMode;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  GameSessionQueueArns?: string[] | undefined;
+  RequestTimeoutSeconds?: number | undefined;
+  AcceptanceTimeoutSeconds?: number | undefined;
+  AcceptanceRequired?: boolean | undefined;
+  RuleSetName?: string | undefined;
+  NotificationTarget?: string | undefined;
+  AdditionalPlayerCount?: number | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  BackfillMode?: BackfillMode | undefined;
+  FlexMatchMode?: FlexMatchMode | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateMatchmakingConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    GameSessionQueueArns: S.optional(QueueArnsList),
-    RequestTimeoutSeconds: S.optional(S.Number),
-    AcceptanceTimeoutSeconds: S.optional(S.Number),
-    AcceptanceRequired: S.optional(S.Boolean),
-    RuleSetName: S.optional(S.String),
-    NotificationTarget: S.optional(S.String),
-    AdditionalPlayerCount: S.optional(S.Number),
-    CustomEventData: S.optional(SensitiveString),
-    GameProperties: S.optional(GamePropertyList),
-    GameSessionData: S.optional(SensitiveString),
-    BackfillMode: S.optional(BackfillMode),
-    FlexMatchMode: S.optional(FlexMatchMode),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMatchmakingConfigurationInput",
-}) as any as S.Schema<CreateMatchmakingConfigurationInput>;
 export type MatchmakingConfigurationArn = string;
 export type MatchmakingRuleSetArn = string;
 export interface MatchmakingConfiguration {
-  Name?: string;
-  ConfigurationArn?: string;
-  Description?: string;
-  GameSessionQueueArns?: string[];
-  RequestTimeoutSeconds?: number;
-  AcceptanceTimeoutSeconds?: number;
-  AcceptanceRequired?: boolean;
-  RuleSetName?: string;
-  RuleSetArn?: string;
-  NotificationTarget?: string;
-  AdditionalPlayerCount?: number;
-  CustomEventData?: string | redacted.Redacted<string>;
-  CreationTime?: Date;
-  GameProperties?: GameProperty[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  BackfillMode?: BackfillMode;
-  FlexMatchMode?: FlexMatchMode;
+  Name?: string | undefined;
+  ConfigurationArn?: string | undefined;
+  Description?: string | undefined;
+  GameSessionQueueArns?: string[] | undefined;
+  RequestTimeoutSeconds?: number | undefined;
+  AcceptanceTimeoutSeconds?: number | undefined;
+  AcceptanceRequired?: boolean | undefined;
+  RuleSetName?: string | undefined;
+  RuleSetArn?: string | undefined;
+  NotificationTarget?: string | undefined;
+  AdditionalPlayerCount?: number | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  CreationTime?: Date | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  BackfillMode?: BackfillMode | undefined;
+  FlexMatchMode?: FlexMatchMode | undefined;
 }
-export const MatchmakingConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    ConfigurationArn: S.optional(S.String),
-    Description: S.optional(S.String),
-    GameSessionQueueArns: S.optional(QueueArnsList),
-    RequestTimeoutSeconds: S.optional(S.Number),
-    AcceptanceTimeoutSeconds: S.optional(S.Number),
-    AcceptanceRequired: S.optional(S.Boolean),
-    RuleSetName: S.optional(S.String),
-    RuleSetArn: S.optional(S.String),
-    NotificationTarget: S.optional(S.String),
-    AdditionalPlayerCount: S.optional(S.Number),
-    CustomEventData: S.optional(SensitiveString),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    GameProperties: S.optional(GamePropertyList),
-    GameSessionData: S.optional(SensitiveString),
-    BackfillMode: S.optional(BackfillMode),
-    FlexMatchMode: S.optional(FlexMatchMode),
-  }),
-).annotate({
-  identifier: "MatchmakingConfiguration",
-}) as any as S.Schema<MatchmakingConfiguration>;
 export interface CreateMatchmakingConfigurationOutput {
-  Configuration?: MatchmakingConfiguration & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  };
+  Configuration?:
+    | (MatchmakingConfiguration & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
-export const CreateMatchmakingConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Configuration: S.optional(MatchmakingConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "CreateMatchmakingConfigurationOutput",
-}) as any as S.Schema<CreateMatchmakingConfigurationOutput>;
 export type RuleSetBody = string;
 export interface CreateMatchmakingRuleSetInput {
-  Name?: string;
-  RuleSetBody?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  RuleSetBody?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateMatchmakingRuleSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    RuleSetBody: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMatchmakingRuleSetInput",
-}) as any as S.Schema<CreateMatchmakingRuleSetInput>;
 export interface MatchmakingRuleSet {
-  RuleSetName?: string;
-  RuleSetArn?: string;
-  RuleSetBody?: string;
-  CreationTime?: Date;
+  RuleSetName?: string | undefined;
+  RuleSetArn?: string | undefined;
+  RuleSetBody?: string | undefined;
+  CreationTime?: Date | undefined;
 }
-export const MatchmakingRuleSet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSetName: S.optional(S.String),
-    RuleSetArn: S.optional(S.String),
-    RuleSetBody: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "MatchmakingRuleSet",
-}) as any as S.Schema<MatchmakingRuleSet>;
 export interface CreateMatchmakingRuleSetOutput {
   RuleSet: MatchmakingRuleSet & { RuleSetBody: RuleSetBody };
 }
-export const CreateMatchmakingRuleSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSet: S.optional(MatchmakingRuleSet) }).pipe(ns),
-).annotate({
-  identifier: "CreateMatchmakingRuleSetOutput",
-}) as any as S.Schema<CreateMatchmakingRuleSetOutput>;
 export type PlayerData = string | redacted.Redacted<string>;
 export interface CreatePlayerSessionInput {
-  GameSessionId?: string;
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerData?: string | redacted.Redacted<string>;
+  GameSessionId?: string | undefined;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerData?: string | redacted.Redacted<string> | undefined;
 }
-export const CreatePlayerSessionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    PlayerId: S.optional(SensitiveString),
-    PlayerData: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePlayerSessionInput",
-}) as any as S.Schema<CreatePlayerSessionInput>;
 export type PlayerSessionId = string;
-export type PlayerSessionStatus =
-  | "RESERVED"
-  | "ACTIVE"
-  | "COMPLETED"
-  | "TIMEDOUT"
-  | (string & {});
-export const PlayerSessionStatus = S.String;
-
+export type PlayerSessionStatus = "RESERVED" | "ACTIVE" | "COMPLETED" | "TIMEDOUT" | (string & {});
 export interface PlayerSession {
-  PlayerSessionId?: string;
-  PlayerId?: string | redacted.Redacted<string>;
-  GameSessionId?: string;
-  FleetId?: string;
-  FleetArn?: string;
-  CreationTime?: Date;
-  TerminationTime?: Date;
-  Status?: PlayerSessionStatus;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  PlayerData?: string | redacted.Redacted<string>;
+  PlayerSessionId?: string | undefined;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  GameSessionId?: string | undefined;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  CreationTime?: Date | undefined;
+  TerminationTime?: Date | undefined;
+  Status?: PlayerSessionStatus | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  PlayerData?: string | redacted.Redacted<string> | undefined;
 }
-export const PlayerSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerSessionId: S.optional(S.String),
-    PlayerId: S.optional(SensitiveString),
-    GameSessionId: S.optional(S.String),
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    TerminationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    Status: S.optional(PlayerSessionStatus),
-    IpAddress: S.optional(SensitiveString),
-    DnsName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    PlayerData: S.optional(SensitiveString),
-  }),
-).annotate({ identifier: "PlayerSession" }) as any as S.Schema<PlayerSession>;
 export interface CreatePlayerSessionOutput {
-  PlayerSession?: PlayerSession;
+  PlayerSession?: PlayerSession | undefined;
 }
-export const CreatePlayerSessionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlayerSession: S.optional(PlayerSession) }).pipe(ns),
-).annotate({
-  identifier: "CreatePlayerSessionOutput",
-}) as any as S.Schema<CreatePlayerSessionOutput>;
 export type PlayerIdList = (string | redacted.Redacted<string>)[];
-export const PlayerIdList = /*@__PURE__*/ S.Array(SensitiveString);
-export type PlayerDataMap = {
-  [key: string]: string | redacted.Redacted<string> | undefined;
-};
-export const PlayerDataMap = /*@__PURE__*/ S.Record(
-  S.String,
-  SensitiveString.pipe(S.optional),
-);
+export type PlayerDataMap = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface CreatePlayerSessionsInput {
-  GameSessionId?: string;
-  PlayerIds?: (string | redacted.Redacted<string>)[];
-  PlayerDataMap?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  GameSessionId?: string | undefined;
+  PlayerIds?: (string | redacted.Redacted<string>)[] | undefined;
+  PlayerDataMap?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
-export const CreatePlayerSessionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    PlayerIds: S.optional(PlayerIdList),
-    PlayerDataMap: S.optional(PlayerDataMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePlayerSessionsInput",
-}) as any as S.Schema<CreatePlayerSessionsInput>;
 export type PlayerSessionList = PlayerSession[];
-export const PlayerSessionList = /*@__PURE__*/ S.Array(PlayerSession);
 export interface CreatePlayerSessionsOutput {
-  PlayerSessions?: PlayerSession[];
+  PlayerSessions?: PlayerSession[] | undefined;
 }
-export const CreatePlayerSessionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlayerSessions: S.optional(PlayerSessionList) }).pipe(ns),
-).annotate({
-  identifier: "CreatePlayerSessionsOutput",
-}) as any as S.Schema<CreatePlayerSessionsOutput>;
 export type ZipBlob = Uint8Array;
 export type NodeJsVersion = string;
 export interface CreateScriptInput {
-  Name?: string;
-  Version?: string;
-  StorageLocation?: S3Location;
-  ZipFile?: Uint8Array;
-  Tags?: Tag[];
-  NodeJsVersion?: string;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  StorageLocation?: S3Location | undefined;
+  ZipFile?: Uint8Array | undefined;
+  Tags?: Tag[] | undefined;
+  NodeJsVersion?: string | undefined;
 }
-export const CreateScriptInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Version: S.optional(S.String),
-    StorageLocation: S.optional(S3Location),
-    ZipFile: S.optional(T.Blob),
-    Tags: S.optional(TagList),
-    NodeJsVersion: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateScriptInput",
-}) as any as S.Schema<CreateScriptInput>;
 export interface Script {
-  ScriptId?: string;
-  ScriptArn?: string;
-  Name?: string;
-  Version?: string;
-  SizeOnDisk?: number;
-  CreationTime?: Date;
-  StorageLocation?: S3Location;
-  NodeJsVersion?: string;
+  ScriptId?: string | undefined;
+  ScriptArn?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  SizeOnDisk?: number | undefined;
+  CreationTime?: Date | undefined;
+  StorageLocation?: S3Location | undefined;
+  NodeJsVersion?: string | undefined;
 }
-export const Script = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScriptId: S.optional(S.String),
-    ScriptArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Version: S.optional(S.String),
-    SizeOnDisk: S.optional(S.Number),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StorageLocation: S.optional(S3Location),
-    NodeJsVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "Script" }) as any as S.Schema<Script>;
 export interface CreateScriptOutput {
-  Script?: Script;
+  Script?: Script | undefined;
 }
-export const CreateScriptOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Script: S.optional(Script) }).pipe(ns),
-).annotate({
-  identifier: "CreateScriptOutput",
-}) as any as S.Schema<CreateScriptOutput>;
 export interface CreateVpcPeeringAuthorizationInput {
-  GameLiftAwsAccountId?: string;
-  PeerVpcId?: string;
+  GameLiftAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
 }
-export const CreateVpcPeeringAuthorizationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameLiftAwsAccountId: S.optional(S.String),
-    PeerVpcId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVpcPeeringAuthorizationInput",
-}) as any as S.Schema<CreateVpcPeeringAuthorizationInput>;
 export interface VpcPeeringAuthorization {
-  GameLiftAwsAccountId?: string;
-  PeerVpcAwsAccountId?: string;
-  PeerVpcId?: string;
-  CreationTime?: Date;
-  ExpirationTime?: Date;
+  GameLiftAwsAccountId?: string | undefined;
+  PeerVpcAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
+  CreationTime?: Date | undefined;
+  ExpirationTime?: Date | undefined;
 }
-export const VpcPeeringAuthorization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameLiftAwsAccountId: S.optional(S.String),
-    PeerVpcAwsAccountId: S.optional(S.String),
-    PeerVpcId: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "VpcPeeringAuthorization",
-}) as any as S.Schema<VpcPeeringAuthorization>;
 export interface CreateVpcPeeringAuthorizationOutput {
-  VpcPeeringAuthorization?: VpcPeeringAuthorization;
+  VpcPeeringAuthorization?: VpcPeeringAuthorization | undefined;
 }
-export const CreateVpcPeeringAuthorizationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcPeeringAuthorization: S.optional(VpcPeeringAuthorization),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateVpcPeeringAuthorizationOutput",
-}) as any as S.Schema<CreateVpcPeeringAuthorizationOutput>;
 export interface CreateVpcPeeringConnectionInput {
-  FleetId?: string;
-  PeerVpcAwsAccountId?: string;
-  PeerVpcId?: string;
+  FleetId?: string | undefined;
+  PeerVpcAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
 }
-export const CreateVpcPeeringConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    PeerVpcAwsAccountId: S.optional(S.String),
-    PeerVpcId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVpcPeeringConnectionInput",
-}) as any as S.Schema<CreateVpcPeeringConnectionInput>;
 export interface CreateVpcPeeringConnectionOutput {}
-export const CreateVpcPeeringConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateVpcPeeringConnectionOutput",
-}) as any as S.Schema<CreateVpcPeeringConnectionOutput>;
 export interface DeleteAliasInput {
-  AliasId?: string;
+  AliasId?: string | undefined;
 }
-export const DeleteAliasInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AliasId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteAliasInput",
-}) as any as S.Schema<DeleteAliasInput>;
 export interface DeleteAliasResponse {}
-export const DeleteAliasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteAliasResponse",
-}) as any as S.Schema<DeleteAliasResponse>;
 export interface DeleteBuildInput {
-  BuildId?: string;
+  BuildId?: string | undefined;
 }
-export const DeleteBuildInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BuildId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteBuildInput",
-}) as any as S.Schema<DeleteBuildInput>;
 export interface DeleteBuildResponse {}
-export const DeleteBuildResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteBuildResponse",
-}) as any as S.Schema<DeleteBuildResponse>;
 export interface DeleteContainerFleetInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
-export const DeleteContainerFleetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FleetId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteContainerFleetInput",
-}) as any as S.Schema<DeleteContainerFleetInput>;
 export interface DeleteContainerFleetOutput {}
-export const DeleteContainerFleetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteContainerFleetOutput",
-}) as any as S.Schema<DeleteContainerFleetOutput>;
 export interface DeleteContainerGroupDefinitionInput {
-  Name?: string;
-  VersionNumber?: number;
-  VersionCountToRetain?: number;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
+  VersionCountToRetain?: number | undefined;
 }
-export const DeleteContainerGroupDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    VersionNumber: S.optional(S.Number),
-    VersionCountToRetain: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteContainerGroupDefinitionInput",
-}) as any as S.Schema<DeleteContainerGroupDefinitionInput>;
 export interface DeleteContainerGroupDefinitionOutput {}
-export const DeleteContainerGroupDefinitionOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteContainerGroupDefinitionOutput",
-}) as any as S.Schema<DeleteContainerGroupDefinitionOutput>;
 export interface DeleteFleetInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
-export const DeleteFleetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FleetId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFleetInput",
-}) as any as S.Schema<DeleteFleetInput>;
 export interface DeleteFleetResponse {}
-export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteFleetResponse",
-}) as any as S.Schema<DeleteFleetResponse>;
 export interface DeleteFleetLocationsInput {
-  FleetId?: string;
-  Locations?: string[];
+  FleetId?: string | undefined;
+  Locations?: string[] | undefined;
 }
-export const DeleteFleetLocationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Locations: S.optional(LocationList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteFleetLocationsInput",
-}) as any as S.Schema<DeleteFleetLocationsInput>;
 export interface DeleteFleetLocationsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  LocationStates?: LocationState[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  LocationStates?: LocationState[] | undefined;
 }
-export const DeleteFleetLocationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    LocationStates: S.optional(LocationStateList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DeleteFleetLocationsOutput",
-}) as any as S.Schema<DeleteFleetLocationsOutput>;
-export type GameServerGroupDeleteOption =
-  | "SAFE_DELETE"
-  | "FORCE_DELETE"
-  | "RETAIN"
-  | (string & {});
-export const GameServerGroupDeleteOption = S.String;
-
+export type GameServerGroupDeleteOption = "SAFE_DELETE" | "FORCE_DELETE" | "RETAIN" | (string & {});
 export interface DeleteGameServerGroupInput {
-  GameServerGroupName?: string;
-  DeleteOption?: GameServerGroupDeleteOption;
+  GameServerGroupName?: string | undefined;
+  DeleteOption?: GameServerGroupDeleteOption | undefined;
 }
-export const DeleteGameServerGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    DeleteOption: S.optional(GameServerGroupDeleteOption),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGameServerGroupInput",
-}) as any as S.Schema<DeleteGameServerGroupInput>;
 export interface DeleteGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & {
-      InstanceType: GameServerGroupInstanceType;
-    })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
-export const DeleteGameServerGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServerGroup: S.optional(GameServerGroup) }).pipe(ns),
-).annotate({
-  identifier: "DeleteGameServerGroupOutput",
-}) as any as S.Schema<DeleteGameServerGroupOutput>;
 export type GameSessionQueueNameOrArn = string;
 export interface DeleteGameSessionQueueInput {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const DeleteGameSessionQueueInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteGameSessionQueueInput",
-}) as any as S.Schema<DeleteGameSessionQueueInput>;
 export interface DeleteGameSessionQueueOutput {}
-export const DeleteGameSessionQueueOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteGameSessionQueueOutput",
-}) as any as S.Schema<DeleteGameSessionQueueOutput>;
 export type CustomLocationNameOrArnModel = string;
 export interface DeleteLocationInput {
-  LocationName?: string;
+  LocationName?: string | undefined;
 }
-export const DeleteLocationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LocationName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteLocationInput",
-}) as any as S.Schema<DeleteLocationInput>;
 export interface DeleteLocationOutput {}
-export const DeleteLocationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteLocationOutput",
-}) as any as S.Schema<DeleteLocationOutput>;
 export type MatchmakingConfigurationName = string;
 export interface DeleteMatchmakingConfigurationInput {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const DeleteMatchmakingConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMatchmakingConfigurationInput",
-}) as any as S.Schema<DeleteMatchmakingConfigurationInput>;
 export interface DeleteMatchmakingConfigurationOutput {}
-export const DeleteMatchmakingConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteMatchmakingConfigurationOutput",
-}) as any as S.Schema<DeleteMatchmakingConfigurationOutput>;
 export interface DeleteMatchmakingRuleSetInput {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const DeleteMatchmakingRuleSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMatchmakingRuleSetInput",
-}) as any as S.Schema<DeleteMatchmakingRuleSetInput>;
 export interface DeleteMatchmakingRuleSetOutput {}
-export const DeleteMatchmakingRuleSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteMatchmakingRuleSetOutput",
-}) as any as S.Schema<DeleteMatchmakingRuleSetOutput>;
 export interface DeleteScalingPolicyInput {
-  Name?: string;
-  FleetId?: string;
+  Name?: string | undefined;
+  FleetId?: string | undefined;
 }
-export const DeleteScalingPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), FleetId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteScalingPolicyInput",
-}) as any as S.Schema<DeleteScalingPolicyInput>;
 export interface DeleteScalingPolicyResponse {}
-export const DeleteScalingPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteScalingPolicyResponse",
-}) as any as S.Schema<DeleteScalingPolicyResponse>;
 export interface DeleteScriptInput {
-  ScriptId?: string;
+  ScriptId?: string | undefined;
 }
-export const DeleteScriptInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScriptId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteScriptInput",
-}) as any as S.Schema<DeleteScriptInput>;
 export interface DeleteScriptResponse {}
-export const DeleteScriptResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteScriptResponse",
-}) as any as S.Schema<DeleteScriptResponse>;
 export interface DeleteVpcPeeringAuthorizationInput {
-  GameLiftAwsAccountId?: string;
-  PeerVpcId?: string;
+  GameLiftAwsAccountId?: string | undefined;
+  PeerVpcId?: string | undefined;
 }
-export const DeleteVpcPeeringAuthorizationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameLiftAwsAccountId: S.optional(S.String),
-    PeerVpcId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVpcPeeringAuthorizationInput",
-}) as any as S.Schema<DeleteVpcPeeringAuthorizationInput>;
 export interface DeleteVpcPeeringAuthorizationOutput {}
-export const DeleteVpcPeeringAuthorizationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVpcPeeringAuthorizationOutput",
-}) as any as S.Schema<DeleteVpcPeeringAuthorizationOutput>;
 export interface DeleteVpcPeeringConnectionInput {
-  FleetId?: string;
-  VpcPeeringConnectionId?: string;
+  FleetId?: string | undefined;
+  VpcPeeringConnectionId?: string | undefined;
 }
-export const DeleteVpcPeeringConnectionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    VpcPeeringConnectionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVpcPeeringConnectionInput",
-}) as any as S.Schema<DeleteVpcPeeringConnectionInput>;
 export interface DeleteVpcPeeringConnectionOutput {}
-export const DeleteVpcPeeringConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVpcPeeringConnectionOutput",
-}) as any as S.Schema<DeleteVpcPeeringConnectionOutput>;
 export type ComputeNameOrArn = string;
 export interface DeregisterComputeInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
-export const DeregisterComputeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeregisterComputeInput",
-}) as any as S.Schema<DeregisterComputeInput>;
 export interface DeregisterComputeOutput {}
-export const DeregisterComputeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeregisterComputeOutput",
-}) as any as S.Schema<DeregisterComputeOutput>;
 export interface DeregisterGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
 }
-export const DeregisterGameServerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeregisterGameServerInput",
-}) as any as S.Schema<DeregisterGameServerInput>;
 export interface DeregisterGameServerResponse {}
-export const DeregisterGameServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeregisterGameServerResponse",
-}) as any as S.Schema<DeregisterGameServerResponse>;
 export interface DescribeAliasInput {
-  AliasId?: string;
+  AliasId?: string | undefined;
 }
-export const DescribeAliasInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AliasId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeAliasInput",
-}) as any as S.Schema<DescribeAliasInput>;
 export interface DescribeAliasOutput {
-  Alias?: Alias;
+  Alias?: Alias | undefined;
 }
-export const DescribeAliasOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Alias: S.optional(Alias) }).pipe(ns),
-).annotate({
-  identifier: "DescribeAliasOutput",
-}) as any as S.Schema<DescribeAliasOutput>;
 export interface DescribeBuildInput {
-  BuildId?: string;
+  BuildId?: string | undefined;
 }
-export const DescribeBuildInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BuildId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeBuildInput",
-}) as any as S.Schema<DescribeBuildInput>;
 export interface DescribeBuildOutput {
-  Build?: Build;
+  Build?: Build | undefined;
 }
-export const DescribeBuildOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Build: S.optional(Build) }).pipe(ns),
-).annotate({
-  identifier: "DescribeBuildOutput",
-}) as any as S.Schema<DescribeBuildOutput>;
 export interface DescribeComputeInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
-export const DescribeComputeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeComputeInput",
-}) as any as S.Schema<DescribeComputeInput>;
 export type ComputeArn = string;
-export type ComputeStatus =
-  | "PENDING"
-  | "ACTIVE"
-  | "TERMINATING"
-  | "IMPAIRED"
-  | (string & {});
-export const ComputeStatus = S.String;
-
+export type ComputeStatus = "PENDING" | "ACTIVE" | "TERMINATING" | "IMPAIRED" | (string & {});
 export type GameLiftServiceSdkEndpointOutput = string;
 export type GameLiftAgentEndpointOutput = string;
 export type InstanceId = string;
 export interface ContainerAttribute {
-  ContainerName?: string;
-  ContainerRuntimeId?: string;
+  ContainerName?: string | undefined;
+  ContainerRuntimeId?: string | undefined;
 }
-export const ContainerAttribute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    ContainerRuntimeId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ContainerAttribute",
-}) as any as S.Schema<ContainerAttribute>;
 export type ContainerAttributes = ContainerAttribute[];
-export const ContainerAttributes = /*@__PURE__*/ S.Array(ContainerAttribute);
 export interface Compute {
-  FleetId?: string;
-  FleetArn?: string;
-  ComputeName?: string;
-  ComputeArn?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  ComputeStatus?: ComputeStatus;
-  Location?: string;
-  CreationTime?: Date;
-  OperatingSystem?: OperatingSystem;
-  Type?: EC2InstanceType;
-  GameLiftServiceSdkEndpoint?: string;
-  GameLiftAgentEndpoint?: string;
-  InstanceId?: string;
-  ContainerAttributes?: ContainerAttribute[];
-  GameServerContainerGroupDefinitionArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ComputeName?: string | undefined;
+  ComputeArn?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  ComputeStatus?: ComputeStatus | undefined;
+  Location?: string | undefined;
+  CreationTime?: Date | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Type?: EC2InstanceType | undefined;
+  GameLiftServiceSdkEndpoint?: string | undefined;
+  GameLiftAgentEndpoint?: string | undefined;
+  InstanceId?: string | undefined;
+  ContainerAttributes?: ContainerAttribute[] | undefined;
+  GameServerContainerGroupDefinitionArn?: string | undefined;
 }
-export const Compute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-    ComputeArn: S.optional(S.String),
-    IpAddress: S.optional(SensitiveString),
-    DnsName: S.optional(S.String),
-    ComputeStatus: S.optional(ComputeStatus),
-    Location: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OperatingSystem: S.optional(OperatingSystem),
-    Type: S.optional(EC2InstanceType),
-    GameLiftServiceSdkEndpoint: S.optional(S.String),
-    GameLiftAgentEndpoint: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    ContainerAttributes: S.optional(ContainerAttributes),
-    GameServerContainerGroupDefinitionArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "Compute" }) as any as S.Schema<Compute>;
 export interface DescribeComputeOutput {
-  Compute?: Compute;
+  Compute?: Compute | undefined;
 }
-export const DescribeComputeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Compute: S.optional(Compute) }).pipe(ns),
-).annotate({
-  identifier: "DescribeComputeOutput",
-}) as any as S.Schema<DescribeComputeOutput>;
 export interface DescribeContainerFleetInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
-export const DescribeContainerFleetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FleetId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeContainerFleetInput",
-}) as any as S.Schema<DescribeContainerFleetInput>;
 export interface DescribeContainerFleetOutput {
-  ContainerFleet?: ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-    };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  };
+  ContainerFleet?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })
+    | undefined;
 }
-export const DescribeContainerFleetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerFleet: S.optional(ContainerFleet) }).pipe(ns),
-).annotate({
-  identifier: "DescribeContainerFleetOutput",
-}) as any as S.Schema<DescribeContainerFleetOutput>;
 export interface DescribeContainerGroupDefinitionInput {
-  Name?: string;
-  VersionNumber?: number;
+  Name?: string | undefined;
+  VersionNumber?: number | undefined;
 }
-export const DescribeContainerGroupDefinitionInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Name: S.optional(S.String),
-      VersionNumber: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeContainerGroupDefinitionInput",
-}) as any as S.Schema<DescribeContainerGroupDefinitionInput>;
 export interface DescribeContainerGroupDefinitionOutput {
-  ContainerGroupDefinition?: ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinition?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & {
-        Command: ContainerCommandStringList;
-      };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  };
+      })
+    | undefined;
 }
-export const DescribeContainerGroupDefinitionOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContainerGroupDefinition: S.optional(ContainerGroupDefinition),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeContainerGroupDefinitionOutput",
-}) as any as S.Schema<DescribeContainerGroupDefinitionOutput>;
 export type ContainerNameQueryFilter = string;
 export interface DescribeContainerGroupPortMappingsInput {
-  FleetId?: string;
-  ContainerGroupType?: ContainerGroupType;
-  ComputeName?: string;
-  InstanceId?: string;
-  ContainerName?: string;
+  FleetId?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  ComputeName?: string | undefined;
+  InstanceId?: string | undefined;
+  ContainerName?: string | undefined;
 }
-export const DescribeContainerGroupPortMappingsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FleetId: S.optional(S.String),
-      ContainerGroupType: S.optional(ContainerGroupType),
-      ComputeName: S.optional(S.String),
-      InstanceId: S.optional(S.String),
-      ContainerName: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeContainerGroupPortMappingsInput",
-}) as any as S.Schema<DescribeContainerGroupPortMappingsInput>;
 export interface ContainerPortMapping {
-  ContainerPort?: number;
-  ConnectionPort?: number;
-  Protocol?: IpProtocol;
+  ContainerPort?: number | undefined;
+  ConnectionPort?: number | undefined;
+  Protocol?: IpProtocol | undefined;
 }
-export const ContainerPortMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerPort: S.optional(S.Number),
-    ConnectionPort: S.optional(S.Number),
-    Protocol: S.optional(IpProtocol),
-  }),
-).annotate({
-  identifier: "ContainerPortMapping",
-}) as any as S.Schema<ContainerPortMapping>;
 export type ContainerPortMappingList = ContainerPortMapping[];
-export const ContainerPortMappingList =
-  /*@__PURE__*/ S.Array(ContainerPortMapping);
 export interface ContainerGroupPortMapping {
-  ContainerName?: string;
-  ContainerRuntimeId?: string;
-  ContainerPortMappings?: ContainerPortMapping[];
+  ContainerName?: string | undefined;
+  ContainerRuntimeId?: string | undefined;
+  ContainerPortMappings?: ContainerPortMapping[] | undefined;
 }
-export const ContainerGroupPortMapping = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    ContainerRuntimeId: S.optional(S.String),
-    ContainerPortMappings: S.optional(ContainerPortMappingList),
-  }),
-).annotate({
-  identifier: "ContainerGroupPortMapping",
-}) as any as S.Schema<ContainerGroupPortMapping>;
 export type ContainerGroupPortMappingList = ContainerGroupPortMapping[];
-export const ContainerGroupPortMappingList = /*@__PURE__*/ S.Array(
-  ContainerGroupPortMapping,
-);
 export interface DescribeContainerGroupPortMappingsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  Location?: string;
-  ContainerGroupDefinitionArn?: string;
-  ContainerGroupType?: ContainerGroupType;
-  ComputeName?: string;
-  InstanceId?: string;
-  ContainerGroupPortMappings?: ContainerGroupPortMapping[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  Location?: string | undefined;
+  ContainerGroupDefinitionArn?: string | undefined;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  ComputeName?: string | undefined;
+  InstanceId?: string | undefined;
+  ContainerGroupPortMappings?: ContainerGroupPortMapping[] | undefined;
 }
-export const DescribeContainerGroupPortMappingsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FleetId: S.optional(S.String),
-      FleetArn: S.optional(S.String),
-      Location: S.optional(S.String),
-      ContainerGroupDefinitionArn: S.optional(S.String),
-      ContainerGroupType: S.optional(ContainerGroupType),
-      ComputeName: S.optional(S.String),
-      InstanceId: S.optional(S.String),
-      ContainerGroupPortMappings: S.optional(ContainerGroupPortMappingList),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeContainerGroupPortMappingsOutput",
-}) as any as S.Schema<DescribeContainerGroupPortMappingsOutput>;
 export interface DescribeEC2InstanceLimitsInput {
-  EC2InstanceType?: EC2InstanceType;
-  Location?: string;
+  EC2InstanceType?: EC2InstanceType | undefined;
+  Location?: string | undefined;
 }
-export const DescribeEC2InstanceLimitsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EC2InstanceType: S.optional(EC2InstanceType),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEC2InstanceLimitsInput",
-}) as any as S.Schema<DescribeEC2InstanceLimitsInput>;
 export interface EC2InstanceLimit {
-  EC2InstanceType?: EC2InstanceType;
-  CurrentInstances?: number;
-  InstanceLimit?: number;
-  Location?: string;
+  EC2InstanceType?: EC2InstanceType | undefined;
+  CurrentInstances?: number | undefined;
+  InstanceLimit?: number | undefined;
+  Location?: string | undefined;
 }
-export const EC2InstanceLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EC2InstanceType: S.optional(EC2InstanceType),
-    CurrentInstances: S.optional(S.Number),
-    InstanceLimit: S.optional(S.Number),
-    Location: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EC2InstanceLimit",
-}) as any as S.Schema<EC2InstanceLimit>;
 export type EC2InstanceLimitList = EC2InstanceLimit[];
-export const EC2InstanceLimitList = /*@__PURE__*/ S.Array(EC2InstanceLimit);
 export interface DescribeEC2InstanceLimitsOutput {
-  EC2InstanceLimits?: EC2InstanceLimit[];
+  EC2InstanceLimits?: EC2InstanceLimit[] | undefined;
 }
-export const DescribeEC2InstanceLimitsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ EC2InstanceLimits: S.optional(EC2InstanceLimitList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeEC2InstanceLimitsOutput",
-}) as any as S.Schema<DescribeEC2InstanceLimitsOutput>;
 export type FleetIdOrArnList = string[];
-export const FleetIdOrArnList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeFleetAttributesInput {
-  FleetIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetIds: S.optional(FleetIdOrArnList),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFleetAttributesInput",
-}) as any as S.Schema<DescribeFleetAttributesInput>;
 export type FleetAttributesList = FleetAttributes[];
-export const FleetAttributesList = /*@__PURE__*/ S.Array(FleetAttributes);
 export interface DescribeFleetAttributesOutput {
-  FleetAttributes?: (FleetAttributes & {
-    CertificateConfiguration: CertificateConfiguration & {
-      CertificateType: CertificateType;
-    };
-    AnywhereConfiguration: AnywhereConfiguration & {
-      Cost: NonNegativeLimitedLengthDouble;
-    };
-  })[];
-  NextToken?: string;
+  FleetAttributes?:
+    | (FleetAttributes & {
+        CertificateConfiguration: CertificateConfiguration & { CertificateType: CertificateType };
+        AnywhereConfiguration: AnywhereConfiguration & { Cost: NonNegativeLimitedLengthDouble };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetAttributes: S.optional(FleetAttributesList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetAttributesOutput",
-}) as any as S.Schema<DescribeFleetAttributesOutput>;
 export interface DescribeFleetCapacityInput {
-  FleetIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetCapacityInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetIds: S.optional(FleetIdOrArnList),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFleetCapacityInput",
-}) as any as S.Schema<DescribeFleetCapacityInput>;
 export interface EC2InstanceCounts {
-  DESIRED?: number;
-  MINIMUM?: number;
-  MAXIMUM?: number;
-  PENDING?: number;
-  ACTIVE?: number;
-  IDLE?: number;
-  TERMINATING?: number;
+  DESIRED?: number | undefined;
+  MINIMUM?: number | undefined;
+  MAXIMUM?: number | undefined;
+  PENDING?: number | undefined;
+  ACTIVE?: number | undefined;
+  IDLE?: number | undefined;
+  TERMINATING?: number | undefined;
 }
-export const EC2InstanceCounts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DESIRED: S.optional(S.Number),
-    MINIMUM: S.optional(S.Number),
-    MAXIMUM: S.optional(S.Number),
-    PENDING: S.optional(S.Number),
-    ACTIVE: S.optional(S.Number),
-    IDLE: S.optional(S.Number),
-    TERMINATING: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "EC2InstanceCounts",
-}) as any as S.Schema<EC2InstanceCounts>;
 export interface GameServerContainerGroupCounts {
-  PENDING?: number;
-  ACTIVE?: number;
-  IDLE?: number;
-  TERMINATING?: number;
+  PENDING?: number | undefined;
+  ACTIVE?: number | undefined;
+  IDLE?: number | undefined;
+  TERMINATING?: number | undefined;
 }
-export const GameServerContainerGroupCounts = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PENDING: S.optional(S.Number),
-    ACTIVE: S.optional(S.Number),
-    IDLE: S.optional(S.Number),
-    TERMINATING: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GameServerContainerGroupCounts",
-}) as any as S.Schema<GameServerContainerGroupCounts>;
-export type ZeroCapacityStrategy =
-  | "MANUAL"
-  | "SCALE_TO_AND_FROM_ZERO"
-  | (string & {});
-export const ZeroCapacityStrategy = S.String;
-
+export type ZeroCapacityStrategy = "MANUAL" | "SCALE_TO_AND_FROM_ZERO" | (string & {});
 export type ScaleInAfterInactivityMinutes = number;
 export interface ManagedCapacityConfiguration {
-  ZeroCapacityStrategy?: ZeroCapacityStrategy;
-  ScaleInAfterInactivityMinutes?: number;
+  ZeroCapacityStrategy?: ZeroCapacityStrategy | undefined;
+  ScaleInAfterInactivityMinutes?: number | undefined;
 }
-export const ManagedCapacityConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ZeroCapacityStrategy: S.optional(ZeroCapacityStrategy),
-    ScaleInAfterInactivityMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "ManagedCapacityConfiguration",
-}) as any as S.Schema<ManagedCapacityConfiguration>;
 export interface FleetCapacity {
-  FleetId?: string;
-  FleetArn?: string;
-  InstanceType?: EC2InstanceType;
-  InstanceCounts?: EC2InstanceCounts;
-  Location?: string;
-  GameServerContainerGroupCounts?: GameServerContainerGroupCounts;
-  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  InstanceType?: EC2InstanceType | undefined;
+  InstanceCounts?: EC2InstanceCounts | undefined;
+  Location?: string | undefined;
+  GameServerContainerGroupCounts?: GameServerContainerGroupCounts | undefined;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration | undefined;
 }
-export const FleetCapacity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    InstanceType: S.optional(EC2InstanceType),
-    InstanceCounts: S.optional(EC2InstanceCounts),
-    Location: S.optional(S.String),
-    GameServerContainerGroupCounts: S.optional(GameServerContainerGroupCounts),
-    ManagedCapacityConfiguration: S.optional(ManagedCapacityConfiguration),
-  }),
-).annotate({ identifier: "FleetCapacity" }) as any as S.Schema<FleetCapacity>;
 export type FleetCapacityList = FleetCapacity[];
-export const FleetCapacityList = /*@__PURE__*/ S.Array(FleetCapacity);
 export interface DescribeFleetCapacityOutput {
-  FleetCapacity?: FleetCapacity[];
-  NextToken?: string;
+  FleetCapacity?: FleetCapacity[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetCapacityOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetCapacity: S.optional(FleetCapacityList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetCapacityOutput",
-}) as any as S.Schema<DescribeFleetCapacityOutput>;
 export interface DescribeFleetDeploymentInput {
-  FleetId?: string;
-  DeploymentId?: string;
+  FleetId?: string | undefined;
+  DeploymentId?: string | undefined;
 }
-export const DescribeFleetDeploymentInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    DeploymentId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFleetDeploymentInput",
-}) as any as S.Schema<DescribeFleetDeploymentInput>;
 export type FleetBinaryArn = string;
 export type DeploymentStatus =
   | "IN_PROGRESS"
@@ -4151,116 +2095,40 @@ export type DeploymentStatus =
   | "CANCELLED"
   | "PENDING"
   | (string & {});
-export const DeploymentStatus = S.String;
-
-export type DeploymentProtectionStrategy =
-  | "WITH_PROTECTION"
-  | "IGNORE_PROTECTION"
-  | (string & {});
-export const DeploymentProtectionStrategy = S.String;
-
+export type DeploymentProtectionStrategy = "WITH_PROTECTION" | "IGNORE_PROTECTION" | (string & {});
 export type MinimumHealthyPercentage = number;
-export type DeploymentImpairmentStrategy =
-  | "MAINTAIN"
-  | "ROLLBACK"
-  | (string & {});
-export const DeploymentImpairmentStrategy = S.String;
-
+export type DeploymentImpairmentStrategy = "MAINTAIN" | "ROLLBACK" | (string & {});
 export interface DeploymentConfiguration {
-  ProtectionStrategy?: DeploymentProtectionStrategy;
-  MinimumHealthyPercentage?: number;
-  ImpairmentStrategy?: DeploymentImpairmentStrategy;
+  ProtectionStrategy?: DeploymentProtectionStrategy | undefined;
+  MinimumHealthyPercentage?: number | undefined;
+  ImpairmentStrategy?: DeploymentImpairmentStrategy | undefined;
 }
-export const DeploymentConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProtectionStrategy: S.optional(DeploymentProtectionStrategy),
-    MinimumHealthyPercentage: S.optional(S.Number),
-    ImpairmentStrategy: S.optional(DeploymentImpairmentStrategy),
-  }),
-).annotate({
-  identifier: "DeploymentConfiguration",
-}) as any as S.Schema<DeploymentConfiguration>;
 export interface FleetDeployment {
-  DeploymentId?: string;
-  FleetId?: string;
-  GameServerBinaryArn?: string;
-  RollbackGameServerBinaryArn?: string;
-  PerInstanceBinaryArn?: string;
-  RollbackPerInstanceBinaryArn?: string;
-  DeploymentStatus?: DeploymentStatus;
-  DeploymentConfiguration?: DeploymentConfiguration;
-  CreationTime?: Date;
+  DeploymentId?: string | undefined;
+  FleetId?: string | undefined;
+  GameServerBinaryArn?: string | undefined;
+  RollbackGameServerBinaryArn?: string | undefined;
+  PerInstanceBinaryArn?: string | undefined;
+  RollbackPerInstanceBinaryArn?: string | undefined;
+  DeploymentStatus?: DeploymentStatus | undefined;
+  DeploymentConfiguration?: DeploymentConfiguration | undefined;
+  CreationTime?: Date | undefined;
 }
-export const FleetDeployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentId: S.optional(S.String),
-    FleetId: S.optional(S.String),
-    GameServerBinaryArn: S.optional(S.String),
-    RollbackGameServerBinaryArn: S.optional(S.String),
-    PerInstanceBinaryArn: S.optional(S.String),
-    RollbackPerInstanceBinaryArn: S.optional(S.String),
-    DeploymentStatus: S.optional(DeploymentStatus),
-    DeploymentConfiguration: S.optional(DeploymentConfiguration),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "FleetDeployment",
-}) as any as S.Schema<FleetDeployment>;
 export interface LocationalDeployment {
-  DeploymentStatus?: DeploymentStatus;
+  DeploymentStatus?: DeploymentStatus | undefined;
 }
-export const LocationalDeployment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DeploymentStatus: S.optional(DeploymentStatus) }),
-).annotate({
-  identifier: "LocationalDeployment",
-}) as any as S.Schema<LocationalDeployment>;
-export type LocationalDeployments = {
-  [key: string]: LocationalDeployment | undefined;
-};
-export const LocationalDeployments = /*@__PURE__*/ S.Record(
-  S.String,
-  LocationalDeployment.pipe(S.optional),
-);
+export type LocationalDeployments = { [key: string]: LocationalDeployment | undefined };
 export interface DescribeFleetDeploymentOutput {
-  FleetDeployment?: FleetDeployment;
-  LocationalDeployments?: { [key: string]: LocationalDeployment | undefined };
+  FleetDeployment?: FleetDeployment | undefined;
+  LocationalDeployments?: { [key: string]: LocationalDeployment | undefined } | undefined;
 }
-export const DescribeFleetDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetDeployment: S.optional(FleetDeployment),
-    LocationalDeployments: S.optional(LocationalDeployments),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetDeploymentOutput",
-}) as any as S.Schema<DescribeFleetDeploymentOutput>;
 export interface DescribeFleetEventsInput {
-  FleetId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetEventsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFleetEventsInput",
-}) as any as S.Schema<DescribeFleetEventsInput>;
 export type EventCode =
   | "GENERIC_EVENT"
   | "FLEET_CREATED"
@@ -4320,480 +2188,154 @@ export type EventCode =
   | "LOCATION_STATE_DELETING"
   | "LOCATION_STATE_DELETED"
   | (string & {});
-export const EventCode = S.String;
-
 export type EventCount = number;
 export interface Event {
-  EventId?: string;
-  ResourceId?: string;
-  EventCode?: EventCode;
-  Message?: string;
-  EventTime?: Date;
-  PreSignedLogUrl?: string;
-  Count?: number;
+  EventId?: string | undefined;
+  ResourceId?: string | undefined;
+  EventCode?: EventCode | undefined;
+  Message?: string | undefined;
+  EventTime?: Date | undefined;
+  PreSignedLogUrl?: string | undefined;
+  Count?: number | undefined;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventId: S.optional(S.String),
-    ResourceId: S.optional(S.String),
-    EventCode: S.optional(EventCode),
-    Message: S.optional(S.String),
-    EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    PreSignedLogUrl: S.optional(S.String),
-    Count: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(Event);
 export interface DescribeFleetEventsOutput {
-  Events?: Event[];
-  NextToken?: string;
+  Events?: Event[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetEventsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Events: S.optional(EventList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetEventsOutput",
-}) as any as S.Schema<DescribeFleetEventsOutput>;
 export interface DescribeFleetLocationAttributesInput {
-  FleetId?: string;
-  Locations?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  Locations?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetLocationAttributesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FleetId: S.optional(S.String),
-      Locations: S.optional(LocationList),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeFleetLocationAttributesInput",
-}) as any as S.Schema<DescribeFleetLocationAttributesInput>;
 export type LocationUpdateStatus = "PENDING_UPDATE" | (string & {});
-export const LocationUpdateStatus = S.String;
-
 export interface LocationAttributes {
-  LocationState?: LocationState;
-  StoppedActions?: FleetAction[];
-  UpdateStatus?: LocationUpdateStatus;
+  LocationState?: LocationState | undefined;
+  StoppedActions?: FleetAction[] | undefined;
+  UpdateStatus?: LocationUpdateStatus | undefined;
 }
-export const LocationAttributes = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocationState: S.optional(LocationState),
-    StoppedActions: S.optional(FleetActionList),
-    UpdateStatus: S.optional(LocationUpdateStatus),
-  }),
-).annotate({
-  identifier: "LocationAttributes",
-}) as any as S.Schema<LocationAttributes>;
 export type LocationAttributesList = LocationAttributes[];
-export const LocationAttributesList = /*@__PURE__*/ S.Array(LocationAttributes);
 export interface DescribeFleetLocationAttributesOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  LocationAttributes?: LocationAttributes[];
-  NextToken?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  LocationAttributes?: LocationAttributes[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetLocationAttributesOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FleetId: S.optional(S.String),
-      FleetArn: S.optional(S.String),
-      LocationAttributes: S.optional(LocationAttributesList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetLocationAttributesOutput",
-}) as any as S.Schema<DescribeFleetLocationAttributesOutput>;
 export interface DescribeFleetLocationCapacityInput {
-  FleetId?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
 }
-export const DescribeFleetLocationCapacityInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFleetLocationCapacityInput",
-}) as any as S.Schema<DescribeFleetLocationCapacityInput>;
 export interface DescribeFleetLocationCapacityOutput {
-  FleetCapacity?: FleetCapacity;
+  FleetCapacity?: FleetCapacity | undefined;
 }
-export const DescribeFleetLocationCapacityOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FleetCapacity: S.optional(FleetCapacity) }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetLocationCapacityOutput",
-}) as any as S.Schema<DescribeFleetLocationCapacityOutput>;
 export interface DescribeFleetLocationUtilizationInput {
-  FleetId?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
 }
-export const DescribeFleetLocationUtilizationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FleetId: S.optional(S.String),
-      Location: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeFleetLocationUtilizationInput",
-}) as any as S.Schema<DescribeFleetLocationUtilizationInput>;
 export interface FleetUtilization {
-  FleetId?: string;
-  FleetArn?: string;
-  ActiveServerProcessCount?: number;
-  ActiveGameSessionCount?: number;
-  CurrentPlayerSessionCount?: number;
-  MaximumPlayerSessionCount?: number;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ActiveServerProcessCount?: number | undefined;
+  ActiveGameSessionCount?: number | undefined;
+  CurrentPlayerSessionCount?: number | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Location?: string | undefined;
 }
-export const FleetUtilization = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    ActiveServerProcessCount: S.optional(S.Number),
-    ActiveGameSessionCount: S.optional(S.Number),
-    CurrentPlayerSessionCount: S.optional(S.Number),
-    MaximumPlayerSessionCount: S.optional(S.Number),
-    Location: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "FleetUtilization",
-}) as any as S.Schema<FleetUtilization>;
 export interface DescribeFleetLocationUtilizationOutput {
-  FleetUtilization?: FleetUtilization;
+  FleetUtilization?: FleetUtilization | undefined;
 }
-export const DescribeFleetLocationUtilizationOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ FleetUtilization: S.optional(FleetUtilization) }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetLocationUtilizationOutput",
-}) as any as S.Schema<DescribeFleetLocationUtilizationOutput>;
 export interface DescribeFleetPortSettingsInput {
-  FleetId?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
 }
-export const DescribeFleetPortSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFleetPortSettingsInput",
-}) as any as S.Schema<DescribeFleetPortSettingsInput>;
 export interface DescribeFleetPortSettingsOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  InboundPermissions?: (IpPermission & {
-    FromPort: PortNumber;
-    ToPort: PortNumber;
-    IpRange: IpRange;
-    Protocol: IpProtocol;
-  })[];
-  UpdateStatus?: LocationUpdateStatus;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  InboundPermissions?:
+    | (IpPermission & {
+        FromPort: PortNumber;
+        ToPort: PortNumber;
+        IpRange: IpRange;
+        Protocol: IpProtocol;
+      })[]
+    | undefined;
+  UpdateStatus?: LocationUpdateStatus | undefined;
+  Location?: string | undefined;
 }
-export const DescribeFleetPortSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    InboundPermissions: S.optional(IpPermissionsList),
-    UpdateStatus: S.optional(LocationUpdateStatus),
-    Location: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetPortSettingsOutput",
-}) as any as S.Schema<DescribeFleetPortSettingsOutput>;
 export interface DescribeFleetUtilizationInput {
-  FleetIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetUtilizationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetIds: S.optional(FleetIdOrArnList),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeFleetUtilizationInput",
-}) as any as S.Schema<DescribeFleetUtilizationInput>;
 export type FleetUtilizationList = FleetUtilization[];
-export const FleetUtilizationList = /*@__PURE__*/ S.Array(FleetUtilization);
 export interface DescribeFleetUtilizationOutput {
-  FleetUtilization?: FleetUtilization[];
-  NextToken?: string;
+  FleetUtilization?: FleetUtilization[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeFleetUtilizationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetUtilization: S.optional(FleetUtilizationList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetUtilizationOutput",
-}) as any as S.Schema<DescribeFleetUtilizationOutput>;
 export interface DescribeGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
 }
-export const DescribeGameServerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGameServerInput",
-}) as any as S.Schema<DescribeGameServerInput>;
 export interface DescribeGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
-export const DescribeGameServerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServer: S.optional(GameServer) }).pipe(ns),
-).annotate({
-  identifier: "DescribeGameServerOutput",
-}) as any as S.Schema<DescribeGameServerOutput>;
 export interface DescribeGameServerGroupInput {
-  GameServerGroupName?: string;
+  GameServerGroupName?: string | undefined;
 }
-export const DescribeGameServerGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServerGroupName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGameServerGroupInput",
-}) as any as S.Schema<DescribeGameServerGroupInput>;
 export interface DescribeGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & {
-      InstanceType: GameServerGroupInstanceType;
-    })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
-export const DescribeGameServerGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServerGroup: S.optional(GameServerGroup) }).pipe(ns),
-).annotate({
-  identifier: "DescribeGameServerGroupOutput",
-}) as any as S.Schema<DescribeGameServerGroupOutput>;
 export type GameServerInstanceIds = string[];
-export const GameServerInstanceIds = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeGameServerInstancesInput {
-  GameServerGroupName?: string;
-  InstanceIds?: string[];
-  Limit?: number;
-  NextToken?: string;
+  GameServerGroupName?: string | undefined;
+  InstanceIds?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameServerInstancesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    InstanceIds: S.optional(GameServerInstanceIds),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGameServerInstancesInput",
-}) as any as S.Schema<DescribeGameServerInstancesInput>;
-export type GameServerInstanceStatus =
-  | "ACTIVE"
-  | "DRAINING"
-  | "SPOT_TERMINATING"
-  | (string & {});
-export const GameServerInstanceStatus = S.String;
-
+export type GameServerInstanceStatus = "ACTIVE" | "DRAINING" | "SPOT_TERMINATING" | (string & {});
 export interface GameServerInstance {
-  GameServerGroupName?: string;
-  GameServerGroupArn?: string;
-  InstanceId?: string;
-  InstanceStatus?: GameServerInstanceStatus;
+  GameServerGroupName?: string | undefined;
+  GameServerGroupArn?: string | undefined;
+  InstanceId?: string | undefined;
+  InstanceStatus?: GameServerInstanceStatus | undefined;
 }
-export const GameServerInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerGroupArn: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    InstanceStatus: S.optional(GameServerInstanceStatus),
-  }),
-).annotate({
-  identifier: "GameServerInstance",
-}) as any as S.Schema<GameServerInstance>;
 export type GameServerInstances = GameServerInstance[];
-export const GameServerInstances = /*@__PURE__*/ S.Array(GameServerInstance);
 export interface DescribeGameServerInstancesOutput {
-  GameServerInstances?: GameServerInstance[];
-  NextToken?: string;
+  GameServerInstances?: GameServerInstance[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameServerInstancesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerInstances: S.optional(GameServerInstances),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeGameServerInstancesOutput",
-}) as any as S.Schema<DescribeGameServerInstancesOutput>;
 export interface DescribeGameSessionDetailsInput {
-  FleetId?: string;
-  GameSessionId?: string;
-  AliasId?: string;
-  Location?: string;
-  StatusFilter?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  GameSessionId?: string | undefined;
+  AliasId?: string | undefined;
+  Location?: string | undefined;
+  StatusFilter?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameSessionDetailsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    GameSessionId: S.optional(S.String),
-    AliasId: S.optional(S.String),
-    Location: S.optional(S.String),
-    StatusFilter: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGameSessionDetailsInput",
-}) as any as S.Schema<DescribeGameSessionDetailsInput>;
 export interface GameSessionDetail {
-  GameSession?: GameSession;
-  ProtectionPolicy?: ProtectionPolicy;
+  GameSession?: GameSession | undefined;
+  ProtectionPolicy?: ProtectionPolicy | undefined;
 }
-export const GameSessionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSession: S.optional(GameSession),
-    ProtectionPolicy: S.optional(ProtectionPolicy),
-  }),
-).annotate({
-  identifier: "GameSessionDetail",
-}) as any as S.Schema<GameSessionDetail>;
 export type GameSessionDetailList = GameSessionDetail[];
-export const GameSessionDetailList = /*@__PURE__*/ S.Array(GameSessionDetail);
 export interface DescribeGameSessionDetailsOutput {
-  GameSessionDetails?: (GameSessionDetail & {
-    GameSession: GameSession & {
-      GameProperties: (GameProperty & {
-        Key: GamePropertyKey;
-        Value: GamePropertyValue;
-      })[];
-    };
-  })[];
-  NextToken?: string;
+  GameSessionDetails?:
+    | (GameSessionDetail & {
+        GameSession: GameSession & {
+          GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        };
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameSessionDetailsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionDetails: S.optional(GameSessionDetailList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeGameSessionDetailsOutput",
-}) as any as S.Schema<DescribeGameSessionDetailsOutput>;
 export interface DescribeGameSessionPlacementInput {
-  PlacementId?: string;
+  PlacementId?: string | undefined;
 }
-export const DescribeGameSessionPlacementInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlacementId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGameSessionPlacementInput",
-}) as any as S.Schema<DescribeGameSessionPlacementInput>;
 export type GameSessionPlacementState =
   | "PENDING"
   | "FULFILLED"
@@ -4801,307 +2343,113 @@ export type GameSessionPlacementState =
   | "TIMED_OUT"
   | "FAILED"
   | (string & {});
-export const GameSessionPlacementState = S.String;
-
 export interface PlayerLatency {
-  PlayerId?: string | redacted.Redacted<string>;
-  RegionIdentifier?: string;
-  LatencyInMilliseconds?: number;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  RegionIdentifier?: string | undefined;
+  LatencyInMilliseconds?: number | undefined;
 }
-export const PlayerLatency = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerId: S.optional(SensitiveString),
-    RegionIdentifier: S.optional(S.String),
-    LatencyInMilliseconds: S.optional(S.Number),
-  }),
-).annotate({ identifier: "PlayerLatency" }) as any as S.Schema<PlayerLatency>;
 export type PlayerLatencyList = PlayerLatency[];
-export const PlayerLatencyList = /*@__PURE__*/ S.Array(PlayerLatency);
 export interface PlacedPlayerSession {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerSessionId?: string;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerSessionId?: string | undefined;
 }
-export const PlacedPlayerSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerId: S.optional(SensitiveString),
-    PlayerSessionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PlacedPlayerSession",
-}) as any as S.Schema<PlacedPlayerSession>;
 export type PlacedPlayerSessionList = PlacedPlayerSession[];
-export const PlacedPlayerSessionList =
-  /*@__PURE__*/ S.Array(PlacedPlayerSession);
-export type PlacementFallbackStrategy =
-  | "DEFAULT_AFTER_SINGLE_PASS"
-  | "NONE"
-  | (string & {});
-export const PlacementFallbackStrategy = S.String;
-
+export type PlacementFallbackStrategy = "DEFAULT_AFTER_SINGLE_PASS" | "NONE" | (string & {});
 export type LocationOrderOverrideList = string[];
-export const LocationOrderOverrideList = /*@__PURE__*/ S.Array(S.String);
 export interface PriorityConfigurationOverride {
-  PlacementFallbackStrategy?: PlacementFallbackStrategy;
-  LocationOrder?: string[];
+  PlacementFallbackStrategy?: PlacementFallbackStrategy | undefined;
+  LocationOrder?: string[] | undefined;
 }
-export const PriorityConfigurationOverride = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlacementFallbackStrategy: S.optional(PlacementFallbackStrategy),
-    LocationOrder: S.optional(LocationOrderOverrideList),
-  }),
-).annotate({
-  identifier: "PriorityConfigurationOverride",
-}) as any as S.Schema<PriorityConfigurationOverride>;
 export interface GameSessionPlacement {
-  PlacementId?: string;
-  GameSessionQueueName?: string;
-  Status?: GameSessionPlacementState;
-  GameProperties?: GameProperty[];
-  MaximumPlayerSessionCount?: number;
-  GameSessionName?: string;
-  GameSessionId?: string;
-  GameSessionArn?: string;
-  GameSessionRegion?: string;
-  PlayerLatencies?: PlayerLatency[];
-  StartTime?: Date;
-  EndTime?: Date;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  PlacedPlayerSessions?: PlacedPlayerSession[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  MatchmakerData?: string | redacted.Redacted<string>;
-  PriorityConfigurationOverride?: PriorityConfigurationOverride;
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  PlacementId?: string | undefined;
+  GameSessionQueueName?: string | undefined;
+  Status?: GameSessionPlacementState | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  GameSessionName?: string | undefined;
+  GameSessionId?: string | undefined;
+  GameSessionArn?: string | undefined;
+  GameSessionRegion?: string | undefined;
+  PlayerLatencies?: PlayerLatency[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  PlacedPlayerSessions?: PlacedPlayerSession[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  MatchmakerData?: string | redacted.Redacted<string> | undefined;
+  PriorityConfigurationOverride?: PriorityConfigurationOverride | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
-export const GameSessionPlacement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlacementId: S.optional(S.String),
-    GameSessionQueueName: S.optional(S.String),
-    Status: S.optional(GameSessionPlacementState),
-    GameProperties: S.optional(GamePropertyList),
-    MaximumPlayerSessionCount: S.optional(S.Number),
-    GameSessionName: S.optional(S.String),
-    GameSessionId: S.optional(S.String),
-    GameSessionArn: S.optional(S.String),
-    GameSessionRegion: S.optional(S.String),
-    PlayerLatencies: S.optional(PlayerLatencyList),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IpAddress: S.optional(SensitiveString),
-    DnsName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    PlacedPlayerSessions: S.optional(PlacedPlayerSessionList),
-    GameSessionData: S.optional(SensitiveString),
-    MatchmakerData: S.optional(SensitiveString),
-    PriorityConfigurationOverride: S.optional(PriorityConfigurationOverride),
-    PlayerGatewayStatus: S.optional(PlayerGatewayStatus),
-  }),
-).annotate({
-  identifier: "GameSessionPlacement",
-}) as any as S.Schema<GameSessionPlacement>;
 export interface DescribeGameSessionPlacementOutput {
-  GameSessionPlacement?: GameSessionPlacement & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-    PriorityConfigurationOverride: PriorityConfigurationOverride & {
-      LocationOrder: LocationOrderOverrideList;
-    };
-  };
+  GameSessionPlacement?:
+    | (GameSessionPlacement & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        PriorityConfigurationOverride: PriorityConfigurationOverride & {
+          LocationOrder: LocationOrderOverrideList;
+        };
+      })
+    | undefined;
 }
-export const DescribeGameSessionPlacementOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSessionPlacement: S.optional(GameSessionPlacement) }).pipe(ns),
-).annotate({
-  identifier: "DescribeGameSessionPlacementOutput",
-}) as any as S.Schema<DescribeGameSessionPlacementOutput>;
 export type GameSessionQueueNameOrArnList = string[];
-export const GameSessionQueueNameOrArnList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeGameSessionQueuesInput {
-  Names?: string[];
-  Limit?: number;
-  NextToken?: string;
+  Names?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameSessionQueuesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Names: S.optional(GameSessionQueueNameOrArnList),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGameSessionQueuesInput",
-}) as any as S.Schema<DescribeGameSessionQueuesInput>;
 export type GameSessionQueueList = GameSessionQueue[];
-export const GameSessionQueueList = /*@__PURE__*/ S.Array(GameSessionQueue);
 export interface DescribeGameSessionQueuesOutput {
-  GameSessionQueues?: GameSessionQueue[];
-  NextToken?: string;
+  GameSessionQueues?: GameSessionQueue[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameSessionQueuesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionQueues: S.optional(GameSessionQueueList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeGameSessionQueuesOutput",
-}) as any as S.Schema<DescribeGameSessionQueuesOutput>;
 export interface DescribeGameSessionsInput {
-  FleetId?: string;
-  GameSessionId?: string;
-  AliasId?: string;
-  Location?: string;
-  StatusFilter?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  GameSessionId?: string | undefined;
+  AliasId?: string | undefined;
+  Location?: string | undefined;
+  StatusFilter?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameSessionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    GameSessionId: S.optional(S.String),
-    AliasId: S.optional(S.String),
-    Location: S.optional(S.String),
-    StatusFilter: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeGameSessionsInput",
-}) as any as S.Schema<DescribeGameSessionsInput>;
 export type GameSessionList = GameSession[];
-export const GameSessionList = /*@__PURE__*/ S.Array(GameSession);
 export interface DescribeGameSessionsOutput {
-  GameSessions?: (GameSession & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  })[];
-  NextToken?: string;
+  GameSessions?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeGameSessionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessions: S.optional(GameSessionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeGameSessionsOutput",
-}) as any as S.Schema<DescribeGameSessionsOutput>;
 export interface DescribeInstancesInput {
-  FleetId?: string;
-  InstanceId?: string;
-  Limit?: number;
-  NextToken?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  InstanceId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  Location?: string | undefined;
 }
-export const DescribeInstancesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeInstancesInput",
-}) as any as S.Schema<DescribeInstancesInput>;
-export type InstanceStatus =
-  | "PENDING"
-  | "ACTIVE"
-  | "TERMINATING"
-  | (string & {});
-export const InstanceStatus = S.String;
-
+export type InstanceStatus = "PENDING" | "ACTIVE" | "TERMINATING" | (string & {});
 export interface Instance {
-  FleetId?: string;
-  FleetArn?: string;
-  InstanceId?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  OperatingSystem?: OperatingSystem;
-  Type?: EC2InstanceType;
-  Status?: InstanceStatus;
-  CreationTime?: Date;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  InstanceId?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Type?: EC2InstanceType | undefined;
+  Status?: InstanceStatus | undefined;
+  CreationTime?: Date | undefined;
+  Location?: string | undefined;
 }
-export const Instance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    IpAddress: S.optional(SensitiveString),
-    DnsName: S.optional(S.String),
-    OperatingSystem: S.optional(OperatingSystem),
-    Type: S.optional(EC2InstanceType),
-    Status: S.optional(InstanceStatus),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Location: S.optional(S.String),
-  }),
-).annotate({ identifier: "Instance" }) as any as S.Schema<Instance>;
 export type InstanceList = Instance[];
-export const InstanceList = /*@__PURE__*/ S.Array(Instance);
 export interface DescribeInstancesOutput {
-  Instances?: Instance[];
-  NextToken?: string;
+  Instances?: Instance[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeInstancesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Instances: S.optional(InstanceList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeInstancesOutput",
-}) as any as S.Schema<DescribeInstancesOutput>;
 export type MatchmakingIdList = string[];
-export const MatchmakingIdList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeMatchmakingInput {
-  TicketIds?: string[];
+  TicketIds?: string[] | undefined;
 }
-export const DescribeMatchmakingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TicketIds: S.optional(MatchmakingIdList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeMatchmakingInput",
-}) as any as S.Schema<DescribeMatchmakingInput>;
 export type MatchmakingConfigurationStatus =
   | "CANCELLED"
   | "COMPLETED"
@@ -5112,300 +2460,109 @@ export type MatchmakingConfigurationStatus =
   | "SEARCHING"
   | "TIMED_OUT"
   | (string & {});
-export const MatchmakingConfigurationStatus = S.String;
-
 export type StringModel = string;
 export type PlayerAttributeString = string;
 export type DoubleObject = number;
 export type PlayerAttributeStringList = string[];
-export const PlayerAttributeStringList = /*@__PURE__*/ S.Array(S.String);
-export type PlayerAttributeStringDoubleMap = {
-  [key: string]: number | undefined;
-};
-export const PlayerAttributeStringDoubleMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export type PlayerAttributeStringDoubleMap = { [key: string]: number | undefined };
 export interface AttributeValue {
-  S?: string;
-  N?: number;
-  SL?: string[];
-  SDM?: { [key: string]: number | undefined };
+  S?: string | undefined;
+  N?: number | undefined;
+  SL?: string[] | undefined;
+  SDM?: { [key: string]: number | undefined } | undefined;
 }
-export const AttributeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S: S.optional(S.String),
-    N: S.optional(S.Number),
-    SL: S.optional(PlayerAttributeStringList),
-    SDM: S.optional(PlayerAttributeStringDoubleMap),
-  }),
-).annotate({ identifier: "AttributeValue" }) as any as S.Schema<AttributeValue>;
 export type PlayerAttributeMap = { [key: string]: AttributeValue | undefined };
-export const PlayerAttributeMap = /*@__PURE__*/ S.Record(
-  S.String,
-  AttributeValue.pipe(S.optional),
-);
 export type LatencyMap = { [key: string]: number | undefined };
-export const LatencyMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
 export interface Player {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerAttributes?: { [key: string]: AttributeValue | undefined };
-  Team?: string;
-  LatencyInMs?: { [key: string]: number | undefined };
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerAttributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  Team?: string | undefined;
+  LatencyInMs?: { [key: string]: number | undefined } | undefined;
 }
-export const Player = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerId: S.optional(SensitiveString),
-    PlayerAttributes: S.optional(PlayerAttributeMap),
-    Team: S.optional(S.String),
-    LatencyInMs: S.optional(LatencyMap),
-  }),
-).annotate({ identifier: "Player" }) as any as S.Schema<Player>;
 export type PlayerList = Player[];
-export const PlayerList = /*@__PURE__*/ S.Array(Player);
 export interface MatchedPlayerSession {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerSessionId?: string;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerSessionId?: string | undefined;
 }
-export const MatchedPlayerSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerId: S.optional(SensitiveString),
-    PlayerSessionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MatchedPlayerSession",
-}) as any as S.Schema<MatchedPlayerSession>;
 export type MatchedPlayerSessionList = MatchedPlayerSession[];
-export const MatchedPlayerSessionList =
-  /*@__PURE__*/ S.Array(MatchedPlayerSession);
 export interface GameSessionConnectionInfo {
-  GameSessionArn?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  DnsName?: string;
-  Port?: number;
-  MatchedPlayerSessions?: MatchedPlayerSession[];
-  PlayerGatewayStatus?: PlayerGatewayStatus;
+  GameSessionArn?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  DnsName?: string | undefined;
+  Port?: number | undefined;
+  MatchedPlayerSessions?: MatchedPlayerSession[] | undefined;
+  PlayerGatewayStatus?: PlayerGatewayStatus | undefined;
 }
-export const GameSessionConnectionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionArn: S.optional(S.String),
-    IpAddress: S.optional(SensitiveString),
-    DnsName: S.optional(S.String),
-    Port: S.optional(S.Number),
-    MatchedPlayerSessions: S.optional(MatchedPlayerSessionList),
-    PlayerGatewayStatus: S.optional(PlayerGatewayStatus),
-  }),
-).annotate({
-  identifier: "GameSessionConnectionInfo",
-}) as any as S.Schema<GameSessionConnectionInfo>;
 export interface MatchmakingTicket {
-  TicketId?: string;
-  ConfigurationName?: string;
-  ConfigurationArn?: string;
-  Status?: MatchmakingConfigurationStatus;
-  StatusReason?: string;
-  StatusMessage?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Players?: Player[];
-  GameSessionConnectionInfo?: GameSessionConnectionInfo;
-  EstimatedWaitTime?: number;
+  TicketId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  ConfigurationArn?: string | undefined;
+  Status?: MatchmakingConfigurationStatus | undefined;
+  StatusReason?: string | undefined;
+  StatusMessage?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Players?: Player[] | undefined;
+  GameSessionConnectionInfo?: GameSessionConnectionInfo | undefined;
+  EstimatedWaitTime?: number | undefined;
 }
-export const MatchmakingTicket = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TicketId: S.optional(S.String),
-    ConfigurationName: S.optional(S.String),
-    ConfigurationArn: S.optional(S.String),
-    Status: S.optional(MatchmakingConfigurationStatus),
-    StatusReason: S.optional(S.String),
-    StatusMessage: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Players: S.optional(PlayerList),
-    GameSessionConnectionInfo: S.optional(GameSessionConnectionInfo),
-    EstimatedWaitTime: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "MatchmakingTicket",
-}) as any as S.Schema<MatchmakingTicket>;
 export type MatchmakingTicketList = MatchmakingTicket[];
-export const MatchmakingTicketList = /*@__PURE__*/ S.Array(MatchmakingTicket);
 export interface DescribeMatchmakingOutput {
-  TicketList?: MatchmakingTicket[];
+  TicketList?: MatchmakingTicket[] | undefined;
 }
-export const DescribeMatchmakingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TicketList: S.optional(MatchmakingTicketList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeMatchmakingOutput",
-}) as any as S.Schema<DescribeMatchmakingOutput>;
 export type MatchmakingConfigurationNameList = string[];
-export const MatchmakingConfigurationNameList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeMatchmakingConfigurationsInput {
-  Names?: string[];
-  RuleSetName?: string;
-  Limit?: number;
-  NextToken?: string;
+  Names?: string[] | undefined;
+  RuleSetName?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeMatchmakingConfigurationsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Names: S.optional(MatchmakingConfigurationNameList),
-      RuleSetName: S.optional(S.String),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeMatchmakingConfigurationsInput",
-}) as any as S.Schema<DescribeMatchmakingConfigurationsInput>;
 export type MatchmakingConfigurationList = MatchmakingConfiguration[];
-export const MatchmakingConfigurationList = /*@__PURE__*/ S.Array(
-  MatchmakingConfiguration,
-);
 export interface DescribeMatchmakingConfigurationsOutput {
-  Configurations?: (MatchmakingConfiguration & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  })[];
-  NextToken?: string;
+  Configurations?:
+    | (MatchmakingConfiguration & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeMatchmakingConfigurationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Configurations: S.optional(MatchmakingConfigurationList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeMatchmakingConfigurationsOutput",
-}) as any as S.Schema<DescribeMatchmakingConfigurationsOutput>;
 export type MatchmakingRuleSetNameList = string[];
-export const MatchmakingRuleSetNameList = /*@__PURE__*/ S.Array(S.String);
 export type RuleSetLimit = number;
 export interface DescribeMatchmakingRuleSetsInput {
-  Names?: string[];
-  Limit?: number;
-  NextToken?: string;
+  Names?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeMatchmakingRuleSetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Names: S.optional(MatchmakingRuleSetNameList),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeMatchmakingRuleSetsInput",
-}) as any as S.Schema<DescribeMatchmakingRuleSetsInput>;
 export type MatchmakingRuleSetList = MatchmakingRuleSet[];
-export const MatchmakingRuleSetList = /*@__PURE__*/ S.Array(MatchmakingRuleSet);
 export interface DescribeMatchmakingRuleSetsOutput {
   RuleSets: (MatchmakingRuleSet & { RuleSetBody: RuleSetBody })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const DescribeMatchmakingRuleSetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RuleSets: S.optional(MatchmakingRuleSetList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMatchmakingRuleSetsOutput",
-}) as any as S.Schema<DescribeMatchmakingRuleSetsOutput>;
 export interface DescribePlayerSessionsInput {
-  GameSessionId?: string;
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerSessionId?: string;
-  PlayerSessionStatusFilter?: string;
-  Limit?: number;
-  NextToken?: string;
+  GameSessionId?: string | undefined;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerSessionId?: string | undefined;
+  PlayerSessionStatusFilter?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribePlayerSessionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    PlayerId: S.optional(SensitiveString),
-    PlayerSessionId: S.optional(S.String),
-    PlayerSessionStatusFilter: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribePlayerSessionsInput",
-}) as any as S.Schema<DescribePlayerSessionsInput>;
 export interface DescribePlayerSessionsOutput {
-  PlayerSessions?: PlayerSession[];
-  NextToken?: string;
+  PlayerSessions?: PlayerSession[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribePlayerSessionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerSessions: S.optional(PlayerSessionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribePlayerSessionsOutput",
-}) as any as S.Schema<DescribePlayerSessionsOutput>;
 export interface DescribeRuntimeConfigurationInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
-export const DescribeRuntimeConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FleetId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeRuntimeConfigurationInput",
-}) as any as S.Schema<DescribeRuntimeConfigurationInput>;
 export interface DescribeRuntimeConfigurationOutput {
-  RuntimeConfiguration?: RuntimeConfiguration & {
-    ServerProcesses: (ServerProcess & {
-      LaunchPath: LaunchPathStringModel;
-      ConcurrentExecutions: PositiveInteger;
-    })[];
-  };
+  RuntimeConfiguration?:
+    | (RuntimeConfiguration & {
+        ServerProcesses: (ServerProcess & {
+          LaunchPath: LaunchPathStringModel;
+          ConcurrentExecutions: PositiveInteger;
+        })[];
+      })
+    | undefined;
 }
-export const DescribeRuntimeConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuntimeConfiguration: S.optional(RuntimeConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "DescribeRuntimeConfigurationOutput",
-}) as any as S.Schema<DescribeRuntimeConfigurationOutput>;
 export type ScalingStatusType =
   | "ACTIVE"
   | "UPDATE_REQUESTED"
@@ -5415,51 +2572,24 @@ export type ScalingStatusType =
   | "DELETED"
   | "ERROR"
   | (string & {});
-export const ScalingStatusType = S.String;
-
 export interface DescribeScalingPoliciesInput {
-  FleetId?: string;
-  StatusFilter?: ScalingStatusType;
-  Limit?: number;
-  NextToken?: string;
-  Location?: string;
+  FleetId?: string | undefined;
+  StatusFilter?: ScalingStatusType | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  Location?: string | undefined;
 }
-export const DescribeScalingPoliciesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    StatusFilter: S.optional(ScalingStatusType),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeScalingPoliciesInput",
-}) as any as S.Schema<DescribeScalingPoliciesInput>;
 export type ScalingAdjustmentType =
   | "ChangeInCapacity"
   | "ExactCapacity"
   | "PercentChangeInCapacity"
   | (string & {});
-export const ScalingAdjustmentType = S.String;
-
 export type ComparisonOperatorType =
   | "GreaterThanOrEqualToThreshold"
   | "GreaterThanThreshold"
   | "LessThanThreshold"
   | "LessThanOrEqualToThreshold"
   | (string & {});
-export const ComparisonOperatorType = S.String;
-
 export type MetricName =
   | "ActivatingGameSessions"
   | "ActiveGameSessions"
@@ -5474,2399 +2604,820 @@ export type MetricName =
   | "WaitTime"
   | "ConcurrentActivatableGameSessions"
   | (string & {});
-export const MetricName = S.String;
-
 export type PolicyType = "RuleBased" | "TargetBased" | (string & {});
-export const PolicyType = S.String;
-
 export interface TargetConfiguration {
-  TargetValue?: number;
+  TargetValue?: number | undefined;
 }
-export const TargetConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TargetValue: S.optional(S.Number) }),
-).annotate({
-  identifier: "TargetConfiguration",
-}) as any as S.Schema<TargetConfiguration>;
 export interface ScalingPolicy {
-  FleetId?: string;
-  FleetArn?: string;
-  Name?: string;
-  Status?: ScalingStatusType;
-  ScalingAdjustment?: number;
-  ScalingAdjustmentType?: ScalingAdjustmentType;
-  ComparisonOperator?: ComparisonOperatorType;
-  Threshold?: number;
-  EvaluationPeriods?: number;
-  MetricName?: MetricName;
-  PolicyType?: PolicyType;
-  TargetConfiguration?: TargetConfiguration;
-  UpdateStatus?: LocationUpdateStatus;
-  Location?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: ScalingStatusType | undefined;
+  ScalingAdjustment?: number | undefined;
+  ScalingAdjustmentType?: ScalingAdjustmentType | undefined;
+  ComparisonOperator?: ComparisonOperatorType | undefined;
+  Threshold?: number | undefined;
+  EvaluationPeriods?: number | undefined;
+  MetricName?: MetricName | undefined;
+  PolicyType?: PolicyType | undefined;
+  TargetConfiguration?: TargetConfiguration | undefined;
+  UpdateStatus?: LocationUpdateStatus | undefined;
+  Location?: string | undefined;
 }
-export const ScalingPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Status: S.optional(ScalingStatusType),
-    ScalingAdjustment: S.optional(S.Number),
-    ScalingAdjustmentType: S.optional(ScalingAdjustmentType),
-    ComparisonOperator: S.optional(ComparisonOperatorType),
-    Threshold: S.optional(S.Number),
-    EvaluationPeriods: S.optional(S.Number),
-    MetricName: S.optional(MetricName),
-    PolicyType: S.optional(PolicyType),
-    TargetConfiguration: S.optional(TargetConfiguration),
-    UpdateStatus: S.optional(LocationUpdateStatus),
-    Location: S.optional(S.String),
-  }),
-).annotate({ identifier: "ScalingPolicy" }) as any as S.Schema<ScalingPolicy>;
 export type ScalingPolicyList = ScalingPolicy[];
-export const ScalingPolicyList = /*@__PURE__*/ S.Array(ScalingPolicy);
 export interface DescribeScalingPoliciesOutput {
-  ScalingPolicies?: (ScalingPolicy & {
-    TargetConfiguration: TargetConfiguration & { TargetValue: number };
-  })[];
-  NextToken?: string;
+  ScalingPolicies?:
+    | (ScalingPolicy & { TargetConfiguration: TargetConfiguration & { TargetValue: number } })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeScalingPoliciesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScalingPolicies: S.optional(ScalingPolicyList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeScalingPoliciesOutput",
-}) as any as S.Schema<DescribeScalingPoliciesOutput>;
 export interface DescribeScriptInput {
-  ScriptId?: string;
+  ScriptId?: string | undefined;
 }
-export const DescribeScriptInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScriptId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeScriptInput",
-}) as any as S.Schema<DescribeScriptInput>;
 export interface DescribeScriptOutput {
-  Script?: Script;
+  Script?: Script | undefined;
 }
-export const DescribeScriptOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Script: S.optional(Script) }).pipe(ns),
-).annotate({
-  identifier: "DescribeScriptOutput",
-}) as any as S.Schema<DescribeScriptOutput>;
 export interface DescribeVpcPeeringAuthorizationsInput {}
-export const DescribeVpcPeeringAuthorizationsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeVpcPeeringAuthorizationsInput",
-}) as any as S.Schema<DescribeVpcPeeringAuthorizationsInput>;
 export type VpcPeeringAuthorizationList = VpcPeeringAuthorization[];
-export const VpcPeeringAuthorizationList = /*@__PURE__*/ S.Array(
-  VpcPeeringAuthorization,
-);
 export interface DescribeVpcPeeringAuthorizationsOutput {
-  VpcPeeringAuthorizations?: VpcPeeringAuthorization[];
+  VpcPeeringAuthorizations?: VpcPeeringAuthorization[] | undefined;
 }
-export const DescribeVpcPeeringAuthorizationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      VpcPeeringAuthorizations: S.optional(VpcPeeringAuthorizationList),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeVpcPeeringAuthorizationsOutput",
-}) as any as S.Schema<DescribeVpcPeeringAuthorizationsOutput>;
 export interface DescribeVpcPeeringConnectionsInput {
-  FleetId?: string;
+  FleetId?: string | undefined;
 }
-export const DescribeVpcPeeringConnectionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ FleetId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeVpcPeeringConnectionsInput",
-}) as any as S.Schema<DescribeVpcPeeringConnectionsInput>;
 export interface VpcPeeringConnectionStatus {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
-export const VpcPeeringConnectionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
-).annotate({
-  identifier: "VpcPeeringConnectionStatus",
-}) as any as S.Schema<VpcPeeringConnectionStatus>;
 export interface VpcPeeringConnection {
-  FleetId?: string;
-  FleetArn?: string;
-  IpV4CidrBlock?: string;
-  VpcPeeringConnectionId?: string;
-  Status?: VpcPeeringConnectionStatus;
-  PeerVpcId?: string;
-  GameLiftVpcId?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  IpV4CidrBlock?: string | undefined;
+  VpcPeeringConnectionId?: string | undefined;
+  Status?: VpcPeeringConnectionStatus | undefined;
+  PeerVpcId?: string | undefined;
+  GameLiftVpcId?: string | undefined;
 }
-export const VpcPeeringConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    IpV4CidrBlock: S.optional(S.String),
-    VpcPeeringConnectionId: S.optional(S.String),
-    Status: S.optional(VpcPeeringConnectionStatus),
-    PeerVpcId: S.optional(S.String),
-    GameLiftVpcId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcPeeringConnection",
-}) as any as S.Schema<VpcPeeringConnection>;
 export type VpcPeeringConnectionList = VpcPeeringConnection[];
-export const VpcPeeringConnectionList =
-  /*@__PURE__*/ S.Array(VpcPeeringConnection);
 export interface DescribeVpcPeeringConnectionsOutput {
-  VpcPeeringConnections?: VpcPeeringConnection[];
+  VpcPeeringConnections?: VpcPeeringConnection[] | undefined;
 }
-export const DescribeVpcPeeringConnectionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcPeeringConnections: S.optional(VpcPeeringConnectionList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeVpcPeeringConnectionsOutput",
-}) as any as S.Schema<DescribeVpcPeeringConnectionsOutput>;
 export interface GetComputeAccessInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
-export const GetComputeAccessInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetComputeAccessInput",
-}) as any as S.Schema<GetComputeAccessInput>;
 export type SessionTarget = string;
 export interface ContainerIdentifier {
-  ContainerName?: string;
-  ContainerRuntimeId?: string;
+  ContainerName?: string | undefined;
+  ContainerRuntimeId?: string | undefined;
 }
-export const ContainerIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerName: S.optional(S.String),
-    ContainerRuntimeId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ContainerIdentifier",
-}) as any as S.Schema<ContainerIdentifier>;
 export type ContainerIdentifierList = ContainerIdentifier[];
-export const ContainerIdentifierList =
-  /*@__PURE__*/ S.Array(ContainerIdentifier);
 export interface GetComputeAccessOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  ComputeName?: string;
-  ComputeArn?: string;
-  Credentials?: AwsCredentials;
-  Target?: string;
-  ContainerIdentifiers?: ContainerIdentifier[];
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ComputeName?: string | undefined;
+  ComputeArn?: string | undefined;
+  Credentials?: AwsCredentials | undefined;
+  Target?: string | undefined;
+  ContainerIdentifiers?: ContainerIdentifier[] | undefined;
 }
-export const GetComputeAccessOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-    ComputeArn: S.optional(S.String),
-    Credentials: S.optional(AwsCredentials),
-    Target: S.optional(S.String),
-    ContainerIdentifiers: S.optional(ContainerIdentifierList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetComputeAccessOutput",
-}) as any as S.Schema<GetComputeAccessOutput>;
 export interface GetComputeAuthTokenInput {
-  FleetId?: string;
-  ComputeName?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
 }
-export const GetComputeAuthTokenInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetComputeAuthTokenInput",
-}) as any as S.Schema<GetComputeAuthTokenInput>;
 export type ComputeAuthToken = string;
 export interface GetComputeAuthTokenOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  ComputeName?: string;
-  ComputeArn?: string;
-  AuthToken?: string;
-  ExpirationTimestamp?: Date;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  ComputeName?: string | undefined;
+  ComputeArn?: string | undefined;
+  AuthToken?: string | undefined;
+  ExpirationTimestamp?: Date | undefined;
 }
-export const GetComputeAuthTokenOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-    ComputeArn: S.optional(S.String),
-    AuthToken: S.optional(S.String),
-    ExpirationTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetComputeAuthTokenOutput",
-}) as any as S.Schema<GetComputeAuthTokenOutput>;
 export interface GetGameSessionLogUrlInput {
-  GameSessionId?: string;
+  GameSessionId?: string | undefined;
 }
-export const GetGameSessionLogUrlInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSessionId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetGameSessionLogUrlInput",
-}) as any as S.Schema<GetGameSessionLogUrlInput>;
 export interface GetGameSessionLogUrlOutput {
-  PreSignedUrl?: string;
+  PreSignedUrl?: string | undefined;
 }
-export const GetGameSessionLogUrlOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PreSignedUrl: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetGameSessionLogUrlOutput",
-}) as any as S.Schema<GetGameSessionLogUrlOutput>;
 export interface GetInstanceAccessInput {
-  FleetId?: string;
-  InstanceId?: string;
+  FleetId?: string | undefined;
+  InstanceId?: string | undefined;
 }
-export const GetInstanceAccessInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetInstanceAccessInput",
-}) as any as S.Schema<GetInstanceAccessInput>;
 export interface InstanceCredentials {
-  UserName?: string;
-  Secret?: string;
+  UserName?: string | undefined;
+  Secret?: string | undefined;
 }
-export const InstanceCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.optional(S.String), Secret: S.optional(S.String) }),
-).annotate({
-  identifier: "InstanceCredentials",
-}) as any as S.Schema<InstanceCredentials>;
 export interface InstanceAccess {
-  FleetId?: string;
-  InstanceId?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  OperatingSystem?: OperatingSystem;
-  Credentials?: InstanceCredentials;
+  FleetId?: string | undefined;
+  InstanceId?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  Credentials?: InstanceCredentials | undefined;
 }
-export const InstanceAccess = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    IpAddress: S.optional(SensitiveString),
-    OperatingSystem: S.optional(OperatingSystem),
-    Credentials: S.optional(InstanceCredentials),
-  }),
-).annotate({ identifier: "InstanceAccess" }) as any as S.Schema<InstanceAccess>;
 export interface GetInstanceAccessOutput {
-  InstanceAccess?: InstanceAccess;
+  InstanceAccess?: InstanceAccess | undefined;
 }
-export const GetInstanceAccessOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceAccess: S.optional(InstanceAccess) }).pipe(ns),
-).annotate({
-  identifier: "GetInstanceAccessOutput",
-}) as any as S.Schema<GetInstanceAccessOutput>;
 export interface GetPlayerConnectionDetailsInput {
-  GameSessionId?: string;
-  PlayerIds?: (string | redacted.Redacted<string>)[];
+  GameSessionId?: string | undefined;
+  PlayerIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
-export const GetPlayerConnectionDetailsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    PlayerIds: S.optional(PlayerIdList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPlayerConnectionDetailsInput",
-}) as any as S.Schema<GetPlayerConnectionDetailsInput>;
 export interface PlayerConnectionEndpoint {
-  IpAddress?: string | redacted.Redacted<string>;
-  Port?: number;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  Port?: number | undefined;
 }
-export const PlayerConnectionEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IpAddress: S.optional(SensitiveString),
-    Port: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PlayerConnectionEndpoint",
-}) as any as S.Schema<PlayerConnectionEndpoint>;
 export type PlayerConnectionEndpointList = PlayerConnectionEndpoint[];
-export const PlayerConnectionEndpointList = /*@__PURE__*/ S.Array(
-  PlayerConnectionEndpoint,
-);
 export type MaxString = string;
 export interface PlayerConnectionDetail {
-  PlayerId?: string | redacted.Redacted<string>;
-  Endpoints?: PlayerConnectionEndpoint[];
-  PlayerGatewayToken?: string;
-  Expiration?: Date;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  Endpoints?: PlayerConnectionEndpoint[] | undefined;
+  PlayerGatewayToken?: string | undefined;
+  Expiration?: Date | undefined;
 }
-export const PlayerConnectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerId: S.optional(SensitiveString),
-    Endpoints: S.optional(PlayerConnectionEndpointList),
-    PlayerGatewayToken: S.optional(S.String),
-    Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "PlayerConnectionDetail",
-}) as any as S.Schema<PlayerConnectionDetail>;
 export type PlayerConnectionDetailList = PlayerConnectionDetail[];
-export const PlayerConnectionDetailList = /*@__PURE__*/ S.Array(
-  PlayerConnectionDetail,
-);
 export interface GetPlayerConnectionDetailsOutput {
-  GameSessionId?: string;
-  PlayerConnectionDetails?: PlayerConnectionDetail[];
+  GameSessionId?: string | undefined;
+  PlayerConnectionDetails?: PlayerConnectionDetail[] | undefined;
 }
-export const GetPlayerConnectionDetailsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    PlayerConnectionDetails: S.optional(PlayerConnectionDetailList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetPlayerConnectionDetailsOutput",
-}) as any as S.Schema<GetPlayerConnectionDetailsOutput>;
 export interface ListAliasesInput {
-  RoutingStrategyType?: RoutingStrategyType;
-  Name?: string;
-  Limit?: number;
-  NextToken?: string;
+  RoutingStrategyType?: RoutingStrategyType | undefined;
+  Name?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAliasesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingStrategyType: S.optional(RoutingStrategyType),
-    Name: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAliasesInput",
-}) as any as S.Schema<ListAliasesInput>;
 export type AliasList = Alias[];
-export const AliasList = /*@__PURE__*/ S.Array(Alias);
 export interface ListAliasesOutput {
-  Aliases?: Alias[];
-  NextToken?: string;
+  Aliases?: Alias[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListAliasesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Aliases: S.optional(AliasList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAliasesOutput",
-}) as any as S.Schema<ListAliasesOutput>;
 export interface ListBuildsInput {
-  Status?: BuildStatus;
-  Limit?: number;
-  NextToken?: string;
+  Status?: BuildStatus | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListBuildsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(BuildStatus),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListBuildsInput",
-}) as any as S.Schema<ListBuildsInput>;
 export type BuildList = Build[];
-export const BuildList = /*@__PURE__*/ S.Array(Build);
 export interface ListBuildsOutput {
-  Builds?: Build[];
-  NextToken?: string;
+  Builds?: Build[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListBuildsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Builds: S.optional(BuildList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListBuildsOutput",
-}) as any as S.Schema<ListBuildsOutput>;
 export type ListComputeInputStatus = "ACTIVE" | "IMPAIRED" | (string & {});
-export const ListComputeInputStatus = S.String;
-
 export interface ListComputeInput {
-  FleetId?: string;
-  Location?: string;
-  ContainerGroupDefinitionName?: string;
-  ComputeStatus?: ListComputeInputStatus;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  Location?: string | undefined;
+  ContainerGroupDefinitionName?: string | undefined;
+  ComputeStatus?: ListComputeInputStatus | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListComputeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Location: S.optional(S.String),
-    ContainerGroupDefinitionName: S.optional(S.String),
-    ComputeStatus: S.optional(ListComputeInputStatus),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListComputeInput",
-}) as any as S.Schema<ListComputeInput>;
 export type ComputeList = Compute[];
-export const ComputeList = /*@__PURE__*/ S.Array(Compute);
 export interface ListComputeOutput {
-  ComputeList?: Compute[];
-  NextToken?: string;
+  ComputeList?: Compute[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListComputeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ComputeList: S.optional(ComputeList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListComputeOutput",
-}) as any as S.Schema<ListComputeOutput>;
 export interface ListContainerFleetsInput {
-  ContainerGroupDefinitionName?: string;
-  Limit?: number;
-  NextToken?: string;
+  ContainerGroupDefinitionName?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerFleetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerGroupDefinitionName: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListContainerFleetsInput",
-}) as any as S.Schema<ListContainerFleetsInput>;
 export type ContainerFleetList = ContainerFleet[];
-export const ContainerFleetList = /*@__PURE__*/ S.Array(ContainerFleet);
 export interface ListContainerFleetsOutput {
-  ContainerFleets?: (ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-    };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  })[];
-  NextToken?: string;
+  ContainerFleets?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerFleetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerFleets: S.optional(ContainerFleetList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListContainerFleetsOutput",
-}) as any as S.Schema<ListContainerFleetsOutput>;
 export type ListContainerGroupDefinitionsLimit = number;
 export interface ListContainerGroupDefinitionsInput {
-  ContainerGroupType?: ContainerGroupType;
-  Limit?: number;
-  NextToken?: string;
+  ContainerGroupType?: ContainerGroupType | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerGroupDefinitionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerGroupType: S.optional(ContainerGroupType),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListContainerGroupDefinitionsInput",
-}) as any as S.Schema<ListContainerGroupDefinitionsInput>;
 export type ContainerGroupDefinitionList = ContainerGroupDefinition[];
-export const ContainerGroupDefinitionList = /*@__PURE__*/ S.Array(
-  ContainerGroupDefinition,
-);
 export interface ListContainerGroupDefinitionsOutput {
-  ContainerGroupDefinitions?: (ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinitions?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & {
-        Command: ContainerCommandStringList;
-      };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerGroupDefinitionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ContainerGroupDefinitions: S.optional(ContainerGroupDefinitionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListContainerGroupDefinitionsOutput",
-}) as any as S.Schema<ListContainerGroupDefinitionsOutput>;
 export type ListContainerGroupDefinitionVersionsLimit = number;
 export interface ListContainerGroupDefinitionVersionsInput {
-  Name?: string;
-  Limit?: number;
-  NextToken?: string;
+  Name?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerGroupDefinitionVersionsInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Name: S.optional(S.String),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListContainerGroupDefinitionVersionsInput",
-  }) as any as S.Schema<ListContainerGroupDefinitionVersionsInput>;
 export interface ListContainerGroupDefinitionVersionsOutput {
-  ContainerGroupDefinitions?: (ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinitions?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & {
-        Command: ContainerCommandStringList;
-      };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const ListContainerGroupDefinitionVersionsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ContainerGroupDefinitions: S.optional(ContainerGroupDefinitionList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListContainerGroupDefinitionVersionsOutput",
-  }) as any as S.Schema<ListContainerGroupDefinitionVersionsOutput>;
 export interface ListFleetDeploymentsInput {
-  FleetId?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFleetDeploymentsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFleetDeploymentsInput",
-}) as any as S.Schema<ListFleetDeploymentsInput>;
 export type FleetDeployments = FleetDeployment[];
-export const FleetDeployments = /*@__PURE__*/ S.Array(FleetDeployment);
 export interface ListFleetDeploymentsOutput {
-  FleetDeployments?: FleetDeployment[];
-  NextToken?: string;
+  FleetDeployments?: FleetDeployment[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFleetDeploymentsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetDeployments: S.optional(FleetDeployments),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListFleetDeploymentsOutput",
-}) as any as S.Schema<ListFleetDeploymentsOutput>;
 export interface ListFleetsInput {
-  BuildId?: string;
-  ScriptId?: string;
-  Limit?: number;
-  NextToken?: string;
+  BuildId?: string | undefined;
+  ScriptId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFleetsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BuildId: S.optional(S.String),
-    ScriptId: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListFleetsInput",
-}) as any as S.Schema<ListFleetsInput>;
 export type FleetIdList = string[];
-export const FleetIdList = /*@__PURE__*/ S.Array(S.String);
 export interface ListFleetsOutput {
-  FleetIds?: string[];
-  NextToken?: string;
+  FleetIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListFleetsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetIds: S.optional(FleetIdList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListFleetsOutput",
-}) as any as S.Schema<ListFleetsOutput>;
 export interface ListGameServerGroupsInput {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListGameServerGroupsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGameServerGroupsInput",
-}) as any as S.Schema<ListGameServerGroupsInput>;
 export type GameServerGroups = GameServerGroup[];
-export const GameServerGroups = /*@__PURE__*/ S.Array(GameServerGroup);
 export interface ListGameServerGroupsOutput {
-  GameServerGroups?: (GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & {
-      InstanceType: GameServerGroupInstanceType;
-    })[];
-  })[];
-  NextToken?: string;
+  GameServerGroups?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const ListGameServerGroupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroups: S.optional(GameServerGroups),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListGameServerGroupsOutput",
-}) as any as S.Schema<ListGameServerGroupsOutput>;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
-export const SortOrder = S.String;
-
 export interface ListGameServersInput {
-  GameServerGroupName?: string;
-  SortOrder?: SortOrder;
-  Limit?: number;
-  NextToken?: string;
+  GameServerGroupName?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListGameServersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    SortOrder: S.optional(SortOrder),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListGameServersInput",
-}) as any as S.Schema<ListGameServersInput>;
 export type GameServers = GameServer[];
-export const GameServers = /*@__PURE__*/ S.Array(GameServer);
 export interface ListGameServersOutput {
-  GameServers?: GameServer[];
-  NextToken?: string;
+  GameServers?: GameServer[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListGameServersOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServers: S.optional(GameServers),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListGameServersOutput",
-}) as any as S.Schema<ListGameServersOutput>;
 export type LocationFilter = "AWS" | "CUSTOM" | (string & {});
-export const LocationFilter = S.String;
-
 export type LocationFilterList = LocationFilter[];
-export const LocationFilterList = /*@__PURE__*/ S.Array(LocationFilter);
 export type ListLocationsLimit = number;
 export interface ListLocationsInput {
-  Filters?: LocationFilter[];
-  Limit?: number;
-  NextToken?: string;
+  Filters?: LocationFilter[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLocationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(LocationFilterList),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListLocationsInput",
-}) as any as S.Schema<ListLocationsInput>;
 export type LocationModelList = LocationModel[];
-export const LocationModelList = /*@__PURE__*/ S.Array(LocationModel);
 export interface ListLocationsOutput {
-  Locations?: LocationModel[];
-  NextToken?: string;
+  Locations?: LocationModel[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListLocationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Locations: S.optional(LocationModelList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListLocationsOutput",
-}) as any as S.Schema<ListLocationsOutput>;
 export interface ListScriptsInput {
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListScriptsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListScriptsInput",
-}) as any as S.Schema<ListScriptsInput>;
 export type ScriptList = Script[];
-export const ScriptList = /*@__PURE__*/ S.Array(Script);
 export interface ListScriptsOutput {
-  Scripts?: Script[];
-  NextToken?: string;
+  Scripts?: Script[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListScriptsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Scripts: S.optional(ScriptList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListScriptsOutput",
-}) as any as S.Schema<ListScriptsOutput>;
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
-  ResourceARN?: string;
+  ResourceARN?: string | undefined;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceARN: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  Tags?: (Tag & { Key: TagKey; Value: TagValue })[];
+  Tags?: (Tag & { Key: TagKey; Value: TagValue })[] | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutScalingPolicyInput {
-  Name?: string;
-  FleetId?: string;
-  ScalingAdjustment?: number;
-  ScalingAdjustmentType?: ScalingAdjustmentType;
-  Threshold?: number;
-  ComparisonOperator?: ComparisonOperatorType;
-  EvaluationPeriods?: number;
-  MetricName?: MetricName;
-  PolicyType?: PolicyType;
-  TargetConfiguration?: TargetConfiguration;
+  Name?: string | undefined;
+  FleetId?: string | undefined;
+  ScalingAdjustment?: number | undefined;
+  ScalingAdjustmentType?: ScalingAdjustmentType | undefined;
+  Threshold?: number | undefined;
+  ComparisonOperator?: ComparisonOperatorType | undefined;
+  EvaluationPeriods?: number | undefined;
+  MetricName?: MetricName | undefined;
+  PolicyType?: PolicyType | undefined;
+  TargetConfiguration?: TargetConfiguration | undefined;
 }
-export const PutScalingPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    FleetId: S.optional(S.String),
-    ScalingAdjustment: S.optional(S.Number),
-    ScalingAdjustmentType: S.optional(ScalingAdjustmentType),
-    Threshold: S.optional(S.Number),
-    ComparisonOperator: S.optional(ComparisonOperatorType),
-    EvaluationPeriods: S.optional(S.Number),
-    MetricName: S.optional(MetricName),
-    PolicyType: S.optional(PolicyType),
-    TargetConfiguration: S.optional(TargetConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutScalingPolicyInput",
-}) as any as S.Schema<PutScalingPolicyInput>;
 export interface PutScalingPolicyOutput {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const PutScalingPolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutScalingPolicyOutput",
-}) as any as S.Schema<PutScalingPolicyOutput>;
 export type DnsNameInput = string;
 export interface RegisterComputeInput {
-  FleetId?: string;
-  ComputeName?: string;
-  CertificatePath?: string;
-  DnsName?: string;
-  IpAddress?: string | redacted.Redacted<string>;
-  Location?: string;
+  FleetId?: string | undefined;
+  ComputeName?: string | undefined;
+  CertificatePath?: string | undefined;
+  DnsName?: string | undefined;
+  IpAddress?: string | redacted.Redacted<string> | undefined;
+  Location?: string | undefined;
 }
-export const RegisterComputeInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    ComputeName: S.optional(S.String),
-    CertificatePath: S.optional(S.String),
-    DnsName: S.optional(S.String),
-    IpAddress: S.optional(SensitiveString),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RegisterComputeInput",
-}) as any as S.Schema<RegisterComputeInput>;
 export interface RegisterComputeOutput {
-  Compute?: Compute;
+  Compute?: Compute | undefined;
 }
-export const RegisterComputeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Compute: S.optional(Compute) }).pipe(ns),
-).annotate({
-  identifier: "RegisterComputeOutput",
-}) as any as S.Schema<RegisterComputeOutput>;
 export interface RegisterGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
-  InstanceId?: string;
-  ConnectionInfo?: string;
-  GameServerData?: string | redacted.Redacted<string>;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
+  InstanceId?: string | undefined;
+  ConnectionInfo?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
 }
-export const RegisterGameServerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerId: S.optional(S.String),
-    InstanceId: S.optional(S.String),
-    ConnectionInfo: S.optional(S.String),
-    GameServerData: S.optional(SensitiveString),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RegisterGameServerInput",
-}) as any as S.Schema<RegisterGameServerInput>;
 export interface RegisterGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
-export const RegisterGameServerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServer: S.optional(GameServer) }).pipe(ns),
-).annotate({
-  identifier: "RegisterGameServerOutput",
-}) as any as S.Schema<RegisterGameServerOutput>;
 export interface RequestUploadCredentialsInput {
-  BuildId?: string;
+  BuildId?: string | undefined;
 }
-export const RequestUploadCredentialsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ BuildId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RequestUploadCredentialsInput",
-}) as any as S.Schema<RequestUploadCredentialsInput>;
 export interface RequestUploadCredentialsOutput {
-  UploadCredentials?: AwsCredentials;
-  StorageLocation?: S3Location;
+  UploadCredentials?: AwsCredentials | undefined;
+  StorageLocation?: S3Location | undefined;
 }
-export const RequestUploadCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UploadCredentials: S.optional(AwsCredentials),
-    StorageLocation: S.optional(S3Location),
-  }).pipe(ns),
-).annotate({
-  identifier: "RequestUploadCredentialsOutput",
-}) as any as S.Schema<RequestUploadCredentialsOutput>;
 export interface ResolveAliasInput {
-  AliasId?: string;
+  AliasId?: string | undefined;
 }
-export const ResolveAliasInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AliasId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResolveAliasInput",
-}) as any as S.Schema<ResolveAliasInput>;
 export interface ResolveAliasOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
-export const ResolveAliasOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ResolveAliasOutput",
-}) as any as S.Schema<ResolveAliasOutput>;
 export interface ResumeGameServerGroupInput {
-  GameServerGroupName?: string;
-  ResumeActions?: GameServerGroupAction[];
+  GameServerGroupName?: string | undefined;
+  ResumeActions?: GameServerGroupAction[] | undefined;
 }
-export const ResumeGameServerGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    ResumeActions: S.optional(GameServerGroupActions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResumeGameServerGroupInput",
-}) as any as S.Schema<ResumeGameServerGroupInput>;
 export interface ResumeGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & {
-      InstanceType: GameServerGroupInstanceType;
-    })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
-export const ResumeGameServerGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServerGroup: S.optional(GameServerGroup) }).pipe(ns),
-).annotate({
-  identifier: "ResumeGameServerGroupOutput",
-}) as any as S.Schema<ResumeGameServerGroupOutput>;
 export interface SearchGameSessionsInput {
-  FleetId?: string;
-  AliasId?: string;
-  Location?: string;
-  FilterExpression?: string;
-  SortExpression?: string;
-  Limit?: number;
-  NextToken?: string;
+  FleetId?: string | undefined;
+  AliasId?: string | undefined;
+  Location?: string | undefined;
+  FilterExpression?: string | undefined;
+  SortExpression?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const SearchGameSessionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    AliasId: S.optional(S.String),
-    Location: S.optional(S.String),
-    FilterExpression: S.optional(S.String),
-    SortExpression: S.optional(S.String),
-    Limit: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SearchGameSessionsInput",
-}) as any as S.Schema<SearchGameSessionsInput>;
 export interface SearchGameSessionsOutput {
-  GameSessions?: (GameSession & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  })[];
-  NextToken?: string;
+  GameSessions?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
-export const SearchGameSessionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessions: S.optional(GameSessionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "SearchGameSessionsOutput",
-}) as any as S.Schema<SearchGameSessionsOutput>;
 export interface StartFleetActionsInput {
-  FleetId?: string;
-  Actions?: FleetAction[];
-  Location?: string;
+  FleetId?: string | undefined;
+  Actions?: FleetAction[] | undefined;
+  Location?: string | undefined;
 }
-export const StartFleetActionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Actions: S.optional(FleetActionList),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartFleetActionsInput",
-}) as any as S.Schema<StartFleetActionsInput>;
 export interface StartFleetActionsOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
-export const StartFleetActionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "StartFleetActionsOutput",
-}) as any as S.Schema<StartFleetActionsOutput>;
 export interface DesiredPlayerSession {
-  PlayerId?: string | redacted.Redacted<string>;
-  PlayerData?: string | redacted.Redacted<string>;
+  PlayerId?: string | redacted.Redacted<string> | undefined;
+  PlayerData?: string | redacted.Redacted<string> | undefined;
 }
-export const DesiredPlayerSession = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlayerId: S.optional(SensitiveString),
-    PlayerData: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "DesiredPlayerSession",
-}) as any as S.Schema<DesiredPlayerSession>;
 export type DesiredPlayerSessionList = DesiredPlayerSession[];
-export const DesiredPlayerSessionList =
-  /*@__PURE__*/ S.Array(DesiredPlayerSession);
 export interface StartGameSessionPlacementInput {
-  PlacementId?: string;
-  GameSessionQueueName?: string;
-  GameProperties?: GameProperty[];
-  MaximumPlayerSessionCount?: number;
-  GameSessionName?: string;
-  PlayerLatencies?: PlayerLatency[];
-  DesiredPlayerSessions?: DesiredPlayerSession[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  PriorityConfigurationOverride?: PriorityConfigurationOverride;
+  PlacementId?: string | undefined;
+  GameSessionQueueName?: string | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  GameSessionName?: string | undefined;
+  PlayerLatencies?: PlayerLatency[] | undefined;
+  DesiredPlayerSessions?: DesiredPlayerSession[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  PriorityConfigurationOverride?: PriorityConfigurationOverride | undefined;
 }
-export const StartGameSessionPlacementInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PlacementId: S.optional(S.String),
-    GameSessionQueueName: S.optional(S.String),
-    GameProperties: S.optional(GamePropertyList),
-    MaximumPlayerSessionCount: S.optional(S.Number),
-    GameSessionName: S.optional(S.String),
-    PlayerLatencies: S.optional(PlayerLatencyList),
-    DesiredPlayerSessions: S.optional(DesiredPlayerSessionList),
-    GameSessionData: S.optional(SensitiveString),
-    PriorityConfigurationOverride: S.optional(PriorityConfigurationOverride),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartGameSessionPlacementInput",
-}) as any as S.Schema<StartGameSessionPlacementInput>;
 export interface StartGameSessionPlacementOutput {
-  GameSessionPlacement?: GameSessionPlacement & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-    PriorityConfigurationOverride: PriorityConfigurationOverride & {
-      LocationOrder: LocationOrderOverrideList;
-    };
-  };
+  GameSessionPlacement?:
+    | (GameSessionPlacement & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        PriorityConfigurationOverride: PriorityConfigurationOverride & {
+          LocationOrder: LocationOrderOverrideList;
+        };
+      })
+    | undefined;
 }
-export const StartGameSessionPlacementOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSessionPlacement: S.optional(GameSessionPlacement) }).pipe(ns),
-).annotate({
-  identifier: "StartGameSessionPlacementOutput",
-}) as any as S.Schema<StartGameSessionPlacementOutput>;
 export interface StartMatchBackfillInput {
-  TicketId?: string;
-  ConfigurationName?: string;
-  GameSessionArn?: string;
-  Players?: Player[];
+  TicketId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  GameSessionArn?: string | undefined;
+  Players?: Player[] | undefined;
 }
-export const StartMatchBackfillInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TicketId: S.optional(S.String),
-    ConfigurationName: S.optional(S.String),
-    GameSessionArn: S.optional(S.String),
-    Players: S.optional(PlayerList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMatchBackfillInput",
-}) as any as S.Schema<StartMatchBackfillInput>;
 export interface StartMatchBackfillOutput {
-  MatchmakingTicket?: MatchmakingTicket;
+  MatchmakingTicket?: MatchmakingTicket | undefined;
 }
-export const StartMatchBackfillOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MatchmakingTicket: S.optional(MatchmakingTicket) }).pipe(ns),
-).annotate({
-  identifier: "StartMatchBackfillOutput",
-}) as any as S.Schema<StartMatchBackfillOutput>;
 export interface StartMatchmakingInput {
-  TicketId?: string;
-  ConfigurationName?: string;
-  Players?: Player[];
+  TicketId?: string | undefined;
+  ConfigurationName?: string | undefined;
+  Players?: Player[] | undefined;
 }
-export const StartMatchmakingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TicketId: S.optional(S.String),
-    ConfigurationName: S.optional(S.String),
-    Players: S.optional(PlayerList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMatchmakingInput",
-}) as any as S.Schema<StartMatchmakingInput>;
 export interface StartMatchmakingOutput {
-  MatchmakingTicket?: MatchmakingTicket;
+  MatchmakingTicket?: MatchmakingTicket | undefined;
 }
-export const StartMatchmakingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MatchmakingTicket: S.optional(MatchmakingTicket) }).pipe(ns),
-).annotate({
-  identifier: "StartMatchmakingOutput",
-}) as any as S.Schema<StartMatchmakingOutput>;
 export interface StopFleetActionsInput {
-  FleetId?: string;
-  Actions?: FleetAction[];
-  Location?: string;
+  FleetId?: string | undefined;
+  Actions?: FleetAction[] | undefined;
+  Location?: string | undefined;
 }
-export const StopFleetActionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Actions: S.optional(FleetActionList),
-    Location: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopFleetActionsInput",
-}) as any as S.Schema<StopFleetActionsInput>;
 export interface StopFleetActionsOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
-export const StopFleetActionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "StopFleetActionsOutput",
-}) as any as S.Schema<StopFleetActionsOutput>;
 export interface StopGameSessionPlacementInput {
-  PlacementId?: string;
+  PlacementId?: string | undefined;
 }
-export const StopGameSessionPlacementInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PlacementId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopGameSessionPlacementInput",
-}) as any as S.Schema<StopGameSessionPlacementInput>;
 export interface StopGameSessionPlacementOutput {
-  GameSessionPlacement?: GameSessionPlacement & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-    PriorityConfigurationOverride: PriorityConfigurationOverride & {
-      LocationOrder: LocationOrderOverrideList;
-    };
-  };
+  GameSessionPlacement?:
+    | (GameSessionPlacement & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+        PriorityConfigurationOverride: PriorityConfigurationOverride & {
+          LocationOrder: LocationOrderOverrideList;
+        };
+      })
+    | undefined;
 }
-export const StopGameSessionPlacementOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSessionPlacement: S.optional(GameSessionPlacement) }).pipe(ns),
-).annotate({
-  identifier: "StopGameSessionPlacementOutput",
-}) as any as S.Schema<StopGameSessionPlacementOutput>;
 export interface StopMatchmakingInput {
-  TicketId?: string;
+  TicketId?: string | undefined;
 }
-export const StopMatchmakingInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TicketId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StopMatchmakingInput",
-}) as any as S.Schema<StopMatchmakingInput>;
 export interface StopMatchmakingOutput {}
-export const StopMatchmakingOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "StopMatchmakingOutput",
-}) as any as S.Schema<StopMatchmakingOutput>;
 export interface SuspendGameServerGroupInput {
-  GameServerGroupName?: string;
-  SuspendActions?: GameServerGroupAction[];
+  GameServerGroupName?: string | undefined;
+  SuspendActions?: GameServerGroupAction[] | undefined;
 }
-export const SuspendGameServerGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    SuspendActions: S.optional(GameServerGroupActions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "SuspendGameServerGroupInput",
-}) as any as S.Schema<SuspendGameServerGroupInput>;
 export interface SuspendGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & {
-      InstanceType: GameServerGroupInstanceType;
-    })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
-export const SuspendGameServerGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServerGroup: S.optional(GameServerGroup) }).pipe(ns),
-).annotate({
-  identifier: "SuspendGameServerGroupOutput",
-}) as any as S.Schema<SuspendGameServerGroupOutput>;
 export interface TagResourceRequest {
-  ResourceARN?: string;
-  Tags?: Tag[];
+  ResourceARN?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
-export type TerminationMode =
-  | "TRIGGER_ON_PROCESS_TERMINATE"
-  | "FORCE_TERMINATE"
-  | (string & {});
-export const TerminationMode = S.String;
-
+export type TerminationMode = "TRIGGER_ON_PROCESS_TERMINATE" | "FORCE_TERMINATE" | (string & {});
 export interface TerminateGameSessionInput {
-  GameSessionId?: string;
-  TerminationMode?: TerminationMode;
+  GameSessionId?: string | undefined;
+  TerminationMode?: TerminationMode | undefined;
 }
-export const TerminateGameSessionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    TerminationMode: S.optional(TerminationMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TerminateGameSessionInput",
-}) as any as S.Schema<TerminateGameSessionInput>;
 export interface TerminateGameSessionOutput {
-  GameSession?: GameSession & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  };
+  GameSession?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
-export const TerminateGameSessionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSession: S.optional(GameSession) }).pipe(ns),
-).annotate({
-  identifier: "TerminateGameSessionOutput",
-}) as any as S.Schema<TerminateGameSessionOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
-  ResourceARN?: string;
-  TagKeys?: string[];
+  ResourceARN?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceARN: S.optional(S.String),
-    TagKeys: S.optional(TagKeyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAliasInput {
-  AliasId?: string;
-  Name?: string;
-  Description?: string;
-  RoutingStrategy?: RoutingStrategy;
+  AliasId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  RoutingStrategy?: RoutingStrategy | undefined;
 }
-export const UpdateAliasInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AliasId: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    RoutingStrategy: S.optional(RoutingStrategy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateAliasInput",
-}) as any as S.Schema<UpdateAliasInput>;
 export interface UpdateAliasOutput {
-  Alias?: Alias;
+  Alias?: Alias | undefined;
 }
-export const UpdateAliasOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Alias: S.optional(Alias) }).pipe(ns),
-).annotate({
-  identifier: "UpdateAliasOutput",
-}) as any as S.Schema<UpdateAliasOutput>;
 export interface UpdateBuildInput {
-  BuildId?: string;
-  Name?: string;
-  Version?: string;
+  BuildId?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
 }
-export const UpdateBuildInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BuildId: S.optional(S.String),
-    Name: S.optional(S.String),
-    Version: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateBuildInput",
-}) as any as S.Schema<UpdateBuildInput>;
 export interface UpdateBuildOutput {
-  Build?: Build;
+  Build?: Build | undefined;
 }
-export const UpdateBuildOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Build: S.optional(Build) }).pipe(ns),
-).annotate({
-  identifier: "UpdateBuildOutput",
-}) as any as S.Schema<UpdateBuildOutput>;
 export type ContainerFleetRemoveAttribute =
   | "PER_INSTANCE_CONTAINER_GROUP_DEFINITION"
   | (string & {});
-export const ContainerFleetRemoveAttribute = S.String;
-
 export type ContainerFleetRemoveAttributeList = ContainerFleetRemoveAttribute[];
-export const ContainerFleetRemoveAttributeList = /*@__PURE__*/ S.Array(
-  ContainerFleetRemoveAttribute,
-);
 export interface UpdateContainerFleetInput {
-  FleetId?: string;
-  GameServerContainerGroupDefinitionName?: string;
-  PerInstanceContainerGroupDefinitionName?: string;
-  GameServerContainerGroupsPerInstance?: number;
-  InstanceConnectionPortRange?: ConnectionPortRange;
-  InstanceInboundPermissionAuthorizations?: IpPermission[];
-  InstanceInboundPermissionRevocations?: IpPermission[];
-  DeploymentConfiguration?: DeploymentConfiguration;
-  Description?: string;
-  MetricGroups?: string[];
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy;
-  LogConfiguration?: LogConfiguration;
-  RemoveAttributes?: ContainerFleetRemoveAttribute[];
+  FleetId?: string | undefined;
+  GameServerContainerGroupDefinitionName?: string | undefined;
+  PerInstanceContainerGroupDefinitionName?: string | undefined;
+  GameServerContainerGroupsPerInstance?: number | undefined;
+  InstanceConnectionPortRange?: ConnectionPortRange | undefined;
+  InstanceInboundPermissionAuthorizations?: IpPermission[] | undefined;
+  InstanceInboundPermissionRevocations?: IpPermission[] | undefined;
+  DeploymentConfiguration?: DeploymentConfiguration | undefined;
+  Description?: string | undefined;
+  MetricGroups?: string[] | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  GameSessionCreationLimitPolicy?: GameSessionCreationLimitPolicy | undefined;
+  LogConfiguration?: LogConfiguration | undefined;
+  RemoveAttributes?: ContainerFleetRemoveAttribute[] | undefined;
 }
-export const UpdateContainerFleetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    GameServerContainerGroupDefinitionName: S.optional(S.String),
-    PerInstanceContainerGroupDefinitionName: S.optional(S.String),
-    GameServerContainerGroupsPerInstance: S.optional(S.Number),
-    InstanceConnectionPortRange: S.optional(ConnectionPortRange),
-    InstanceInboundPermissionAuthorizations: S.optional(IpPermissionsList),
-    InstanceInboundPermissionRevocations: S.optional(IpPermissionsList),
-    DeploymentConfiguration: S.optional(DeploymentConfiguration),
-    Description: S.optional(S.String),
-    MetricGroups: S.optional(MetricGroupList),
-    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
-    GameSessionCreationLimitPolicy: S.optional(GameSessionCreationLimitPolicy),
-    LogConfiguration: S.optional(LogConfiguration),
-    RemoveAttributes: S.optional(ContainerFleetRemoveAttributeList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateContainerFleetInput",
-}) as any as S.Schema<UpdateContainerFleetInput>;
 export interface UpdateContainerFleetOutput {
-  ContainerFleet?: ContainerFleet & {
-    InstanceConnectionPortRange: ConnectionPortRange & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-    };
-    InstanceInboundPermissions: (IpPermission & {
-      FromPort: PortNumber;
-      ToPort: PortNumber;
-      IpRange: IpRange;
-      Protocol: IpProtocol;
-    })[];
-  };
+  ContainerFleet?:
+    | (ContainerFleet & {
+        InstanceConnectionPortRange: ConnectionPortRange & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+        };
+        InstanceInboundPermissions: (IpPermission & {
+          FromPort: PortNumber;
+          ToPort: PortNumber;
+          IpRange: IpRange;
+          Protocol: IpProtocol;
+        })[];
+      })
+    | undefined;
 }
-export const UpdateContainerFleetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ContainerFleet: S.optional(ContainerFleet) }).pipe(ns),
-).annotate({
-  identifier: "UpdateContainerFleetOutput",
-}) as any as S.Schema<UpdateContainerFleetOutput>;
+export type ContainerGroupDefinitionRemoveAttribute = "TOTAL_VCPU_LIMIT" | (string & {});
+export type ContainerGroupDefinitionRemoveAttributeList = ContainerGroupDefinitionRemoveAttribute[];
 export interface UpdateContainerGroupDefinitionInput {
-  Name?: string;
-  GameServerContainerDefinition?: GameServerContainerDefinitionInput;
-  SupportContainerDefinitions?: SupportContainerDefinitionInput[];
-  TotalMemoryLimitMebibytes?: number;
-  TotalVcpuLimit?: number;
-  VersionDescription?: string;
-  SourceVersionNumber?: number;
-  OperatingSystem?: ContainerOperatingSystem;
+  Name?: string | undefined;
+  GameServerContainerDefinition?: GameServerContainerDefinitionInput | undefined;
+  SupportContainerDefinitions?: SupportContainerDefinitionInput[] | undefined;
+  TotalMemoryLimitMebibytes?: number | undefined;
+  TotalVcpuLimit?: number | undefined;
+  VersionDescription?: string | undefined;
+  SourceVersionNumber?: number | undefined;
+  OperatingSystem?: ContainerOperatingSystem | undefined;
+  RemoveAttributes?: ContainerGroupDefinitionRemoveAttribute[] | undefined;
 }
-export const UpdateContainerGroupDefinitionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    GameServerContainerDefinition: S.optional(
-      GameServerContainerDefinitionInput,
-    ),
-    SupportContainerDefinitions: S.optional(
-      SupportContainerDefinitionInputList,
-    ),
-    TotalMemoryLimitMebibytes: S.optional(S.Number),
-    TotalVcpuLimit: S.optional(S.Number),
-    VersionDescription: S.optional(S.String),
-    SourceVersionNumber: S.optional(S.Number),
-    OperatingSystem: S.optional(ContainerOperatingSystem),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateContainerGroupDefinitionInput",
-}) as any as S.Schema<UpdateContainerGroupDefinitionInput>;
 export interface UpdateContainerGroupDefinitionOutput {
-  ContainerGroupDefinition?: ContainerGroupDefinition & {
-    Name: ContainerGroupDefinitionName;
-    GameServerContainerDefinition: GameServerContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
+  ContainerGroupDefinition?:
+    | (ContainerGroupDefinition & {
+        Name: ContainerGroupDefinitionName;
+        GameServerContainerDefinition: GameServerContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
+        };
+        SupportContainerDefinitions: (SupportContainerDefinition & {
+          DependsOn: (ContainerDependency & {
+            ContainerName: NonZeroAnd128MaxAsciiString;
+            Condition: ContainerDependencyCondition;
+          })[];
+          MountPoints: (ContainerMountPoint & { InstancePath: InstancePathString })[];
+          EnvironmentOverride: (ContainerEnvironment & {
+            Name: NonZeroAnd255MaxString;
+            Value: NonZeroAnd255MaxString;
+          })[];
+          HealthCheck: ContainerHealthCheck & { Command: ContainerCommandStringList };
+          PortConfiguration: ContainerPortConfiguration & {
+            ContainerPortRanges: (ContainerPortRange & {
+              FromPort: PortNumber;
+              ToPort: PortNumber;
+              Protocol: IpProtocol;
+            })[];
+          };
         })[];
-      };
-    };
-    SupportContainerDefinitions: (SupportContainerDefinition & {
-      DependsOn: (ContainerDependency & {
-        ContainerName: NonZeroAnd128MaxAsciiString;
-        Condition: ContainerDependencyCondition;
-      })[];
-      MountPoints: (ContainerMountPoint & {
-        InstancePath: InstancePathString;
-      })[];
-      EnvironmentOverride: (ContainerEnvironment & {
-        Name: NonZeroAnd255MaxString;
-        Value: NonZeroAnd255MaxString;
-      })[];
-      HealthCheck: ContainerHealthCheck & {
-        Command: ContainerCommandStringList;
-      };
-      PortConfiguration: ContainerPortConfiguration & {
-        ContainerPortRanges: (ContainerPortRange & {
-          FromPort: PortNumber;
-          ToPort: PortNumber;
-          Protocol: IpProtocol;
-        })[];
-      };
-    })[];
-  };
+      })
+    | undefined;
 }
-export const UpdateContainerGroupDefinitionOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ContainerGroupDefinition: S.optional(ContainerGroupDefinition),
-    }).pipe(ns),
-).annotate({
-  identifier: "UpdateContainerGroupDefinitionOutput",
-}) as any as S.Schema<UpdateContainerGroupDefinitionOutput>;
 export interface UpdateFleetAttributesInput {
-  FleetId?: string;
-  Name?: string;
-  Description?: string;
-  NewGameSessionProtectionPolicy?: ProtectionPolicy;
-  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy;
-  MetricGroups?: string[];
-  AnywhereConfiguration?: AnywhereConfiguration;
+  FleetId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  NewGameSessionProtectionPolicy?: ProtectionPolicy | undefined;
+  ResourceCreationLimitPolicy?: ResourceCreationLimitPolicy | undefined;
+  MetricGroups?: string[] | undefined;
+  AnywhereConfiguration?: AnywhereConfiguration | undefined;
 }
-export const UpdateFleetAttributesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    NewGameSessionProtectionPolicy: S.optional(ProtectionPolicy),
-    ResourceCreationLimitPolicy: S.optional(ResourceCreationLimitPolicy),
-    MetricGroups: S.optional(MetricGroupList),
-    AnywhereConfiguration: S.optional(AnywhereConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFleetAttributesInput",
-}) as any as S.Schema<UpdateFleetAttributesInput>;
 export interface UpdateFleetAttributesOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
-export const UpdateFleetAttributesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateFleetAttributesOutput",
-}) as any as S.Schema<UpdateFleetAttributesOutput>;
 export interface UpdateFleetCapacityInput {
-  FleetId?: string;
-  DesiredInstances?: number;
-  MinSize?: number;
-  MaxSize?: number;
-  Location?: string;
-  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
+  FleetId?: string | undefined;
+  DesiredInstances?: number | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  Location?: string | undefined;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration | undefined;
 }
-export const UpdateFleetCapacityInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    DesiredInstances: S.optional(S.Number),
-    MinSize: S.optional(S.Number),
-    MaxSize: S.optional(S.Number),
-    Location: S.optional(S.String),
-    ManagedCapacityConfiguration: S.optional(ManagedCapacityConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFleetCapacityInput",
-}) as any as S.Schema<UpdateFleetCapacityInput>;
 export interface UpdateFleetCapacityOutput {
-  FleetId?: string;
-  FleetArn?: string;
-  Location?: string;
-  ManagedCapacityConfiguration?: ManagedCapacityConfiguration;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
+  Location?: string | undefined;
+  ManagedCapacityConfiguration?: ManagedCapacityConfiguration | undefined;
 }
-export const UpdateFleetCapacityOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-    Location: S.optional(S.String),
-    ManagedCapacityConfiguration: S.optional(ManagedCapacityConfiguration),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateFleetCapacityOutput",
-}) as any as S.Schema<UpdateFleetCapacityOutput>;
 export interface UpdateFleetPortSettingsInput {
-  FleetId?: string;
-  InboundPermissionAuthorizations?: IpPermission[];
-  InboundPermissionRevocations?: IpPermission[];
+  FleetId?: string | undefined;
+  InboundPermissionAuthorizations?: IpPermission[] | undefined;
+  InboundPermissionRevocations?: IpPermission[] | undefined;
 }
-export const UpdateFleetPortSettingsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    InboundPermissionAuthorizations: S.optional(IpPermissionsList),
-    InboundPermissionRevocations: S.optional(IpPermissionsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateFleetPortSettingsInput",
-}) as any as S.Schema<UpdateFleetPortSettingsInput>;
 export interface UpdateFleetPortSettingsOutput {
-  FleetId?: string;
-  FleetArn?: string;
+  FleetId?: string | undefined;
+  FleetArn?: string | undefined;
 }
-export const UpdateFleetPortSettingsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    FleetArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateFleetPortSettingsOutput",
-}) as any as S.Schema<UpdateFleetPortSettingsOutput>;
 export type GameServerHealthCheck = "HEALTHY" | (string & {});
-export const GameServerHealthCheck = S.String;
-
 export interface UpdateGameServerInput {
-  GameServerGroupName?: string;
-  GameServerId?: string;
-  GameServerData?: string | redacted.Redacted<string>;
-  UtilizationStatus?: GameServerUtilizationStatus;
-  HealthCheck?: GameServerHealthCheck;
+  GameServerGroupName?: string | undefined;
+  GameServerId?: string | undefined;
+  GameServerData?: string | redacted.Redacted<string> | undefined;
+  UtilizationStatus?: GameServerUtilizationStatus | undefined;
+  HealthCheck?: GameServerHealthCheck | undefined;
 }
-export const UpdateGameServerInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    GameServerId: S.optional(S.String),
-    GameServerData: S.optional(SensitiveString),
-    UtilizationStatus: S.optional(GameServerUtilizationStatus),
-    HealthCheck: S.optional(GameServerHealthCheck),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGameServerInput",
-}) as any as S.Schema<UpdateGameServerInput>;
 export interface UpdateGameServerOutput {
-  GameServer?: GameServer;
+  GameServer?: GameServer | undefined;
 }
-export const UpdateGameServerOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServer: S.optional(GameServer) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGameServerOutput",
-}) as any as S.Schema<UpdateGameServerOutput>;
 export interface UpdateGameServerGroupInput {
-  GameServerGroupName?: string;
-  RoleArn?: string;
-  InstanceDefinitions?: InstanceDefinition[];
-  GameServerProtectionPolicy?: GameServerProtectionPolicy;
-  BalancingStrategy?: BalancingStrategy;
+  GameServerGroupName?: string | undefined;
+  RoleArn?: string | undefined;
+  InstanceDefinitions?: InstanceDefinition[] | undefined;
+  GameServerProtectionPolicy?: GameServerProtectionPolicy | undefined;
+  BalancingStrategy?: BalancingStrategy | undefined;
 }
-export const UpdateGameServerGroupInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameServerGroupName: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    InstanceDefinitions: S.optional(InstanceDefinitions),
-    GameServerProtectionPolicy: S.optional(GameServerProtectionPolicy),
-    BalancingStrategy: S.optional(BalancingStrategy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGameServerGroupInput",
-}) as any as S.Schema<UpdateGameServerGroupInput>;
 export interface UpdateGameServerGroupOutput {
-  GameServerGroup?: GameServerGroup & {
-    InstanceDefinitions: (InstanceDefinition & {
-      InstanceType: GameServerGroupInstanceType;
-    })[];
-  };
+  GameServerGroup?:
+    | (GameServerGroup & {
+        InstanceDefinitions: (InstanceDefinition & { InstanceType: GameServerGroupInstanceType })[];
+      })
+    | undefined;
 }
-export const UpdateGameServerGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameServerGroup: S.optional(GameServerGroup) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGameServerGroupOutput",
-}) as any as S.Schema<UpdateGameServerGroupOutput>;
 export interface UpdateGameSessionInput {
-  GameSessionId?: string;
-  MaximumPlayerSessionCount?: number;
-  Name?: string;
-  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy;
-  ProtectionPolicy?: ProtectionPolicy;
-  GameProperties?: GameProperty[];
+  GameSessionId?: string | undefined;
+  MaximumPlayerSessionCount?: number | undefined;
+  Name?: string | undefined;
+  PlayerSessionCreationPolicy?: PlayerSessionCreationPolicy | undefined;
+  ProtectionPolicy?: ProtectionPolicy | undefined;
+  GameProperties?: GameProperty[] | undefined;
 }
-export const UpdateGameSessionInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GameSessionId: S.optional(S.String),
-    MaximumPlayerSessionCount: S.optional(S.Number),
-    Name: S.optional(S.String),
-    PlayerSessionCreationPolicy: S.optional(PlayerSessionCreationPolicy),
-    ProtectionPolicy: S.optional(ProtectionPolicy),
-    GameProperties: S.optional(GamePropertyList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGameSessionInput",
-}) as any as S.Schema<UpdateGameSessionInput>;
 export interface UpdateGameSessionOutput {
-  GameSession?: GameSession & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  };
+  GameSession?:
+    | (GameSession & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
-export const UpdateGameSessionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSession: S.optional(GameSession) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGameSessionOutput",
-}) as any as S.Schema<UpdateGameSessionOutput>;
 export interface UpdateGameSessionQueueInput {
-  Name?: string;
-  TimeoutInSeconds?: number;
-  PlayerLatencyPolicies?: PlayerLatencyPolicy[];
-  Destinations?: GameSessionQueueDestination[];
-  FilterConfiguration?: FilterConfiguration;
-  PriorityConfiguration?: PriorityConfiguration;
-  CustomEventData?: string | redacted.Redacted<string>;
-  NotificationTarget?: string;
+  Name?: string | undefined;
+  TimeoutInSeconds?: number | undefined;
+  PlayerLatencyPolicies?: PlayerLatencyPolicy[] | undefined;
+  Destinations?: GameSessionQueueDestination[] | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
+  PriorityConfiguration?: PriorityConfiguration | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  NotificationTarget?: string | undefined;
 }
-export const UpdateGameSessionQueueInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    TimeoutInSeconds: S.optional(S.Number),
-    PlayerLatencyPolicies: S.optional(PlayerLatencyPolicyList),
-    Destinations: S.optional(GameSessionQueueDestinationList),
-    FilterConfiguration: S.optional(FilterConfiguration),
-    PriorityConfiguration: S.optional(PriorityConfiguration),
-    CustomEventData: S.optional(SensitiveString),
-    NotificationTarget: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateGameSessionQueueInput",
-}) as any as S.Schema<UpdateGameSessionQueueInput>;
 export interface UpdateGameSessionQueueOutput {
-  GameSessionQueue?: GameSessionQueue;
+  GameSessionQueue?: GameSessionQueue | undefined;
 }
-export const UpdateGameSessionQueueOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ GameSessionQueue: S.optional(GameSessionQueue) }).pipe(ns),
-).annotate({
-  identifier: "UpdateGameSessionQueueOutput",
-}) as any as S.Schema<UpdateGameSessionQueueOutput>;
 export interface UpdateMatchmakingConfigurationInput {
-  Name?: string;
-  Description?: string;
-  GameSessionQueueArns?: string[];
-  RequestTimeoutSeconds?: number;
-  AcceptanceTimeoutSeconds?: number;
-  AcceptanceRequired?: boolean;
-  RuleSetName?: string;
-  NotificationTarget?: string;
-  AdditionalPlayerCount?: number;
-  CustomEventData?: string | redacted.Redacted<string>;
-  GameProperties?: GameProperty[];
-  GameSessionData?: string | redacted.Redacted<string>;
-  BackfillMode?: BackfillMode;
-  FlexMatchMode?: FlexMatchMode;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  GameSessionQueueArns?: string[] | undefined;
+  RequestTimeoutSeconds?: number | undefined;
+  AcceptanceTimeoutSeconds?: number | undefined;
+  AcceptanceRequired?: boolean | undefined;
+  RuleSetName?: string | undefined;
+  NotificationTarget?: string | undefined;
+  AdditionalPlayerCount?: number | undefined;
+  CustomEventData?: string | redacted.Redacted<string> | undefined;
+  GameProperties?: GameProperty[] | undefined;
+  GameSessionData?: string | redacted.Redacted<string> | undefined;
+  BackfillMode?: BackfillMode | undefined;
+  FlexMatchMode?: FlexMatchMode | undefined;
 }
-export const UpdateMatchmakingConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    GameSessionQueueArns: S.optional(QueueArnsList),
-    RequestTimeoutSeconds: S.optional(S.Number),
-    AcceptanceTimeoutSeconds: S.optional(S.Number),
-    AcceptanceRequired: S.optional(S.Boolean),
-    RuleSetName: S.optional(S.String),
-    NotificationTarget: S.optional(S.String),
-    AdditionalPlayerCount: S.optional(S.Number),
-    CustomEventData: S.optional(SensitiveString),
-    GameProperties: S.optional(GamePropertyList),
-    GameSessionData: S.optional(SensitiveString),
-    BackfillMode: S.optional(BackfillMode),
-    FlexMatchMode: S.optional(FlexMatchMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMatchmakingConfigurationInput",
-}) as any as S.Schema<UpdateMatchmakingConfigurationInput>;
 export interface UpdateMatchmakingConfigurationOutput {
-  Configuration?: MatchmakingConfiguration & {
-    GameProperties: (GameProperty & {
-      Key: GamePropertyKey;
-      Value: GamePropertyValue;
-    })[];
-  };
+  Configuration?:
+    | (MatchmakingConfiguration & {
+        GameProperties: (GameProperty & { Key: GamePropertyKey; Value: GamePropertyValue })[];
+      })
+    | undefined;
 }
-export const UpdateMatchmakingConfigurationOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Configuration: S.optional(MatchmakingConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "UpdateMatchmakingConfigurationOutput",
-}) as any as S.Schema<UpdateMatchmakingConfigurationOutput>;
 export interface UpdateRuntimeConfigurationInput {
-  FleetId?: string;
-  RuntimeConfiguration?: RuntimeConfiguration;
+  FleetId?: string | undefined;
+  RuntimeConfiguration?: RuntimeConfiguration | undefined;
 }
-export const UpdateRuntimeConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FleetId: S.optional(S.String),
-    RuntimeConfiguration: S.optional(RuntimeConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateRuntimeConfigurationInput",
-}) as any as S.Schema<UpdateRuntimeConfigurationInput>;
 export interface UpdateRuntimeConfigurationOutput {
-  RuntimeConfiguration?: RuntimeConfiguration & {
-    ServerProcesses: (ServerProcess & {
-      LaunchPath: LaunchPathStringModel;
-      ConcurrentExecutions: PositiveInteger;
-    })[];
-  };
+  RuntimeConfiguration?:
+    | (RuntimeConfiguration & {
+        ServerProcesses: (ServerProcess & {
+          LaunchPath: LaunchPathStringModel;
+          ConcurrentExecutions: PositiveInteger;
+        })[];
+      })
+    | undefined;
 }
-export const UpdateRuntimeConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuntimeConfiguration: S.optional(RuntimeConfiguration) }).pipe(ns),
-).annotate({
-  identifier: "UpdateRuntimeConfigurationOutput",
-}) as any as S.Schema<UpdateRuntimeConfigurationOutput>;
 export interface UpdateScriptInput {
-  ScriptId?: string;
-  Name?: string;
-  Version?: string;
-  StorageLocation?: S3Location;
-  ZipFile?: Uint8Array;
+  ScriptId?: string | undefined;
+  Name?: string | undefined;
+  Version?: string | undefined;
+  StorageLocation?: S3Location | undefined;
+  ZipFile?: Uint8Array | undefined;
 }
-export const UpdateScriptInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScriptId: S.optional(S.String),
-    Name: S.optional(S.String),
-    Version: S.optional(S.String),
-    StorageLocation: S.optional(S3Location),
-    ZipFile: S.optional(T.Blob),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateScriptInput",
-}) as any as S.Schema<UpdateScriptInput>;
 export interface UpdateScriptOutput {
-  Script?: Script;
+  Script?: Script | undefined;
 }
-export const UpdateScriptOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Script: S.optional(Script) }).pipe(ns),
-).annotate({
-  identifier: "UpdateScriptOutput",
-}) as any as S.Schema<UpdateScriptOutput>;
 export interface ValidateMatchmakingRuleSetInput {
-  RuleSetBody?: string;
+  RuleSetBody?: string | undefined;
 }
-export const ValidateMatchmakingRuleSetInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RuleSetBody: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ValidateMatchmakingRuleSetInput",
-}) as any as S.Schema<ValidateMatchmakingRuleSetInput>;
 export interface ValidateMatchmakingRuleSetOutput {
-  Valid?: boolean;
+  Valid?: boolean | undefined;
 }
-export const ValidateMatchmakingRuleSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Valid: S.optional(S.Boolean) }).pipe(ns),
-).annotate({
-  identifier: "ValidateMatchmakingRuleSetOutput",
-}) as any as S.Schema<ValidateMatchmakingRuleSetOutput>;
 export type AcceptMatchError =
   | InternalServiceException
   | InvalidRequestException
@@ -7895,7 +3446,7 @@ export type AcceptMatchError =
  * timeout, the proposed match is dropped. Each matchmaking ticket in the failed match is handled as follows:
  *
  * - If the ticket has one or more players who rejected the match or failed to
- * respond, the ticket status is set `CANCELLED` and processing is
+ * respond, the ticket status is set to `CANCELLED` and processing is
  * terminated.
  *
  * - If all players in the ticket accepted the match, the ticket
@@ -7908,13 +3459,13 @@ export type AcceptMatchError =
  * FlexMatch events (reference)
  */
 export const acceptMatch: API.OperationMethod<
-  AcceptMatchInput,
+  AcceptMatchInput & RegionInput,
   AcceptMatchOutput,
   AcceptMatchError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptMatchInput,
-  output: AcceptMatchOutput,
+  input: __S(608, __c38, 0) as any as S.Schema<AcceptMatchInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<AcceptMatchOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -7924,6 +3475,8 @@ export const acceptMatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptMatch",
+  telemetry: TELEMETRY,
+  span: "AcceptMatch",
 }));
 
 export type ClaimGameServerError =
@@ -7975,13 +3528,13 @@ export type ClaimGameServerError =
  * Guide
  */
 export const claimGameServer: API.OperationMethod<
-  ClaimGameServerInput,
+  ClaimGameServerInput & RegionInput,
   ClaimGameServerOutput,
   ClaimGameServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ClaimGameServerInput,
-  output: ClaimGameServerOutput,
+  input: __S(657, __c41, 1) as any as S.Schema<ClaimGameServerInput>,
+  output: __S(688, __c43, 0) as any as S.Schema<ClaimGameServerOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -7993,6 +3546,8 @@ export const claimGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimGameServer",
+  telemetry: TELEMETRY,
+  span: "ClaimGameServer",
 }));
 
 export type CreateAliasError =
@@ -8028,13 +3583,13 @@ export type CreateAliasError =
  * All APIs by task
  */
 export const createAlias: API.OperationMethod<
-  CreateAliasInput,
+  CreateAliasInput & RegionInput,
   CreateAliasOutput,
   CreateAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAliasInput,
-  output: CreateAliasOutput,
+  input: __S(720, __c45, 0) as any as S.Schema<CreateAliasInput>,
+  output: __S(752, __c47, 0) as any as S.Schema<CreateAliasOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8046,6 +3601,8 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
+  telemetry: TELEMETRY,
+  span: "CreateAlias",
 }));
 
 export type CreateBuildError =
@@ -8096,13 +3653,13 @@ export type CreateBuildError =
  * All APIs by task
  */
 export const createBuild: API.OperationMethod<
-  CreateBuildInput,
+  CreateBuildInput & RegionInput,
   CreateBuildOutput,
   CreateBuildError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateBuildInput,
-  output: CreateBuildOutput,
+  input: __S(784, __c49, 0) as any as S.Schema<CreateBuildInput>,
+  output: __S(785, __c49, 1) as any as S.Schema<CreateBuildOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8113,6 +3670,8 @@ export const createBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBuild",
+  telemetry: TELEMETRY,
+  span: "CreateBuild",
 }));
 
 export type CreateContainerFleetError =
@@ -8202,13 +3761,13 @@ export type CreateContainerFleetError =
  * Security best practices for Amazon GameLift Servers.
  */
 export const createContainerFleet: API.OperationMethod<
-  CreateContainerFleetInput,
+  CreateContainerFleetInput & RegionInput,
   CreateContainerFleetOutput,
   CreateContainerFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateContainerFleetInput,
-  output: CreateContainerFleetOutput,
+  input: __S(848, __c53, 0) as any as S.Schema<CreateContainerFleetInput>,
+  output: __S(960, __c60, 0) as any as S.Schema<CreateContainerFleetOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8221,6 +3780,8 @@ export const createContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerFleet",
+  telemetry: TELEMETRY,
+  span: "CreateContainerFleet",
 }));
 
 export type CreateContainerGroupDefinitionError =
@@ -8290,7 +3851,8 @@ export type CreateContainerGroupDefinitionError =
  *
  * - `TotalMemoryLimitMebibytes`
  *
- * - `TotalVcpuLimit`
+ * - Either `TotalVcpuLimit` or a `Vcpu` value for the game server
+ * container
  *
  * - At least one `GameServerContainerDefinition`
  *
@@ -8328,13 +3890,13 @@ export type CreateContainerGroupDefinitionError =
  * calling UpdateContainerGroupDefinition, and optionally save the update as a new version.
  */
 export const createContainerGroupDefinition: API.OperationMethod<
-  CreateContainerGroupDefinitionInput,
+  CreateContainerGroupDefinitionInput & RegionInput,
   CreateContainerGroupDefinitionOutput,
   CreateContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateContainerGroupDefinitionInput,
-  output: CreateContainerGroupDefinitionOutput,
+  input: __S(992, __c62, 0) as any as S.Schema<CreateContainerGroupDefinitionInput>,
+  output: __S(1024, __c64, 0) as any as S.Schema<CreateContainerGroupDefinitionOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8347,6 +3909,8 @@ export const createContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "CreateContainerGroupDefinition",
 }));
 
 export type CreateFleetError =
@@ -8437,13 +4001,13 @@ export type CreateFleetError =
  * Multi-location fleets
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetInput,
+  CreateFleetInput & RegionInput,
   CreateFleetOutput,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFleetInput,
-  output: CreateFleetOutput,
+  input: __S(1056, __c66, 0) as any as S.Schema<CreateFleetInput>,
+  output: __S(1057, __c66, 1) as any as S.Schema<CreateFleetOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8458,6 +4022,8 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  telemetry: TELEMETRY,
+  span: "CreateFleet",
 }));
 
 export type CreateFleetLocationsError =
@@ -8474,7 +4040,7 @@ export type CreateFleetLocationsError =
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
- * Adds remote locations to an EC2 and begins populating the new locations with
+ * Adds remote locations to an EC2 fleet and begins populating the new locations with
  * instances. The new instances conform to the fleet's instance type, auto-scaling, and
  * other configuration settings.
  *
@@ -8500,13 +4066,13 @@ export type CreateFleetLocationsError =
  * Amazon GameLift Servers service locations for managed hosting.
  */
 export const createFleetLocations: API.OperationMethod<
-  CreateFleetLocationsInput,
+  CreateFleetLocationsInput & RegionInput,
   CreateFleetLocationsOutput,
   CreateFleetLocationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateFleetLocationsInput,
-  output: CreateFleetLocationsOutput,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateFleetLocationsInput>,
+  output: __S(1136, __c71, 0) as any as S.Schema<CreateFleetLocationsOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8521,6 +4087,8 @@ export const createFleetLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleetLocations",
+  telemetry: TELEMETRY,
+  span: "CreateFleetLocations",
 }));
 
 export type CreateGameServerGroupError =
@@ -8571,13 +4139,13 @@ export type CreateGameServerGroupError =
  * Guide
  */
 export const createGameServerGroup: API.OperationMethod<
-  CreateGameServerGroupInput,
+  CreateGameServerGroupInput & RegionInput,
   CreateGameServerGroupOutput,
   CreateGameServerGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGameServerGroupInput,
-  output: CreateGameServerGroupOutput,
+  input: __S(1154, __c72, 2) as any as S.Schema<CreateGameServerGroupInput>,
+  output: __S(1168, __c73, 0) as any as S.Schema<CreateGameServerGroupOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8588,6 +4156,8 @@ export const createGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "CreateGameServerGroup",
 }));
 
 export type CreateGameSessionError =
@@ -8636,7 +4206,7 @@ export type CreateGameSessionError =
  * player access by using UpdateGameSession to change the game session's player session creation
  * policy.
  *
- * Amazon GameLift Servers retains logs for active for 14 days. To access the logs, call GetGameSessionLogUrl to download the log files.
+ * Amazon GameLift Servers retains logs for active game sessions for 14 days. To access the logs, call GetGameSessionLogUrl to download the log files.
  *
  * *Available in Amazon GameLift Servers Local.*
  *
@@ -8647,13 +4217,13 @@ export type CreateGameSessionError =
  * All APIs by task
  */
 export const createGameSession: API.OperationMethod<
-  CreateGameSessionInput,
+  CreateGameSessionInput & RegionInput,
   CreateGameSessionOutput,
   CreateGameSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGameSessionInput,
-  output: CreateGameSessionOutput,
+  input: __S(1216, __c76, 0) as any as S.Schema<CreateGameSessionInput>,
+  output: __S(1232, __c77, 0) as any as S.Schema<CreateGameSessionOutput>,
   errors: [
     ConflictException,
     FleetCapacityExceededException,
@@ -8670,6 +4240,8 @@ export const createGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameSession",
+  telemetry: TELEMETRY,
+  span: "CreateGameSession",
 }));
 
 export type CreateGameSessionQueueError =
@@ -8758,13 +4330,13 @@ export type CreateGameSessionQueueError =
  * All APIs by task
  */
 export const createGameSessionQueue: API.OperationMethod<
-  CreateGameSessionQueueInput,
+  CreateGameSessionQueueInput & RegionInput,
   CreateGameSessionQueueOutput,
   CreateGameSessionQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateGameSessionQueueInput,
-  output: CreateGameSessionQueueOutput,
+  input: __S(1280, __c80, 0) as any as S.Schema<CreateGameSessionQueueInput>,
+  output: __S(1296, __c81, 0) as any as S.Schema<CreateGameSessionQueueOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -8776,6 +4348,8 @@ export const createGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGameSessionQueue",
+  telemetry: TELEMETRY,
+  span: "CreateGameSessionQueue",
 }));
 
 export type CreateLocationError =
@@ -8793,13 +4367,13 @@ export type CreateLocationError =
  * Creates a custom location for use in an Anywhere fleet.
  */
 export const createLocation: API.OperationMethod<
-  CreateLocationInput,
+  CreateLocationInput & RegionInput,
   CreateLocationOutput,
   CreateLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLocationInput,
-  output: CreateLocationOutput,
+  input: __S(1328, __c83, 0) as any as S.Schema<CreateLocationInput>,
+  output: __S(1329, __c83, 1) as any as S.Schema<CreateLocationOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -8812,6 +4386,8 @@ export const createLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocation",
+  telemetry: TELEMETRY,
+  span: "CreateLocation",
 }));
 
 export type CreateMatchmakingConfigurationError =
@@ -8825,7 +4401,7 @@ export type CreateMatchmakingConfigurationError =
 /**
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
- * Defines a new matchmaking configuration for use with FlexMatch. Whether your are using
+ * Defines a new matchmaking configuration for use with FlexMatch. Whether you are using
  * FlexMatch with Amazon GameLift Servers hosting or as a standalone matchmaking service, the matchmaking
  * configuration sets out rules for matching players and forming teams. If you're also
  * using Amazon GameLift Servers hosting, it defines how to start game sessions for each match. Your
@@ -8852,13 +4428,13 @@ export type CreateMatchmakingConfigurationError =
  * notification
  */
 export const createMatchmakingConfiguration: API.OperationMethod<
-  CreateMatchmakingConfigurationInput,
+  CreateMatchmakingConfigurationInput & RegionInput,
   CreateMatchmakingConfigurationOutput,
   CreateMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMatchmakingConfigurationInput,
-  output: CreateMatchmakingConfigurationOutput,
+  input: __S(1360, __c85, 0) as any as S.Schema<CreateMatchmakingConfigurationInput>,
+  output: __S(1376, __c86, 0) as any as S.Schema<CreateMatchmakingConfigurationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -8870,6 +4446,8 @@ export const createMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchmakingConfiguration",
+  telemetry: TELEMETRY,
+  span: "CreateMatchmakingConfiguration",
 }));
 
 export type CreateMatchmakingRuleSetError =
@@ -8905,13 +4483,13 @@ export type CreateMatchmakingRuleSetError =
  * FlexMatch
  */
 export const createMatchmakingRuleSet: API.OperationMethod<
-  CreateMatchmakingRuleSetInput,
+  CreateMatchmakingRuleSetInput & RegionInput,
   CreateMatchmakingRuleSetOutput,
   CreateMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMatchmakingRuleSetInput,
-  output: CreateMatchmakingRuleSetOutput,
+  input: __S(1408, __c88, 0) as any as S.Schema<CreateMatchmakingRuleSetInput>,
+  output: __S(1409, __c88, 1) as any as S.Schema<CreateMatchmakingRuleSetOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -8922,6 +4500,8 @@ export const createMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMatchmakingRuleSet",
+  telemetry: TELEMETRY,
+  span: "CreateMatchmakingRuleSet",
 }));
 
 export type CreatePlayerSessionError =
@@ -8957,13 +4537,13 @@ export type CreatePlayerSessionError =
  * All APIs by task
  */
 export const createPlayerSession: API.OperationMethod<
-  CreatePlayerSessionInput,
+  CreatePlayerSessionInput & RegionInput,
   CreatePlayerSessionOutput,
   CreatePlayerSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePlayerSessionInput,
-  output: CreatePlayerSessionOutput,
+  input: __S(1440, __c90, 0) as any as S.Schema<CreatePlayerSessionInput>,
+  output: __S(1441, __c90, 1) as any as S.Schema<CreatePlayerSessionOutput>,
   errors: [
     GameSessionFullException,
     InternalServiceException,
@@ -8976,6 +4556,8 @@ export const createPlayerSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlayerSession",
+  telemetry: TELEMETRY,
+  span: "CreatePlayerSession",
 }));
 
 export type CreatePlayerSessionsError =
@@ -9011,13 +4593,13 @@ export type CreatePlayerSessionsError =
  * All APIs by task
  */
 export const createPlayerSessions: API.OperationMethod<
-  CreatePlayerSessionsInput,
+  CreatePlayerSessionsInput & RegionInput,
   CreatePlayerSessionsOutput,
   CreatePlayerSessionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePlayerSessionsInput,
-  output: CreatePlayerSessionsOutput,
+  input: __S(1473, __c92, 1) as any as S.Schema<CreatePlayerSessionsInput>,
+  output: __S(1474, __c92, 2) as any as S.Schema<CreatePlayerSessionsOutput>,
   errors: [
     GameSessionFullException,
     InternalServiceException,
@@ -9030,6 +4612,8 @@ export const createPlayerSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlayerSessions",
+  telemetry: TELEMETRY,
+  span: "CreatePlayerSessions",
 }));
 
 export type CreateScriptError =
@@ -9076,13 +4660,13 @@ export type CreateScriptError =
  * All APIs by task
  */
 export const createScript: API.OperationMethod<
-  CreateScriptInput,
+  CreateScriptInput & RegionInput,
   CreateScriptOutput,
   CreateScriptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateScriptInput,
-  output: CreateScriptOutput,
+  input: __S(1504, __c94, 0) as any as S.Schema<CreateScriptInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<CreateScriptOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -9093,6 +4677,8 @@ export const createScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScript",
+  telemetry: TELEMETRY,
+  span: "CreateScript",
 }));
 
 export type CreateVpcPeeringAuthorizationError =
@@ -9150,13 +4736,13 @@ export type CreateVpcPeeringAuthorizationError =
  * All APIs by task
  */
 export const createVpcPeeringAuthorization: API.OperationMethod<
-  CreateVpcPeeringAuthorizationInput,
+  CreateVpcPeeringAuthorizationInput & RegionInput,
   CreateVpcPeeringAuthorizationOutput,
   CreateVpcPeeringAuthorizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVpcPeeringAuthorizationInput,
-  output: CreateVpcPeeringAuthorizationOutput,
+  input: __S(1552, __c97, 0) as any as S.Schema<CreateVpcPeeringAuthorizationInput>,
+  output: __S(1553, __c97, 1) as any as S.Schema<CreateVpcPeeringAuthorizationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9166,6 +4752,8 @@ export const createVpcPeeringAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcPeeringAuthorization",
+  telemetry: TELEMETRY,
+  span: "CreateVpcPeeringAuthorization",
 }));
 
 export type CreateVpcPeeringConnectionError =
@@ -9192,7 +4780,7 @@ export type CreateVpcPeeringConnectionError =
  *
  * To establish the connection, call this operation from the Amazon Web Services account that is used
  * to manage the Amazon GameLift Servers fleets. Identify the following values: (1) The ID of the fleet you
- * want to be enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that
+ * want to enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that
  * you want to peer with; and (3) The ID of the VPC you want to peer with. This operation
  * is asynchronous. If successful, a connection request is created. You can use continuous
  * polling to track the request's status using DescribeVpcPeeringConnections , or by monitoring fleet events for success
@@ -9218,13 +4806,13 @@ export type CreateVpcPeeringConnectionError =
  * All APIs by task
  */
 export const createVpcPeeringConnection: API.OperationMethod<
-  CreateVpcPeeringConnectionInput,
+  CreateVpcPeeringConnectionInput & RegionInput,
   CreateVpcPeeringConnectionOutput,
   CreateVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVpcPeeringConnectionInput,
-  output: CreateVpcPeeringConnectionOutput,
+  input: __S(1584, __c99, 0) as any as S.Schema<CreateVpcPeeringConnectionInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<CreateVpcPeeringConnectionOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9234,6 +4822,8 @@ export const createVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "CreateVpcPeeringConnection",
 }));
 
 export type DeleteAliasError =
@@ -9255,13 +4845,13 @@ export type DeleteAliasError =
  * All APIs by task
  */
 export const deleteAlias: API.OperationMethod<
-  DeleteAliasInput,
+  DeleteAliasInput & RegionInput,
   DeleteAliasResponse,
   DeleteAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAliasInput,
-  output: DeleteAliasResponse,
+  input: __S(1600, __c100, 0) as any as S.Schema<DeleteAliasInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteAliasResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9272,6 +4862,8 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
+  telemetry: TELEMETRY,
+  span: "DeleteAlias",
 }));
 
 export type DeleteBuildError =
@@ -9298,13 +4890,13 @@ export type DeleteBuildError =
  * All APIs by task
  */
 export const deleteBuild: API.OperationMethod<
-  DeleteBuildInput,
+  DeleteBuildInput & RegionInput,
   DeleteBuildResponse,
   DeleteBuildError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteBuildInput,
-  output: DeleteBuildResponse,
+  input: __S(1616, __c101, 0) as any as S.Schema<DeleteBuildInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteBuildResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9315,6 +4907,8 @@ export const deleteBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBuild",
+  telemetry: TELEMETRY,
+  span: "DeleteBuild",
 }));
 
 export type DeleteContainerFleetError =
@@ -9341,13 +4935,13 @@ export type DeleteContainerFleetError =
  * Fleets
  */
 export const deleteContainerFleet: API.OperationMethod<
-  DeleteContainerFleetInput,
+  DeleteContainerFleetInput & RegionInput,
   DeleteContainerFleetOutput,
   DeleteContainerFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteContainerFleetInput,
-  output: DeleteContainerFleetOutput,
+  input: __S(1632, __c102, 0) as any as S.Schema<DeleteContainerFleetInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteContainerFleetOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9359,6 +4953,8 @@ export const deleteContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerFleet",
 }));
 
 export type DeleteContainerGroupDefinitionError =
@@ -9403,13 +4999,13 @@ export type DeleteContainerGroupDefinitionError =
  * - Manage a container group definition
  */
 export const deleteContainerGroupDefinition: API.OperationMethod<
-  DeleteContainerGroupDefinitionInput,
+  DeleteContainerGroupDefinitionInput & RegionInput,
   DeleteContainerGroupDefinitionOutput,
   DeleteContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteContainerGroupDefinitionInput,
-  output: DeleteContainerGroupDefinitionOutput,
+  input: __S(1648, __c103, 0) as any as S.Schema<DeleteContainerGroupDefinitionInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteContainerGroupDefinitionOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9421,6 +5017,8 @@ export const deleteContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "DeleteContainerGroupDefinition",
 }));
 
 export type DeleteFleetError =
@@ -9452,13 +5050,13 @@ export type DeleteFleetError =
  * Fleets
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetInput,
+  DeleteFleetInput & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFleetInput,
-  output: DeleteFleetResponse,
+  input: __S(1664, __c104, 0) as any as S.Schema<DeleteFleetInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteFleetResponse>,
   errors: [
     InternalServiceException,
     InvalidFleetStatusException,
@@ -9470,6 +5068,8 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  telemetry: TELEMETRY,
+  span: "DeleteFleet",
 }));
 
 export type DeleteFleetLocationsError =
@@ -9483,7 +5083,7 @@ export type DeleteFleetLocationsError =
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
  * Removes locations from a multi-location fleet. When deleting a location, all game
- * server process and all instances that are still active in the location are shut down.
+ * server processes and all instances that are still active in the location are shut down.
  *
  * To delete fleet locations, identify the fleet ID and provide a list of the locations
  * to be deleted.
@@ -9498,13 +5098,13 @@ export type DeleteFleetLocationsError =
  * fleets
  */
 export const deleteFleetLocations: API.OperationMethod<
-  DeleteFleetLocationsInput,
+  DeleteFleetLocationsInput & RegionInput,
   DeleteFleetLocationsOutput,
   DeleteFleetLocationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteFleetLocationsInput,
-  output: DeleteFleetLocationsOutput,
+  input: __S(1680, __c105, 0) as any as S.Schema<DeleteFleetLocationsInput>,
+  output: __S(1136, __c71, 0) as any as S.Schema<DeleteFleetLocationsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9515,6 +5115,8 @@ export const deleteFleetLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetLocations",
+  telemetry: TELEMETRY,
+  span: "DeleteFleetLocations",
 }));
 
 export type DeleteGameServerGroupError =
@@ -9556,13 +5158,13 @@ export type DeleteGameServerGroupError =
  * Guide
  */
 export const deleteGameServerGroup: API.OperationMethod<
-  DeleteGameServerGroupInput,
+  DeleteGameServerGroupInput & RegionInput,
   DeleteGameServerGroupOutput,
   DeleteGameServerGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGameServerGroupInput,
-  output: DeleteGameServerGroupOutput,
+  input: __S(1696, __c106, 0) as any as S.Schema<DeleteGameServerGroupInput>,
+  output: __S(1168, __c73, 0) as any as S.Schema<DeleteGameServerGroupOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9572,6 +5174,8 @@ export const deleteGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteGameServerGroup",
 }));
 
 export type DeleteGameSessionQueueError =
@@ -9588,13 +5192,13 @@ export type DeleteGameSessionQueueError =
  * delete a queue, specify the queue name.
  */
 export const deleteGameSessionQueue: API.OperationMethod<
-  DeleteGameSessionQueueInput,
+  DeleteGameSessionQueueInput & RegionInput,
   DeleteGameSessionQueueOutput,
   DeleteGameSessionQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteGameSessionQueueInput,
-  output: DeleteGameSessionQueueOutput,
+  input: __S(1712, __c107, 0) as any as S.Schema<DeleteGameSessionQueueInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteGameSessionQueueOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9605,6 +5209,8 @@ export const deleteGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGameSessionQueue",
+  telemetry: TELEMETRY,
+  span: "DeleteGameSessionQueue",
 }));
 
 export type DeleteLocationError =
@@ -9623,13 +5229,13 @@ export type DeleteLocationError =
  * location and deregister the location if it is in use. For more information, see DeregisterCompute.
  */
 export const deleteLocation: API.OperationMethod<
-  DeleteLocationInput,
+  DeleteLocationInput & RegionInput,
   DeleteLocationOutput,
   DeleteLocationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLocationInput,
-  output: DeleteLocationOutput,
+  input: __S(1728, __c108, 0) as any as S.Schema<DeleteLocationInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteLocationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9640,6 +5246,8 @@ export const deleteLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocation",
+  telemetry: TELEMETRY,
+  span: "DeleteLocation",
 }));
 
 export type DeleteMatchmakingConfigurationError =
@@ -9657,13 +5265,13 @@ export type DeleteMatchmakingConfigurationError =
  * any active matchmaking tickets.
  */
 export const deleteMatchmakingConfiguration: API.OperationMethod<
-  DeleteMatchmakingConfigurationInput,
+  DeleteMatchmakingConfigurationInput & RegionInput,
   DeleteMatchmakingConfigurationOutput,
   DeleteMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMatchmakingConfigurationInput,
-  output: DeleteMatchmakingConfigurationOutput,
+  input: __S(1744, __c109, 0) as any as S.Schema<DeleteMatchmakingConfigurationInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteMatchmakingConfigurationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9674,6 +5282,8 @@ export const deleteMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchmakingConfiguration",
+  telemetry: TELEMETRY,
+  span: "DeleteMatchmakingConfiguration",
 }));
 
 export type DeleteMatchmakingRuleSetError =
@@ -9696,13 +5306,13 @@ export type DeleteMatchmakingRuleSetError =
  * set
  */
 export const deleteMatchmakingRuleSet: API.OperationMethod<
-  DeleteMatchmakingRuleSetInput,
+  DeleteMatchmakingRuleSetInput & RegionInput,
   DeleteMatchmakingRuleSetOutput,
   DeleteMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMatchmakingRuleSetInput,
-  output: DeleteMatchmakingRuleSetOutput,
+  input: __S(1760, __c110, 0) as any as S.Schema<DeleteMatchmakingRuleSetInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteMatchmakingRuleSetOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9713,6 +5323,8 @@ export const deleteMatchmakingRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMatchmakingRuleSet",
+  telemetry: TELEMETRY,
+  span: "DeleteMatchmakingRuleSet",
 }));
 
 export type DeleteScalingPolicyError =
@@ -9733,13 +5345,13 @@ export type DeleteScalingPolicyError =
  * fleet.
  */
 export const deleteScalingPolicy: API.OperationMethod<
-  DeleteScalingPolicyInput,
+  DeleteScalingPolicyInput & RegionInput,
   DeleteScalingPolicyResponse,
   DeleteScalingPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteScalingPolicyInput,
-  output: DeleteScalingPolicyResponse,
+  input: __S(1776, __c111, 0) as any as S.Schema<DeleteScalingPolicyInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteScalingPolicyResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9750,6 +5362,8 @@ export const deleteScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteScalingPolicy",
 }));
 
 export type DeleteScriptError =
@@ -9780,13 +5394,13 @@ export type DeleteScriptError =
  * All APIs by task
  */
 export const deleteScript: API.OperationMethod<
-  DeleteScriptInput,
+  DeleteScriptInput & RegionInput,
   DeleteScriptResponse,
   DeleteScriptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteScriptInput,
-  output: DeleteScriptResponse,
+  input: __S(1792, __c112, 0) as any as S.Schema<DeleteScriptInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteScriptResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9797,6 +5411,8 @@ export const deleteScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScript",
+  telemetry: TELEMETRY,
+  span: "DeleteScript",
 }));
 
 export type DeleteVpcPeeringAuthorizationError =
@@ -9816,13 +5432,13 @@ export type DeleteVpcPeeringAuthorizationError =
  * All APIs by task
  */
 export const deleteVpcPeeringAuthorization: API.OperationMethod<
-  DeleteVpcPeeringAuthorizationInput,
+  DeleteVpcPeeringAuthorizationInput & RegionInput,
   DeleteVpcPeeringAuthorizationOutput,
   DeleteVpcPeeringAuthorizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVpcPeeringAuthorizationInput,
-  output: DeleteVpcPeeringAuthorizationOutput,
+  input: __S(1808, __c113, 0) as any as S.Schema<DeleteVpcPeeringAuthorizationInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteVpcPeeringAuthorizationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9832,6 +5448,8 @@ export const deleteVpcPeeringAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcPeeringAuthorization",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcPeeringAuthorization",
 }));
 
 export type DeleteVpcPeeringConnectionError =
@@ -9844,7 +5462,7 @@ export type DeleteVpcPeeringConnectionError =
  * **This API works with the following fleet types:** EC2
  *
  * Removes a VPC peering connection. To delete the connection, you must have a valid
- * authorization for the VPC peering connection that you want to delete..
+ * authorization for the VPC peering connection that you want to delete.
  *
  * Once a valid authorization exists, call this operation from the Amazon Web Services account that is
  * used to manage the Amazon GameLift Servers fleets. Identify the connection to delete by the connection ID
@@ -9855,13 +5473,13 @@ export type DeleteVpcPeeringConnectionError =
  * All APIs by task
  */
 export const deleteVpcPeeringConnection: API.OperationMethod<
-  DeleteVpcPeeringConnectionInput,
+  DeleteVpcPeeringConnectionInput & RegionInput,
   DeleteVpcPeeringConnectionOutput,
   DeleteVpcPeeringConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVpcPeeringConnectionInput,
-  output: DeleteVpcPeeringConnectionOutput,
+  input: __S(1824, __c114, 0) as any as S.Schema<DeleteVpcPeeringConnectionInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeleteVpcPeeringConnectionOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9871,6 +5489,8 @@ export const deleteVpcPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcPeeringConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcPeeringConnection",
 }));
 
 export type DeregisterComputeError =
@@ -9885,20 +5505,20 @@ export type DeregisterComputeError =
  *
  * Removes a compute resource from an Anywhere fleet. Deregistered computes can no longer
  * host game sessions through Amazon GameLift Servers. Use this operation with an Anywhere fleet that
- * doesn't use the Amazon GameLift Servers Agent For Anywhere fleets with the Agent, the Agent handles all
+ * doesn't use the Amazon GameLift Servers Agent. For Anywhere fleets with the Agent, the Agent handles all
  * compute registry tasks for you.
  *
  * To deregister a compute, call this operation from the compute that's being
  * deregistered and specify the compute name and the fleet ID.
  */
 export const deregisterCompute: API.OperationMethod<
-  DeregisterComputeInput,
+  DeregisterComputeInput & RegionInput,
   DeregisterComputeOutput,
   DeregisterComputeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterComputeInput,
-  output: DeregisterComputeOutput,
+  input: __S(1840, __c115, 0) as any as S.Schema<DeregisterComputeInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeregisterComputeOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9909,6 +5529,8 @@ export const deregisterCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCompute",
+  telemetry: TELEMETRY,
+  span: "DeregisterCompute",
 }));
 
 export type DeregisterGameServerError =
@@ -9934,13 +5556,13 @@ export type DeregisterGameServerError =
  * Guide
  */
 export const deregisterGameServer: API.OperationMethod<
-  DeregisterGameServerInput,
+  DeregisterGameServerInput & RegionInput,
   DeregisterGameServerResponse,
   DeregisterGameServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterGameServerInput,
-  output: DeregisterGameServerResponse,
+  input: __S(1856, __c116, 0) as any as S.Schema<DeregisterGameServerInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<DeregisterGameServerResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9950,6 +5572,8 @@ export const deregisterGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterGameServer",
+  telemetry: TELEMETRY,
+  span: "DeregisterGameServer",
 }));
 
 export type DescribeAliasError =
@@ -9972,13 +5596,13 @@ export type DescribeAliasError =
  * All APIs by task
  */
 export const describeAlias: API.OperationMethod<
-  DescribeAliasInput,
+  DescribeAliasInput & RegionInput,
   DescribeAliasOutput,
   DescribeAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeAliasInput,
-  output: DescribeAliasOutput,
+  input: __S(1872, __c117, 0) as any as S.Schema<DescribeAliasInput>,
+  output: __S(752, __c47, 0) as any as S.Schema<DescribeAliasOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -9988,6 +5612,8 @@ export const describeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlias",
+  telemetry: TELEMETRY,
+  span: "DescribeAlias",
 }));
 
 export type DescribeBuildError =
@@ -10010,13 +5636,13 @@ export type DescribeBuildError =
  * All APIs by task
  */
 export const describeBuild: API.OperationMethod<
-  DescribeBuildInput,
+  DescribeBuildInput & RegionInput,
   DescribeBuildOutput,
   DescribeBuildError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeBuildInput,
-  output: DescribeBuildOutput,
+  input: __S(1888, __c118, 0) as any as S.Schema<DescribeBuildInput>,
+  output: __S(1904, __c119, 0) as any as S.Schema<DescribeBuildOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10026,6 +5652,8 @@ export const describeBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBuild",
+  telemetry: TELEMETRY,
+  span: "DescribeBuild",
 }));
 
 export type DescribeComputeError =
@@ -10069,13 +5697,13 @@ export type DescribeComputeError =
  * compute.
  */
 export const describeCompute: API.OperationMethod<
-  DescribeComputeInput,
+  DescribeComputeInput & RegionInput,
   DescribeComputeOutput,
   DescribeComputeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeComputeInput,
-  output: DescribeComputeOutput,
+  input: __S(1920, __c120, 0) as any as S.Schema<DescribeComputeInput>,
+  output: __S(1936, __c121, 0) as any as S.Schema<DescribeComputeOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10086,6 +5714,8 @@ export const describeCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCompute",
+  telemetry: TELEMETRY,
+  span: "DescribeCompute",
 }));
 
 export type DescribeContainerFleetError =
@@ -10111,18 +5741,18 @@ export type DescribeContainerFleetError =
  * If successful, a `ContainerFleet` object is returned. This object includes
  * the fleet properties, including information about the most recent deployment.
  *
- * Some API operations limit the number of fleet IDs that allowed in one request. If
+ * Some API operations limit the number of fleet IDs that are allowed in one request. If
  * a request exceeds this limit, the request fails and the error message contains the
  * maximum allowed number.
  */
 export const describeContainerFleet: API.OperationMethod<
-  DescribeContainerFleetInput,
+  DescribeContainerFleetInput & RegionInput,
   DescribeContainerFleetOutput,
   DescribeContainerFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeContainerFleetInput,
-  output: DescribeContainerFleetOutput,
+  input: __S(1984, __c124, 0) as any as S.Schema<DescribeContainerFleetInput>,
+  output: __S(960, __c60, 0) as any as S.Schema<DescribeContainerFleetOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10133,6 +5763,8 @@ export const describeContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerFleet",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerFleet",
 }));
 
 export type DescribeContainerGroupDefinitionError =
@@ -10166,13 +5798,13 @@ export type DescribeContainerGroupDefinitionError =
  * - Manage a container group definition
  */
 export const describeContainerGroupDefinition: API.OperationMethod<
-  DescribeContainerGroupDefinitionInput,
+  DescribeContainerGroupDefinitionInput & RegionInput,
   DescribeContainerGroupDefinitionOutput,
   DescribeContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeContainerGroupDefinitionInput,
-  output: DescribeContainerGroupDefinitionOutput,
+  input: __S(2000, __c125, 0) as any as S.Schema<DescribeContainerGroupDefinitionInput>,
+  output: __S(1024, __c64, 0) as any as S.Schema<DescribeContainerGroupDefinitionOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10183,6 +5815,8 @@ export const describeContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerGroupDefinition",
 }));
 
 export type DescribeContainerGroupPortMappingsError =
@@ -10231,13 +5865,13 @@ export type DescribeContainerGroupPortMappingsError =
  * container group definition
  */
 export const describeContainerGroupPortMappings: API.OperationMethod<
-  DescribeContainerGroupPortMappingsInput,
+  DescribeContainerGroupPortMappingsInput & RegionInput,
   DescribeContainerGroupPortMappingsOutput,
   DescribeContainerGroupPortMappingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeContainerGroupPortMappingsInput,
-  output: DescribeContainerGroupPortMappingsOutput,
+  input: __S(2016, __c126, 0) as any as S.Schema<DescribeContainerGroupPortMappingsInput>,
+  output: __S(2021, __c126, 5) as any as S.Schema<DescribeContainerGroupPortMappingsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10249,6 +5883,8 @@ export const describeContainerGroupPortMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerGroupPortMappings",
+  telemetry: TELEMETRY,
+  span: "DescribeContainerGroupPortMappings",
 }));
 
 export type DescribeEC2InstanceLimitsError =
@@ -10312,13 +5948,13 @@ export type DescribeEC2InstanceLimitsError =
  * Setting up Amazon GameLift Servers fleets
  */
 export const describeEC2InstanceLimits: API.OperationMethod<
-  DescribeEC2InstanceLimitsInput,
+  DescribeEC2InstanceLimitsInput & RegionInput,
   DescribeEC2InstanceLimitsOutput,
   DescribeEC2InstanceLimitsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeEC2InstanceLimitsInput,
-  output: DescribeEC2InstanceLimitsOutput,
+  input: __S(2032, __c127, 0) as any as S.Schema<DescribeEC2InstanceLimitsInput>,
+  output: __S(2035, __c127, 3) as any as S.Schema<DescribeEC2InstanceLimitsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10328,6 +5964,8 @@ export const describeEC2InstanceLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEC2InstanceLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeEC2InstanceLimits",
 }));
 
 export type DescribeFleetAttributesError =
@@ -10354,7 +5992,7 @@ export type DescribeFleetAttributesError =
  * If successful, a `FleetAttributes` object is returned for each fleet
  * requested, unless the fleet identifier is not found.
  *
- * Some API operations limit the number of fleet IDs that allowed in one request. If
+ * Some API operations limit the number of fleet IDs that are allowed in one request. If
  * a request exceeds this limit, the request fails and the error message contains the
  * maximum allowed number.
  *
@@ -10364,14 +6002,14 @@ export type DescribeFleetAttributesError =
  * fleets
  */
 export const describeFleetAttributes: API.PaginatedOperationMethod<
-  DescribeFleetAttributesInput,
+  DescribeFleetAttributesInput & RegionInput,
   DescribeFleetAttributesOutput,
   DescribeFleetAttributesError,
   Credentials | HttpClient.HttpClient,
   FleetAttributes
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetAttributesInput,
-  output: DescribeFleetAttributesOutput,
+  input: __S(2048, __c128, 0) as any as S.Schema<DescribeFleetAttributesInput>,
+  output: __S(2050, __c128, 2) as any as S.Schema<DescribeFleetAttributesOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10387,6 +6025,8 @@ export const describeFleetAttributes: API.PaginatedOperationMethod<
     items: "FleetAttributes",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetAttributes",
 })) as any;
 
 export type DescribeFleetCapacityError =
@@ -10433,14 +6073,14 @@ export type DescribeFleetCapacityError =
  * GameLift metrics for fleets
  */
 export const describeFleetCapacity: API.PaginatedOperationMethod<
-  DescribeFleetCapacityInput,
+  DescribeFleetCapacityInput & RegionInput,
   DescribeFleetCapacityOutput,
   DescribeFleetCapacityError,
   Credentials | HttpClient.HttpClient,
   FleetCapacity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetCapacityInput,
-  output: DescribeFleetCapacityOutput,
+  input: __S(2064, __c129, 0) as any as S.Schema<DescribeFleetCapacityInput>,
+  output: __S(2066, __c129, 2) as any as S.Schema<DescribeFleetCapacityOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10457,6 +6097,8 @@ export const describeFleetCapacity: API.PaginatedOperationMethod<
     items: "FleetCapacity",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetCapacity",
 })) as any;
 
 export type DescribeFleetDeploymentError =
@@ -10484,13 +6126,13 @@ export type DescribeFleetDeploymentError =
  * If successful, a `FleetDeployment` object is returned.
  */
 export const describeFleetDeployment: API.OperationMethod<
-  DescribeFleetDeploymentInput,
+  DescribeFleetDeploymentInput & RegionInput,
   DescribeFleetDeploymentOutput,
   DescribeFleetDeploymentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFleetDeploymentInput,
-  output: DescribeFleetDeploymentOutput,
+  input: __S(2112, __c132, 0) as any as S.Schema<DescribeFleetDeploymentInput>,
+  output: __S(2115, __c132, 3) as any as S.Schema<DescribeFleetDeploymentOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10501,6 +6143,8 @@ export const describeFleetDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetDeployment",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetDeployment",
 }));
 
 export type DescribeFleetEventsError =
@@ -10529,14 +6173,14 @@ export type DescribeFleetEventsError =
  * fleets
  */
 export const describeFleetEvents: API.PaginatedOperationMethod<
-  DescribeFleetEventsInput,
+  DescribeFleetEventsInput & RegionInput,
   DescribeFleetEventsOutput,
   DescribeFleetEventsError,
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetEventsInput,
-  output: DescribeFleetEventsOutput,
+  input: __S(2160, __c135, 0) as any as S.Schema<DescribeFleetEventsInput>,
+  output: __S(2163, __c135, 3) as any as S.Schema<DescribeFleetEventsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10553,6 +6197,8 @@ export const describeFleetEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetEvents",
 })) as any;
 
 export type DescribeFleetLocationAttributesError =
@@ -10590,14 +6236,14 @@ export type DescribeFleetLocationAttributesError =
  * Amazon GameLift Servers service locations for managed hosting
  */
 export const describeFleetLocationAttributes: API.PaginatedOperationMethod<
-  DescribeFleetLocationAttributesInput,
+  DescribeFleetLocationAttributesInput & RegionInput,
   DescribeFleetLocationAttributesOutput,
   DescribeFleetLocationAttributesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetLocationAttributesInput,
-  output: DescribeFleetLocationAttributesOutput,
+  input: __S(2176, __c136, 0) as any as S.Schema<DescribeFleetLocationAttributesInput>,
+  output: __S(2179, __c136, 3) as any as S.Schema<DescribeFleetLocationAttributesOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10608,11 +6254,9 @@ export const describeFleetLocationAttributes: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetLocationAttributes",
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    pageSize: "Limit",
-  } as const,
+  pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetLocationAttributes",
 })) as any;
 
 export type DescribeFleetLocationCapacityError =
@@ -10649,13 +6293,13 @@ export type DescribeFleetLocationCapacityError =
  * GameLift metrics for fleets
  */
 export const describeFleetLocationCapacity: API.OperationMethod<
-  DescribeFleetLocationCapacityInput,
+  DescribeFleetLocationCapacityInput & RegionInput,
   DescribeFleetLocationCapacityOutput,
   DescribeFleetLocationCapacityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFleetLocationCapacityInput,
-  output: DescribeFleetLocationCapacityOutput,
+  input: __S(2192, __c137, 0) as any as S.Schema<DescribeFleetLocationCapacityInput>,
+  output: __S(2193, __c137, 1) as any as S.Schema<DescribeFleetLocationCapacityOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10666,6 +6310,8 @@ export const describeFleetLocationCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetLocationCapacity",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetLocationCapacity",
 }));
 
 export type DescribeFleetLocationUtilizationError =
@@ -10699,13 +6345,13 @@ export type DescribeFleetLocationUtilizationError =
  * GameLift metrics for fleets
  */
 export const describeFleetLocationUtilization: API.OperationMethod<
-  DescribeFleetLocationUtilizationInput,
+  DescribeFleetLocationUtilizationInput & RegionInput,
   DescribeFleetLocationUtilizationOutput,
   DescribeFleetLocationUtilizationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFleetLocationUtilizationInput,
-  output: DescribeFleetLocationUtilizationOutput,
+  input: __S(2208, __c138, 0) as any as S.Schema<DescribeFleetLocationUtilizationInput>,
+  output: __S(2209, __c138, 1) as any as S.Schema<DescribeFleetLocationUtilizationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10716,6 +6362,8 @@ export const describeFleetLocationUtilization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetLocationUtilization",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetLocationUtilization",
 }));
 
 export type DescribeFleetPortSettingsError =
@@ -10752,13 +6400,13 @@ export type DescribeFleetPortSettingsError =
  * fleets
  */
 export const describeFleetPortSettings: API.OperationMethod<
-  DescribeFleetPortSettingsInput,
+  DescribeFleetPortSettingsInput & RegionInput,
   DescribeFleetPortSettingsOutput,
   DescribeFleetPortSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeFleetPortSettingsInput,
-  output: DescribeFleetPortSettingsOutput,
+  input: __S(2240, __c140, 0) as any as S.Schema<DescribeFleetPortSettingsInput>,
+  output: __S(2241, __c140, 1) as any as S.Schema<DescribeFleetPortSettingsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10769,6 +6417,8 @@ export const describeFleetPortSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleetPortSettings",
+  telemetry: TELEMETRY,
+  span: "DescribeFleetPortSettings",
 }));
 
 export type DescribeFleetUtilizationError =
@@ -10812,14 +6462,14 @@ export type DescribeFleetUtilizationError =
  * GameLift Metrics for Fleets
  */
 export const describeFleetUtilization: API.PaginatedOperationMethod<
-  DescribeFleetUtilizationInput,
+  DescribeFleetUtilizationInput & RegionInput,
   DescribeFleetUtilizationOutput,
   DescribeFleetUtilizationError,
   Credentials | HttpClient.HttpClient,
   FleetUtilization
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeFleetUtilizationInput,
-  output: DescribeFleetUtilizationOutput,
+  input: __S(2256, __c141, 0) as any as S.Schema<DescribeFleetUtilizationInput>,
+  output: __S(2258, __c141, 2) as any as S.Schema<DescribeFleetUtilizationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10835,6 +6485,8 @@ export const describeFleetUtilization: API.PaginatedOperationMethod<
     items: "FleetUtilization",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeFleetUtilization",
 })) as any;
 
 export type DescribeGameServerError =
@@ -10859,13 +6511,13 @@ export type DescribeGameServerError =
  * Guide
  */
 export const describeGameServer: API.OperationMethod<
-  DescribeGameServerInput,
+  DescribeGameServerInput & RegionInput,
   DescribeGameServerOutput,
   DescribeGameServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeGameServerInput,
-  output: DescribeGameServerOutput,
+  input: __S(2272, __c142, 0) as any as S.Schema<DescribeGameServerInput>,
+  output: __S(688, __c43, 0) as any as S.Schema<DescribeGameServerOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10875,6 +6527,8 @@ export const describeGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameServer",
+  telemetry: TELEMETRY,
+  span: "DescribeGameServer",
 }));
 
 export type DescribeGameServerGroupError =
@@ -10901,13 +6555,13 @@ export type DescribeGameServerGroupError =
  * Guide
  */
 export const describeGameServerGroup: API.OperationMethod<
-  DescribeGameServerGroupInput,
+  DescribeGameServerGroupInput & RegionInput,
   DescribeGameServerGroupOutput,
   DescribeGameServerGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeGameServerGroupInput,
-  output: DescribeGameServerGroupOutput,
+  input: __S(2288, __c143, 0) as any as S.Schema<DescribeGameServerGroupInput>,
+  output: __S(1168, __c73, 0) as any as S.Schema<DescribeGameServerGroupOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10917,6 +6571,8 @@ export const describeGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "DescribeGameServerGroup",
 }));
 
 export type DescribeGameServerInstancesError =
@@ -10950,14 +6606,14 @@ export type DescribeGameServerInstancesError =
  * Guide
  */
 export const describeGameServerInstances: API.PaginatedOperationMethod<
-  DescribeGameServerInstancesInput,
+  DescribeGameServerInstancesInput & RegionInput,
   DescribeGameServerInstancesOutput,
   DescribeGameServerInstancesError,
   Credentials | HttpClient.HttpClient,
   GameServerInstance
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeGameServerInstancesInput,
-  output: DescribeGameServerInstancesOutput,
+  input: __S(2304, __c144, 0) as any as S.Schema<DescribeGameServerInstancesInput>,
+  output: __S(2307, __c144, 3) as any as S.Schema<DescribeGameServerInstancesOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -10973,6 +6629,8 @@ export const describeGameServerInstances: API.PaginatedOperationMethod<
     items: "GameServerInstances",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameServerInstances",
 })) as any;
 
 export type DescribeGameSessionDetailsError =
@@ -10987,7 +6645,7 @@ export type DescribeGameSessionDetailsError =
  * **This API works with the following fleet types:** EC2, Anywhere, Container
  *
  * Retrieves additional game session properties, including the game session protection
- * policy in force, a set of one or more game sessions in a specific fleet location. You
+ * policy in force, for a set of one or more game sessions in a specific fleet location. You
  * can optionally filter the results by current game session status.
  *
  * This operation can be used in the following ways:
@@ -11018,14 +6676,14 @@ export type DescribeGameSessionDetailsError =
  * All APIs by task
  */
 export const describeGameSessionDetails: API.PaginatedOperationMethod<
-  DescribeGameSessionDetailsInput,
+  DescribeGameSessionDetailsInput & RegionInput,
   DescribeGameSessionDetailsOutput,
   DescribeGameSessionDetailsError,
   Credentials | HttpClient.HttpClient,
   GameSessionDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeGameSessionDetailsInput,
-  output: DescribeGameSessionDetailsOutput,
+  input: __S(2320, __c145, 0) as any as S.Schema<DescribeGameSessionDetailsInput>,
+  output: __S(2323, __c145, 3) as any as S.Schema<DescribeGameSessionDetailsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11043,6 +6701,8 @@ export const describeGameSessionDetails: API.PaginatedOperationMethod<
     items: "GameSessionDetails",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessionDetails",
 })) as any;
 
 export type DescribeGameSessionPlacementError =
@@ -11068,13 +6728,13 @@ export type DescribeGameSessionPlacementError =
  * Event-based game session placement guidance in the Amazon GameLift Toolkit.
  */
 export const describeGameSessionPlacement: API.OperationMethod<
-  DescribeGameSessionPlacementInput,
+  DescribeGameSessionPlacementInput & RegionInput,
   DescribeGameSessionPlacementOutput,
   DescribeGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeGameSessionPlacementInput,
-  output: DescribeGameSessionPlacementOutput,
+  input: __S(2336, __c146, 0) as any as S.Schema<DescribeGameSessionPlacementInput>,
+  output: __S(2356, __c147, 4) as any as S.Schema<DescribeGameSessionPlacementOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11084,6 +6744,8 @@ export const describeGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGameSessionPlacement",
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessionPlacement",
 }));
 
 export type DescribeGameSessionQueuesError =
@@ -11105,14 +6767,14 @@ export type DescribeGameSessionQueuesError =
  * View Your Queues
  */
 export const describeGameSessionQueues: API.PaginatedOperationMethod<
-  DescribeGameSessionQueuesInput,
+  DescribeGameSessionQueuesInput & RegionInput,
   DescribeGameSessionQueuesOutput,
   DescribeGameSessionQueuesError,
   Credentials | HttpClient.HttpClient,
   GameSessionQueue
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeGameSessionQueuesInput,
-  output: DescribeGameSessionQueuesOutput,
+  input: __S(2384, __c149, 0) as any as S.Schema<DescribeGameSessionQueuesInput>,
+  output: __S(2386, __c149, 2) as any as S.Schema<DescribeGameSessionQueuesOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11128,6 +6790,8 @@ export const describeGameSessionQueues: API.PaginatedOperationMethod<
     items: "GameSessionQueues",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessionQueues",
 })) as any;
 
 export type DescribeGameSessionsError =
@@ -11180,14 +6844,14 @@ export type DescribeGameSessionsError =
  * All APIs by task
  */
 export const describeGameSessions: API.PaginatedOperationMethod<
-  DescribeGameSessionsInput,
+  DescribeGameSessionsInput & RegionInput,
   DescribeGameSessionsOutput,
   DescribeGameSessionsError,
   Credentials | HttpClient.HttpClient,
   GameSession
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeGameSessionsInput,
-  output: DescribeGameSessionsOutput,
+  input: __S(2400, __c150, 0) as any as S.Schema<DescribeGameSessionsInput>,
+  output: __S(2417, __c151, 1) as any as S.Schema<DescribeGameSessionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11205,6 +6869,8 @@ export const describeGameSessions: API.PaginatedOperationMethod<
     items: "GameSessions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeGameSessions",
 })) as any;
 
 export type DescribeInstancesError =
@@ -11215,7 +6881,7 @@ export type DescribeInstancesError =
   | UnsupportedRegionException
   | CommonErrors;
 /**
- * **This API works with the following fleet types:**EC2, Container
+ * **This API works with the following fleet types:** EC2, Container
  *
  * Retrieves information about the EC2 instances in an Amazon GameLift Servers managed fleet, including
  * instance ID, connection data, and status. You can use this operation with a
@@ -11253,14 +6919,14 @@ export type DescribeInstancesError =
  * All APIs by task
  */
 export const describeInstances: API.PaginatedOperationMethod<
-  DescribeInstancesInput,
+  DescribeInstancesInput & RegionInput,
   DescribeInstancesOutput,
   DescribeInstancesError,
   Credentials | HttpClient.HttpClient,
   Instance
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeInstancesInput,
-  output: DescribeInstancesOutput,
+  input: __S(2432, __c152, 0) as any as S.Schema<DescribeInstancesInput>,
+  output: __S(2435, __c152, 3) as any as S.Schema<DescribeInstancesOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11277,6 +6943,8 @@ export const describeInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInstances",
 })) as any;
 
 export type DescribeMatchmakingError =
@@ -11308,21 +6976,19 @@ export type DescribeMatchmakingError =
  * notification
  */
 export const describeMatchmaking: API.OperationMethod<
-  DescribeMatchmakingInput,
+  DescribeMatchmakingInput & RegionInput,
   DescribeMatchmakingOutput,
   DescribeMatchmakingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeMatchmakingInput,
-  output: DescribeMatchmakingOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnsupportedRegionException,
-  ],
+  input: __S(2448, __c153, 0) as any as S.Schema<DescribeMatchmakingInput>,
+  output: __S(2450, __c153, 2) as any as S.Schema<DescribeMatchmakingOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnsupportedRegionException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMatchmaking",
+  telemetry: TELEMETRY,
+  span: "DescribeMatchmaking",
 }));
 
 export type DescribeMatchmakingConfigurationsError =
@@ -11348,19 +7014,15 @@ export type DescribeMatchmakingConfigurationsError =
  * Setting up FlexMatch matchmakers
  */
 export const describeMatchmakingConfigurations: API.PaginatedOperationMethod<
-  DescribeMatchmakingConfigurationsInput,
+  DescribeMatchmakingConfigurationsInput & RegionInput,
   DescribeMatchmakingConfigurationsOutput,
   DescribeMatchmakingConfigurationsError,
   Credentials | HttpClient.HttpClient,
   MatchmakingConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMatchmakingConfigurationsInput,
-  output: DescribeMatchmakingConfigurationsOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnsupportedRegionException,
-  ],
+  input: __S(2480, __c155, 0) as any as S.Schema<DescribeMatchmakingConfigurationsInput>,
+  output: __S(2482, __c155, 2) as any as S.Schema<DescribeMatchmakingConfigurationsOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnsupportedRegionException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMatchmakingConfigurations",
@@ -11370,6 +7032,8 @@ export const describeMatchmakingConfigurations: API.PaginatedOperationMethod<
     items: "Configurations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMatchmakingConfigurations",
 })) as any;
 
 export type DescribeMatchmakingRuleSetsError =
@@ -11392,14 +7056,14 @@ export type DescribeMatchmakingRuleSetsError =
  * set
  */
 export const describeMatchmakingRuleSets: API.PaginatedOperationMethod<
-  DescribeMatchmakingRuleSetsInput,
+  DescribeMatchmakingRuleSetsInput & RegionInput,
   DescribeMatchmakingRuleSetsOutput,
   DescribeMatchmakingRuleSetsError,
   Credentials | HttpClient.HttpClient,
   MatchmakingRuleSet
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMatchmakingRuleSetsInput,
-  output: DescribeMatchmakingRuleSetsOutput,
+  input: __S(2496, __c156, 0) as any as S.Schema<DescribeMatchmakingRuleSetsInput>,
+  output: __S(2498, __c156, 2) as any as S.Schema<DescribeMatchmakingRuleSetsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11415,6 +7079,8 @@ export const describeMatchmakingRuleSets: API.PaginatedOperationMethod<
     items: "RuleSets",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMatchmakingRuleSets",
 })) as any;
 
 export type DescribePlayerSessionsError =
@@ -11452,14 +7118,14 @@ export type DescribePlayerSessionsError =
  * All APIs by task
  */
 export const describePlayerSessions: API.PaginatedOperationMethod<
-  DescribePlayerSessionsInput,
+  DescribePlayerSessionsInput & RegionInput,
   DescribePlayerSessionsOutput,
   DescribePlayerSessionsError,
   Credentials | HttpClient.HttpClient,
   PlayerSession
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribePlayerSessionsInput,
-  output: DescribePlayerSessionsOutput,
+  input: __S(2512, __c157, 0) as any as S.Schema<DescribePlayerSessionsInput>,
+  output: __S(2513, __c157, 1) as any as S.Schema<DescribePlayerSessionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11475,6 +7141,8 @@ export const describePlayerSessions: API.PaginatedOperationMethod<
     items: "PlayerSessions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePlayerSessions",
 })) as any;
 
 export type DescribeRuntimeConfigurationError =
@@ -11507,13 +7175,13 @@ export type DescribeRuntimeConfigurationError =
  * processes on a fleet
  */
 export const describeRuntimeConfiguration: API.OperationMethod<
-  DescribeRuntimeConfigurationInput,
+  DescribeRuntimeConfigurationInput & RegionInput,
   DescribeRuntimeConfigurationOutput,
   DescribeRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeRuntimeConfigurationInput,
-  output: DescribeRuntimeConfigurationOutput,
+  input: __S(2528, __c158, 0) as any as S.Schema<DescribeRuntimeConfigurationInput>,
+  output: __S(2544, __c159, 0) as any as S.Schema<DescribeRuntimeConfigurationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11523,6 +7191,8 @@ export const describeRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "DescribeRuntimeConfiguration",
 }));
 
 export type DescribeScalingPoliciesError =
@@ -11546,14 +7216,14 @@ export type DescribeScalingPoliciesError =
  * the status of the scaling policies, which remains ACTIVE.
  */
 export const describeScalingPolicies: API.PaginatedOperationMethod<
-  DescribeScalingPoliciesInput,
+  DescribeScalingPoliciesInput & RegionInput,
   DescribeScalingPoliciesOutput,
   DescribeScalingPoliciesError,
   Credentials | HttpClient.HttpClient,
   ScalingPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeScalingPoliciesInput,
-  output: DescribeScalingPoliciesOutput,
+  input: __S(2560, __c160, 0) as any as S.Schema<DescribeScalingPoliciesInput>,
+  output: __S(2563, __c160, 3) as any as S.Schema<DescribeScalingPoliciesOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11570,6 +7240,8 @@ export const describeScalingPolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeScalingPolicies",
 })) as any;
 
 export type DescribeScriptError =
@@ -11595,13 +7267,13 @@ export type DescribeScriptError =
  * All APIs by task
  */
 export const describeScript: API.OperationMethod<
-  DescribeScriptInput,
+  DescribeScriptInput & RegionInput,
   DescribeScriptOutput,
   DescribeScriptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeScriptInput,
-  output: DescribeScriptOutput,
+  input: __S(2576, __c161, 0) as any as S.Schema<DescribeScriptInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<DescribeScriptOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11611,6 +7283,8 @@ export const describeScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScript",
+  telemetry: TELEMETRY,
+  span: "DescribeScript",
 }));
 
 export type DescribeVpcPeeringAuthorizationsError =
@@ -11630,21 +7304,19 @@ export type DescribeVpcPeeringAuthorizationsError =
  * All APIs by task
  */
 export const describeVpcPeeringAuthorizations: API.OperationMethod<
-  DescribeVpcPeeringAuthorizationsInput,
+  DescribeVpcPeeringAuthorizationsInput & RegionInput,
   DescribeVpcPeeringAuthorizationsOutput,
   DescribeVpcPeeringAuthorizationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeVpcPeeringAuthorizationsInput,
-  output: DescribeVpcPeeringAuthorizationsOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(2592, __c162, 0) as any as S.Schema<DescribeVpcPeeringAuthorizationsInput>,
+  output: __S(2594, __c162, 2) as any as S.Schema<DescribeVpcPeeringAuthorizationsOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcPeeringAuthorizations",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcPeeringAuthorizations",
 }));
 
 export type DescribeVpcPeeringConnectionsError =
@@ -11670,13 +7342,13 @@ export type DescribeVpcPeeringConnectionsError =
  * All APIs by task
  */
 export const describeVpcPeeringConnections: API.OperationMethod<
-  DescribeVpcPeeringConnectionsInput,
+  DescribeVpcPeeringConnectionsInput & RegionInput,
   DescribeVpcPeeringConnectionsOutput,
   DescribeVpcPeeringConnectionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeVpcPeeringConnectionsInput,
-  output: DescribeVpcPeeringConnectionsOutput,
+  input: __S(2608, __c163, 0) as any as S.Schema<DescribeVpcPeeringConnectionsInput>,
+  output: __S(2612, __c163, 4) as any as S.Schema<DescribeVpcPeeringConnectionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11686,6 +7358,8 @@ export const describeVpcPeeringConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcPeeringConnections",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcPeeringConnections",
 }));
 
 export type GetComputeAccessError =
@@ -11724,13 +7398,13 @@ export type GetComputeAccessError =
  * Guide.
  */
 export const getComputeAccess: API.OperationMethod<
-  GetComputeAccessInput,
+  GetComputeAccessInput & RegionInput,
   GetComputeAccessOutput,
   GetComputeAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetComputeAccessInput,
-  output: GetComputeAccessOutput,
+  input: __S(2624, __c164, 0) as any as S.Schema<GetComputeAccessInput>,
+  output: __S(2625, __c164, 1) as any as S.Schema<GetComputeAccessOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11741,6 +7415,8 @@ export const getComputeAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeAccess",
+  telemetry: TELEMETRY,
+  span: "GetComputeAccess",
 }));
 
 export type GetComputeAuthTokenError =
@@ -11783,13 +7459,13 @@ export type GetComputeAuthTokenError =
  * reference guides (for version 5.x)
  */
 export const getComputeAuthToken: API.OperationMethod<
-  GetComputeAuthTokenInput,
+  GetComputeAuthTokenInput & RegionInput,
   GetComputeAuthTokenOutput,
   GetComputeAuthTokenError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetComputeAuthTokenInput,
-  output: GetComputeAuthTokenOutput,
+  input: __S(2640, __c165, 0) as any as S.Schema<GetComputeAuthTokenInput>,
+  output: __S(2641, __c165, 1) as any as S.Schema<GetComputeAuthTokenOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11800,6 +7476,8 @@ export const getComputeAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeAuthToken",
+  telemetry: TELEMETRY,
+  span: "GetComputeAuthToken",
 }));
 
 export type GetGameSessionLogUrlError =
@@ -11822,13 +7500,13 @@ export type GetGameSessionLogUrlError =
  * All APIs by task
  */
 export const getGameSessionLogUrl: API.OperationMethod<
-  GetGameSessionLogUrlInput,
+  GetGameSessionLogUrlInput & RegionInput,
   GetGameSessionLogUrlOutput,
   GetGameSessionLogUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetGameSessionLogUrlInput,
-  output: GetGameSessionLogUrlOutput,
+  input: __S(2656, __c166, 0) as any as S.Schema<GetGameSessionLogUrlInput>,
+  output: __S(2657, __c166, 1) as any as S.Schema<GetGameSessionLogUrlOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11838,6 +7516,8 @@ export const getGameSessionLogUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGameSessionLogUrl",
+  telemetry: TELEMETRY,
+  span: "GetGameSessionLogUrl",
 }));
 
 export type GetInstanceAccessError =
@@ -11881,13 +7561,13 @@ export type GetInstanceAccessError =
  * All APIs by task
  */
 export const getInstanceAccess: API.OperationMethod<
-  GetInstanceAccessInput,
+  GetInstanceAccessInput & RegionInput,
   GetInstanceAccessOutput,
   GetInstanceAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetInstanceAccessInput,
-  output: GetInstanceAccessOutput,
+  input: __S(2672, __c167, 0) as any as S.Schema<GetInstanceAccessInput>,
+  output: __S(2675, __c167, 3) as any as S.Schema<GetInstanceAccessOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -11897,6 +7577,8 @@ export const getInstanceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstanceAccess",
+  telemetry: TELEMETRY,
+  span: "GetInstanceAccess",
 }));
 
 export type GetPlayerConnectionDetailsError =
@@ -11924,13 +7606,13 @@ export type GetPlayerConnectionDetailsError =
  * When player gateway is disabled or in locations where player gateway is not supported, this operation returns game server connection information without player gateway tokens, so that your game clients directly connect to the game server endpoint.
  */
 export const getPlayerConnectionDetails: API.OperationMethod<
-  GetPlayerConnectionDetailsInput,
+  GetPlayerConnectionDetailsInput & RegionInput,
   GetPlayerConnectionDetailsOutput,
   GetPlayerConnectionDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPlayerConnectionDetailsInput,
-  output: GetPlayerConnectionDetailsOutput,
+  input: __S(2688, __c168, 0) as any as S.Schema<GetPlayerConnectionDetailsInput>,
+  output: __S(2693, __c168, 5) as any as S.Schema<GetPlayerConnectionDetailsOutput>,
   errors: [
     InternalServiceException,
     InvalidGameSessionStatusException,
@@ -11943,6 +7625,8 @@ export const getPlayerConnectionDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlayerConnectionDetails",
+  telemetry: TELEMETRY,
+  span: "GetPlayerConnectionDetails",
 }));
 
 export type ListAliasesError =
@@ -11964,19 +7648,15 @@ export type ListAliasesError =
  * All APIs by task
  */
 export const listAliases: API.PaginatedOperationMethod<
-  ListAliasesInput,
+  ListAliasesInput & RegionInput,
   ListAliasesOutput,
   ListAliasesError,
   Credentials | HttpClient.HttpClient,
   Alias
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAliasesInput,
-  output: ListAliasesOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(2704, __c169, 0) as any as S.Schema<ListAliasesInput>,
+  output: __S(2706, __c169, 2) as any as S.Schema<ListAliasesOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAliases",
@@ -11986,6 +7666,8 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListAliases",
 })) as any;
 
 export type ListBuildsError =
@@ -12010,19 +7692,15 @@ export type ListBuildsError =
  * All APIs by task
  */
 export const listBuilds: API.PaginatedOperationMethod<
-  ListBuildsInput,
+  ListBuildsInput & RegionInput,
   ListBuildsOutput,
   ListBuildsError,
   Credentials | HttpClient.HttpClient,
   Build
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListBuildsInput,
-  output: ListBuildsOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(2720, __c170, 0) as any as S.Schema<ListBuildsInput>,
+  output: __S(2722, __c170, 2) as any as S.Schema<ListBuildsOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBuilds",
@@ -12032,6 +7710,8 @@ export const listBuilds: API.PaginatedOperationMethod<
     items: "Builds",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListBuilds",
 })) as any;
 
 export type ListComputeError =
@@ -12069,14 +7749,14 @@ export type ListComputeError =
  * `GameLiftAgentEndpoint`.
  */
 export const listCompute: API.PaginatedOperationMethod<
-  ListComputeInput,
+  ListComputeInput & RegionInput,
   ListComputeOutput,
   ListComputeError,
   Credentials | HttpClient.HttpClient,
   Compute
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListComputeInput,
-  output: ListComputeOutput,
+  input: __S(2736, __c171, 0) as any as S.Schema<ListComputeInput>,
+  output: __S(2738, __c171, 2) as any as S.Schema<ListComputeOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12092,6 +7772,8 @@ export const listCompute: API.PaginatedOperationMethod<
     items: "ComputeList",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListCompute",
 })) as any;
 
 export type ListContainerFleetsError =
@@ -12127,14 +7809,14 @@ export type ListContainerFleetsError =
  * Fleet IDs are returned in no particular order.
  */
 export const listContainerFleets: API.PaginatedOperationMethod<
-  ListContainerFleetsInput,
+  ListContainerFleetsInput & RegionInput,
   ListContainerFleetsOutput,
   ListContainerFleetsError,
   Credentials | HttpClient.HttpClient,
   ContainerFleet
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListContainerFleetsInput,
-  output: ListContainerFleetsOutput,
+  input: __S(2752, __c172, 0) as any as S.Schema<ListContainerFleetsInput>,
+  output: __S(2754, __c172, 2) as any as S.Schema<ListContainerFleetsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12150,6 +7832,8 @@ export const listContainerFleets: API.PaginatedOperationMethod<
     items: "ContainerFleets",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerFleets",
 })) as any;
 
 export type ListContainerGroupDefinitionsError =
@@ -12182,14 +7866,14 @@ export type ListContainerGroupDefinitionsError =
  * This operation returns the list of container group definitions in no particular order.
  */
 export const listContainerGroupDefinitions: API.PaginatedOperationMethod<
-  ListContainerGroupDefinitionsInput,
+  ListContainerGroupDefinitionsInput & RegionInput,
   ListContainerGroupDefinitionsOutput,
   ListContainerGroupDefinitionsError,
   Credentials | HttpClient.HttpClient,
   ContainerGroupDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListContainerGroupDefinitionsInput,
-  output: ListContainerGroupDefinitionsOutput,
+  input: __S(2768, __c173, 0) as any as S.Schema<ListContainerGroupDefinitionsInput>,
+  output: __S(2785, __c174, 1) as any as S.Schema<ListContainerGroupDefinitionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12205,6 +7889,8 @@ export const listContainerGroupDefinitions: API.PaginatedOperationMethod<
     items: "ContainerGroupDefinitions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerGroupDefinitions",
 })) as any;
 
 export type ListContainerGroupDefinitionVersionsError =
@@ -12239,14 +7925,14 @@ export type ListContainerGroupDefinitionVersionsError =
  * - Manage a container group definition
  */
 export const listContainerGroupDefinitionVersions: API.PaginatedOperationMethod<
-  ListContainerGroupDefinitionVersionsInput,
+  ListContainerGroupDefinitionVersionsInput & RegionInput,
   ListContainerGroupDefinitionVersionsOutput,
   ListContainerGroupDefinitionVersionsError,
   Credentials | HttpClient.HttpClient,
   ContainerGroupDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListContainerGroupDefinitionVersionsInput,
-  output: ListContainerGroupDefinitionVersionsOutput,
+  input: __S(2800, __c175, 0) as any as S.Schema<ListContainerGroupDefinitionVersionsInput>,
+  output: __S(2785, __c174, 1) as any as S.Schema<ListContainerGroupDefinitionVersionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12263,6 +7949,8 @@ export const listContainerGroupDefinitionVersions: API.PaginatedOperationMethod<
     items: "ContainerGroupDefinitions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListContainerGroupDefinitionVersions",
 })) as any;
 
 export type ListFleetDeploymentsError =
@@ -12293,14 +7981,14 @@ export type ListFleetDeploymentsError =
  * Deployments are returned starting with the latest.
  */
 export const listFleetDeployments: API.PaginatedOperationMethod<
-  ListFleetDeploymentsInput,
+  ListFleetDeploymentsInput & RegionInput,
   ListFleetDeploymentsOutput,
   ListFleetDeploymentsError,
   Credentials | HttpClient.HttpClient,
   FleetDeployment
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFleetDeploymentsInput,
-  output: ListFleetDeploymentsOutput,
+  input: __S(2816, __c176, 0) as any as S.Schema<ListFleetDeploymentsInput>,
+  output: __S(2818, __c176, 2) as any as S.Schema<ListFleetDeploymentsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12317,6 +8005,8 @@ export const listFleetDeployments: API.PaginatedOperationMethod<
     items: "FleetDeployments",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleetDeployments",
 })) as any;
 
 export type ListFleetsError =
@@ -12333,7 +8023,7 @@ export type ListFleetsError =
  * For fleets that have multiple locations, this operation retrieves fleets based on their
  * home Region only.
  *
- * You can use operation in the following ways:
+ * You can use this operation in the following ways:
  *
  * - To get a list of all fleets in a Region, don't provide a build or script
  * identifier.
@@ -12353,14 +8043,14 @@ export type ListFleetsError =
  * Fleet IDs are returned in no particular order.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsInput,
+  ListFleetsInput & RegionInput,
   ListFleetsOutput,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
   FleetId
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListFleetsInput,
-  output: ListFleetsOutput,
+  input: __S(2832, __c177, 0) as any as S.Schema<ListFleetsInput>,
+  output: __S(2833, __c177, 1) as any as S.Schema<ListFleetsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12376,6 +8066,8 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "FleetIds",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListFleets",
 })) as any;
 
 export type ListGameServerGroupsError =
@@ -12386,22 +8078,18 @@ export type ListGameServerGroupsError =
 /**
  * **This API works with the following fleet types:** EC2 (FleetIQ)
  *
- * Lists a game server groups.
+ * Lists game server groups.
  */
 export const listGameServerGroups: API.PaginatedOperationMethod<
-  ListGameServerGroupsInput,
+  ListGameServerGroupsInput & RegionInput,
   ListGameServerGroupsOutput,
   ListGameServerGroupsError,
   Credentials | HttpClient.HttpClient,
   GameServerGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGameServerGroupsInput,
-  output: ListGameServerGroupsOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(2848, __c178, 0) as any as S.Schema<ListGameServerGroupsInput>,
+  output: __S(2850, __c178, 2) as any as S.Schema<ListGameServerGroupsOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGameServerGroups",
@@ -12411,6 +8099,8 @@ export const listGameServerGroups: API.PaginatedOperationMethod<
     items: "GameServerGroups",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGameServerGroups",
 })) as any;
 
 export type ListGameServersError =
@@ -12432,19 +8122,15 @@ export type ListGameServersError =
  * Guide
  */
 export const listGameServers: API.PaginatedOperationMethod<
-  ListGameServersInput,
+  ListGameServersInput & RegionInput,
   ListGameServersOutput,
   ListGameServersError,
   Credentials | HttpClient.HttpClient,
   GameServer
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListGameServersInput,
-  output: ListGameServersOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(2864, __c179, 0) as any as S.Schema<ListGameServersInput>,
+  output: __S(2866, __c179, 2) as any as S.Schema<ListGameServersOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGameServers",
@@ -12454,6 +8140,8 @@ export const listGameServers: API.PaginatedOperationMethod<
     items: "GameServers",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListGameServers",
 })) as any;
 
 export type ListLocationsError =
@@ -12474,19 +8162,15 @@ export type ListLocationsError =
  * Service locations
  */
 export const listLocations: API.PaginatedOperationMethod<
-  ListLocationsInput,
+  ListLocationsInput & RegionInput,
   ListLocationsOutput,
   ListLocationsError,
   Credentials | HttpClient.HttpClient,
   LocationModel
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLocationsInput,
-  output: ListLocationsOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(0, __c0, 0) as any as S.Schema<ListLocationsInput>,
+  output: __S(2, __c0, 2) as any as S.Schema<ListLocationsOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLocations",
@@ -12496,6 +8180,8 @@ export const listLocations: API.PaginatedOperationMethod<
     items: "Locations",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListLocations",
 })) as any;
 
 export type ListScriptsError =
@@ -12518,19 +8204,15 @@ export type ListScriptsError =
  * All APIs by task
  */
 export const listScripts: API.PaginatedOperationMethod<
-  ListScriptsInput,
+  ListScriptsInput & RegionInput,
   ListScriptsOutput,
   ListScriptsError,
   Credentials | HttpClient.HttpClient,
   Script
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListScriptsInput,
-  output: ListScriptsOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnauthorizedException,
-  ],
+  input: __S(16, __c1, 0) as any as S.Schema<ListScriptsInput>,
+  output: __S(18, __c1, 2) as any as S.Schema<ListScriptsOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnauthorizedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListScripts",
@@ -12540,6 +8222,8 @@ export const listScripts: API.PaginatedOperationMethod<
     items: "Scripts",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScripts",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -12570,13 +8254,13 @@ export type ListTagsForResourceError =
  * All APIs by task
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
+  input: __S(32, __c2, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12587,6 +8271,8 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
 export type PutScalingPolicyError =
@@ -12669,13 +8355,13 @@ export type PutScalingPolicyError =
  * fleet actions are restarted.
  */
 export const putScalingPolicy: API.OperationMethod<
-  PutScalingPolicyInput,
+  PutScalingPolicyInput & RegionInput,
   PutScalingPolicyOutput,
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutScalingPolicyInput,
-  output: PutScalingPolicyOutput,
+  input: __S(48, __c3, 0) as any as S.Schema<PutScalingPolicyInput>,
+  output: __S(49, __c3, 1) as any as S.Schema<PutScalingPolicyOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12686,6 +8372,8 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  telemetry: TELEMETRY,
+  span: "PutScalingPolicy",
 }));
 
 export type RegisterComputeError =
@@ -12730,13 +8418,13 @@ export type RegisterComputeError =
  * reference guides (for version 5.x)
  */
 export const registerCompute: API.OperationMethod<
-  RegisterComputeInput,
+  RegisterComputeInput & RegionInput,
   RegisterComputeOutput,
   RegisterComputeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterComputeInput,
-  output: RegisterComputeOutput,
+  input: __S(64, __c4, 0) as any as S.Schema<RegisterComputeInput>,
+  output: __S(1936, __c121, 0) as any as S.Schema<RegisterComputeOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -12749,6 +8437,8 @@ export const registerCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCompute",
+  telemetry: TELEMETRY,
+  span: "RegisterCompute",
 }));
 
 export type RegisterGameServerError =
@@ -12783,13 +8473,13 @@ export type RegisterGameServerError =
  * Guide
  */
 export const registerGameServer: API.OperationMethod<
-  RegisterGameServerInput,
+  RegisterGameServerInput & RegionInput,
   RegisterGameServerOutput,
   RegisterGameServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterGameServerInput,
-  output: RegisterGameServerOutput,
+  input: __S(80, __c5, 0) as any as S.Schema<RegisterGameServerInput>,
+  output: __S(688, __c43, 0) as any as S.Schema<RegisterGameServerOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -12800,6 +8490,8 @@ export const registerGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterGameServer",
+  telemetry: TELEMETRY,
+  span: "RegisterGameServer",
 }));
 
 export type RequestUploadCredentialsError =
@@ -12826,13 +8518,13 @@ export type RequestUploadCredentialsError =
  * All APIs by task
  */
 export const requestUploadCredentials: API.OperationMethod<
-  RequestUploadCredentialsInput,
+  RequestUploadCredentialsInput & RegionInput,
   RequestUploadCredentialsOutput,
   RequestUploadCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RequestUploadCredentialsInput,
-  output: RequestUploadCredentialsOutput,
+  input: __S(96, __c6, 0) as any as S.Schema<RequestUploadCredentialsInput>,
+  output: __S(97, __c6, 1) as any as S.Schema<RequestUploadCredentialsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12842,6 +8534,8 @@ export const requestUploadCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestUploadCredentials",
+  telemetry: TELEMETRY,
+  span: "RequestUploadCredentials",
 }));
 
 export type ResolveAliasError =
@@ -12866,13 +8560,13 @@ export type ResolveAliasError =
  * All APIs by task
  */
 export const resolveAlias: API.OperationMethod<
-  ResolveAliasInput,
+  ResolveAliasInput & RegionInput,
   ResolveAliasOutput,
   ResolveAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResolveAliasInput,
-  output: ResolveAliasOutput,
+  input: __S(112, __c7, 0) as any as S.Schema<ResolveAliasInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<ResolveAliasOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12883,6 +8577,8 @@ export const resolveAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveAlias",
+  telemetry: TELEMETRY,
+  span: "ResolveAlias",
 }));
 
 export type ResumeGameServerGroupError =
@@ -12912,13 +8608,13 @@ export type ResumeGameServerGroupError =
  * Guide
  */
 export const resumeGameServerGroup: API.OperationMethod<
-  ResumeGameServerGroupInput,
+  ResumeGameServerGroupInput & RegionInput,
   ResumeGameServerGroupOutput,
   ResumeGameServerGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResumeGameServerGroupInput,
-  output: ResumeGameServerGroupOutput,
+  input: __S(144, __c9, 0) as any as S.Schema<ResumeGameServerGroupInput>,
+  output: __S(1168, __c73, 0) as any as S.Schema<ResumeGameServerGroupOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -12928,6 +8624,8 @@ export const resumeGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "ResumeGameServerGroup",
 }));
 
 export type SearchGameSessionsError =
@@ -12977,7 +8675,7 @@ export type SearchGameSessionsError =
  *
  * - **gameSessionProperties** -- A set of key-value pairs that can store custom data in a game session.
  * For example: `{"Key": "difficulty", "Value": "novice"}`.
- * The filter expression must specify the https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameProperty -- a `Key` and a string `Value` to search for the game sessions.
+ * The filter expression must specify the GameProperty -- a `Key` and a string `Value` to search for the game sessions.
  *
  * For example, to search for the above key-value pair, specify the following search filter: `gameSessionProperties.difficulty = "novice"`.
  * All game property values are searched as strings.
@@ -13012,14 +8710,14 @@ export type SearchGameSessionsError =
  * All APIs by task
  */
 export const searchGameSessions: API.PaginatedOperationMethod<
-  SearchGameSessionsInput,
+  SearchGameSessionsInput & RegionInput,
   SearchGameSessionsOutput,
   SearchGameSessionsError,
   Credentials | HttpClient.HttpClient,
   GameSession
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: SearchGameSessionsInput,
-  output: SearchGameSessionsOutput,
+  input: __S(160, __c10, 0) as any as S.Schema<SearchGameSessionsInput>,
+  output: __S(2417, __c151, 1) as any as S.Schema<SearchGameSessionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13037,6 +8735,8 @@ export const searchGameSessions: API.PaginatedOperationMethod<
     items: "GameSessions",
     pageSize: "Limit",
   } as const,
+  telemetry: TELEMETRY,
+  span: "SearchGameSessions",
 })) as any;
 
 export type StartFleetActionsError =
@@ -13071,13 +8771,13 @@ export type StartFleetActionsError =
  * fleets
  */
 export const startFleetActions: API.OperationMethod<
-  StartFleetActionsInput,
+  StartFleetActionsInput & RegionInput,
   StartFleetActionsOutput,
   StartFleetActionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartFleetActionsInput,
-  output: StartFleetActionsOutput,
+  input: __S(176, __c11, 0) as any as S.Schema<StartFleetActionsInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<StartFleetActionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13088,6 +8788,8 @@ export const startFleetActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFleetActions",
+  telemetry: TELEMETRY,
+  span: "StartFleetActions",
 }));
 
 export type StartGameSessionPlacementError =
@@ -13130,7 +8832,7 @@ export type StartGameSessionPlacementError =
  *
  * - `PlayerLatencies`. Include a set of latency values for
  * destinations in the queue. When a request includes latency data, Amazon GameLift Servers
- * automatically reorder the queue's locations priority list based on
+ * automatically reorders the queue's locations priority list based on
  * lowest available latency values. If a request includes latency data for
  * multiple players, Amazon GameLift Servers calculates each location's average latency for
  * all players and reorders to find the lowest latency across all players.
@@ -13147,7 +8849,7 @@ export type StartGameSessionPlacementError =
  * fails to place the game session in any of the locations on the override
  * list.
  *
- * - Request a placement and prioritized based on a custom list of locations.
+ * - Request a placement and prioritize based on a custom list of locations.
  *
  * - You can request new player sessions for a group of players. Include the
  * *DesiredPlayerSessions* parameter and include at minimum
@@ -13178,13 +8880,13 @@ export type StartGameSessionPlacementError =
  * different queue.
  */
 export const startGameSessionPlacement: API.OperationMethod<
-  StartGameSessionPlacementInput,
+  StartGameSessionPlacementInput & RegionInput,
   StartGameSessionPlacementOutput,
   StartGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartGameSessionPlacementInput,
-  output: StartGameSessionPlacementOutput,
+  input: __S(194, __c12, 2) as any as S.Schema<StartGameSessionPlacementInput>,
+  output: __S(2356, __c147, 4) as any as S.Schema<StartGameSessionPlacementOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13195,6 +8897,8 @@ export const startGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGameSessionPlacement",
+  telemetry: TELEMETRY,
+  span: "StartGameSessionPlacement",
 }));
 
 export type StartMatchBackfillError =
@@ -13210,7 +8914,7 @@ export type StartMatchBackfillError =
  * match process is essentially identical to the process of forming new matches. Backfill
  * requests use the same matchmaker that was used to make the original match, and they
  * provide matchmaking data for all players currently in the game session. FlexMatch uses
- * this information to select new players so that backfilled match continues to meet the
+ * this information to select new players so that the backfilled match continues to meet the
  * original match requirements.
  *
  * When using FlexMatch with Amazon GameLift Servers managed hosting, you can request a backfill match from
@@ -13244,13 +8948,13 @@ export type StartMatchBackfillError =
  * How Amazon GameLift Servers FlexMatch works
  */
 export const startMatchBackfill: API.OperationMethod<
-  StartMatchBackfillInput,
+  StartMatchBackfillInput & RegionInput,
   StartMatchBackfillOutput,
   StartMatchBackfillError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMatchBackfillInput,
-  output: StartMatchBackfillOutput,
+  input: __S(208, __c13, 0) as any as S.Schema<StartMatchBackfillInput>,
+  output: __S(224, __c14, 0) as any as S.Schema<StartMatchBackfillOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13260,6 +8964,8 @@ export const startMatchBackfill: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchBackfill",
+  telemetry: TELEMETRY,
+  span: "StartMatchBackfill",
 }));
 
 export type StartMatchmakingError =
@@ -13299,13 +9005,13 @@ export type StartMatchmakingError =
  * How Amazon GameLift Servers FlexMatch works
  */
 export const startMatchmaking: API.OperationMethod<
-  StartMatchmakingInput,
+  StartMatchmakingInput & RegionInput,
   StartMatchmakingOutput,
   StartMatchmakingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMatchmakingInput,
-  output: StartMatchmakingOutput,
+  input: __S(240, __c15, 0) as any as S.Schema<StartMatchmakingInput>,
+  output: __S(224, __c14, 0) as any as S.Schema<StartMatchmakingOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13315,6 +9021,8 @@ export const startMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMatchmaking",
+  telemetry: TELEMETRY,
+  span: "StartMatchmaking",
 }));
 
 export type StopFleetActionsError =
@@ -13354,13 +9062,13 @@ export type StopFleetActionsError =
  * Fleets
  */
 export const stopFleetActions: API.OperationMethod<
-  StopFleetActionsInput,
+  StopFleetActionsInput & RegionInput,
   StopFleetActionsOutput,
   StopFleetActionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopFleetActionsInput,
-  output: StopFleetActionsOutput,
+  input: __S(256, __c16, 0) as any as S.Schema<StopFleetActionsInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<StopFleetActionsOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13371,6 +9079,8 @@ export const stopFleetActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFleetActions",
+  telemetry: TELEMETRY,
+  span: "StopFleetActions",
 }));
 
 export type StopGameSessionPlacementError =
@@ -13390,18 +9100,18 @@ export type StopGameSessionPlacementError =
  * If successful, this operation removes the placement request from the queue and moves
  * the `GameSessionPlacement` to `CANCELLED` status.
  *
- * This operation results in an `InvalidRequestExecption` (400) error if a
+ * This operation results in an `InvalidRequestException` (400) error if a
  * game session has already been created for this placement. You can clean up an unneeded
  * game session by calling TerminateGameSession.
  */
 export const stopGameSessionPlacement: API.OperationMethod<
-  StopGameSessionPlacementInput,
+  StopGameSessionPlacementInput & RegionInput,
   StopGameSessionPlacementOutput,
   StopGameSessionPlacementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopGameSessionPlacementInput,
-  output: StopGameSessionPlacementOutput,
+  input: __S(272, __c17, 0) as any as S.Schema<StopGameSessionPlacementInput>,
+  output: __S(2356, __c147, 4) as any as S.Schema<StopGameSessionPlacementOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13411,6 +9121,8 @@ export const stopGameSessionPlacement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGameSessionPlacement",
+  telemetry: TELEMETRY,
+  span: "StopGameSessionPlacement",
 }));
 
 export type StopMatchmakingError =
@@ -13440,13 +9152,13 @@ export type StopMatchmakingError =
  * Add FlexMatch to a game client
  */
 export const stopMatchmaking: API.OperationMethod<
-  StopMatchmakingInput,
+  StopMatchmakingInput & RegionInput,
   StopMatchmakingOutput,
   StopMatchmakingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StopMatchmakingInput,
-  output: StopMatchmakingOutput,
+  input: __S(288, __c18, 0) as any as S.Schema<StopMatchmakingInput>,
+  output: __S(640, __c40, 0) as any as S.Schema<StopMatchmakingOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13456,6 +9168,8 @@ export const stopMatchmaking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMatchmaking",
+  telemetry: TELEMETRY,
+  span: "StopMatchmaking",
 }));
 
 export type SuspendGameServerGroupError =
@@ -13491,13 +9205,13 @@ export type SuspendGameServerGroupError =
  * Guide
  */
 export const suspendGameServerGroup: API.OperationMethod<
-  SuspendGameServerGroupInput,
+  SuspendGameServerGroupInput & RegionInput,
   SuspendGameServerGroupOutput,
   SuspendGameServerGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: SuspendGameServerGroupInput,
-  output: SuspendGameServerGroupOutput,
+  input: __S(304, __c19, 0) as any as S.Schema<SuspendGameServerGroupInput>,
+  output: __S(1168, __c73, 0) as any as S.Schema<SuspendGameServerGroupOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13507,6 +9221,8 @@ export const suspendGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "SuspendGameServerGroup",
 }));
 
 export type TagResourceError =
@@ -13540,13 +9256,13 @@ export type TagResourceError =
  * All APIs by task
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(320, __c20, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13557,6 +9273,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type TerminateGameSessionError =
@@ -13615,13 +9333,13 @@ export type TerminateGameSessionError =
  * (Go)
  */
 export const terminateGameSession: API.OperationMethod<
-  TerminateGameSessionInput,
+  TerminateGameSessionInput & RegionInput,
   TerminateGameSessionOutput,
   TerminateGameSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TerminateGameSessionInput,
-  output: TerminateGameSessionOutput,
+  input: __S(336, __c21, 0) as any as S.Schema<TerminateGameSessionInput>,
+  output: __S(1232, __c77, 0) as any as S.Schema<TerminateGameSessionOutput>,
   errors: [
     InternalServiceException,
     InvalidGameSessionStatusException,
@@ -13633,6 +9351,8 @@ export const terminateGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateGameSession",
+  telemetry: TELEMETRY,
+  span: "TerminateGameSession",
 }));
 
 export type UntagResourceError =
@@ -13665,13 +9385,13 @@ export type UntagResourceError =
  * All APIs by task
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(352, __c22, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13682,6 +9402,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAliasError =
@@ -13704,13 +9426,13 @@ export type UpdateAliasError =
  * All APIs by task
  */
 export const updateAlias: API.OperationMethod<
-  UpdateAliasInput,
+  UpdateAliasInput & RegionInput,
   UpdateAliasOutput,
   UpdateAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAliasInput,
-  output: UpdateAliasOutput,
+  input: __S(368, __c23, 0) as any as S.Schema<UpdateAliasInput>,
+  output: __S(752, __c47, 0) as any as S.Schema<UpdateAliasOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13720,6 +9442,8 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
+  telemetry: TELEMETRY,
+  span: "UpdateAlias",
 }));
 
 export type UpdateBuildError =
@@ -13743,13 +9467,13 @@ export type UpdateBuildError =
  * All APIs by task
  */
 export const updateBuild: API.OperationMethod<
-  UpdateBuildInput,
+  UpdateBuildInput & RegionInput,
   UpdateBuildOutput,
   UpdateBuildError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateBuildInput,
-  output: UpdateBuildOutput,
+  input: __S(384, __c24, 0) as any as S.Schema<UpdateBuildInput>,
+  output: __S(1904, __c119, 0) as any as S.Schema<UpdateBuildOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13759,6 +9483,8 @@ export const updateBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBuild",
+  telemetry: TELEMETRY,
+  span: "UpdateBuild",
 }));
 
 export type UpdateContainerFleetError =
@@ -13778,7 +9504,7 @@ export type UpdateContainerFleetError =
  * a fleet using https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetDeployment.html.
  *
  * A managed fleet's runtime environment, which depends on the fleet's
- * Amazon Machine Image {AMI} version, can't be updated. You must create a new
+ * Amazon Machine Image (AMI) version, can't be updated. You must create a new
  * fleet. As a best practice, we recommend replacing your managed fleets every 30
  * days to maintain a secure and up-to-date runtime environment for your hosted game
  * servers. For guidance, see
@@ -13816,20 +9542,20 @@ export type UpdateContainerFleetError =
  * a new deployment of fleet resources using the deployment configuration provided. A
  * deployment replaces existing fleet instances with new instances that are deployed with
  * the updated fleet properties. The fleet is placed in `UPDATING` status until
- * the deployment is complete, then return to `ACTIVE`.
+ * the deployment is complete, then returns to `ACTIVE`.
  *
  * You can have only one update deployment active at a time for a fleet. If a second
  * update request initiates a deployment while another deployment is in progress, the first
  * deployment is cancelled.
  */
 export const updateContainerFleet: API.OperationMethod<
-  UpdateContainerFleetInput,
+  UpdateContainerFleetInput & RegionInput,
   UpdateContainerFleetOutput,
   UpdateContainerFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateContainerFleetInput,
-  output: UpdateContainerFleetOutput,
+  input: __S(400, __c25, 0) as any as S.Schema<UpdateContainerFleetInput>,
+  output: __S(960, __c60, 0) as any as S.Schema<UpdateContainerFleetOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13842,6 +9568,8 @@ export const updateContainerFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerFleet",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerFleet",
 }));
 
 export type UpdateContainerGroupDefinitionError =
@@ -13883,23 +9611,29 @@ export type UpdateContainerGroupDefinitionError =
  * definitions, excluding the definition to remove. If the container group has only one
  * support container definition, provide an empty set.
  *
+ * - Remove the total vCPU limit from a game server container group so that its containers
+ * can use up to the instance's available vCPU. Set `RemoveAttributes` to
+ * `TOTAL_VCPU_LIMIT`. The game server container must have a `Vcpu`
+ * value, because a game server container group needs either a total vCPU limit or a game
+ * server `Vcpu` value.
+ *
  * **Results:**
  *
  * If successful, this operation returns the complete properties of the new container group
  * definition version.
  *
- * If the container group definition version is used in an active fleets, the update
+ * If the container group definition version is used in an active fleet, the update
  * automatically initiates a new fleet deployment of the new version. You can track a fleet's
  * deployments using ListFleetDeployments.
  */
 export const updateContainerGroupDefinition: API.OperationMethod<
-  UpdateContainerGroupDefinitionInput,
+  UpdateContainerGroupDefinitionInput & RegionInput,
   UpdateContainerGroupDefinitionOutput,
   UpdateContainerGroupDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateContainerGroupDefinitionInput,
-  output: UpdateContainerGroupDefinitionOutput,
+  input: __S(416, __c26, 0) as any as S.Schema<UpdateContainerGroupDefinitionInput>,
+  output: __S(1024, __c64, 0) as any as S.Schema<UpdateContainerGroupDefinitionOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -13911,6 +9645,8 @@ export const updateContainerGroupDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerGroupDefinition",
+  telemetry: TELEMETRY,
+  span: "UpdateContainerGroupDefinition",
 }));
 
 export type UpdateFleetAttributesError =
@@ -13932,7 +9668,7 @@ export type UpdateFleetAttributesError =
  * to change. If successful, Amazon GameLift Servers returns the identifiers for the updated fleet.
  *
  * A managed fleet's runtime environment, which depends on the fleet's
- * Amazon Machine Image {AMI} version, can't be updated. You must create a new
+ * Amazon Machine Image (AMI) version, can't be updated. You must create a new
  * fleet. As a best practice, we recommend replacing your managed fleets every 30
  * days to maintain a secure and up-to-date runtime environment for your hosted game
  * servers. For guidance, see
@@ -13944,13 +9680,13 @@ export type UpdateFleetAttributesError =
  * fleets
  */
 export const updateFleetAttributes: API.OperationMethod<
-  UpdateFleetAttributesInput,
+  UpdateFleetAttributesInput & RegionInput,
   UpdateFleetAttributesOutput,
   UpdateFleetAttributesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFleetAttributesInput,
-  output: UpdateFleetAttributesOutput,
+  input: __S(432, __c27, 0) as any as S.Schema<UpdateFleetAttributesInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<UpdateFleetAttributesOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -13963,6 +9699,8 @@ export const updateFleetAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetAttributes",
+  telemetry: TELEMETRY,
+  span: "UpdateFleetAttributes",
 }));
 
 export type UpdateFleetCapacityError =
@@ -14029,13 +9767,13 @@ export type UpdateFleetCapacityError =
  * capacity
  */
 export const updateFleetCapacity: API.OperationMethod<
-  UpdateFleetCapacityInput,
+  UpdateFleetCapacityInput & RegionInput,
   UpdateFleetCapacityOutput,
   UpdateFleetCapacityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFleetCapacityInput,
-  output: UpdateFleetCapacityOutput,
+  input: __S(448, __c28, 0) as any as S.Schema<UpdateFleetCapacityInput>,
+  output: __S(449, __c28, 1) as any as S.Schema<UpdateFleetCapacityOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -14049,6 +9787,8 @@ export const updateFleetCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetCapacity",
+  telemetry: TELEMETRY,
+  span: "UpdateFleetCapacity",
 }));
 
 export type UpdateFleetPortSettingsError =
@@ -14083,13 +9823,13 @@ export type UpdateFleetPortSettingsError =
  * fleets
  */
 export const updateFleetPortSettings: API.OperationMethod<
-  UpdateFleetPortSettingsInput,
+  UpdateFleetPortSettingsInput & RegionInput,
   UpdateFleetPortSettingsOutput,
   UpdateFleetPortSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateFleetPortSettingsInput,
-  output: UpdateFleetPortSettingsOutput,
+  input: __S(464, __c29, 0) as any as S.Schema<UpdateFleetPortSettingsInput>,
+  output: __S(128, __c8, 0) as any as S.Schema<UpdateFleetPortSettingsOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -14102,6 +9842,8 @@ export const updateFleetPortSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleetPortSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateFleetPortSettings",
 }));
 
 export type UpdateGameServerError =
@@ -14124,7 +9866,7 @@ export type UpdateGameServerError =
  * (when the game server is available to be claimed) to `UTILIZED` (when
  * the game server is currently hosting games). Identify the game server and game
  * server group and specify the new utilization status. You can't change the status
- * from to `UTILIZED` to `AVAILABLE` .
+ * from `UTILIZED` to `AVAILABLE` .
  *
  * - To report health status, identify the game server and game server group and
  * set health check to `HEALTHY`. If a game server does not report
@@ -14144,13 +9886,13 @@ export type UpdateGameServerError =
  * Guide
  */
 export const updateGameServer: API.OperationMethod<
-  UpdateGameServerInput,
+  UpdateGameServerInput & RegionInput,
   UpdateGameServerOutput,
   UpdateGameServerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGameServerInput,
-  output: UpdateGameServerOutput,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateGameServerInput>,
+  output: __S(688, __c43, 0) as any as S.Schema<UpdateGameServerOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -14160,6 +9902,8 @@ export const updateGameServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameServer",
+  telemetry: TELEMETRY,
+  span: "UpdateGameServer",
 }));
 
 export type UpdateGameServerGroupError =
@@ -14193,13 +9937,13 @@ export type UpdateGameServerGroupError =
  * Guide
  */
 export const updateGameServerGroup: API.OperationMethod<
-  UpdateGameServerGroupInput,
+  UpdateGameServerGroupInput & RegionInput,
   UpdateGameServerGroupOutput,
   UpdateGameServerGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGameServerGroupInput,
-  output: UpdateGameServerGroupOutput,
+  input: __S(496, __c31, 0) as any as S.Schema<UpdateGameServerGroupInput>,
+  output: __S(1168, __c73, 0) as any as S.Schema<UpdateGameServerGroupOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -14209,6 +9953,8 @@ export const updateGameServerGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameServerGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateGameServerGroup",
 }));
 
 export type UpdateGameSessionError =
@@ -14233,13 +9979,13 @@ export type UpdateGameSessionError =
  * All APIs by task
  */
 export const updateGameSession: API.OperationMethod<
-  UpdateGameSessionInput,
+  UpdateGameSessionInput & RegionInput,
   UpdateGameSessionOutput,
   UpdateGameSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGameSessionInput,
-  output: UpdateGameSessionOutput,
+  input: __S(512, __c32, 0) as any as S.Schema<UpdateGameSessionInput>,
+  output: __S(1232, __c77, 0) as any as S.Schema<UpdateGameSessionOutput>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -14252,6 +9998,8 @@ export const updateGameSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameSession",
+  telemetry: TELEMETRY,
+  span: "UpdateGameSession",
 }));
 
 export type UpdateGameSessionQueueError =
@@ -14273,13 +10021,13 @@ export type UpdateGameSessionQueueError =
  * Using Multi-Region Queues
  */
 export const updateGameSessionQueue: API.OperationMethod<
-  UpdateGameSessionQueueInput,
+  UpdateGameSessionQueueInput & RegionInput,
   UpdateGameSessionQueueOutput,
   UpdateGameSessionQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateGameSessionQueueInput,
-  output: UpdateGameSessionQueueOutput,
+  input: __S(528, __c33, 0) as any as S.Schema<UpdateGameSessionQueueInput>,
+  output: __S(1296, __c81, 0) as any as S.Schema<UpdateGameSessionQueueOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -14289,6 +10037,8 @@ export const updateGameSessionQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGameSessionQueue",
+  telemetry: TELEMETRY,
+  span: "UpdateGameSessionQueue",
 }));
 
 export type UpdateMatchmakingConfigurationError =
@@ -14310,13 +10060,13 @@ export type UpdateMatchmakingConfigurationError =
  * matchmaker
  */
 export const updateMatchmakingConfiguration: API.OperationMethod<
-  UpdateMatchmakingConfigurationInput,
+  UpdateMatchmakingConfigurationInput & RegionInput,
   UpdateMatchmakingConfigurationOutput,
   UpdateMatchmakingConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMatchmakingConfigurationInput,
-  output: UpdateMatchmakingConfigurationOutput,
+  input: __S(544, __c34, 0) as any as S.Schema<UpdateMatchmakingConfigurationInput>,
+  output: __S(1376, __c86, 0) as any as S.Schema<UpdateMatchmakingConfigurationOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -14326,6 +10076,8 @@ export const updateMatchmakingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMatchmakingConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateMatchmakingConfiguration",
 }));
 
 export type UpdateRuntimeConfigurationError =
@@ -14361,13 +10113,13 @@ export type UpdateRuntimeConfigurationError =
  * fleets
  */
 export const updateRuntimeConfiguration: API.OperationMethod<
-  UpdateRuntimeConfigurationInput,
+  UpdateRuntimeConfigurationInput & RegionInput,
   UpdateRuntimeConfigurationOutput,
   UpdateRuntimeConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateRuntimeConfigurationInput,
-  output: UpdateRuntimeConfigurationOutput,
+  input: __S(560, __c35, 0) as any as S.Schema<UpdateRuntimeConfigurationInput>,
+  output: __S(2544, __c159, 0) as any as S.Schema<UpdateRuntimeConfigurationOutput>,
   errors: [
     InternalServiceException,
     InvalidFleetStatusException,
@@ -14379,6 +10131,8 @@ export const updateRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuntimeConfiguration",
+  telemetry: TELEMETRY,
+  span: "UpdateRuntimeConfiguration",
 }));
 
 export type UpdateScriptError =
@@ -14413,13 +10167,13 @@ export type UpdateScriptError =
  * All APIs by task
  */
 export const updateScript: API.OperationMethod<
-  UpdateScriptInput,
+  UpdateScriptInput & RegionInput,
   UpdateScriptOutput,
   UpdateScriptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateScriptInput,
-  output: UpdateScriptOutput,
+  input: __S(576, __c36, 0) as any as S.Schema<UpdateScriptInput>,
+  output: __S(1536, __c96, 0) as any as S.Schema<UpdateScriptOutput>,
   errors: [
     InternalServiceException,
     InvalidRequestException,
@@ -14429,6 +10183,8 @@ export const updateScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScript",
+  telemetry: TELEMETRY,
+  span: "UpdateScript",
 }));
 
 export type ValidateMatchmakingRuleSetError =
@@ -14449,19 +10205,3164 @@ export type ValidateMatchmakingRuleSetError =
  * set
  */
 export const validateMatchmakingRuleSet: API.OperationMethod<
-  ValidateMatchmakingRuleSetInput,
+  ValidateMatchmakingRuleSetInput & RegionInput,
   ValidateMatchmakingRuleSetOutput,
   ValidateMatchmakingRuleSetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ValidateMatchmakingRuleSetInput,
-  output: ValidateMatchmakingRuleSetOutput,
-  errors: [
-    InternalServiceException,
-    InvalidRequestException,
-    UnsupportedRegionException,
-  ],
+  input: __S(592, __c37, 0) as any as S.Schema<ValidateMatchmakingRuleSetInput>,
+  output: __S(593, __c37, 1) as any as S.Schema<ValidateMatchmakingRuleSetOutput>,
+  errors: [InternalServiceException, InvalidRequestException, UnsupportedRegionException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateMatchmakingRuleSet",
+  telemetry: TELEMETRY,
+  span: "ValidateMatchmakingRuleSet",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(672, __c42, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLocationsInput" });
+    case 1:
+      return S.Array(__S(1346, __c84, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Locations: S.optional(__S(1, __c0, 1)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListLocationsOutput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Limit: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListScriptsInput" });
+    case 1:
+      return S.Array(__S(1520, __c95, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Scripts: S.optional(__S(17, __c1, 1)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "ListScriptsOutput" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(737, __c46, 1)) }).pipe(ns)).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          FleetId: S.optional(S.String),
+          ScalingAdjustment: S.optional(S.Number),
+          ScalingAdjustmentType: S.optional(S.String),
+          Threshold: S.optional(S.Number),
+          ComparisonOperator: S.optional(S.String),
+          EvaluationPeriods: S.optional(S.Number),
+          MetricName: S.optional(S.String),
+          PolicyType: S.optional(S.String),
+          TargetConfiguration: S.optional(__S(1200, __c75, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PutScalingPolicyInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "PutScalingPolicyOutput",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          ComputeName: S.optional(S.String),
+          CertificatePath: S.optional(S.String),
+          DnsName: S.optional(S.String),
+          IpAddress: S.optional(SensitiveString),
+          Location: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RegisterComputeInput" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerId: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          ConnectionInfo: S.optional(S.String),
+          GameServerData: S.optional(SensitiveString),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "RegisterGameServerInput" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BuildId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "RequestUploadCredentialsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UploadCredentials: S.optional(__S(832, __c52, 0)),
+          StorageLocation: S.optional(__S(800, __c50, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "RequestUploadCredentialsOutput" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AliasId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ResolveAliasInput" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), FleetArn: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "ResolveAliasOutput" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          ResumeActions: S.optional(__S(672, __c42, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ResumeGameServerGroupInput" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          AliasId: S.optional(S.String),
+          Location: S.optional(S.String),
+          FilterExpression: S.optional(S.String),
+          SortExpression: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "SearchGameSessionsInput" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          Actions: S.optional(__S(672, __c42, 0)),
+          Location: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartFleetActionsInput" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PlayerId: S.optional(SensitiveString),
+          PlayerData: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "DesiredPlayerSession" });
+    case 1:
+      return S.Array(__S(192, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PlacementId: S.optional(S.String),
+          GameSessionQueueName: S.optional(S.String),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+          MaximumPlayerSessionCount: S.optional(S.Number),
+          GameSessionName: S.optional(S.String),
+          PlayerLatencies: S.optional(__S(2353, __c147, 1)),
+          DesiredPlayerSessions: S.optional(__S(193, __c12, 1)),
+          GameSessionData: S.optional(SensitiveString),
+          PriorityConfigurationOverride: S.optional(__S(2354, __c147, 2)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartGameSessionPlacementInput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TicketId: S.optional(S.String),
+          ConfigurationName: S.optional(S.String),
+          GameSessionArn: S.optional(S.String),
+          Players: S.optional(__S(2468, __c154, 4)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMatchBackfillInput" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MatchmakingTicket: S.optional(__S(2470, __c154, 6)) }).pipe(ns),
+      ).annotate({ identifier: "StartMatchBackfillOutput" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TicketId: S.optional(S.String),
+          ConfigurationName: S.optional(S.String),
+          Players: S.optional(__S(2468, __c154, 4)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StartMatchmakingInput" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          Actions: S.optional(__S(672, __c42, 0)),
+          Location: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "StopFleetActionsInput" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PlacementId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopGameSessionPlacementInput" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TicketId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StopMatchmakingInput" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          SuspendActions: S.optional(__S(672, __c42, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "SuspendGameServerGroupInput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceARN: S.optional(S.String), Tags: S.optional(__S(737, __c46, 1)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          TerminationMode: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "TerminateGameSessionInput" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ResourceARN: S.optional(S.String),
+          TagKeys: S.optional(__S(864, __c54, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AliasId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          RoutingStrategy: S.optional(__S(768, __c48, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateAliasInput" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BuildId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Version: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateBuildInput" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          GameServerContainerGroupDefinitionName: S.optional(S.String),
+          PerInstanceContainerGroupDefinitionName: S.optional(S.String),
+          GameServerContainerGroupsPerInstance: S.optional(S.Number),
+          InstanceConnectionPortRange: S.optional(__S(976, __c61, 0)),
+          InstanceInboundPermissionAuthorizations: S.optional(__S(945, __c59, 1)),
+          InstanceInboundPermissionRevocations: S.optional(__S(945, __c59, 1)),
+          DeploymentConfiguration: S.optional(__S(2144, __c134, 0)),
+          Description: S.optional(S.String),
+          MetricGroups: S.optional(__S(864, __c54, 0)),
+          NewGameSessionProtectionPolicy: S.optional(S.String),
+          GameSessionCreationLimitPolicy: S.optional(__S(928, __c58, 0)),
+          LogConfiguration: S.optional(__S(977, __c61, 1)),
+          RemoveAttributes: S.optional(__S(672, __c42, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateContainerFleetInput" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          GameServerContainerDefinition: S.optional(__S(1008, __c63, 0)),
+          SupportContainerDefinitions: S.optional(__S(1010, __c63, 2)),
+          TotalMemoryLimitMebibytes: S.optional(S.Number),
+          TotalVcpuLimit: S.optional(S.Number),
+          VersionDescription: S.optional(S.String),
+          SourceVersionNumber: S.optional(S.Number),
+          OperatingSystem: S.optional(S.String),
+          RemoveAttributes: S.optional(__S(672, __c42, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateContainerGroupDefinitionInput" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          NewGameSessionProtectionPolicy: S.optional(S.String),
+          ResourceCreationLimitPolicy: S.optional(__S(928, __c58, 0)),
+          MetricGroups: S.optional(__S(864, __c54, 0)),
+          AnywhereConfiguration: S.optional(__S(1088, __c68, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFleetAttributesInput" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          DesiredInstances: S.optional(S.Number),
+          MinSize: S.optional(S.Number),
+          MaxSize: S.optional(S.Number),
+          Location: S.optional(S.String),
+          ManagedCapacityConfiguration: S.optional(__S(2096, __c131, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFleetCapacityInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          Location: S.optional(S.String),
+          ManagedCapacityConfiguration: S.optional(__S(2096, __c131, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateFleetCapacityOutput" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          InboundPermissionAuthorizations: S.optional(__S(945, __c59, 1)),
+          InboundPermissionRevocations: S.optional(__S(945, __c59, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateFleetPortSettingsInput" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerId: S.optional(S.String),
+          GameServerData: S.optional(SensitiveString),
+          UtilizationStatus: S.optional(S.String),
+          HealthCheck: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateGameServerInput" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          RoleArn: S.optional(S.String),
+          InstanceDefinitions: S.optional(__S(1185, __c74, 1)),
+          GameServerProtectionPolicy: S.optional(S.String),
+          BalancingStrategy: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateGameServerGroupInput" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          MaximumPlayerSessionCount: S.optional(S.Number),
+          Name: S.optional(S.String),
+          PlayerSessionCreationPolicy: S.optional(S.String),
+          ProtectionPolicy: S.optional(S.String),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateGameSessionInput" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          TimeoutInSeconds: S.optional(S.Number),
+          PlayerLatencyPolicies: S.optional(__S(1313, __c82, 1)),
+          Destinations: S.optional(__S(1315, __c82, 3)),
+          FilterConfiguration: S.optional(__S(1316, __c82, 4)),
+          PriorityConfiguration: S.optional(__S(1317, __c82, 5)),
+          CustomEventData: S.optional(SensitiveString),
+          NotificationTarget: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateGameSessionQueueInput" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          GameSessionQueueArns: S.optional(__S(864, __c54, 0)),
+          RequestTimeoutSeconds: S.optional(S.Number),
+          AcceptanceTimeoutSeconds: S.optional(S.Number),
+          AcceptanceRequired: S.optional(S.Boolean),
+          RuleSetName: S.optional(S.String),
+          NotificationTarget: S.optional(S.String),
+          AdditionalPlayerCount: S.optional(S.Number),
+          CustomEventData: S.optional(SensitiveString),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+          GameSessionData: S.optional(SensitiveString),
+          BackfillMode: S.optional(S.String),
+          FlexMatchMode: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateMatchmakingConfigurationInput" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          RuntimeConfiguration: S.optional(__S(1106, __c69, 2)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateRuntimeConfigurationInput" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ScriptId: S.optional(S.String),
+          Name: S.optional(S.String),
+          Version: S.optional(S.String),
+          StorageLocation: S.optional(__S(800, __c50, 0)),
+          ZipFile: S.optional(T.Blob),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateScriptInput" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RuleSetBody: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ValidateMatchmakingRuleSetInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Valid: S.optional(S.Boolean) }).pipe(ns)).annotate({
+        identifier: "ValidateMatchmakingRuleSetOutput",
+      });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TicketId: S.optional(S.String),
+          PlayerIds: S.optional(__S(624, __c39, 0)),
+          AcceptanceType: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "AcceptMatchInput" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(SensitiveString);
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "AcceptMatchOutput" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ InstanceStatuses: S.optional(__S(672, __c42, 0)) }),
+      ).annotate({ identifier: "ClaimFilterOption" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerId: S.optional(S.String),
+          GameServerData: S.optional(SensitiveString),
+          FilterOption: S.optional(__S(656, __c41, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ClaimGameServerInput" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GameServer: S.optional(__S(704, __c44, 0)) }).pipe(ns),
+      ).annotate({ identifier: "ClaimGameServerOutput" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerGroupArn: S.optional(S.String),
+          GameServerId: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          ConnectionInfo: S.optional(S.String),
+          GameServerData: S.optional(SensitiveString),
+          ClaimStatus: S.optional(S.String),
+          UtilizationStatus: S.optional(S.String),
+          RegistrationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastClaimTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastHealthCheckTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GameServer" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          RoutingStrategy: S.optional(__S(768, __c48, 0)),
+          Tags: S.optional(__S(737, __c46, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAliasInput" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(__S(736, __c46, 0));
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Alias: S.optional(__S(769, __c48, 1)) }).pipe(ns)).annotate(
+        { identifier: "CreateAliasOutput" },
+      );
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Type: S.optional(S.String),
+          FleetId: S.optional(S.String),
+          Message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RoutingStrategy" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AliasId: S.optional(S.String),
+          Name: S.optional(S.String),
+          AliasArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          RoutingStrategy: S.optional(__S(768, __c48, 0)),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Alias" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Version: S.optional(S.String),
+          StorageLocation: S.optional(__S(800, __c50, 0)),
+          OperatingSystem: S.optional(S.String),
+          Tags: S.optional(__S(737, __c46, 1)),
+          ServerSdkVersion: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateBuildInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Build: S.optional(__S(816, __c51, 0)),
+          UploadCredentials: S.optional(__S(832, __c52, 0)),
+          StorageLocation: S.optional(__S(800, __c50, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateBuildOutput" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Bucket: S.optional(S.String),
+          Key: S.optional(S.String),
+          RoleArn: S.optional(S.String),
+          ObjectVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "S3Location" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BuildId: S.optional(S.String),
+          BuildArn: S.optional(S.String),
+          Name: S.optional(S.String),
+          Version: S.optional(S.String),
+          Status: S.optional(S.String),
+          SizeOnDisk: S.optional(S.Number),
+          OperatingSystem: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ServerSdkVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Build" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          AccessKeyId: S.optional(S.String),
+          SecretAccessKey: S.optional(S.String),
+          SessionToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AwsCredentials" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetRoleArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          GameServerContainerGroupDefinitionName: S.optional(S.String),
+          PerInstanceContainerGroupDefinitionName: S.optional(S.String),
+          InstanceConnectionPortRange: S.optional(__S(976, __c61, 0)),
+          InstanceInboundPermissions: S.optional(__S(945, __c59, 1)),
+          GameServerContainerGroupsPerInstance: S.optional(S.Number),
+          InstanceType: S.optional(S.String),
+          BillingType: S.optional(S.String),
+          Locations: S.optional(__S(881, __c55, 1)),
+          MetricGroups: S.optional(__S(864, __c54, 0)),
+          NewGameSessionProtectionPolicy: S.optional(S.String),
+          GameSessionCreationLimitPolicy: S.optional(__S(928, __c58, 0)),
+          LogConfiguration: S.optional(__S(977, __c61, 1)),
+          Tags: S.optional(__S(737, __c46, 1)),
+          PlayerGatewayMode: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateContainerFleetInput" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Location: S.optional(S.String) })).annotate({
+        identifier: "LocationConfiguration",
+      });
+    case 1:
+      return S.Array(__S(880, __c55, 0));
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Location: S.optional(S.String),
+          Status: S.optional(S.String),
+          PlayerGatewayStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerFleetLocationAttributes" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(896, __c56, 0));
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          NewGameSessionsPerCreator: S.optional(S.Number),
+          PolicyPeriodInMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GameSessionCreationLimitPolicy" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FromPort: S.optional(S.Number),
+          ToPort: S.optional(S.Number),
+          IpRange: S.optional(SensitiveString),
+          Protocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IpPermission" });
+    case 1:
+      return S.Array(__S(944, __c59, 0));
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerFleet: S.optional(__S(979, __c61, 3)) }).pipe(ns),
+      ).annotate({ identifier: "CreateContainerFleetOutput" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FromPort: S.optional(S.Number), ToPort: S.optional(S.Number) }),
+      ).annotate({ identifier: "ConnectionPortRange" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LogDestination: S.optional(S.String),
+          S3BucketName: S.optional(S.String),
+          LogGroupArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LogConfiguration" });
+    case 2:
+      return S.suspend(() => S.Struct({ LatestDeploymentId: S.optional(S.String) })).annotate({
+        identifier: "DeploymentDetails",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          FleetRoleArn: S.optional(S.String),
+          GameServerContainerGroupDefinitionName: S.optional(S.String),
+          GameServerContainerGroupDefinitionArn: S.optional(S.String),
+          PerInstanceContainerGroupDefinitionName: S.optional(S.String),
+          PerInstanceContainerGroupDefinitionArn: S.optional(S.String),
+          InstanceConnectionPortRange: S.optional(__S(976, __c61, 0)),
+          InstanceInboundPermissions: S.optional(__S(945, __c59, 1)),
+          GameServerContainerGroupsPerInstance: S.optional(S.Number),
+          MaximumGameServerContainerGroupsPerInstance: S.optional(S.Number),
+          InstanceType: S.optional(S.String),
+          BillingType: S.optional(S.String),
+          Description: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          MetricGroups: S.optional(__S(864, __c54, 0)),
+          NewGameSessionProtectionPolicy: S.optional(S.String),
+          GameSessionCreationLimitPolicy: S.optional(__S(928, __c58, 0)),
+          Status: S.optional(S.String),
+          DeploymentDetails: S.optional(__S(978, __c61, 2)),
+          LogConfiguration: S.optional(__S(977, __c61, 1)),
+          LocationAttributes: S.optional(__S(912, __c57, 0)),
+          PlayerGatewayMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerFleet" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          ContainerGroupType: S.optional(S.String),
+          TotalMemoryLimitMebibytes: S.optional(S.Number),
+          TotalVcpuLimit: S.optional(S.Number),
+          GameServerContainerDefinition: S.optional(__S(1008, __c63, 0)),
+          SupportContainerDefinitions: S.optional(__S(1010, __c63, 2)),
+          OperatingSystem: S.optional(S.String),
+          VersionDescription: S.optional(S.String),
+          Tags: S.optional(__S(737, __c46, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateContainerGroupDefinitionInput" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerName: S.optional(S.String),
+          DependsOn: S.optional(__S(1041, __c65, 1)),
+          MountPoints: S.optional(__S(1043, __c65, 3)),
+          EnvironmentOverride: S.optional(__S(1045, __c65, 5)),
+          ImageUri: S.optional(S.String),
+          PortConfiguration: S.optional(__S(1048, __c65, 8)),
+          ServerSdkVersion: S.optional(S.String),
+          LinuxCapabilities: S.optional(__S(1049, __c65, 9)),
+          Vcpu: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GameServerContainerDefinitionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerName: S.optional(S.String),
+          DependsOn: S.optional(__S(1041, __c65, 1)),
+          MountPoints: S.optional(__S(1043, __c65, 3)),
+          EnvironmentOverride: S.optional(__S(1045, __c65, 5)),
+          Essential: S.optional(S.Boolean),
+          HealthCheck: S.optional(__S(1050, __c65, 10)),
+          ImageUri: S.optional(S.String),
+          MemoryHardLimitMebibytes: S.optional(S.Number),
+          PortConfiguration: S.optional(__S(1048, __c65, 8)),
+          Vcpu: S.optional(S.Number),
+          LinuxCapabilities: S.optional(__S(1049, __c65, 9)),
+        }),
+      ).annotate({ identifier: "SupportContainerDefinitionInput" });
+    case 2:
+      return S.Array(__S(1009, __c63, 1));
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerGroupDefinition: S.optional(__S(1054, __c65, 14)) }).pipe(ns),
+      ).annotate({ identifier: "CreateContainerGroupDefinitionOutput" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.optional(S.String), Condition: S.optional(S.String) }),
+      ).annotate({ identifier: "ContainerDependency" });
+    case 1:
+      return S.Array(__S(1040, __c65, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          InstancePath: S.optional(S.String),
+          ContainerPath: S.optional(S.String),
+          AccessLevel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerMountPoint" });
+    case 3:
+      return S.Array(__S(1042, __c65, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "ContainerEnvironment" });
+    case 5:
+      return S.Array(__S(1044, __c65, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          FromPort: S.optional(S.Number),
+          ToPort: S.optional(S.Number),
+          Protocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerPortRange" });
+    case 7:
+      return S.Array(__S(1046, __c65, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ ContainerPortRanges: S.optional(__S(1047, __c65, 7)) }),
+      ).annotate({ identifier: "ContainerPortConfiguration" });
+    case 9:
+      return S.suspend(() => S.Struct({ Include: S.optional(__S(672, __c42, 0)) })).annotate({
+        identifier: "LinuxCapabilities",
+      });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          Command: S.optional(__S(864, __c54, 0)),
+          Interval: S.optional(S.Number),
+          Retries: S.optional(S.Number),
+          StartPeriod: S.optional(S.Number),
+          Timeout: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ContainerHealthCheck" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerName: S.optional(S.String),
+          DependsOn: S.optional(__S(1041, __c65, 1)),
+          MountPoints: S.optional(__S(1043, __c65, 3)),
+          EnvironmentOverride: S.optional(__S(1045, __c65, 5)),
+          ImageUri: S.optional(S.String),
+          PortConfiguration: S.optional(__S(1048, __c65, 8)),
+          ResolvedImageDigest: S.optional(S.String),
+          ServerSdkVersion: S.optional(S.String),
+          LinuxCapabilities: S.optional(__S(1049, __c65, 9)),
+          Vcpu: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GameServerContainerDefinition" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerName: S.optional(S.String),
+          DependsOn: S.optional(__S(1041, __c65, 1)),
+          MountPoints: S.optional(__S(1043, __c65, 3)),
+          EnvironmentOverride: S.optional(__S(1045, __c65, 5)),
+          Essential: S.optional(S.Boolean),
+          HealthCheck: S.optional(__S(1050, __c65, 10)),
+          ImageUri: S.optional(S.String),
+          MemoryHardLimitMebibytes: S.optional(S.Number),
+          PortConfiguration: S.optional(__S(1048, __c65, 8)),
+          ResolvedImageDigest: S.optional(S.String),
+          Vcpu: S.optional(S.Number),
+          LinuxCapabilities: S.optional(__S(1049, __c65, 9)),
+        }),
+      ).annotate({ identifier: "SupportContainerDefinition" });
+    case 13:
+      return S.Array(__S(1052, __c65, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerGroupDefinitionArn: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          OperatingSystem: S.optional(S.String),
+          Name: S.optional(S.String),
+          ContainerGroupType: S.optional(S.String),
+          TotalMemoryLimitMebibytes: S.optional(S.Number),
+          TotalVcpuLimit: S.optional(S.Number),
+          GameServerContainerDefinition: S.optional(__S(1051, __c65, 11)),
+          SupportContainerDefinitions: S.optional(__S(1053, __c65, 13)),
+          VersionNumber: S.optional(S.Number),
+          VersionDescription: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerGroupDefinition" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          BuildId: S.optional(S.String),
+          ScriptId: S.optional(S.String),
+          ServerLaunchPath: S.optional(S.String),
+          ServerLaunchParameters: S.optional(S.String),
+          LogPaths: S.optional(__S(864, __c54, 0)),
+          EC2InstanceType: S.optional(S.String),
+          EC2InboundPermissions: S.optional(__S(945, __c59, 1)),
+          NewGameSessionProtectionPolicy: S.optional(S.String),
+          RuntimeConfiguration: S.optional(__S(1106, __c69, 2)),
+          ResourceCreationLimitPolicy: S.optional(__S(928, __c58, 0)),
+          MetricGroups: S.optional(__S(864, __c54, 0)),
+          PeerVpcAwsAccountId: S.optional(S.String),
+          PeerVpcId: S.optional(S.String),
+          FleetType: S.optional(S.String),
+          InstanceRoleArn: S.optional(S.String),
+          CertificateConfiguration: S.optional(__S(1072, __c67, 0)),
+          Locations: S.optional(__S(881, __c55, 1)),
+          Tags: S.optional(__S(737, __c46, 1)),
+          ComputeType: S.optional(S.String),
+          AnywhereConfiguration: S.optional(__S(1088, __c68, 0)),
+          InstanceRoleCredentialsProvider: S.optional(S.String),
+          PlayerGatewayMode: S.optional(S.String),
+          PlayerGatewayConfiguration: S.optional(__S(1073, __c67, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateFleetInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetAttributes: S.optional(__S(1074, __c67, 2)),
+          LocationStates: S.optional(__S(912, __c57, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateFleetOutput" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ CertificateType: S.optional(S.String) })).annotate({
+        identifier: "CertificateConfiguration",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ GameServerIpProtocolSupported: S.optional(S.String) }),
+      ).annotate({ identifier: "PlayerGatewayConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          FleetType: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          Description: S.optional(S.String),
+          Name: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TerminationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Status: S.optional(S.String),
+          BuildId: S.optional(S.String),
+          BuildArn: S.optional(S.String),
+          ScriptId: S.optional(S.String),
+          ScriptArn: S.optional(S.String),
+          ServerLaunchPath: S.optional(S.String),
+          ServerLaunchParameters: S.optional(S.String),
+          LogPaths: S.optional(__S(864, __c54, 0)),
+          NewGameSessionProtectionPolicy: S.optional(S.String),
+          OperatingSystem: S.optional(S.String),
+          ResourceCreationLimitPolicy: S.optional(__S(928, __c58, 0)),
+          MetricGroups: S.optional(__S(864, __c54, 0)),
+          StoppedActions: S.optional(__S(672, __c42, 0)),
+          InstanceRoleArn: S.optional(S.String),
+          CertificateConfiguration: S.optional(__S(1072, __c67, 0)),
+          ComputeType: S.optional(S.String),
+          AnywhereConfiguration: S.optional(__S(1088, __c68, 0)),
+          InstanceRoleCredentialsProvider: S.optional(S.String),
+          PlayerGatewayMode: S.optional(S.String),
+          PlayerGatewayConfiguration: S.optional(__S(1073, __c67, 1)),
+        }),
+      ).annotate({ identifier: "FleetAttributes" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Cost: S.optional(S.String) })).annotate({
+        identifier: "AnywhereConfiguration",
+      });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LaunchPath: S.optional(S.String),
+          Parameters: S.optional(S.String),
+          ConcurrentExecutions: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ServerProcess" });
+    case 1:
+      return S.Array(__S(1104, __c69, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ServerProcesses: S.optional(__S(1105, __c69, 1)),
+          MaxConcurrentGameSessionActivations: S.optional(S.Number),
+          GameSessionActivationTimeoutSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RuntimeConfiguration" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), Locations: S.optional(__S(881, __c55, 1)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateFleetLocationsInput" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          LocationStates: S.optional(__S(912, __c57, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateFleetLocationsOutput" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LaunchTemplateId: S.optional(S.String),
+          LaunchTemplateName: S.optional(S.String),
+          Version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LaunchTemplateSpecification" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EstimatedInstanceWarmup: S.optional(S.Number),
+          TargetTrackingConfiguration: S.optional(__S(1200, __c75, 0)),
+        }),
+      ).annotate({ identifier: "GameServerGroupAutoScalingPolicy" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          RoleArn: S.optional(S.String),
+          MinSize: S.optional(S.Number),
+          MaxSize: S.optional(S.Number),
+          LaunchTemplate: S.optional(__S(1152, __c72, 0)),
+          InstanceDefinitions: S.optional(__S(1185, __c74, 1)),
+          AutoScalingPolicy: S.optional(__S(1153, __c72, 1)),
+          BalancingStrategy: S.optional(S.String),
+          GameServerProtectionPolicy: S.optional(S.String),
+          VpcSubnets: S.optional(__S(864, __c54, 0)),
+          Tags: S.optional(__S(737, __c46, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateGameServerGroupInput" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GameServerGroup: S.optional(__S(1186, __c74, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreateGameServerGroupOutput" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ InstanceType: S.optional(S.String), WeightedCapacity: S.optional(S.String) }),
+      ).annotate({ identifier: "InstanceDefinition" });
+    case 1:
+      return S.Array(__S(1184, __c74, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerGroupArn: S.optional(S.String),
+          RoleArn: S.optional(S.String),
+          InstanceDefinitions: S.optional(__S(1185, __c74, 1)),
+          BalancingStrategy: S.optional(S.String),
+          GameServerProtectionPolicy: S.optional(S.String),
+          AutoScalingGroupArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          SuspendedActions: S.optional(__S(672, __c42, 0)),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "GameServerGroup" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ TargetValue: S.optional(S.Number) })).annotate({
+        identifier: "TargetTrackingConfiguration",
+      });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          AliasId: S.optional(S.String),
+          MaximumPlayerSessionCount: S.optional(S.Number),
+          Name: S.optional(S.String),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+          CreatorId: S.optional(S.String),
+          GameSessionId: S.optional(S.String),
+          IdempotencyToken: S.optional(S.String),
+          GameSessionData: S.optional(SensitiveString),
+          Location: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateGameSessionInput" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GameSession: S.optional(__S(1264, __c79, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateGameSessionOutput" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(SensitiveString) }),
+      ).annotate({ identifier: "GameProperty" });
+    case 1:
+      return S.Array(__S(1248, __c78, 0));
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          Name: S.optional(S.String),
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TerminationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          CurrentPlayerSessionCount: S.optional(S.Number),
+          MaximumPlayerSessionCount: S.optional(S.Number),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+          IpAddress: S.optional(SensitiveString),
+          DnsName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          PlayerSessionCreationPolicy: S.optional(S.String),
+          CreatorId: S.optional(S.String),
+          GameSessionData: S.optional(SensitiveString),
+          MatchmakerData: S.optional(SensitiveString),
+          Location: S.optional(S.String),
+          ComputeName: S.optional(S.String),
+          PlayerGatewayStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GameSession" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          TimeoutInSeconds: S.optional(S.Number),
+          PlayerLatencyPolicies: S.optional(__S(1313, __c82, 1)),
+          Destinations: S.optional(__S(1315, __c82, 3)),
+          FilterConfiguration: S.optional(__S(1316, __c82, 4)),
+          PriorityConfiguration: S.optional(__S(1317, __c82, 5)),
+          CustomEventData: S.optional(SensitiveString),
+          NotificationTarget: S.optional(S.String),
+          Tags: S.optional(__S(737, __c46, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateGameSessionQueueInput" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GameSessionQueue: S.optional(__S(1318, __c82, 6)) }).pipe(ns),
+      ).annotate({ identifier: "CreateGameSessionQueueOutput" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaximumIndividualPlayerLatencyMilliseconds: S.optional(S.Number),
+          PolicyDurationSeconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PlayerLatencyPolicy" });
+    case 1:
+      return S.Array(__S(1312, __c82, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ DestinationArn: S.optional(S.String) })).annotate({
+        identifier: "GameSessionQueueDestination",
+      });
+    case 3:
+      return S.Array(__S(1314, __c82, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ AllowedLocations: S.optional(__S(864, __c54, 0)) }),
+      ).annotate({ identifier: "FilterConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          PriorityOrder: S.optional(__S(672, __c42, 0)),
+          LocationOrder: S.optional(__S(864, __c54, 0)),
+        }),
+      ).annotate({ identifier: "PriorityConfiguration" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          GameSessionQueueArn: S.optional(S.String),
+          TimeoutInSeconds: S.optional(S.Number),
+          PlayerLatencyPolicies: S.optional(__S(1313, __c82, 1)),
+          Destinations: S.optional(__S(1315, __c82, 3)),
+          FilterConfiguration: S.optional(__S(1316, __c82, 4)),
+          PriorityConfiguration: S.optional(__S(1317, __c82, 5)),
+          CustomEventData: S.optional(SensitiveString),
+          NotificationTarget: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GameSessionQueue" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LocationName: S.optional(S.String), Tags: S.optional(__S(737, __c46, 1)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateLocationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Location: S.optional(__S(1346, __c84, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreateLocationOutput" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Domain: S.optional(S.String), Port: S.optional(S.Number) }),
+      ).annotate({ identifier: "UDPEndpoint" });
+    case 1:
+      return S.suspend(() => S.Struct({ UDPEndpoint: S.optional(__S(1344, __c84, 0)) })).annotate({
+        identifier: "PingBeacon",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          LocationName: S.optional(S.String),
+          LocationArn: S.optional(S.String),
+          PingBeacon: S.optional(__S(1345, __c84, 1)),
+        }),
+      ).annotate({ identifier: "LocationModel" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          GameSessionQueueArns: S.optional(__S(864, __c54, 0)),
+          RequestTimeoutSeconds: S.optional(S.Number),
+          AcceptanceTimeoutSeconds: S.optional(S.Number),
+          AcceptanceRequired: S.optional(S.Boolean),
+          RuleSetName: S.optional(S.String),
+          NotificationTarget: S.optional(S.String),
+          AdditionalPlayerCount: S.optional(S.Number),
+          CustomEventData: S.optional(SensitiveString),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+          GameSessionData: S.optional(SensitiveString),
+          BackfillMode: S.optional(S.String),
+          FlexMatchMode: S.optional(S.String),
+          Tags: S.optional(__S(737, __c46, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateMatchmakingConfigurationInput" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Configuration: S.optional(__S(1392, __c87, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateMatchmakingConfigurationOutput" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          ConfigurationArn: S.optional(S.String),
+          Description: S.optional(S.String),
+          GameSessionQueueArns: S.optional(__S(864, __c54, 0)),
+          RequestTimeoutSeconds: S.optional(S.Number),
+          AcceptanceTimeoutSeconds: S.optional(S.Number),
+          AcceptanceRequired: S.optional(S.Boolean),
+          RuleSetName: S.optional(S.String),
+          RuleSetArn: S.optional(S.String),
+          NotificationTarget: S.optional(S.String),
+          AdditionalPlayerCount: S.optional(S.Number),
+          CustomEventData: S.optional(SensitiveString),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+          GameSessionData: S.optional(SensitiveString),
+          BackfillMode: S.optional(S.String),
+          FlexMatchMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MatchmakingConfiguration" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          RuleSetBody: S.optional(S.String),
+          Tags: S.optional(__S(737, __c46, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateMatchmakingRuleSetInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ RuleSet: S.optional(__S(1424, __c89, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateMatchmakingRuleSetOutput" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RuleSetName: S.optional(S.String),
+          RuleSetArn: S.optional(S.String),
+          RuleSetBody: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "MatchmakingRuleSet" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          PlayerId: S.optional(SensitiveString),
+          PlayerData: S.optional(SensitiveString),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreatePlayerSessionInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ PlayerSession: S.optional(__S(1456, __c91, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreatePlayerSessionOutput" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PlayerSessionId: S.optional(S.String),
+          PlayerId: S.optional(SensitiveString),
+          GameSessionId: S.optional(S.String),
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          TerminationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Status: S.optional(S.String),
+          IpAddress: S.optional(SensitiveString),
+          DnsName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          PlayerData: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "PlayerSession" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          PlayerIds: S.optional(__S(624, __c39, 0)),
+          PlayerDataMap: S.optional(__S(1472, __c92, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreatePlayerSessionsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ PlayerSessions: S.optional(__S(1488, __c93, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreatePlayerSessionsOutput" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1456, __c91, 0));
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Version: S.optional(S.String),
+          StorageLocation: S.optional(__S(800, __c50, 0)),
+          ZipFile: S.optional(T.Blob),
+          Tags: S.optional(__S(737, __c46, 1)),
+          NodeJsVersion: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateScriptInput" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ScriptId: S.optional(S.String),
+          ScriptArn: S.optional(S.String),
+          Name: S.optional(S.String),
+          Version: S.optional(S.String),
+          SizeOnDisk: S.optional(S.Number),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StorageLocation: S.optional(__S(800, __c50, 0)),
+          NodeJsVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Script" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Script: S.optional(__S(1520, __c95, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateScriptOutput" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameLiftAwsAccountId: S.optional(S.String),
+          PeerVpcId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateVpcPeeringAuthorizationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ VpcPeeringAuthorization: S.optional(__S(1568, __c98, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateVpcPeeringAuthorizationOutput" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameLiftAwsAccountId: S.optional(S.String),
+          PeerVpcAwsAccountId: S.optional(S.String),
+          PeerVpcId: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "VpcPeeringAuthorization" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          PeerVpcAwsAccountId: S.optional(S.String),
+          PeerVpcId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateVpcPeeringConnectionInput" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AliasId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteAliasInput" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BuildId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteBuildInput" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteContainerFleetInput" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          VersionNumber: S.optional(S.Number),
+          VersionCountToRetain: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteContainerGroupDefinitionInput" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFleetInput" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), Locations: S.optional(__S(864, __c54, 0)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteFleetLocationsInput" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          DeleteOption: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteGameServerGroupInput" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteGameSessionQueueInput" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ LocationName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteLocationInput" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteMatchmakingConfigurationInput" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteMatchmakingRuleSetInput" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), FleetId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteScalingPolicyInput" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ScriptId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteScriptInput" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameLiftAwsAccountId: S.optional(S.String),
+          PeerVpcId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteVpcPeeringAuthorizationInput" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          VpcPeeringConnectionId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteVpcPeeringConnectionInput" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), ComputeName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeregisterComputeInput" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeregisterGameServerInput" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ AliasId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeAliasInput" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ BuildId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeBuildInput" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Build: S.optional(__S(816, __c51, 0)) }).pipe(ns)).annotate(
+        { identifier: "DescribeBuildOutput" },
+      );
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), ComputeName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeComputeInput" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Compute: S.optional(__S(1968, __c123, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeComputeOutput" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ContainerName: S.optional(S.String), ContainerRuntimeId: S.optional(S.String) }),
+      ).annotate({ identifier: "ContainerAttribute" });
+    case 1:
+      return S.Array(__S(1952, __c122, 0));
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          ComputeName: S.optional(S.String),
+          ComputeArn: S.optional(S.String),
+          IpAddress: S.optional(SensitiveString),
+          DnsName: S.optional(S.String),
+          ComputeStatus: S.optional(S.String),
+          Location: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          OperatingSystem: S.optional(S.String),
+          Type: S.optional(S.String),
+          GameLiftServiceSdkEndpoint: S.optional(S.String),
+          GameLiftAgentEndpoint: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          ContainerAttributes: S.optional(__S(1953, __c122, 1)),
+          GameServerContainerGroupDefinitionArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Compute" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeContainerFleetInput" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), VersionNumber: S.optional(S.Number) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeContainerGroupDefinitionInput" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          ContainerGroupType: S.optional(S.String),
+          ComputeName: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          ContainerName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeContainerGroupPortMappingsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerPort: S.optional(S.Number),
+          ConnectionPort: S.optional(S.Number),
+          Protocol: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ContainerPortMapping" });
+    case 2:
+      return S.Array(__S(2017, __c126, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerName: S.optional(S.String),
+          ContainerRuntimeId: S.optional(S.String),
+          ContainerPortMappings: S.optional(__S(2018, __c126, 2)),
+        }),
+      ).annotate({ identifier: "ContainerGroupPortMapping" });
+    case 4:
+      return S.Array(__S(2019, __c126, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          Location: S.optional(S.String),
+          ContainerGroupDefinitionArn: S.optional(S.String),
+          ContainerGroupType: S.optional(S.String),
+          ComputeName: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          ContainerGroupPortMappings: S.optional(__S(2020, __c126, 4)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeContainerGroupPortMappingsOutput" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EC2InstanceType: S.optional(S.String), Location: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeEC2InstanceLimitsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EC2InstanceType: S.optional(S.String),
+          CurrentInstances: S.optional(S.Number),
+          InstanceLimit: S.optional(S.Number),
+          Location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EC2InstanceLimit" });
+    case 2:
+      return S.Array(__S(2033, __c127, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ EC2InstanceLimits: S.optional(__S(2034, __c127, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeEC2InstanceLimitsOutput" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetIds: S.optional(__S(864, __c54, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetAttributesInput" });
+    case 1:
+      return S.Array(__S(1074, __c67, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetAttributes: S.optional(__S(2049, __c128, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetAttributesOutput" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetIds: S.optional(__S(864, __c54, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetCapacityInput" });
+    case 1:
+      return S.Array(__S(2082, __c130, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetCapacity: S.optional(__S(2065, __c129, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetCapacityOutput" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DESIRED: S.optional(S.Number),
+          MINIMUM: S.optional(S.Number),
+          MAXIMUM: S.optional(S.Number),
+          PENDING: S.optional(S.Number),
+          ACTIVE: S.optional(S.Number),
+          IDLE: S.optional(S.Number),
+          TERMINATING: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EC2InstanceCounts" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PENDING: S.optional(S.Number),
+          ACTIVE: S.optional(S.Number),
+          IDLE: S.optional(S.Number),
+          TERMINATING: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GameServerContainerGroupCounts" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          InstanceCounts: S.optional(__S(2080, __c130, 0)),
+          Location: S.optional(S.String),
+          GameServerContainerGroupCounts: S.optional(__S(2081, __c130, 1)),
+          ManagedCapacityConfiguration: S.optional(__S(2096, __c131, 0)),
+        }),
+      ).annotate({ identifier: "FleetCapacity" });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ZeroCapacityStrategy: S.optional(S.String),
+          ScaleInAfterInactivityMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ManagedCapacityConfiguration" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), DeploymentId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFleetDeploymentInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ DeploymentStatus: S.optional(S.String) })).annotate({
+        identifier: "LocationalDeployment",
+      });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(2113, __c132, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FleetDeployment: S.optional(__S(2128, __c133, 0)),
+          LocationalDeployments: S.optional(__S(2114, __c132, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetDeploymentOutput" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DeploymentId: S.optional(S.String),
+          FleetId: S.optional(S.String),
+          GameServerBinaryArn: S.optional(S.String),
+          RollbackGameServerBinaryArn: S.optional(S.String),
+          PerInstanceBinaryArn: S.optional(S.String),
+          RollbackPerInstanceBinaryArn: S.optional(S.String),
+          DeploymentStatus: S.optional(S.String),
+          DeploymentConfiguration: S.optional(__S(2144, __c134, 0)),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "FleetDeployment" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ProtectionStrategy: S.optional(S.String),
+          MinimumHealthyPercentage: S.optional(S.Number),
+          ImpairmentStrategy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeploymentConfiguration" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetEventsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          EventId: S.optional(S.String),
+          ResourceId: S.optional(S.String),
+          EventCode: S.optional(S.String),
+          Message: S.optional(S.String),
+          EventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          PreSignedLogUrl: S.optional(S.String),
+          Count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Event" });
+    case 2:
+      return S.Array(__S(2161, __c135, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Events: S.optional(__S(2162, __c135, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetEventsOutput" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          Locations: S.optional(__S(864, __c54, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetLocationAttributesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LocationState: S.optional(__S(896, __c56, 0)),
+          StoppedActions: S.optional(__S(672, __c42, 0)),
+          UpdateStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LocationAttributes" });
+    case 2:
+      return S.Array(__S(2177, __c136, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          LocationAttributes: S.optional(__S(2178, __c136, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetLocationAttributesOutput" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), Location: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFleetLocationCapacityInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ FleetCapacity: S.optional(__S(2082, __c130, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetLocationCapacityOutput" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), Location: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFleetLocationUtilizationInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ FleetUtilization: S.optional(__S(2224, __c139, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetLocationUtilizationOutput" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          ActiveServerProcessCount: S.optional(S.Number),
+          ActiveGameSessionCount: S.optional(S.Number),
+          CurrentPlayerSessionCount: S.optional(S.Number),
+          MaximumPlayerSessionCount: S.optional(S.Number),
+          Location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FleetUtilization" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), Location: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeFleetPortSettingsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          InboundPermissions: S.optional(__S(945, __c59, 1)),
+          UpdateStatus: S.optional(S.String),
+          Location: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetPortSettingsOutput" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetIds: S.optional(__S(864, __c54, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeFleetUtilizationInput" });
+    case 1:
+      return S.Array(__S(2224, __c139, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetUtilization: S.optional(__S(2257, __c141, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeFleetUtilizationOutput" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerId: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeGameServerInput" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GameServerGroupName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeGameServerGroupInput" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          InstanceIds: S.optional(__S(864, __c54, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeGameServerInstancesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          GameServerGroupArn: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          InstanceStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GameServerInstance" });
+    case 2:
+      return S.Array(__S(2305, __c144, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerInstances: S.optional(__S(2306, __c144, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeGameServerInstancesOutput" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          GameSessionId: S.optional(S.String),
+          AliasId: S.optional(S.String),
+          Location: S.optional(S.String),
+          StatusFilter: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeGameSessionDetailsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GameSession: S.optional(__S(1264, __c79, 0)),
+          ProtectionPolicy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GameSessionDetail" });
+    case 2:
+      return S.Array(__S(2321, __c145, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionDetails: S.optional(__S(2322, __c145, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeGameSessionDetailsOutput" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PlacementId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeGameSessionPlacementInput" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PlayerId: S.optional(SensitiveString),
+          RegionIdentifier: S.optional(S.String),
+          LatencyInMilliseconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PlayerLatency" });
+    case 1:
+      return S.Array(__S(2352, __c147, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PlacementFallbackStrategy: S.optional(S.String),
+          LocationOrder: S.optional(__S(864, __c54, 0)),
+        }),
+      ).annotate({ identifier: "PriorityConfigurationOverride" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PlacementId: S.optional(S.String),
+          GameSessionQueueName: S.optional(S.String),
+          Status: S.optional(S.String),
+          GameProperties: S.optional(__S(1249, __c78, 1)),
+          MaximumPlayerSessionCount: S.optional(S.Number),
+          GameSessionName: S.optional(S.String),
+          GameSessionId: S.optional(S.String),
+          GameSessionArn: S.optional(S.String),
+          GameSessionRegion: S.optional(S.String),
+          PlayerLatencies: S.optional(__S(2353, __c147, 1)),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          IpAddress: S.optional(SensitiveString),
+          DnsName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          PlacedPlayerSessions: S.optional(__S(2369, __c148, 1)),
+          GameSessionData: S.optional(SensitiveString),
+          MatchmakerData: S.optional(SensitiveString),
+          PriorityConfigurationOverride: S.optional(__S(2354, __c147, 2)),
+          PlayerGatewayStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GameSessionPlacement" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ GameSessionPlacement: S.optional(__S(2355, __c147, 3)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeGameSessionPlacementOutput" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PlayerId: S.optional(SensitiveString), PlayerSessionId: S.optional(S.String) }),
+      ).annotate({ identifier: "PlacedPlayerSession" });
+    case 1:
+      return S.Array(__S(2368, __c148, 0));
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Names: S.optional(__S(864, __c54, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeGameSessionQueuesInput" });
+    case 1:
+      return S.Array(__S(1318, __c82, 6));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionQueues: S.optional(__S(2385, __c149, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeGameSessionQueuesOutput" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          GameSessionId: S.optional(S.String),
+          AliasId: S.optional(S.String),
+          Location: S.optional(S.String),
+          StatusFilter: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeGameSessionsInput" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1264, __c79, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessions: S.optional(__S(2416, __c151, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeGameSessionsOutput" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Location: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeInstancesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          IpAddress: S.optional(SensitiveString),
+          DnsName: S.optional(S.String),
+          OperatingSystem: S.optional(S.String),
+          Type: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Instance" });
+    case 2:
+      return S.Array(__S(2433, __c152, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Instances: S.optional(__S(2434, __c152, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeInstancesOutput" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TicketIds: S.optional(__S(864, __c54, 0)) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeMatchmakingInput" });
+    case 1:
+      return S.Array(__S(2470, __c154, 6));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ TicketList: S.optional(__S(2449, __c153, 1)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeMatchmakingOutput" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          S: S.optional(S.String),
+          N: S.optional(S.Number),
+          SL: S.optional(__S(864, __c54, 0)),
+          SDM: S.optional(__S(2464, __c154, 0)),
+        }),
+      ).annotate({ identifier: "AttributeValue" });
+    case 2:
+      return S.Record(S.String, /*@__PURE__*/ __S(2465, __c154, 1).pipe(S.optional));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PlayerId: S.optional(SensitiveString),
+          PlayerAttributes: S.optional(__S(2466, __c154, 2)),
+          Team: S.optional(S.String),
+          LatencyInMs: S.optional(__S(2464, __c154, 0)),
+        }),
+      ).annotate({ identifier: "Player" });
+    case 4:
+      return S.Array(__S(2467, __c154, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionArn: S.optional(S.String),
+          IpAddress: S.optional(SensitiveString),
+          DnsName: S.optional(S.String),
+          Port: S.optional(S.Number),
+          MatchedPlayerSessions: S.optional(__S(2369, __c148, 1)),
+          PlayerGatewayStatus: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GameSessionConnectionInfo" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          TicketId: S.optional(S.String),
+          ConfigurationName: S.optional(S.String),
+          ConfigurationArn: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusReason: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Players: S.optional(__S(2468, __c154, 4)),
+          GameSessionConnectionInfo: S.optional(__S(2469, __c154, 5)),
+          EstimatedWaitTime: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MatchmakingTicket" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Names: S.optional(__S(864, __c54, 0)),
+          RuleSetName: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMatchmakingConfigurationsInput" });
+    case 1:
+      return S.Array(__S(1392, __c87, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Configurations: S.optional(__S(2481, __c155, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMatchmakingConfigurationsOutput" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Names: S.optional(__S(864, __c54, 0)),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMatchmakingRuleSetsInput" });
+    case 1:
+      return S.Array(__S(1424, __c89, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          RuleSets: S.optional(__S(2497, __c156, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMatchmakingRuleSetsOutput" });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          PlayerId: S.optional(SensitiveString),
+          PlayerSessionId: S.optional(S.String),
+          PlayerSessionStatusFilter: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribePlayerSessionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PlayerSessions: S.optional(__S(1488, __c93, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribePlayerSessionsOutput" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeRuntimeConfigurationInput" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RuntimeConfiguration: S.optional(__S(1106, __c69, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeRuntimeConfigurationOutput" });
+  }
+}
+function __c160(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          StatusFilter: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          Location: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeScalingPoliciesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          ScalingAdjustment: S.optional(S.Number),
+          ScalingAdjustmentType: S.optional(S.String),
+          ComparisonOperator: S.optional(S.String),
+          Threshold: S.optional(S.Number),
+          EvaluationPeriods: S.optional(S.Number),
+          MetricName: S.optional(S.String),
+          PolicyType: S.optional(S.String),
+          TargetConfiguration: S.optional(__S(1200, __c75, 0)),
+          UpdateStatus: S.optional(S.String),
+          Location: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScalingPolicy" });
+    case 2:
+      return S.Array(__S(2561, __c160, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ScalingPolicies: S.optional(__S(2562, __c160, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeScalingPoliciesOutput" });
+  }
+}
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ScriptId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeScriptInput" });
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeVpcPeeringAuthorizationsInput" });
+    case 1:
+      return S.Array(__S(1568, __c98, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ VpcPeeringAuthorizations: S.optional(__S(2593, __c162, 1)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeVpcPeeringAuthorizationsOutput" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DescribeVpcPeeringConnectionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
+      ).annotate({ identifier: "VpcPeeringConnectionStatus" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          IpV4CidrBlock: S.optional(S.String),
+          VpcPeeringConnectionId: S.optional(S.String),
+          Status: S.optional(__S(2609, __c163, 1)),
+          PeerVpcId: S.optional(S.String),
+          GameLiftVpcId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcPeeringConnection" });
+    case 3:
+      return S.Array(__S(2610, __c163, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ VpcPeeringConnections: S.optional(__S(2611, __c163, 3)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeVpcPeeringConnectionsOutput" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), ComputeName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetComputeAccessInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          ComputeName: S.optional(S.String),
+          ComputeArn: S.optional(S.String),
+          Credentials: S.optional(__S(832, __c52, 0)),
+          Target: S.optional(S.String),
+          ContainerIdentifiers: S.optional(__S(1953, __c122, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetComputeAccessOutput" });
+  }
+}
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), ComputeName: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetComputeAuthTokenInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          FleetArn: S.optional(S.String),
+          ComputeName: S.optional(S.String),
+          ComputeArn: S.optional(S.String),
+          AuthToken: S.optional(S.String),
+          ExpirationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetComputeAuthTokenOutput" });
+  }
+}
+function __c166(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ GameSessionId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetGameSessionLogUrlInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ PreSignedUrl: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "GetGameSessionLogUrlOutput",
+      });
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ FleetId: S.optional(S.String), InstanceId: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetInstanceAccessInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ UserName: S.optional(S.String), Secret: S.optional(S.String) }),
+      ).annotate({ identifier: "InstanceCredentials" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          InstanceId: S.optional(S.String),
+          IpAddress: S.optional(SensitiveString),
+          OperatingSystem: S.optional(S.String),
+          Credentials: S.optional(__S(2673, __c167, 1)),
+        }),
+      ).annotate({ identifier: "InstanceAccess" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ InstanceAccess: S.optional(__S(2674, __c167, 2)) }).pipe(ns),
+      ).annotate({ identifier: "GetInstanceAccessOutput" });
+  }
+}
+function __c168(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          PlayerIds: S.optional(__S(624, __c39, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "GetPlayerConnectionDetailsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ IpAddress: S.optional(SensitiveString), Port: S.optional(S.Number) }),
+      ).annotate({ identifier: "PlayerConnectionEndpoint" });
+    case 2:
+      return S.Array(__S(2689, __c168, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PlayerId: S.optional(SensitiveString),
+          Endpoints: S.optional(__S(2690, __c168, 2)),
+          PlayerGatewayToken: S.optional(S.String),
+          Expiration: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "PlayerConnectionDetail" });
+    case 4:
+      return S.Array(__S(2691, __c168, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          GameSessionId: S.optional(S.String),
+          PlayerConnectionDetails: S.optional(__S(2692, __c168, 4)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetPlayerConnectionDetailsOutput" });
+  }
+}
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RoutingStrategyType: S.optional(S.String),
+          Name: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAliasesInput" });
+    case 1:
+      return S.Array(__S(769, __c48, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Aliases: S.optional(__S(2705, __c169, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListAliasesOutput" });
+  }
+}
+function __c170(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListBuildsInput" });
+    case 1:
+      return S.Array(__S(816, __c51, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Builds: S.optional(__S(2721, __c170, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListBuildsOutput" });
+  }
+}
+function __c171(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          Location: S.optional(S.String),
+          ContainerGroupDefinitionName: S.optional(S.String),
+          ComputeStatus: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListComputeInput" });
+    case 1:
+      return S.Array(__S(1968, __c123, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ComputeList: S.optional(__S(2737, __c171, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListComputeOutput" });
+  }
+}
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerGroupDefinitionName: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListContainerFleetsInput" });
+    case 1:
+      return S.Array(__S(979, __c61, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerFleets: S.optional(__S(2753, __c172, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListContainerFleetsOutput" });
+  }
+}
+function __c173(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerGroupType: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListContainerGroupDefinitionsInput" });
+  }
+}
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1054, __c65, 14));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ContainerGroupDefinitions: S.optional(__S(2784, __c174, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListContainerGroupDefinitionsOutput" });
+  }
+}
+function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListContainerGroupDefinitionVersionsInput" });
+  }
+}
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          FleetId: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFleetDeploymentsInput" });
+    case 1:
+      return S.Array(__S(2128, __c133, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          FleetDeployments: S.optional(__S(2817, __c176, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListFleetDeploymentsOutput" });
+  }
+}
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          BuildId: S.optional(S.String),
+          ScriptId: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListFleetsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          FleetIds: S.optional(__S(864, __c54, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListFleetsOutput" });
+  }
+}
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Limit: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListGameServerGroupsInput" });
+    case 1:
+      return S.Array(__S(1186, __c74, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroups: S.optional(__S(2849, __c178, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListGameServerGroupsOutput" });
+  }
+}
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          GameServerGroupName: S.optional(S.String),
+          SortOrder: S.optional(S.String),
+          Limit: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListGameServersInput" });
+    case 1:
+      return S.Array(__S(704, __c44, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          GameServers: S.optional(__S(2865, __c179, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListGameServersOutput" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

@@ -1,0 +1,432 @@
+{
+  "description": "Type the missing-OAuth-scope rejection. It surfaced as a plain Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The OAuth token lacks the scope the API requires (HTTP 403 PERMISSION_DENIED: \"Request had insufficient authentication scopes.\"). Service-account tokens with only cloud-platform scope hit this.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CancelOperations/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CheckEnablementStatusCustomersEnterpriseSecurityInsights/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ClaimCustomersCertificateProvisioningProcesses/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountActiveDevicesCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeAppRequestsCustomersApps/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeBrowsersNeedingAttentionCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeCrashEventsCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeDevicesReachingAutoExpirationDateCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeDevicesThatNeedAttentionCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeHardwareFleetDevicesCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeProfileVersionsCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountChromeVersionsCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountDevicesPerBootTypeCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountDevicesPerReleaseChannelCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountInstalledAppsCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountPrintJobsByPrinterCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CountPrintJobsByUserCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CreateCustomersConnectorConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CreateCustomersProfilesCommands/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#CreateCustomersTelemetryNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#DeleteCustomersConnectorConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#DeleteCustomersProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#DeleteCustomersTelemetryNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#DeleteOperations/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#DisableCustomersEnterpriseSecurityInsights/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#EnableCustomersEnterpriseSecurityInsights/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#EnumeratePrintJobsCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#FetchDevicesRequestingExtensionCustomersApps/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#FetchUsersRequestingExtensionCustomersApps/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#FindInstalledAppDevicesCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#FindInstalledAppProfilesCustomersReports/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersAppsAndroid/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersAppsChrome/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersAppsWeb/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersCertificateProvisioningProcesses/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersCertificateProvisioningProcessesOperations/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersConnectorConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersProfilesCommands/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersTelemetryDevices/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#GetCustomersTelemetryUsers/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListCustomersConnectorConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListCustomersProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListCustomersProfilesCommands/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListCustomersTelemetryDevices/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListCustomersTelemetryEvents/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListCustomersTelemetryNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListCustomersTelemetryUsers/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#ListOperations/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#MoveCustomersThirdPartyProfileUsers/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#PatchCustomersConnectorConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#QueryContentTransfersBreakdownsCustomersEnterpriseSecurityInsights/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#QueryContentTransfersCustomersEnterpriseSecurityInsights/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#QueryUrlVisitsBreakdownsCustomersEnterpriseSecurityInsights/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#QueryUrlVisitsCustomersEnterpriseSecurityInsights/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#SetFailureCustomersCertificateProvisioningProcesses/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#SignDataCustomersCertificateProvisioningProcesses/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.chromemanagement_v1#UploadCertificateCustomersCertificateProvisioningProcesses/errors/-",
+      "value": {
+        "target": "com.gcp.chromemanagement_v1#InsufficientScopes"
+      }
+    }
+  ]
+}

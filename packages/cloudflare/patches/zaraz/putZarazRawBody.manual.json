@@ -1,0 +1,15 @@
+{
+  "description": "Docs drift: PUT /zones/{zone_id}/settings/zaraz/workflow takes the workflow as the raw, unquoted request body (`realtime` / `preview`). Verified 2026-10-09: a JSON object `{\"workflow\":\"preview\"}` and a JSON string `\"preview\"` are both rejected with 400 \"Bad Request: invalid workflow value\", while the bare body `preview` (any Content-Type) returns 200. Send the member as a verbatim text/plain payload.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zaraz#PutZaraz/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zaraz#PutZarazRequest/members/workflow/traits/smithy.api#httpPayload",
+      "value": {}
+    }
+  ]
+}

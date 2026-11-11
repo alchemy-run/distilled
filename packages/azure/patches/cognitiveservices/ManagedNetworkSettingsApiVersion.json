@@ -1,0 +1,60 @@
+{
+  "description": "ARM serves `accounts/managedNetworks (and outboundRules)` only on preview api-versions; 2026-07-01 fails with InvalidResourceType. Pin these operations to 2026-07-15-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsPut/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsPatch/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkSettingsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#ManagedNetworkProvisionsProvisionManagedNetwork/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleList/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRulesPost/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    }
+  ]
+}

@@ -1,0 +1,1230 @@
+{
+  "description": "Type the Security Command Center API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Security Command Center API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Security Command Center API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#BatchCreateOrganizationsResourceValueConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#BulkMuteFoldersFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#BulkMuteOrganizationsFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#BulkMuteProjectsFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CancelOrganizationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateFoldersBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateFoldersEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateFoldersMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateFoldersNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateFoldersSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateOrganizationsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateOrganizationsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateOrganizationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateOrganizationsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateOrganizationsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateOrganizationsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateProjectsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateProjectsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateProjectsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateProjectsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#CreateProjectsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteFoldersBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteFoldersEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteFoldersLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteFoldersMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteFoldersNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteFoldersSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsResourceValueConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteProjectsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteProjectsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteProjectsLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteProjectsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteProjectsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#DeleteProjectsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersEventThreatDetectionSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetIamPolicyOrganizationsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationSettingsOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsResourceValueConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsSimulations/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsSimulationsValuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetOrganizationsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsEventThreatDetectionSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupFoldersAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupFoldersSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupOrganizationsAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupOrganizationsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupProjectsAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#GroupProjectsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListDescendantFoldersEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListDescendantFoldersSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListDescendantOrganizationsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListDescendantOrganizationsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListDescendantProjectsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListDescendantProjectsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersEventThreatDetectionSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListFoldersSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsAttackPaths/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsEventThreatDetectionSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsResourceValueConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSimulationsAttackExposureResultsAttackPaths/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSimulationsAttackExposureResultsValuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSimulationsAttackPaths/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSimulationsValuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSimulationsValuedResourcesAttackPaths/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListOrganizationsValuedResources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsEventThreatDetectionSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ListProjectsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchFoldersSourcesFindingsExternalSystems/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsResourceValueConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchOrganizationsSourcesFindingsExternalSystems/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsBigQueryExports/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsEventThreatDetectionSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsLocationsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsMuteConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsNotificationConfigs/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#PatchProjectsSourcesFindingsExternalSystems/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#RunDiscoveryOrganizationsAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetIamPolicyOrganizationsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetMuteFoldersSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetMuteOrganizationsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetMuteProjectsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetStateFoldersSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetStateOrganizationsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SetStateProjectsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SimulateFoldersSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SimulateOrganizationsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#SimulateProjectsSecurityHealthAnalyticsSettingsCustomModules/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#TestIamPermissionsOrganizationsSources/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateOrganizationSettingsOrganizations/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateSecurityMarksFoldersAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateSecurityMarksFoldersSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateSecurityMarksOrganizationsAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateSecurityMarksOrganizationsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateSecurityMarksProjectsAssets/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#UpdateSecurityMarksProjectsSourcesFindings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ValidateCustomModuleFoldersEventThreatDetectionSettings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ValidateCustomModuleOrganizationsEventThreatDetectionSettings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.securitycenter_v1#ValidateCustomModuleProjectsEventThreatDetectionSettings/errors/-",
+      "value": {
+        "target": "com.gcp.securitycenter_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

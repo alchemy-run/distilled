@@ -1,0 +1,131 @@
+{
+  "description": "Type the Vertex DataLabelingJob deprecation rejection; it surfaced as a generic BadRequest. Observed live 2026-09-29 on listProjectsLocationsDataLabelingJobs for a new project.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DataLabelingJobDeprecated",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Vertex DataLabelingJob is deprecated for this project (HTTP 400 INVALID_ARGUMENT: 'Vertex DataLabelingJob is deprecated, so new project \u2026 will not be able to use the service unless they opt-in to use Labelbox human labelers.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "DataLabelingJob is deprecated"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsDataLabelingJobs/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsDataLabelingJobs/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsDataLabelingJobs/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsDataLabelingJobs/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDataLabelingJobs/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#WaitDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#WaitProjectsLocationsDataLabelingJobsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
+      }
+    }
+  ]
+}

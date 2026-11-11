@@ -12,8 +12,7 @@ const iconLink =
  */
 export const Header = () => {
   const location = useLocation();
-  const current = (path: string) =>
-    location.pathname === path ? "page" : undefined;
+  const current = (path: string) => (location.pathname === path ? "page" : undefined);
   return (
     <header class="sticky top-0 z-10 border-b border-line bg-[color-mix(in_oklab,var(--bg)_78%,transparent)] backdrop-blur-[10px] backdrop-saturate-140">
       <div class="mx-auto flex max-w-wrap items-center justify-between gap-6 px-gutter py-3.5 max-sm:gap-2.5 max-sm:px-4">
@@ -50,13 +49,7 @@ export const Header = () => {
             <span class="sm:hidden">Shame</span>
           </A>
           <span class="ml-1 inline-flex items-center gap-1.5 border-l border-line pl-3.5 max-sm:ml-0 max-sm:gap-0.5 max-sm:pl-2">
-            <a
-              class={iconLink}
-              href={REPO_URL}
-              rel="noopener"
-              aria-label="GitHub"
-              title="GitHub"
-            >
+            <a class={iconLink} href={REPO_URL} rel="noopener" aria-label="GitHub" title="GitHub">
               <GitHubIcon class="size-[1.05rem] max-sm:size-[0.95rem]" />
             </a>
             <a

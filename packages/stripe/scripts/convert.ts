@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Stripe OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -10,7 +10,7 @@
  * Output: .generated-specs/stripe.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Stripe's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Stripe's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  *
  * v0 parity notes:
@@ -26,10 +26,10 @@
  *     and POST /v1/files is multipart.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "stripe",

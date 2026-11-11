@@ -1,0 +1,255 @@
+{
+  "description": "Datastore properties and credentials are polymorphic on `datastoreType` / `credentialsType`; the converted model keeps only the base members, so S.Struct strips accountName/containerName/... and the credential secrets. Add the AzureBlob/AzureFile/AzureDataLakeGen2 members and the credential payload.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/accountName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/containerName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/fileShareName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/filesystem",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/storeName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/endpoint",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/protocol",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/serviceDataAccessAuthIdentity",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/resourceGroup",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastorePropertiesInput/members/subscriptionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/accountName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/containerName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/fileShareName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/filesystem",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/storeName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/endpoint",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/protocol",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/serviceDataAccessAuthIdentity",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/resourceGroup",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreProperties/members/subscriptionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreCredentials/members/secrets",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Credential secrets (AccountKey: {secretsType,key}; Sas: {secretsType,sasToken}; ServicePrincipal: {secretsType,clientSecret})."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreCredentials/members/clientId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServicePrincipal/Certificate: client ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreCredentials/members/tenantId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServicePrincipal/Certificate: tenant ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreCredentials/members/authorityUrl",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServicePrincipal/Certificate: authority URL."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#DatastoreCredentials/members/resourceUrl",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServicePrincipal/Certificate: resource URL."
+        }
+      }
+    }
+  ]
+}

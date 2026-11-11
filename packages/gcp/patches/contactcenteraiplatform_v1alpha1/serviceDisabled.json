@@ -1,0 +1,117 @@
+{
+  "description": "Type calls to a project where the API is disabled. It surfaced as a plain Forbidden, so an un-enabled API was indistinguishable from a missing IAM grant.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: \"<API> has not been used in project <n> before or it is disabled.\").",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#CancelProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#CreateProjectsLocationsContactCenters/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#DeleteProjectsLocationsContactCenters/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#DeleteProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#GenerateShiftsProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#GetProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#GetProjectsLocationsContactCenters/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#GetProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#ListProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#ListProjectsLocationsContactCenters/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#ListProjectsLocationsOperations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#PatchProjectsLocationsContactCenters/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenteraiplatform_v1alpha1#QueryContactCenterQuotaProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
+      }
+    }
+  ]
+}

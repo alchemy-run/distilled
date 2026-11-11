@@ -1,0 +1,89 @@
+{
+  "description": "Type Backup and DR's 400 'not found' rejections for missing referenced resources on create. They surfaced as a generic BadRequest indistinguishable from a malformed request. Observed live 2026-09-29: createProjectsLocationsBackupPlans with a missing vault, createProjectsLocationsBackupPlanAssociations with a missing plan or missing Compute instance.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#BackupVaultReferenceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The backup plan references a backup vault that does not exist (HTTP 400: 'The request was invalid: backup vault \"\u2026\" not found'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "backup vault .* not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#BackupPlanReferenceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The association references a backup plan that does not exist (HTTP 400: 'The request was invalid: backup plan \u2026 not found'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "backup plan .* not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#BackupResourceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The association targets a workload resource that does not exist (HTTP 400: 'The request was invalid: resource \u2026 is not found'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "resource .* is not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#CreateProjectsLocationsBackupPlans/errors/-",
+      "value": {
+        "target": "com.gcp.backupdr_v1#BackupVaultReferenceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#CreateProjectsLocationsBackupPlanAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.backupdr_v1#BackupPlanReferenceNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.backupdr_v1#CreateProjectsLocationsBackupPlanAssociations/errors/-",
+      "value": {
+        "target": "com.gcp.backupdr_v1#BackupResourceNotFound"
+      }
+    }
+  ]
+}

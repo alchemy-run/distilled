@@ -24,7 +24,7 @@ Shape (`schema: 1`):
   "commit": "short sha",
   "host": { "platform": "linux-x64", "cpu": "…", "cores": 16, "memoryGb": 31 },
   "rolldown": "1.2.5",
-  "bun": "1.3.13",
+  "runtime": "node 24.19.0",
   "runs": 3,
   "rows": [
     {
@@ -46,3 +46,6 @@ Shape (`schema: 1`):
 `leaks` = number of failed tree-shake expectations (missing used-op literal
 + present forbidden literals); 0 is clean. `warmMs` is `null` when
 `--runs 1`.
+
+`runtime` is `<name> <version>` of the process that drove rolldown.
+Recordings made before the move to Node carry `"bun": "<version>"` instead.

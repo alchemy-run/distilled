@@ -1,0 +1,362 @@
+{
+  "description": "Type the Schema Registry precondition. Every Schema Registry call returns HTTP 400 FAILED_PRECONDITION 'At least one Managed Service for Apache Kafka cluster in {region} is required to access the Schema Registry service.' when the region has no Kafka cluster; it surfaced as an out-of-union BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The region has no Managed Kafka cluster, so its Schema Registry service (and every registry in it) is unavailable (HTTP 400 FAILED_PRECONDITION).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "is required to access the Schema Registry service"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibility/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibility/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#CreateProjectsLocationsSchemaRegistries/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#CreateProjectsLocationsSchemaRegistriesSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistries/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesConfig/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsConfig/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsMode/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesMode/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsSchemaRegistriesSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistries/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesConfig/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContexts/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsConfig/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsMode/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesContextsSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesMode/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsSchemaRegistriesSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetSchemaProjectsLocationsSchemaRegistriesContextsSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetSchemaProjectsLocationsSchemaRegistriesSchemas/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistries/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContexts/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSchemasSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSchemasTypes/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSchemasVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedby/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSchemasSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSchemasTypes/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSchemasVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSubjectsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#LookupVersionProjectsLocationsSchemaRegistriesContextsSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#LookupVersionProjectsLocationsSchemaRegistriesSubjects/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesConfig/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesContextsConfig/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesContextsMode/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#UpdateProjectsLocationsSchemaRegistriesMode/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#SchemaRegistryRequiresCluster"
+      }
+    }
+  ]
+}

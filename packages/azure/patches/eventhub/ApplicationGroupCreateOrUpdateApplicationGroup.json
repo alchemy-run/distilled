@@ -1,0 +1,25 @@
+{
+  "description": "ApplicationGroupPolicy is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the ThrottlingPolicy payload (`rateLimitThreshold`, `metricId`) on encode and decode, and ARM rejects a throttling policy without them. Add the ThrottlingPolicy subtype members to the base shape.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventhub#ApplicationGroupPolicy/members/rateLimitThreshold",
+      "value": {
+        "target": "smithy.api#Long",
+        "traits": {
+          "smithy.api#documentation": "ThrottlingPolicy: the threshold limit above which the application group will be throttled. Rate limit is always per second."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventhub#ApplicationGroupPolicy/members/metricId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ThrottlingPolicy: metric to throttle on (IncomingBytes, OutgoingBytes, IncomingMessages, OutgoingMessages)."
+        }
+      }
+    }
+  ]
+}

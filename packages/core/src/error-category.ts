@@ -1,4 +1,5 @@
-import { Effect, Predicate } from "effect";
+import * as Effect from "effect/Effect";
+import * as Predicate from "effect/Predicate";
 
 export const categoriesKey = "@distilled/meta/error-categories";
 
@@ -26,9 +27,7 @@ export const withCategory =
     return Mixed as any;
   };
 
-export type AllKeys<E> = E extends { [categoriesKey]: infer Q }
-  ? keyof Q
-  : never;
+export type AllKeys<E> = E extends { [categoriesKey]: infer Q } ? keyof Q : never;
 
 export type ExtractAll<E, Cats extends PropertyKey> = Cats extends any
   ? Extract<E, { [categoriesKey]: { [K in Cats]: any } }>
@@ -40,9 +39,7 @@ export type ExtractAll<E, Cats extends PropertyKey> = Cats extends any
  */
 export const hasCategory =
   <const Cat extends PropertyKey>(category: Cat) =>
-  (
-    value: unknown,
-  ): value is { readonly [categoriesKey]: { readonly [K in Cat]: true } } => {
+  (value: unknown): value is { readonly [categoriesKey]: { readonly [K in Cat]: true } } => {
     if (!Predicate.isObject(value)) return false;
     if (!Predicate.hasProperty(categoriesKey)(value)) return false;
     return category in (value as any)[categoriesKey];
@@ -59,26 +56,16 @@ export const hasAnyCategory =
     return false;
   };
 
-export const catchCategory =
-  <E, const Categories extends Array<AllKeys<E>>, A2, E2, R2>(
-    ...args: [
-      ...Categories,
-      f: (err: ExtractAll<E, Categories[number]>) => Effect.Effect<A2, E2, R2>,
-    ]
-  ) =>
-  <A, R>(
+export const catchCategory = <E, const Categories extends Array<AllKeys<E>>, A2, E2, R2>(
+  ...args: [...Categories, f: (err: ExtractAll<E, Categories[number]>) => Effect.Effect<A2, E2, R2>]
+) => {
+  // Split once, without mutating `args`, so one catcher can be reused.
+  const f = args[args.length - 1] as (
+    err: ExtractAll<E, Categories[number]>,
+  ) => Effect.Effect<A2, E2, R2>;
+  const matches = hasAnyCategory(...(args.slice(0, -1) as Array<PropertyKey>));
+  return <A, R>(
     effect: Effect.Effect<A, E, R>,
-  ): Effect.Effect<
-    A | A2,
-    E2 | Exclude<E, ExtractAll<E, Categories[number]>>,
-    R | R2
-  > => {
-    const f = args.pop()! as (
-      err: ExtractAll<E, Categories[number]>,
-    ) => Effect.Effect<A2, E2, R2>;
-    const categories = args as Array<PropertyKey>;
-    const matches = hasAnyCategory(...categories);
-    return Effect.catchIf(effect, matches, (e) =>
-      f(e as ExtractAll<E, Categories[number]>),
-    ) as any;
-  };
+  ): Effect.Effect<A | A2, E2 | Exclude<E, ExtractAll<E, Categories[number]>>, R | R2> =>
+    Effect.catchIf(effect, matches, (e) => f(e as ExtractAll<E, Categories[number]>)) as any;
+};

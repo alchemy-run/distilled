@@ -12,7 +12,7 @@ npm install @distilled.cloud/turso effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Turso from "@distilled.cloud/turso";
 
 const program = Effect.gen(function* () {

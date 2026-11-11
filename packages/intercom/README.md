@@ -12,7 +12,7 @@ npm install @distilled.cloud/intercom effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Intercom from "@distilled.cloud/intercom";
 
 const program = Effect.gen(function* () {

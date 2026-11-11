@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * STACKIT Effect SDK.
@@ -8,7 +9,7 @@
  * Output: src/services/<service>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is STACKIT's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is STACKIT's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses), a passthrough union style, the totalPages pagination profile,
  * and the protocol/retry/error names.
@@ -19,13 +20,12 @@
  * after the product slug (`postgres_flex.ts`) while the barrel exports them
  * camelCased (`postgresFlex.listInstances`).
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
@@ -75,6 +75,7 @@ const spec: SdkSpec = {
   paginationProfiles: {
     page: {
       strategy: "paginateByTotalPages",
+      requires: () => ["inputToken", "outputToken"],
       itemsFallback: "",
     },
   },
@@ -92,15 +93,16 @@ const spec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the STACKIT Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
   continueOnModelError: true,

@@ -1,0 +1,103 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#ClosePlatformsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#CreatePlatformsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#CreatePlatformsAccountsEvents/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#CreatePlatformsAccountsSites/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#DeletePlatformsAccountsSites/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#GetPlatformsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#GetPlatformsAccountsSites/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#ListPlatformsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#ListPlatformsAccountsSites/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#LookupPlatformsAccounts/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.adsenseplatform_v1#RequestReviewPlatformsAccountsSites/errors/-",
+      "value": {
+        "target": "com.gcp.adsenseplatform_v1#InsufficientScopes"
+      }
+    }
+  ]
+}

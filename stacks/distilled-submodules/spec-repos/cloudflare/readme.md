@@ -35,8 +35,8 @@ git submodule add https://github.com/distilled-mirror/spec-mirror-cloudflare.git
 From `.meta/`:
 
 ```sh
-bun install
-bun run fetch-specs
+pnpm install
+pnpm run fetch-specs
 ```
 
 `--concurrency N` changes how many pages are fetched at once (default 12) and

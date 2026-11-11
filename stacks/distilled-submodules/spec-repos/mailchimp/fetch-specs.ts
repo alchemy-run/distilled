@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors the Mailchimp Marketing API spec into ../specs/.
  *
@@ -8,13 +8,14 @@
  * repository is never cloned.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The spec is saved to:
  *   ../specs/marketing.json
  */
 
 import { mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "mailchimp/mailchimp-client-lib-codegen";
@@ -33,9 +34,7 @@ async function main() {
 
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -50,11 +49,9 @@ async function main() {
   console.log(`Writing ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline, so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `Done! Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

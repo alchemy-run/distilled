@@ -1,0 +1,47 @@
+{
+  "description": "Type Cloud SQL's 403 'The caller does not have permission' on backup get/update/delete. Observed live 2026-09-29: getBackupBackups on a nonexistent backup uid answers it with a caller that can list backups. A distinct tag lets callers confirm absence via listBackupsBackups instead of treating every Forbidden as missing.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#SqlBackupAccessDenied",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Cloud SQL answered HTTP 403 PERMISSION_DENIED 'The caller does not have permission' for a backup. It returns exactly this for a backup uid that does not exist, and also when the caller lacks permission, so confirm with listBackupsBackups before treating the backup as missing.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "The caller does not have permission"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DeleteBackupBackups/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlBackupAccessDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetBackupBackups/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlBackupAccessDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#UpdateBackupBackups/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlBackupAccessDenied"
+      }
+    }
+  ]
+}

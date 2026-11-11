@@ -1,0 +1,22 @@
+{
+  "operations": {
+    "createWebFunction": {
+      "syntheticErrors": [
+        {
+          "name": "ExecutionRoleNotAssumable",
+          "from": "ValidationException",
+          "message": { "includes": "cannot be assumed by lambda.amazonaws.com" }
+        }
+      ]
+    },
+    "createWebFunctionRevision": {
+      "syntheticErrors": [
+        {
+          "name": "ExecutionRoleNotAssumable",
+          "from": "ValidationException",
+          "message": { "includes": "cannot be assumed by lambda.amazonaws.com" }
+        }
+      ]
+    }
+  }
+}

@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * Squarespace Effect SDK.
@@ -7,12 +8,11 @@
  * Output: src/services/squarespace.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Squarespace's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is Squarespace's provider spec.
  * Squarespace keeps the wire's camelCase member names on the TS surface, so
  * no member renaming or wire dictionaries appear here.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -81,16 +81,13 @@ const squarespaceSpec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
-const itemsMember = (
-  shapes: Record<string, any>,
-  output: any,
-): string | undefined => {
+const itemsMember = (shapes: Record<string, any>, output: any): string | undefined => {
   for (const [name, member] of Object.entries<any>(output?.members ?? {})) {
     if (name === "pagination") continue;
     const target = shapes[member?.target];
@@ -101,7 +98,8 @@ const itemsMember = (
 
 runGeneratorCli({
   description: "Generate the Squarespace Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,

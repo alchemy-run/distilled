@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches Google Workspace API discovery documents (all versions) to ../specs/.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Source: Google's API Discovery Service
  *   https://www.googleapis.com/discovery/v1/apis
@@ -20,7 +20,8 @@
  *   ../specs/_manifest.json    – manifest of successfully fetched specs
  */
 
-import { mkdirSync } from "fs";
+import { mkdirSync, statSync } from "fs";
+import { writeFile } from "fs/promises";
 
 const DISCOVERY_URL = "https://www.googleapis.com/discovery/v1/apis";
 const SPECS_DIR = "../specs";
@@ -102,7 +103,7 @@ const isDiscoveryDoc = (doc: unknown): doc is DiscoveryDoc => {
 };
 
 const writeJson = async (filepath: string, value: unknown): Promise<void> => {
-  await Bun.write(filepath, JSON.stringify(value, null, 2) + "\n");
+  await writeFile(filepath, JSON.stringify(value, null, 2) + "\n");
 };
 
 const concurrency = 20;
@@ -112,9 +113,7 @@ async function main() {
 
   const dirResponse = await fetch(DISCOVERY_URL);
   if (!dirResponse.ok) {
-    throw new Error(
-      `Failed to fetch directory: ${dirResponse.status} ${dirResponse.statusText}`,
-    );
+    throw new Error(`Failed to fetch directory: ${dirResponse.status} ${dirResponse.statusText}`);
   }
   const directory: DirectoryResponse = await dirResponse.json();
   if (!Array.isArray(directory.items)) {
@@ -123,9 +122,7 @@ async function main() {
 
   const items = directory.items
     .filter((item) => WORKSPACE_NAMES.has(item.name))
-    .sort((a, b) =>
-      `${a.name}:${a.version}`.localeCompare(`${b.name}:${b.version}`),
-    );
+    .sort((a, b) => `${a.name}:${a.version}`.localeCompare(`${b.name}:${b.version}`));
 
   const filteredDirectory: DirectoryResponse = {
     kind: directory.kind,
@@ -157,9 +154,7 @@ async function main() {
           }
           const doc: unknown = await response.json();
           if (!isDiscoveryDoc(doc)) {
-            throw new Error(
-              "response is not a discovery#restDescription with resources/methods",
-            );
+            throw new Error("response is not a discovery#restDescription with resources/methods");
           }
           await writeJson(filepath, doc);
           fetched++;
@@ -188,9 +183,7 @@ async function main() {
   const manifest = items
     .filter((item) => {
       try {
-        return (
-          Bun.file(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0
-        );
+        return statSync(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0;
       } catch {
         return false;
       }

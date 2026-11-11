@@ -13,10 +13,7 @@ import { Problem } from "./Problem.tsx";
 
 const PROVIDERS = home.groups.flatMap((group) => group.packages);
 
-const OPERATIONS = PROVIDERS.reduce(
-  (sum, pkg) => sum + pkg.stats.operations,
-  0,
-);
+const OPERATIONS = PROVIDERS.reduce((sum, pkg) => sum + pkg.stats.operations, 0);
 
 const HOME_SEO = {
   title: "Distilled — Effect-native SDKs for cloud providers",
@@ -52,9 +49,7 @@ const providerSeo = (pkg: CatalogPackage) => {
  */
 export const Home = (props: { provider?: string }) => {
   useFitCode();
-  const pinned = createMemo(() =>
-    PROVIDERS.find((pkg) => pkg.dir === props.provider),
-  );
+  const pinned = createMemo(() => PROVIDERS.find((pkg) => pkg.dir === props.provider));
   const seo = createMemo(() => {
     const pkg = pinned();
     return pkg ? providerSeo(pkg) : HOME_SEO;
@@ -71,19 +66,11 @@ export const Home = (props: { provider?: string }) => {
         cardAlt={pinned() ? `Distilled — ${pinned()!.name}` : undefined}
       />
       <Page>
-        <Hero
-          providerCount={home.providerCount}
-          operationCount={OPERATIONS}
-          provider={pinned()}
-        />
+        <Hero providerCount={home.providerCount} operationCount={OPERATIONS} provider={pinned()} />
         <Capabilities bench={home.bench} />
         <Problem facts={home.facts} />
         <HowItWorks />
-        <Catalog
-          providerCount={home.providerCount}
-          groups={home.groups}
-          pinned={pinned()?.dir}
-        />
+        <Catalog providerCount={home.providerCount} groups={home.groups} pinned={pinned()?.dir} />
       </Page>
     </>
   );

@@ -1,0 +1,35 @@
+{
+  "description": "Type Tigris's missing-bucket rejection on deleteAddOn. Fly forwards it when the Tigris bucket is already gone, whether the delete just went through or Fly kept a stale add-on record.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.addons#TigrisBucketNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "message": {
+                "includes": "The specified bucket does not exist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.addons#DeleteAddOn/errors",
+      "value": [
+        {
+          "target": "com.flyio.addons#TigrisBucketNotFound"
+        }
+      ]
+    }
+  ]
+}

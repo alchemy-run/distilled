@@ -1,18 +1,17 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the aggregated Kubernetes Swagger 2.0 spec into Smithy 2.0
  * JSON models, one per Kubernetes API group.
  *
  * Input:  specs/spec-mirror-kubernetes/specs/swagger.json  (spec submodule —
  *         the single aggregated Swagger 2.0 document, ~1069 operations)
- *         patches/*.patch.json  (RFC-6902 patches to the Swagger document —
- *         ported verbatim from distilled v0; they add the 404/409/422 error
- *         responses the upstream spec omits, which feed the per-op typed
- *         error unions)
+ *         patches/<group>/*.patch.json  (Smithy ops on upstream names,
+ *         applied by finalizeConvert; they add the 404/409/422 errors the
+ *         upstream spec omits to the per-op typed error unions)
  * Output: .generated-specs/<group>.json  (23 models: core, apps, batch, …)
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`. Unlike single-spec providers this
+ * `@distilled.cloud/dev/codegen/openapi`. Unlike single-spec providers this
  * script cannot be a bare `runOpenApiConvert` call:
  *
  * 1. distilled v0 split the 1069 operations into 23 per-API-group service
@@ -21,9 +20,6 @@
  *    rule: strip the verb prefix from the operationId
  *    (`listCoreV1NamespacedPod` → `CoreV1NamespacedPod`) and
  *    longest-prefix-match the PascalCase API group (fallback group: core).
- *    Patch application therefore also lives here (same semantics as
- *    `runOpenApiConvert`: sorted `*.patch.json`, stale targets warn+skip,
- *    malformed patches fail the run).
  *
  * 2. the document is upgraded Swagger 2.0 → OpenAPI 3.0 in place before
  *    conversion: the shared converter's Swagger 2.0 parameter normalization
@@ -36,20 +32,12 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import {
-  applyOperation,
-  isStaleTargetError,
-  type PatchFile,
-} from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 
-const root = path.resolve(import.meta.dir, "..");
-const specPath = path.join(
-  root,
-  "specs/spec-mirror-kubernetes/specs/swagger.json",
-);
-const patchesDir = path.join(root, "patches");
+const root = path.resolve(import.meta.dirname, "..");
+const specPath = path.join(root, "specs/spec-mirror-kubernetes/specs/swagger.json");
 const outDir = path.join(root, ".generated-specs");
 
 // ============================================================================
@@ -91,9 +79,7 @@ const API_GROUP_MAP: Record<string, string> = {
 };
 
 // Sorted list of group prefixes (longer first for correct matching).
-const GROUP_PREFIXES = Object.keys(API_GROUP_MAP).sort(
-  (a, b) => b.length - a.length,
-);
+const GROUP_PREFIXES = Object.keys(API_GROUP_MAP).sort((a, b) => b.length - a.length);
 
 // Verbs that prefix operation ids.
 const VERBS = /^(connect|create|delete|get|list|log|patch|read|replace|watch)/;
@@ -136,44 +122,6 @@ console.log(`   Output: ${outDir}`);
 
 const spec: any = JSON.parse(await fs.readFile(specPath, "utf8"));
 
-// ---- RFC-6902 patch chain (applies to the Swagger document) ----
-let patchFileCount = 0;
-let staleOps = 0;
-const badPatches: string[] = [];
-const patchFiles = (await fs.readdir(patchesDir))
-  .filter((f) => f.endsWith(".patch.json"))
-  .sort((a, b) => a.localeCompare(b));
-for (const pf of patchFiles) {
-  const parsed = JSON.parse(
-    await fs.readFile(path.join(patchesDir, pf), "utf8"),
-  ) as PatchFile;
-  for (const patchOp of parsed.patches ?? []) {
-    try {
-      applyOperation(spec, patchOp);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e);
-      if (isStaleTargetError(msg)) {
-        // Spec drift — the patch target no longer exists upstream.
-        staleOps++;
-        console.warn(`   ⚠️  stale: ${pf} [${patchOp.op} ${patchOp.path}]`);
-      } else {
-        badPatches.push(`${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
-      }
-    }
-  }
-  patchFileCount++;
-}
-if (badPatches.length) {
-  for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
-}
-console.log(
-  `   Patches: ${patchFileCount} file(s) applied` +
-    (staleOps ? `, ${staleOps} stale op(s) skipped` : ""),
-);
-
 // ---- Upgrade Swagger 2.0 → OpenAPI 3.0 (in place; see module doc) ----
 
 /** Resolve a local `#/...` JSON pointer against the spec document. */
@@ -203,9 +151,7 @@ const paramTo3 = (p: any): any => {
       ...(p.items !== undefined ? { items: p.items } : {}),
       ...(p.format !== undefined ? { format: p.format } : {}),
       ...(p.uniqueItems !== undefined ? { uniqueItems: p.uniqueItems } : {}),
-      ...(p["x-nullable"] !== undefined
-        ? { "x-nullable": p["x-nullable"] }
-        : {}),
+      ...(p["x-nullable"] !== undefined ? { "x-nullable": p["x-nullable"] } : {}),
     },
   };
 };
@@ -229,9 +175,7 @@ for (const pathItem of Object.values<any>(spec.paths ?? {})) {
       const resolved = raw?.$ref ? resolveRef(raw.$ref) : raw;
       if (resolved?.in === "body") {
         op.requestBody = {
-          ...(resolved.required !== undefined
-            ? { required: resolved.required }
-            : {}),
+          ...(resolved.required !== undefined ? { required: resolved.required } : {}),
           content: { "application/json": { schema: resolved.schema } },
         };
       } else {
@@ -262,9 +206,7 @@ for (const [rawPath, pathItem] of Object.entries<any>(spec.paths ?? {})) {
   for (const method of HTTP_METHODS) {
     const op = pathItem[method];
     if (!op || typeof op !== "object") continue;
-    const group = getApiGroup(
-      typeof op.operationId === "string" ? op.operationId : "",
-    );
+    const group = getApiGroup(typeof op.operationId === "string" ? op.operationId : "");
     let paths = groupPaths.get(group);
     if (!paths) {
       paths = {};
@@ -280,7 +222,6 @@ for (const [rawPath, pathItem] of Object.entries<any>(spec.paths ?? {})) {
 }
 
 // ---- Convert + write (one model per group, sorted for determinism) ----
-await fs.mkdir(outDir, { recursive: true });
 
 let totalOps = 0;
 for (const group of [...groupPaths.keys()].sort()) {
@@ -292,6 +233,7 @@ for (const group of [...groupPaths.keys()].sort()) {
     paths: groupPaths.get(group)!,
   };
   const model = convertOpenApiToSmithy(groupSpec, {
+    deferNaming: true,
     namespace: `com.kubernetes.${group}`,
     serviceName: pascalGroup(group),
     // v0 parity: includeOperationErrors with the default status→class map
@@ -299,15 +241,11 @@ for (const group of [...groupPaths.keys()].sort()) {
     // deprecated operations (most watch paths) skipped.
     skipDeprecated: true,
   });
-  const opCount = Object.values(model.shapes).filter(
-    (s: any) => s.type === "operation",
-  ).length;
+  const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   totalOps += opCount;
   const outPath = path.join(outDir, `${group}.json`);
-  await fs.writeFile(outPath, JSON.stringify(model, null, 2) + "\n");
-  console.log(
-    `   ✅ ${group}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`,
-  );
+  writeModel(outPath, model);
+  console.log(`   ✅ ${group}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`);
 }
 
 console.log(`\n✅ ${totalOps} operations across ${groupPaths.size} models`);

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Typesense OpenAPI spec into a Smithy JSON model.
  *
@@ -6,22 +6,23 @@
  * Output: .generated-specs/typesense.json       (Smithy 2.0 model)
  *
  * The OpenAPI→Smithy converter and the patch-then-convert pipeline live in
- * `@distilled.cloud/core/codegen`; this script only names the spec file and
+ * `@distilled.cloud/dev/codegen`; this script only names the spec file and
  * the YAML parse seam. The RFC-6902 patches in `patches/*.patch.json` are
  * applied to the OpenAPI document before conversion (v0 semantics).
  */
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+import { parse as parseYaml } from "yaml";
 
 await runOpenApiConvert({
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   specs: [
     {
       name: "typesense",
       specPath: "specs/spec-mirror-typesense/specs/openapi.yml",
     },
   ],
-  // The Typesense spec is YAML; bun parses it natively.
-  parse: (text) => Bun.YAML.parse(text),
+  // The Typesense spec is YAML.
+  parse: (text) => parseYaml(text),
   options: {
     namespace: "com.typesense.api",
     serviceName: "Typesense",

@@ -1,0 +1,149 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#PaginatedMCPServerInstallationList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#PaginatedMCPServerInstallationList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/template_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/icon_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/icon_domain/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/description/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/scope/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/is_owner/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/needs_reauth/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/pending_oauth/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/proxy_url/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/tool_count/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallation/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#PaginatedMCPServerInstallationToolList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#PaginatedMCPServerInstallationToolList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/tool_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/display_name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/description/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/input_schema/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/approval_state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/team_state/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/locked/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/decided_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/last_seen_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/removed_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#MCPServerInstallationTool/members/updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#McpServerInstallationsInstallCustomCreateRequest/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#McpServerInstallationsInstallCustomCreateRequest/members/url/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#McpServerInstallationsInstallCustomCreateRequest/members/auth_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#OAuthRedirectResponse/members/redirect_url/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.mcp_server_installations#McpServerInstallationsInstallTemplateCreateRequest/members/template_id/traits"
+    }
+  ]
+}

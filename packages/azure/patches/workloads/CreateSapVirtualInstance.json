@@ -1,0 +1,65 @@
+{
+  "description": "SAPConfiguration (2024-09-01) is polymorphic on `configurationType` (Deployment, DeploymentWithOSConfig, Discovery); the converted model keeps only the discriminator, so S.Struct strips the payload. Add the flat subtype members (nested polymorphic configs as documents).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#SAPConfiguration_2/members/appLocation",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Region of the SAP system's managed resources (Deployment, DeploymentWithOSConfig, Discovery)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#SAPConfiguration_2/members/centralServerVmId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM id of the central server VM of an existing SAP system (Discovery)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#SAPConfiguration_2/members/managedRgStorageAccountName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Custom storage account name in the managed resource group (Discovery)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#SAPConfiguration_2/members/infrastructureConfiguration",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Infrastructure configuration (Deployment, DeploymentWithOSConfig); polymorphic on `deploymentType`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#SAPConfiguration_2/members/softwareConfiguration",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Software configuration (Deployment, DeploymentWithOSConfig); polymorphic on `softwareInstallationType`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.workloads#SAPConfiguration_2/members/osSapConfiguration",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "OS and SAP configuration (DeploymentWithOSConfig)."
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "description": "IdentityProvider is polymorphic on `type`; the converted model keeps only the base `type`, so S.Struct strips the EntraIdentityProvider `properties.principalType` payload and ARM rejects the user PUT. Add the EntraIdentityProvider subtype member to the base shape.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.mongocluster#EntraIdentityProviderProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "principalType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The principal type of the user: `user` or `servicePrincipal`.",
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Microsoft Entra ID provider properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.mongocluster#IdentityProvider/members/properties",
+      "value": {
+        "target": "com.azure.mongocluster#EntraIdentityProviderProperties",
+        "traits": {
+          "smithy.api#documentation": "MicrosoftEntraID: the Entra identity properties for the user."
+        }
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
+import * as Cloudflare from "@alchemy.run/cloudflare";
+import * as GitHub from "@alchemy.run/github";
 import * as Alchemy from "alchemy";
-import * as Cloudflare from "alchemy/Cloudflare";
-import * as GitHub from "alchemy/GitHub";
 import * as RemovalPolicy from "alchemy/RemovalPolicy";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
@@ -23,10 +23,10 @@ import * as Redacted from "effect/Redacted";
  *   - **The credentials.** Every Actions secret and variable the workflows in
  *     `.github/workflows` read. The Cloudflare token is minted as code and
  *     written straight into this repo's Actions secrets; the values no API
- *     can mint (a GitHub App private key, an upload token, a Discord webhook)
- *     come from the environment at deploy time — either exported in the
- *     shell, or in a gitignored `.env` beside this file, which the CLI reads
- *     by default (`--env-file` points at another).
+ *     can mint (a GitHub App private key, a Discord webhook) come from the
+ *     environment at deploy time — either exported in the shell, or in a
+ *     gitignored `.env` beside this file, which the CLI reads by default
+ *     (`--env-file` points at another).
  *
  * What that buys: `.github/workflows/deploy-submodules-stack.yml` can deploy
  * `stacks/distilled-submodules` on every commit to `main`, and
@@ -40,8 +40,6 @@ import * as Redacted from "effect/Redacted";
  * ```sh
  * cd stacks/distilled-monorepo
  * DISCORD_WEBHOOK_URL=<#releases webhook> \
- * NPM_TOKEN=<npm token, dist-tag moves only> \
- * PR_PACKAGE_TOKEN=<pkg.ing upload token> \
  * ALCHEMY_VERSION_BOT_PRIVATE_KEY="$(cat alchemy-version-bot.pem)" \
  * DISTILLED_REPOS_PAT=<org fine-grained PAT> \
  *   pnpm exec alchemy deploy --stage prod --profile <admin profile>
@@ -67,7 +65,7 @@ const NAME = "distilled";
  * The GitHub org the spec mirrors live in, published to Actions so
  * `stacks/distilled-submodules` can be retargeted without a code change.
  */
-const ReposOwner = Config.string("DISTILLED_REPOS_OWNER").pipe(
+const ReposOwner = Config.String("DISTILLED_REPOS_OWNER").pipe(
   Config.withDefault("distilled-mirror"),
 );
 
@@ -77,17 +75,15 @@ const ReposOwner = Config.string("DISTILLED_REPOS_OWNER").pipe(
  * the deploying profile's own token, which is correct when that profile was
  * signed in as the org.
  */
-const ReposPat = Config.redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
+const ReposPat = Config.Redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
 
 /**
  * Numeric id of the `alchemy-version-bot` GitHub App, whose installation
- * token the release, PR-package and website workflows mint at runtime. Public
- * information (`GET /apps/alchemy-version-bot`), and a secret only because
+ * token the release and website workflows mint at runtime. Public information
+ * (`GET /apps/alchemy-version-bot`), and a secret only because
  * `actions/create-github-app-token` reads it next to the private key.
  */
-const BotAppId = Config.string("ALCHEMY_VERSION_BOT_ID").pipe(
-  Config.withDefault("3107227"),
-);
+const BotAppId = Config.String("ALCHEMY_VERSION_BOT_ID").pipe(Config.withDefault("3107227"));
 
 /**
  * The credentials no API can mint for us. Each is read as an option: a value
@@ -97,29 +93,15 @@ const BotAppId = Config.string("ALCHEMY_VERSION_BOT_ID").pipe(
  *   - `ALCHEMY_VERSION_BOT_PRIVATE_KEY` — PEM of the app above. Regenerate it
  *     under Settings → Developer settings → GitHub Apps if it is lost;
  *     generating a new key does not invalidate the old one until you delete it.
- *   - `PR_PACKAGE_TOKEN` — bearer token the `pr-package` action uploads PR
- *     preview tarballs to pkg.ing with. Not an npm credential, and not an
- *     OIDC one: `pr-package.yml` grants no `id-token: write`.
- *   - `NPM_TOKEN` — moves dist-tags only. Publishing is npm trusted
- *     publishing: `release.yml` grants `id-token: write` and
- *     `scripts/release/publish.sh` runs `pnpm publish` with no credential.
- *     `pnpm dist-tag add` is not covered by OIDC, so a `--force-latest` run
- *     without this token publishes and then warns that the tag needs moving
- *     by hand.
  *   - `DISCORD_WEBHOOK_URL` — webhook `scripts/release/discord-notify.ts` posts
  *     release announcements to.
  */
-const EXTERNAL_SECRETS = [
-  "ALCHEMY_VERSION_BOT_PRIVATE_KEY",
-  "PR_PACKAGE_TOKEN",
-  "NPM_TOKEN",
-  "DISCORD_WEBHOOK_URL",
-] as const;
+const EXTERNAL_SECRETS = ["ALCHEMY_VERSION_BOT_PRIVATE_KEY", "DISCORD_WEBHOOK_URL"] as const;
 
 type ExternalSecretName = (typeof EXTERNAL_SECRETS)[number];
 
 const ExternalSecrets = Effect.forEach(EXTERNAL_SECRETS, (name) =>
-  Config.redacted(name).pipe(
+  Config.Redacted(name).pipe(
     Config.option,
     Effect.map((value) => [name, value] as const),
   ),
@@ -141,9 +123,9 @@ export default Alchemy.Stack(
      *
      * `RemovalPolicy.retain` is what makes skipping safe: a resource that
      * disappears from the graph is normally deleted, so without it the first
-     * deploy run without (say) `NPM_TOKEN` in the environment would delete
-     * the repository's `NPM_TOKEN`. With it, alchemy drops the state row and
-     * leaves the secret standing.
+     * deploy run without (say) `DISCORD_WEBHOOK_URL` in the environment would
+     * delete the repository's `DISCORD_WEBHOOK_URL`. With it, alchemy drops
+     * the state row and leaves the secret standing.
      */
     const externalSecret = (id: string, name: ExternalSecretName) =>
       Effect.gen(function* () {
@@ -220,37 +202,30 @@ export default Alchemy.Stack(
     //   - Workers Routes Write    attach distilled.cloud and
     //                             main.distilled.cloud to their worker
     //   - DNS Write               the proxied record a custom domain needs
-    const stateToken = yield* Cloudflare.ApiToken.AccountApiToken(
-      "state-store-token",
-      {
-        name: "distilled-stacks-ci",
-        accountId,
-        policies: [
-          {
-            effect: "allow",
-            permissionGroups: [
-              "Workers Scripts Write",
-              "Account Settings Write",
-              "Secrets Store Write",
-            ],
-            resources: { [`com.cloudflare.api.account.${accountId}`]: "*" },
-          },
-          {
-            effect: "allow",
-            permissionGroups: [
-              "Zone Read",
-              "Workers Routes Write",
-              "DNS Write",
-            ],
-            resources: {
-              [`com.cloudflare.api.account.${accountId}`]: {
-                "com.cloudflare.api.account.zone.*": "*",
-              },
+    const stateToken = yield* Cloudflare.ApiToken.AccountApiToken("state-store-token", {
+      name: "distilled-stacks-ci",
+      accountId,
+      policies: [
+        {
+          effect: "allow",
+          permissionGroups: [
+            "Workers Scripts Write",
+            "Account Settings Write",
+            "Secrets Store Write",
+          ],
+          resources: { [`com.cloudflare.api.account.${accountId}`]: "*" },
+        },
+        {
+          effect: "allow",
+          permissionGroups: ["Zone Read", "Workers Routes Write", "DNS Write"],
+          resources: {
+            [`com.cloudflare.api.account.${accountId}`]: {
+              "com.cloudflare.api.account.zone.*": "*",
             },
           },
-        ],
-      },
-    );
+        },
+      ],
+    });
 
     // Deliberately NOT `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`.
     // Those already exist on this repository as long-lived, broadly-scoped
@@ -273,13 +248,10 @@ export default Alchemy.Stack(
     const patOverride = yield* ReposPat;
     const reposPat = Option.isSome(patOverride)
       ? patOverride.value
-      : // The deploying profile's own signed-in GitHub token. The cast erases
-        // the `GitHubCredentials` requirement: it is provided at runtime by
-        // `GitHub.providers()`, but `Stack` constrains its requirement union
-        // to provider services and this is not one.
-        (yield* yield* GitHub.GitHubCredentials as unknown as Effect.Effect<
-          Effect.Effect<{ readonly token: Redacted.Redacted<string> }>
-        >).token;
+      : // The deploying profile's own signed-in GitHub token, provided at
+        // runtime by `GitHub.providers()`. Its distilled `ConfigError` is not
+        // one `Stack` accepts, and a missing profile token is not recoverable.
+        (yield* Effect.orDie(yield* GitHub.Credentials)).token;
 
     yield* GitHub.Secret("repos-pat", {
       owner: OWNER,
@@ -295,9 +267,9 @@ export default Alchemy.Stack(
       value: yield* ReposOwner,
     });
 
-    // `actions/create-github-app-token` in release.yml, pr-package.yml and
-    // website.yml reads both halves of the app's identity from Actions
-    // secrets, so the public app id is stored as one too.
+    // `actions/create-github-app-token` in release.yml and website.yml reads
+    // both halves of the app's identity from Actions secrets, so the public
+    // app id is stored as one too.
     yield* GitHub.Secret("bot-app-id", {
       owner: OWNER,
       repository: NAME,
@@ -306,8 +278,6 @@ export default Alchemy.Stack(
     });
 
     yield* externalSecret("bot-private-key", "ALCHEMY_VERSION_BOT_PRIVATE_KEY");
-    yield* externalSecret("pr-package-token", "PR_PACKAGE_TOKEN");
-    yield* externalSecret("npm-token", "NPM_TOKEN");
     yield* externalSecret("discord-webhook", "DISCORD_WEBHOOK_URL");
 
     if (unchanged.length > 0) {

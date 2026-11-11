@@ -1,0 +1,293 @@
+{
+  "description": "From 001-add-missing-404-responses.patch.json: Add 404 NotFound responses to read, replace, delete, and patch operations",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReadStorageV1CSIDriver/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1CSIDriver/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1CSIDriver/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1CSIDriver/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReadStorageV1CSINode/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1CSINode/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1CSINode/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1CSINode/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReadStorageV1NamespacedCSIStorageCapacity/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1NamespacedCSIStorageCapacity/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1NamespacedCSIStorageCapacity/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1NamespacedCSIStorageCapacity/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReadStorageV1StorageClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1StorageClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1StorageClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1StorageClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReadStorageV1VolumeAttachment/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1VolumeAttachment/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1VolumeAttachment/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1VolumeAttachment/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReadStorageV1VolumeAttachmentStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1VolumeAttachmentStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1VolumeAttachmentStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReadStorageV1VolumeAttributesClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#ReplaceStorageV1VolumeAttributesClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#PatchStorageV1VolumeAttributesClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#DeleteStorageV1VolumeAttributesClass/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.kubernetes.storage#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.kubernetes.storage#NotFound",
+      "before": "com.kubernetes.storage#Storage",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

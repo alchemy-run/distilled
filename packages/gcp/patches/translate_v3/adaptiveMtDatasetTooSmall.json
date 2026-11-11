@@ -1,0 +1,33 @@
+{
+  "description": "Type the 400 INVALID_ARGUMENT adaptiveMtTranslate returns while the Adaptive MT dataset holds fewer than 5 sentence pairs (\"Dataset has less than 5 sentences.\"). It surfaced as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#AdaptiveMtDatasetTooSmall",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The Adaptive MT dataset has fewer than 5 sentence pairs (HTTP 400 INVALID_ARGUMENT: \"Dataset has less than 5 sentences.\"). Import more sentence pairs before translating.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Dataset has less than 5 sentences"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.translate_v3#AdaptiveMtTranslateProjectsLocations/errors/-",
+      "value": {
+        "target": "com.gcp.translate_v3#AdaptiveMtDatasetTooSmall"
+      }
+    }
+  ]
+}

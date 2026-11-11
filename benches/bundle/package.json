@@ -2,12 +2,12 @@
   "name": "@distilled.cloud/bench-bundle",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "description": "Rolldown bundle-size / tree-shake / bundle-time measurements for Distilled SDKs, using Alchemy's bundler settings.",
+  "type": "module",
   "scripts": {
-    "bench": "bun run.ts",
-    "record": "bun run.ts --out results/latest.json",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "bench": "node run.ts",
+    "record": "node run.ts --out results/latest.json",
+    "typecheck": "tsrs --noEmit -p tsconfig.json"
   },
   "dependencies": {
     "@distilled.cloud/aws": "workspace:*",
@@ -17,9 +17,8 @@
   },
   "devDependencies": {
     "@oxc-project/types": "catalog:",
-    "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "rolldown": "catalog:",
-    "typescript": "catalog:"
+    "tsrs": "catalog:"
   }
 }

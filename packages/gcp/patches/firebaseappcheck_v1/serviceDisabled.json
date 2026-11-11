@@ -1,0 +1,348 @@
+{
+  "description": "Type the API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Firebase App Check API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell a disabled service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Firebase App Check API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsAppAttestConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsDeviceCheckConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsPlayIntegrityConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsRecaptchaEnterpriseConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsRecaptchaV3Config/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchUpdateProjectsServices/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchUpdateProjectsServicesResourcePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#CreateProjectsAppsDebugTokens/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#CreateProjectsServicesResourcePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#DeleteProjectsAppsDebugTokens/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#DeleteProjectsServicesResourcePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeAppAttestAssertionOauthClients/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeAppAttestAssertionProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeAppAttestAttestationOauthClients/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeAppAttestAttestationProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeCustomTokenProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeDebugTokenOauthClients/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeDebugTokenProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeDeviceCheckTokenProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangePlayIntegrityTokenProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeRecaptchaEnterpriseTokenProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ExchangeRecaptchaV3TokenProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GenerateAppAttestChallengeOauthClients/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GenerateAppAttestChallengeProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GeneratePlayIntegrityChallengeProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetJwks/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsAppAttestConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsDebugTokens/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsDeviceCheckConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsPlayIntegrityConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsRecaptchaEnterpriseConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsRecaptchaV3Config/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsServices/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsServicesResourcePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ListProjectsAppsDebugTokens/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ListProjectsServices/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ListProjectsServicesResourcePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#MintAppCheckTokenProjectsApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsAppAttestConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsDebugTokens/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsDeviceCheckConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsPlayIntegrityConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsRecaptchaEnterpriseConfig/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsRecaptchaV3Config/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsServices/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsServicesResourcePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

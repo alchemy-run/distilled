@@ -1,13 +1,5 @@
 import { A } from "@solidjs/router";
-import {
-  createEffect,
-  createMemo,
-  createSignal,
-  For,
-  onCleanup,
-  onMount,
-  Show,
-} from "solid-js";
+import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js";
 import type { CatalogGroup, CatalogPackage } from "../../../build/site-data.ts";
 import { n, plural } from "../../lib/format.ts";
 import { installCommand, installVerb, restorePm } from "../../lib/pm.ts";
@@ -90,10 +82,7 @@ const PackageCard = (props: {
               <span>
                 <b>{n(stats().operations)}</b> operations
               </span>
-              <Show
-                when={stats().fixes > 0}
-                fallback={<span>no spec fixes</span>}
-              >
+              <Show when={stats().fixes > 0} fallback={<span>no spec fixes</span>}>
                 <span>
                   <b>{n(stats().fixes)}</b> spec fixes
                 </span>
@@ -185,9 +174,7 @@ export const Catalog = (props: {
     requestAnimationFrame(() =>
       card.scrollIntoView({
         block: "center",
-        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       }),
     );
   });
@@ -198,9 +185,7 @@ export const Catalog = (props: {
     return props.groups
       .map((g) => ({
         ...g,
-        packages: q
-          ? g.packages.filter((p) => p.search.includes(q))
-          : g.packages,
+        packages: q ? g.packages.filter((p) => p.search.includes(q)) : g.packages,
       }))
       .filter((g) => g.packages.length > 0);
   });
@@ -210,12 +195,7 @@ export const Catalog = (props: {
     // never mounted it.
     restorePm();
     const onKey = (e: KeyboardEvent) => {
-      if (
-        e.key === "/" &&
-        document.activeElement !== input &&
-        !e.metaKey &&
-        !e.ctrlKey
-      ) {
+      if (e.key === "/" && document.activeElement !== input && !e.metaKey && !e.ctrlKey) {
         e.preventDefault();
         input?.focus();
       }
@@ -225,29 +205,19 @@ export const Catalog = (props: {
   });
 
   return (
-    <section
-      class="pt-[clamp(3.5rem,8vw,6rem)]"
-      id="providers"
-      aria-labelledby="providers-title"
-    >
+    <section class="pt-[clamp(3.5rem,8vw,6rem)]" id="providers" aria-labelledby="providers-title">
       <div class="mb-9 grid items-end gap-6 md:grid-cols-[minmax(0,1fr)_minmax(16rem,22rem)] md:gap-12">
         <div>
           <p class="eyebrow">Providers</p>
           <h2 id="providers-title">
-            <span class="text-accent-2 tabular-nums">
-              {props.providerCount}
-            </span>{" "}
-            providers, one shape.
+            <span class="text-accent-2 tabular-nums">{props.providerCount}</span> providers, one
+            shape.
           </h2>
           <p class="mt-4 max-w-measure text-[1.05rem] text-fg-2">
-            Each provider sdk is one package, produced from the spec and refined
-            by our feedback look and published to npm as{" "}
-            <code>@distilled.cloud/&lt;provider&gt;</code>. Pair it with{" "}
-            <code>effect</code>. Some specs need a lot of patches{" "}
-            <A
-              class="whitespace-nowrap text-rose hover:text-rose-2"
-              href="/shame"
-            >
+            Each provider sdk is one package, produced from the spec and refined by our feedback
+            look and published to npm as <code>@distilled.cloud/&lt;provider&gt;</code>. Pair it
+            with <code>effect</code>. Some specs need a lot of patches{" "}
+            <A class="whitespace-nowrap text-rose hover:text-rose-2" href="/shame">
               see the Wall of Shame →
             </A>
           </p>

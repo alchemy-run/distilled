@@ -22,8 +22,8 @@ git submodule add https://github.com/distilled-mirror/spec-mirror-expo-eas.git
 From `.meta/`:
 
 ```sh
-bun install
-bun run fetch-specs
+pnpm install
+pnpm run fetch-specs
 ```
 
 ---

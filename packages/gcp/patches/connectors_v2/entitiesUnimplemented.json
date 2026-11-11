@@ -1,0 +1,47 @@
+{
+  "description": "Type Integration Connectors entity operations' HTTP 501 UNIMPLEMENTED ('Operation is not implemented, or supported, or enabled.'). Entity CRUD is only served for an existing, running connection; against a missing connection the API answers 501, which fell outside HTTP_STATUS_MAP and surfaced as UnknownGCPError. No smithy.api#httpError is set, so the 501 carries no ServerError category and the default policy does not retry it. Observed live 2026-09-29 on get/create in us-central1 with the API enabled.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#EntitiesNotImplemented",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Entity operations are not available for this connection (HTTP 501 UNIMPLEMENTED: 'Operation is not implemented, or supported, or enabled.'), e.g. because the connection does not exist. Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 501
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#GetProjectsLocationsConnectionsEntityTypesEntities/errors/-",
+      "value": { "target": "com.gcp.connectors_v2#EntitiesNotImplemented" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ListProjectsLocationsConnectionsEntityTypesEntities/errors/-",
+      "value": { "target": "com.gcp.connectors_v2#EntitiesNotImplemented" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#CreateProjectsLocationsConnectionsEntityTypesEntities/errors/-",
+      "value": { "target": "com.gcp.connectors_v2#EntitiesNotImplemented" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#PatchProjectsLocationsConnectionsEntityTypesEntities/errors/-",
+      "value": { "target": "com.gcp.connectors_v2#EntitiesNotImplemented" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#DeleteProjectsLocationsConnectionsEntityTypesEntities/errors/-",
+      "value": { "target": "com.gcp.connectors_v2#EntitiesNotImplemented" }
+    }
+  ]
+}

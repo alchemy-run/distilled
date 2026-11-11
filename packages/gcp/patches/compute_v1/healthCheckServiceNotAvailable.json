@@ -1,0 +1,33 @@
+{
+  "description": "Type insertRegionHealthCheckServices' feature gate (HTTP 400 'HealthCheck as a Service feature is not available for this project.'). It surfaced as the generic BadRequest. Observed live 2026-09-29 in us-central1.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#HealthCheckServiceNotAvailable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Health Check as a Service is not enabled for the project (HTTP 400: 'Invalid resource usage: 'HealthCheck as a Service feature is not available for this project.''). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "HealthCheck as a Service feature is not available"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#InsertRegionHealthCheckServices/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#HealthCheckServiceNotAvailable"
+      }
+    }
+  ]
+}

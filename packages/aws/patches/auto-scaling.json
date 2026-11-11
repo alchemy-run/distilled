@@ -1,5 +1,23 @@
 {
   "operations": {
+    "createAutoScalingGroup": {
+      "syntheticErrors": [
+        {
+          "name": "InvalidIamInstanceProfile",
+          "from": "ValidationError",
+          "message": { "includes": "Invalid IAM Instance Profile" }
+        }
+      ]
+    },
+    "updateAutoScalingGroup": {
+      "syntheticErrors": [
+        {
+          "name": "InvalidIamInstanceProfile",
+          "from": "ValidationError",
+          "message": { "includes": "Invalid IAM Instance Profile" }
+        }
+      ]
+    },
     "describeScheduledActions": {
       "syntheticErrors": [
         {

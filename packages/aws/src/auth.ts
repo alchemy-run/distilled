@@ -1,21 +1,26 @@
+import { createHash } from "node:crypto";
+import { dnsSuffix } from "@distilled.cloud/s3/rules-engine/aws-functions";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
+import * as HttpBody from "effect/http/HttpBody";
+import * as HttpClient from "effect/http/HttpClient";
 import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import { createHash } from "node:crypto";
 import {
   Auth,
   type AwsProfileConfig,
   type SsoProfileConfig,
   type SSOToken,
 } from "./auth.browser.ts";
+import { loginCredentialsSource } from "./credential-providers/from-login-credentials.ts";
 import {
+  AwsCredentialProviderError,
   ConflictingSSORegion,
   ConflictingSSOStartUrl,
   ExpiredSSOToken,
+  fromAwsCredentialIdentity,
   InvalidSSOProfile,
   InvalidSSOToken,
   ProfileNotFound,
@@ -24,9 +29,14 @@ import {
   SsoRegion,
   SsoStartUrl,
   type ResolvedCredentials,
-} from "./credentials.ts";
-import { parseIni, parseSSOSessionData } from "./util/parse-ini.ts";
-import { getHomeDir, parseKnownFiles } from "./util/shared-config.ts";
+} from "./credentials-service.ts";
+import { parseSSOSessionData } from "./util/parse-ini.ts";
+import {
+  getConfigFilepath,
+  getHomeDir,
+  loadSharedConfigFiles,
+  mergeKnownFiles,
+} from "./util/shared-config.ts";
 
 export * from "./auth.browser.ts";
 
@@ -83,9 +93,9 @@ export const ssoRoleCredentialsCacheName = (
     ].join("\n"),
   );
 
-export const Default = Effect.serviceOption(Auth).pipe(
-  Effect.map(Option.getOrUndefined),
-  Effect.flatMap((c) => (c ? Effect.succeed(c) : makeAuthService())),
+export const Default = /*@__PURE__*/ Effect.serviceOption(Auth).pipe(
+  /*@__PURE__*/ Effect.map(Option.getOrUndefined),
+  /*@__PURE__*/ Effect.flatMap((c) => (c ? Effect.succeed(c) : makeAuthService())),
 );
 
 export const loadProfile = (profile: string) =>
@@ -101,9 +111,12 @@ export const makeAuthService = () =>
     const client = yield* HttpClient.HttpClient;
 
     const loadProfile = Effect.fn(function* (profileName: string) {
+      // One read of both files: profiles come from the merged map, and
+      // `[sso-session]` sections from the config file alone, as in the AWS CLI.
+      const files = yield* loadSharedConfigFiles;
       const profiles: {
         [profileName: string]: AwsProfileConfig;
-      } = yield* Effect.promise(parseKnownFiles);
+      } = mergeKnownFiles(files);
 
       const profile = profiles[profileName];
 
@@ -113,9 +126,6 @@ export const makeAuthService = () =>
           profile: profileName,
         });
       }
-
-      const awsDir = path.join(getHomeDir(), ".aws");
-      const configPath = path.join(awsDir, "config");
 
       // A profile is an SSO profile in one of two config formats:
       //   - modern: `sso_session = <name>` referencing an `[sso-session <name>]`
@@ -128,21 +138,23 @@ export const makeAuthService = () =>
       // reporting the profile as not found.)
       if (profile.sso_session || profile.sso_start_url) {
         if (profile.sso_session) {
-          const ssoRegion = Option.getOrUndefined(
-            yield* Effect.serviceOption(SsoRegion),
-          );
+          const ssoRegion = Option.getOrUndefined(yield* Effect.serviceOption(SsoRegion));
           const ssoStartUrl = Option.getOrElse(
             yield* Effect.serviceOption(SsoStartUrl),
             () => profile.sso_start_url,
           );
 
-          const ssoSessions = yield* fs.readFileString(configPath).pipe(
-            Effect.flatMap((config) =>
-              Effect.promise(async () => parseIni(config)),
-            ),
-            Effect.map(parseSSOSessionData),
-          );
-          const session = ssoSessions[profile.sso_session];
+          const session = parseSSOSessionData(files.configFile)[profile.sso_session];
+          if (!session) {
+            return yield* new InvalidSSOProfile({
+              profile: profileName,
+              missingFields: [`sso-session ${profile.sso_session}`],
+              message:
+                `Profile ${profileName} sets sso_session = ${profile.sso_session}, but ` +
+                `${getConfigFilepath()} has no [sso-session ${profile.sso_session}] section.` +
+                `\nReference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html`,
+            });
+          }
           if (ssoRegion && ssoRegion !== session.sso_region) {
             return yield* new ConflictingSSORegion({
               message: `Conflicting SSO region`,
@@ -174,9 +186,7 @@ export const makeAuthService = () =>
             missingFields,
             message:
               `Profile is configured with invalid SSO credentials. Required parameters "sso_account_id", ` +
-              `"sso_region", "sso_role_name", "sso_start_url". Got ${Object.keys(
-                profile,
-              ).join(
+              `"sso_region", "sso_role_name", "sso_start_url". Got ${Object.keys(profile).join(
                 ", ",
               )}\nReference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html`,
           });
@@ -185,10 +195,122 @@ export const makeAuthService = () =>
         return profile as SsoProfileConfig;
       }
 
+      if (profile.login_session) {
+        return profile;
+      }
+
       return yield* new ProfileNotFound({
         message: `Profile ${profileName} not found`,
         profile: profileName,
       });
+    });
+
+    /**
+     * Renew an SSO access token that is expired or within
+     * `EXPIRE_WINDOW_MS` of expiring, with the refresh token `aws sso login`
+     * cached next to it (SSO OIDC `CreateToken`, `grant_type=refresh_token`),
+     * and write the result back to the same cache file. Mirrors botocore's
+     * `SSOTokenProvider` and `@aws-sdk/token-providers` `fromSso`.
+     *
+     * A token that has not expired yet outlives a failed refresh. Otherwise
+     * the failure is `ExpiredSSOToken`, with the OIDC error as its cause.
+     */
+    const refreshSsoToken = Effect.fn(function* (options: {
+      profileName: string;
+      ssoRegion: string;
+      ssoToken: SSOToken;
+      ssoTokenFilepath: string;
+    }) {
+      const { profileName, ssoRegion, ssoToken, ssoTokenFilepath } = options;
+      const stillValid = new Date(ssoToken.expiresAt).getTime() > Date.now();
+      const message = `The SSO session token associated with profile=${profileName} was not found or is invalid. ${REFRESH_MESSAGE}`;
+      const giveUp = (cause?: unknown) =>
+        stillValid
+          ? Effect.succeed(ssoToken.accessToken)
+          : Console.log(message).pipe(
+              Effect.andThen(
+                Effect.fail(new ExpiredSSOToken({ message, profile: profileName, cause })),
+              ),
+            );
+
+      const { refreshToken, clientId, clientSecret, registrationExpiresAt } = ssoToken;
+      if (!refreshToken || !clientId || !clientSecret) {
+        return yield* giveUp();
+      }
+      if (registrationExpiresAt && new Date(registrationExpiresAt).getTime() <= Date.now()) {
+        return yield* giveUp(
+          new Error(`The SSO OIDC client registration expired at ${registrationExpiresAt}.`),
+        );
+      }
+
+      const refreshed = yield* client
+        .post(`https://oidc.${ssoRegion}.${dnsSuffix(ssoRegion)}/token`, {
+          headers: { "User-Agent": "alchemy.run" },
+          body: HttpBody.jsonUnsafe({
+            clientId,
+            clientSecret,
+            grantType: "refresh_token",
+            refreshToken,
+          }),
+        })
+        .pipe(
+          Effect.flatMap((response) =>
+            Effect.map(
+              response.json,
+              (json) =>
+                ({
+                  status: response.status,
+                  // A body that is not a JSON object carries no token.
+                  body: typeof json === "object" && json !== null ? json : {},
+                }) as {
+                  status: number;
+                  body: {
+                    accessToken?: string;
+                    expiresIn?: number;
+                    refreshToken?: string;
+                    error?: string;
+                    error_description?: string;
+                  };
+                },
+            ),
+          ),
+          Effect.flatMap(({ status, body }) => {
+            if (status < 200 || status >= 300 || typeof body.accessToken !== "string") {
+              return Effect.fail(
+                new Error(
+                  `SSO OIDC CreateToken failed (status=${status}${body.error ? `, ${body.error}` : ""}${body.error_description ? `: ${body.error_description}` : ""}).`,
+                ),
+              );
+            }
+            // The OIDC default lifetime is one hour.
+            const expiresAt = new Date(Date.now() + (body.expiresIn ?? 3600) * 1000);
+            return Number.isNaN(expiresAt.getTime())
+              ? Effect.fail(
+                  new Error(
+                    `SSO OIDC CreateToken returned an invalid expiresIn (${String(body.expiresIn)}).`,
+                  ),
+                )
+              : Effect.succeed({ ...body, accessToken: body.accessToken, expiresAt });
+          }),
+          Effect.result,
+        );
+      if (refreshed._tag === "Failure") {
+        return yield* giveUp(refreshed.failure);
+      }
+
+      const { accessToken, expiresAt, refreshToken: newRefreshToken } = refreshed.success;
+      const updated: SSOToken = {
+        ...ssoToken,
+        accessToken,
+        expiresAt: expiresAt.toISOString(),
+        refreshToken: newRefreshToken ?? refreshToken,
+      };
+      // Other processes (the AWS CLI, other SDKs) read the same file. A
+      // failed write still leaves this process with a valid token.
+      yield* fs
+        .writeFileString(ssoTokenFilepath, JSON.stringify(updated, null, 2))
+        .pipe(Effect.ignore);
+      return accessToken;
     });
 
     const loadProfileCredentials = Effect.fn(function* (profileName: string) {
@@ -201,21 +323,40 @@ export const makeAuthService = () =>
       // configures one (`sso_region` is required); `region` overrides it when
       // the profile calls a different region than its SSO portal lives in.
       // The environment is the last resort, for a profile carrying neither.
-      const region =
-        profile.region ?? profile.sso_region ?? (yield* regionFromEnv);
+      const region = profile.region ?? profile.sso_region ?? (yield* regionFromEnv);
+
+      // `aws login` keeps its own cache under `~/.aws/login/cache` and
+      // renews the session itself, so nothing is cached here.
+      if (profile.login_session) {
+        const identity = yield* loginCredentialsSource({
+          profile: profileName,
+          region,
+        }).pipe(
+          Effect.mapError(
+            (cause) =>
+              new AwsCredentialProviderError({
+                message: cause.message,
+                provider: "login",
+                cause,
+                hints: [`Run \`aws login --profile ${profileName}\`.`],
+              }),
+          ),
+        );
+        return fromAwsCredentialIdentity(identity, region);
+      }
 
       // Both SSO formats cache the access token under sha1 of the cache key: the
       // `sso_session` name (modern) or the `sso_start_url` (legacy inline format).
       const ssoCacheKey = profile.sso_session ?? profile.sso_start_url;
       if (ssoCacheKey) {
-        const ssoTokenFilepath = path.join(
-          cachePath,
-          `${ssoTokenCacheName(ssoCacheKey)}.json`,
-        );
+        // `loadProfile` returns a profile with a cache key only after
+        // validating that every required SSO field is present.
+        const { sso_account_id, sso_role_name } = profile as SsoProfileConfig;
+        const ssoTokenFilepath = path.join(cachePath, `${ssoTokenCacheName(ssoCacheKey)}.json`);
         // The token is one login per session, but the role credentials it
         // mints are per `sso_account_id` + `sso_role_name`. Several profiles
         // normally share one `[sso-session]`, so the credentials file must
-        // be keyed on the account and role too — keyed on the session alone,
+        // be keyed on the account and role too -- keyed on the session alone,
         // every profile in the session read whichever account's keys were
         // fetched first (#565).
         const cachedCredsFilePath = path.join(
@@ -225,7 +366,7 @@ export const makeAuthService = () =>
 
         // `Effect.try` so a `JSON.parse` throw on an empty/partial file
         // (a brief race window when another process is rewriting the
-        // SSO cache) becomes a typed error and is caught below — without
+        // SSO cache) becomes a typed error and is caught below -- without
         // the wrap it surfaces as a fiber defect that blows past
         // `Effect.catch`.
         const cachedCreds = yield* fs.readFileString(cachedCredsFilePath).pipe(
@@ -240,8 +381,7 @@ export const makeAuthService = () =>
 
         const isExpired = (expiry: number | string | undefined) => {
           return (
-            expiry === undefined ||
-            new Date(expiry).getTime() - Date.now() <= EXPIRE_WINDOW_MS
+            expiry === undefined || new Date(expiry).getTime() - Date.now() <= EXPIRE_WINDOW_MS
           );
         };
 
@@ -276,12 +416,19 @@ export const makeAuthService = () =>
           // `Effect.try` so a `JSON.parse` throw on an empty/partial
           // token file (a brief race window when another process is
           // refreshing the cache) becomes a typed error and is caught
-          // below — without the wrap it surfaces as a fiber defect.
+          // below -- without the wrap it surfaces as a fiber defect.
           Effect.flatMap((text) =>
             Effect.try({
-              try: () => JSON.parse(text) as SSOToken,
+              try: () => JSON.parse(text) as unknown,
               catch: (cause) => cause,
             }),
+          ),
+          // Valid JSON that is not an object (e.g. `null`) is as unusable
+          // as a partial file.
+          Effect.flatMap((parsed) =>
+            typeof parsed === "object" && parsed !== null
+              ? Effect.succeed(parsed as SSOToken)
+              : Effect.fail(parsed),
           ),
           Effect.catch(
             () =>
@@ -292,28 +439,29 @@ export const makeAuthService = () =>
           ),
         );
 
-        if (isExpired(ssoToken.expiresAt)) {
-          yield* Console.log(
-            `The SSO session token associated with profile=${profileName} was not found or is invalid. ${REFRESH_MESSAGE}`,
-          );
-          return yield* new ExpiredSSOToken({
-            message: `The SSO session token associated with profile=${profileName} was not found or is invalid. ${REFRESH_MESSAGE}`,
-            profile: profileName,
-          });
-        }
+        const accessToken = isExpired(ssoToken.expiresAt)
+          ? yield* refreshSsoToken({
+              profileName,
+              ssoRegion: profile.sso_region!,
+              ssoToken,
+              ssoTokenFilepath,
+            })
+          : ssoToken.accessToken;
 
         const response = yield* client.get(
-          `https://portal.sso.${profile.sso_region}.amazonaws.com/federation/credentials?account_id=${profile.sso_account_id}&role_name=${profile.sso_role_name}`,
+          `https://portal.sso.${profile.sso_region}.${dnsSuffix(profile.sso_region!)}/federation/credentials?account_id=${profile.sso_account_id}&role_name=${profile.sso_role_name}`,
           {
             headers: {
               "User-Agent": "alchemy.run",
               "Content-Type": "application/json",
-              "x-amz-sso_bearer_token": ssoToken.accessToken,
+              "x-amz-sso_bearer_token": accessToken,
             },
           },
         );
 
-        const body = (yield* response.json) as {
+        const json = yield* response.json;
+        // A body that is not a JSON object carries no credentials.
+        const body = (typeof json === "object" && json !== null ? json : {}) as {
           roleCredentials?: {
             accessKeyId: string;
             secretAccessKey: string;
@@ -346,8 +494,8 @@ export const makeAuthService = () =>
             secretAccessKey: credentials.secretAccessKey,
             sessionToken: credentials.sessionToken,
             expiry: credentials.expiration,
-            sso_account_id: profile.sso_account_id,
-            sso_role_name: profile.sso_role_name,
+            sso_account_id,
+            sso_role_name,
           } satisfies CachedSsoRoleCredentials),
         );
 

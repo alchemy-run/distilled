@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Gusto OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -6,11 +6,11 @@
  * Output: .generated-specs/gusto.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Gusto's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Gusto's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
 
@@ -54,7 +54,7 @@ const dropProtocolHeaders = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "gusto",

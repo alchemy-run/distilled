@@ -1,0 +1,34 @@
+{
+  "description": "From insights-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"insights\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insights#InsightsThresholdsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.insights#BadRequest"
+        },
+        {
+          "target": "com.posthog.insights#Forbidden"
+        },
+        {
+          "target": "com.posthog.insights#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.insights#InsightsThresholdsRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.insights#Forbidden"
+        },
+        {
+          "target": "com.posthog.insights#NotFound"
+        }
+      ]
+    }
+  ]
+}

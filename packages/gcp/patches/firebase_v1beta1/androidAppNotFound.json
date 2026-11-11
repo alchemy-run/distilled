@@ -1,0 +1,47 @@
+{
+  "description": "Type the missing-app answer on get/patch/remove Android apps. Firebase Management returns HTTP 403 PERMISSION_DENIED 'The caller does not have permission' (not 404) for an app id that does not exist, so a missing app surfaced as the generic Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#AndroidAppNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Android app does not exist. Firebase answers HTTP 403 'The caller does not have permission' for a missing app id instead of 404.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "The caller does not have permission"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#GetProjectsAndroidApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebase_v1beta1#AndroidAppNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#PatchProjectsAndroidApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebase_v1beta1#AndroidAppNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebase_v1beta1#RemoveProjectsAndroidApps/errors/-",
+      "value": {
+        "target": "com.gcp.firebase_v1beta1#AndroidAppNotFound"
+      }
+    }
+  ]
+}

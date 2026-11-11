@@ -1,0 +1,148 @@
+{
+  "description": "ChaosExperimentAction, ChaosTargetSelector and ChaosTargetFilter are polymorphic (on `type`); the converted model keeps only the discriminators, so S.Struct strips `duration`/`parameters`/`selectorId` (continuous/discrete/delay actions), `targets` (List selectors), `queryString`/`subscriptionIds` (Query selectors) and the Simple filter's `parameters`. Add them as optional members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#KeyValuePair",
+      "value": {
+        "type": "structure",
+        "members": {
+          "key": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The name of the setting for the action."
+            }
+          },
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The value of the setting for the action."
+            }
+          }
+        },
+        "traits": { "smithy.api#documentation": "A map to describe the settings of an action." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#KeyValuePairList",
+      "value": { "type": "list", "member": { "target": "com.azure.chaos#KeyValuePair" } }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosExperimentAction/members/duration",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ISO8601 duration of the action (continuous and delay actions)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosExperimentAction/members/parameters",
+      "value": {
+        "target": "com.azure.chaos#KeyValuePairList",
+        "traits": {
+          "smithy.api#documentation": "Key/value settings of the action (continuous and discrete actions)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosExperimentAction/members/selectorId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ID of the selector the action targets (continuous and discrete actions)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#TargetReference",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Reference type, `ChaosTarget`."
+            }
+          },
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Resource ID of a Chaos target."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Model that represents a reference to a Target in the selector."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#TargetReferenceList",
+      "value": { "type": "list", "member": { "target": "com.azure.chaos#TargetReference" } }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#StringList",
+      "value": { "type": "list", "member": { "target": "smithy.api#String" } }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosTargetSelector/members/targets",
+      "value": {
+        "target": "com.azure.chaos#TargetReferenceList",
+        "traits": { "smithy.api#documentation": "Targets of a `List` selector." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosTargetSelector/members/queryString",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Azure Resource Graph query of a `Query` selector."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosTargetSelector/members/subscriptionIds",
+      "value": {
+        "target": "com.azure.chaos#StringList",
+        "traits": { "smithy.api#documentation": "Subscriptions a `Query` selector runs against." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosTargetSimpleFilterParameters",
+      "value": {
+        "type": "structure",
+        "members": {
+          "zones": {
+            "target": "com.azure.chaos#StringList",
+            "traits": { "smithy.api#documentation": "Availability zones to filter targets by." }
+          }
+        },
+        "traits": { "smithy.api#documentation": "Parameters of a `Simple` target filter." }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.chaos#ChaosTargetFilter/members/parameters",
+      "value": {
+        "target": "com.azure.chaos#ChaosTargetSimpleFilterParameters",
+        "traits": { "smithy.api#documentation": "Parameters of a `Simple` filter." }
+      }
+    }
+  ]
+}

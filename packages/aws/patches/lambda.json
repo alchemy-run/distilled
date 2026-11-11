@@ -17,11 +17,62 @@
           "name": "LambdaInternalKmsError",
           "from": "InvalidParameterValueException",
           "message": "Internal KMS service error. Try again."
+        },
+        {
+          "name": "ExecutionRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "cannot be assumed by Lambda|Please add Lambda as a Trusted Entity"
+          }
+        },
+        {
+          "name": "ExecutionRoleMissingVpcPermissions",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "does not have permissions to call CreateNetworkInterface"
+          }
+        },
+        {
+          "name": "KmsGrantPrincipalNotReady",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "KMS key is invalid for CreateGrant[\\s\\S]*ARN does not refer to a valid principal"
+          }
+        },
+        {
+          "name": "SecurityGroupNotFound",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "InvalidGroup.NotFound"
+          }
         }
       ]
     },
     "createEventSourceMapping": {
-      "errors": ["RequestLimitExceeded", "ResourceInUseException"]
+      "errors": ["RequestLimitExceeded", "ResourceInUseException"],
+      "syntheticErrors": [
+        {
+          "name": "ExecutionRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "cannot be assumed by Lambda|Please add Lambda as a Trusted Entity"
+          }
+        },
+        {
+          "name": "ExecutionRoleMissingPermissions",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "The function execution role does not have permissions to call|Cannot access stream|Please ensure the role can perform the GetRecords"
+          }
+        },
+        {
+          "name": "QueueVisibilityTimeoutTooShort",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "is less than Function timeout"
+          }
+        }
+      ]
     },
     "putFunctionEventInvokeConfig": {
       "errors": ["RequestLimitExceeded", "ParseError"]
@@ -45,10 +96,63 @@
       "errors": ["RequestLimitExceeded", "ParseError"]
     },
     "updateFunctionCode": {
-      "errors": ["RequestLimitExceeded", "ParseError"]
+      "errors": ["RequestLimitExceeded", "ParseError"],
+      "syntheticErrors": [
+        {
+          "name": "ExecutionRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "cannot be assumed by Lambda|Please add Lambda as a Trusted Entity"
+          }
+        },
+        {
+          "name": "ExecutionRoleMissingVpcPermissions",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "does not have permissions to call CreateNetworkInterface"
+          }
+        },
+        {
+          "name": "KmsGrantPrincipalNotReady",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "KMS key is invalid for CreateGrant[\\s\\S]*ARN does not refer to a valid principal"
+          }
+        }
+      ]
     },
     "updateFunctionConfiguration": {
-      "errors": ["RequestLimitExceeded", "ParseError"]
+      "errors": ["RequestLimitExceeded", "ParseError"],
+      "syntheticErrors": [
+        {
+          "name": "ExecutionRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "cannot be assumed by Lambda|Please add Lambda as a Trusted Entity"
+          }
+        },
+        {
+          "name": "ExecutionRoleMissingVpcPermissions",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "does not have permissions to call CreateNetworkInterface"
+          }
+        },
+        {
+          "name": "KmsGrantPrincipalNotReady",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "KMS key is invalid for CreateGrant[\\s\\S]*ARN does not refer to a valid principal"
+          }
+        },
+        {
+          "name": "SecurityGroupNotFound",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "InvalidGroup.NotFound"
+          }
+        }
+      ]
     },
     "listFunctionEventInvokeConfigs": {
       "errors": ["RequestLimitExceeded", "ParseError"]
@@ -60,7 +164,7 @@
       "errors": ["RequestLimitExceeded", "ParseError"]
     },
     "deleteAlias": {
-      "errors": ["RequestLimitExceeded", "ResourceNotFoundException"]
+      "errors": ["RequestLimitExceeded"]
     },
     "publishLayerVersion": {
       "errors": ["RequestLimitExceeded", "ParseError"]
@@ -135,7 +239,30 @@
       "errors": ["RequestLimitExceeded", "ParseError"]
     },
     "updateEventSourceMapping": {
-      "errors": ["RequestLimitExceeded", "ParseError"]
+      "errors": ["RequestLimitExceeded", "ParseError"],
+      "syntheticErrors": [
+        {
+          "name": "ExecutionRoleNotAssumable",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "cannot be assumed by Lambda|Please add Lambda as a Trusted Entity"
+          }
+        },
+        {
+          "name": "ExecutionRoleMissingPermissions",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "matches": "The function execution role does not have permissions to call|Cannot access stream|Please ensure the role can perform the GetRecords"
+          }
+        },
+        {
+          "name": "QueueVisibilityTimeoutTooShort",
+          "from": "InvalidParameterValueException",
+          "message": {
+            "includes": "is less than Function timeout"
+          }
+        }
+      ]
     }
   }
 }

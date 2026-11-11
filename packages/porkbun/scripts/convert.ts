@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Porkbun OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -7,11 +7,11 @@
  * Output: .generated-specs/porkbun.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Porkbun's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Porkbun's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const AUTH_HEADERS = new Set(["X-API-Key", "X-Secret-API-Key"]);
 const AUTH_BODY_FIELDS = new Set(["apikey", "secretapikey"]);
@@ -42,8 +42,7 @@ const stripAuth = (spec: any): void => {
       }
       if (Array.isArray(schema.required)) {
         schema.required = schema.required.filter(
-          (name: unknown) =>
-            typeof name !== "string" || !AUTH_BODY_FIELDS.has(name),
+          (name: unknown) => typeof name !== "string" || !AUTH_BODY_FIELDS.has(name),
         );
         if (schema.required.length === 0) delete schema.required;
       }
@@ -90,7 +89,7 @@ const stripAuth = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "porkbun",

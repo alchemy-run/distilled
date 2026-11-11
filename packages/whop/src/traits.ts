@@ -1,5 +1,5 @@
 /**
- * Whop SDK trait surface — hand-written.
+ * Whop SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place. Whop speaks plain bearer-REST JSON with

@@ -1,20 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "OpenSearchServerless",
   serviceShapeName: "OpenSearchServerless",
 });
-const auth = T.AwsAuthSigv4({ name: "aoss" });
-const ver = T.ServiceVersion("2021-11-01");
-const proto = T.AwsProtocolsAwsJson1_0();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "aoss" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2021-11-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_0();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -26,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,95 +57,88 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://aoss-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://aoss-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://aoss.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://aoss.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://aoss.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://aoss.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://aoss.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "OpenSearchServerless",
+  service: "OpenSearchServerless",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class OcuLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<OcuLimitExceededException>()(
     "OcuLimitExceededException",
-    { message: S.String.pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
     {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.optional(S.String),
-      resourceType: S.optional(S.String),
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceId: /*@__PURE__*/ S.optional(S.String),
+      resourceType: /*@__PURE__*/ S.optional(S.String),
       serviceCode: S.String,
-      quotaCode: S.optional(S.String),
+      quotaCode: /*@__PURE__*/ S.optional(S.String),
     },
-    T.HttpError(402),
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type CollectionId = string;
 export type CollectionIds = string[];
-export const CollectionIds = /*@__PURE__*/ S.Array(S.String);
 export type CollectionName = string;
 export type CollectionNames = string[];
-export const CollectionNames = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetCollectionRequest {
-  ids?: string[];
-  names?: string[];
+  ids?: string[] | undefined;
+  names?: string[] | undefined;
 }
-export const BatchGetCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ids: S.optional(CollectionIds),
-    names: S.optional(CollectionNames),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetCollectionRequest",
-}) as any as S.Schema<BatchGetCollectionRequest>;
 export type CollectionStatus = string;
 export type CollectionType = string;
 export type StandbyReplicas = string;
@@ -153,744 +147,424 @@ export type ServerlessVectorAccelerationStatus = string;
 export interface VectorOptions {
   ServerlessVectorAcceleration: string;
 }
-export const VectorOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServerlessVectorAcceleration: S.String }),
-).annotate({ identifier: "VectorOptions" }) as any as S.Schema<VectorOptions>;
 export interface FipsEndpoints {
-  collectionEndpoint?: string;
-  dashboardEndpoint?: string;
+  collectionEndpoint?: string | undefined;
+  dashboardEndpoint?: string | undefined;
 }
-export const FipsEndpoints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionEndpoint: S.optional(S.String),
-    dashboardEndpoint: S.optional(S.String),
-  }),
-).annotate({ identifier: "FipsEndpoints" }) as any as S.Schema<FipsEndpoints>;
 export type CollectionGroupName = string;
 export interface CollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  standbyReplicas?: string;
-  deletionProtection?: string;
-  vectorOptions?: VectorOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  collectionEndpoint?: string;
-  dashboardEndpoint?: string;
-  fipsEndpoints?: FipsEndpoints;
-  failureCode?: string;
-  failureMessage?: string;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  standbyReplicas?: string | undefined;
+  deletionProtection?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  collectionEndpoint?: string | undefined;
+  dashboardEndpoint?: string | undefined;
+  fipsEndpoints?: FipsEndpoints | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
-export const CollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    arn: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    deletionProtection: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    collectionEndpoint: S.optional(S.String),
-    dashboardEndpoint: S.optional(S.String),
-    fipsEndpoints: S.optional(FipsEndpoints),
-    failureCode: S.optional(S.String),
-    failureMessage: S.optional(S.String),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionDetail",
-}) as any as S.Schema<CollectionDetail>;
 export type CollectionDetails = CollectionDetail[];
-export const CollectionDetails = /*@__PURE__*/ S.Array(CollectionDetail);
 export interface CollectionErrorDetail {
-  id?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
-export const CollectionErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionErrorDetail",
-}) as any as S.Schema<CollectionErrorDetail>;
 export type CollectionErrorDetails = CollectionErrorDetail[];
-export const CollectionErrorDetails = /*@__PURE__*/ S.Array(
-  CollectionErrorDetail,
-);
 export interface BatchGetCollectionResponse {
-  collectionDetails?: CollectionDetail[];
-  collectionErrorDetails?: CollectionErrorDetail[];
+  collectionDetails?: CollectionDetail[] | undefined;
+  collectionErrorDetails?: CollectionErrorDetail[] | undefined;
 }
-export const BatchGetCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionDetails: S.optional(CollectionDetails),
-    collectionErrorDetails: S.optional(CollectionErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetCollectionResponse",
-}) as any as S.Schema<BatchGetCollectionResponse>;
 export type CollectionGroupId = string;
 export type CollectionGroupIds = string[];
-export const CollectionGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type CollectionGroupNames = string[];
-export const CollectionGroupNames = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetCollectionGroupRequest {
-  ids?: string[];
-  names?: string[];
+  ids?: string[] | undefined;
+  names?: string[] | undefined;
 }
-export const BatchGetCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ids: S.optional(CollectionGroupIds),
-    names: S.optional(CollectionGroupNames),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetCollectionGroupRequest",
-}) as any as S.Schema<BatchGetCollectionGroupRequest>;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.String, value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = /*@__PURE__*/ S.Array(Tag);
 export type CollectionGroupMaxIndexingCapacityValue = number;
 export type CollectionGroupMaxSearchCapacityValue = number;
 export type CollectionGroupMinIndexingCapacityValue = number;
 export type CollectionGroupMinSearchCapacityValue = number;
 export interface CollectionGroupCapacityLimits {
-  maxIndexingCapacityInOCU?: number;
-  maxSearchCapacityInOCU?: number;
-  minIndexingCapacityInOCU?: number;
-  minSearchCapacityInOCU?: number;
+  maxIndexingCapacityInOCU?: number | undefined;
+  maxSearchCapacityInOCU?: number | undefined;
+  minIndexingCapacityInOCU?: number | undefined;
+  minSearchCapacityInOCU?: number | undefined;
 }
-export const CollectionGroupCapacityLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxIndexingCapacityInOCU: S.optional(S.Number),
-    maxSearchCapacityInOCU: S.optional(S.Number),
-    minIndexingCapacityInOCU: S.optional(S.Number),
-    minSearchCapacityInOCU: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CollectionGroupCapacityLimits",
-}) as any as S.Schema<CollectionGroupCapacityLimits>;
 export type AutoscalingStatus = string;
 export interface CapacityDetails {
-  capacityInOcu?: number;
-  autoscalingStatus?: string;
+  capacityInOcu?: number | undefined;
+  autoscalingStatus?: string | undefined;
 }
-export const CapacityDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capacityInOcu: S.optional(S.Number),
-    autoscalingStatus: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CapacityDetails",
-}) as any as S.Schema<CapacityDetails>;
 export interface CurrentCapacity {
-  search?: CapacityDetails;
-  indexing?: CapacityDetails;
+  search?: CapacityDetails | undefined;
+  indexing?: CapacityDetails | undefined;
 }
-export const CurrentCapacity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    search: S.optional(CapacityDetails),
-    indexing: S.optional(CapacityDetails),
-  }),
-).annotate({
-  identifier: "CurrentCapacity",
-}) as any as S.Schema<CurrentCapacity>;
 export type ServerlessGeneration = string;
 export interface CollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  standbyReplicas?: string;
-  description?: string;
-  tags?: Tag[];
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  currentCapacity?: CurrentCapacity;
-  numberOfCollections?: number;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  standbyReplicas?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  currentCapacity?: CurrentCapacity | undefined;
+  numberOfCollections?: number | undefined;
+  generation?: string | undefined;
 }
-export const CollectionGroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    createdDate: S.optional(S.Number),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    currentCapacity: S.optional(CurrentCapacity),
-    numberOfCollections: S.optional(S.Number),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionGroupDetail",
-}) as any as S.Schema<CollectionGroupDetail>;
 export type CollectionGroupDetails = CollectionGroupDetail[];
-export const CollectionGroupDetails = /*@__PURE__*/ S.Array(
-  CollectionGroupDetail,
-);
 export interface CollectionGroupErrorDetail {
-  id?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
-export const CollectionGroupErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionGroupErrorDetail",
-}) as any as S.Schema<CollectionGroupErrorDetail>;
 export type CollectionGroupErrorDetails = CollectionGroupErrorDetail[];
-export const CollectionGroupErrorDetails = /*@__PURE__*/ S.Array(
-  CollectionGroupErrorDetail,
-);
 export interface BatchGetCollectionGroupResponse {
-  collectionGroupDetails?: CollectionGroupDetail[];
-  collectionGroupErrorDetails?: CollectionGroupErrorDetail[];
+  collectionGroupDetails?: CollectionGroupDetail[] | undefined;
+  collectionGroupErrorDetails?: CollectionGroupErrorDetail[] | undefined;
 }
-export const BatchGetCollectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionGroupDetails: S.optional(CollectionGroupDetails),
-    collectionGroupErrorDetails: S.optional(CollectionGroupErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetCollectionGroupResponse",
-}) as any as S.Schema<BatchGetCollectionGroupResponse>;
 export type LifecyclePolicyType = string;
 export type ResourceName = string;
 export interface LifecyclePolicyResourceIdentifier {
   type: string;
   resource: string;
 }
-export const LifecyclePolicyResourceIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, resource: S.String }),
-).annotate({
-  identifier: "LifecyclePolicyResourceIdentifier",
-}) as any as S.Schema<LifecyclePolicyResourceIdentifier>;
-export type LifecyclePolicyResourceIdentifiers =
-  LifecyclePolicyResourceIdentifier[];
-export const LifecyclePolicyResourceIdentifiers = /*@__PURE__*/ S.Array(
-  LifecyclePolicyResourceIdentifier,
-);
+export type LifecyclePolicyResourceIdentifiers = LifecyclePolicyResourceIdentifier[];
 export interface BatchGetEffectiveLifecyclePolicyRequest {
   resourceIdentifiers: LifecyclePolicyResourceIdentifier[];
 }
-export const BatchGetEffectiveLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ resourceIdentifiers: LifecyclePolicyResourceIdentifiers }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-).annotate({
-  identifier: "BatchGetEffectiveLifecyclePolicyRequest",
-}) as any as S.Schema<BatchGetEffectiveLifecyclePolicyRequest>;
 export type Resource = string;
 export type PolicyName = string;
 export type ResourceType = string;
 export interface EffectiveLifecyclePolicyDetail {
-  type?: string;
-  resource?: string;
-  policyName?: string;
-  resourceType?: string;
-  retentionPeriod?: string;
-  noMinRetentionPeriod?: boolean;
+  type?: string | undefined;
+  resource?: string | undefined;
+  policyName?: string | undefined;
+  resourceType?: string | undefined;
+  retentionPeriod?: string | undefined;
+  noMinRetentionPeriod?: boolean | undefined;
 }
-export const EffectiveLifecyclePolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    resource: S.optional(S.String),
-    policyName: S.optional(S.String),
-    resourceType: S.optional(S.String),
-    retentionPeriod: S.optional(S.String),
-    noMinRetentionPeriod: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "EffectiveLifecyclePolicyDetail",
-}) as any as S.Schema<EffectiveLifecyclePolicyDetail>;
 export type EffectiveLifecyclePolicyDetails = EffectiveLifecyclePolicyDetail[];
-export const EffectiveLifecyclePolicyDetails = /*@__PURE__*/ S.Array(
-  EffectiveLifecyclePolicyDetail,
-);
 export interface EffectiveLifecyclePolicyErrorDetail {
-  type?: string;
-  resource?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  type?: string | undefined;
+  resource?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
-export const EffectiveLifecyclePolicyErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    resource: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EffectiveLifecyclePolicyErrorDetail",
-}) as any as S.Schema<EffectiveLifecyclePolicyErrorDetail>;
-export type EffectiveLifecyclePolicyErrorDetails =
-  EffectiveLifecyclePolicyErrorDetail[];
-export const EffectiveLifecyclePolicyErrorDetails = /*@__PURE__*/ S.Array(
-  EffectiveLifecyclePolicyErrorDetail,
-);
+export type EffectiveLifecyclePolicyErrorDetails = EffectiveLifecyclePolicyErrorDetail[];
 export interface BatchGetEffectiveLifecyclePolicyResponse {
-  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[];
-  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[];
+  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[] | undefined;
+  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[] | undefined;
 }
-export const BatchGetEffectiveLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      effectiveLifecyclePolicyDetails: S.optional(
-        EffectiveLifecyclePolicyDetails,
-      ),
-      effectiveLifecyclePolicyErrorDetails: S.optional(
-        EffectiveLifecyclePolicyErrorDetails,
-      ),
-    }),
-).annotate({
-  identifier: "BatchGetEffectiveLifecyclePolicyResponse",
-}) as any as S.Schema<BatchGetEffectiveLifecyclePolicyResponse>;
 export interface LifecyclePolicyIdentifier {
   type: string;
   name: string;
 }
-export const LifecyclePolicyIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, name: S.String }),
-).annotate({
-  identifier: "LifecyclePolicyIdentifier",
-}) as any as S.Schema<LifecyclePolicyIdentifier>;
 export type LifecyclePolicyIdentifiers = LifecyclePolicyIdentifier[];
-export const LifecyclePolicyIdentifiers = /*@__PURE__*/ S.Array(
-  LifecyclePolicyIdentifier,
-);
 export interface BatchGetLifecyclePolicyRequest {
   identifiers: LifecyclePolicyIdentifier[];
 }
-export const BatchGetLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ identifiers: LifecyclePolicyIdentifiers }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetLifecyclePolicyRequest",
-}) as any as S.Schema<BatchGetLifecyclePolicyRequest>;
 export type PolicyVersion = string;
 export type PolicyDescription = string;
 export interface LifecyclePolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const LifecyclePolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    policy: S.optional(S.Any),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LifecyclePolicyDetail",
-}) as any as S.Schema<LifecyclePolicyDetail>;
 export type LifecyclePolicyDetails = LifecyclePolicyDetail[];
-export const LifecyclePolicyDetails = /*@__PURE__*/ S.Array(
-  LifecyclePolicyDetail,
-);
 export interface LifecyclePolicyErrorDetail {
-  type?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  type?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
-export const LifecyclePolicyErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LifecyclePolicyErrorDetail",
-}) as any as S.Schema<LifecyclePolicyErrorDetail>;
 export type LifecyclePolicyErrorDetails = LifecyclePolicyErrorDetail[];
-export const LifecyclePolicyErrorDetails = /*@__PURE__*/ S.Array(
-  LifecyclePolicyErrorDetail,
-);
 export interface BatchGetLifecyclePolicyResponse {
-  lifecyclePolicyDetails?: LifecyclePolicyDetail[];
-  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[];
+  lifecyclePolicyDetails?: LifecyclePolicyDetail[] | undefined;
+  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[] | undefined;
 }
-export const BatchGetLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecyclePolicyDetails: S.optional(LifecyclePolicyDetails),
-    lifecyclePolicyErrorDetails: S.optional(LifecyclePolicyErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetLifecyclePolicyResponse",
-}) as any as S.Schema<BatchGetLifecyclePolicyResponse>;
 export type VpcEndpointId = string;
 export type VpcEndpointIds = string[];
-export const VpcEndpointIds = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetVpcEndpointRequest {
   ids: string[];
 }
-export const BatchGetVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ids: VpcEndpointIds }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "BatchGetVpcEndpointRequest",
-}) as any as S.Schema<BatchGetVpcEndpointRequest>;
 export type VpcEndpointName = string;
 export type VpcId = string;
 export type SubnetId = string;
 export type SubnetIds = string[];
-export const SubnetIds = /*@__PURE__*/ S.Array(S.String);
 export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
-export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type VpcEndpointStatus = string;
 export interface VpcEndpointDetail {
-  id?: string;
-  name?: string;
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  status?: string;
-  createdDate?: number;
-  failureCode?: string;
-  failureMessage?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  status?: string | undefined;
+  createdDate?: number | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
 }
-export const VpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    vpcId: S.optional(S.String),
-    subnetIds: S.optional(SubnetIds),
-    securityGroupIds: S.optional(SecurityGroupIds),
-    status: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    failureCode: S.optional(S.String),
-    failureMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcEndpointDetail",
-}) as any as S.Schema<VpcEndpointDetail>;
 export type VpcEndpointDetails = VpcEndpointDetail[];
-export const VpcEndpointDetails = /*@__PURE__*/ S.Array(VpcEndpointDetail);
 export interface VpcEndpointErrorDetail {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
-export const VpcEndpointErrorDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    errorMessage: S.optional(S.String),
-    errorCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcEndpointErrorDetail",
-}) as any as S.Schema<VpcEndpointErrorDetail>;
 export type VpcEndpointErrorDetails = VpcEndpointErrorDetail[];
-export const VpcEndpointErrorDetails = /*@__PURE__*/ S.Array(
-  VpcEndpointErrorDetail,
-);
 export interface BatchGetVpcEndpointResponse {
-  vpcEndpointDetails?: VpcEndpointDetail[];
-  vpcEndpointErrorDetails?: VpcEndpointErrorDetail[];
+  vpcEndpointDetails?: VpcEndpointDetail[] | undefined;
+  vpcEndpointErrorDetails?: VpcEndpointErrorDetail[] | undefined;
 }
-export const BatchGetVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcEndpointDetails: S.optional(VpcEndpointDetails),
-    vpcEndpointErrorDetails: S.optional(VpcEndpointErrorDetails),
-  }),
-).annotate({
-  identifier: "BatchGetVpcEndpointResponse",
-}) as any as S.Schema<BatchGetVpcEndpointResponse>;
+export type IngestionJobId = string;
+export type ClientToken = string;
+export interface CancelIngestionJobRequest {
+  collectionId: string;
+  ingestionJobId: string;
+  clientToken?: string | undefined;
+}
+export type IngestionJobName = string;
+export type IngestionJobStatus = string;
+export interface CancelIngestionJobResponse {
+  ingestionJobId?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionJobName?: string | undefined;
+  status?: string | undefined;
+}
 export type AccessPolicyType = string;
 export type PolicyDocument = string;
-export type ClientToken = string;
 export interface CreateAccessPolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const CreateAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    policy: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateAccessPolicyRequest",
-}) as any as S.Schema<CreateAccessPolicyRequest>;
 export interface AccessPolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const AccessPolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    policy: S.optional(S.Any),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AccessPolicyDetail",
-}) as any as S.Schema<AccessPolicyDetail>;
 export interface CreateAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
-export const CreateAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accessPolicyDetail: S.optional(AccessPolicyDetail) }),
-).annotate({
-  identifier: "CreateAccessPolicyResponse",
-}) as any as S.Schema<CreateAccessPolicyResponse>;
 export interface EncryptionConfig {
-  aWSOwnedKey?: boolean;
-  kmsKeyArn?: string;
+  aWSOwnedKey?: boolean | undefined;
+  kmsKeyArn?: string | undefined;
 }
-export const EncryptionConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    aWSOwnedKey: S.optional(S.Boolean),
-    kmsKeyArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EncryptionConfig",
-}) as any as S.Schema<EncryptionConfig>;
 export interface CreateCollectionRequest {
   name: string;
-  type?: string;
-  description?: string;
-  tags?: Tag[];
-  standbyReplicas?: string;
-  vectorOptions?: VectorOptions;
-  collectionGroupName?: string;
-  encryptionConfig?: EncryptionConfig;
-  deletionProtection?: string;
-  clientToken?: string;
+  type?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  standbyReplicas?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  collectionGroupName?: string | undefined;
+  encryptionConfig?: EncryptionConfig | undefined;
+  deletionProtection?: string | undefined;
+  clientToken?: string | undefined;
 }
-export const CreateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    standbyReplicas: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    collectionGroupName: S.optional(S.String),
-    encryptionConfig: S.optional(EncryptionConfig),
-    deletionProtection: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCollectionRequest",
-}) as any as S.Schema<CreateCollectionRequest>;
 export interface CreateCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  standbyReplicas?: string;
-  deletionProtection?: string;
-  vectorOptions?: VectorOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  standbyReplicas?: string | undefined;
+  deletionProtection?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  collectionGroupName?: string | undefined;
 }
-export const CreateCollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    arn: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    deletionProtection: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateCollectionDetail",
-}) as any as S.Schema<CreateCollectionDetail>;
 export interface CreateCollectionResponse {
-  createCollectionDetail?: CreateCollectionDetail;
+  createCollectionDetail?: CreateCollectionDetail | undefined;
 }
-export const CreateCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ createCollectionDetail: S.optional(CreateCollectionDetail) }),
-).annotate({
-  identifier: "CreateCollectionResponse",
-}) as any as S.Schema<CreateCollectionResponse>;
 export interface CreateCollectionGroupRequest {
   name: string;
   standbyReplicas: string;
-  description?: string;
-  tags?: Tag[];
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
+  clientToken?: string | undefined;
 }
-export const CreateCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    standbyReplicas: S.String,
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    generation: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCollectionGroupRequest",
-}) as any as S.Schema<CreateCollectionGroupRequest>;
 export interface CreateCollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  standbyReplicas?: string;
-  description?: string;
-  tags?: Tag[];
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  standbyReplicas?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
 }
-export const CreateCollectionGroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    standbyReplicas: S.optional(S.String),
-    description: S.optional(S.String),
-    tags: S.optional(Tags),
-    createdDate: S.optional(S.Number),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateCollectionGroupDetail",
-}) as any as S.Schema<CreateCollectionGroupDetail>;
 export interface CreateCollectionGroupResponse {
-  createCollectionGroupDetail?: CreateCollectionGroupDetail;
+  createCollectionGroupDetail?: CreateCollectionGroupDetail | undefined;
 }
-export const CreateCollectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    createCollectionGroupDetail: S.optional(CreateCollectionGroupDetail),
-  }),
-).annotate({
-  identifier: "CreateCollectionGroupResponse",
-}) as any as S.Schema<CreateCollectionGroupResponse>;
 export type IndexName = string;
 export type IndexSchema = unknown;
 export interface CreateIndexRequest {
   id: string;
   indexName: string;
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
-export const CreateIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    indexName: S.String,
-    indexSchema: S.optional(S.Any),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateIndexRequest",
-}) as any as S.Schema<CreateIndexRequest>;
 export interface CreateIndexResponse {}
-export const CreateIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "CreateIndexResponse",
-}) as any as S.Schema<CreateIndexResponse>;
+export type IngestionIndexName = string;
+export type S3BucketNameOrArn = string;
+export type BucketOwnerAccountId = string;
+export interface IngestionJobS3Source {
+  bucket?: string | undefined;
+  bucketOwnerAccountId?: string | undefined;
+  keyPrefix?: string | undefined;
+}
+export interface IngestionJobSource {
+  s3: IngestionJobS3Source;
+}
+export interface CreateIngestionJobRequest {
+  collectionId: string;
+  ingestionJobName: string;
+  indexName: string;
+  failureIndexName?: string | undefined;
+  source: IngestionJobSource;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
+}
+export type IngestionJobResourceArn = string;
+export type IngestionState = string;
+export interface S3Statistics {
+  objectsDiscovered?: number | undefined;
+  objectsIngested?: number | undefined;
+  objectsFailed?: number | undefined;
+}
+export interface IngestionStatistics {
+  s3?: S3Statistics | undefined;
+}
+export type IngestionFailureCode = string;
+export interface IngestionFailureReason {
+  code?: string | undefined;
+  message?: string | undefined;
+}
+export type IngestionFailureReasons = IngestionFailureReason[];
+export type IngestionAlertCode = string;
+export interface IngestionAlert {
+  code?: string | undefined;
+  message?: string | undefined;
+}
+export type IngestionAlerts = IngestionAlert[];
+export interface IngestionJobDetail {
+  ingestionJobId?: string | undefined;
+  arn?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionJobName?: string | undefined;
+  indexName?: string | undefined;
+  failureIndexName?: string | undefined;
+  source?: IngestionJobSource | undefined;
+  status?: string | undefined;
+  state?: string | undefined;
+  statistics?: IngestionStatistics | undefined;
+  revision?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  failureReasons?: IngestionFailureReason[] | undefined;
+  activeAlerts?: IngestionAlert[] | undefined;
+}
+export interface CreateIngestionJobResponse {
+  ingestionJobDetail?: IngestionJobDetail | undefined;
+}
+export type IngestionStreamName = string;
+export type SqsArn = string;
+export type InitialScan = string;
+export interface StreamBucketConfig {
+  bucket: string;
+  bucketOwnerAccountId?: string | undefined;
+  initialScan?: string | undefined;
+}
+export type StreamBucketConfigs = StreamBucketConfig[];
+export interface IngestionStreamS3Source {
+  sqsArn: string;
+  buckets?: StreamBucketConfig[] | undefined;
+}
+export interface IngestionStreamSource {
+  s3: IngestionStreamS3Source;
+}
+export type RoleArn = string;
+export interface CreateIngestionStreamRequest {
+  collectionId: string;
+  ingestionStreamName: string;
+  indexName: string;
+  failureIndexName?: string | undefined;
+  source: IngestionStreamSource;
+  roleArn: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
+}
+export type IngestionStreamId = string;
+export type IngestionStreamResourceArn = string;
+export type IngestionStreamStatus = string;
+export interface IngestionStreamDetail {
+  ingestionStreamId?: string | undefined;
+  arn?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  indexName?: string | undefined;
+  failureIndexName?: string | undefined;
+  source?: IngestionStreamSource | undefined;
+  roleArn?: string | undefined;
+  status?: string | undefined;
+  state?: string | undefined;
+  statistics?: IngestionStatistics | undefined;
+  revision?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  failureReasons?: IngestionFailureReason[] | undefined;
+  activeAlerts?: IngestionAlert[] | undefined;
+}
+export interface CreateIngestionStreamResponse {
+  ingestionStreamDetail?: IngestionStreamDetail | undefined;
+}
 export interface CreateLifecyclePolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const CreateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    policy: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateLifecyclePolicyRequest",
-}) as any as S.Schema<CreateLifecyclePolicyRequest>;
 export interface CreateLifecyclePolicyResponse {
-  lifecyclePolicyDetail?: LifecyclePolicyDetail;
+  lifecyclePolicyDetail?: LifecyclePolicyDetail | undefined;
 }
-export const CreateLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ lifecyclePolicyDetail: S.optional(LifecyclePolicyDetail) }),
-).annotate({
-  identifier: "CreateLifecyclePolicyResponse",
-}) as any as S.Schema<CreateLifecyclePolicyResponse>;
 export type SecurityConfigType = string;
 export type ConfigName = string;
 export type ConfigDescription = string;
@@ -900,1391 +574,571 @@ export type SamlGroupAttribute = string;
 export type OpenSearchServerlessEntityId = string;
 export interface SamlConfigOptions {
   metadata: string;
-  userAttribute?: string;
-  groupAttribute?: string;
-  openSearchServerlessEntityId?: string;
-  sessionTimeout?: number;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
+  openSearchServerlessEntityId?: string | undefined;
+  sessionTimeout?: number | undefined;
 }
-export const SamlConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    metadata: S.String,
-    userAttribute: S.optional(S.String),
-    groupAttribute: S.optional(S.String),
-    openSearchServerlessEntityId: S.optional(S.String),
-    sessionTimeout: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SamlConfigOptions",
-}) as any as S.Schema<SamlConfigOptions>;
 export type IamIdentityCenterInstanceArn = string;
 export type IamIdentityCenterUserAttribute = string;
 export type IamIdentityCenterGroupAttribute = string;
 export interface CreateIamIdentityCenterConfigOptions {
   instanceArn: string;
-  userAttribute?: string;
-  groupAttribute?: string;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
-export const CreateIamIdentityCenterConfigOptions = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      instanceArn: S.String,
-      userAttribute: S.optional(S.String),
-      groupAttribute: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "CreateIamIdentityCenterConfigOptions",
-}) as any as S.Schema<CreateIamIdentityCenterConfigOptions>;
 export type IamFederationGroupAttribute = string;
 export type IamFederationUserAttribute = string;
 export interface IamFederationConfigOptions {
-  groupAttribute?: string;
-  userAttribute?: string;
+  groupAttribute?: string | undefined;
+  userAttribute?: string | undefined;
 }
-export const IamFederationConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    groupAttribute: S.optional(S.String),
-    userAttribute: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IamFederationConfigOptions",
-}) as any as S.Schema<IamFederationConfigOptions>;
 export interface CreateSecurityConfigRequest {
   type: string;
   name: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptions?: CreateIamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  clientToken?: string;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptions?: CreateIamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  clientToken?: string | undefined;
 }
-export const CreateSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    samlOptions: S.optional(SamlConfigOptions),
-    iamIdentityCenterOptions: S.optional(CreateIamIdentityCenterConfigOptions),
-    iamFederationOptions: S.optional(IamFederationConfigOptions),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateSecurityConfigRequest",
-}) as any as S.Schema<CreateSecurityConfigRequest>;
 export type SecurityConfigId = string;
 export type IamIdentityCenterApplicationArn = string;
 export interface IamIdentityCenterConfigOptions {
-  instanceArn?: string;
-  applicationArn?: string;
-  applicationName?: string;
-  applicationDescription?: string;
-  userAttribute?: string;
-  groupAttribute?: string;
+  instanceArn?: string | undefined;
+  applicationArn?: string | undefined;
+  applicationName?: string | undefined;
+  applicationDescription?: string | undefined;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
-export const IamIdentityCenterConfigOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    instanceArn: S.optional(S.String),
-    applicationArn: S.optional(S.String),
-    applicationName: S.optional(S.String),
-    applicationDescription: S.optional(S.String),
-    userAttribute: S.optional(S.String),
-    groupAttribute: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IamIdentityCenterConfigOptions",
-}) as any as S.Schema<IamIdentityCenterConfigOptions>;
 export interface SecurityConfigDetail {
-  id?: string;
-  type?: string;
-  configVersion?: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptions?: IamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  type?: string | undefined;
+  configVersion?: string | undefined;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const SecurityConfigDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    type: S.optional(S.String),
-    configVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    samlOptions: S.optional(SamlConfigOptions),
-    iamIdentityCenterOptions: S.optional(IamIdentityCenterConfigOptions),
-    iamFederationOptions: S.optional(IamFederationConfigOptions),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SecurityConfigDetail",
-}) as any as S.Schema<SecurityConfigDetail>;
 export interface CreateSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
-export const CreateSecurityConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityConfigDetail: S.optional(SecurityConfigDetail) }),
-).annotate({
-  identifier: "CreateSecurityConfigResponse",
-}) as any as S.Schema<CreateSecurityConfigResponse>;
 export type SecurityPolicyType = string;
 export interface CreateSecurityPolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const CreateSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    description: S.optional(S.String),
-    policy: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateSecurityPolicyRequest",
-}) as any as S.Schema<CreateSecurityPolicyRequest>;
 export interface SecurityPolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const SecurityPolicyDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    policy: S.optional(S.Any),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SecurityPolicyDetail",
-}) as any as S.Schema<SecurityPolicyDetail>;
 export interface CreateSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
-export const CreateSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityPolicyDetail: S.optional(SecurityPolicyDetail) }),
-).annotate({
-  identifier: "CreateSecurityPolicyResponse",
-}) as any as S.Schema<CreateSecurityPolicyResponse>;
 export interface CreateVpcEndpointRequest {
   name: string;
   vpcId: string;
   subnetIds: string[];
-  securityGroupIds?: string[];
-  clientToken?: string;
+  securityGroupIds?: string[] | undefined;
+  clientToken?: string | undefined;
 }
-export const CreateVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    vpcId: S.String,
-    subnetIds: SubnetIds,
-    securityGroupIds: S.optional(SecurityGroupIds),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateVpcEndpointRequest",
-}) as any as S.Schema<CreateVpcEndpointRequest>;
 export interface CreateVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
-export const CreateVpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateVpcEndpointDetail",
-}) as any as S.Schema<CreateVpcEndpointDetail>;
 export interface CreateVpcEndpointResponse {
-  createVpcEndpointDetail?: CreateVpcEndpointDetail;
+  createVpcEndpointDetail?: CreateVpcEndpointDetail | undefined;
 }
-export const CreateVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ createVpcEndpointDetail: S.optional(CreateVpcEndpointDetail) }),
-).annotate({
-  identifier: "CreateVpcEndpointResponse",
-}) as any as S.Schema<CreateVpcEndpointResponse>;
 export interface DeleteAccessPolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteAccessPolicyRequest",
-}) as any as S.Schema<DeleteAccessPolicyRequest>;
 export interface DeleteAccessPolicyResponse {}
-export const DeleteAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAccessPolicyResponse",
-}) as any as S.Schema<DeleteAccessPolicyResponse>;
 export interface DeleteCollectionRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCollectionRequest",
-}) as any as S.Schema<DeleteCollectionRequest>;
 export interface DeleteCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  deletionProtection?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  deletionProtection?: string | undefined;
 }
-export const DeleteCollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    deletionProtection: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteCollectionDetail",
-}) as any as S.Schema<DeleteCollectionDetail>;
 export interface DeleteCollectionResponse {
-  deleteCollectionDetail?: DeleteCollectionDetail;
+  deleteCollectionDetail?: DeleteCollectionDetail | undefined;
 }
-export const DeleteCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deleteCollectionDetail: S.optional(DeleteCollectionDetail) }),
-).annotate({
-  identifier: "DeleteCollectionResponse",
-}) as any as S.Schema<DeleteCollectionResponse>;
 export interface DeleteCollectionGroupRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCollectionGroupRequest",
-}) as any as S.Schema<DeleteCollectionGroupRequest>;
 export interface DeleteCollectionGroupResponse {}
-export const DeleteCollectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCollectionGroupResponse",
-}) as any as S.Schema<DeleteCollectionGroupResponse>;
 export interface DeleteIndexRequest {
   id: string;
   indexName: string;
 }
-export const DeleteIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, indexName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteIndexRequest",
-}) as any as S.Schema<DeleteIndexRequest>;
 export interface DeleteIndexResponse {}
-export const DeleteIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteIndexResponse",
-}) as any as S.Schema<DeleteIndexResponse>;
+export interface DeleteIngestionStreamRequest {
+  collectionId: string;
+  ingestionStreamId: string;
+  clientToken?: string | undefined;
+}
+export interface DeleteIngestionStreamResponse {
+  ingestionStreamId?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  status?: string | undefined;
+}
 export interface DeleteLifecyclePolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteLifecyclePolicyRequest",
-}) as any as S.Schema<DeleteLifecyclePolicyRequest>;
 export interface DeleteLifecyclePolicyResponse {}
-export const DeleteLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLifecyclePolicyResponse",
-}) as any as S.Schema<DeleteLifecyclePolicyResponse>;
 export interface DeleteSecurityConfigRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteSecurityConfigRequest",
-}) as any as S.Schema<DeleteSecurityConfigRequest>;
 export interface DeleteSecurityConfigResponse {}
-export const DeleteSecurityConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSecurityConfigResponse",
-}) as any as S.Schema<DeleteSecurityConfigResponse>;
 export interface DeleteSecurityPolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteSecurityPolicyRequest",
-}) as any as S.Schema<DeleteSecurityPolicyRequest>;
 export interface DeleteSecurityPolicyResponse {}
-export const DeleteSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSecurityPolicyResponse",
-}) as any as S.Schema<DeleteSecurityPolicyResponse>;
 export interface DeleteVpcEndpointRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const DeleteVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteVpcEndpointRequest",
-}) as any as S.Schema<DeleteVpcEndpointRequest>;
 export interface DeleteVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
-export const DeleteVpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DeleteVpcEndpointDetail",
-}) as any as S.Schema<DeleteVpcEndpointDetail>;
 export interface DeleteVpcEndpointResponse {
-  deleteVpcEndpointDetail?: DeleteVpcEndpointDetail;
+  deleteVpcEndpointDetail?: DeleteVpcEndpointDetail | undefined;
 }
-export const DeleteVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ deleteVpcEndpointDetail: S.optional(DeleteVpcEndpointDetail) }),
-).annotate({
-  identifier: "DeleteVpcEndpointResponse",
-}) as any as S.Schema<DeleteVpcEndpointResponse>;
 export interface GetAccessPolicyRequest {
   type: string;
   name: string;
 }
-export const GetAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, name: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAccessPolicyRequest",
-}) as any as S.Schema<GetAccessPolicyRequest>;
 export interface GetAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
-export const GetAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accessPolicyDetail: S.optional(AccessPolicyDetail) }),
-).annotate({
-  identifier: "GetAccessPolicyResponse",
-}) as any as S.Schema<GetAccessPolicyResponse>;
 export interface GetAccountSettingsRequest {}
-export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetAccountSettingsRequest",
-}) as any as S.Schema<GetAccountSettingsRequest>;
 export type IndexingCapacityValue = number;
 export type SearchCapacityValue = number;
 export interface CapacityLimits {
-  maxIndexingCapacityInOCU?: number;
-  maxSearchCapacityInOCU?: number;
+  maxIndexingCapacityInOCU?: number | undefined;
+  maxSearchCapacityInOCU?: number | undefined;
 }
-export const CapacityLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    maxIndexingCapacityInOCU: S.optional(S.Number),
-    maxSearchCapacityInOCU: S.optional(S.Number),
-  }),
-).annotate({ identifier: "CapacityLimits" }) as any as S.Schema<CapacityLimits>;
 export interface AccountSettingsDetail {
-  capacityLimits?: CapacityLimits;
+  capacityLimits?: CapacityLimits | undefined;
 }
-export const AccountSettingsDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ capacityLimits: S.optional(CapacityLimits) }),
-).annotate({
-  identifier: "AccountSettingsDetail",
-}) as any as S.Schema<AccountSettingsDetail>;
 export interface GetAccountSettingsResponse {
-  accountSettingsDetail?: AccountSettingsDetail;
+  accountSettingsDetail?: AccountSettingsDetail | undefined;
 }
-export const GetAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountSettingsDetail: S.optional(AccountSettingsDetail) }),
-).annotate({
-  identifier: "GetAccountSettingsResponse",
-}) as any as S.Schema<GetAccountSettingsResponse>;
 export interface GetIndexRequest {
   id: string;
   indexName: string;
 }
-export const GetIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String, indexName: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetIndexRequest",
-}) as any as S.Schema<GetIndexRequest>;
 export interface GetIndexResponse {
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
-export const GetIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ indexSchema: S.optional(S.Any) }),
-).annotate({
-  identifier: "GetIndexResponse",
-}) as any as S.Schema<GetIndexResponse>;
+export interface GetIngestionJobRequest {
+  collectionId: string;
+  ingestionJobId: string;
+}
+export interface GetIngestionJobResponse {
+  ingestionJobDetail?: IngestionJobDetail | undefined;
+}
+export interface GetIngestionStreamRequest {
+  collectionId: string;
+  ingestionStreamId: string;
+}
+export interface GetIngestionStreamResponse {
+  ingestionStreamDetail?: IngestionStreamDetail | undefined;
+}
 export interface GetPoliciesStatsRequest {}
-export const GetPoliciesStatsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetPoliciesStatsRequest",
-}) as any as S.Schema<GetPoliciesStatsRequest>;
 export interface AccessPolicyStats {
-  DataPolicyCount?: number;
+  DataPolicyCount?: number | undefined;
 }
-export const AccessPolicyStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataPolicyCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "AccessPolicyStats",
-}) as any as S.Schema<AccessPolicyStats>;
 export interface SecurityPolicyStats {
-  EncryptionPolicyCount?: number;
-  NetworkPolicyCount?: number;
+  EncryptionPolicyCount?: number | undefined;
+  NetworkPolicyCount?: number | undefined;
 }
-export const SecurityPolicyStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EncryptionPolicyCount: S.optional(S.Number),
-    NetworkPolicyCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SecurityPolicyStats",
-}) as any as S.Schema<SecurityPolicyStats>;
 export interface SecurityConfigStats {
-  SamlConfigCount?: number;
+  SamlConfigCount?: number | undefined;
 }
-export const SecurityConfigStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SamlConfigCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "SecurityConfigStats",
-}) as any as S.Schema<SecurityConfigStats>;
 export interface LifecyclePolicyStats {
-  RetentionPolicyCount?: number;
+  RetentionPolicyCount?: number | undefined;
 }
-export const LifecyclePolicyStats = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RetentionPolicyCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "LifecyclePolicyStats",
-}) as any as S.Schema<LifecyclePolicyStats>;
 export interface GetPoliciesStatsResponse {
-  AccessPolicyStats?: AccessPolicyStats;
-  SecurityPolicyStats?: SecurityPolicyStats;
-  SecurityConfigStats?: SecurityConfigStats;
-  LifecyclePolicyStats?: LifecyclePolicyStats;
-  TotalPolicyCount?: number;
+  AccessPolicyStats?: AccessPolicyStats | undefined;
+  SecurityPolicyStats?: SecurityPolicyStats | undefined;
+  SecurityConfigStats?: SecurityConfigStats | undefined;
+  LifecyclePolicyStats?: LifecyclePolicyStats | undefined;
+  TotalPolicyCount?: number | undefined;
 }
-export const GetPoliciesStatsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPolicyStats: S.optional(AccessPolicyStats),
-    SecurityPolicyStats: S.optional(SecurityPolicyStats),
-    SecurityConfigStats: S.optional(SecurityConfigStats),
-    LifecyclePolicyStats: S.optional(LifecyclePolicyStats),
-    TotalPolicyCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "GetPoliciesStatsResponse",
-}) as any as S.Schema<GetPoliciesStatsResponse>;
 export interface GetSecurityConfigRequest {
   id: string;
 }
-export const GetSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetSecurityConfigRequest",
-}) as any as S.Schema<GetSecurityConfigRequest>;
 export interface GetSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
-export const GetSecurityConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityConfigDetail: S.optional(SecurityConfigDetail) }),
-).annotate({
-  identifier: "GetSecurityConfigResponse",
-}) as any as S.Schema<GetSecurityConfigResponse>;
 export interface GetSecurityPolicyRequest {
   type: string;
   name: string;
 }
-export const GetSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, name: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetSecurityPolicyRequest",
-}) as any as S.Schema<GetSecurityPolicyRequest>;
 export interface GetSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
-export const GetSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityPolicyDetail: S.optional(SecurityPolicyDetail) }),
-).annotate({
-  identifier: "GetSecurityPolicyResponse",
-}) as any as S.Schema<GetSecurityPolicyResponse>;
 export type ResourceFilter = string[];
-export const ResourceFilter = /*@__PURE__*/ S.Array(S.String);
 export interface ListAccessPoliciesRequest {
   type: string;
-  resource?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resource?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    resource: S.optional(ResourceFilter),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListAccessPoliciesRequest",
-}) as any as S.Schema<ListAccessPoliciesRequest>;
 export interface AccessPolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const AccessPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "AccessPolicySummary",
-}) as any as S.Schema<AccessPolicySummary>;
 export type AccessPolicySummaries = AccessPolicySummary[];
-export const AccessPolicySummaries = /*@__PURE__*/ S.Array(AccessPolicySummary);
 export interface ListAccessPoliciesResponse {
-  accessPolicySummaries?: AccessPolicySummary[];
-  nextToken?: string;
+  accessPolicySummaries?: AccessPolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListAccessPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessPolicySummaries: S.optional(AccessPolicySummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAccessPoliciesResponse",
-}) as any as S.Schema<ListAccessPoliciesResponse>;
 export interface ListCollectionGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListCollectionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCollectionGroupsRequest",
-}) as any as S.Schema<ListCollectionGroupsRequest>;
 export interface CollectionGroupSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  numberOfCollections?: number;
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  numberOfCollections?: number | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
 }
-export const CollectionGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    numberOfCollections: S.optional(S.Number),
-    createdDate: S.optional(S.Number),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionGroupSummary",
-}) as any as S.Schema<CollectionGroupSummary>;
 export type CollectionGroupSummaries = CollectionGroupSummary[];
-export const CollectionGroupSummaries = /*@__PURE__*/ S.Array(
-  CollectionGroupSummary,
-);
 export interface ListCollectionGroupsResponse {
-  collectionGroupSummaries?: CollectionGroupSummary[];
-  nextToken?: string;
+  collectionGroupSummaries?: CollectionGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListCollectionGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionGroupSummaries: S.optional(CollectionGroupSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCollectionGroupsResponse",
-}) as any as S.Schema<ListCollectionGroupsResponse>;
 export interface CollectionFilters {
-  name?: string;
-  status?: string;
-  collectionGroupName?: string;
+  name?: string | undefined;
+  status?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
-export const CollectionFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionFilters",
-}) as any as S.Schema<CollectionFilters>;
 export interface ListCollectionsRequest {
-  collectionFilters?: CollectionFilters;
-  nextToken?: string;
-  maxResults?: number;
+  collectionFilters?: CollectionFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListCollectionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionFilters: S.optional(CollectionFilters),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCollectionsRequest",
-}) as any as S.Schema<ListCollectionsRequest>;
 export interface CollectionSummary {
-  id?: string;
-  name?: string;
-  status?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
-export const CollectionSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    arn: S.optional(S.String),
-    kmsKeyArn: S.optional(S.String),
-    collectionGroupName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CollectionSummary",
-}) as any as S.Schema<CollectionSummary>;
 export type CollectionSummaries = CollectionSummary[];
-export const CollectionSummaries = /*@__PURE__*/ S.Array(CollectionSummary);
 export interface ListCollectionsResponse {
-  collectionSummaries?: CollectionSummary[];
-  nextToken?: string;
+  collectionSummaries?: CollectionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListCollectionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    collectionSummaries: S.optional(CollectionSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCollectionsResponse",
-}) as any as S.Schema<ListCollectionsResponse>;
+export interface ListIngestionJobsRequest {
+  collectionId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface IngestionJobSummary {
+  ingestionJobId?: string | undefined;
+  arn?: string | undefined;
+  ingestionJobName?: string | undefined;
+  indexName?: string | undefined;
+  status?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+}
+export type IngestionJobSummaries = IngestionJobSummary[];
+export interface ListIngestionJobsResponse {
+  ingestionJobSummaries?: IngestionJobSummary[] | undefined;
+  nextToken?: string | undefined;
+}
+export interface ListIngestionStreamsRequest {
+  collectionId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface IngestionStreamSummary {
+  ingestionStreamId?: string | undefined;
+  arn?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  indexName?: string | undefined;
+  status?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+}
+export type IngestionStreamSummaries = IngestionStreamSummary[];
+export interface ListIngestionStreamsResponse {
+  ingestionStreamSummaries?: IngestionStreamSummary[] | undefined;
+  nextToken?: string | undefined;
+}
 export type LifecycleResource = string;
 export type LifecycleResourceFilter = string[];
-export const LifecycleResourceFilter = /*@__PURE__*/ S.Array(S.String);
 export interface ListLifecyclePoliciesRequest {
   type: string;
-  resources?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resources?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListLifecyclePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    resources: S.optional(LifecycleResourceFilter),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListLifecyclePoliciesRequest",
-}) as any as S.Schema<ListLifecyclePoliciesRequest>;
 export interface LifecyclePolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const LifecyclePolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "LifecyclePolicySummary",
-}) as any as S.Schema<LifecyclePolicySummary>;
 export type LifecyclePolicySummaries = LifecyclePolicySummary[];
-export const LifecyclePolicySummaries = /*@__PURE__*/ S.Array(
-  LifecyclePolicySummary,
-);
 export interface ListLifecyclePoliciesResponse {
-  lifecyclePolicySummaries?: LifecyclePolicySummary[];
-  nextToken?: string;
+  lifecyclePolicySummaries?: LifecyclePolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListLifecyclePoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lifecyclePolicySummaries: S.optional(LifecyclePolicySummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLifecyclePoliciesResponse",
-}) as any as S.Schema<ListLifecyclePoliciesResponse>;
 export interface ListSecurityConfigsRequest {
   type: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListSecurityConfigsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListSecurityConfigsRequest",
-}) as any as S.Schema<ListSecurityConfigsRequest>;
 export interface SecurityConfigSummary {
-  id?: string;
-  type?: string;
-  configVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  type?: string | undefined;
+  configVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const SecurityConfigSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    type: S.optional(S.String),
-    configVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SecurityConfigSummary",
-}) as any as S.Schema<SecurityConfigSummary>;
 export type SecurityConfigSummaries = SecurityConfigSummary[];
-export const SecurityConfigSummaries = /*@__PURE__*/ S.Array(
-  SecurityConfigSummary,
-);
 export interface ListSecurityConfigsResponse {
-  securityConfigSummaries?: SecurityConfigSummary[];
-  nextToken?: string;
+  securityConfigSummaries?: SecurityConfigSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListSecurityConfigsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityConfigSummaries: S.optional(SecurityConfigSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSecurityConfigsResponse",
-}) as any as S.Schema<ListSecurityConfigsResponse>;
 export interface ListSecurityPoliciesRequest {
   type: string;
-  resource?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resource?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListSecurityPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    resource: S.optional(ResourceFilter),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListSecurityPoliciesRequest",
-}) as any as S.Schema<ListSecurityPoliciesRequest>;
 export interface SecurityPolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const SecurityPolicySummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    policyVersion: S.optional(S.String),
-    description: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SecurityPolicySummary",
-}) as any as S.Schema<SecurityPolicySummary>;
 export type SecurityPolicySummaries = SecurityPolicySummary[];
-export const SecurityPolicySummaries = /*@__PURE__*/ S.Array(
-  SecurityPolicySummary,
-);
 export interface ListSecurityPoliciesResponse {
-  securityPolicySummaries?: SecurityPolicySummary[];
-  nextToken?: string;
+  securityPolicySummaries?: SecurityPolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListSecurityPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    securityPolicySummaries: S.optional(SecurityPolicySummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListSecurityPoliciesResponse",
-}) as any as S.Schema<ListSecurityPoliciesResponse>;
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListTagsForResourceRequest",
-}) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
-export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
 export interface VpcEndpointFilters {
-  status?: string;
+  status?: string | undefined;
 }
-export const VpcEndpointFilters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(S.String) }),
-).annotate({
-  identifier: "VpcEndpointFilters",
-}) as any as S.Schema<VpcEndpointFilters>;
 export interface ListVpcEndpointsRequest {
-  vpcEndpointFilters?: VpcEndpointFilters;
-  nextToken?: string;
-  maxResults?: number;
+  vpcEndpointFilters?: VpcEndpointFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListVpcEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcEndpointFilters: S.optional(VpcEndpointFilters),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListVpcEndpointsRequest",
-}) as any as S.Schema<ListVpcEndpointsRequest>;
 export interface VpcEndpointSummary {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
-export const VpcEndpointSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcEndpointSummary",
-}) as any as S.Schema<VpcEndpointSummary>;
 export type VpcEndpointSummaries = VpcEndpointSummary[];
-export const VpcEndpointSummaries = /*@__PURE__*/ S.Array(VpcEndpointSummary);
 export interface ListVpcEndpointsResponse {
-  vpcEndpointSummaries?: VpcEndpointSummary[];
-  nextToken?: string;
+  vpcEndpointSummaries?: VpcEndpointSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListVpcEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    vpcEndpointSummaries: S.optional(VpcEndpointSummaries),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListVpcEndpointsResponse",
-}) as any as S.Schema<ListVpcEndpointsResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, tags: Tags }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ resourceArn: S.String, tagKeys: TagKeys }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccessPolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    policyVersion: S.String,
-    description: S.optional(S.String),
-    policy: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateAccessPolicyRequest",
-}) as any as S.Schema<UpdateAccessPolicyRequest>;
 export interface UpdateAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
-export const UpdateAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accessPolicyDetail: S.optional(AccessPolicyDetail) }),
-).annotate({
-  identifier: "UpdateAccessPolicyResponse",
-}) as any as S.Schema<UpdateAccessPolicyResponse>;
 export interface UpdateAccountSettingsRequest {
-  capacityLimits?: CapacityLimits;
+  capacityLimits?: CapacityLimits | undefined;
 }
-export const UpdateAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ capacityLimits: S.optional(CapacityLimits) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateAccountSettingsRequest",
-}) as any as S.Schema<UpdateAccountSettingsRequest>;
 export interface UpdateAccountSettingsResponse {
-  accountSettingsDetail?: AccountSettingsDetail;
+  accountSettingsDetail?: AccountSettingsDetail | undefined;
 }
-export const UpdateAccountSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ accountSettingsDetail: S.optional(AccountSettingsDetail) }),
-).annotate({
-  identifier: "UpdateAccountSettingsResponse",
-}) as any as S.Schema<UpdateAccountSettingsResponse>;
 export interface UpdateCollectionRequest {
   id: string;
-  description?: string;
-  vectorOptions?: VectorOptions;
-  deletionProtection?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  deletionProtection?: string | undefined;
+  encryptionConfig?: EncryptionConfig | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateCollectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    description: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    deletionProtection: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCollectionRequest",
-}) as any as S.Schema<UpdateCollectionRequest>;
 export interface UpdateCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  vectorOptions?: VectorOptions;
-  arn?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  deletionProtection?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  kmsKeyArn?: string | undefined;
+  arn?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  deletionProtection?: string | undefined;
 }
-export const UpdateCollectionDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    type: S.optional(S.String),
-    description: S.optional(S.String),
-    vectorOptions: S.optional(VectorOptions),
-    arn: S.optional(S.String),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    deletionProtection: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateCollectionDetail",
-}) as any as S.Schema<UpdateCollectionDetail>;
 export interface UpdateCollectionResponse {
-  updateCollectionDetail?: UpdateCollectionDetail;
+  updateCollectionDetail?: UpdateCollectionDetail | undefined;
 }
-export const UpdateCollectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ updateCollectionDetail: S.optional(UpdateCollectionDetail) }),
-).annotate({
-  identifier: "UpdateCollectionResponse",
-}) as any as S.Schema<UpdateCollectionResponse>;
 export interface UpdateCollectionGroupRequest {
   id: string;
-  description?: string;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  clientToken?: string;
+  description?: string | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateCollectionGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    description: S.optional(S.String),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCollectionGroupRequest",
-}) as any as S.Schema<UpdateCollectionGroupRequest>;
 export interface UpdateCollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  generation?: string | undefined;
 }
-export const UpdateCollectionGroupDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    capacityLimits: S.optional(CollectionGroupCapacityLimits),
-    createdDate: S.optional(S.Number),
-    lastModifiedDate: S.optional(S.Number),
-    generation: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UpdateCollectionGroupDetail",
-}) as any as S.Schema<UpdateCollectionGroupDetail>;
 export interface UpdateCollectionGroupResponse {
-  updateCollectionGroupDetail?: UpdateCollectionGroupDetail;
+  updateCollectionGroupDetail?: UpdateCollectionGroupDetail | undefined;
 }
-export const UpdateCollectionGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    updateCollectionGroupDetail: S.optional(UpdateCollectionGroupDetail),
-  }),
-).annotate({
-  identifier: "UpdateCollectionGroupResponse",
-}) as any as S.Schema<UpdateCollectionGroupResponse>;
 export interface UpdateIndexRequest {
   id: string;
   indexName: string;
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
-export const UpdateIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    indexName: S.String,
-    indexSchema: S.optional(S.Any),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateIndexRequest",
-}) as any as S.Schema<UpdateIndexRequest>;
 export interface UpdateIndexResponse {}
-export const UpdateIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateIndexResponse",
-}) as any as S.Schema<UpdateIndexResponse>;
 export interface UpdateLifecyclePolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    policyVersion: S.String,
-    description: S.optional(S.String),
-    policy: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateLifecyclePolicyRequest",
-}) as any as S.Schema<UpdateLifecyclePolicyRequest>;
 export interface UpdateLifecyclePolicyResponse {
-  lifecyclePolicyDetail?: LifecyclePolicyDetail;
+  lifecyclePolicyDetail?: LifecyclePolicyDetail | undefined;
 }
-export const UpdateLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ lifecyclePolicyDetail: S.optional(LifecyclePolicyDetail) }),
-).annotate({
-  identifier: "UpdateLifecyclePolicyResponse",
-}) as any as S.Schema<UpdateLifecyclePolicyResponse>;
 export interface UpdateIamIdentityCenterConfigOptions {
-  userAttribute?: string;
-  groupAttribute?: string;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
-export const UpdateIamIdentityCenterConfigOptions = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      userAttribute: S.optional(S.String),
-      groupAttribute: S.optional(S.String),
-    }),
-).annotate({
-  identifier: "UpdateIamIdentityCenterConfigOptions",
-}) as any as S.Schema<UpdateIamIdentityCenterConfigOptions>;
 export interface UpdateSecurityConfigRequest {
   id: string;
   configVersion: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptionsUpdates?: UpdateIamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  clientToken?: string;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptionsUpdates?: UpdateIamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateSecurityConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    configVersion: S.String,
-    description: S.optional(S.String),
-    samlOptions: S.optional(SamlConfigOptions),
-    iamIdentityCenterOptionsUpdates: S.optional(
-      UpdateIamIdentityCenterConfigOptions,
-    ),
-    iamFederationOptions: S.optional(IamFederationConfigOptions),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSecurityConfigRequest",
-}) as any as S.Schema<UpdateSecurityConfigRequest>;
 export interface UpdateSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
-export const UpdateSecurityConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityConfigDetail: S.optional(SecurityConfigDetail) }),
-).annotate({
-  identifier: "UpdateSecurityConfigResponse",
-}) as any as S.Schema<UpdateSecurityConfigResponse>;
 export interface UpdateSecurityPolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    name: S.String,
-    policyVersion: S.String,
-    description: S.optional(S.String),
-    policy: S.optional(S.String),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateSecurityPolicyRequest",
-}) as any as S.Schema<UpdateSecurityPolicyRequest>;
 export interface UpdateSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
-export const UpdateSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ securityPolicyDetail: S.optional(SecurityPolicyDetail) }),
-).annotate({
-  identifier: "UpdateSecurityPolicyResponse",
-}) as any as S.Schema<UpdateSecurityPolicyResponse>;
 export interface UpdateVpcEndpointRequest {
   id: string;
-  addSubnetIds?: string[];
-  removeSubnetIds?: string[];
-  addSecurityGroupIds?: string[];
-  removeSecurityGroupIds?: string[];
-  clientToken?: string;
+  addSubnetIds?: string[] | undefined;
+  removeSubnetIds?: string[] | undefined;
+  addSecurityGroupIds?: string[] | undefined;
+  removeSecurityGroupIds?: string[] | undefined;
+  clientToken?: string | undefined;
 }
-export const UpdateVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    addSubnetIds: S.optional(SubnetIds),
-    removeSubnetIds: S.optional(SubnetIds),
-    addSecurityGroupIds: S.optional(SecurityGroupIds),
-    removeSecurityGroupIds: S.optional(SecurityGroupIds),
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateVpcEndpointRequest",
-}) as any as S.Schema<UpdateVpcEndpointRequest>;
 export interface UpdateVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  lastModifiedDate?: number | undefined;
 }
-export const UpdateVpcEndpointDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    status: S.optional(S.String),
-    subnetIds: S.optional(SubnetIds),
-    securityGroupIds: S.optional(SecurityGroupIds),
-    lastModifiedDate: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "UpdateVpcEndpointDetail",
-}) as any as S.Schema<UpdateVpcEndpointDetail>;
 export interface UpdateVpcEndpointResponse {
-  UpdateVpcEndpointDetail?: UpdateVpcEndpointDetail;
+  UpdateVpcEndpointDetail?: UpdateVpcEndpointDetail | undefined;
 }
-export const UpdateVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UpdateVpcEndpointDetail: S.optional(UpdateVpcEndpointDetail) }),
-).annotate({
-  identifier: "UpdateVpcEndpointResponse",
-}) as any as S.Schema<UpdateVpcEndpointResponse>;
-export type BatchGetCollectionError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type BatchGetCollectionError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const batchGetCollection: API.OperationMethod<
-  BatchGetCollectionRequest,
+  BatchGetCollectionRequest & RegionInput,
   BatchGetCollectionResponse,
   BatchGetCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetCollectionRequest,
-  output: BatchGetCollectionResponse,
+  input: __S(496, __c62, 0) as any as S.Schema<BatchGetCollectionRequest>,
+  output: __S(500, __c62, 4) as any as S.Schema<BatchGetCollectionResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollection",
+  telemetry: TELEMETRY,
+  span: "BatchGetCollection",
 }));
 
 export type BatchGetCollectionGroupError =
@@ -2295,17 +1149,19 @@ export type BatchGetCollectionGroupError =
  * Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const batchGetCollectionGroup: API.OperationMethod<
-  BatchGetCollectionGroupRequest,
+  BatchGetCollectionGroupRequest & RegionInput,
   BatchGetCollectionGroupResponse,
   BatchGetCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetCollectionGroupRequest,
-  output: BatchGetCollectionGroupResponse,
+  input: __S(528, __c66, 0) as any as S.Schema<BatchGetCollectionGroupRequest>,
+  output: __S(533, __c66, 5) as any as S.Schema<BatchGetCollectionGroupResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "BatchGetCollectionGroup",
 }));
 
 export type BatchGetEffectiveLifecyclePolicyError =
@@ -2316,17 +1172,19 @@ export type BatchGetEffectiveLifecyclePolicyError =
  * Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
  */
 export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
-  BatchGetEffectiveLifecyclePolicyRequest,
+  BatchGetEffectiveLifecyclePolicyRequest & RegionInput,
   BatchGetEffectiveLifecyclePolicyResponse,
   BatchGetEffectiveLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetEffectiveLifecyclePolicyRequest,
-  output: BatchGetEffectiveLifecyclePolicyResponse,
+  input: __S(554, __c69, 2) as any as S.Schema<BatchGetEffectiveLifecyclePolicyRequest>,
+  output: __S(559, __c69, 7) as any as S.Schema<BatchGetEffectiveLifecyclePolicyResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetEffectiveLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "BatchGetEffectiveLifecyclePolicy",
 }));
 
 export type BatchGetLifecyclePolicyError =
@@ -2337,38 +1195,69 @@ export type BatchGetLifecyclePolicyError =
  * Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
 export const batchGetLifecyclePolicy: API.OperationMethod<
-  BatchGetLifecyclePolicyRequest,
+  BatchGetLifecyclePolicyRequest & RegionInput,
   BatchGetLifecyclePolicyResponse,
   BatchGetLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetLifecyclePolicyRequest,
-  output: BatchGetLifecyclePolicyResponse,
+  input: __S(562, __c70, 2) as any as S.Schema<BatchGetLifecyclePolicyRequest>,
+  output: __S(566, __c70, 6) as any as S.Schema<BatchGetLifecyclePolicyResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "BatchGetLifecyclePolicy",
 }));
 
-export type BatchGetVpcEndpointError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type BatchGetVpcEndpointError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const batchGetVpcEndpoint: API.OperationMethod<
-  BatchGetVpcEndpointRequest,
+  BatchGetVpcEndpointRequest & RegionInput,
   BatchGetVpcEndpointResponse,
   BatchGetVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchGetVpcEndpointRequest,
-  output: BatchGetVpcEndpointResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<BatchGetVpcEndpointRequest>,
+  output: __S(5, __c0, 5) as any as S.Schema<BatchGetVpcEndpointResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "BatchGetVpcEndpoint",
+}));
+
+export type CancelIngestionJobError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Cancels an in-progress ingestion job. Documents that were already indexed before the cancellation remain in the index.
+ */
+export const cancelIngestionJob: API.OperationMethod<
+  CancelIngestionJobRequest & RegionInput,
+  CancelIngestionJobResponse,
+  CancelIngestionJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(8, __c1, 0) as any as S.Schema<CancelIngestionJobRequest>,
+  output: __S(9, __c1, 1) as any as S.Schema<CancelIngestionJobResponse>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelIngestionJob",
+  telemetry: TELEMETRY,
+  span: "CancelIngestionJob",
 }));
 
 export type CreateAccessPolicyError =
@@ -2381,13 +1270,13 @@ export type CreateAccessPolicyError =
  * Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const createAccessPolicy: API.OperationMethod<
-  CreateAccessPolicyRequest,
+  CreateAccessPolicyRequest & RegionInput,
   CreateAccessPolicyResponse,
   CreateAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateAccessPolicyRequest,
-  output: CreateAccessPolicyResponse,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateAccessPolicyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<CreateAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2397,6 +1286,8 @@ export const createAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateAccessPolicy",
 }));
 
 export type CreateCollectionError =
@@ -2410,13 +1301,13 @@ export type CreateCollectionError =
  * Creates a new OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const createCollection: API.OperationMethod<
-  CreateCollectionRequest,
+  CreateCollectionRequest & RegionInput,
   CreateCollectionResponse,
   CreateCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCollectionRequest,
-  output: CreateCollectionResponse,
+  input: __S(32, __c4, 0) as any as S.Schema<CreateCollectionRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<CreateCollectionResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2427,6 +1318,8 @@ export const createCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollection",
+  telemetry: TELEMETRY,
+  span: "CreateCollection",
 }));
 
 export type CreateCollectionGroupError =
@@ -2441,13 +1334,13 @@ export type CreateCollectionGroupError =
  * For more information, see Managing collection groups.
  */
 export const createCollectionGroup: API.OperationMethod<
-  CreateCollectionGroupRequest,
+  CreateCollectionGroupRequest & RegionInput,
   CreateCollectionGroupResponse,
   CreateCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateCollectionGroupRequest,
-  output: CreateCollectionGroupResponse,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateCollectionGroupRequest>,
+  output: __S(50, __c6, 2) as any as S.Schema<CreateCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2457,6 +1350,8 @@ export const createCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "CreateCollectionGroup",
 }));
 
 export type CreateIndexError =
@@ -2469,13 +1364,13 @@ export type CreateIndexError =
  * Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the *OpenSearch User Guide*.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIndexRequest,
-  output: CreateIndexResponse,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateIndexRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<CreateIndexResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2485,6 +1380,72 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
+}));
+
+export type CreateIngestionJobError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an ingestion job that performs a one-time bulk ingestion of data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion job scans the source bucket, indexes the documents it finds, and then completes. To continuously ingest new data as it arrives, use `CreateIngestionStream` instead.
+ */
+export const createIngestionJob: API.OperationMethod<
+  CreateIngestionJobRequest & RegionInput,
+  CreateIngestionJobResponse,
+  CreateIngestionJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<CreateIngestionJobRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<CreateIngestionJobResponse>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateIngestionJob",
+  telemetry: TELEMETRY,
+  span: "CreateIngestionJob",
+}));
+
+export type CreateIngestionStreamError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an ingestion stream that continuously ingests data from an Amazon S3 bucket into an index in an OpenSearch Serverless collection. An ingestion stream processes Amazon S3 event notifications delivered to an Amazon SQS queue and ingests new objects as they arrive. The stream continues to ingest data until you delete it. To perform a one-time bulk ingestion instead, use `CreateIngestionJob`.
+ */
+export const createIngestionStream: API.OperationMethod<
+  CreateIngestionStreamRequest & RegionInput,
+  CreateIngestionStreamResponse,
+  CreateIngestionStreamError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<CreateIngestionStreamRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<CreateIngestionStreamResponse>,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateIngestionStream",
+  telemetry: TELEMETRY,
+  span: "CreateIngestionStream",
 }));
 
 export type CreateLifecyclePolicyError =
@@ -2497,13 +1458,13 @@ export type CreateLifecyclePolicyError =
  * Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
  */
 export const createLifecyclePolicy: API.OperationMethod<
-  CreateLifecyclePolicyRequest,
+  CreateLifecyclePolicyRequest & RegionInput,
   CreateLifecyclePolicyResponse,
   CreateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateLifecyclePolicyRequest,
-  output: CreateLifecyclePolicyResponse,
+  input: __S(112, __c14, 0) as any as S.Schema<CreateLifecyclePolicyRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<CreateLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2513,6 +1474,8 @@ export const createLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "CreateLifecyclePolicy",
 }));
 
 export type CreateSecurityConfigError =
@@ -2525,13 +1488,13 @@ export type CreateSecurityConfigError =
  * Specifies a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const createSecurityConfig: API.OperationMethod<
-  CreateSecurityConfigRequest,
+  CreateSecurityConfigRequest & RegionInput,
   CreateSecurityConfigResponse,
   CreateSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSecurityConfigRequest,
-  output: CreateSecurityConfigResponse,
+  input: __S(129, __c16, 1) as any as S.Schema<CreateSecurityConfigRequest>,
+  output: __S(140, __c17, 4) as any as S.Schema<CreateSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2541,6 +1504,8 @@ export const createSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityConfig",
 }));
 
 export type CreateSecurityPolicyError =
@@ -2553,13 +1518,13 @@ export type CreateSecurityPolicyError =
  * Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const createSecurityPolicy: API.OperationMethod<
-  CreateSecurityPolicyRequest,
+  CreateSecurityPolicyRequest & RegionInput,
   CreateSecurityPolicyResponse,
   CreateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSecurityPolicyRequest,
-  output: CreateSecurityPolicyResponse,
+  input: __S(144, __c18, 0) as any as S.Schema<CreateSecurityPolicyRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<CreateSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2569,6 +1534,8 @@ export const createSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "CreateSecurityPolicy",
 }));
 
 export type CreateVpcEndpointError =
@@ -2581,13 +1548,13 @@ export type CreateVpcEndpointError =
  * Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVpcEndpointRequest,
-  output: CreateVpcEndpointResponse,
+  input: __S(160, __c20, 0) as any as S.Schema<CreateVpcEndpointRequest>,
+  output: __S(161, __c20, 1) as any as S.Schema<CreateVpcEndpointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2597,6 +1564,8 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateVpcEndpoint",
 }));
 
 export type DeleteAccessPolicyError =
@@ -2609,13 +1578,13 @@ export type DeleteAccessPolicyError =
  * Deletes an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const deleteAccessPolicy: API.OperationMethod<
-  DeleteAccessPolicyRequest,
+  DeleteAccessPolicyRequest & RegionInput,
   DeleteAccessPolicyResponse,
   DeleteAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteAccessPolicyRequest,
-  output: DeleteAccessPolicyResponse,
+  input: __S(176, __c22, 0) as any as S.Schema<DeleteAccessPolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2625,6 +1594,8 @@ export const deleteAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteAccessPolicy",
 }));
 
 export type DeleteCollectionError =
@@ -2637,13 +1608,13 @@ export type DeleteCollectionError =
  * Deletes an OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const deleteCollection: API.OperationMethod<
-  DeleteCollectionRequest,
+  DeleteCollectionRequest & RegionInput,
   DeleteCollectionResponse,
   DeleteCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCollectionRequest,
-  output: DeleteCollectionResponse,
+  input: __S(184, __c23, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(186, __c23, 2) as any as S.Schema<DeleteCollectionResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2653,6 +1624,8 @@ export const deleteCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollection",
+  telemetry: TELEMETRY,
+  span: "DeleteCollection",
 }));
 
 export type DeleteCollectionGroupError =
@@ -2665,13 +1638,13 @@ export type DeleteCollectionGroupError =
  * Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const deleteCollectionGroup: API.OperationMethod<
-  DeleteCollectionGroupRequest,
+  DeleteCollectionGroupRequest & RegionInput,
   DeleteCollectionGroupResponse,
   DeleteCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteCollectionGroupRequest,
-  output: DeleteCollectionGroupResponse,
+  input: __S(192, __c24, 0) as any as S.Schema<DeleteCollectionGroupRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2681,6 +1654,8 @@ export const deleteCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteCollectionGroup",
 }));
 
 export type DeleteIndexError =
@@ -2692,21 +1667,49 @@ export type DeleteIndexError =
  * Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIndexRequest,
-  output: DeleteIndexResponse,
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteIndexRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteIndexResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
+}));
+
+export type DeleteIngestionStreamError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes an ingestion stream. Documents that were already indexed by the stream remain in the index.
+ */
+export const deleteIngestionStream: API.OperationMethod<
+  DeleteIngestionStreamRequest & RegionInput,
+  DeleteIngestionStreamResponse,
+  DeleteIngestionStreamError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteIngestionStreamRequest>,
+  output: __S(209, __c26, 1) as any as S.Schema<DeleteIngestionStreamResponse>,
   errors: [
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
-  operationName: "DeleteIndex",
+  operationName: "DeleteIngestionStream",
+  telemetry: TELEMETRY,
+  span: "DeleteIngestionStream",
 }));
 
 export type DeleteLifecyclePolicyError =
@@ -2719,13 +1722,13 @@ export type DeleteLifecyclePolicyError =
  * Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
  */
 export const deleteLifecyclePolicy: API.OperationMethod<
-  DeleteLifecyclePolicyRequest,
+  DeleteLifecyclePolicyRequest & RegionInput,
   DeleteLifecyclePolicyResponse,
   DeleteLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteLifecyclePolicyRequest,
-  output: DeleteLifecyclePolicyResponse,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteLifecyclePolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2735,6 +1738,8 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteLifecyclePolicy",
 }));
 
 export type DeleteSecurityConfigError =
@@ -2747,13 +1752,13 @@ export type DeleteSecurityConfigError =
  * Deletes a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const deleteSecurityConfig: API.OperationMethod<
-  DeleteSecurityConfigRequest,
+  DeleteSecurityConfigRequest & RegionInput,
   DeleteSecurityConfigResponse,
   DeleteSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSecurityConfigRequest,
-  output: DeleteSecurityConfigResponse,
+  input: __S(224, __c28, 0) as any as S.Schema<DeleteSecurityConfigRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2763,6 +1768,8 @@ export const deleteSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityConfig",
 }));
 
 export type DeleteSecurityPolicyError =
@@ -2775,13 +1782,13 @@ export type DeleteSecurityPolicyError =
  * Deletes an OpenSearch Serverless security policy.
  */
 export const deleteSecurityPolicy: API.OperationMethod<
-  DeleteSecurityPolicyRequest,
+  DeleteSecurityPolicyRequest & RegionInput,
   DeleteSecurityPolicyResponse,
   DeleteSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSecurityPolicyRequest,
-  output: DeleteSecurityPolicyResponse,
+  input: __S(232, __c29, 0) as any as S.Schema<DeleteSecurityPolicyRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2791,6 +1798,8 @@ export const deleteSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "DeleteSecurityPolicy",
 }));
 
 export type DeleteVpcEndpointError =
@@ -2803,13 +1812,13 @@ export type DeleteVpcEndpointError =
  * Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVpcEndpointRequest,
-  output: DeleteVpcEndpointResponse,
+  input: __S(240, __c30, 0) as any as S.Schema<DeleteVpcEndpointRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<DeleteVpcEndpointResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -2819,6 +1828,8 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcEndpoint",
 }));
 
 export type GetAccessPolicyError =
@@ -2830,42 +1841,39 @@ export type GetAccessPolicyError =
  * Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const getAccessPolicy: API.OperationMethod<
-  GetAccessPolicyRequest,
+  GetAccessPolicyRequest & RegionInput,
   GetAccessPolicyResponse,
   GetAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccessPolicyRequest,
-  output: GetAccessPolicyResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(248, __c31, 0) as any as S.Schema<GetAccessPolicyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<GetAccessPolicyResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "GetAccessPolicy",
 }));
 
-export type GetAccountSettingsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type GetAccountSettingsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns account-level settings related to OpenSearch Serverless.
  */
 export const getAccountSettings: API.OperationMethod<
-  GetAccountSettingsRequest,
+  GetAccountSettingsRequest & RegionInput,
   GetAccountSettingsResponse,
   GetAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetAccountSettingsRequest,
-  output: GetAccountSettingsResponse,
+  input: __S(256, __c32, 0) as any as S.Schema<GetAccountSettingsRequest>,
+  output: __S(266, __c33, 2) as any as S.Schema<GetAccountSettingsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  telemetry: TELEMETRY,
+  span: "GetAccountSettings",
 }));
 
 export type GetIndexError =
@@ -2877,21 +1885,67 @@ export type GetIndexError =
  * Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIndexRequest,
-  output: GetIndexResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(272, __c34, 0) as any as S.Schema<GetIndexRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<GetIndexResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
+}));
+
+export type GetIngestionJobError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about an ingestion job, including its configuration, status, and processing state.
+ */
+export const getIngestionJob: API.OperationMethod<
+  GetIngestionJobRequest & RegionInput,
+  GetIngestionJobResponse,
+  GetIngestionJobError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(280, __c35, 0) as any as S.Schema<GetIngestionJobRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<GetIngestionJobResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetIngestionJob",
+  telemetry: TELEMETRY,
+  span: "GetIngestionJob",
+}));
+
+export type GetIngestionStreamError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about an ingestion stream, including its configuration, status, and processing state.
+ */
+export const getIngestionStream: API.OperationMethod<
+  GetIngestionStreamRequest & RegionInput,
+  GetIngestionStreamResponse,
+  GetIngestionStreamError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c36, 0) as any as S.Schema<GetIngestionStreamRequest>,
+  output: __S(109, __c13, 5) as any as S.Schema<GetIngestionStreamResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetIngestionStream",
+  telemetry: TELEMETRY,
+  span: "GetIngestionStream",
 }));
 
 export type GetPoliciesStatsError = InternalServerException | CommonErrors;
@@ -2899,17 +1953,19 @@ export type GetPoliciesStatsError = InternalServerException | CommonErrors;
  * Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
  */
 export const getPoliciesStats: API.OperationMethod<
-  GetPoliciesStatsRequest,
+  GetPoliciesStatsRequest & RegionInput,
   GetPoliciesStatsResponse,
   GetPoliciesStatsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetPoliciesStatsRequest,
-  output: GetPoliciesStatsResponse,
+  input: __S(296, __c37, 0) as any as S.Schema<GetPoliciesStatsRequest>,
+  output: __S(301, __c37, 5) as any as S.Schema<GetPoliciesStatsResponse>,
   errors: [InternalServerException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPoliciesStats",
+  telemetry: TELEMETRY,
+  span: "GetPoliciesStats",
 }));
 
 export type GetSecurityConfigError =
@@ -2921,21 +1977,19 @@ export type GetSecurityConfigError =
  * Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const getSecurityConfig: API.OperationMethod<
-  GetSecurityConfigRequest,
+  GetSecurityConfigRequest & RegionInput,
   GetSecurityConfigResponse,
   GetSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSecurityConfigRequest,
-  output: GetSecurityConfigResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(304, __c38, 0) as any as S.Schema<GetSecurityConfigRequest>,
+  output: __S(140, __c17, 4) as any as S.Schema<GetSecurityConfigResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "GetSecurityConfig",
 }));
 
 export type GetSecurityPolicyError =
@@ -2947,44 +2001,41 @@ export type GetSecurityPolicyError =
  * Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const getSecurityPolicy: API.OperationMethod<
-  GetSecurityPolicyRequest,
+  GetSecurityPolicyRequest & RegionInput,
   GetSecurityPolicyResponse,
   GetSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetSecurityPolicyRequest,
-  output: GetSecurityPolicyResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(312, __c39, 0) as any as S.Schema<GetSecurityPolicyRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<GetSecurityPolicyResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "GetSecurityPolicy",
 }));
 
-export type ListAccessPoliciesError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListAccessPoliciesError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns information about a list of OpenSearch Serverless access policies.
  */
 export const listAccessPolicies: API.PaginatedOperationMethod<
-  ListAccessPoliciesRequest,
+  ListAccessPoliciesRequest & RegionInput,
   ListAccessPoliciesResponse,
   ListAccessPoliciesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListAccessPoliciesRequest,
-  output: ListAccessPoliciesResponse,
+  input: __S(320, __c40, 0) as any as S.Schema<ListAccessPoliciesRequest>,
+  output: __S(321, __c40, 1) as any as S.Schema<ListAccessPoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessPolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListAccessPolicies",
 })) as any;
 
 export type ListCollectionGroupsError =
@@ -2995,44 +2046,105 @@ export type ListCollectionGroupsError =
  * Returns a list of collection groups. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
 export const listCollectionGroups: API.PaginatedOperationMethod<
-  ListCollectionGroupsRequest,
+  ListCollectionGroupsRequest & RegionInput,
   ListCollectionGroupsResponse,
   ListCollectionGroupsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCollectionGroupsRequest,
-  output: ListCollectionGroupsResponse,
+  input: __S(336, __c42, 0) as any as S.Schema<ListCollectionGroupsRequest>,
+  output: __S(339, __c42, 3) as any as S.Schema<ListCollectionGroupsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCollectionGroups",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollectionGroups",
 })) as any;
 
-export type ListCollectionsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListCollectionsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists all OpenSearch Serverless collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  *
  * Make sure to include an empty request body {} if you don't include any collection filters in the request.
  */
 export const listCollections: API.PaginatedOperationMethod<
-  ListCollectionsRequest,
+  ListCollectionsRequest & RegionInput,
   ListCollectionsResponse,
   ListCollectionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListCollectionsRequest,
-  output: ListCollectionsResponse,
+  input: __S(345, __c43, 1) as any as S.Schema<ListCollectionsRequest>,
+  output: __S(348, __c43, 4) as any as S.Schema<ListCollectionsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCollections",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListCollections",
+})) as any;
+
+export type ListIngestionJobsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a list of ingestion jobs in a collection.
+ */
+export const listIngestionJobs: API.PaginatedOperationMethod<
+  ListIngestionJobsRequest & RegionInput,
+  ListIngestionJobsResponse,
+  ListIngestionJobsError,
+  Credentials | HttpClient.HttpClient,
+  IngestionJobSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(352, __c44, 0) as any as S.Schema<ListIngestionJobsRequest>,
+  output: __S(355, __c44, 3) as any as S.Schema<ListIngestionJobsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIngestionJobs",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ingestionJobSummaries",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestionJobs",
+})) as any;
+
+export type ListIngestionStreamsError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns a list of ingestion streams in a collection.
+ */
+export const listIngestionStreams: API.PaginatedOperationMethod<
+  ListIngestionStreamsRequest & RegionInput,
+  ListIngestionStreamsResponse,
+  ListIngestionStreamsError,
+  Credentials | HttpClient.HttpClient,
+  IngestionStreamSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(360, __c45, 0) as any as S.Schema<ListIngestionStreamsRequest>,
+  output: __S(363, __c45, 3) as any as S.Schema<ListIngestionStreamsResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListIngestionStreams",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "ingestionStreamSummaries",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListIngestionStreams",
 })) as any;
 
 export type ListLifecyclePoliciesError =
@@ -3043,42 +2155,43 @@ export type ListLifecyclePoliciesError =
  * Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
 export const listLifecyclePolicies: API.PaginatedOperationMethod<
-  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesRequest & RegionInput,
   ListLifecyclePoliciesResponse,
   ListLifecyclePoliciesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListLifecyclePoliciesRequest,
-  output: ListLifecyclePoliciesResponse,
+  input: __S(368, __c46, 0) as any as S.Schema<ListLifecyclePoliciesRequest>,
+  output: __S(369, __c46, 1) as any as S.Schema<ListLifecyclePoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLifecyclePolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListLifecyclePolicies",
 })) as any;
 
-export type ListSecurityConfigsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListSecurityConfigsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const listSecurityConfigs: API.PaginatedOperationMethod<
-  ListSecurityConfigsRequest,
+  ListSecurityConfigsRequest & RegionInput,
   ListSecurityConfigsResponse,
   ListSecurityConfigsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSecurityConfigsRequest,
-  output: ListSecurityConfigsResponse,
+  input: __S(376, __c47, 0) as any as S.Schema<ListSecurityConfigsRequest>,
+  output: __S(379, __c47, 3) as any as S.Schema<ListSecurityConfigsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSecurityConfigs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityConfigs",
 })) as any;
 
 export type ListSecurityPoliciesError =
@@ -3089,19 +2202,21 @@ export type ListSecurityPoliciesError =
  * Returns information about configured OpenSearch Serverless security policies.
  */
 export const listSecurityPolicies: API.PaginatedOperationMethod<
-  ListSecurityPoliciesRequest,
+  ListSecurityPoliciesRequest & RegionInput,
   ListSecurityPoliciesResponse,
   ListSecurityPoliciesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListSecurityPoliciesRequest,
-  output: ListSecurityPoliciesResponse,
+  input: __S(384, __c48, 0) as any as S.Schema<ListSecurityPoliciesRequest>,
+  output: __S(385, __c48, 1) as any as S.Schema<ListSecurityPoliciesResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSecurityPolicies",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListSecurityPolicies",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -3113,44 +2228,41 @@ export type ListTagsForResourceError =
  * Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsForResourceRequest,
-  output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(392, __c49, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(393, __c49, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
 }));
 
-export type ListVpcEndpointsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListVpcEndpointsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const listVpcEndpoints: API.PaginatedOperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVpcEndpointsRequest,
-  output: ListVpcEndpointsResponse,
+  input: __S(401, __c50, 1) as any as S.Schema<ListVpcEndpointsRequest>,
+  output: __S(403, __c50, 3) as any as S.Schema<ListVpcEndpointsResponse>,
   errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpoints",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpoints",
 })) as any;
 
 export type TagResourceError =
@@ -3164,13 +2276,13 @@ export type TagResourceError =
  * Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(408, __c51, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3181,6 +2293,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -3193,13 +2307,13 @@ export type UntagResourceError =
  * Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(416, __c52, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3209,6 +2323,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateAccessPolicyError =
@@ -3221,13 +2337,13 @@ export type UpdateAccessPolicyError =
  * Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
 export const updateAccessPolicy: API.OperationMethod<
-  UpdateAccessPolicyRequest,
+  UpdateAccessPolicyRequest & RegionInput,
   UpdateAccessPolicyResponse,
   UpdateAccessPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccessPolicyRequest,
-  output: UpdateAccessPolicyResponse,
+  input: __S(424, __c53, 0) as any as S.Schema<UpdateAccessPolicyRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<UpdateAccessPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3237,6 +2353,8 @@ export const updateAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateAccessPolicy",
 }));
 
 export type UpdateAccountSettingsError =
@@ -3248,21 +2366,19 @@ export type UpdateAccountSettingsError =
  * Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Managing capacity limits for Amazon OpenSearch Serverless.
  */
 export const updateAccountSettings: API.OperationMethod<
-  UpdateAccountSettingsRequest,
+  UpdateAccountSettingsRequest & RegionInput,
   UpdateAccountSettingsResponse,
   UpdateAccountSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateAccountSettingsRequest,
-  output: UpdateAccountSettingsResponse,
-  errors: [
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
+  input: __S(432, __c54, 0) as any as S.Schema<UpdateAccountSettingsRequest>,
+  output: __S(266, __c33, 2) as any as S.Schema<UpdateAccountSettingsResponse>,
+  errors: [InternalServerException, ServiceQuotaExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  telemetry: TELEMETRY,
+  span: "UpdateAccountSettings",
 }));
 
 export type UpdateCollectionError =
@@ -3274,17 +2390,19 @@ export type UpdateCollectionError =
  * Updates an OpenSearch Serverless collection.
  */
 export const updateCollection: API.OperationMethod<
-  UpdateCollectionRequest,
+  UpdateCollectionRequest & RegionInput,
   UpdateCollectionResponse,
   UpdateCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCollectionRequest,
-  output: UpdateCollectionResponse,
+  input: __S(440, __c55, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(442, __c55, 2) as any as S.Schema<UpdateCollectionResponse>,
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollection",
+  telemetry: TELEMETRY,
+  span: "UpdateCollection",
 }));
 
 export type UpdateCollectionGroupError =
@@ -3297,13 +2415,13 @@ export type UpdateCollectionGroupError =
  * Updates the description and capacity limits of a collection group.
  */
 export const updateCollectionGroup: API.OperationMethod<
-  UpdateCollectionGroupRequest,
+  UpdateCollectionGroupRequest & RegionInput,
   UpdateCollectionGroupResponse,
   UpdateCollectionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateCollectionGroupRequest,
-  output: UpdateCollectionGroupResponse,
+  input: __S(448, __c56, 0) as any as S.Schema<UpdateCollectionGroupRequest>,
+  output: __S(450, __c56, 2) as any as S.Schema<UpdateCollectionGroupResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3313,6 +2431,8 @@ export const updateCollectionGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollectionGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateCollectionGroup",
 }));
 
 export type UpdateIndexError =
@@ -3324,21 +2444,19 @@ export type UpdateIndexError =
  * Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIndexRequest,
-  output: UpdateIndexResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(456, __c57, 0) as any as S.Schema<UpdateIndexRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<UpdateIndexResponse>,
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdateLifecyclePolicyError =
@@ -3352,13 +2470,13 @@ export type UpdateLifecyclePolicyError =
  * Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies.
  */
 export const updateLifecyclePolicy: API.OperationMethod<
-  UpdateLifecyclePolicyRequest,
+  UpdateLifecyclePolicyRequest & RegionInput,
   UpdateLifecyclePolicyResponse,
   UpdateLifecyclePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateLifecyclePolicyRequest,
-  output: UpdateLifecyclePolicyResponse,
+  input: __S(464, __c58, 0) as any as S.Schema<UpdateLifecyclePolicyRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<UpdateLifecyclePolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3369,6 +2487,8 @@ export const updateLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLifecyclePolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateLifecyclePolicy",
 }));
 
 export type UpdateSecurityConfigError =
@@ -3381,13 +2501,13 @@ export type UpdateSecurityConfigError =
  * Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
 export const updateSecurityConfig: API.OperationMethod<
-  UpdateSecurityConfigRequest,
+  UpdateSecurityConfigRequest & RegionInput,
   UpdateSecurityConfigResponse,
   UpdateSecurityConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSecurityConfigRequest,
-  output: UpdateSecurityConfigResponse,
+  input: __S(473, __c59, 1) as any as S.Schema<UpdateSecurityConfigRequest>,
+  output: __S(140, __c17, 4) as any as S.Schema<UpdateSecurityConfigResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3397,6 +2517,8 @@ export const updateSecurityConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityConfig",
 }));
 
 export type UpdateSecurityPolicyError =
@@ -3410,13 +2532,13 @@ export type UpdateSecurityPolicyError =
  * Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
 export const updateSecurityPolicy: API.OperationMethod<
-  UpdateSecurityPolicyRequest,
+  UpdateSecurityPolicyRequest & RegionInput,
   UpdateSecurityPolicyResponse,
   UpdateSecurityPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSecurityPolicyRequest,
-  output: UpdateSecurityPolicyResponse,
+  input: __S(480, __c60, 0) as any as S.Schema<UpdateSecurityPolicyRequest>,
+  output: __S(152, __c19, 0) as any as S.Schema<UpdateSecurityPolicyResponse>,
   errors: [
     ConflictException,
     InternalServerException,
@@ -3427,6 +2549,8 @@ export const updateSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityPolicy",
+  telemetry: TELEMETRY,
+  span: "UpdateSecurityPolicy",
 }));
 
 export type UpdateVpcEndpointError =
@@ -3438,15 +2562,1488 @@ export type UpdateVpcEndpointError =
  * Updates an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateVpcEndpointRequest,
-  output: UpdateVpcEndpointResponse,
+  input: __S(488, __c61, 0) as any as S.Schema<UpdateVpcEndpointRequest>,
+  output: __S(490, __c61, 2) as any as S.Schema<UpdateVpcEndpointResponse>,
   errors: [ConflictException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcEndpoint",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ids: __S(520, __c65, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchGetVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          vpcId: S.optional(S.String),
+          subnetIds: S.optional(__S(520, __c65, 0)),
+          securityGroupIds: S.optional(__S(520, __c65, 0)),
+          status: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          failureCode: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcEndpointDetail" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcEndpointErrorDetail" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          vpcEndpointDetails: S.optional(__S(2, __c0, 2)),
+          vpcEndpointErrorDetails: S.optional(__S(4, __c0, 4)),
+        }),
+      ).annotate({ identifier: "BatchGetVpcEndpointResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          ingestionJobId: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CancelIngestionJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobId: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionJobName: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelIngestionJobResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          policy: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAccessPolicyRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accessPolicyDetail: S.optional(__S(568, __c71, 0)) }),
+      ).annotate({ identifier: "CreateAccessPolicyResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          tags: S.optional(__S(537, __c67, 1)),
+          standbyReplicas: S.optional(S.String),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
+          collectionGroupName: S.optional(S.String),
+          encryptionConfig: S.optional(__S(40, __c5, 0)),
+          deletionProtection: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCollectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          arn: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          deletionProtection: S.optional(S.String),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCollectionDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ createCollectionDetail: S.optional(__S(33, __c4, 1)) }),
+      ).annotate({ identifier: "CreateCollectionResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ aWSOwnedKey: S.optional(S.Boolean), kmsKeyArn: S.optional(S.String) }),
+      ).annotate({ identifier: "EncryptionConfig" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          standbyReplicas: S.String,
+          description: S.optional(S.String),
+          tags: S.optional(__S(537, __c67, 1)),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
+          generation: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateCollectionGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          description: S.optional(S.String),
+          tags: S.optional(__S(537, __c67, 1)),
+          createdDate: S.optional(S.Number),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCollectionGroupDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ createCollectionGroupDetail: S.optional(__S(49, __c6, 1)) }),
+      ).annotate({ identifier: "CreateCollectionGroupResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String, indexSchema: S.optional(S.Any) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateIndexRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateIndexResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          ingestionJobName: S.String,
+          indexName: S.String,
+          failureIndexName: S.optional(S.String),
+          source: __S(89, __c11, 1),
+          tags: S.optional(__S(537, __c67, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateIngestionJobRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          objectsDiscovered: S.optional(S.Number),
+          objectsIngested: S.optional(S.Number),
+          objectsFailed: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "S3Statistics" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: S.optional(__S(80, __c10, 0)) })).annotate({
+        identifier: "IngestionStatistics",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "IngestionFailureReason" });
+    case 3:
+      return S.Array(__S(82, __c10, 2));
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.optional(S.String),
+          bucketOwnerAccountId: S.optional(S.String),
+          keyPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IngestionJobS3Source" });
+    case 1:
+      return S.suspend(() => S.Struct({ s3: __S(88, __c11, 0) })).annotate({
+        identifier: "IngestionJobSource",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobId: S.optional(S.String),
+          arn: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionJobName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          failureIndexName: S.optional(S.String),
+          source: S.optional(__S(89, __c11, 1)),
+          status: S.optional(S.String),
+          state: S.optional(S.String),
+          statistics: S.optional(__S(81, __c10, 1)),
+          revision: S.optional(S.Number),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          failureReasons: S.optional(__S(83, __c10, 3)),
+          activeAlerts: S.optional(__S(83, __c10, 3)),
+        }),
+      ).annotate({ identifier: "IngestionJobDetail" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ingestionJobDetail: S.optional(__S(90, __c11, 2)) }),
+      ).annotate({ identifier: "CreateIngestionJobResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          ingestionStreamName: S.String,
+          indexName: S.String,
+          failureIndexName: S.optional(S.String),
+          source: __S(107, __c13, 3),
+          roleArn: S.String,
+          tags: S.optional(__S(537, __c67, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateIngestionStreamRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          bucket: S.String,
+          bucketOwnerAccountId: S.optional(S.String),
+          initialScan: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamBucketConfig" });
+    case 1:
+      return S.Array(__S(104, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ sqsArn: S.String, buckets: S.optional(__S(105, __c13, 1)) }),
+      ).annotate({ identifier: "IngestionStreamS3Source" });
+    case 3:
+      return S.suspend(() => S.Struct({ s3: __S(106, __c13, 2) })).annotate({
+        identifier: "IngestionStreamSource",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamId: S.optional(S.String),
+          arn: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionStreamName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          failureIndexName: S.optional(S.String),
+          source: S.optional(__S(107, __c13, 3)),
+          roleArn: S.optional(S.String),
+          status: S.optional(S.String),
+          state: S.optional(S.String),
+          statistics: S.optional(__S(81, __c10, 1)),
+          revision: S.optional(S.Number),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          failureReasons: S.optional(__S(83, __c10, 3)),
+          activeAlerts: S.optional(__S(83, __c10, 3)),
+        }),
+      ).annotate({ identifier: "IngestionStreamDetail" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ ingestionStreamDetail: S.optional(__S(108, __c13, 4)) }),
+      ).annotate({ identifier: "CreateIngestionStreamResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          policy: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateLifecyclePolicyRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ lifecyclePolicyDetail: S.optional(__S(568, __c71, 0)) }),
+      ).annotate({ identifier: "CreateLifecyclePolicyResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          instanceArn: S.String,
+          userAttribute: S.optional(S.String),
+          groupAttribute: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateIamIdentityCenterConfigOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          samlOptions: S.optional(__S(136, __c17, 0)),
+          iamIdentityCenterOptions: S.optional(__S(128, __c16, 0)),
+          iamFederationOptions: S.optional(__S(137, __c17, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSecurityConfigRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          metadata: S.String,
+          userAttribute: S.optional(S.String),
+          groupAttribute: S.optional(S.String),
+          openSearchServerlessEntityId: S.optional(S.String),
+          sessionTimeout: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SamlConfigOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ groupAttribute: S.optional(S.String), userAttribute: S.optional(S.String) }),
+      ).annotate({ identifier: "IamFederationConfigOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          instanceArn: S.optional(S.String),
+          applicationArn: S.optional(S.String),
+          applicationName: S.optional(S.String),
+          applicationDescription: S.optional(S.String),
+          userAttribute: S.optional(S.String),
+          groupAttribute: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IamIdentityCenterConfigOptions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          configVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          samlOptions: S.optional(__S(136, __c17, 0)),
+          iamIdentityCenterOptions: S.optional(__S(138, __c17, 2)),
+          iamFederationOptions: S.optional(__S(137, __c17, 1)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SecurityConfigDetail" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ securityConfigDetail: S.optional(__S(139, __c17, 3)) }),
+      ).annotate({ identifier: "CreateSecurityConfigResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          description: S.optional(S.String),
+          policy: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSecurityPolicyRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ securityPolicyDetail: S.optional(__S(568, __c71, 0)) }),
+      ).annotate({ identifier: "CreateSecurityPolicyResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          vpcId: S.String,
+          subnetIds: __S(520, __c65, 0),
+          securityGroupIds: S.optional(__S(520, __c65, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ createVpcEndpointDetail: S.optional(__S(168, __c21, 0)) }),
+      ).annotate({ identifier: "CreateVpcEndpointResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateVpcEndpointDetail" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteAccessPolicyRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteCollectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          deletionProtection: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteCollectionDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ deleteCollectionDetail: S.optional(__S(185, __c23, 1)) }),
+      ).annotate({ identifier: "DeleteCollectionResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteCollectionGroupRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteIndexRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          ingestionStreamId: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteIngestionStreamRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamId: S.optional(S.String),
+          collectionId: S.optional(S.String),
+          ingestionStreamName: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteIngestionStreamResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteLifecyclePolicyRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSecurityConfigRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteSecurityPolicyRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ deleteVpcEndpointDetail: S.optional(__S(168, __c21, 0)) }),
+      ).annotate({ identifier: "DeleteVpcEndpointResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ type: S.String, name: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccessPolicyRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetAccountSettingsRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxIndexingCapacityInOCU: S.optional(S.Number),
+          maxSearchCapacityInOCU: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CapacityLimits" });
+    case 1:
+      return S.suspend(() => S.Struct({ capacityLimits: S.optional(__S(264, __c33, 0)) })).annotate(
+        { identifier: "AccountSettingsDetail" },
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ accountSettingsDetail: S.optional(__S(265, __c33, 1)) }),
+      ).annotate({ identifier: "GetAccountSettingsResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIndexRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ indexSchema: S.optional(S.Any) })).annotate({
+        identifier: "GetIndexResponse",
+      });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ collectionId: S.String, ingestionJobId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIngestionJobRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ collectionId: S.String, ingestionStreamId: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetIngestionStreamRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetPoliciesStatsRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ DataPolicyCount: S.optional(S.Number) })).annotate({
+        identifier: "AccessPolicyStats",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          EncryptionPolicyCount: S.optional(S.Number),
+          NetworkPolicyCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SecurityPolicyStats" });
+    case 3:
+      return S.suspend(() => S.Struct({ SamlConfigCount: S.optional(S.Number) })).annotate({
+        identifier: "SecurityConfigStats",
+      });
+    case 4:
+      return S.suspend(() => S.Struct({ RetentionPolicyCount: S.optional(S.Number) })).annotate({
+        identifier: "LifecyclePolicyStats",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          AccessPolicyStats: S.optional(__S(297, __c37, 1)),
+          SecurityPolicyStats: S.optional(__S(298, __c37, 2)),
+          SecurityConfigStats: S.optional(__S(299, __c37, 3)),
+          LifecyclePolicyStats: S.optional(__S(300, __c37, 4)),
+          TotalPolicyCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetPoliciesStatsResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetSecurityConfigRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ type: S.String, name: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetSecurityPolicyRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          resource: S.optional(__S(520, __c65, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListAccessPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accessPolicySummaries: S.optional(__S(329, __c41, 1)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAccessPoliciesResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          policyVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AccessPolicySummary" });
+    case 1:
+      return S.Array(__S(328, __c41, 0));
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListCollectionGroupsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          numberOfCollections: S.optional(S.Number),
+          createdDate: S.optional(S.Number),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionGroupSummary" });
+    case 2:
+      return S.Array(__S(337, __c42, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          collectionGroupSummaries: S.optional(__S(338, __c42, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListCollectionGroupsResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionFilters" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          collectionFilters: S.optional(__S(344, __c43, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListCollectionsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          arn: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionSummary" });
+    case 3:
+      return S.Array(__S(346, __c43, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          collectionSummaries: S.optional(__S(347, __c43, 3)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListCollectionsResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListIngestionJobsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobId: S.optional(S.String),
+          arn: S.optional(S.String),
+          ingestionJobName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          status: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "IngestionJobSummary" });
+    case 2:
+      return S.Array(__S(353, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionJobSummaries: S.optional(__S(354, __c44, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListIngestionJobsResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collectionId: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListIngestionStreamsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamId: S.optional(S.String),
+          arn: S.optional(S.String),
+          ingestionStreamName: S.optional(S.String),
+          indexName: S.optional(S.String),
+          status: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "IngestionStreamSummary" });
+    case 2:
+      return S.Array(__S(361, __c45, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ingestionStreamSummaries: S.optional(__S(362, __c45, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListIngestionStreamsResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          resources: S.optional(__S(520, __c65, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListLifecyclePoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          lifecyclePolicySummaries: S.optional(__S(329, __c41, 1)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListLifecyclePoliciesResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSecurityConfigsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          configVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SecurityConfigSummary" });
+    case 2:
+      return S.Array(__S(377, __c47, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          securityConfigSummaries: S.optional(__S(378, __c47, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSecurityConfigsResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          resource: S.optional(__S(520, __c65, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListSecurityPoliciesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          securityPolicySummaries: S.optional(__S(329, __c41, 1)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListSecurityPoliciesResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(537, __c67, 1)) })).annotate({
+        identifier: "ListTagsForResourceResponse",
+      });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ status: S.optional(S.String) })).annotate({
+        identifier: "VpcEndpointFilters",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          vpcEndpointFilters: S.optional(__S(400, __c50, 0)),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListVpcEndpointsRequest" });
+    case 2:
+      return S.Array(__S(168, __c21, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          vpcEndpointSummaries: S.optional(__S(402, __c50, 2)),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListVpcEndpointsResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tags: __S(537, __c67, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceArn: S.String, tagKeys: __S(520, __c65, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          policyVersion: S.String,
+          description: S.optional(S.String),
+          policy: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateAccessPolicyRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ capacityLimits: S.optional(__S(264, __c33, 0)) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateAccountSettingsRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          description: S.optional(S.String),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
+          deletionProtection: S.optional(S.String),
+          encryptionConfig: S.optional(__S(40, __c5, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCollectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
+          kmsKeyArn: S.optional(S.String),
+          arn: S.optional(S.String),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          deletionProtection: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateCollectionDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ updateCollectionDetail: S.optional(__S(441, __c55, 1)) }),
+      ).annotate({ identifier: "UpdateCollectionResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          description: S.optional(S.String),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateCollectionGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateCollectionGroupDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ updateCollectionGroupDetail: S.optional(__S(449, __c56, 1)) }),
+      ).annotate({ identifier: "UpdateCollectionGroupResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String, indexName: S.String, indexSchema: S.optional(S.Any) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateIndexRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          policyVersion: S.String,
+          description: S.optional(S.String),
+          policy: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateLifecyclePolicyRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ userAttribute: S.optional(S.String), groupAttribute: S.optional(S.String) }),
+      ).annotate({ identifier: "UpdateIamIdentityCenterConfigOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          configVersion: S.String,
+          description: S.optional(S.String),
+          samlOptions: S.optional(__S(136, __c17, 0)),
+          iamIdentityCenterOptionsUpdates: S.optional(__S(472, __c59, 0)),
+          iamFederationOptions: S.optional(__S(137, __c17, 1)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSecurityConfigRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          name: S.String,
+          policyVersion: S.String,
+          description: S.optional(S.String),
+          policy: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSecurityPolicyRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          addSubnetIds: S.optional(__S(520, __c65, 0)),
+          removeSubnetIds: S.optional(__S(520, __c65, 0)),
+          addSecurityGroupIds: S.optional(__S(520, __c65, 0)),
+          removeSecurityGroupIds: S.optional(__S(520, __c65, 0)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          subnetIds: S.optional(__S(520, __c65, 0)),
+          securityGroupIds: S.optional(__S(520, __c65, 0)),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UpdateVpcEndpointDetail" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ UpdateVpcEndpointDetail: S.optional(__S(489, __c61, 1)) }),
+      ).annotate({ identifier: "UpdateVpcEndpointResponse" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ids: S.optional(__S(520, __c65, 0)),
+          names: S.optional(__S(520, __c65, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchGetCollectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          collectionEndpoint: S.optional(S.String),
+          dashboardEndpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FipsEndpoints" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          description: S.optional(S.String),
+          arn: S.optional(S.String),
+          kmsKeyArn: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          deletionProtection: S.optional(S.String),
+          vectorOptions: S.optional(__S(504, __c63, 0)),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+          collectionEndpoint: S.optional(S.String),
+          dashboardEndpoint: S.optional(S.String),
+          fipsEndpoints: S.optional(__S(497, __c62, 1)),
+          failureCode: S.optional(S.String),
+          failureMessage: S.optional(S.String),
+          collectionGroupName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionDetail" });
+    case 3:
+      return S.Array(__S(498, __c62, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          collectionDetails: S.optional(__S(499, __c62, 3)),
+          collectionErrorDetails: S.optional(__S(513, __c64, 1)),
+        }),
+      ).annotate({ identifier: "BatchGetCollectionResponse" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ServerlessVectorAcceleration: S.String })).annotate({
+        identifier: "VectorOptions",
+      });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionErrorDetail" });
+    case 1:
+      return S.Array(__S(512, __c64, 0));
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ids: S.optional(__S(520, __c65, 0)),
+          names: S.optional(__S(520, __c65, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchGetCollectionGroupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ capacityInOcu: S.optional(S.Number), autoscalingStatus: S.optional(S.String) }),
+      ).annotate({ identifier: "CapacityDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          search: S.optional(__S(529, __c66, 1)),
+          indexing: S.optional(__S(529, __c66, 1)),
+        }),
+      ).annotate({ identifier: "CurrentCapacity" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          standbyReplicas: S.optional(S.String),
+          description: S.optional(S.String),
+          tags: S.optional(__S(537, __c67, 1)),
+          createdDate: S.optional(S.Number),
+          capacityLimits: S.optional(__S(544, __c68, 0)),
+          currentCapacity: S.optional(__S(530, __c66, 2)),
+          numberOfCollections: S.optional(S.Number),
+          generation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CollectionGroupDetail" });
+    case 4:
+      return S.Array(__S(531, __c66, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          collectionGroupDetails: S.optional(__S(532, __c66, 4)),
+          collectionGroupErrorDetails: S.optional(__S(513, __c64, 1)),
+        }),
+      ).annotate({ identifier: "BatchGetCollectionGroupResponse" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(536, __c67, 0));
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxIndexingCapacityInOCU: S.optional(S.Number),
+          maxSearchCapacityInOCU: S.optional(S.Number),
+          minIndexingCapacityInOCU: S.optional(S.Number),
+          minSearchCapacityInOCU: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CollectionGroupCapacityLimits" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ type: S.String, resource: S.String })).annotate({
+        identifier: "LifecyclePolicyResourceIdentifier",
+      });
+    case 1:
+      return S.Array(__S(552, __c69, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ resourceIdentifiers: __S(553, __c69, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchGetEffectiveLifecyclePolicyRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          resource: S.optional(S.String),
+          policyName: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          retentionPeriod: S.optional(S.String),
+          noMinRetentionPeriod: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EffectiveLifecyclePolicyDetail" });
+    case 4:
+      return S.Array(__S(555, __c69, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          resource: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EffectiveLifecyclePolicyErrorDetail" });
+    case 6:
+      return S.Array(__S(557, __c69, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          effectiveLifecyclePolicyDetails: S.optional(__S(556, __c69, 4)),
+          effectiveLifecyclePolicyErrorDetails: S.optional(__S(558, __c69, 6)),
+        }),
+      ).annotate({ identifier: "BatchGetEffectiveLifecyclePolicyResponse" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ type: S.String, name: S.String })).annotate({
+        identifier: "LifecyclePolicyIdentifier",
+      });
+    case 1:
+      return S.Array(__S(560, __c70, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ identifiers: __S(561, __c70, 1) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "BatchGetLifecyclePolicyRequest" });
+    case 3:
+      return S.Array(__S(568, __c71, 0));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          errorMessage: S.optional(S.String),
+          errorCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LifecyclePolicyErrorDetail" });
+    case 5:
+      return S.Array(__S(564, __c70, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          lifecyclePolicyDetails: S.optional(__S(563, __c70, 3)),
+          lifecyclePolicyErrorDetails: S.optional(__S(565, __c70, 5)),
+        }),
+      ).annotate({ identifier: "BatchGetLifecyclePolicyResponse" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          policyVersion: S.optional(S.String),
+          description: S.optional(S.String),
+          policy: S.optional(S.Any),
+          createdDate: S.optional(S.Number),
+          lastModifiedDate: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LifecyclePolicyDetail" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

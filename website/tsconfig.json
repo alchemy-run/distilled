@@ -4,7 +4,7 @@
     "module": "Preserve",
     "moduleResolution": "Bundler",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "types": ["@solidjs/start/env", "bun"],
+    "types": ["@solidjs/start/env", "node"],
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
     "allowJs": true,

@@ -1,0 +1,68 @@
+{
+  "description": "Type the 403 every firewall-policy call returns on projects without access to the reCAPTCHA firewall policy API (\"The firewall policy API is not provided by this environment.\"). It surfaced as a generic Forbidden.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The project has no access to the reCAPTCHA firewall policy API (HTTP 403: \"The firewall policy API is not provided by this environment.\"). Not retryable; request access per the firewall policy documentation.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "firewall policy API is not provided"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#CreateProjectsFirewallpolicies/errors/-",
+      "value": {
+        "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#PatchProjectsFirewallpolicies/errors/-",
+      "value": {
+        "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#DeleteProjectsFirewallpolicies/errors/-",
+      "value": {
+        "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ListProjectsFirewallpolicies/errors/-",
+      "value": {
+        "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ReorderProjectsFirewallpolicies/errors/-",
+      "value": {
+        "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#GetProjectsFirewallpolicies/errors/-",
+      "value": {
+        "target": "com.gcp.recaptchaenterprise_v1#FirewallPolicyApiUnavailable"
+      }
+    }
+  ]
+}

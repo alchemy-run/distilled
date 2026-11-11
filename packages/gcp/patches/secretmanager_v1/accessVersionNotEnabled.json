@@ -1,0 +1,46 @@
+{
+  "description": "Type accessing a DISABLED/DESTROYED secret version (HTTP 400 FAILED_PRECONDITION). It surfaced as an out-of-union BadRequest, so callers could not distinguish a disabled version from a malformed request.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#SecretVersionNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The secret version is DISABLED or DESTROYED, so its payload cannot be accessed (HTTP 400 FAILED_PRECONDITION: 'Secret Version [...] is in DISABLED state.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "is in DISABLED state"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "is in DESTROYED state"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#AccessProjectsLocationsSecretsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.secretmanager_v1#SecretVersionNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#AccessProjectsSecretsVersions/errors/-",
+      "value": {
+        "target": "com.gcp.secretmanager_v1#SecretVersionNotEnabled"
+      }
+    }
+  ]
+}

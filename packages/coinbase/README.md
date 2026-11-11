@@ -12,7 +12,7 @@ npm install @distilled.cloud/coinbase effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Coinbase from "@distilled.cloud/coinbase";
 
 const program = Effect.gen(function* () {

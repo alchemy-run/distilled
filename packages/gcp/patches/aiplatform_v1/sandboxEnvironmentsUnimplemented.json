@@ -1,0 +1,191 @@
+{
+  "description": "Type Agent Engine sandbox environments' HTTP 501 UNIMPLEMENTED ('Operation is not implemented, or supported, or enabled.'). Sandbox environment templates are not enabled for most projects; the 501 fell outside HTTP_STATUS_MAP and surfaced as UnknownGCPError, which the default policy retried as a server error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 501,
+          "smithy.api#documentation": "Agent Engine sandbox environments are not enabled for this project or region (HTTP 501 UNIMPLEMENTED: 'Operation is not implemented, or supported, or enabled.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 501
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AuthorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AuthorizeAccessReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExecuteProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExecuteReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListReasoningEnginesSandboxEnvironmentTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PauseProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PauseReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ResumeProjectsLocationsReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ResumeReasoningEnginesSandboxEnvironments/errors/-",
+      "value": {
+        "target": "com.gcp.aiplatform_v1#SandboxEnvironmentsNotEnabled"
+      }
+    }
+  ]
+}

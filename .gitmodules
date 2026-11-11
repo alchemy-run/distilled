@@ -353,6 +353,11 @@
 	url = https://github.com/distilled-mirror/spec-mirror-modrinth.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/slack/specs/spec-mirror-slack"]
+	path = packages/slack/specs/spec-mirror-slack
+	url = https://github.com/distilled-mirror/spec-mirror-slack.git
+	ignore = dirty
+	shallow = true
 [submodule "packages/spacetimedb/specs/spec-mirror-spacetimedb"]
 	path = packages/spacetimedb/specs/spec-mirror-spacetimedb
 	url = https://github.com/distilled-mirror/spec-mirror-spacetimedb.git
@@ -406,6 +411,91 @@
 [submodule "packages/boat-dev/specs/spec-mirror-boat-dev"]
 	path = packages/boat-dev/specs/spec-mirror-boat-dev
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/iceberg/specs/spec-mirror-iceberg"]
+	path = packages/iceberg/specs/spec-mirror-iceberg
+	url = https://github.com/distilled-mirror/spec-mirror-iceberg.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/zerossl/specs/spec-mirror-zerossl"]
+path = packages/zerossl/specs/spec-mirror-zerossl
+url = https://github.com/distilled-mirror/spec-mirror-zerossl.git
+ignore = dirty
+shallow = true
+[submodule "packages/acme/specs/spec-mirror-acme"]
+path = packages/acme/specs/spec-mirror-acme
+url = https://github.com/distilled-mirror/spec-mirror-acme.git
+ignore = dirty
+shallow = true
+[submodule "packages/notion/specs/spec-mirror-notion"]
+	path = packages/notion/specs/spec-mirror-notion
+	url = https://github.com/distilled-mirror/spec-mirror-notion.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/celld/specs/spec-mirror-celld"]
+path = packages/celld/specs/spec-mirror-celld
+url = https://github.com/distilled-mirror/spec-mirror-celld.git
+ignore = dirty
+shallow = true
+[submodule "packages/rivet/specs/spec-mirror-rivet"]
+	path = packages/rivet/specs/spec-mirror-rivet
+	url = https://github.com/distilled-mirror/spec-mirror-rivet.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/core/conformance/connect"]
+	path = packages/core/conformance/connect
+	url = https://github.com/connectrpc/conformance.git
+	shallow = true
+	ignore = dirty
+[submodule "packages/core/conformance/protobuf"]
+	path = packages/core/conformance/protobuf
+	url = https://github.com/protocolbuffers/protobuf.git
+	shallow = true
+	ignore = dirty
+[submodule "packages/e2b/specs/spec-mirror-e2b"]
+	path = packages/e2b/specs/spec-mirror-e2b
+	url = https://github.com/distilled-mirror/spec-mirror-e2b.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/coinflow/specs/spec-mirror-coinflow"]
+	path = packages/coinflow/specs/spec-mirror-coinflow
+	url = https://github.com/distilled-mirror/spec-mirror-coinflow.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/npm/specs/spec-mirror-npm"]
+	path = packages/npm/specs/spec-mirror-npm
+	url = https://github.com/distilled-mirror/spec-mirror-npm.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/exa/specs/spec-mirror-exa"]
+	path = packages/exa/specs/spec-mirror-exa
+	url = https://github.com/distilled-mirror/spec-mirror-exa.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/polymarket/specs/spec-mirror-polymarket"]
+	path = packages/polymarket/specs/spec-mirror-polymarket
+	url = https://github.com/distilled-mirror/spec-mirror-polymarket.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/dokploy/specs/spec-mirror-dokploy"]
+	path = packages/dokploy/specs/spec-mirror-dokploy
+	url = https://github.com/distilled-mirror/spec-mirror-dokploy.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/anthropic/specs/spec-mirror-anthropic"]
+	path = packages/anthropic/specs/spec-mirror-anthropic
+	url = https://github.com/distilled-mirror/spec-mirror-anthropic.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/tencentcloud/specs/spec-mirror-tencentcloud"]
+	path = packages/tencentcloud/specs/spec-mirror-tencentcloud
+	url = https://github.com/distilled-mirror/spec-mirror-tencentcloud.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/questrade/specs/spec-mirror-questrade"]
+	path = packages/questrade/specs/spec-mirror-questrade
+	url = https://github.com/distilled-mirror/spec-mirror-questrade.git
 	ignore = dirty
 	shallow = true
 [submodule "packages/mailchimp/specs/spec-mirror-mailchimp"]

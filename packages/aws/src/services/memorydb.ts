@@ -1,23 +1,28 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://memorydb.amazonaws.com/doc/2021-01-01/");
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://memorydb.amazonaws.com/doc/2021-01-01/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "MemoryDB",
   serviceShapeName: "AmazonMemoryDB",
 });
-const auth = T.AwsAuthSigv4({ name: "memorydb" });
-const ver = T.ServiceVersion("2021-01-01");
-const proto = T.AwsProtocolsAwsJson1_1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "memorydb" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2021-01-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -29,14 +34,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,13 +60,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://memory-db-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://memory-db-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,1878 +70,1003 @@ const rules = T.EndpointResolver((p, _) => {
               `https://memory-db.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (Region === "fips") {
           return e(
             "https://memory-db-fips.us-west-1.amazonaws.com",
             {
-              authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "memorydb",
-                  signingRegion: "us-west-1",
-                },
-              ],
+              authSchemes: [{ name: "sigv4", signingName: "memorydb", signingRegion: "us-west-1" }],
             },
             {},
           );
         }
-        return e(
-          `https://memory-db.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://memory-db.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://memory-db.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "MemoryDB",
+  service: "MemoryDB",
+  templates: false,
+  propagate: TxXray.propagate,
+} as const;
 
 export class ACLAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ACLAlreadyExistsFault>()(
     "ACLAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ACLAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ACLAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ACLNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ACLNotFoundFault>()(
     "ACLNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ACLNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ACLNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ACLQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<ACLQuotaExceededFault>()(
     "ACLQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ACLQuotaExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ACLQuotaExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class APICallRateForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<APICallRateForCustomerExceededFault>()(
     "APICallRateForCustomerExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "APICallRateForCustomerExceeded",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ClusterAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ClusterAlreadyExistsFault>()(
     "ClusterAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ClusterAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ClusterNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ClusterNotFoundFault>()(
     "ClusterNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ClusterNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ClusterNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ClusterQuotaForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<ClusterQuotaForCustomerExceededFault>()(
     "ClusterQuotaForCustomerExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ClusterQuotaForCustomerExceeded",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class DefaultUserRequired
   extends /*@__PURE__*/ S.TaggedError<DefaultUserRequired>()(
     "DefaultUserRequired",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DefaultUserRequired", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "DefaultUserRequired", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class DuplicateUserNameFault
   extends /*@__PURE__*/ S.TaggedError<DuplicateUserNameFault>()(
     "DuplicateUserNameFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "DuplicateUserName", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InsufficientClusterCapacityFault
   extends /*@__PURE__*/ S.TaggedError<InsufficientClusterCapacityFault>()(
     "InsufficientClusterCapacityFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InsufficientClusterCapacity",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InsufficientClusterCapacity", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidACLStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidACLStateFault>()(
     "InvalidACLStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidACLState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidACLState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidARNFault
   extends /*@__PURE__*/ S.TaggedError<InvalidARNFault>()(
     "InvalidARNFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidARN", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidClusterStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidClusterStateFault>()(
     "InvalidClusterStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidClusterState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidClusterState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidCredentialsException
   extends /*@__PURE__*/ S.TaggedError<InvalidCredentialsException>()(
     "InvalidCredentialsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidCredentialsException",
-        httpResponseCode: 408,
-      }),
-      T.HttpError(408),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidCredentialsException", httpResponseCode: 408 }),
+      /*@__PURE__*/ T.HttpError(408),
     ),
   ).pipe(C.withTimeoutError) {}
 export class InvalidKMSKeyFault
   extends /*@__PURE__*/ S.TaggedError<InvalidKMSKeyFault>()(
     "InvalidKMSKeyFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidKMSKeyFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidMultiRegionClusterStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidMultiRegionClusterStateFault>()(
     "InvalidMultiRegionClusterStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "InvalidMultiRegionClusterState",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidNodeStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidNodeStateFault>()(
     "InvalidNodeStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidNodeState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidNodeState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterCombinationException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterCombinationException>()(
     "InvalidParameterCombinationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidParameterCombination",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidParameterCombination", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterGroupStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterGroupStateFault>()(
     "InvalidParameterGroupStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidParameterGroupState",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidParameterGroupState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidParameterValue", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSnapshotStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidSnapshotStateFault>()(
     "InvalidSnapshotStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidSnapshotState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSubnet
   extends /*@__PURE__*/ S.TaggedError<InvalidSubnet>()(
     "InvalidSubnet",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidSubnet", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidUserStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidUserStateFault>()(
     "InvalidUserStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidUserState", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidUserState", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class InvalidVPCNetworkStateFault
   extends /*@__PURE__*/ S.TaggedError<InvalidVPCNetworkStateFault>()(
     "InvalidVPCNetworkStateFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "InvalidVPCNetworkStateFault",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "InvalidVPCNetworkStateFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class MultiRegionClusterAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<MultiRegionClusterAlreadyExistsFault>()(
     "MultiRegionClusterAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "MultiRegionClusterAlreadyExistsFault",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class MultiRegionClusterNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<MultiRegionClusterNotFoundFault>()(
     "MultiRegionClusterNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "MultiRegionClusterNotFound",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "MultiRegionClusterNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class MultiRegionParameterGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<MultiRegionParameterGroupNotFoundFault>()(
     "MultiRegionParameterGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "MultiRegionParameterGroupNotFoundFault",
         httpResponseCode: 404,
       }),
-      T.HttpError(404),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NodeQuotaForClusterExceededFault
   extends /*@__PURE__*/ S.TaggedError<NodeQuotaForClusterExceededFault>()(
     "NodeQuotaForClusterExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "NodeQuotaForClusterExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "NodeQuotaForClusterExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NodeQuotaForCustomerExceededFault
   extends /*@__PURE__*/ S.TaggedError<NodeQuotaForCustomerExceededFault>()(
     "NodeQuotaForCustomerExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "NodeQuotaForCustomerExceeded",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class NoOperationFault
   extends /*@__PURE__*/ S.TaggedError<NoOperationFault>()(
     "NoOperationFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "NoOperationFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "NoOperationFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ParameterGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ParameterGroupAlreadyExistsFault>()(
     "ParameterGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ParameterGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ParameterGroupAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ParameterGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ParameterGroupNotFoundFault>()(
     "ParameterGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ParameterGroupNotFound",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ParameterGroupNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ParameterGroupQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<ParameterGroupQuotaExceededFault>()(
     "ParameterGroupQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ParameterGroupQuotaExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ParameterGroupQuotaExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReservedNodeAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<ReservedNodeAlreadyExistsFault>()(
     "ReservedNodeAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ReservedNodeAlreadyExists",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ReservedNodeAlreadyExists", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class ReservedNodeNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ReservedNodeNotFoundFault>()(
     "ReservedNodeNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ReservedNodeNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ReservedNodeNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReservedNodeQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<ReservedNodeQuotaExceededFault>()(
     "ReservedNodeQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ReservedNodeQuotaExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ReservedNodeQuotaExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ReservedNodesOfferingNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ReservedNodesOfferingNotFoundFault>()(
     "ReservedNodesOfferingNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ReservedNodesOfferingNotFound",
         httpResponseCode: 404,
       }),
-      T.HttpError(404),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServiceLinkedRoleNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ServiceLinkedRoleNotFoundFault>()(
     "ServiceLinkedRoleNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ServiceLinkedRoleNotFoundFault",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ServiceUpdateNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ServiceUpdateNotFoundFault>()(
     "ServiceUpdateNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "ServiceUpdateNotFoundFault",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ServiceUpdateNotFoundFault", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ShardNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<ShardNotFoundFault>()(
     "ShardNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ShardNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "ShardNotFoundFault", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class ShardsPerClusterQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<ShardsPerClusterQuotaExceededFault>()(
     "ShardsPerClusterQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "ShardsPerClusterQuotaExceeded",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SnapshotAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<SnapshotAlreadyExistsFault>()(
     "SnapshotAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "SnapshotAlreadyExistsFault",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SnapshotAlreadyExistsFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class SnapshotNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<SnapshotNotFoundFault>()(
     "SnapshotNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SnapshotNotFoundFault", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SnapshotQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<SnapshotQuotaExceededFault>()(
     "SnapshotQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "SnapshotQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SnapshotQuotaExceededFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SubnetGroupAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<SubnetGroupAlreadyExistsFault>()(
     "SubnetGroupAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "SubnetGroupAlreadyExists",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetGroupAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class SubnetGroupInUseFault
   extends /*@__PURE__*/ S.TaggedError<SubnetGroupInUseFault>()(
     "SubnetGroupInUseFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetGroupInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetGroupInUse", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SubnetGroupNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<SubnetGroupNotFoundFault>()(
     "SubnetGroupNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "SubnetGroupNotFoundFault",
-        httpResponseCode: 404,
-      }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetGroupNotFoundFault", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SubnetGroupQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<SubnetGroupQuotaExceededFault>()(
     "SubnetGroupQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "SubnetGroupQuotaExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetGroupQuotaExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SubnetInUse
   extends /*@__PURE__*/ S.TaggedError<SubnetInUse>()(
     "SubnetInUse",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetInUse", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withDependencyViolationError) {}
 export class SubnetNotAllowedFault
   extends /*@__PURE__*/ S.TaggedError<SubnetNotAllowedFault>()(
     "SubnetNotAllowedFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetNotAllowedFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class SubnetQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<SubnetQuotaExceededFault>()(
     "SubnetQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "SubnetQuotaExceededFault",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "SubnetQuotaExceededFault", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TagNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<TagNotFoundFault>()(
     "TagNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "TagNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TagQuotaPerResourceExceeded
   extends /*@__PURE__*/ S.TaggedError<TagQuotaPerResourceExceeded>()(
     "TagQuotaPerResourceExceeded",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
-        code: "TagQuotaPerResourceExceeded",
-        httpResponseCode: 400,
-      }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "TagQuotaPerResourceExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class TestFailoverNotAvailableFault
   extends /*@__PURE__*/ S.TaggedError<TestFailoverNotAvailableFault>()(
     "TestFailoverNotAvailableFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({
         code: "TestFailoverNotAvailableFault",
         httpResponseCode: 400,
       }),
-      T.HttpError(400),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export class UserAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<UserAlreadyExistsFault>()(
     "UserAlreadyExistsFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserAlreadyExists", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class UserNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<UserNotFoundFault>()(
     "UserNotFoundFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UserNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserNotFound", httpResponseCode: 404 }),
+      /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
 export class UserQuotaExceededFault
   extends /*@__PURE__*/ S.TaggedError<UserQuotaExceededFault>()(
     "UserQuotaExceededFault",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.all(
+      /*@__PURE__*/ T.AwsQueryError({ code: "UserQuotaExceeded", httpResponseCode: 400 }),
+      /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
 export type ClusterNameList = string[];
-export const ClusterNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ServiceUpdateRequest {
-  ServiceUpdateNameToApply?: string;
+  ServiceUpdateNameToApply?: string | undefined;
 }
-export const ServiceUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceUpdateNameToApply: S.optional(S.String) }),
-).annotate({
-  identifier: "ServiceUpdateRequest",
-}) as any as S.Schema<ServiceUpdateRequest>;
 export interface BatchUpdateClusterRequest {
   ClusterNames: string[];
-  ServiceUpdate?: ServiceUpdateRequest;
+  ServiceUpdate?: ServiceUpdateRequest | undefined;
 }
-export const BatchUpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterNames: ClusterNameList,
-    ServiceUpdate: S.optional(ServiceUpdateRequest),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "BatchUpdateClusterRequest",
-}) as any as S.Schema<BatchUpdateClusterRequest>;
 export interface SlotMigration {
-  ProgressPercentage?: number;
+  ProgressPercentage?: number | undefined;
 }
-export const SlotMigration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ProgressPercentage: S.optional(S.Number) }),
-).annotate({ identifier: "SlotMigration" }) as any as S.Schema<SlotMigration>;
 export interface ReshardingStatus {
-  SlotMigration?: SlotMigration;
+  SlotMigration?: SlotMigration | undefined;
 }
-export const ReshardingStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SlotMigration: S.optional(SlotMigration) }),
-).annotate({
-  identifier: "ReshardingStatus",
-}) as any as S.Schema<ReshardingStatus>;
 export type ACLName = string;
 export interface ACLsUpdateStatus {
-  ACLToApply?: string;
+  ACLToApply?: string | undefined;
 }
-export const ACLsUpdateStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ACLToApply: S.optional(S.String) }),
-).annotate({
-  identifier: "ACLsUpdateStatus",
-}) as any as S.Schema<ACLsUpdateStatus>;
 export type ServiceUpdateStatus =
   | "available"
   | "in-progress"
   | "complete"
   | "scheduled"
   | (string & {});
-export const ServiceUpdateStatus = S.String;
-
 export interface PendingModifiedServiceUpdate {
-  ServiceUpdateName?: string;
-  Status?: ServiceUpdateStatus;
+  ServiceUpdateName?: string | undefined;
+  Status?: ServiceUpdateStatus | undefined;
 }
-export const PendingModifiedServiceUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceUpdateName: S.optional(S.String),
-    Status: S.optional(ServiceUpdateStatus),
-  }),
-).annotate({
-  identifier: "PendingModifiedServiceUpdate",
-}) as any as S.Schema<PendingModifiedServiceUpdate>;
 export type PendingModifiedServiceUpdateList = PendingModifiedServiceUpdate[];
-export const PendingModifiedServiceUpdateList = /*@__PURE__*/ S.Array(
-  PendingModifiedServiceUpdate.pipe(
-    T.XmlName("PendingModifiedServiceUpdate"),
-  ).annotate({ identifier: "PendingModifiedServiceUpdate" }),
-);
 export interface ClusterPendingUpdates {
-  Resharding?: ReshardingStatus;
-  ACLs?: ACLsUpdateStatus;
-  ServiceUpdates?: PendingModifiedServiceUpdate[];
+  Resharding?: ReshardingStatus | undefined;
+  ACLs?: ACLsUpdateStatus | undefined;
+  ServiceUpdates?: PendingModifiedServiceUpdate[] | undefined;
 }
-export const ClusterPendingUpdates = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Resharding: S.optional(ReshardingStatus),
-    ACLs: S.optional(ACLsUpdateStatus),
-    ServiceUpdates: S.optional(PendingModifiedServiceUpdateList),
-  }),
-).annotate({
-  identifier: "ClusterPendingUpdates",
-}) as any as S.Schema<ClusterPendingUpdates>;
 export interface Endpoint {
-  Address?: string;
-  Port?: number;
+  Address?: string | undefined;
+  Port?: number | undefined;
 }
-export const Endpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
-).annotate({ identifier: "Endpoint" }) as any as S.Schema<Endpoint>;
+const Endpoint = /*@__PURE__*/ __L.at(__c3, 0) as any as S.Schema<Endpoint>;
 export interface Node {
-  Name?: string;
-  Status?: string;
-  AvailabilityZone?: string;
-  CreateTime?: Date;
-  Endpoint?: Endpoint;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  CreateTime?: Date | undefined;
+  Endpoint?: Endpoint | undefined;
 }
-export const Node = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Endpoint: S.optional(Endpoint),
-  }),
-).annotate({ identifier: "Node" }) as any as S.Schema<Node>;
 export type NodeList = Node[];
-export const NodeList = /*@__PURE__*/ S.Array(
-  Node.pipe(T.XmlName("Node")).annotate({ identifier: "Node" }),
-);
 export interface Shard {
-  Name?: string;
-  Status?: string;
-  Slots?: string;
-  Nodes?: Node[];
-  NumberOfNodes?: number;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Slots?: string | undefined;
+  Nodes?: Node[] | undefined;
+  NumberOfNodes?: number | undefined;
 }
-export const Shard = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    Slots: S.optional(S.String),
-    Nodes: S.optional(NodeList),
-    NumberOfNodes: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Shard" }) as any as S.Schema<Shard>;
 export type ShardList = Shard[];
-export const ShardList = /*@__PURE__*/ S.Array(
-  Shard.pipe(T.XmlName("Shard")).annotate({ identifier: "Shard" }),
-);
 export type AZStatus = "singleaz" | "multiaz" | (string & {});
-export const AZStatus = S.String;
-
 export interface SecurityGroupMembership {
-  SecurityGroupId?: string;
-  Status?: string;
+  SecurityGroupId?: string | undefined;
+  Status?: string | undefined;
 }
-export const SecurityGroupMembership = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SecurityGroupId: S.optional(S.String),
-    Status: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SecurityGroupMembership",
-}) as any as S.Schema<SecurityGroupMembership>;
 export type SecurityGroupMembershipList = SecurityGroupMembership[];
-export const SecurityGroupMembershipList = /*@__PURE__*/ S.Array(
-  SecurityGroupMembership,
-);
 export type DataTieringStatus = "true" | "false" | (string & {});
-export const DataTieringStatus = S.String;
-
 export type NetworkType = "ipv4" | "ipv6" | "dual_stack" | (string & {});
-export const NetworkType = S.String;
-
 export type IpDiscovery = "ipv4" | "ipv6" | (string & {});
-export const IpDiscovery = S.String;
-
 export interface Cluster {
-  Name?: string;
-  Description?: string;
-  Status?: string;
-  PendingUpdates?: ClusterPendingUpdates;
-  MultiRegionClusterName?: string;
-  NumberOfShards?: number;
-  Shards?: Shard[];
-  AvailabilityMode?: AZStatus;
-  ClusterEndpoint?: Endpoint;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  EnginePatchVersion?: string;
-  ParameterGroupName?: string;
-  ParameterGroupStatus?: string;
-  SecurityGroups?: SecurityGroupMembership[];
-  SubnetGroupName?: string;
-  TLSEnabled?: boolean;
-  KmsKeyId?: string;
-  ARN?: string;
-  SnsTopicArn?: string;
-  SnsTopicStatus?: string;
-  SnapshotRetentionLimit?: number;
-  MaintenanceWindow?: string;
-  SnapshotWindow?: string;
-  ACLName?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  DataTiering?: DataTieringStatus;
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: string | undefined;
+  PendingUpdates?: ClusterPendingUpdates | undefined;
+  MultiRegionClusterName?: string | undefined;
+  NumberOfShards?: number | undefined;
+  Shards?: Shard[] | undefined;
+  AvailabilityMode?: AZStatus | undefined;
+  ClusterEndpoint?: Endpoint | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  EnginePatchVersion?: string | undefined;
+  ParameterGroupName?: string | undefined;
+  ParameterGroupStatus?: string | undefined;
+  SecurityGroups?: SecurityGroupMembership[] | undefined;
+  SubnetGroupName?: string | undefined;
+  TLSEnabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  ARN?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SnsTopicStatus?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  MaintenanceWindow?: string | undefined;
+  SnapshotWindow?: string | undefined;
+  ACLName?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  DataTiering?: DataTieringStatus | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
 }
-export const Cluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Status: S.optional(S.String),
-    PendingUpdates: S.optional(ClusterPendingUpdates),
-    MultiRegionClusterName: S.optional(S.String),
-    NumberOfShards: S.optional(S.Number),
-    Shards: S.optional(ShardList),
-    AvailabilityMode: S.optional(AZStatus),
-    ClusterEndpoint: S.optional(Endpoint),
-    NodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    EnginePatchVersion: S.optional(S.String),
-    ParameterGroupName: S.optional(S.String),
-    ParameterGroupStatus: S.optional(S.String),
-    SecurityGroups: S.optional(SecurityGroupMembershipList),
-    SubnetGroupName: S.optional(S.String),
-    TLSEnabled: S.optional(S.Boolean),
-    KmsKeyId: S.optional(S.String),
-    ARN: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    SnsTopicStatus: S.optional(S.String),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    MaintenanceWindow: S.optional(S.String),
-    SnapshotWindow: S.optional(S.String),
-    ACLName: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    DataTiering: S.optional(DataTieringStatus),
-    NetworkType: S.optional(NetworkType),
-    IpDiscovery: S.optional(IpDiscovery),
-  }),
-).annotate({ identifier: "Cluster" }) as any as S.Schema<Cluster>;
 export type ClusterList = Cluster[];
-export const ClusterList = /*@__PURE__*/ S.Array(
-  Cluster.pipe(T.XmlName("Cluster")).annotate({ identifier: "Cluster" }),
-);
 export interface UnprocessedCluster {
-  ClusterName?: string;
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ClusterName?: string | undefined;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
-export const UnprocessedCluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.optional(S.String),
-    ErrorType: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "UnprocessedCluster",
-}) as any as S.Schema<UnprocessedCluster>;
 export type UnprocessedClusterList = UnprocessedCluster[];
-export const UnprocessedClusterList = /*@__PURE__*/ S.Array(
-  UnprocessedCluster.pipe(T.XmlName("UnprocessedCluster")).annotate({
-    identifier: "UnprocessedCluster",
-  }),
-);
 export interface BatchUpdateClusterResponse {
-  ProcessedClusters?: Cluster[];
-  UnprocessedClusters?: UnprocessedCluster[];
+  ProcessedClusters?: Cluster[] | undefined;
+  UnprocessedClusters?: UnprocessedCluster[] | undefined;
 }
-export const BatchUpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProcessedClusters: S.optional(ClusterList),
-    UnprocessedClusters: S.optional(UnprocessedClusterList),
-  }).pipe(ns),
-).annotate({
-  identifier: "BatchUpdateClusterResponse",
-}) as any as S.Schema<BatchUpdateClusterResponse>;
 export type TargetBucket = string;
 export type KmsKeyId = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(
-  Tag.pipe(T.XmlName("Tag")).annotate({ identifier: "Tag" }),
-);
 export interface CopySnapshotRequest {
   SourceSnapshotName: string;
   TargetSnapshotName: string;
-  TargetBucket?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  TargetBucket?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CopySnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceSnapshotName: S.String,
-    TargetSnapshotName: S.String,
-    TargetBucket: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CopySnapshotRequest",
-}) as any as S.Schema<CopySnapshotRequest>;
 export interface ShardConfiguration {
-  Slots?: string;
-  ReplicaCount?: number;
+  Slots?: string | undefined;
+  ReplicaCount?: number | undefined;
 }
-export const ShardConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Slots: S.optional(S.String), ReplicaCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "ShardConfiguration",
-}) as any as S.Schema<ShardConfiguration>;
 export interface ShardDetail {
-  Name?: string;
-  Configuration?: ShardConfiguration;
-  Size?: string;
-  SnapshotCreationTime?: Date;
+  Name?: string | undefined;
+  Configuration?: ShardConfiguration | undefined;
+  Size?: string | undefined;
+  SnapshotCreationTime?: Date | undefined;
 }
-export const ShardDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Configuration: S.optional(ShardConfiguration),
-    Size: S.optional(S.String),
-    SnapshotCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "ShardDetail" }) as any as S.Schema<ShardDetail>;
 export type ShardDetails = ShardDetail[];
-export const ShardDetails = /*@__PURE__*/ S.Array(ShardDetail);
 export interface ClusterConfiguration {
-  Name?: string;
-  Description?: string;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  MaintenanceWindow?: string;
-  TopicArn?: string;
-  Port?: number;
-  ParameterGroupName?: string;
-  SubnetGroupName?: string;
-  VpcId?: string;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  NumShards?: number;
-  Shards?: ShardDetail[];
-  MultiRegionParameterGroupName?: string;
-  MultiRegionClusterName?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  MaintenanceWindow?: string | undefined;
+  TopicArn?: string | undefined;
+  Port?: number | undefined;
+  ParameterGroupName?: string | undefined;
+  SubnetGroupName?: string | undefined;
+  VpcId?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  NumShards?: number | undefined;
+  Shards?: ShardDetail[] | undefined;
+  MultiRegionParameterGroupName?: string | undefined;
+  MultiRegionClusterName?: string | undefined;
 }
-export const ClusterConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    NodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    MaintenanceWindow: S.optional(S.String),
-    TopicArn: S.optional(S.String),
-    Port: S.optional(S.Number),
-    ParameterGroupName: S.optional(S.String),
-    SubnetGroupName: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    SnapshotWindow: S.optional(S.String),
-    NumShards: S.optional(S.Number),
-    Shards: S.optional(ShardDetails),
-    MultiRegionParameterGroupName: S.optional(S.String),
-    MultiRegionClusterName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ClusterConfiguration",
-}) as any as S.Schema<ClusterConfiguration>;
 export interface Snapshot {
-  Name?: string;
-  Status?: string;
-  Source?: string;
-  KmsKeyId?: string;
-  ARN?: string;
-  ClusterConfiguration?: ClusterConfiguration;
-  DataTiering?: DataTieringStatus;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Source?: string | undefined;
+  KmsKeyId?: string | undefined;
+  ARN?: string | undefined;
+  ClusterConfiguration?: ClusterConfiguration | undefined;
+  DataTiering?: DataTieringStatus | undefined;
 }
-export const Snapshot = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    Source: S.optional(S.String),
-    KmsKeyId: S.optional(S.String),
-    ARN: S.optional(S.String),
-    ClusterConfiguration: S.optional(ClusterConfiguration),
-    DataTiering: S.optional(DataTieringStatus),
-  }),
-).annotate({ identifier: "Snapshot" }) as any as S.Schema<Snapshot>;
 export interface CopySnapshotResponse {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
-export const CopySnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }).pipe(ns),
-).annotate({
-  identifier: "CopySnapshotResponse",
-}) as any as S.Schema<CopySnapshotResponse>;
 export type UserName = string;
 export type UserNameListInput = string[];
-export const UserNameListInput = /*@__PURE__*/ S.Array(S.String);
 export interface CreateACLRequest {
   ACLName: string;
-  UserNames?: string[];
-  Tags?: Tag[];
+  UserNames?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACLName: S.String,
-    UserNames: S.optional(UserNameListInput),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateACLRequest",
-}) as any as S.Schema<CreateACLRequest>;
 export type UserNameList = string[];
-export const UserNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ACLPendingChanges {
-  UserNamesToRemove?: string[];
-  UserNamesToAdd?: string[];
+  UserNamesToRemove?: string[] | undefined;
+  UserNamesToAdd?: string[] | undefined;
 }
-export const ACLPendingChanges = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserNamesToRemove: S.optional(UserNameList),
-    UserNamesToAdd: S.optional(UserNameList),
-  }),
-).annotate({
-  identifier: "ACLPendingChanges",
-}) as any as S.Schema<ACLPendingChanges>;
 export type ACLClusterNameList = string[];
-export const ACLClusterNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ACL {
-  Name?: string;
-  Status?: string;
-  UserNames?: string[];
-  MinimumEngineVersion?: string;
-  PendingChanges?: ACLPendingChanges;
-  Clusters?: string[];
-  ARN?: string;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  UserNames?: string[] | undefined;
+  MinimumEngineVersion?: string | undefined;
+  PendingChanges?: ACLPendingChanges | undefined;
+  Clusters?: string[] | undefined;
+  ARN?: string | undefined;
 }
-export const ACL = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    UserNames: S.optional(UserNameList),
-    MinimumEngineVersion: S.optional(S.String),
-    PendingChanges: S.optional(ACLPendingChanges),
-    Clusters: S.optional(ACLClusterNameList),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "ACL" }) as any as S.Schema<ACL>;
 export interface CreateACLResponse {
-  ACL?: ACL;
+  ACL?: ACL | undefined;
 }
-export const CreateACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ACL: S.optional(ACL) }).pipe(ns),
-).annotate({
-  identifier: "CreateACLResponse",
-}) as any as S.Schema<CreateACLResponse>;
 export type SecurityGroupIdsList = string[];
-export const SecurityGroupIdsList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SecurityGroupId")),
-);
 export type SnapshotArnsList = string[];
-export const SnapshotArnsList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SnapshotArn")),
-);
 export interface CreateClusterRequest {
   ClusterName: string;
   NodeType: string;
-  MultiRegionClusterName?: string;
-  ParameterGroupName?: string;
-  Description?: string;
-  NumShards?: number;
-  NumReplicasPerShard?: number;
-  SubnetGroupName?: string;
-  SecurityGroupIds?: string[];
-  MaintenanceWindow?: string;
-  Port?: number;
-  SnsTopicArn?: string;
-  TLSEnabled?: boolean;
-  KmsKeyId?: string;
-  SnapshotArns?: string[];
-  SnapshotName?: string;
-  SnapshotRetentionLimit?: number;
-  Tags?: Tag[];
-  SnapshotWindow?: string;
+  MultiRegionClusterName?: string | undefined;
+  ParameterGroupName?: string | undefined;
+  Description?: string | undefined;
+  NumShards?: number | undefined;
+  NumReplicasPerShard?: number | undefined;
+  SubnetGroupName?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  MaintenanceWindow?: string | undefined;
+  Port?: number | undefined;
+  SnsTopicArn?: string | undefined;
+  TLSEnabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  SnapshotArns?: string[] | undefined;
+  SnapshotName?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  Tags?: Tag[] | undefined;
+  SnapshotWindow?: string | undefined;
   ACLName: string;
-  Engine?: string;
-  EngineVersion?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  DataTiering?: boolean;
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  DataTiering?: boolean | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
 }
-export const CreateClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.String,
-    NodeType: S.String,
-    MultiRegionClusterName: S.optional(S.String),
-    ParameterGroupName: S.optional(S.String),
-    Description: S.optional(S.String),
-    NumShards: S.optional(S.Number),
-    NumReplicasPerShard: S.optional(S.Number),
-    SubnetGroupName: S.optional(S.String),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    MaintenanceWindow: S.optional(S.String),
-    Port: S.optional(S.Number),
-    SnsTopicArn: S.optional(S.String),
-    TLSEnabled: S.optional(S.Boolean),
-    KmsKeyId: S.optional(S.String),
-    SnapshotArns: S.optional(SnapshotArnsList),
-    SnapshotName: S.optional(S.String),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    Tags: S.optional(TagList),
-    SnapshotWindow: S.optional(S.String),
-    ACLName: S.String,
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    AutoMinorVersionUpgrade: S.optional(S.Boolean),
-    DataTiering: S.optional(S.Boolean),
-    NetworkType: S.optional(NetworkType),
-    IpDiscovery: S.optional(IpDiscovery),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateClusterRequest",
-}) as any as S.Schema<CreateClusterRequest>;
 export interface CreateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
-export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "CreateClusterResponse",
-}) as any as S.Schema<CreateClusterResponse>;
 export interface CreateMultiRegionClusterRequest {
   MultiRegionClusterNameSuffix: string;
-  Description?: string;
-  Engine?: string;
-  EngineVersion?: string;
+  Description?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
   NodeType: string;
-  MultiRegionParameterGroupName?: string;
-  NumShards?: number;
-  TLSEnabled?: boolean;
-  Tags?: Tag[];
+  MultiRegionParameterGroupName?: string | undefined;
+  NumShards?: number | undefined;
+  TLSEnabled?: boolean | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateMultiRegionClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MultiRegionClusterNameSuffix: S.String,
-    Description: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    NodeType: S.String,
-    MultiRegionParameterGroupName: S.optional(S.String),
-    NumShards: S.optional(S.Number),
-    TLSEnabled: S.optional(S.Boolean),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateMultiRegionClusterRequest",
-}) as any as S.Schema<CreateMultiRegionClusterRequest>;
 export interface RegionalCluster {
-  ClusterName?: string;
-  Region?: string;
-  Status?: string;
-  ARN?: string;
+  ClusterName?: string | undefined;
+  Region?: string | undefined;
+  Status?: string | undefined;
+  ARN?: string | undefined;
 }
-export const RegionalCluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.optional(S.String),
-    Region: S.optional(S.String),
-    Status: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RegionalCluster",
-}) as any as S.Schema<RegionalCluster>;
 export type RegionalClusterList = RegionalCluster[];
-export const RegionalClusterList = /*@__PURE__*/ S.Array(
-  RegionalCluster.pipe(T.XmlName("RegionalCluster")).annotate({
-    identifier: "RegionalCluster",
-  }),
-);
 export interface MultiRegionCluster {
-  MultiRegionClusterName?: string;
-  Description?: string;
-  Status?: string;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  NumberOfShards?: number;
-  Clusters?: RegionalCluster[];
-  MultiRegionParameterGroupName?: string;
-  TLSEnabled?: boolean;
-  ARN?: string;
+  MultiRegionClusterName?: string | undefined;
+  Description?: string | undefined;
+  Status?: string | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  NumberOfShards?: number | undefined;
+  Clusters?: RegionalCluster[] | undefined;
+  MultiRegionParameterGroupName?: string | undefined;
+  TLSEnabled?: boolean | undefined;
+  ARN?: string | undefined;
 }
-export const MultiRegionCluster = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MultiRegionClusterName: S.optional(S.String),
-    Description: S.optional(S.String),
-    Status: S.optional(S.String),
-    NodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    NumberOfShards: S.optional(S.Number),
-    Clusters: S.optional(RegionalClusterList),
-    MultiRegionParameterGroupName: S.optional(S.String),
-    TLSEnabled: S.optional(S.Boolean),
-    ARN: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MultiRegionCluster",
-}) as any as S.Schema<MultiRegionCluster>;
 export interface CreateMultiRegionClusterResponse {
-  MultiRegionCluster?: MultiRegionCluster;
+  MultiRegionCluster?: MultiRegionCluster | undefined;
 }
-export const CreateMultiRegionClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MultiRegionCluster: S.optional(MultiRegionCluster) }).pipe(ns),
-).annotate({
-  identifier: "CreateMultiRegionClusterResponse",
-}) as any as S.Schema<CreateMultiRegionClusterResponse>;
 export interface CreateParameterGroupRequest {
   ParameterGroupName: string;
   Family: string;
-  Description?: string;
-  Tags?: Tag[];
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateParameterGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterGroupName: S.String,
-    Family: S.String,
-    Description: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateParameterGroupRequest",
-}) as any as S.Schema<CreateParameterGroupRequest>;
 export interface ParameterGroup {
-  Name?: string;
-  Family?: string;
-  Description?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Family?: string | undefined;
+  Description?: string | undefined;
+  ARN?: string | undefined;
 }
-export const ParameterGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Family: S.optional(S.String),
-    Description: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "ParameterGroup" }) as any as S.Schema<ParameterGroup>;
 export interface CreateParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
-export const CreateParameterGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ParameterGroup: S.optional(ParameterGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateParameterGroupResponse",
-}) as any as S.Schema<CreateParameterGroupResponse>;
 export interface CreateSnapshotRequest {
   ClusterName: string;
   SnapshotName: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.String,
-    SnapshotName: S.String,
-    KmsKeyId: S.optional(S.String),
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
 export interface CreateSnapshotResponse {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
-export const CreateSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }).pipe(ns),
-).annotate({
-  identifier: "CreateSnapshotResponse",
-}) as any as S.Schema<CreateSnapshotResponse>;
 export type SubnetIdentifierList = string[];
-export const SubnetIdentifierList = /*@__PURE__*/ S.Array(
-  S.String.pipe(T.XmlName("SubnetIdentifier")),
-);
 export interface CreateSubnetGroupRequest {
   SubnetGroupName: string;
-  Description?: string;
+  Description?: string | undefined;
   SubnetIds: string[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const CreateSubnetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetGroupName: S.String,
-    Description: S.optional(S.String),
-    SubnetIds: SubnetIdentifierList,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateSubnetGroupRequest",
-}) as any as S.Schema<CreateSubnetGroupRequest>;
 export interface AvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
-export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String) }),
-).annotate({
-  identifier: "AvailabilityZone",
-}) as any as S.Schema<AvailabilityZone>;
 export type NetworkTypeList = NetworkType[];
-export const NetworkTypeList = /*@__PURE__*/ S.Array(NetworkType);
 export interface Subnet {
-  Identifier?: string;
-  AvailabilityZone?: AvailabilityZone;
-  SupportedNetworkTypes?: NetworkType[];
+  Identifier?: string | undefined;
+  AvailabilityZone?: AvailabilityZone | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
-export const Subnet = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Identifier: S.optional(S.String),
-    AvailabilityZone: S.optional(AvailabilityZone),
-    SupportedNetworkTypes: S.optional(NetworkTypeList),
-  }),
-).annotate({ identifier: "Subnet" }) as any as S.Schema<Subnet>;
 export type SubnetList = Subnet[];
-export const SubnetList = /*@__PURE__*/ S.Array(
-  Subnet.pipe(T.XmlName("Subnet")).annotate({ identifier: "Subnet" }),
-);
 export interface SubnetGroup {
-  Name?: string;
-  Description?: string;
-  VpcId?: string;
-  Subnets?: Subnet[];
-  ARN?: string;
-  SupportedNetworkTypes?: NetworkType[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  VpcId?: string | undefined;
+  Subnets?: Subnet[] | undefined;
+  ARN?: string | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
-export const SubnetGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    VpcId: S.optional(S.String),
-    Subnets: S.optional(SubnetList),
-    ARN: S.optional(S.String),
-    SupportedNetworkTypes: S.optional(NetworkTypeList),
-  }),
-).annotate({ identifier: "SubnetGroup" }) as any as S.Schema<SubnetGroup>;
 export interface CreateSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
-export const CreateSubnetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubnetGroup: S.optional(SubnetGroup) }).pipe(ns),
-).annotate({
-  identifier: "CreateSubnetGroupResponse",
-}) as any as S.Schema<CreateSubnetGroupResponse>;
 export type InputAuthenticationType = "password" | "iam" | (string & {});
-export const InputAuthenticationType = S.String;
-
 export type PasswordListInput = string[];
-export const PasswordListInput = /*@__PURE__*/ S.Array(S.String);
 export interface AuthenticationMode {
-  Type?: InputAuthenticationType;
-  Passwords?: Array<string | redacted.Redacted<string>>;
+  Type?: InputAuthenticationType | undefined;
+  Passwords?: Array<string | redacted.Redacted<string>> | undefined;
 }
-export const AuthenticationMode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(InputAuthenticationType),
-    Passwords: S.optional(S.Array(SensitiveString)),
-  }),
-).annotate({
-  identifier: "AuthenticationMode",
-}) as any as S.Schema<AuthenticationMode>;
 export type AccessString = string;
 export interface CreateUserRequest {
   UserName: string;
   AuthenticationMode: AuthenticationMode;
   AccessString: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
-export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    AuthenticationMode: AuthenticationMode,
-    AccessString: S.String,
-    Tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateUserRequest",
-}) as any as S.Schema<CreateUserRequest>;
 export type ACLNameList = string[];
-export const ACLNameList = /*@__PURE__*/ S.Array(S.String);
-export type AuthenticationType =
-  | "password"
-  | "no-password"
-  | "iam"
-  | (string & {});
-export const AuthenticationType = S.String;
-
+export type AuthenticationType = "password" | "no-password" | "iam" | (string & {});
 export interface Authentication {
-  Type?: AuthenticationType;
-  PasswordCount?: number;
+  Type?: AuthenticationType | undefined;
+  PasswordCount?: number | undefined;
 }
-export const Authentication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(AuthenticationType),
-    PasswordCount: S.optional(S.Number),
-  }),
-).annotate({ identifier: "Authentication" }) as any as S.Schema<Authentication>;
 export interface User {
-  Name?: string;
-  Status?: string;
-  AccessString?: string;
-  ACLNames?: string[];
-  MinimumEngineVersion?: string;
-  Authentication?: Authentication;
-  ARN?: string;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  AccessString?: string | undefined;
+  ACLNames?: string[] | undefined;
+  MinimumEngineVersion?: string | undefined;
+  Authentication?: Authentication | undefined;
+  ARN?: string | undefined;
 }
-export const User = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    AccessString: S.optional(S.String),
-    ACLNames: S.optional(ACLNameList),
-    MinimumEngineVersion: S.optional(S.String),
-    Authentication: S.optional(Authentication),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "User" }) as any as S.Schema<User>;
 export interface CreateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
-export const CreateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ User: S.optional(User) }).pipe(ns),
-).annotate({
-  identifier: "CreateUserResponse",
-}) as any as S.Schema<CreateUserResponse>;
 export interface DeleteACLRequest {
   ACLName: string;
 }
-export const DeleteACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ACLName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteACLRequest",
-}) as any as S.Schema<DeleteACLRequest>;
 export interface DeleteACLResponse {
-  ACL?: ACL;
+  ACL?: ACL | undefined;
 }
-export const DeleteACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ACL: S.optional(ACL) }).pipe(ns),
-).annotate({
-  identifier: "DeleteACLResponse",
-}) as any as S.Schema<DeleteACLResponse>;
 export interface DeleteClusterRequest {
   ClusterName: string;
-  MultiRegionClusterName?: string;
-  FinalSnapshotName?: string;
+  MultiRegionClusterName?: string | undefined;
+  FinalSnapshotName?: string | undefined;
 }
-export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.String,
-    MultiRegionClusterName: S.optional(S.String),
-    FinalSnapshotName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
 export interface DeleteClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
-export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "DeleteClusterResponse",
-}) as any as S.Schema<DeleteClusterResponse>;
 export interface DeleteMultiRegionClusterRequest {
   MultiRegionClusterName: string;
 }
-export const DeleteMultiRegionClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MultiRegionClusterName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteMultiRegionClusterRequest",
-}) as any as S.Schema<DeleteMultiRegionClusterRequest>;
 export interface DeleteMultiRegionClusterResponse {
-  MultiRegionCluster?: MultiRegionCluster;
+  MultiRegionCluster?: MultiRegionCluster | undefined;
 }
-export const DeleteMultiRegionClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MultiRegionCluster: S.optional(MultiRegionCluster) }).pipe(ns),
-).annotate({
-  identifier: "DeleteMultiRegionClusterResponse",
-}) as any as S.Schema<DeleteMultiRegionClusterResponse>;
 export interface DeleteParameterGroupRequest {
   ParameterGroupName: string;
 }
-export const DeleteParameterGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ParameterGroupName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteParameterGroupRequest",
-}) as any as S.Schema<DeleteParameterGroupRequest>;
 export interface DeleteParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
-export const DeleteParameterGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ParameterGroup: S.optional(ParameterGroup) }).pipe(ns),
-).annotate({
-  identifier: "DeleteParameterGroupResponse",
-}) as any as S.Schema<DeleteParameterGroupResponse>;
 export interface DeleteSnapshotRequest {
   SnapshotName: string;
 }
-export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SnapshotName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSnapshotRequest",
-}) as any as S.Schema<DeleteSnapshotRequest>;
 export interface DeleteSnapshotResponse {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
-export const DeleteSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Snapshot: S.optional(Snapshot) }).pipe(ns),
-).annotate({
-  identifier: "DeleteSnapshotResponse",
-}) as any as S.Schema<DeleteSnapshotResponse>;
 export interface DeleteSubnetGroupRequest {
   SubnetGroupName: string;
 }
-export const DeleteSubnetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubnetGroupName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteSubnetGroupRequest",
-}) as any as S.Schema<DeleteSubnetGroupRequest>;
 export interface DeleteSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
-export const DeleteSubnetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubnetGroup: S.optional(SubnetGroup) }).pipe(ns),
-).annotate({
-  identifier: "DeleteSubnetGroupResponse",
-}) as any as S.Schema<DeleteSubnetGroupResponse>;
 export interface DeleteUserRequest {
   UserName: string;
 }
-export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ UserName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
 export interface DeleteUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
-export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ User: S.optional(User) }).pipe(ns),
-).annotate({
-  identifier: "DeleteUserResponse",
-}) as any as S.Schema<DeleteUserResponse>;
 export interface DescribeACLsRequest {
-  ACLName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ACLName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeACLsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACLName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeACLsRequest",
-}) as any as S.Schema<DescribeACLsRequest>;
 export type ACLList = ACL[];
-export const ACLList = /*@__PURE__*/ S.Array(ACL);
 export interface DescribeACLsResponse {
-  ACLs?: ACL[];
-  NextToken?: string;
+  ACLs?: ACL[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeACLsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ACLs: S.optional(ACLList), NextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeACLsResponse",
-}) as any as S.Schema<DescribeACLsResponse>;
 export interface DescribeClustersRequest {
-  ClusterName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  ShowShardDetails?: boolean;
+  ClusterName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ShowShardDetails?: boolean | undefined;
 }
-export const DescribeClustersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    ShowShardDetails: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeClustersRequest",
-}) as any as S.Schema<DescribeClustersRequest>;
 export interface DescribeClustersResponse {
-  NextToken?: string;
-  Clusters?: Cluster[];
+  NextToken?: string | undefined;
+  Clusters?: Cluster[] | undefined;
 }
-export const DescribeClustersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Clusters: S.optional(ClusterList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeClustersResponse",
-}) as any as S.Schema<DescribeClustersResponse>;
 export interface DescribeEngineVersionsRequest {
-  Engine?: string;
-  EngineVersion?: string;
-  ParameterGroupFamily?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  DefaultOnly?: boolean;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  ParameterGroupFamily?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  DefaultOnly?: boolean | undefined;
 }
-export const DescribeEngineVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    ParameterGroupFamily: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    DefaultOnly: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEngineVersionsRequest",
-}) as any as S.Schema<DescribeEngineVersionsRequest>;
 export interface EngineVersionInfo {
-  Engine?: string;
-  EngineVersion?: string;
-  EnginePatchVersion?: string;
-  ParameterGroupFamily?: string;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  EnginePatchVersion?: string | undefined;
+  ParameterGroupFamily?: string | undefined;
 }
-export const EngineVersionInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    EnginePatchVersion: S.optional(S.String),
-    ParameterGroupFamily: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EngineVersionInfo",
-}) as any as S.Schema<EngineVersionInfo>;
 export type EngineVersionInfoList = EngineVersionInfo[];
-export const EngineVersionInfoList = /*@__PURE__*/ S.Array(EngineVersionInfo);
 export interface DescribeEngineVersionsResponse {
-  NextToken?: string;
-  EngineVersions?: EngineVersionInfo[];
+  NextToken?: string | undefined;
+  EngineVersions?: EngineVersionInfo[] | undefined;
 }
-export const DescribeEngineVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    EngineVersions: S.optional(EngineVersionInfoList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeEngineVersionsResponse",
-}) as any as S.Schema<DescribeEngineVersionsResponse>;
 export type SourceType =
   | "node"
   | "parameter-group"
@@ -1953,1220 +1075,358 @@ export type SourceType =
   | "user"
   | "acl"
   | (string & {});
-export const SourceType = S.String;
-
 export interface DescribeEventsRequest {
-  SourceName?: string;
-  SourceType?: SourceType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Duration?: number;
-  MaxResults?: number;
-  NextToken?: string;
+  SourceName?: string | undefined;
+  SourceType?: SourceType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Duration?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeEventsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceName: S.optional(S.String),
-    SourceType: S.optional(SourceType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Duration: S.optional(S.Number),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeEventsRequest",
-}) as any as S.Schema<DescribeEventsRequest>;
 export interface Event {
-  SourceName?: string;
-  SourceType?: SourceType;
-  Message?: string;
-  Date?: Date;
+  SourceName?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Message?: string | undefined;
+  Date?: Date | undefined;
 }
-export const Event = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceName: S.optional(S.String),
-    SourceType: S.optional(SourceType),
-    Message: S.optional(S.String),
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = /*@__PURE__*/ S.Array(
-  Event.pipe(T.XmlName("Event")).annotate({ identifier: "Event" }),
-);
 export interface DescribeEventsResponse {
-  NextToken?: string;
-  Events?: Event[];
+  NextToken?: string | undefined;
+  Events?: Event[] | undefined;
 }
-export const DescribeEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Events: S.optional(EventList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeEventsResponse",
-}) as any as S.Schema<DescribeEventsResponse>;
 export interface DescribeMultiRegionClustersRequest {
-  MultiRegionClusterName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  ShowClusterDetails?: boolean;
+  MultiRegionClusterName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ShowClusterDetails?: boolean | undefined;
 }
-export const DescribeMultiRegionClustersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MultiRegionClusterName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    ShowClusterDetails: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeMultiRegionClustersRequest",
-}) as any as S.Schema<DescribeMultiRegionClustersRequest>;
 export type MultiRegionClusterList = MultiRegionCluster[];
-export const MultiRegionClusterList = /*@__PURE__*/ S.Array(MultiRegionCluster);
 export interface DescribeMultiRegionClustersResponse {
-  NextToken?: string;
-  MultiRegionClusters?: MultiRegionCluster[];
+  NextToken?: string | undefined;
+  MultiRegionClusters?: MultiRegionCluster[] | undefined;
 }
-export const DescribeMultiRegionClustersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MultiRegionClusters: S.optional(MultiRegionClusterList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeMultiRegionClustersResponse",
-}) as any as S.Schema<DescribeMultiRegionClustersResponse>;
 export interface DescribeMultiRegionParameterGroupsRequest {
-  MultiRegionParameterGroupName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MultiRegionParameterGroupName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeMultiRegionParameterGroupsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MultiRegionParameterGroupName: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeMultiRegionParameterGroupsRequest",
-  }) as any as S.Schema<DescribeMultiRegionParameterGroupsRequest>;
 export interface MultiRegionParameterGroup {
-  Name?: string;
-  Family?: string;
-  Description?: string;
-  ARN?: string;
+  Name?: string | undefined;
+  Family?: string | undefined;
+  Description?: string | undefined;
+  ARN?: string | undefined;
 }
-export const MultiRegionParameterGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Family: S.optional(S.String),
-    Description: S.optional(S.String),
-    ARN: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MultiRegionParameterGroup",
-}) as any as S.Schema<MultiRegionParameterGroup>;
 export type MultiRegionParameterGroupList = MultiRegionParameterGroup[];
-export const MultiRegionParameterGroupList = /*@__PURE__*/ S.Array(
-  MultiRegionParameterGroup.pipe(
-    T.XmlName("MultiRegionParameterGroup"),
-  ).annotate({ identifier: "MultiRegionParameterGroup" }),
-);
 export interface DescribeMultiRegionParameterGroupsResponse {
-  NextToken?: string;
-  MultiRegionParameterGroups?: MultiRegionParameterGroup[];
+  NextToken?: string | undefined;
+  MultiRegionParameterGroups?: MultiRegionParameterGroup[] | undefined;
 }
-export const DescribeMultiRegionParameterGroupsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MultiRegionParameterGroups: S.optional(MultiRegionParameterGroupList),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeMultiRegionParameterGroupsResponse",
-  }) as any as S.Schema<DescribeMultiRegionParameterGroupsResponse>;
 export interface DescribeMultiRegionParametersRequest {
   MultiRegionParameterGroupName: string;
-  Source?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Source?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeMultiRegionParametersRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MultiRegionParameterGroupName: S.String,
-      Source: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeMultiRegionParametersRequest",
-}) as any as S.Schema<DescribeMultiRegionParametersRequest>;
 export interface MultiRegionParameter {
-  Name?: string;
-  Value?: string;
-  Description?: string;
-  Source?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  MinimumEngineVersion?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Description?: string | undefined;
+  Source?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  MinimumEngineVersion?: string | undefined;
 }
-export const MultiRegionParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Value: S.optional(S.String),
-    Description: S.optional(S.String),
-    Source: S.optional(S.String),
-    DataType: S.optional(S.String),
-    AllowedValues: S.optional(S.String),
-    MinimumEngineVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MultiRegionParameter",
-}) as any as S.Schema<MultiRegionParameter>;
 export type MultiRegionParametersList = MultiRegionParameter[];
-export const MultiRegionParametersList = /*@__PURE__*/ S.Array(
-  MultiRegionParameter.pipe(T.XmlName("MultiRegionParameter")).annotate({
-    identifier: "MultiRegionParameter",
-  }),
-);
 export interface DescribeMultiRegionParametersResponse {
-  NextToken?: string;
-  MultiRegionParameters?: MultiRegionParameter[];
+  NextToken?: string | undefined;
+  MultiRegionParameters?: MultiRegionParameter[] | undefined;
 }
-export const DescribeMultiRegionParametersResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MultiRegionParameters: S.optional(MultiRegionParametersList),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeMultiRegionParametersResponse",
-}) as any as S.Schema<DescribeMultiRegionParametersResponse>;
 export interface DescribeParameterGroupsRequest {
-  ParameterGroupName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ParameterGroupName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeParameterGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterGroupName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeParameterGroupsRequest",
-}) as any as S.Schema<DescribeParameterGroupsRequest>;
 export type ParameterGroupList = ParameterGroup[];
-export const ParameterGroupList = /*@__PURE__*/ S.Array(
-  ParameterGroup.pipe(T.XmlName("ParameterGroup")).annotate({
-    identifier: "ParameterGroup",
-  }),
-);
 export interface DescribeParameterGroupsResponse {
-  NextToken?: string;
-  ParameterGroups?: ParameterGroup[];
+  NextToken?: string | undefined;
+  ParameterGroups?: ParameterGroup[] | undefined;
 }
-export const DescribeParameterGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ParameterGroups: S.optional(ParameterGroupList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeParameterGroupsResponse",
-}) as any as S.Schema<DescribeParameterGroupsResponse>;
 export interface DescribeParametersRequest {
   ParameterGroupName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeParametersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterGroupName: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeParametersRequest",
-}) as any as S.Schema<DescribeParametersRequest>;
 export interface Parameter {
-  Name?: string;
-  Value?: string;
-  Description?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  MinimumEngineVersion?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
+  Description?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  MinimumEngineVersion?: string | undefined;
 }
-export const Parameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Value: S.optional(S.String),
-    Description: S.optional(S.String),
-    DataType: S.optional(S.String),
-    AllowedValues: S.optional(S.String),
-    MinimumEngineVersion: S.optional(S.String),
-  }),
-).annotate({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type ParametersList = Parameter[];
-export const ParametersList = /*@__PURE__*/ S.Array(
-  Parameter.pipe(T.XmlName("Parameter")).annotate({ identifier: "Parameter" }),
-);
 export interface DescribeParametersResponse {
-  NextToken?: string;
-  Parameters?: Parameter[];
+  NextToken?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
-export const DescribeParametersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Parameters: S.optional(ParametersList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeParametersResponse",
-}) as any as S.Schema<DescribeParametersResponse>;
 export interface DescribeReservedNodesRequest {
-  ReservationId?: string;
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  Duration?: string;
-  OfferingType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservationId?: string | undefined;
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  Duration?: string | undefined;
+  OfferingType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeReservedNodesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservationId: S.optional(S.String),
-    ReservedNodesOfferingId: S.optional(S.String),
-    NodeType: S.optional(S.String),
-    Duration: S.optional(S.String),
-    OfferingType: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReservedNodesRequest",
-}) as any as S.Schema<DescribeReservedNodesRequest>;
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
-export const RecurringCharge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecurringChargeAmount: S.optional(S.Number),
-    RecurringChargeFrequency: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecurringCharge",
-}) as any as S.Schema<RecurringCharge>;
 export type RecurringChargeList = RecurringCharge[];
-export const RecurringChargeList = /*@__PURE__*/ S.Array(
-  RecurringCharge.pipe(T.XmlName("RecurringCharge")).annotate({
-    identifier: "RecurringCharge",
-  }),
-);
 export interface ReservedNode {
-  ReservationId?: string;
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  NodeCount?: number;
-  OfferingType?: string;
-  State?: string;
-  RecurringCharges?: RecurringCharge[];
-  ARN?: string;
+  ReservationId?: string | undefined;
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  NodeCount?: number | undefined;
+  OfferingType?: string | undefined;
+  State?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
+  ARN?: string | undefined;
 }
-export const ReservedNode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservationId: S.optional(S.String),
-    ReservedNodesOfferingId: S.optional(S.String),
-    NodeType: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Duration: S.optional(S.Number),
-    FixedPrice: S.optional(S.Number),
-    NodeCount: S.optional(S.Number),
-    OfferingType: S.optional(S.String),
-    State: S.optional(S.String),
-    RecurringCharges: S.optional(RecurringChargeList),
-    ARN: S.optional(S.String),
-  }),
-).annotate({ identifier: "ReservedNode" }) as any as S.Schema<ReservedNode>;
 export type ReservedNodeList = ReservedNode[];
-export const ReservedNodeList = /*@__PURE__*/ S.Array(
-  ReservedNode.pipe(T.XmlName("ReservedNode")).annotate({
-    identifier: "ReservedNode",
-  }),
-);
 export interface DescribeReservedNodesResponse {
-  NextToken?: string;
-  ReservedNodes?: ReservedNode[];
+  NextToken?: string | undefined;
+  ReservedNodes?: ReservedNode[] | undefined;
 }
-export const DescribeReservedNodesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ReservedNodes: S.optional(ReservedNodeList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReservedNodesResponse",
-}) as any as S.Schema<DescribeReservedNodesResponse>;
 export interface DescribeReservedNodesOfferingsRequest {
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  Duration?: string;
-  OfferingType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  Duration?: string | undefined;
+  OfferingType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeReservedNodesOfferingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedNodesOfferingId: S.optional(S.String),
-      NodeType: S.optional(S.String),
-      Duration: S.optional(S.String),
-      OfferingType: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeReservedNodesOfferingsRequest",
-}) as any as S.Schema<DescribeReservedNodesOfferingsRequest>;
 export interface ReservedNodesOffering {
-  ReservedNodesOfferingId?: string;
-  NodeType?: string;
-  Duration?: number;
-  FixedPrice?: number;
-  OfferingType?: string;
-  RecurringCharges?: RecurringCharge[];
+  ReservedNodesOfferingId?: string | undefined;
+  NodeType?: string | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  OfferingType?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
-export const ReservedNodesOffering = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedNodesOfferingId: S.optional(S.String),
-    NodeType: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    FixedPrice: S.optional(S.Number),
-    OfferingType: S.optional(S.String),
-    RecurringCharges: S.optional(RecurringChargeList),
-  }),
-).annotate({
-  identifier: "ReservedNodesOffering",
-}) as any as S.Schema<ReservedNodesOffering>;
 export type ReservedNodesOfferingList = ReservedNodesOffering[];
-export const ReservedNodesOfferingList = /*@__PURE__*/ S.Array(
-  ReservedNodesOffering.pipe(T.XmlName("ReservedNodesOffering")).annotate({
-    identifier: "ReservedNodesOffering",
-  }),
-);
 export interface DescribeReservedNodesOfferingsResponse {
-  NextToken?: string;
-  ReservedNodesOfferings?: ReservedNodesOffering[];
+  NextToken?: string | undefined;
+  ReservedNodesOfferings?: ReservedNodesOffering[] | undefined;
 }
-export const DescribeReservedNodesOfferingsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      ReservedNodesOfferings: S.optional(ReservedNodesOfferingList),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeReservedNodesOfferingsResponse",
-}) as any as S.Schema<DescribeReservedNodesOfferingsResponse>;
 export type ServiceUpdateStatusList = ServiceUpdateStatus[];
-export const ServiceUpdateStatusList =
-  /*@__PURE__*/ S.Array(ServiceUpdateStatus);
 export interface DescribeServiceUpdatesRequest {
-  ServiceUpdateName?: string;
-  ClusterNames?: string[];
-  Status?: ServiceUpdateStatus[];
-  MaxResults?: number;
-  NextToken?: string;
+  ServiceUpdateName?: string | undefined;
+  ClusterNames?: string[] | undefined;
+  Status?: ServiceUpdateStatus[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeServiceUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ServiceUpdateName: S.optional(S.String),
-    ClusterNames: S.optional(ClusterNameList),
-    Status: S.optional(ServiceUpdateStatusList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeServiceUpdatesRequest",
-}) as any as S.Schema<DescribeServiceUpdatesRequest>;
 export type ServiceUpdateType = "security-update" | (string & {});
-export const ServiceUpdateType = S.String;
-
 export interface ServiceUpdate {
-  ClusterName?: string;
-  ServiceUpdateName?: string;
-  ReleaseDate?: Date;
-  Description?: string;
-  Status?: ServiceUpdateStatus;
-  Type?: ServiceUpdateType;
-  Engine?: string;
-  NodesUpdated?: string;
-  AutoUpdateStartDate?: Date;
+  ClusterName?: string | undefined;
+  ServiceUpdateName?: string | undefined;
+  ReleaseDate?: Date | undefined;
+  Description?: string | undefined;
+  Status?: ServiceUpdateStatus | undefined;
+  Type?: ServiceUpdateType | undefined;
+  Engine?: string | undefined;
+  NodesUpdated?: string | undefined;
+  AutoUpdateStartDate?: Date | undefined;
 }
-export const ServiceUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.optional(S.String),
-    ServiceUpdateName: S.optional(S.String),
-    ReleaseDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Description: S.optional(S.String),
-    Status: S.optional(ServiceUpdateStatus),
-    Type: S.optional(ServiceUpdateType),
-    Engine: S.optional(S.String),
-    NodesUpdated: S.optional(S.String),
-    AutoUpdateStartDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({ identifier: "ServiceUpdate" }) as any as S.Schema<ServiceUpdate>;
 export type ServiceUpdateList = ServiceUpdate[];
-export const ServiceUpdateList = /*@__PURE__*/ S.Array(
-  ServiceUpdate.pipe(T.XmlName("ServiceUpdate")).annotate({
-    identifier: "ServiceUpdate",
-  }),
-);
 export interface DescribeServiceUpdatesResponse {
-  NextToken?: string;
-  ServiceUpdates?: ServiceUpdate[];
+  NextToken?: string | undefined;
+  ServiceUpdates?: ServiceUpdate[] | undefined;
 }
-export const DescribeServiceUpdatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ServiceUpdates: S.optional(ServiceUpdateList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeServiceUpdatesResponse",
-}) as any as S.Schema<DescribeServiceUpdatesResponse>;
 export interface DescribeSnapshotsRequest {
-  ClusterName?: string;
-  SnapshotName?: string;
-  Source?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ShowDetail?: boolean;
+  ClusterName?: string | undefined;
+  SnapshotName?: string | undefined;
+  Source?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ShowDetail?: boolean | undefined;
 }
-export const DescribeSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.optional(S.String),
-    SnapshotName: S.optional(S.String),
-    Source: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    ShowDetail: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeSnapshotsRequest",
-}) as any as S.Schema<DescribeSnapshotsRequest>;
 export type SnapshotList = Snapshot[];
-export const SnapshotList = /*@__PURE__*/ S.Array(Snapshot);
 export interface DescribeSnapshotsResponse {
-  NextToken?: string;
-  Snapshots?: Snapshot[];
+  NextToken?: string | undefined;
+  Snapshots?: Snapshot[] | undefined;
 }
-export const DescribeSnapshotsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Snapshots: S.optional(SnapshotList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeSnapshotsResponse",
-}) as any as S.Schema<DescribeSnapshotsResponse>;
 export interface DescribeSubnetGroupsRequest {
-  SubnetGroupName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  SubnetGroupName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeSubnetGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetGroupName: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeSubnetGroupsRequest",
-}) as any as S.Schema<DescribeSubnetGroupsRequest>;
 export type SubnetGroupList = SubnetGroup[];
-export const SubnetGroupList = /*@__PURE__*/ S.Array(SubnetGroup);
 export interface DescribeSubnetGroupsResponse {
-  NextToken?: string;
-  SubnetGroups?: SubnetGroup[];
+  NextToken?: string | undefined;
+  SubnetGroups?: SubnetGroup[] | undefined;
 }
-export const DescribeSubnetGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    SubnetGroups: S.optional(SubnetGroupList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeSubnetGroupsResponse",
-}) as any as S.Schema<DescribeSubnetGroupsResponse>;
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValueList = string[];
-export const FilterValueList = /*@__PURE__*/ S.Array(S.String);
 export interface Filter {
   Name: string;
   Values: string[];
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Values: FilterValueList }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export interface DescribeUsersRequest {
-  UserName?: string;
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  UserName?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeUsersRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.optional(S.String),
-    Filters: S.optional(FilterList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeUsersRequest",
-}) as any as S.Schema<DescribeUsersRequest>;
 export type UserList = User[];
-export const UserList = /*@__PURE__*/ S.Array(User);
 export interface DescribeUsersResponse {
-  Users?: User[];
-  NextToken?: string;
+  Users?: User[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeUsersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Users: S.optional(UserList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeUsersResponse",
-}) as any as S.Schema<DescribeUsersResponse>;
 export interface FailoverShardRequest {
   ClusterName: string;
   ShardName: string;
 }
-export const FailoverShardRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ClusterName: S.String, ShardName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "FailoverShardRequest",
-}) as any as S.Schema<FailoverShardRequest>;
 export interface FailoverShardResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
-export const FailoverShardResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "FailoverShardResponse",
-}) as any as S.Schema<FailoverShardResponse>;
 export interface ListAllowedMultiRegionClusterUpdatesRequest {
   MultiRegionClusterName: string;
 }
-export const ListAllowedMultiRegionClusterUpdatesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MultiRegionClusterName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListAllowedMultiRegionClusterUpdatesRequest",
-  }) as any as S.Schema<ListAllowedMultiRegionClusterUpdatesRequest>;
 export type NodeTypeList = string[];
-export const NodeTypeList = /*@__PURE__*/ S.Array(S.String);
 export interface ListAllowedMultiRegionClusterUpdatesResponse {
-  ScaleUpNodeTypes?: string[];
-  ScaleDownNodeTypes?: string[];
+  ScaleUpNodeTypes?: string[] | undefined;
+  ScaleDownNodeTypes?: string[] | undefined;
 }
-export const ListAllowedMultiRegionClusterUpdatesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ScaleUpNodeTypes: S.optional(NodeTypeList),
-      ScaleDownNodeTypes: S.optional(NodeTypeList),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListAllowedMultiRegionClusterUpdatesResponse",
-  }) as any as S.Schema<ListAllowedMultiRegionClusterUpdatesResponse>;
 export interface ListAllowedNodeTypeUpdatesRequest {
   ClusterName: string;
 }
-export const ListAllowedNodeTypeUpdatesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ClusterName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListAllowedNodeTypeUpdatesRequest",
-}) as any as S.Schema<ListAllowedNodeTypeUpdatesRequest>;
 export interface ListAllowedNodeTypeUpdatesResponse {
-  ScaleUpNodeTypes?: string[];
-  ScaleDownNodeTypes?: string[];
+  ScaleUpNodeTypes?: string[] | undefined;
+  ScaleDownNodeTypes?: string[] | undefined;
 }
-export const ListAllowedNodeTypeUpdatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScaleUpNodeTypes: S.optional(NodeTypeList),
-    ScaleDownNodeTypes: S.optional(NodeTypeList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAllowedNodeTypeUpdatesResponse",
-}) as any as S.Schema<ListAllowedNodeTypeUpdatesResponse>;
 export interface ListTagsRequest {
   ResourceArn: string;
 }
-export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
 export interface ListTagsResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
-export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
 export interface PurchaseReservedNodesOfferingRequest {
   ReservedNodesOfferingId: string;
-  ReservationId?: string;
-  NodeCount?: number;
-  Tags?: Tag[];
+  ReservationId?: string | undefined;
+  NodeCount?: number | undefined;
+  Tags?: Tag[] | undefined;
 }
-export const PurchaseReservedNodesOfferingRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedNodesOfferingId: S.String,
-      ReservationId: S.optional(S.String),
-      NodeCount: S.optional(S.Number),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "PurchaseReservedNodesOfferingRequest",
-}) as any as S.Schema<PurchaseReservedNodesOfferingRequest>;
 export interface PurchaseReservedNodesOfferingResponse {
-  ReservedNode?: ReservedNode;
+  ReservedNode?: ReservedNode | undefined;
 }
-export const PurchaseReservedNodesOfferingResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ ReservedNode: S.optional(ReservedNode) }).pipe(ns),
-).annotate({
-  identifier: "PurchaseReservedNodesOfferingResponse",
-}) as any as S.Schema<PurchaseReservedNodesOfferingResponse>;
 export type ParameterNameList = string[];
-export const ParameterNameList = /*@__PURE__*/ S.Array(S.String);
 export interface ResetParameterGroupRequest {
   ParameterGroupName: string;
-  AllParameters?: boolean;
-  ParameterNames?: string[];
+  AllParameters?: boolean | undefined;
+  ParameterNames?: string[] | undefined;
 }
-export const ResetParameterGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterGroupName: S.String,
-    AllParameters: S.optional(S.Boolean),
-    ParameterNames: S.optional(ParameterNameList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ResetParameterGroupRequest",
-}) as any as S.Schema<ResetParameterGroupRequest>;
 export interface ResetParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
-export const ResetParameterGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ParameterGroup: S.optional(ParameterGroup) }).pipe(ns),
-).annotate({
-  identifier: "ResetParameterGroupResponse",
-}) as any as S.Schema<ResetParameterGroupResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "TagResourceResponse",
-}) as any as S.Schema<TagResourceResponse>;
 export type KeyList = string[];
-export const KeyList = /*@__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ResourceArn: S.String, TagKeys: KeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "UntagResourceResponse",
-}) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateACLRequest {
   ACLName: string;
-  UserNamesToAdd?: string[];
-  UserNamesToRemove?: string[];
+  UserNamesToAdd?: string[] | undefined;
+  UserNamesToRemove?: string[] | undefined;
 }
-export const UpdateACLRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ACLName: S.String,
-    UserNamesToAdd: S.optional(UserNameListInput),
-    UserNamesToRemove: S.optional(UserNameListInput),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateACLRequest",
-}) as any as S.Schema<UpdateACLRequest>;
 export interface UpdateACLResponse {
-  ACL?: ACL;
+  ACL?: ACL | undefined;
 }
-export const UpdateACLResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ACL: S.optional(ACL) }).pipe(ns),
-).annotate({
-  identifier: "UpdateACLResponse",
-}) as any as S.Schema<UpdateACLResponse>;
 export interface ReplicaConfigurationRequest {
-  ReplicaCount?: number;
+  ReplicaCount?: number | undefined;
 }
-export const ReplicaConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ReplicaCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "ReplicaConfigurationRequest",
-}) as any as S.Schema<ReplicaConfigurationRequest>;
 export interface ShardConfigurationRequest {
-  ShardCount?: number;
+  ShardCount?: number | undefined;
 }
-export const ShardConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ShardCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "ShardConfigurationRequest",
-}) as any as S.Schema<ShardConfigurationRequest>;
 export interface UpdateClusterRequest {
   ClusterName: string;
-  Description?: string;
-  SecurityGroupIds?: string[];
-  MaintenanceWindow?: string;
-  SnsTopicArn?: string;
-  SnsTopicStatus?: string;
-  ParameterGroupName?: string;
-  SnapshotWindow?: string;
-  SnapshotRetentionLimit?: number;
-  NodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  ReplicaConfiguration?: ReplicaConfigurationRequest;
-  ShardConfiguration?: ShardConfigurationRequest;
-  ACLName?: string;
-  IpDiscovery?: IpDiscovery;
+  Description?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  MaintenanceWindow?: string | undefined;
+  SnsTopicArn?: string | undefined;
+  SnsTopicStatus?: string | undefined;
+  ParameterGroupName?: string | undefined;
+  SnapshotWindow?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  NodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  ReplicaConfiguration?: ReplicaConfigurationRequest | undefined;
+  ShardConfiguration?: ShardConfigurationRequest | undefined;
+  ACLName?: string | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
 }
-export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClusterName: S.String,
-    Description: S.optional(S.String),
-    SecurityGroupIds: S.optional(SecurityGroupIdsList),
-    MaintenanceWindow: S.optional(S.String),
-    SnsTopicArn: S.optional(S.String),
-    SnsTopicStatus: S.optional(S.String),
-    ParameterGroupName: S.optional(S.String),
-    SnapshotWindow: S.optional(S.String),
-    SnapshotRetentionLimit: S.optional(S.Number),
-    NodeType: S.optional(S.String),
-    Engine: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    ReplicaConfiguration: S.optional(ReplicaConfigurationRequest),
-    ShardConfiguration: S.optional(ShardConfigurationRequest),
-    ACLName: S.optional(S.String),
-    IpDiscovery: S.optional(IpDiscovery),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
 export interface UpdateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
-export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Cluster: S.optional(Cluster) }).pipe(ns),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
 export type UpdateStrategy = "coordinated" | "uncoordinated" | (string & {});
-export const UpdateStrategy = S.String;
-
 export interface UpdateMultiRegionClusterRequest {
   MultiRegionClusterName: string;
-  NodeType?: string;
-  Description?: string;
-  EngineVersion?: string;
-  ShardConfiguration?: ShardConfigurationRequest;
-  MultiRegionParameterGroupName?: string;
-  UpdateStrategy?: UpdateStrategy;
+  NodeType?: string | undefined;
+  Description?: string | undefined;
+  EngineVersion?: string | undefined;
+  ShardConfiguration?: ShardConfigurationRequest | undefined;
+  MultiRegionParameterGroupName?: string | undefined;
+  UpdateStrategy?: UpdateStrategy | undefined;
 }
-export const UpdateMultiRegionClusterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MultiRegionClusterName: S.String,
-    NodeType: S.optional(S.String),
-    Description: S.optional(S.String),
-    EngineVersion: S.optional(S.String),
-    ShardConfiguration: S.optional(ShardConfigurationRequest),
-    MultiRegionParameterGroupName: S.optional(S.String),
-    UpdateStrategy: S.optional(UpdateStrategy),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateMultiRegionClusterRequest",
-}) as any as S.Schema<UpdateMultiRegionClusterRequest>;
 export interface UpdateMultiRegionClusterResponse {
-  MultiRegionCluster?: MultiRegionCluster;
+  MultiRegionCluster?: MultiRegionCluster | undefined;
 }
-export const UpdateMultiRegionClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MultiRegionCluster: S.optional(MultiRegionCluster) }).pipe(ns),
-).annotate({
-  identifier: "UpdateMultiRegionClusterResponse",
-}) as any as S.Schema<UpdateMultiRegionClusterResponse>;
 export interface ParameterNameValue {
-  ParameterName?: string;
-  ParameterValue?: string;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
 }
-export const ParameterNameValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterName: S.optional(S.String),
-    ParameterValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ParameterNameValue",
-}) as any as S.Schema<ParameterNameValue>;
 export type ParameterNameValueList = ParameterNameValue[];
-export const ParameterNameValueList = /*@__PURE__*/ S.Array(
-  ParameterNameValue.pipe(T.XmlName("ParameterNameValue")).annotate({
-    identifier: "ParameterNameValue",
-  }),
-);
 export interface UpdateParameterGroupRequest {
   ParameterGroupName: string;
   ParameterNameValues: ParameterNameValue[];
 }
-export const UpdateParameterGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterGroupName: S.String,
-    ParameterNameValues: ParameterNameValueList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateParameterGroupRequest",
-}) as any as S.Schema<UpdateParameterGroupRequest>;
 export interface UpdateParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
-export const UpdateParameterGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ParameterGroup: S.optional(ParameterGroup) }).pipe(ns),
-).annotate({
-  identifier: "UpdateParameterGroupResponse",
-}) as any as S.Schema<UpdateParameterGroupResponse>;
 export interface UpdateSubnetGroupRequest {
   SubnetGroupName: string;
-  Description?: string;
-  SubnetIds?: string[];
+  Description?: string | undefined;
+  SubnetIds?: string[] | undefined;
 }
-export const UpdateSubnetGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetGroupName: S.String,
-    Description: S.optional(S.String),
-    SubnetIds: S.optional(SubnetIdentifierList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateSubnetGroupRequest",
-}) as any as S.Schema<UpdateSubnetGroupRequest>;
 export interface UpdateSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
-export const UpdateSubnetGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SubnetGroup: S.optional(SubnetGroup) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSubnetGroupResponse",
-}) as any as S.Schema<UpdateSubnetGroupResponse>;
 export interface UpdateUserRequest {
   UserName: string;
-  AuthenticationMode?: AuthenticationMode;
-  AccessString?: string;
+  AuthenticationMode?: AuthenticationMode | undefined;
+  AccessString?: string | undefined;
 }
-export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UserName: S.String,
-    AuthenticationMode: S.optional(AuthenticationMode),
-    AccessString: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
 export interface UpdateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
-export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ User: S.optional(User) }).pipe(ns),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
 export type AwsQueryErrorMessage = string;
 export type ExceptionMessage = string;
 export type BatchUpdateClusterError =
@@ -3178,13 +1438,13 @@ export type BatchUpdateClusterError =
  * Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
  */
 export const batchUpdateCluster: API.OperationMethod<
-  BatchUpdateClusterRequest,
+  BatchUpdateClusterRequest & RegionInput,
   BatchUpdateClusterResponse,
   BatchUpdateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: BatchUpdateClusterRequest,
-  output: BatchUpdateClusterResponse,
+  input: __S(33, __c2, 1) as any as S.Schema<BatchUpdateClusterRequest>,
+  output: __S(36, __c2, 4) as any as S.Schema<BatchUpdateClusterResponse>,
   errors: [
     InvalidParameterValueException,
     ServiceUpdateNotFoundFault,
@@ -3193,6 +1453,8 @@ export const batchUpdateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCluster",
+  telemetry: TELEMETRY,
+  span: "BatchUpdateCluster",
 }));
 
 export type CopySnapshotError =
@@ -3209,13 +1471,13 @@ export type CopySnapshotError =
  * Makes a copy of an existing snapshot.
  */
 export const copySnapshot: API.OperationMethod<
-  CopySnapshotRequest,
+  CopySnapshotRequest & RegionInput,
   CopySnapshotResponse,
   CopySnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CopySnapshotRequest,
-  output: CopySnapshotResponse,
+  input: __S(112, __c7, 0) as any as S.Schema<CopySnapshotRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<CopySnapshotResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3229,6 +1491,8 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
+  telemetry: TELEMETRY,
+  span: "CopySnapshot",
 }));
 
 export type CreateACLError =
@@ -3244,13 +1508,13 @@ export type CreateACLError =
  * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
 export const createACL: API.OperationMethod<
-  CreateACLRequest,
+  CreateACLRequest & RegionInput,
   CreateACLResponse,
   CreateACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateACLRequest,
-  output: CreateACLResponse,
+  input: __S(176, __c11, 0) as any as S.Schema<CreateACLRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<CreateACLResponse>,
   errors: [
     ACLAlreadyExistsFault,
     ACLQuotaExceededFault,
@@ -3263,6 +1527,8 @@ export const createACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateACL",
+  telemetry: TELEMETRY,
+  span: "CreateACL",
 }));
 
 export type CreateClusterError =
@@ -3289,13 +1555,13 @@ export type CreateClusterError =
  * Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateClusterRequest,
-  output: CreateClusterResponse,
+  input: __S(225, __c14, 1) as any as S.Schema<CreateClusterRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<CreateClusterResponse>,
   errors: [
     ACLNotFoundFault,
     ClusterAlreadyExistsFault,
@@ -3319,6 +1585,8 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  telemetry: TELEMETRY,
+  span: "CreateCluster",
 }));
 
 export type CreateMultiRegionClusterError =
@@ -3333,13 +1601,13 @@ export type CreateMultiRegionClusterError =
  * Creates a new multi-Region cluster.
  */
 export const createMultiRegionCluster: API.OperationMethod<
-  CreateMultiRegionClusterRequest,
+  CreateMultiRegionClusterRequest & RegionInput,
   CreateMultiRegionClusterResponse,
   CreateMultiRegionClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateMultiRegionClusterRequest,
-  output: CreateMultiRegionClusterResponse,
+  input: __S(272, __c17, 0) as any as S.Schema<CreateMultiRegionClusterRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<CreateMultiRegionClusterResponse>,
   errors: [
     ClusterQuotaForCustomerExceededFault,
     InvalidParameterCombinationException,
@@ -3351,6 +1619,8 @@ export const createMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiRegionCluster",
+  telemetry: TELEMETRY,
+  span: "CreateMultiRegionCluster",
 }));
 
 export type CreateParameterGroupError =
@@ -3367,13 +1637,13 @@ export type CreateParameterGroupError =
  * more information, see Configuring engine parameters using parameter groups.
  */
 export const createParameterGroup: API.OperationMethod<
-  CreateParameterGroupRequest,
+  CreateParameterGroupRequest & RegionInput,
   CreateParameterGroupResponse,
   CreateParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateParameterGroupRequest,
-  output: CreateParameterGroupResponse,
+  input: __S(320, __c20, 0) as any as S.Schema<CreateParameterGroupRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<CreateParameterGroupResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterGroupStateFault,
@@ -3386,6 +1656,8 @@ export const createParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "CreateParameterGroup",
 }));
 
 export type CreateSnapshotError =
@@ -3402,13 +1674,13 @@ export type CreateSnapshotError =
  * Creates a copy of an entire cluster at a specific moment in time.
  */
 export const createSnapshot: API.OperationMethod<
-  CreateSnapshotRequest,
+  CreateSnapshotRequest & RegionInput,
   CreateSnapshotResponse,
   CreateSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSnapshotRequest,
-  output: CreateSnapshotResponse,
+  input: __S(368, __c23, 0) as any as S.Schema<CreateSnapshotRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<CreateSnapshotResponse>,
   errors: [
     ClusterNotFoundFault,
     InvalidClusterStateFault,
@@ -3422,6 +1694,8 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
+  telemetry: TELEMETRY,
+  span: "CreateSnapshot",
 }));
 
 export type CreateSubnetGroupError =
@@ -3440,13 +1714,13 @@ export type CreateSubnetGroupError =
  * For more information, see Subnets and subnet groups.
  */
 export const createSubnetGroup: API.OperationMethod<
-  CreateSubnetGroupRequest,
+  CreateSubnetGroupRequest & RegionInput,
   CreateSubnetGroupResponse,
   CreateSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateSubnetGroupRequest,
-  output: CreateSubnetGroupResponse,
+  input: __S(384, __c24, 0) as any as S.Schema<CreateSubnetGroupRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<CreateSubnetGroupResponse>,
   errors: [
     InvalidSubnet,
     ServiceLinkedRoleNotFoundFault,
@@ -3459,6 +1733,8 @@ export const createSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "CreateSubnetGroup",
 }));
 
 export type CreateUserError =
@@ -3473,13 +1749,13 @@ export type CreateUserError =
  * Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateUserRequest,
-  output: CreateUserResponse,
+  input: __S(464, __c29, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<CreateUserResponse>,
   errors: [
     DuplicateUserNameFault,
     InvalidParameterCombinationException,
@@ -3491,6 +1767,8 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  telemetry: TELEMETRY,
+  span: "CreateUser",
 }));
 
 export type DeleteACLError =
@@ -3502,21 +1780,19 @@ export type DeleteACLError =
  * Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
 export const deleteACL: API.OperationMethod<
-  DeleteACLRequest,
+  DeleteACLRequest & RegionInput,
   DeleteACLResponse,
   DeleteACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteACLRequest,
-  output: DeleteACLResponse,
-  errors: [
-    ACLNotFoundFault,
-    InvalidACLStateFault,
-    InvalidParameterValueException,
-  ],
+  input: __S(528, __c33, 0) as any as S.Schema<DeleteACLRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<DeleteACLResponse>,
+  errors: [ACLNotFoundFault, InvalidACLStateFault, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteACL",
+  telemetry: TELEMETRY,
+  span: "DeleteACL",
 }));
 
 export type DeleteClusterError =
@@ -3534,13 +1810,13 @@ export type DeleteClusterError =
  * Without this permission, the API call will fail with an `Access Denied` exception.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteClusterRequest,
-  output: DeleteClusterResponse,
+  input: __S(544, __c34, 0) as any as S.Schema<DeleteClusterRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<DeleteClusterResponse>,
   errors: [
     ClusterNotFoundFault,
     InvalidClusterStateFault,
@@ -3552,6 +1828,8 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteCluster",
 }));
 
 export type DeleteMultiRegionClusterError =
@@ -3563,13 +1841,13 @@ export type DeleteMultiRegionClusterError =
  * Deletes an existing multi-Region cluster.
  */
 export const deleteMultiRegionCluster: API.OperationMethod<
-  DeleteMultiRegionClusterRequest,
+  DeleteMultiRegionClusterRequest & RegionInput,
   DeleteMultiRegionClusterResponse,
   DeleteMultiRegionClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteMultiRegionClusterRequest,
-  output: DeleteMultiRegionClusterResponse,
+  input: __S(560, __c35, 0) as any as S.Schema<DeleteMultiRegionClusterRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<DeleteMultiRegionClusterResponse>,
   errors: [
     InvalidMultiRegionClusterStateFault,
     InvalidParameterValueException,
@@ -3578,6 +1856,8 @@ export const deleteMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiRegionCluster",
+  telemetry: TELEMETRY,
+  span: "DeleteMultiRegionCluster",
 }));
 
 export type DeleteParameterGroupError =
@@ -3592,13 +1872,13 @@ export type DeleteParameterGroupError =
  * You cannot delete the default parameter groups in your account.
  */
 export const deleteParameterGroup: API.OperationMethod<
-  DeleteParameterGroupRequest,
+  DeleteParameterGroupRequest & RegionInput,
   DeleteParameterGroupResponse,
   DeleteParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteParameterGroupRequest,
-  output: DeleteParameterGroupResponse,
+  input: __S(576, __c36, 0) as any as S.Schema<DeleteParameterGroupRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<DeleteParameterGroupResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterGroupStateFault,
@@ -3609,6 +1889,8 @@ export const deleteParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameterGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteParameterGroup",
 }));
 
 export type DeleteSnapshotError =
@@ -3622,13 +1904,13 @@ export type DeleteSnapshotError =
  * Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
  */
 export const deleteSnapshot: API.OperationMethod<
-  DeleteSnapshotRequest,
+  DeleteSnapshotRequest & RegionInput,
   DeleteSnapshotResponse,
   DeleteSnapshotError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSnapshotRequest,
-  output: DeleteSnapshotResponse,
+  input: __S(592, __c37, 0) as any as S.Schema<DeleteSnapshotRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3639,6 +1921,8 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
+  telemetry: TELEMETRY,
+  span: "DeleteSnapshot",
 }));
 
 export type DeleteSubnetGroupError =
@@ -3650,21 +1934,19 @@ export type DeleteSubnetGroupError =
  * Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
  */
 export const deleteSubnetGroup: API.OperationMethod<
-  DeleteSubnetGroupRequest,
+  DeleteSubnetGroupRequest & RegionInput,
   DeleteSubnetGroupResponse,
   DeleteSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteSubnetGroupRequest,
-  output: DeleteSubnetGroupResponse,
-  errors: [
-    ServiceLinkedRoleNotFoundFault,
-    SubnetGroupInUseFault,
-    SubnetGroupNotFoundFault,
-  ],
+  input: __S(608, __c38, 0) as any as S.Schema<DeleteSubnetGroupRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<DeleteSubnetGroupResponse>,
+  errors: [ServiceLinkedRoleNotFoundFault, SubnetGroupInUseFault, SubnetGroupNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "DeleteSubnetGroup",
 }));
 
 export type DeleteUserError =
@@ -3676,21 +1958,19 @@ export type DeleteUserError =
  * Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteUserRequest,
-  output: DeleteUserResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidUserStateFault,
-    UserNotFoundFault,
-  ],
+  input: __S(624, __c39, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<DeleteUserResponse>,
+  errors: [InvalidParameterValueException, InvalidUserStateFault, UserNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  telemetry: TELEMETRY,
+  span: "DeleteUser",
 }));
 
 export type DescribeACLsError =
@@ -3701,14 +1981,14 @@ export type DescribeACLsError =
  * Returns a list of ACLs.
  */
 export const describeACLs: API.PaginatedOperationMethod<
-  DescribeACLsRequest,
+  DescribeACLsRequest & RegionInput,
   DescribeACLsResponse,
   DescribeACLsError,
   Credentials | HttpClient.HttpClient,
   ACL
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeACLsRequest,
-  output: DescribeACLsResponse,
+  input: __S(640, __c40, 0) as any as S.Schema<DescribeACLsRequest>,
+  output: __S(642, __c40, 2) as any as S.Schema<DescribeACLsResponse>,
   errors: [ACLNotFoundFault, InvalidParameterCombinationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3719,6 +1999,8 @@ export const describeACLs: API.PaginatedOperationMethod<
     items: "ACLs",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeACLs",
 })) as any;
 
 export type DescribeClustersError =
@@ -3731,14 +2013,14 @@ export type DescribeClustersError =
  * Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
  */
 export const describeClusters: API.PaginatedOperationMethod<
-  DescribeClustersRequest,
+  DescribeClustersRequest & RegionInput,
   DescribeClustersResponse,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient,
   Cluster
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeClustersRequest,
-  output: DescribeClustersResponse,
+  input: __S(656, __c41, 0) as any as S.Schema<DescribeClustersRequest>,
+  output: __S(657, __c41, 1) as any as S.Schema<DescribeClustersResponse>,
   errors: [
     ClusterNotFoundFault,
     InvalidParameterCombinationException,
@@ -3754,6 +2036,8 @@ export const describeClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeClusters",
 })) as any;
 
 export type DescribeEngineVersionsError =
@@ -3765,14 +2049,14 @@ export type DescribeEngineVersionsError =
  * Returns a list of the available Redis OSS engine versions.
  */
 export const describeEngineVersions: API.PaginatedOperationMethod<
-  DescribeEngineVersionsRequest,
+  DescribeEngineVersionsRequest & RegionInput,
   DescribeEngineVersionsResponse,
   DescribeEngineVersionsError,
   Credentials | HttpClient.HttpClient,
   EngineVersionInfo
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEngineVersionsRequest,
-  output: DescribeEngineVersionsResponse,
+  input: __S(672, __c42, 0) as any as S.Schema<DescribeEngineVersionsRequest>,
+  output: __S(675, __c42, 3) as any as S.Schema<DescribeEngineVersionsResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3787,6 +2071,8 @@ export const describeEngineVersions: API.PaginatedOperationMethod<
     items: "EngineVersions",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEngineVersions",
 })) as any;
 
 export type DescribeEventsError =
@@ -3800,14 +2086,14 @@ export type DescribeEventsError =
  * By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
  */
 export const describeEvents: API.PaginatedOperationMethod<
-  DescribeEventsRequest,
+  DescribeEventsRequest & RegionInput,
   DescribeEventsResponse,
   DescribeEventsError,
   Credentials | HttpClient.HttpClient,
   Event
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeEventsRequest,
-  output: DescribeEventsResponse,
+  input: __S(688, __c43, 0) as any as S.Schema<DescribeEventsRequest>,
+  output: __S(691, __c43, 3) as any as S.Schema<DescribeEventsResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3822,6 +2108,8 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeEvents",
 })) as any;
 
 export type DescribeMultiRegionClustersError =
@@ -3834,14 +2122,14 @@ export type DescribeMultiRegionClustersError =
  * Returns details about one or more multi-Region clusters.
  */
 export const describeMultiRegionClusters: API.PaginatedOperationMethod<
-  DescribeMultiRegionClustersRequest,
+  DescribeMultiRegionClustersRequest & RegionInput,
   DescribeMultiRegionClustersResponse,
   DescribeMultiRegionClustersError,
   Credentials | HttpClient.HttpClient,
   MultiRegionCluster
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeMultiRegionClustersRequest,
-  output: DescribeMultiRegionClustersResponse,
+  input: __S(704, __c44, 0) as any as S.Schema<DescribeMultiRegionClustersRequest>,
+  output: __S(706, __c44, 2) as any as S.Schema<DescribeMultiRegionClustersResponse>,
   errors: [
     ClusterNotFoundFault,
     InvalidParameterCombinationException,
@@ -3857,6 +2145,8 @@ export const describeMultiRegionClusters: API.PaginatedOperationMethod<
     items: "MultiRegionClusters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeMultiRegionClusters",
 })) as any;
 
 export type DescribeMultiRegionParameterGroupsError =
@@ -3869,13 +2159,13 @@ export type DescribeMultiRegionParameterGroupsError =
  * Returns a list of multi-region parameter groups.
  */
 export const describeMultiRegionParameterGroups: API.OperationMethod<
-  DescribeMultiRegionParameterGroupsRequest,
+  DescribeMultiRegionParameterGroupsRequest & RegionInput,
   DescribeMultiRegionParameterGroupsResponse,
   DescribeMultiRegionParameterGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeMultiRegionParameterGroupsRequest,
-  output: DescribeMultiRegionParameterGroupsResponse,
+  input: __S(720, __c45, 0) as any as S.Schema<DescribeMultiRegionParameterGroupsRequest>,
+  output: __S(722, __c45, 2) as any as S.Schema<DescribeMultiRegionParameterGroupsResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3885,6 +2175,8 @@ export const describeMultiRegionParameterGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiRegionParameterGroups",
+  telemetry: TELEMETRY,
+  span: "DescribeMultiRegionParameterGroups",
 }));
 
 export type DescribeMultiRegionParametersError =
@@ -3897,13 +2189,13 @@ export type DescribeMultiRegionParametersError =
  * Returns the detailed parameter list for a particular multi-region parameter group.
  */
 export const describeMultiRegionParameters: API.OperationMethod<
-  DescribeMultiRegionParametersRequest,
+  DescribeMultiRegionParametersRequest & RegionInput,
   DescribeMultiRegionParametersResponse,
   DescribeMultiRegionParametersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeMultiRegionParametersRequest,
-  output: DescribeMultiRegionParametersResponse,
+  input: __S(736, __c46, 0) as any as S.Schema<DescribeMultiRegionParametersRequest>,
+  output: __S(739, __c46, 3) as any as S.Schema<DescribeMultiRegionParametersResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3913,6 +2205,8 @@ export const describeMultiRegionParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiRegionParameters",
+  telemetry: TELEMETRY,
+  span: "DescribeMultiRegionParameters",
 }));
 
 export type DescribeParameterGroupsError =
@@ -3925,14 +2219,14 @@ export type DescribeParameterGroupsError =
  * Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
  */
 export const describeParameterGroups: API.PaginatedOperationMethod<
-  DescribeParameterGroupsRequest,
+  DescribeParameterGroupsRequest & RegionInput,
   DescribeParameterGroupsResponse,
   DescribeParameterGroupsError,
   Credentials | HttpClient.HttpClient,
   ParameterGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeParameterGroupsRequest,
-  output: DescribeParameterGroupsResponse,
+  input: __S(752, __c47, 0) as any as S.Schema<DescribeParameterGroupsRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<DescribeParameterGroupsResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3948,6 +2242,8 @@ export const describeParameterGroups: API.PaginatedOperationMethod<
     items: "ParameterGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeParameterGroups",
 })) as any;
 
 export type DescribeParametersError =
@@ -3960,14 +2256,14 @@ export type DescribeParametersError =
  * Returns the detailed parameter list for a particular parameter group.
  */
 export const describeParameters: API.PaginatedOperationMethod<
-  DescribeParametersRequest,
+  DescribeParametersRequest & RegionInput,
   DescribeParametersResponse,
   DescribeParametersError,
   Credentials | HttpClient.HttpClient,
   Parameter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeParametersRequest,
-  output: DescribeParametersResponse,
+  input: __S(768, __c48, 0) as any as S.Schema<DescribeParametersRequest>,
+  output: __S(771, __c48, 3) as any as S.Schema<DescribeParametersResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -3983,6 +2279,8 @@ export const describeParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeParameters",
 })) as any;
 
 export type DescribeReservedNodesError =
@@ -3995,14 +2293,14 @@ export type DescribeReservedNodesError =
  * Returns information about reserved nodes for this account, or about a specified reserved node.
  */
 export const describeReservedNodes: API.PaginatedOperationMethod<
-  DescribeReservedNodesRequest,
+  DescribeReservedNodesRequest & RegionInput,
   DescribeReservedNodesResponse,
   DescribeReservedNodesError,
   Credentials | HttpClient.HttpClient,
   ReservedNode
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReservedNodesRequest,
-  output: DescribeReservedNodesResponse,
+  input: __S(784, __c49, 0) as any as S.Schema<DescribeReservedNodesRequest>,
+  output: __S(786, __c49, 2) as any as S.Schema<DescribeReservedNodesResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4018,6 +2316,8 @@ export const describeReservedNodes: API.PaginatedOperationMethod<
     items: "ReservedNodes",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedNodes",
 })) as any;
 
 export type DescribeReservedNodesOfferingsError =
@@ -4030,14 +2330,14 @@ export type DescribeReservedNodesOfferingsError =
  * Lists available reserved node offerings.
  */
 export const describeReservedNodesOfferings: API.PaginatedOperationMethod<
-  DescribeReservedNodesOfferingsRequest,
+  DescribeReservedNodesOfferingsRequest & RegionInput,
   DescribeReservedNodesOfferingsResponse,
   DescribeReservedNodesOfferingsError,
   Credentials | HttpClient.HttpClient,
   ReservedNodesOffering
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReservedNodesOfferingsRequest,
-  output: DescribeReservedNodesOfferingsResponse,
+  input: __S(832, __c52, 0) as any as S.Schema<DescribeReservedNodesOfferingsRequest>,
+  output: __S(835, __c52, 3) as any as S.Schema<DescribeReservedNodesOfferingsResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4053,6 +2353,8 @@ export const describeReservedNodesOfferings: API.PaginatedOperationMethod<
     items: "ReservedNodesOfferings",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedNodesOfferings",
 })) as any;
 
 export type DescribeServiceUpdatesError =
@@ -4063,18 +2365,15 @@ export type DescribeServiceUpdatesError =
  * Returns details of the service updates.
  */
 export const describeServiceUpdates: API.PaginatedOperationMethod<
-  DescribeServiceUpdatesRequest,
+  DescribeServiceUpdatesRequest & RegionInput,
   DescribeServiceUpdatesResponse,
   DescribeServiceUpdatesError,
   Credentials | HttpClient.HttpClient,
   ServiceUpdate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeServiceUpdatesRequest,
-  output: DescribeServiceUpdatesResponse,
-  errors: [
-    InvalidParameterCombinationException,
-    InvalidParameterValueException,
-  ],
+  input: __S(848, __c53, 0) as any as S.Schema<DescribeServiceUpdatesRequest>,
+  output: __S(851, __c53, 3) as any as S.Schema<DescribeServiceUpdatesResponse>,
+  errors: [InvalidParameterCombinationException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceUpdates",
@@ -4084,6 +2383,8 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
     items: "ServiceUpdates",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeServiceUpdates",
 })) as any;
 
 export type DescribeSnapshotsError =
@@ -4097,14 +2398,14 @@ export type DescribeSnapshotsError =
  * or just the snapshots associated with a particular cluster.
  */
 export const describeSnapshots: API.PaginatedOperationMethod<
-  DescribeSnapshotsRequest,
+  DescribeSnapshotsRequest & RegionInput,
   DescribeSnapshotsResponse,
   DescribeSnapshotsError,
   Credentials | HttpClient.HttpClient,
   Snapshot
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSnapshotsRequest,
-  output: DescribeSnapshotsResponse,
+  input: __S(864, __c54, 0) as any as S.Schema<DescribeSnapshotsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<DescribeSnapshotsResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4120,6 +2421,8 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSnapshots",
 })) as any;
 
 export type DescribeSubnetGroupsError =
@@ -4130,14 +2433,14 @@ export type DescribeSubnetGroupsError =
  * Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
  */
 export const describeSubnetGroups: API.PaginatedOperationMethod<
-  DescribeSubnetGroupsRequest,
+  DescribeSubnetGroupsRequest & RegionInput,
   DescribeSubnetGroupsResponse,
   DescribeSubnetGroupsError,
   Credentials | HttpClient.HttpClient,
   SubnetGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeSubnetGroupsRequest,
-  output: DescribeSubnetGroupsResponse,
+  input: __S(880, __c55, 0) as any as S.Schema<DescribeSubnetGroupsRequest>,
+  output: __S(882, __c55, 2) as any as S.Schema<DescribeSubnetGroupsResponse>,
   errors: [ServiceLinkedRoleNotFoundFault, SubnetGroupNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4148,6 +2451,8 @@ export const describeSubnetGroups: API.PaginatedOperationMethod<
     items: "SubnetGroups",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeSubnetGroups",
 })) as any;
 
 export type DescribeUsersError =
@@ -4158,14 +2463,14 @@ export type DescribeUsersError =
  * Returns a list of users.
  */
 export const describeUsers: API.PaginatedOperationMethod<
-  DescribeUsersRequest,
+  DescribeUsersRequest & RegionInput,
   DescribeUsersResponse,
   DescribeUsersError,
   Credentials | HttpClient.HttpClient,
   User
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeUsersRequest,
-  output: DescribeUsersResponse,
+  input: __S(898, __c56, 2) as any as S.Schema<DescribeUsersRequest>,
+  output: __S(900, __c56, 4) as any as S.Schema<DescribeUsersResponse>,
   errors: [InvalidParameterCombinationException, UserNotFoundFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4176,6 +2481,8 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeUsers",
 })) as any;
 
 export type FailoverShardError =
@@ -4193,13 +2500,13 @@ export type FailoverShardError =
  * a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
  */
 export const failoverShard: API.OperationMethod<
-  FailoverShardRequest,
+  FailoverShardRequest & RegionInput,
   FailoverShardResponse,
   FailoverShardError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: FailoverShardRequest,
-  output: FailoverShardResponse,
+  input: __S(912, __c57, 0) as any as S.Schema<FailoverShardRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<FailoverShardResponse>,
   errors: [
     APICallRateForCustomerExceededFault,
     ClusterNotFoundFault,
@@ -4213,6 +2520,8 @@ export const failoverShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverShard",
+  telemetry: TELEMETRY,
+  span: "FailoverShard",
 }));
 
 export type ListAllowedMultiRegionClusterUpdatesError =
@@ -4224,13 +2533,13 @@ export type ListAllowedMultiRegionClusterUpdatesError =
  * Lists the allowed updates for a multi-Region cluster.
  */
 export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
-  ListAllowedMultiRegionClusterUpdatesRequest,
+  ListAllowedMultiRegionClusterUpdatesRequest & RegionInput,
   ListAllowedMultiRegionClusterUpdatesResponse,
   ListAllowedMultiRegionClusterUpdatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAllowedMultiRegionClusterUpdatesRequest,
-  output: ListAllowedMultiRegionClusterUpdatesResponse,
+  input: __S(928, __c58, 0) as any as S.Schema<ListAllowedMultiRegionClusterUpdatesRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<ListAllowedMultiRegionClusterUpdatesResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4239,6 +2548,8 @@ export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedMultiRegionClusterUpdates",
+  telemetry: TELEMETRY,
+  span: "ListAllowedMultiRegionClusterUpdates",
 }));
 
 export type ListAllowedNodeTypeUpdatesError =
@@ -4253,13 +2564,13 @@ export type ListAllowedNodeTypeUpdatesError =
  * When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
  */
 export const listAllowedNodeTypeUpdates: API.OperationMethod<
-  ListAllowedNodeTypeUpdatesRequest,
+  ListAllowedNodeTypeUpdatesRequest & RegionInput,
   ListAllowedNodeTypeUpdatesResponse,
   ListAllowedNodeTypeUpdatesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListAllowedNodeTypeUpdatesRequest,
-  output: ListAllowedNodeTypeUpdatesResponse,
+  input: __S(960, __c60, 0) as any as S.Schema<ListAllowedNodeTypeUpdatesRequest>,
+  output: __S(944, __c59, 0) as any as S.Schema<ListAllowedNodeTypeUpdatesResponse>,
   errors: [
     ClusterNotFoundFault,
     InvalidParameterCombinationException,
@@ -4269,6 +2580,8 @@ export const listAllowedNodeTypeUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedNodeTypeUpdates",
+  telemetry: TELEMETRY,
+  span: "ListAllowedNodeTypeUpdates",
 }));
 
 export type ListTagsError =
@@ -4290,13 +2603,13 @@ export type ListTagsError =
  * When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
+  input: __S(976, __c61, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<ListTagsResponse>,
   errors: [
     ACLNotFoundFault,
     ClusterNotFoundFault,
@@ -4313,6 +2626,8 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type PurchaseReservedNodesOfferingError =
@@ -4328,13 +2643,13 @@ export type PurchaseReservedNodesOfferingError =
  * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
  */
 export const purchaseReservedNodesOffering: API.OperationMethod<
-  PurchaseReservedNodesOfferingRequest,
+  PurchaseReservedNodesOfferingRequest & RegionInput,
   PurchaseReservedNodesOfferingResponse,
   PurchaseReservedNodesOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PurchaseReservedNodesOfferingRequest,
-  output: PurchaseReservedNodesOfferingResponse,
+  input: __S(1008, __c63, 0) as any as S.Schema<PurchaseReservedNodesOfferingRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<PurchaseReservedNodesOfferingResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4347,6 +2662,8 @@ export const purchaseReservedNodesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedNodesOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedNodesOffering",
 }));
 
 export type ResetParameterGroupError =
@@ -4360,13 +2677,13 @@ export type ResetParameterGroupError =
  * Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
  */
 export const resetParameterGroup: API.OperationMethod<
-  ResetParameterGroupRequest,
+  ResetParameterGroupRequest & RegionInput,
   ResetParameterGroupResponse,
   ResetParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ResetParameterGroupRequest,
-  output: ResetParameterGroupResponse,
+  input: __S(1024, __c64, 0) as any as S.Schema<ResetParameterGroupRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<ResetParameterGroupResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterGroupStateFault,
@@ -4377,6 +2694,8 @@ export const resetParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetParameterGroup",
+  telemetry: TELEMETRY,
+  span: "ResetParameterGroup",
 }));
 
 export type TagResourceError =
@@ -4406,13 +2725,13 @@ export type TagResourceError =
  * For more information, see Using Cost Allocation Tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: TagResourceRequest,
-  output: TagResourceResponse,
+  input: __S(1040, __c65, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     ACLNotFoundFault,
     ClusterNotFoundFault,
@@ -4431,6 +2750,8 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  telemetry: TELEMETRY,
+  span: "TagResource",
 }));
 
 export type UntagResourceError =
@@ -4460,13 +2781,13 @@ export type UntagResourceError =
  * For more information, see Using Cost Allocation Tags.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UntagResourceRequest,
-  output: UntagResourceResponse,
+  input: __S(1056, __c66, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(992, __c62, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     ACLNotFoundFault,
     ClusterNotFoundFault,
@@ -4485,6 +2806,8 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 export type UpdateACLError =
@@ -4500,13 +2823,13 @@ export type UpdateACLError =
  * Changes the list of users that belong to the Access Control List.
  */
 export const updateACL: API.OperationMethod<
-  UpdateACLRequest,
+  UpdateACLRequest & RegionInput,
   UpdateACLResponse,
   UpdateACLError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateACLRequest,
-  output: UpdateACLResponse,
+  input: __S(1072, __c67, 0) as any as S.Schema<UpdateACLRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<UpdateACLResponse>,
   errors: [
     ACLNotFoundFault,
     DefaultUserRequired,
@@ -4519,6 +2842,8 @@ export const updateACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateACL",
+  telemetry: TELEMETRY,
+  span: "UpdateACL",
 }));
 
 export type UpdateClusterError =
@@ -4543,13 +2868,13 @@ export type UpdateClusterError =
  * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateClusterRequest,
-  output: UpdateClusterResponse,
+  input: __S(1089, __c68, 1) as any as S.Schema<UpdateClusterRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<UpdateClusterResponse>,
   errors: [
     ACLNotFoundFault,
     ClusterNotFoundFault,
@@ -4571,6 +2896,8 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateCluster",
 }));
 
 export type UpdateMultiRegionClusterError =
@@ -4584,13 +2911,13 @@ export type UpdateMultiRegionClusterError =
  * Updates the configuration of an existing multi-Region cluster.
  */
 export const updateMultiRegionCluster: API.OperationMethod<
-  UpdateMultiRegionClusterRequest,
+  UpdateMultiRegionClusterRequest & RegionInput,
   UpdateMultiRegionClusterResponse,
   UpdateMultiRegionClusterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateMultiRegionClusterRequest,
-  output: UpdateMultiRegionClusterResponse,
+  input: __S(1120, __c70, 0) as any as S.Schema<UpdateMultiRegionClusterRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<UpdateMultiRegionClusterResponse>,
   errors: [
     InvalidMultiRegionClusterStateFault,
     InvalidParameterCombinationException,
@@ -4601,6 +2928,8 @@ export const updateMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiRegionCluster",
+  telemetry: TELEMETRY,
+  span: "UpdateMultiRegionCluster",
 }));
 
 export type UpdateParameterGroupError =
@@ -4614,13 +2943,13 @@ export type UpdateParameterGroupError =
  * Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
  */
 export const updateParameterGroup: API.OperationMethod<
-  UpdateParameterGroupRequest,
+  UpdateParameterGroupRequest & RegionInput,
   UpdateParameterGroupResponse,
   UpdateParameterGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateParameterGroupRequest,
-  output: UpdateParameterGroupResponse,
+  input: __S(1138, __c71, 2) as any as S.Schema<UpdateParameterGroupRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<UpdateParameterGroupResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterGroupStateFault,
@@ -4631,6 +2960,8 @@ export const updateParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParameterGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateParameterGroup",
 }));
 
 export type UpdateSubnetGroupError =
@@ -4645,13 +2976,13 @@ export type UpdateSubnetGroupError =
  * Updates a subnet group. For more information, see Updating a subnet group
  */
 export const updateSubnetGroup: API.OperationMethod<
-  UpdateSubnetGroupRequest,
+  UpdateSubnetGroupRequest & RegionInput,
   UpdateSubnetGroupResponse,
   UpdateSubnetGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateSubnetGroupRequest,
-  output: UpdateSubnetGroupResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<UpdateSubnetGroupRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<UpdateSubnetGroupResponse>,
   errors: [
     InvalidSubnet,
     ServiceLinkedRoleNotFoundFault,
@@ -4663,6 +2994,8 @@ export const updateSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetGroup",
+  telemetry: TELEMETRY,
+  span: "UpdateSubnetGroup",
 }));
 
 export type UpdateUserError =
@@ -4675,13 +3008,13 @@ export type UpdateUserError =
  * Changes user password(s) and/or access string.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateUserRequest,
-  output: UpdateUserResponse,
+  input: __S(16, __c1, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(496, __c31, 0) as any as S.Schema<UpdateUserResponse>,
   errors: [
     InvalidParameterCombinationException,
     InvalidParameterValueException,
@@ -4691,4 +3024,1347 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  telemetry: TELEMETRY,
+  span: "UpdateUser",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetGroupName: S.String,
+          Description: S.optional(S.String),
+          SubnetIds: S.optional(__S(400, __c25, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateSubnetGroupRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserName: S.String,
+          AuthenticationMode: S.optional(__S(480, __c30, 0)),
+          AccessString: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateUserRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ServiceUpdateNameToApply: S.optional(S.String) })).annotate(
+        { identifier: "ServiceUpdateRequest" },
+      );
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterNames: __S(64, __c4, 0),
+          ServiceUpdate: S.optional(__S(32, __c2, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchUpdateClusterRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.optional(S.String),
+          ErrorType: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UnprocessedCluster" });
+    case 3:
+      return S.Array(
+        /*@__PURE__*/ __S(34, __c2, 2)
+          .pipe(/*@__PURE__*/ T.XmlName("UnprocessedCluster"))
+          .annotate({ identifier: "UnprocessedCluster" }),
+      );
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ProcessedClusters: S.optional(__S(96, __c6, 0)),
+          UnprocessedClusters: S.optional(__S(35, __c2, 3)),
+        }).pipe(ns),
+      ).annotate({ identifier: "BatchUpdateClusterResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Address: S.optional(S.String), Port: S.optional(S.Number) }),
+      ).annotate({ identifier: "Endpoint" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ProgressPercentage: S.optional(S.Number) })).annotate({
+        identifier: "SlotMigration",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ SlotMigration: S.optional(__S(80, __c5, 0)) })).annotate({
+        identifier: "ReshardingStatus",
+      });
+    case 2:
+      return S.suspend(() => S.Struct({ ACLToApply: S.optional(S.String) })).annotate({
+        identifier: "ACLsUpdateStatus",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ ServiceUpdateName: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "PendingModifiedServiceUpdate" });
+    case 4:
+      return S.Array(
+        /*@__PURE__*/ __S(83, __c5, 3)
+          .pipe(/*@__PURE__*/ T.XmlName("PendingModifiedServiceUpdate"))
+          .annotate({ identifier: "PendingModifiedServiceUpdate" }),
+      );
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          Resharding: S.optional(__S(81, __c5, 1)),
+          ACLs: S.optional(__S(82, __c5, 2)),
+          ServiceUpdates: S.optional(__S(84, __c5, 4)),
+        }),
+      ).annotate({ identifier: "ClusterPendingUpdates" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Endpoint: S.optional(Endpoint),
+        }),
+      ).annotate({ identifier: "Node" });
+    case 7:
+      return S.Array(
+        /*@__PURE__*/ __S(86, __c5, 6)
+          .pipe(/*@__PURE__*/ T.XmlName("Node"))
+          .annotate({ identifier: "Node" }),
+      );
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          Slots: S.optional(S.String),
+          Nodes: S.optional(__S(87, __c5, 7)),
+          NumberOfNodes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Shard" });
+    case 9:
+      return S.Array(
+        /*@__PURE__*/ __S(88, __c5, 8)
+          .pipe(/*@__PURE__*/ T.XmlName("Shard"))
+          .annotate({ identifier: "Shard" }),
+      );
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ SecurityGroupId: S.optional(S.String), Status: S.optional(S.String) }),
+      ).annotate({ identifier: "SecurityGroupMembership" });
+    case 11:
+      return S.Array(__S(90, __c5, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+          PendingUpdates: S.optional(__S(85, __c5, 5)),
+          MultiRegionClusterName: S.optional(S.String),
+          NumberOfShards: S.optional(S.Number),
+          Shards: S.optional(__S(89, __c5, 9)),
+          AvailabilityMode: S.optional(S.String),
+          ClusterEndpoint: S.optional(Endpoint),
+          NodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          EnginePatchVersion: S.optional(S.String),
+          ParameterGroupName: S.optional(S.String),
+          ParameterGroupStatus: S.optional(S.String),
+          SecurityGroups: S.optional(__S(91, __c5, 11)),
+          SubnetGroupName: S.optional(S.String),
+          TLSEnabled: S.optional(S.Boolean),
+          KmsKeyId: S.optional(S.String),
+          ARN: S.optional(S.String),
+          SnsTopicArn: S.optional(S.String),
+          SnsTopicStatus: S.optional(S.String),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          MaintenanceWindow: S.optional(S.String),
+          SnapshotWindow: S.optional(S.String),
+          ACLName: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          DataTiering: S.optional(S.String),
+          NetworkType: S.optional(S.String),
+          IpDiscovery: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Cluster" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(
+        /*@__PURE__*/ __S(92, __c5, 12)
+          .pipe(/*@__PURE__*/ T.XmlName("Cluster"))
+          .annotate({ identifier: "Cluster" }),
+      );
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceSnapshotName: S.String,
+          TargetSnapshotName: S.String,
+          TargetBucket: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CopySnapshotRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+      ).annotate({ identifier: "Tag" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(128, __c8, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("Tag"))
+          .annotate({ identifier: "Tag" }),
+      );
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Snapshot: S.optional(__S(164, __c10, 4)) }).pipe(ns),
+      ).annotate({ identifier: "CopySnapshotResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Slots: S.optional(S.String), ReplicaCount: S.optional(S.Number) }),
+      ).annotate({ identifier: "ShardConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Configuration: S.optional(__S(160, __c10, 0)),
+          Size: S.optional(S.String),
+          SnapshotCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ShardDetail" });
+    case 2:
+      return S.Array(__S(161, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          NodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          MaintenanceWindow: S.optional(S.String),
+          TopicArn: S.optional(S.String),
+          Port: S.optional(S.Number),
+          ParameterGroupName: S.optional(S.String),
+          SubnetGroupName: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          SnapshotWindow: S.optional(S.String),
+          NumShards: S.optional(S.Number),
+          Shards: S.optional(__S(162, __c10, 2)),
+          MultiRegionParameterGroupName: S.optional(S.String),
+          MultiRegionClusterName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClusterConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          Source: S.optional(S.String),
+          KmsKeyId: S.optional(S.String),
+          ARN: S.optional(S.String),
+          ClusterConfiguration: S.optional(__S(163, __c10, 3)),
+          DataTiering: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Snapshot" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ACLName: S.String,
+          UserNames: S.optional(__S(64, __c4, 0)),
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateACLRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserNamesToRemove: S.optional(__S(64, __c4, 0)),
+          UserNamesToAdd: S.optional(__S(64, __c4, 0)),
+        }),
+      ).annotate({ identifier: "ACLPendingChanges" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          UserNames: S.optional(__S(64, __c4, 0)),
+          MinimumEngineVersion: S.optional(S.String),
+          PendingChanges: S.optional(__S(192, __c12, 0)),
+          Clusters: S.optional(__S(64, __c4, 0)),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ACL" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ACL: S.optional(__S(193, __c12, 1)) }).pipe(ns)).annotate({
+        identifier: "CreateACLResponse",
+      });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SnapshotArn")));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.String,
+          NodeType: S.String,
+          MultiRegionClusterName: S.optional(S.String),
+          ParameterGroupName: S.optional(S.String),
+          Description: S.optional(S.String),
+          NumShards: S.optional(S.Number),
+          NumReplicasPerShard: S.optional(S.Number),
+          SubnetGroupName: S.optional(S.String),
+          SecurityGroupIds: S.optional(__S(256, __c16, 0)),
+          MaintenanceWindow: S.optional(S.String),
+          Port: S.optional(S.Number),
+          SnsTopicArn: S.optional(S.String),
+          TLSEnabled: S.optional(S.Boolean),
+          KmsKeyId: S.optional(S.String),
+          SnapshotArns: S.optional(__S(224, __c14, 0)),
+          SnapshotName: S.optional(S.String),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          Tags: S.optional(__S(129, __c8, 1)),
+          SnapshotWindow: S.optional(S.String),
+          ACLName: S.String,
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          AutoMinorVersionUpgrade: S.optional(S.Boolean),
+          DataTiering: S.optional(S.Boolean),
+          NetworkType: S.optional(S.String),
+          IpDiscovery: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateClusterRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Cluster: S.optional(__S(92, __c5, 12)) }).pipe(ns),
+      ).annotate({ identifier: "CreateClusterResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SecurityGroupId")));
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MultiRegionClusterNameSuffix: S.String,
+          Description: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          NodeType: S.String,
+          MultiRegionParameterGroupName: S.optional(S.String),
+          NumShards: S.optional(S.Number),
+          TLSEnabled: S.optional(S.Boolean),
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateMultiRegionClusterRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.optional(S.String),
+          Region: S.optional(S.String),
+          Status: S.optional(S.String),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegionalCluster" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(288, __c18, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("RegionalCluster"))
+          .annotate({ identifier: "RegionalCluster" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          MultiRegionClusterName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+          NodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          NumberOfShards: S.optional(S.Number),
+          Clusters: S.optional(__S(289, __c18, 1)),
+          MultiRegionParameterGroupName: S.optional(S.String),
+          TLSEnabled: S.optional(S.Boolean),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MultiRegionCluster" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MultiRegionCluster: S.optional(__S(290, __c18, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreateMultiRegionClusterResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ParameterGroupName: S.String,
+          Family: S.String,
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateParameterGroupRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Family: S.optional(S.String),
+          Description: S.optional(S.String),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ParameterGroup" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ParameterGroup: S.optional(__S(336, __c21, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CreateParameterGroupResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.String,
+          SnapshotName: S.String,
+          KmsKeyId: S.optional(S.String),
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSnapshotRequest" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetGroupName: S.String,
+          Description: S.optional(S.String),
+          SubnetIds: __S(400, __c25, 0),
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateSubnetGroupRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.XmlName("SubnetIdentifier")));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SubnetGroup: S.optional(__S(451, __c28, 3)) }).pipe(ns),
+      ).annotate({ identifier: "CreateSubnetGroupResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
+        identifier: "AvailabilityZone",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Identifier: S.optional(S.String),
+          AvailabilityZone: S.optional(__S(448, __c28, 0)),
+          SupportedNetworkTypes: S.optional(__S(432, __c27, 0)),
+        }),
+      ).annotate({ identifier: "Subnet" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(449, __c28, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("Subnet"))
+          .annotate({ identifier: "Subnet" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          VpcId: S.optional(S.String),
+          Subnets: S.optional(__S(450, __c28, 2)),
+          ARN: S.optional(S.String),
+          SupportedNetworkTypes: S.optional(__S(432, __c27, 0)),
+        }),
+      ).annotate({ identifier: "SubnetGroup" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          UserName: S.String,
+          AuthenticationMode: __S(480, __c30, 0),
+          AccessString: S.String,
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateUserRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Type: S.optional(S.String), Passwords: S.optional(S.Array(SensitiveString)) }),
+      ).annotate({ identifier: "AuthenticationMode" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ User: S.optional(__S(513, __c32, 1)) }).pipe(ns)).annotate({
+        identifier: "CreateUserResponse",
+      });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Type: S.optional(S.String), PasswordCount: S.optional(S.Number) }),
+      ).annotate({ identifier: "Authentication" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          AccessString: S.optional(S.String),
+          ACLNames: S.optional(__S(64, __c4, 0)),
+          MinimumEngineVersion: S.optional(S.String),
+          Authentication: S.optional(__S(512, __c32, 0)),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "User" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ACLName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteACLRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.String,
+          MultiRegionClusterName: S.optional(S.String),
+          FinalSnapshotName: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DeleteClusterRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MultiRegionClusterName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteMultiRegionClusterRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ParameterGroupName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteParameterGroupRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SnapshotName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteSnapshotRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SubnetGroupName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteSubnetGroupRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ UserName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteUserRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ACLName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeACLsRequest" });
+    case 1:
+      return S.Array(__S(193, __c12, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ACLs: S.optional(__S(641, __c40, 1)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeACLsResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          ShowShardDetails: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeClustersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), Clusters: S.optional(__S(96, __c6, 0)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeClustersResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          ParameterGroupFamily: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          DefaultOnly: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEngineVersionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          EnginePatchVersion: S.optional(S.String),
+          ParameterGroupFamily: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EngineVersionInfo" });
+    case 2:
+      return S.Array(__S(673, __c42, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          EngineVersions: S.optional(__S(674, __c42, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeEngineVersionsResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceName: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Duration: S.optional(S.Number),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeEventsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SourceName: S.optional(S.String),
+          SourceType: S.optional(S.String),
+          Message: S.optional(S.String),
+          Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "Event" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(689, __c43, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("Event"))
+          .annotate({ identifier: "Event" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String), Events: S.optional(__S(690, __c43, 2)) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeEventsResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MultiRegionClusterName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          ShowClusterDetails: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMultiRegionClustersRequest" });
+    case 1:
+      return S.Array(__S(290, __c18, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MultiRegionClusters: S.optional(__S(705, __c44, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMultiRegionClustersResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MultiRegionParameterGroupName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMultiRegionParameterGroupsRequest" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(336, __c21, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("MultiRegionParameterGroup"))
+          .annotate({ identifier: "MultiRegionParameterGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MultiRegionParameterGroups: S.optional(__S(721, __c45, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMultiRegionParameterGroupsResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MultiRegionParameterGroupName: S.String,
+          Source: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeMultiRegionParametersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+          Description: S.optional(S.String),
+          Source: S.optional(S.String),
+          DataType: S.optional(S.String),
+          AllowedValues: S.optional(S.String),
+          MinimumEngineVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MultiRegionParameter" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(737, __c46, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("MultiRegionParameter"))
+          .annotate({ identifier: "MultiRegionParameter" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          MultiRegionParameters: S.optional(__S(738, __c46, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeMultiRegionParametersResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ParameterGroupName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeParameterGroupsRequest" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(336, __c21, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ParameterGroup"))
+          .annotate({ identifier: "ParameterGroup" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ParameterGroups: S.optional(__S(753, __c47, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeParameterGroupsResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ParameterGroupName: S.String,
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeParametersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+          Description: S.optional(S.String),
+          DataType: S.optional(S.String),
+          AllowedValues: S.optional(S.String),
+          MinimumEngineVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Parameter" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(769, __c48, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("Parameter"))
+          .annotate({ identifier: "Parameter" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          Parameters: S.optional(__S(770, __c48, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeParametersResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservationId: S.optional(S.String),
+          ReservedNodesOfferingId: S.optional(S.String),
+          NodeType: S.optional(S.String),
+          Duration: S.optional(S.String),
+          OfferingType: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReservedNodesRequest" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(816, __c51, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ReservedNode"))
+          .annotate({ identifier: "ReservedNode" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ReservedNodes: S.optional(__S(785, __c49, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReservedNodesResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RecurringChargeAmount: S.optional(S.Number),
+          RecurringChargeFrequency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecurringCharge" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(800, __c50, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("RecurringCharge"))
+          .annotate({ identifier: "RecurringCharge" }),
+      );
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservationId: S.optional(S.String),
+          ReservedNodesOfferingId: S.optional(S.String),
+          NodeType: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Duration: S.optional(S.Number),
+          FixedPrice: S.optional(S.Number),
+          NodeCount: S.optional(S.Number),
+          OfferingType: S.optional(S.String),
+          State: S.optional(S.String),
+          RecurringCharges: S.optional(__S(801, __c50, 1)),
+          ARN: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReservedNode" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedNodesOfferingId: S.optional(S.String),
+          NodeType: S.optional(S.String),
+          Duration: S.optional(S.String),
+          OfferingType: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeReservedNodesOfferingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedNodesOfferingId: S.optional(S.String),
+          NodeType: S.optional(S.String),
+          Duration: S.optional(S.Number),
+          FixedPrice: S.optional(S.Number),
+          OfferingType: S.optional(S.String),
+          RecurringCharges: S.optional(__S(801, __c50, 1)),
+        }),
+      ).annotate({ identifier: "ReservedNodesOffering" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(833, __c52, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ReservedNodesOffering"))
+          .annotate({ identifier: "ReservedNodesOffering" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ReservedNodesOfferings: S.optional(__S(834, __c52, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReservedNodesOfferingsResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ServiceUpdateName: S.optional(S.String),
+          ClusterNames: S.optional(__S(64, __c4, 0)),
+          Status: S.optional(__S(432, __c27, 0)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeServiceUpdatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.optional(S.String),
+          ServiceUpdateName: S.optional(S.String),
+          ReleaseDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+          Type: S.optional(S.String),
+          Engine: S.optional(S.String),
+          NodesUpdated: S.optional(S.String),
+          AutoUpdateStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ServiceUpdate" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(849, __c53, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ServiceUpdate"))
+          .annotate({ identifier: "ServiceUpdate" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ServiceUpdates: S.optional(__S(850, __c53, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeServiceUpdatesResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.optional(S.String),
+          SnapshotName: S.optional(S.String),
+          Source: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          ShowDetail: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeSnapshotsRequest" });
+    case 1:
+      return S.Array(__S(164, __c10, 4));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          Snapshots: S.optional(__S(865, __c54, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeSnapshotsResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetGroupName: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeSubnetGroupsRequest" });
+    case 1:
+      return S.Array(__S(451, __c28, 3));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          SubnetGroups: S.optional(__S(881, __c55, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeSubnetGroupsResponse" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Name: S.String, Values: __S(64, __c4, 0) })).annotate({
+        identifier: "Filter",
+      });
+    case 1:
+      return S.Array(__S(896, __c56, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          UserName: S.optional(S.String),
+          Filters: S.optional(__S(897, __c56, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeUsersRequest" });
+    case 3:
+      return S.Array(__S(513, __c32, 1));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Users: S.optional(__S(899, __c56, 3)), NextToken: S.optional(S.String) }).pipe(
+          ns,
+        ),
+      ).annotate({ identifier: "DescribeUsersResponse" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ClusterName: S.String, ShardName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "FailoverShardRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ MultiRegionClusterName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAllowedMultiRegionClusterUpdatesRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ScaleUpNodeTypes: S.optional(__S(64, __c4, 0)),
+          ScaleDownNodeTypes: S.optional(__S(64, __c4, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListAllowedMultiRegionClusterUpdatesResponse" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ClusterName: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListAllowedNodeTypeUpdatesRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListTagsRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ TagList: S.optional(__S(129, __c8, 1)) }).pipe(ns),
+      ).annotate({ identifier: "ListTagsResponse" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedNodesOfferingId: S.String,
+          ReservationId: S.optional(S.String),
+          NodeCount: S.optional(S.Number),
+          Tags: S.optional(__S(129, __c8, 1)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "PurchaseReservedNodesOfferingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ReservedNode: S.optional(__S(816, __c51, 0)) }).pipe(ns),
+      ).annotate({ identifier: "PurchaseReservedNodesOfferingResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ParameterGroupName: S.String,
+          AllParameters: S.optional(S.Boolean),
+          ParameterNames: S.optional(__S(64, __c4, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ResetParameterGroupRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Tags: __S(129, __c8, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "TagResourceRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(64, __c4, 0) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ACLName: S.String,
+          UserNamesToAdd: S.optional(__S(64, __c4, 0)),
+          UserNamesToRemove: S.optional(__S(64, __c4, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateACLRequest" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ReplicaCount: S.optional(S.Number) })).annotate({
+        identifier: "ReplicaConfigurationRequest",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ClusterName: S.String,
+          Description: S.optional(S.String),
+          SecurityGroupIds: S.optional(__S(256, __c16, 0)),
+          MaintenanceWindow: S.optional(S.String),
+          SnsTopicArn: S.optional(S.String),
+          SnsTopicStatus: S.optional(S.String),
+          ParameterGroupName: S.optional(S.String),
+          SnapshotWindow: S.optional(S.String),
+          SnapshotRetentionLimit: S.optional(S.Number),
+          NodeType: S.optional(S.String),
+          Engine: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          ReplicaConfiguration: S.optional(__S(1088, __c68, 0)),
+          ShardConfiguration: S.optional(__S(1104, __c69, 0)),
+          ACLName: S.optional(S.String),
+          IpDiscovery: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateClusterRequest" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ ShardCount: S.optional(S.Number) })).annotate({
+        identifier: "ShardConfigurationRequest",
+      });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MultiRegionClusterName: S.String,
+          NodeType: S.optional(S.String),
+          Description: S.optional(S.String),
+          EngineVersion: S.optional(S.String),
+          ShardConfiguration: S.optional(__S(1104, __c69, 0)),
+          MultiRegionParameterGroupName: S.optional(S.String),
+          UpdateStrategy: S.optional(S.String),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateMultiRegionClusterRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ParameterName: S.optional(S.String), ParameterValue: S.optional(S.String) }),
+      ).annotate({ identifier: "ParameterNameValue" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(1136, __c71, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("ParameterNameValue"))
+          .annotate({ identifier: "ParameterNameValue" }),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ParameterGroupName: S.String, ParameterNameValues: __S(1137, __c71, 1) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateParameterGroupRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

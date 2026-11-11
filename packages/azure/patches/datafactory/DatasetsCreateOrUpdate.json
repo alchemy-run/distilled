@@ -1,0 +1,15 @@
+{
+  "description": "Dataset is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload (typeProperties) on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Dataset/members/typeProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Type-specific dataset properties (polymorphic on `type`)."
+        }
+      }
+    }
+  ]
+}

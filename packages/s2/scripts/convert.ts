@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — S2's OpenAPI description → Smithy JSON models in .generated-specs.
  *
@@ -34,15 +34,13 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const rootDir = path.resolve(import.meta.dir, "..");
-const specPath = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-s2/specs/openapi.json",
-);
+const rootDir = path.resolve(import.meta.dirname, "..");
+const specPath = resolveSpecPath(rootDir, "specs/spec-mirror-s2/specs/openapi.json");
 const outDir = path.join(rootDir, ".generated-specs");
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
@@ -67,18 +65,14 @@ const toPascal = (slug: string): string =>
 
 // ---- 1. Read the full spec -------------------------------------------------
 if (!fs.existsSync(specPath)) {
-  throw new Error(
-    `${specPath} not found — run \`pnpm specs:local s2\` (or specs:fetch) first`,
-  );
+  throw new Error(`${specPath} not found — run \`pnpm specs:local s2\` (or specs:fetch) first`);
 }
 const fullSpec = JSON.parse(fs.readFileSync(specPath, "utf-8"));
 
 // ---- 2. Bucket paths by primary tag ----------------------------------------
 const tagBuckets = new Map<string, Record<string, Record<string, unknown>>>();
 const unrouted: string[] = [];
-for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
-  fullSpec.paths,
-)) {
+for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(fullSpec.paths)) {
   for (const method of HTTP_METHODS) {
     const op = (pathItem as Record<string, any>)[method];
     if (!op) continue;
@@ -146,8 +140,7 @@ const paginationFor = (op: any): Record<string, string> | undefined => {
   const [items, itemsSchema] = itemsEntry;
 
   const itemProps = deref(deref(itemsSchema)?.items)?.properties ?? {};
-  const cursorField =
-    "id" in itemProps ? "id" : "name" in itemProps ? "name" : undefined;
+  const cursorField = "id" in itemProps ? "id" : "name" in itemProps ? "name" : undefined;
   if (cursorField === undefined) {
     throw new Error(
       `paginated operation ${op.operationId}: items carry neither \`id\` nor \`name\` — ` +
@@ -174,8 +167,7 @@ function deref(schema: any): any {
 }
 
 // ---- 4. Convert each bucket ------------------------------------------------
-fs.rmSync(outDir, { recursive: true, force: true });
-fs.mkdirSync(outDir, { recursive: true });
+clearModels(outDir);
 
 let written = 0;
 let totalOps = 0;
@@ -184,6 +176,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   const paths = tagBuckets.get(slug)!;
   const subSpec = { ...fullSpec, paths };
   const model = convertOpenApiToSmithy(subSpec, {
+    deferNaming: true,
     namespace: `com.s2.${slug}`,
     serviceName: toPascal(slug),
     // S2's `in: header` parameters are real per-call inputs — the
@@ -200,9 +193,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     statusToErrorClass: {},
   });
 
-  const operations = Object.entries<any>(model.shapes).filter(
-    ([, s]) => s.type === "operation",
-  );
+  const operations = Object.entries<any>(model.shapes).filter(([, s]) => s.type === "operation");
   if (operations.length === 0) {
     console.warn(`   ⚠️  ${slug}: no operations — bucket dropped`);
     continue;
@@ -237,10 +228,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     );
   }
 
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  writeModel(path.join(outDir, `${slug}.json`), model);
   written++;
   totalOps += operations.length;
   totalPaginated += paginated;

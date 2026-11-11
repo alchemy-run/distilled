@@ -1,0 +1,577 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#MinimalFeatureFlag/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#MinimalFeatureFlag/members/team_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#MinimalFeatureFlag/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#MinimalFeatureFlag/members/evaluation_contexts/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentHoldout/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentHoldout/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentHoldout/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentHoldout/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentHoldout/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentHoldout/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyGenericSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyGenericSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyGenericSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyExistsSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyExistsSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyDateSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyDateSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyDateSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertySemverSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertySemverSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertySemverSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyMultiContainsSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyMultiContainsSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyMultiContainsSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyCohortInSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyCohortInSchema/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyCohortInSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyCohortInSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/operator/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeatureFlagFilterPropertyFlagEvaluatesSchema/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentApiExposureConfig/members/properties/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#EventPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#PersonPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#PersonPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ElementPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ElementPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#EventMetadataPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#EventMetadataPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#SessionPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#SessionPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#CohortPropertyFilter/members/value/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#RecordingPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#RecordingPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#LogEntryPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#LogEntryPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#GroupPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#GroupPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeaturePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FeaturePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FlagPropertyFilter/members/key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#FlagPropertyFilter/members/value/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#HogQLPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#DataWarehousePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#DataWarehousePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#DataWarehousePersonPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#DataWarehousePersonPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ErrorTrackingIssueFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ErrorTrackingIssueFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#LogPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#LogPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#LogPropertyFilter/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#SpanPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#SpanPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#SpanPropertyFilter/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#RevenueAnalyticsPropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#RevenueAnalyticsPropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#WorkflowVariablePropertyFilter/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#WorkflowVariablePropertyFilter/members/operator/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentApiMetric/members/metric_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentApiEventSource/members/kind/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/feature_flag_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/feature_flag/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/holdout/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/exposure_cohort/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/saved_metrics/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/flag_cleanup_task_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/is_legacy/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/can_freeze_exposure/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/resolved_exposure_event/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentOutput/members/user_access_level/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentToSavedMetric/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentToSavedMetric/members/experiment/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentToSavedMetric/members/saved_metric/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentToSavedMetric/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentToSavedMetric/members/query/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentToSavedMetric/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogPaginatedResponse/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogPaginatedResponse/members/next/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogPaginatedResponse/members/previous/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogPaginatedResponse/members/total_count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/user/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/activity/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/scope/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/item_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/is_system/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/was_impersonated/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ActivityLogEntry/members/client/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Detail/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Detail/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Detail/members/short_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Detail/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Change/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Change/members/action/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Change/members/field/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Change/members/before/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Change/members/after/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Merge/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Merge/members/source/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Merge/members/target/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Trigger/members/job_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Trigger/members/job_id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#Trigger/members/payload/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsCopyToProjectCreateRequest/members/target_team_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsCreateExposureCohortForExperimentCreateRequest/members/feature_flag_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsDuplicateCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsDuplicateCreateRequest/members/feature_flag_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsRecalculateTimeseriesCreateRequest/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsRecalculateTimeseriesCreateRequest/members/feature_flag_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsShipVariantCreateRequest/members/variant_key/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequest/members/ids/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequest/members/action/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#ExperimentsBulkUpdateTagsCreateRequest/members/tags/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#BulkUpdateTagsResponse/members/updated/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#BulkUpdateTagsResponse/members/skipped/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#BulkUpdateTagsItem/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#BulkUpdateTagsItem/members/tags/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#BulkUpdateTagsError/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.experiments#BulkUpdateTagsError/members/reason/traits"
+    }
+  ]
+}

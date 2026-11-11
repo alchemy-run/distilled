@@ -1,0 +1,35 @@
+{
+  "description": "Output `datasource` and `serialization` are polymorphic on `type`; the converted model keeps only the discriminator, so S.Struct strips the type-specific `properties` on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.streamanalytics#OutputDataSource/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Data-source-type-specific properties (e.g. `storageAccounts`, `container`, `pathPattern` for `Microsoft.Storage/Blob`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.streamanalytics#OutputPropertiesSerialization/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Serialization-type-specific properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.streamanalytics#OutputPropertiesInputSerialization/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Serialization-type-specific properties."
+        }
+      }
+    }
+  ]
+}

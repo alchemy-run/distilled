@@ -3,9 +3,9 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1apps~1{app_name}~1volumes~1{volume_id}~1snapshots/post/responses/409",
+      "path": "/shapes/com.flyio.machines#CreateVolumeSnapshot/errors/1",
       "value": {
-        "description": "Conflict"
+        "target": "com.flyio.machines#Conflict"
       }
     }
   ]

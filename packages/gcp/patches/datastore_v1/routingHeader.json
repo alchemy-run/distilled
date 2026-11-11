@@ -1,0 +1,93 @@
+{
+  "description": "Add the `x-goog-request-params` routing header to the Datastore data-plane operations. Requests to a named database are rejected without it (HTTP 400 'Missing routing header').",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#CommitProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#LookupProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#RunQueryProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#RunAggregationQueryProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#BeginTransactionProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#RollbackProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#AllocateIdsProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastore_v1#ReserveIdsProjectsRequest/members/requestParams",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-goog-request-params",
+          "smithy.api#documentation": "Routing header `project_id={project}&database_id={database}`. Required for named (non-default) databases; the API rejects requests to them without it (HTTP 400 'Missing routing header')."
+        }
+      }
+    }
+  ]
+}

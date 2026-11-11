@@ -1,0 +1,25 @@
+{
+  "description": "Channel is polymorphic on `channelName` (DirectLineChannel, WebChatChannel, SlackChannel, ...); the converted model keeps only the base members, so S.Struct strips the channel-specific `properties` payload (sites, app credentials, ...) on encode and decode. Add it as an untyped document on both the input and output shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.botservice#ChannelInput/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.botservice#Channel/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel."
+        }
+      }
+    }
+  ]
+}

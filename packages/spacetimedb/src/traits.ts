@@ -1,5 +1,5 @@
 /**
- * SpacetimeDB SDK trait surface — hand-written.
+ * SpacetimeDB SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). SpacetimeDB has no envelope of its own;

@@ -1,5 +1,5 @@
 /**
- * Argo CD SDK trait surface — hand-written.
+ * Argo CD SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place). Argo CD has no envelope of its own; the

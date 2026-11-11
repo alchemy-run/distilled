@@ -1,20 +1,20 @@
 /**
- * Forgejo credentials — hand-written.
+ * Forgejo credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
  * protocol layer formats the `Authorization: token <token>` header from it.
  *
- * Forgejo is self-hosted, so — unlike a single-tenant SaaS — there is no
+ * Forgejo is self-hosted, so -- unlike a single-tenant SaaS -- there is no
  * default API root: the instance URL is part of the credential. The token is
- * an access token generated under Settings → Applications → Access Tokens on
+ * an access token generated under Settings -> Applications -> Access Tokens on
  * the instance (a `write:admin`-scoped one for the `/admin` endpoints).
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Path prefix of the Forgejo REST API, relative to the instance origin. The
@@ -40,50 +40,45 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ForgejoCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "ForgejoCredentials",
+  ) {}
 
-const envConfig = EffectConfig.all({
+const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `FORGEJO_URL` / `FORGEJO_TOKEN` are the names Forgejo's own Actions
   // runner and the Terraform/OpenTofu providers read.
-  token: EffectConfig.String("FORGEJO_TOKEN"),
-  baseUrl: EffectConfig.String("FORGEJO_URL"),
+  token: /*@__PURE__*/ EffectConfig.String("FORGEJO_TOKEN"),
+  baseUrl: /*@__PURE__*/ EffectConfig.String("FORGEJO_URL"),
 });
 
-export const CredentialsFromEnv = Layer.succeed(
+export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "FORGEJO_URL and FORGEJO_TOKEN environment variables are required",
+          message: "FORGEJO_URL and FORGEJO_TOKEN environment variables are required",
         }),
     ),
-    Effect.map(({ token, baseUrl }) => ({
+    /*@__PURE__*/ Effect.map(({ token, baseUrl }) => ({
       token: Redacted.make(token),
       apiBaseUrl: normalizeBaseUrl(baseUrl),
     })),
-    Effect.orDie,
   ),
 );
 
 /**
- * Convenience layer from a plain token and the instance origin (or API root).
+ * Convenience layer from a redacted token and the instance origin (or API root).
  */
 export const credentials = (config: {
-  readonly token: string | Redacted.Redacted<string>;
+  readonly token: Redacted.Redacted<string>;
   readonly baseUrl: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token:
-        typeof config.token === "string"
-          ? Redacted.make(config.token)
-          : config.token,
+      token: typeof config.token === "string" ? Redacted.make(config.token) : config.token,
       apiBaseUrl: normalizeBaseUrl(config.baseUrl),
     }),
   );

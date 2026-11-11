@@ -1,0 +1,74 @@
+{
+  "description": "Action and Recurrence are polymorphic (on `actionType` / `recurrenceType`); the converted model keeps only the discriminators, so S.Struct strips `actionGroupIds` (AddActionGroups), `daysOfWeek` (Weekly) and `daysOfMonth` (Monthly) on encode and decode. Add them as optional members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.alertsmanagement#ActionActionGroupIdsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {
+          "smithy.api#documentation": "Action group resource IDs to add (only for `AddActionGroups`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.alertsmanagement#Action/members/actionGroupIds",
+      "value": {
+        "target": "com.azure.alertsmanagement#ActionActionGroupIdsList",
+        "traits": {
+          "smithy.api#documentation": "Action group resource IDs to add (only for `AddActionGroups`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.alertsmanagement#RecurrenceDaysOfWeekList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {
+          "smithy.api#documentation": "Days of the week (only for `Weekly` recurrences)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.alertsmanagement#RecurrenceDaysOfMonthList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#Integer"
+        },
+        "traits": {
+          "smithy.api#documentation": "Days of the month (only for `Monthly` recurrences)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.alertsmanagement#Recurrence/members/daysOfWeek",
+      "value": {
+        "target": "com.azure.alertsmanagement#RecurrenceDaysOfWeekList",
+        "traits": {
+          "smithy.api#documentation": "Days of the week (only for `Weekly` recurrences)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.alertsmanagement#Recurrence/members/daysOfMonth",
+      "value": {
+        "target": "com.azure.alertsmanagement#RecurrenceDaysOfMonthList",
+        "traits": {
+          "smithy.api#documentation": "Days of the month (only for `Monthly` recurrences)."
+        }
+      }
+    }
+  ]
+}

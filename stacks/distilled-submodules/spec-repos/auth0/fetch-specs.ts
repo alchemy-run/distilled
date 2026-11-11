@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Auth0 Management API OpenAPI spec and a snapshot of vendor
  * docs to ../specs/.
@@ -10,7 +10,7 @@
  * auth0.com at convert time.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Written to:
  *   ../specs/openapi.json
@@ -46,6 +46,7 @@ const DOCS: { url: string; output: string }[] = [
 ];
 
 import { mkdirSync } from "fs";
+import { writeFile as fsWriteFile } from "fs/promises";
 import { dirname } from "path";
 
 mkdirSync(SPECS_DIR, { recursive: true });
@@ -59,16 +60,14 @@ const fetchText = async (url: string, accept: string): Promise<Response> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 };
 
 const writeFile = async (path: string, body: string): Promise<void> => {
   mkdirSync(dirname(path), { recursive: true });
-  await Bun.write(path, body.endsWith("\n") ? body : `${body}\n`);
+  await fsWriteFile(path, body.endsWith("\n") ? body : `${body}\n`);
 };
 
 async function main() {
@@ -86,17 +85,12 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  await fsWriteFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   console.log(`Fetching vendor docs index from ${DOCS_LLMS_URL}...`);
   const llms = await (await fetchText(DOCS_LLMS_URL, "text/plain")).text();
-  if (
-    !llms.includes("management-api-oas") &&
-    !llms.includes("/docs/api/management")
-  ) {
+  if (!llms.includes("management-api-oas") && !llms.includes("/docs/api/management")) {
     throw new Error(
       `${DOCS_LLMS_URL} did not mention the Management API — not the Auth0 docs index`,
     );

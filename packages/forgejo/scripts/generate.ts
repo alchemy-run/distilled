@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Forgejo
  * Effect SDK.
@@ -8,7 +9,7 @@
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Forgejo's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Forgejo's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error status matchers, sensitive strings), a passthrough union
  * style, and the protocol/retry/error names.
@@ -26,13 +27,12 @@
  * page strategies can drive that. `page`/`limit` stay plain input fields;
  * callers advance them until an empty page comes back.
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
@@ -109,8 +109,8 @@ const spec: SdkSpec = {
     let out = code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, "");
     if (out.includes("Redacted.Redacted<")) {
       out = out.replace(
-        `import * as S from "@distilled.cloud/core/schema";`,
-        `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";`,
       );
     }
     return out;
@@ -119,7 +119,8 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Forgejo Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 chain in patches/<service>/<op>.json applies to the
   // Swagger document in scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

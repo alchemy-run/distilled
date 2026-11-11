@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * GrowthBook Effect SDK.
@@ -7,15 +8,14 @@
  * Output: src/services/growthbook.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is GrowthBook's provider spec.
+ * `@distilled.cloud/dev/codegen`; this script is GrowthBook's provider spec.
  * GrowthBook keeps the wire's camelCase member names on the TS surface, so
  * no member renaming or wire dictionaries appear here. List operations that
  * take `offset`/`limit` and return `nextOffset` (plus an items array) are
  * stamped `smithy.api#paginated` below — the shared OpenAPI converter does
  * not detect that offset/limit shape.
  */
-import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -24,14 +24,7 @@ const SENSITIVE_TRAIT = "smithy.api#sensitive";
 const PAGINATED_TRAIT = "smithy.api#paginated";
 
 /** Pagination metadata members on GrowthBook list responses. */
-const PAGINATION_FIELDS = new Set([
-  "limit",
-  "offset",
-  "count",
-  "total",
-  "hasMore",
-  "nextOffset",
-]);
+const PAGINATION_FIELDS = new Set(["limit", "offset", "count", "total", "hasMore", "nextOffset"]);
 
 /** GrowthBook's provider spec for the shared smithy→SDK compiler. */
 const growthbookSpec: SdkSpec = {
@@ -91,19 +84,19 @@ const growthbookSpec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";\n`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
         )
       : code,
 };
 
 const isListShape = (shape: any): boolean =>
-  shape?.type === "list" ||
-  (typeof shape?.target === "string" && shape.target.endsWith("List"));
+  shape?.type === "list" || (typeof shape?.target === "string" && shape.target.endsWith("List"));
 
 runGeneratorCli({
   description: "Generate the GrowthBook Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
@@ -115,13 +108,11 @@ runGeneratorCli({
       const input = shapes[shape.input?.target];
       const output = shapes[shape.output?.target];
       if (!input?.members?.offset || !output?.members?.nextOffset) continue;
-      const items = Object.entries(output.members as Record<string, any>).find(
-        ([name, member]) => {
-          if (PAGINATION_FIELDS.has(name)) return false;
-          const target = shapes[member?.target];
-          return isListShape(target) || isListShape(member);
-        },
-      )?.[0];
+      const items = Object.entries(output.members as Record<string, any>).find(([name, member]) => {
+        if (PAGINATION_FIELDS.has(name)) return false;
+        const target = shapes[member?.target];
+        return isListShape(target) || isListShape(member);
+      })?.[0];
       if (!items) continue;
       shape.traits ??= {};
       // `nextOffset` is fed back as `offset` verbatim — token semantics.

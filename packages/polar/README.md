@@ -12,7 +12,7 @@ npm install @distilled.cloud/polar effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Polar from "@distilled.cloud/polar";
 
 const program = Effect.gen(function* () {

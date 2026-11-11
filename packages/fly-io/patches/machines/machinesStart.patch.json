@@ -3,9 +3,9 @@
   "patches": [
     {
       "op": "add",
-      "path": "/paths/~1v1~1apps~1{app_name}~1machines~1{machine_id}~1start/post/responses/409",
+      "path": "/shapes/com.flyio.machines#MachinesStart/errors/2",
       "value": {
-        "description": "Conflict"
+        "target": "com.flyio.machines#Conflict"
       }
     },
     {
@@ -14,7 +14,9 @@
       "value": {
         "type": "structure",
         "members": {
-          "message": { "target": "smithy.api#String" }
+          "message": {
+            "target": "smithy.api#String"
+          }
         },
         "traits": {
           "smithy.api#error": "client",
@@ -28,7 +30,7 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#StartMachine/errors/-",
+      "path": "/shapes/com.flyio.machines#MachinesStart/errors/-",
       "value": {
         "target": "com.flyio.machines#MachineStartFromCreatedState"
       }
@@ -39,7 +41,9 @@
       "value": {
         "type": "structure",
         "members": {
-          "message": { "target": "smithy.api#String" }
+          "message": {
+            "target": "smithy.api#String"
+          }
         },
         "traits": {
           "smithy.api#error": "client",
@@ -54,8 +58,10 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.flyio.machines#StartMachine/errors/-",
-      "value": { "target": "com.flyio.machines#MachineReplacing" }
+      "path": "/shapes/com.flyio.machines#MachinesStart/errors/-",
+      "value": {
+        "target": "com.flyio.machines#MachineReplacing"
+      }
     }
   ]
 }

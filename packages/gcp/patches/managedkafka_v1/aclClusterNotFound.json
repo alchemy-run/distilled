@@ -1,0 +1,75 @@
+{
+  "description": "Type the missing-parent answer on cluster ACL operations. Managed Kafka returns HTTP 400 FAILED_PRECONDITION 'Invalid resource state for \".../acls/...\": cluster must exist' when the parent cluster does not exist; it surfaced as an out-of-union BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#AclClusterNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The ACL's parent cluster does not exist (HTTP 400 FAILED_PRECONDITION 'cluster must exist').",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "cluster must exist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#AddAclEntryProjectsLocationsClustersAcls/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#CreateProjectsLocationsClustersAcls/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#DeleteProjectsLocationsClustersAcls/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#GetProjectsLocationsClustersAcls/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#ListProjectsLocationsClustersAcls/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#PatchProjectsLocationsClustersAcls/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.managedkafka_v1#RemoveAclEntryProjectsLocationsClustersAcls/errors/-",
+      "value": {
+        "target": "com.gcp.managedkafka_v1#AclClusterNotFound"
+      }
+    }
+  ]
+}

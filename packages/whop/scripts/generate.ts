@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Whop
  * Effect SDK.
@@ -9,7 +10,7 @@
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Whop's provider spec: the
+ * `@distilled.cloud/dev/codegen`; this script is Whop's provider spec: the
  * `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses, error status matchers, sensitive strings), a passthrough union
  * style, the relay pagination profile, and the protocol/retry/error names.
@@ -20,8 +21,7 @@
  * named after the tag slug (`checkout_configurations.ts`) while the barrel
  * exports them camelCased (`checkoutConfigurations.createPlan`).
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -84,8 +84,7 @@ const spec: SdkSpec = {
     },
   },
 
-  sourceNote:
-    ".generated-specs (specs/api-v1-native.json + api-v1-stable.json)",
+  sourceNote: ".generated-specs (specs/api-v1-native.json + api-v1-stable.json)",
 
   operationDecl: {
     contextType: "WhopOpContext",
@@ -105,8 +104,8 @@ const spec: SdkSpec = {
     let out = code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, "");
     if (out.includes("Redacted.Redacted<")) {
       out = out.replace(
-        `import * as S from "@distilled.cloud/core/schema";`,
-        `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";`,
+        `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";`,
       );
     }
     return out;
@@ -115,7 +114,8 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Whop Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI documents in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,

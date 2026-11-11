@@ -19,8 +19,8 @@
  * ```
  */
 import * as Effect from "effect/Effect";
+import * as HttpClientError from "effect/http/HttpClientError";
 import * as Predicate from "effect/Predicate";
-import * as HttpClientError from "effect/unstable/http/HttpClientError";
 
 // ============================================================================
 // Error Category Constants
@@ -103,9 +103,7 @@ export const withCategory =
   <Args extends Array<any>, Ret, C extends { new (...args: Args): Ret }>(
     C: C,
   ): C & {
-    new (
-      ...args: Args
-    ): Ret & { [categoriesKey]: { [Cat in Categories[number]]: true } };
+    new (...args: Args): Ret & { [categoriesKey]: { [Cat in Categories[number]]: true } };
   } => {
     for (const category of categories) {
       if (!(categoriesKey in C.prototype)) {
@@ -150,24 +148,22 @@ export const withRetryable =
 // Category Decorators (convenience functions for common categories)
 // ============================================================================
 
-export const withAuthError = withCategory(AuthError);
-export const withBadRequestError = withCategory(BadRequestError);
-export const withConflictError = withCategory(ConflictError);
-export const withNotFoundError = withCategory(NotFoundError);
-export const withQuotaError = withCategory(QuotaError);
-export const withServerError = withCategory(ServerError);
-export const withThrottlingError = withCategory(ThrottlingError);
-export const withNetworkError = withCategory(NetworkError);
-export const withParseError = withCategory(ParseError);
-export const withConfigurationError = withCategory(ConfigurationError);
-export const withTimeoutError = withCategory(TimeoutError);
-export const withRetryableError = withCategory(RetryableError);
-export const withLockedError = withCategory(LockedError);
-export const withAbortedError = withCategory(AbortedError);
-export const withAlreadyExistsError = withCategory(AlreadyExistsError);
-export const withDependencyViolationError = withCategory(
-  DependencyViolationError,
-);
+export const withAuthError = /*@__PURE__*/ withCategory(AuthError);
+export const withBadRequestError = /*@__PURE__*/ withCategory(BadRequestError);
+export const withConflictError = /*@__PURE__*/ withCategory(ConflictError);
+export const withNotFoundError = /*@__PURE__*/ withCategory(NotFoundError);
+export const withQuotaError = /*@__PURE__*/ withCategory(QuotaError);
+export const withServerError = /*@__PURE__*/ withCategory(ServerError);
+export const withThrottlingError = /*@__PURE__*/ withCategory(ThrottlingError);
+export const withNetworkError = /*@__PURE__*/ withCategory(NetworkError);
+export const withParseError = /*@__PURE__*/ withCategory(ParseError);
+export const withConfigurationError = /*@__PURE__*/ withCategory(ConfigurationError);
+export const withTimeoutError = /*@__PURE__*/ withCategory(TimeoutError);
+export const withRetryableError = /*@__PURE__*/ withCategory(RetryableError);
+export const withLockedError = /*@__PURE__*/ withCategory(LockedError);
+export const withAbortedError = /*@__PURE__*/ withCategory(AbortedError);
+export const withAlreadyExistsError = /*@__PURE__*/ withCategory(AlreadyExistsError);
+export const withDependencyViolationError = /*@__PURE__*/ withCategory(DependencyViolationError);
 
 // ============================================================================
 // Category Predicates
@@ -177,57 +173,41 @@ export const withDependencyViolationError = withCategory(
  * Check if an error has a specific category.
  */
 export const hasCategory = (error: unknown, category: Category): boolean => {
-  if (
-    Predicate.isObject(error) &&
-    Predicate.hasProperty(categoriesKey)(error)
-  ) {
+  if (Predicate.isObject(error) && Predicate.hasProperty(categoriesKey)(error)) {
     // @ts-expect-error - dynamic property access
     return category in error[categoriesKey];
   }
   return false;
 };
 
-export const isAuthError = (error: unknown): boolean =>
-  hasCategory(error, AuthError);
+export const isAuthError = (error: unknown): boolean => hasCategory(error, AuthError);
 
-export const isBadRequestError = (error: unknown): boolean =>
-  hasCategory(error, BadRequestError);
+export const isBadRequestError = (error: unknown): boolean => hasCategory(error, BadRequestError);
 
-export const isConflictError = (error: unknown): boolean =>
-  hasCategory(error, ConflictError);
+export const isConflictError = (error: unknown): boolean => hasCategory(error, ConflictError);
 
-export const isNotFoundError = (error: unknown): boolean =>
-  hasCategory(error, NotFoundError);
+export const isNotFoundError = (error: unknown): boolean => hasCategory(error, NotFoundError);
 
-export const isQuotaError = (error: unknown): boolean =>
-  hasCategory(error, QuotaError);
+export const isQuotaError = (error: unknown): boolean => hasCategory(error, QuotaError);
 
-export const isServerError = (error: unknown): boolean =>
-  hasCategory(error, ServerError);
+export const isServerError = (error: unknown): boolean => hasCategory(error, ServerError);
 
-export const isThrottlingError = (error: unknown): boolean =>
-  hasCategory(error, ThrottlingError);
+export const isThrottlingError = (error: unknown): boolean => hasCategory(error, ThrottlingError);
 
-export const isNetworkError = (error: unknown): boolean =>
-  hasCategory(error, NetworkError);
+export const isNetworkError = (error: unknown): boolean => hasCategory(error, NetworkError);
 
-export const isParseError = (error: unknown): boolean =>
-  hasCategory(error, ParseError);
+export const isParseError = (error: unknown): boolean => hasCategory(error, ParseError);
 
 export const isConfigurationError = (error: unknown): boolean =>
   hasCategory(error, ConfigurationError);
 
-export const isTimeoutError = (error: unknown): boolean =>
-  hasCategory(error, TimeoutError);
+export const isTimeoutError = (error: unknown): boolean => hasCategory(error, TimeoutError);
 
-export const isRetryableError = (error: unknown): boolean =>
-  hasCategory(error, RetryableError);
+export const isRetryableError = (error: unknown): boolean => hasCategory(error, RetryableError);
 
-export const isLockedError = (error: unknown): boolean =>
-  hasCategory(error, LockedError);
+export const isLockedError = (error: unknown): boolean => hasCategory(error, LockedError);
 
-export const isAbortedError = (error: unknown): boolean =>
-  hasCategory(error, AbortedError);
+export const isAbortedError = (error: unknown): boolean => hasCategory(error, AbortedError);
 
 export const isAlreadyExistsError = (error: unknown): boolean =>
   hasCategory(error, AlreadyExistsError);
@@ -264,15 +244,14 @@ export const isThrottling = (error: unknown): boolean => {
 /**
  * Check if an error is an Effect `HttpClientError` caused by a wire-level
  * transport failure (undici `ConnectTimeoutError`, socket reset, DNS
- * failure, premature stream close, …). The request never reached the
+ * failure, premature stream close, ...). The request never reached the
  * server (or the response never finished) so retrying is safe.
  *
  * Status-code retries are intentionally left to the per-SDK API client,
  * which knows whether a given response is genuinely retryable.
  */
 const isHttpTransportError = (error: unknown): boolean =>
-  HttpClientError.isHttpClientError(error) &&
-  error.reason._tag === "TransportError";
+  HttpClientError.isHttpClientError(error) && error.reason._tag === "TransportError";
 
 /**
  * Check if an error is a transient error that should be automatically retried.
@@ -309,9 +288,7 @@ export const isTransientError = (error: unknown): boolean => {
 // Category Type Utilities
 // ============================================================================
 
-export type AllKeys<E> = E extends { [categoriesKey]: infer Q }
-  ? keyof Q
-  : never;
+export type AllKeys<E> = E extends { [categoriesKey]: infer Q } ? keyof Q : never;
 
 export type ExtractAll<E, Cats extends PropertyKey> = Cats extends any
   ? Extract<E, { [categoriesKey]: { [K in Cats]: any } }>
@@ -343,41 +320,39 @@ const makeCatcher =
  * )
  * ```
  */
-export const catchErrors =
-  <Categories extends Category[], A2, E2, R2>(
-    ...args: [...Categories, (err: any) => Effect.Effect<A2, E2, R2>]
-  ) =>
-  <A, E, R>(effect: Effect.Effect<A, E, R>) => {
-    const handler = args.pop() as (err: any) => Effect.Effect<A2, E2, R2>;
-    const categories = args as unknown as Categories;
-    return Effect.catchIf(
+export const catchErrors = <Categories extends Category[], A2, E2, R2>(
+  ...args: [...Categories, (err: any) => Effect.Effect<A2, E2, R2>]
+) => {
+  // Split once, without mutating `args`, so one catcher can be reused.
+  const handler = args[args.length - 1] as (err: any) => Effect.Effect<A2, E2, R2>;
+  const categories = args.slice(0, -1) as unknown as Categories;
+  return <A, E, R>(effect: Effect.Effect<A, E, R>) =>
+    Effect.catchIf(
       effect,
       (e) => categories.some((cat) => hasCategory(e, cat)),
       handler,
     ) as Effect.Effect<A | A2, E | E2, R | R2>;
-  };
+};
 
 // Alias for convenience
 export { catchErrors as catch };
 
-export const catchAuthError = makeCatcher(AuthError);
-export const catchBadRequestError = makeCatcher(BadRequestError);
-export const catchConflictError = makeCatcher(ConflictError);
-export const catchNotFoundError = makeCatcher(NotFoundError);
-export const catchQuotaError = makeCatcher(QuotaError);
-export const catchServerError = makeCatcher(ServerError);
-export const catchThrottlingError = makeCatcher(ThrottlingError);
-export const catchNetworkError = makeCatcher(NetworkError);
-export const catchParseError = makeCatcher(ParseError);
-export const catchConfigurationError = makeCatcher(ConfigurationError);
-export const catchTimeoutError = makeCatcher(TimeoutError);
-export const catchRetryableError = makeCatcher(RetryableError);
-export const catchLockedError = makeCatcher(LockedError);
-export const catchAbortedError = makeCatcher(AbortedError);
-export const catchAlreadyExistsError = makeCatcher(AlreadyExistsError);
-export const catchDependencyViolationError = makeCatcher(
-  DependencyViolationError,
-);
+export const catchAuthError = /*@__PURE__*/ makeCatcher(AuthError);
+export const catchBadRequestError = /*@__PURE__*/ makeCatcher(BadRequestError);
+export const catchConflictError = /*@__PURE__*/ makeCatcher(ConflictError);
+export const catchNotFoundError = /*@__PURE__*/ makeCatcher(NotFoundError);
+export const catchQuotaError = /*@__PURE__*/ makeCatcher(QuotaError);
+export const catchServerError = /*@__PURE__*/ makeCatcher(ServerError);
+export const catchThrottlingError = /*@__PURE__*/ makeCatcher(ThrottlingError);
+export const catchNetworkError = /*@__PURE__*/ makeCatcher(NetworkError);
+export const catchParseError = /*@__PURE__*/ makeCatcher(ParseError);
+export const catchConfigurationError = /*@__PURE__*/ makeCatcher(ConfigurationError);
+export const catchTimeoutError = /*@__PURE__*/ makeCatcher(TimeoutError);
+export const catchRetryableError = /*@__PURE__*/ makeCatcher(RetryableError);
+export const catchLockedError = /*@__PURE__*/ makeCatcher(LockedError);
+export const catchAbortedError = /*@__PURE__*/ makeCatcher(AbortedError);
+export const catchAlreadyExistsError = /*@__PURE__*/ makeCatcher(AlreadyExistsError);
+export const catchDependencyViolationError = /*@__PURE__*/ makeCatcher(DependencyViolationError);
 
 /**
  * Catch errors with specified categories with full type narrowing.
@@ -389,23 +364,18 @@ export const catchDependencyViolationError = makeCatcher(
  * )
  * ```
  */
-export const catchCategory =
-  <E, const Categories extends Array<AllKeys<E>>, A2, E2, R2>(
-    ...args: [
-      ...Categories,
-      f: (err: ExtractAll<E, Categories[number]>) => Effect.Effect<A2, E2, R2>,
-    ]
-  ) =>
-  <A, R>(
+export const catchCategory = <E, const Categories extends Array<AllKeys<E>>, A2, E2, R2>(
+  ...args: [...Categories, f: (err: ExtractAll<E, Categories[number]>) => Effect.Effect<A2, E2, R2>]
+) => {
+  // Split once, without mutating `args`, so one catcher can be reused.
+  const f = args[args.length - 1] as (
+    err: ExtractAll<E, Categories[number]>,
+  ) => Effect.Effect<A2, E2, R2>;
+  const categories = args.slice(0, -1) as unknown as Categories;
+  return <A, R>(
     effect: Effect.Effect<A, E, R>,
-  ): Effect.Effect<
-    A | A2,
-    E2 | Exclude<E, ExtractAll<E, Categories[number]>>,
-    R | R2
-  > => {
-    const f = args.pop()!;
-    const categories = args;
-    return Effect.catchIf(
+  ): Effect.Effect<A | A2, E2 | Exclude<E, ExtractAll<E, Categories[number]>>, R | R2> =>
+    Effect.catchIf(
       effect,
       (e) => {
         if (Predicate.isObject(e) && Predicate.hasProperty(categoriesKey)(e)) {
@@ -421,4 +391,4 @@ export const catchCategory =
       // @ts-expect-error - type narrowing limitation
       (e) => f(e),
     ) as any;
-  };
+};

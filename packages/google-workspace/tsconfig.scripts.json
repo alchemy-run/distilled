@@ -9,9 +9,9 @@
     "rootDir": "./scripts",
     "tsBuildInfoFile": "./.scripts-types/tsconfig.scripts.tsbuildinfo",
     // Resolve @distilled.cloud/core/* to src (the bun condition), matching
-    // how the scripts actually run under bun.
+    // how the scripts actually run (node --conditions=bun).
     "rewriteRelativeImportExtensions": false,
     "customConditions": ["bun"]
   },
-  "references": [{ "path": "../core" }]
+  "references": [{ "path": "../core" }, { "path": "../dev" }]
 }

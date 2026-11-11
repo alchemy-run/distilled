@@ -1,3 +1,8 @@
+import {
+  getPath,
+  type PaginatedTrait,
+  type PaginationStrategy,
+} from "@distilled.cloud/core/pagination";
 /**
  * Mailchimp pagination — hand-written.
  *
@@ -8,11 +13,6 @@
  */
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
-import {
-  getPath,
-  type PaginatedTrait,
-  type PaginationStrategy,
-} from "@distilled.cloud/core/pagination";
 
 export { getItems } from "@distilled.cloud/core/pagination";
 
@@ -42,32 +42,28 @@ export const paginateOffset: PaginationStrategy = <
 
   type State = { offset: number; done: boolean };
 
-  return Stream.unfold(
-    { offset: toNumber(input[offsetKey]) ?? 0, done: false } as State,
-    (state) =>
-      Effect.gen(function* () {
-        if (state.done) return undefined;
+  return Stream.unfold({ offset: toNumber(input[offsetKey]) ?? 0, done: false } as State, (state) =>
+    Effect.gen(function* () {
+      if (state.done) return undefined;
 
-        const response = yield* operation({
-          ...input,
-          [offsetKey]: state.offset,
-        } as Input);
+      const response = yield* operation({
+        ...input,
+        [offsetKey]: state.offset,
+      } as Input);
 
-        const total = pagination.outputToken
-          ? toNumber(getPath(response, pagination.outputToken))
-          : undefined;
-        const items = pagination.items
-          ? getPath(response, pagination.items)
-          : undefined;
-        const received = Array.isArray(items) ? items.length : 0;
-        const next = state.offset + received;
+      const total = pagination.outputToken
+        ? toNumber(getPath(response, pagination.outputToken))
+        : undefined;
+      const items = pagination.items ? getPath(response, pagination.items) : undefined;
+      const received = Array.isArray(items) ? items.length : 0;
+      const next = state.offset + received;
 
-        const done =
-          received === 0 ||
-          (total !== undefined && next >= total) ||
-          (requested !== undefined && received < requested);
+      const done =
+        received === 0 ||
+        (total !== undefined && next >= total) ||
+        (requested !== undefined && received < requested);
 
-        return [response, { offset: next, done }] as const;
-      }),
+      return [response, { offset: next, done }] as const;
+    }),
   );
 };

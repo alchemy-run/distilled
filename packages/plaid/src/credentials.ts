@@ -1,5 +1,6 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
- * Plaid credentials — hand-written.
+ * Plaid credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
  * credentials on every request (the protocol layer resolves it per request
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://sandbox.plaid.com";
 export const DEFAULT_PLAID_VERSION = "2020-09-14";
@@ -28,10 +28,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PlaidCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "PlaidCredentials",
+  ) {}
 
 const resolveBaseUrl = (config: {
   readonly apiBaseUrl?: string;
@@ -47,7 +47,7 @@ const resolveBaseUrl = (config: {
 /** Layer from a client id + secret + optional version/base URL/env. */
 export const fromApiKey = (config: {
   readonly clientId: string;
-  readonly secret: string;
+  readonly secret: Redacted.Redacted<string>;
   readonly plaidVersion?: string;
   readonly apiBaseUrl?: string;
   readonly env?: string;
@@ -56,23 +56,22 @@ export const fromApiKey = (config: {
     Credentials,
     Effect.succeed({
       clientId: config.clientId,
-      secret: Redacted.make(config.secret),
+      secret: config.secret,
       plaidVersion: config.plaidVersion ?? DEFAULT_PLAID_VERSION,
       apiBaseUrl: resolveBaseUrl(config),
     }),
   );
 
 /** Reads PLAID_CLIENT_ID, PLAID_SECRET, and optional PLAID_VERSION / env URL. */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  Effect.gen(function* () {
+  /*@__PURE__*/ Effect.gen(function* () {
     const clientId = process.env.PLAID_CLIENT_ID;
     const secret = process.env.PLAID_SECRET;
 
     if (!clientId || !secret) {
       return yield* new ConfigError({
-        message:
-          "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
+        message: "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
       });
     }
 
@@ -85,7 +84,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
         env: process.env.PLAID_ENV,
       }),
     };
-  }).pipe(Effect.orDie),
+  }),
 );
 
 /** Auth headers for a resolved credentials config. */

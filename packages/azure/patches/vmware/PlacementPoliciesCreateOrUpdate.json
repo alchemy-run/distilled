@@ -1,0 +1,129 @@
+{
+  "description": "Placement policy properties are a discriminated union on type in ARM (VmVm vmMembers/affinityType, VmHost vmMembers/hostMembers/affinityType/affinityStrength/azureHybridBenefitType); the converted model only kept the base fields, so add the variant fields as optional members on input and output.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#AffinityType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "AFFINITY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "Affinity"
+            }
+          },
+          "ANTI_AFFINITY": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "AntiAffinity"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Placement policy affinity type"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyPropertiesInput/members/vmMembers",
+      "value": {
+        "target": "com.azure.vmware#PlacementPolicyUpdatePropertiesVmMembersList",
+        "traits": {
+          "smithy.api#documentation": "Virtual machine members (vCenter VM resource IDs)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyPropertiesInput/members/hostMembers",
+      "value": {
+        "target": "com.azure.vmware#PlacementPolicyUpdatePropertiesHostMembersList",
+        "traits": {
+          "smithy.api#documentation": "VmHost: host members list."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyPropertiesInput/members/affinityType",
+      "value": {
+        "target": "com.azure.vmware#AffinityType",
+        "traits": {
+          "smithy.api#documentation": "Placement policy affinity type (Affinity or AntiAffinity)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyPropertiesInput/members/affinityStrength",
+      "value": {
+        "target": "com.azure.vmware#AffinityStrength",
+        "traits": {
+          "smithy.api#documentation": "VmHost: affinity strength (Should or Must)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyPropertiesInput/members/azureHybridBenefitType",
+      "value": {
+        "target": "com.azure.vmware#AzureHybridBenefitType",
+        "traits": {
+          "smithy.api#documentation": "VmHost: Azure Hybrid Benefit opt-in type."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyProperties/members/vmMembers",
+      "value": {
+        "target": "com.azure.vmware#PlacementPolicyUpdatePropertiesVmMembersList",
+        "traits": {
+          "smithy.api#documentation": "Virtual machine members (vCenter VM resource IDs)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyProperties/members/hostMembers",
+      "value": {
+        "target": "com.azure.vmware#PlacementPolicyUpdatePropertiesHostMembersList",
+        "traits": {
+          "smithy.api#documentation": "VmHost: host members list."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyProperties/members/affinityType",
+      "value": {
+        "target": "com.azure.vmware#AffinityType",
+        "traits": {
+          "smithy.api#documentation": "Placement policy affinity type (Affinity or AntiAffinity)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyProperties/members/affinityStrength",
+      "value": {
+        "target": "com.azure.vmware#AffinityStrength",
+        "traits": {
+          "smithy.api#documentation": "VmHost: affinity strength (Should or Must)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.vmware#PlacementPolicyProperties/members/azureHybridBenefitType",
+      "value": {
+        "target": "com.azure.vmware#AzureHybridBenefitType",
+        "traits": {
+          "smithy.api#documentation": "VmHost: Azure Hybrid Benefit opt-in type."
+        }
+      }
+    }
+  ]
+}

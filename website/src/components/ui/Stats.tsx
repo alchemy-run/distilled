@@ -39,11 +39,7 @@ export const StatRow = (props: {
 );
 
 /** Horizontal bar with a coloured fill, `width` as a percentage. */
-export const Bar = (props: {
-  width: number;
-  class?: string;
-  children?: JSX.Element;
-}) => (
+export const Bar = (props: { width: number; class?: string; children?: JSX.Element }) => (
   <div
     class={`relative h-[0.4rem] overflow-hidden rounded-full border border-line bg-bg ${props.class ?? ""}`}
     aria-hidden="true"

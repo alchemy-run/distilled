@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn Modal's proto3 gRPC API into Smithy 2.0 JSON models.
  *
@@ -7,26 +7,30 @@
  * Output: .generated-specs/<group>.json  (one Smithy model per RPC-name
  *         prefix of each proto service — `AppCreate` → `app.json`)
  *
- * The proto→Smithy converter lives in `@distilled.cloud/core/codegen/proto`.
+ * The proto→Smithy converter lives in `@distilled.cloud/dev/codegen/proto`.
  * Operations are unary gRPC methods, stamped as
  * `POST /<package>.<Service>/<Method>` with proto3 JSON field names.
- * Streaming RPCs are skipped (they are not a request/response POST).
+ * Server-streaming RPCs are kept as operations that collect the stream
+ * (`{ items }`); client- and bidi-streaming RPCs are skipped.
  *
- * Modal's production control plane speaks binary gRPC; this model describes
- * the proto3 JSON encoding of that surface (Connect-JSON / grpc-JSON
- * transcoding shape). Direct use of the gRPC API is unsupported by Modal.
+ * Modal's control plane only speaks binary gRPC (it answers JSON with 415).
+ * The model describes the proto3 JSON shape; `src/descriptors.ts` (written
+ * here too) lets the protocol transcode it to protobuf on the wire.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
+import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import {
+  assertDescriptorsCover,
   convertProtoToSmithy,
   parseProto,
+  protoDescriptors,
   rpcGroupName,
-} from "@distilled.cloud/core/codegen/proto";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
+} from "@distilled.cloud/dev/codegen/proto";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
-const ROOT = path.resolve(import.meta.dir, "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_DIR = path.join(ROOT, ".generated-specs");
 
 const PROTO_FILES = ["api.proto", "task_command_router.proto"] as const;
@@ -48,26 +52,23 @@ const toSlug = (group: string): string => {
 };
 
 const files = PROTO_FILES.map((name) => {
-  const specPath = resolveSpecPath(
-    ROOT,
-    `specs/spec-mirror-modal/specs/${name}`,
-  );
+  const specPath = resolveSpecPath(ROOT, `specs/spec-mirror-modal/specs/${name}`);
   if (!fs.existsSync(specPath)) {
     throw new Error(
-      `${specPath} not found — run \`pnpm specs:local modal\` (or \`bun run specs:fetch\` once the mirror exists)`,
+      `${specPath} not found — run \`pnpm specs:local modal\` (or \`pnpm run specs:fetch\` once the mirror exists)`,
     );
   }
   return parseProto(fs.readFileSync(specPath, "utf-8"), name);
 });
 
-fs.rmSync(OUT_DIR, { recursive: true, force: true });
-fs.mkdirSync(OUT_DIR, { recursive: true });
+clearModels(OUT_DIR);
 
 let written = 0;
+const models: Array<ReturnType<typeof convertProtoToSmithy>["model"]> = [];
 let totalOps = 0;
 let totalStreaming = 0;
 
-const writeModel = (
+const convertService = (
   slug: string,
   serviceName: string,
   serviceTitle: string,
@@ -84,16 +85,15 @@ const writeModel = (
     protoService,
     rpcNames,
     skipStreaming: true,
+    collectServerStreams: true,
     skipDeprecated: true,
   });
   if (result.converted === 0) {
     totalStreaming += result.skippedStreaming;
     return;
   }
-  fs.writeFileSync(
-    path.join(OUT_DIR, `${slug}.json`),
-    `${JSON.stringify(result.model, null, 2)}\n`,
-  );
+  writeModel(path.join(OUT_DIR, `${slug}.json`), result.model);
+  models.push(result.model);
   written++;
   totalOps += result.converted;
   totalStreaming += result.skippedStreaming;
@@ -116,7 +116,7 @@ for (const file of files) {
       }
       for (const group of [...groups.keys()].sort()) {
         const slug = toSlug(group);
-        writeModel(
+        convertService(
           slug,
           group,
           `Modal ${group}`,
@@ -128,7 +128,7 @@ for (const file of files) {
       }
     } else {
       const slug = toSlug(service.name);
-      writeModel(
+      convertService(
         slug,
         service.name,
         `Modal ${service.name}`,
@@ -143,6 +143,32 @@ console.log(
   `✅ ${written} Smithy models (${totalOps} operations` +
     (totalStreaming ? `, ${totalStreaming} streaming skipped` : "") +
     `) → ${OUT_DIR}`,
+);
+
+/** A string literal the formatter leaves alone (single quotes unless escaping). */
+const quoteForSource = (text: string): string =>
+  /['\\\n]/.test(text) ? JSON.stringify(text) : `'${text}'`;
+
+// Binary wire descriptors for the gRPC protocol (src/protocol.ts): Modal's
+// API only speaks binary gRPC, so the proto3 JSON bodies the services build
+// are transcoded with this table.
+const descriptors = protoDescriptors(files, { collectServerStreams: true, skipDeprecated: true });
+assertDescriptorsCover(models, descriptors);
+fs.writeFileSync(
+  path.join(ROOT, "src", "descriptors.ts"),
+  [
+    "// AUTO-GENERATED by scripts/convert.ts from modal_proto. Do not edit.",
+    'import type { ProtoDescriptors } from "@distilled.cloud/core/protobuf";',
+    "",
+    "/** Field numbers, kinds, enums and gRPC methods for the binary wire codec. */",
+    "export const descriptors: ProtoDescriptors = /*@__PURE__*/ JSON.parse(",
+    `  ${quoteForSource(JSON.stringify(descriptors))},`,
+    ");",
+    "",
+  ].join("\n"),
+);
+console.log(
+  `   descriptors: ${Object.keys(descriptors.messages).length} messages, ${Object.keys(descriptors.methods).length} methods`,
 );
 
 await finalizeConvert({ root: ROOT });

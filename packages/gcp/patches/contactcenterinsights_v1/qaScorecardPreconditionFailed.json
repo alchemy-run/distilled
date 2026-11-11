@@ -1,0 +1,40 @@
+{
+  "description": "Type the HTTP 400 FAILED_PRECONDITION Contact Center AI Insights returns for QA scorecard revision/question writes that race the scorecard's revision state. It surfaced as a generic BadRequest, so callers matched on the message.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#QaScorecardPreconditionFailed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The scorecard revision is not in a state that allows this change (HTTP 400 FAILED_PRECONDITION 'Precondition check failed.'), e.g. a new revision while the current one is still being created. Retryable briefly.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Precondition check failed"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#CreateProjectsLocationsQaScorecardsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenterinsights_v1#QaScorecardPreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#CreateProjectsLocationsQaScorecardsRevisionsQaQuestions/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenterinsights_v1#QaScorecardPreconditionFailed"
+      }
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+  "description": "From strip-required.patch.json: Strip required arrays from all PostHog response schemas. The spec is unreliable about required-ness — many endpoints omit fields the spec marks required (deleted users, cursor pagination omitting count, optional nested objects, etc.). Removing required treats all fields as optional, which lets decoding succeed against real responses without sacrificing type safety.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#PaginatedHogFunctionMinimalList/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#PaginatedHogFunctionMinimalList/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/description/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/enabled/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/hog/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/filters/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/icon_url/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/template/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/execution_order/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/search_match_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMinimal/members/draft_updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#UserBasic/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#UserBasic/members/uuid/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#UserBasic/members/email/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#UserBasic/members/hedgehog_config/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionTemplate/members/id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionTemplate/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionTemplate/members/code/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionTemplate/members/inputs_schema/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionTemplate/members/type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMappingTemplate/members/name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionStatus/members/state/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionStatus/members/tokens/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#InputsSchemaItem/members/type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#InputsSchemaItem/members/key/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMasking/members/ttl/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionMasking/members/hash/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/created_by/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/bytecode/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/transpiled/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/template/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/batch_export_id/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/search_match_type/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/version/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/draft/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionOutput/members/draft_updated_at/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#InputsItem/members/bytecode/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#InputsItem/members/bytecode_contract/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#InputsItem/members/order/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#InputsItem/members/transpiled/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionInvocationOutput/members/status/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#HogFunctionInvocationOutput/members/logs/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#AppMetricsResponse/members/labels/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#AppMetricsResponse/members/series/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#AppMetricSeries/members/name/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#AppMetricSeries/members/values/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.hog_functions#AppMetricsTotalsResponse/members/totals/traits"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "description": "Type the 409 calls into a stopped sandbox get: {\"code\": \"machine_not_running\", \"message\": \"Sandbox bx_\u2026 is stopped. Run `boat resume bx_\u2026`, then retry.\"}. Observed live 2026-11-07 on POST /sandboxes/{id}/commands and GET /sandboxes/{id}/files.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SandboxNotRunning",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The sandbox is stopped (`machine_not_running`). Resume it (resumeSandbox) and retry.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "machine_not_running"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ReadFile/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#WriteFile/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#DeleteFile/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ListFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#GetFileInfo/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CreateFolder/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#MoveFile/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SearchFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#FindInFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SetFilePermissions/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ReplaceInFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Command/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CommandStatus/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#StopCommand/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#AttachCommand/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#HostPort/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CreateDownloadUrl/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CreateUploadUrl/errors/-",
+      "value": {
+        "target": "com.boat.api#SandboxNotRunning"
+      }
+    }
+  ]
+}

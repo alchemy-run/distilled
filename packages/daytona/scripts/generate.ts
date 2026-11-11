@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * Daytona Effect SDK.
@@ -8,7 +9,7 @@
  * Output: src/services/<tag>.ts  +  src/services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Daytona's provider spec:
+ * `@distilled.cloud/dev/codegen`; this script is Daytona's provider spec:
  * the `com.distilled.openapi` trait vocabulary (nullable members, bare-body
  * responses), a passthrough union style, the page/cursor pagination
  * profiles, and the protocol/retry/error names.
@@ -18,13 +19,12 @@
  * mapping. Module files are named after the tag slug (`api_keys.ts`) while
  * the barrel exports them camelCased (`apiKeys.listApiKeys`).
  */
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
-} from "@distilled.cloud/core/codegen/openapi";
+} from "@distilled.cloud/dev/codegen/openapi";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
@@ -58,9 +58,29 @@ const spec: SdkSpec = {
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
+  // A Blob payload (file upload) is the raw request body: text or bytes,
+  // sent verbatim under the operation's bodyMediaType.
+  memberSchema: (m) =>
+    m.target === "smithy.api#Blob" && "smithy.api#httpPayload" in m.traits
+      ? "S.Union([S.String, S.instanceOf(Uint8Array)])"
+      : undefined,
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : m.target === "smithy.api#Blob" && "smithy.api#httpPayload" in m.traits
+        ? "string | Uint8Array"
+        : undefined,
+
+  // A Blob raw response (file download) decodes as bytes.
+  shapeOverride: ({ name, def }) =>
+    def.type === "structure" &&
+    Object.keys(def.members ?? {}).length === 1 &&
+    def.members.body?.target === "smithy.api#Blob" &&
+    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
+      ? [
+          `export type ${name} = Uint8Array;`,
+          `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
+        ]
       : undefined,
 
   // Unions surface as TS type unions over an opaque schema — the REST
@@ -71,15 +91,28 @@ const spec: SdkSpec = {
     `export const ${name} = /*@__PURE__*/ S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
-  // One pagination profile: audit logs page by token (`nextToken` in and
-  // out, items under `items`). The converter stamps `smithy.api#paginated`
-  // when it recognises that shape; with a single profile the compiler
-  // applies it without a selector.
+  // Three pagination styles, picked by the trait's `mode`. Audit logs page
+  // by token (`nextToken` in and out) — the converter stamps that one.
+  // Sandboxes and secrets page by cursor (`cursor` in, `nextCursor` out)
+  // and snapshots and sandbox telemetry by page number; those traits come
+  // from patches/*/pagination.json. Items are under `items` everywhere.
   paginationProfiles: {
     token: {
       strategy: "paginateToken",
       itemsFallback: "items",
     },
+    cursor: {
+      strategy: "paginateCursor",
+      itemsFallback: "items",
+    },
+    page: {
+      strategy: "paginatePageNumber",
+      itemsFallback: "items",
+    },
+  },
+  paginationProfileFor: (trait) => {
+    const mode = (trait as { mode?: unknown }).mode;
+    return mode === "cursor" || mode === "page" ? mode : "token";
   },
 
   sourceNote:
@@ -101,15 +134,16 @@ const spec: SdkSpec = {
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
       ? code.replace(
-          `import * as S from "@distilled.cloud/core/schema";`,
-          `import * as S from "@distilled.cloud/core/schema";\nimport * as Redacted from "effect/Redacted";`,
+          `import * as S from "@distilled.cloud/core/schema-lite";`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";`,
         )
       : code,
 };
 
 runGeneratorCli({
   description: "Generate the Daytona Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  convert: () => import("./convert.ts"),
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
   spec: () => spec,

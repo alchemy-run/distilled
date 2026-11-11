@@ -66,17 +66,17 @@ const walk = (dir: string): { files: number; bytes: number } => {
  * siblings are the generator scripts, not the SDK.
  */
 const listPackages = (): ReadonlyArray<PackageInfo> => {
-  const root = JSON.parse(
-    readFileSync(join(REPO_ROOT, "tsconfig.json"), "utf8"),
-  ) as { references: ReadonlyArray<{ path: string }> };
+  const root = JSON.parse(readFileSync(join(REPO_ROOT, "tsconfig.json"), "utf8")) as {
+    references: ReadonlyArray<{ path: string }>;
+  };
   const out: PackageInfo[] = [];
   for (const ref of root.references) {
     const m = /^\.\/packages\/([^/]+)\/tsconfig\.json$/.exec(ref.path);
     if (!m) continue;
     const dir = `packages/${m[1]}`;
-    const pkg = JSON.parse(
-      readFileSync(join(REPO_ROOT, dir, "package.json"), "utf8"),
-    ) as { name: string };
+    const pkg = JSON.parse(readFileSync(join(REPO_ROOT, dir, "package.json"), "utf8")) as {
+      name: string;
+    };
     out.push({ dir, name: pkg.name, short: m[1]! });
   }
   return out;
@@ -94,11 +94,7 @@ const packageTarget = (p: PackageInfo): Target => {
 };
 
 /** The default set: the three packages that matter most, plus the whole repo. */
-export const DEFAULT_PACKAGES: ReadonlyArray<string> = [
-  "core",
-  "aws",
-  "cloudflare",
-];
+export const DEFAULT_PACKAGES: ReadonlyArray<string> = ["core", "aws", "cloudflare"];
 
 export const allTargets = (full: boolean): ReadonlyArray<Target> => {
   const packages = listPackages();

@@ -1,0 +1,162 @@
+{
+  "description": "From core-errors.patch.json: Auto-generated PostHog error responses (400/403/404) for tag \"core\". See generate-error-patches.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.project_secret_api_keys#BadRequest"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#Forbidden"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.project_secret_api_keys#BadRequest"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#Forbidden"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysRetrieve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.project_secret_api_keys#Forbidden"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.project_secret_api_keys#BadRequest"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#Forbidden"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysPartialUpdate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.project_secret_api_keys#BadRequest"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#Forbidden"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysDestroy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.project_secret_api_keys#Forbidden"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#ProjectSecretApiKeysRollCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.posthog.project_secret_api_keys#Forbidden"
+        },
+        {
+          "target": "com.posthog.project_secret_api_keys#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#BadRequest",
+      "before": "com.posthog.project_secret_api_keys#ProjectSecretApiKeys",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#Forbidden",
+      "before": "com.posthog.project_secret_api_keys#ProjectSecretApiKeys",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.posthog.project_secret_api_keys#NotFound",
+      "before": "com.posthog.project_secret_api_keys#ProjectSecretApiKeys",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

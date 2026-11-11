@@ -227,6 +227,20 @@ export const ServiceSpec = S.Struct({
    */
   operations: S.optional(S.Record(S.String, OperationPatch)),
   /**
+   * Patches applied to every operation of the service, including operations
+   * a later spec adds. Use this for errors the service returns before it
+   * looks at the operation, e.g. S3's `InvalidAccessKeyId` for an unknown
+   * access key.
+   */
+  allOperations: S.optional(
+    S.Struct({
+      /**
+       * Error types added to every operation's error union.
+       */
+      errors: S.Array(S.String),
+    }),
+  ),
+  /**
    * Map of structure names to their member overrides.
    * Use this to fix discrepancies between AWS Smithy models and actual API behavior.
    * For example, when AWS returns undefined for a field marked as required.
@@ -278,11 +292,8 @@ export type ServiceSpec = typeof ServiceSpec.Type;
  * @param baseDir - Base directory to resolve patches from (defaults to the aws-sdk package root)
  * @returns The parsed ServiceSpec, or a default empty spec if no patch file exists
  */
-export const loadServiceSpecPatch = (
-  serviceSdkId: string,
-  baseDir?: string,
-): ServiceSpec => {
-  const root = baseDir ?? path.join(__dirname, "..");
+export const loadServiceSpecPatch = (serviceSdkId: string, baseDir?: string): ServiceSpec => {
+  const root = baseDir ?? path.join(import.meta.dirname, "..");
   const specPath = path.join(
     root,
     "patches",

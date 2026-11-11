@@ -12,7 +12,7 @@ npm install @distilled.cloud/s2 effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as S2 from "@distilled.cloud/s2";
 
 const program = Effect.gen(function* () {

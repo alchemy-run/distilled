@@ -1,0 +1,35 @@
+{
+  "description": "The live ManagedPrivateEndpoint properties also carry `error` (the provisioning failure message when provisioningState is Failed), `resourceId` (the backing Microsoft.Network private endpoint), and `ipAddress`; the spec omits them.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#ManagedPrivateEndpoint/members/error",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Provisioning failure message when provisioningState is Failed."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#ManagedPrivateEndpoint/members/resourceId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ARM resource ID of the backing private endpoint in the Data Factory managed subscription."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#ManagedPrivateEndpoint/members/ipAddress",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Private IP address of the endpoint in the managed virtual network."
+        }
+      }
+    }
+  ]
+}

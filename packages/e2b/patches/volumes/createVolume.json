@@ -1,0 +1,28 @@
+{
+  "description": "Type the 403 E2B returns when the team has no access to volumes: \"use of volumes is not enabled\". Observed live 2026-11-03.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.volumes#VolumesNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": { "target": "smithy.api#Integer" },
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 403, "message": { "includes": "use of volumes is not enabled" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.e2b.volumes#PostVolumes/errors",
+      "value": [{ "target": "com.e2b.volumes#VolumesNotEnabled" }]
+    }
+  ]
+}

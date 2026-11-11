@@ -12,11 +12,11 @@ npm install @distilled.cloud/huggingface effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Huggingface from "@distilled.cloud/huggingface";
 
 const program = Effect.gen(function* () {
-  const result = yield* Huggingface.repos.createNewRepository({});
+  const result = yield* Huggingface.repos.createRepository({});
   return result;
 });
 

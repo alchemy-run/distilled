@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Discord OpenAPI spec into a Smithy 2.0 JSON model.
  *
@@ -8,16 +8,18 @@
  * Output: .generated-specs/discord.json (OpenAPI + Smithy patches applied)
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Discord's pipeline
- * config. Smithy patches in `patches/discord/*.json` apply after conversion.
- * `scripts/generate.ts` compiles the already-patched model.
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Discord's pipeline
+ * config. Patches in `patches/discord/*.json` apply around conversion:
+ * OpenAPI pointers (`/paths`, `/components`) before it, Smithy pointers
+ * (`/shapes`) after. `scripts/generate.ts` compiles the already-patched model.
  *
  * Notes on the Discord spec:
  *   • Every operation declares exactly two failure responses — `429` and the
- *     `4XX` catch-all — so there is nothing per-status to type. Hence
- *     `statusToErrorClass: {}`: failures are dispatched by DiscordProtocol
- *     from the `{ code, message, errors }` envelope plus core's shared HTTP
- *     status map.
+ *     `4XX` catch-all — so the spec alone types nothing per status. Observed
+ *     statuses are declared per operation in `patches/discord/` and lifted by
+ *     the converter's default status→class map; everything else is dispatched
+ *     by DiscordProtocol from the `{ code, message, errors }` envelope plus
+ *     core's shared HTTP status map.
  *   • Request bodies are JSON, `multipart/form-data` (attachment uploads)
  *     and `application/x-www-form-urlencoded` (the OAuth2 token endpoints);
  *     the converter stamps `com.distilled.openapi#contentType` for the
@@ -27,7 +29,7 @@
  *     the union handling in scripts/generate.ts.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 /**
  * Rewrite Discord's enum spelling into the plain `enum` form the converter
@@ -59,9 +61,7 @@ const normalizeEnums = (spec: any): void => {
     "const" in b &&
     // title/description/format are decoration; anything else (properties,
     // nested composition) means this is a real union branch, not a literal.
-    Object.keys(b).every((k) =>
-      ["const", "title", "description", "format", "type"].includes(k),
-    );
+    Object.keys(b).every((k) => ["const", "title", "description", "format", "type"].includes(k));
 
   const walk = (node: any): void => {
     if (node === null || typeof node !== "object") return;
@@ -72,11 +72,7 @@ const normalizeEnums = (spec: any): void => {
     if (Array.isArray(node.enum) && node.enum.length === 0) delete node.enum;
     for (const key of ["oneOf", "anyOf"] as const) {
       const branches = node[key];
-      if (
-        Array.isArray(branches) &&
-        branches.length > 0 &&
-        branches.every(isConstBranch)
-      ) {
+      if (Array.isArray(branches) && branches.length > 0 && branches.every(isConstBranch)) {
         node.enum = branches.map((b: any) => b.const);
         delete node[key];
       }
@@ -89,7 +85,7 @@ const normalizeEnums = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "discord",
@@ -100,9 +96,6 @@ await runOpenApiConvert({
   options: {
     namespace: "com.discord.api",
     serviceName: "Discord",
-    // Discord types failures as `4XX`/`429` only — no per-status response
-    // schemas to lift into typed error classes.
-    statusToErrorClass: {},
     skipDeprecated: true,
   },
 });

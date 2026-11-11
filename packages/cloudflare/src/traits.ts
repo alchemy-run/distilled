@@ -1,5 +1,5 @@
 /**
- * Cloudflare SDK trait surface — hand-written.
+ * Cloudflare SDK trait surface -- hand-written.
  *
  * Re-exports the generic protocol traits from core (so generated operations
  * import everything from one place) and adds the Cloudflare-specific traits
@@ -12,7 +12,7 @@
  * them. Anything tied to Cloudflare's response envelope lives here.
  */
 import { makeAnnotation } from "@distilled.cloud/core/trait";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Stream from "effect/Stream";
 
 export {
@@ -51,32 +51,29 @@ export {
 // Cloudflare v4 envelope traits
 // =============================================================================
 
-export const envelopePayloadRootSymbol = Symbol.for(
+export const envelopePayloadRootSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/cloudflare/envelope-payload-root",
 );
 
 /**
  * Marks a response schema whose ENTIRE value is the envelope's `result`
- * payload (used when `result` is an array or scalar — e.g. worker script
+ * payload (used when `result` is an array or scalar -- e.g. worker script
  * search returns a bare array). The protocol returns `result` directly
  * instead of wrapping it in `{ result: ... }`, matching how distilled types
  * these responses.
  */
-export const EnvelopePayloadRoot = () =>
-  makeAnnotation(envelopePayloadRootSymbol, true);
+export const EnvelopePayloadRoot = () => makeAnnotation(envelopePayloadRootSymbol, true);
 
-export const resultInfoSymbol = Symbol.for(
-  "@distilled.cloud/cloudflare/result-info",
-);
+export const resultInfoSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/cloudflare/result-info");
 
 /**
  * Marks the output member that receives the envelope's top-level
  * `result_info` block (camelCased). Only honored by
- * `CloudflarePaginatedProtocol` — pagination-specific by design.
+ * `CloudflarePaginatedProtocol` -- pagination-specific by design.
  */
 export const ResultInfo = () => makeAnnotation(resultInfoSymbol, true);
 
-export const envelopePayloadSymbol = Symbol.for(
+export const envelopePayloadSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/cloudflare/envelope-payload",
 );
 
@@ -91,26 +88,53 @@ export const envelopePayloadSymbol = Symbol.for(
  * to it. This mirrors `com.cloudflare.protocols#envelopePayload` in the Smithy
  * models.
  */
-export const EnvelopePayload = () =>
-  makeAnnotation(envelopePayloadSymbol, true);
+export const EnvelopePayload = () => makeAnnotation(envelopePayloadSymbol, true);
 
-export const binaryResponseBodySymbol = Symbol.for(
+export const binaryResponseBodySymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/cloudflare/binary-response-body",
 );
 
 /**
  * Marks the output member that receives the raw HTTP response body as a
- * lazy byte stream (raw object GETs — no envelope, no JSON). A response
+ * lazy byte stream (raw object GETs -- no envelope, no JSON). A response
  * with a member carrying this trait is decoded from the response's
  * headers and stream without consuming the body as text; error statuses
  * still take the normal envelope/error path. This mirrors
  * `com.cloudflare.protocols#binaryResponseBody` in the Smithy models.
  */
-export const BinaryResponseBody = () =>
-  makeAnnotation(binaryResponseBodySymbol, true);
+export const BinaryResponseBody = () => makeAnnotation(binaryResponseBodySymbol, true);
 
 /** The TS type of a `BinaryResponseBody()` member. */
-export type BinaryResponseBody = Stream.Stream<
-  Uint8Array,
-  HttpClientError.HttpClientError
->;
+export type BinaryResponseBody = Stream.Stream<Uint8Array, HttpClientError.HttpClientError>;
+
+// =============================================================================
+// Per-operation host
+// =============================================================================
+
+export const hostSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/cloudflare/host");
+
+/**
+ * Marks an operation input whose requests go to their own origin instead of
+ * the credentials' API base URL -- K2's data plane is served from
+ * `https://{stream_id}.k2.cloudflarestorage.com`, one host per stream.
+ * `{name}` placeholders are filled from the input's `Label(name)` members,
+ * exactly like the route's own labels. This mirrors
+ * `com.cloudflare.protocols#host` in the Smithy models.
+ */
+export const Host = (template: string) => makeAnnotation(hostSymbol, template);
+
+// =============================================================================
+// R2 jurisdiction
+// =============================================================================
+
+export const jurisdictionSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/cloudflare/jurisdiction",
+);
+
+/**
+ * Marks an operation input whose requests carry the `Jurisdiction` layer as
+ * the `cf-r2-jurisdiction` header when the call sets no `jurisdiction`
+ * member. This mirrors
+ * `com.cloudflare.protocols#jurisdiction` in the Smithy models.
+ */
+export const Jurisdiction = () => makeAnnotation(jurisdictionSymbol, true);

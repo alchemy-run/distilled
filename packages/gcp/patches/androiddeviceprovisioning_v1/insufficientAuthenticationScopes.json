@@ -1,0 +1,75 @@
+{
+  "description": "Type the HTTP 403 the zero-touch customer API returns for a token without its OAuth scope. It surfaced as a generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The credential lacks the zero-touch (androidworkzerotouchemm) OAuth scope (HTTP 403 'Request had insufficient authentication scopes.'). A Cloud Platform-scoped service account token cannot call the customer API; not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#GetCustomersConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#CreateCustomersConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#PatchCustomersConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#DeleteCustomersConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#ListCustomersConfigurations/errors/-",
+      "value": {
+        "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#ListCustomersDpcs/errors/-",
+      "value": {
+        "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.androiddeviceprovisioning_v1#ListCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.androiddeviceprovisioning_v1#InsufficientAuthenticationScopes"
+      }
+    }
+  ]
+}

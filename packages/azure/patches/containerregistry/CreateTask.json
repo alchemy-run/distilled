@@ -1,0 +1,335 @@
+{
+  "description": "Task steps are polymorphic on `type` (Docker / FileTask / EncodedTask); the converted model keeps only the base members, so S.Struct strips the subtype payload on encode and decode. Add the subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/dockerFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Docker step: Docker file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/imageNames",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Docker step: fully qualified image names including the repository and tag."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/isPushEnabled",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Docker step: whether the image built should be pushed to the registry."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/noCache",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Docker step: whether the image cache is disabled."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/target",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Docker step: the name of the target build stage."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/arguments",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Docker step: build arguments ({ name, value, isSecret }[])."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/taskFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "FileTask step: task template/definition file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/valuesFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "FileTask step: task values/parameters file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/encodedTaskContent",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EncodedTask step: base64 encoded value of the template/definition file content."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/encodedValuesContent",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EncodedTask step: base64 encoded value of the parameters/values file content."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepPropertiesInput/members/values",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "FileTask/EncodedTask step: values to override ({ name, value, isSecret }[])."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/dockerFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Docker step: Docker file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/imageNames",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Docker step: fully qualified image names including the repository and tag."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/isPushEnabled",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Docker step: whether the image built should be pushed to the registry."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/noCache",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Docker step: whether the image cache is disabled."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/target",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Docker step: the name of the target build stage."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/arguments",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Docker step: build arguments ({ name, value, isSecret }[])."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/taskFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "FileTask step: task template/definition file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/valuesFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "FileTask step: task values/parameters file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/encodedTaskContent",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EncodedTask step: base64 encoded value of the template/definition file content."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/encodedValuesContent",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EncodedTask step: base64 encoded value of the parameters/values file content."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepProperties/members/values",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "FileTask/EncodedTask step: values to override ({ name, value, isSecret }[])."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/dockerFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Docker step: Docker file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/imageNames",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Docker step: fully qualified image names including the repository and tag."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/isPushEnabled",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Docker step: whether the image built should be pushed to the registry."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/noCache",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Docker step: whether the image cache is disabled."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/target",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Docker step: the name of the target build stage."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/arguments",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Docker step: build arguments ({ name, value, isSecret }[])."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/taskFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "FileTask step: task template/definition file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/valuesFilePath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "FileTask step: task values/parameters file path relative to the source context."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/encodedTaskContent",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EncodedTask step: base64 encoded value of the template/definition file content."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/encodedValuesContent",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EncodedTask step: base64 encoded value of the parameters/values file content."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry#TaskStepUpdateParameters/members/values",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "FileTask/EncodedTask step: values to override ({ name, value, isSecret }[])."
+        }
+      }
+    }
+  ]
+}

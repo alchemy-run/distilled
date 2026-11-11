@@ -12,7 +12,7 @@ npm install @distilled.cloud/auth0 effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Auth0 from "@distilled.cloud/auth0";
 
 const program = Effect.gen(function* () {

@@ -1,18 +1,18 @@
 {
   "name": "@distilled.cloud/cloudflare",
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.18",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/cloudflare"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
@@ -27,6 +27,13 @@
       "worker": "./src/errors.ts",
       "workerd": "./src/errors.ts",
       "default": "./lib/errors.js"
+    },
+    "./Jurisdiction": {
+      "types": "./lib/jurisdiction.d.ts",
+      "bun": "./src/jurisdiction.ts",
+      "worker": "./src/jurisdiction.ts",
+      "workerd": "./src/jurisdiction.ts",
+      "default": "./lib/jurisdiction.js"
     },
     "./Traits": {
       "types": "./lib/traits.d.ts",
@@ -54,6 +61,7 @@
       "bun": "./src/services/abuse_reports.ts",
       "worker": "./src/services/abuse_reports.ts",
       "workerd": "./src/services/abuse_reports.ts",
+      "distilled-lazy": "./lib/services.lazy/abuse_reports.js",
       "default": "./lib/services/abuse_reports.js"
     },
     "./ai-gateway": {
@@ -61,6 +69,7 @@
       "bun": "./src/services/ai_gateway.ts",
       "worker": "./src/services/ai_gateway.ts",
       "workerd": "./src/services/ai_gateway.ts",
+      "distilled-lazy": "./lib/services.lazy/ai_gateway.js",
       "default": "./lib/services/ai_gateway.js"
     },
     "./ai-security": {
@@ -68,6 +77,7 @@
       "bun": "./src/services/ai_security.ts",
       "worker": "./src/services/ai_security.ts",
       "workerd": "./src/services/ai_security.ts",
+      "distilled-lazy": "./lib/services.lazy/ai_security.js",
       "default": "./lib/services/ai_security.js"
     },
     "./aisearch": {
@@ -75,6 +85,7 @@
       "bun": "./src/services/ai_search.ts",
       "worker": "./src/services/ai_search.ts",
       "workerd": "./src/services/ai_search.ts",
+      "distilled-lazy": "./lib/services.lazy/ai_search.js",
       "default": "./lib/services/ai_search.js"
     },
     "./api-gateway": {
@@ -82,6 +93,7 @@
       "bun": "./src/services/api_gateway.ts",
       "worker": "./src/services/api_gateway.ts",
       "workerd": "./src/services/api_gateway.ts",
+      "distilled-lazy": "./lib/services.lazy/api_gateway.js",
       "default": "./lib/services/api_gateway.js"
     },
     "./audit-logs": {
@@ -89,6 +101,7 @@
       "bun": "./src/services/audit_logs.ts",
       "worker": "./src/services/audit_logs.ts",
       "workerd": "./src/services/audit_logs.ts",
+      "distilled-lazy": "./lib/services.lazy/audit_logs.js",
       "default": "./lib/services/audit_logs.js"
     },
     "./bot-management": {
@@ -96,6 +109,7 @@
       "bun": "./src/services/bot_management.ts",
       "worker": "./src/services/bot_management.ts",
       "workerd": "./src/services/bot_management.ts",
+      "distilled-lazy": "./lib/services.lazy/bot_management.js",
       "default": "./lib/services/bot_management.js"
     },
     "./botnet-feed": {
@@ -103,6 +117,7 @@
       "bun": "./src/services/botnet_feed.ts",
       "worker": "./src/services/botnet_feed.ts",
       "workerd": "./src/services/botnet_feed.ts",
+      "distilled-lazy": "./lib/services.lazy/botnet_feed.js",
       "default": "./lib/services/botnet_feed.js"
     },
     "./brand-protection": {
@@ -110,6 +125,7 @@
       "bun": "./src/services/brand_protection.ts",
       "worker": "./src/services/brand_protection.ts",
       "workerd": "./src/services/brand_protection.ts",
+      "distilled-lazy": "./lib/services.lazy/brand_protection.js",
       "default": "./lib/services/brand_protection.js"
     },
     "./browser-rendering": {
@@ -117,6 +133,7 @@
       "bun": "./src/services/browser_rendering.ts",
       "worker": "./src/services/browser_rendering.ts",
       "workerd": "./src/services/browser_rendering.ts",
+      "distilled-lazy": "./lib/services.lazy/browser_rendering.js",
       "default": "./lib/services/browser_rendering.js"
     },
     "./certificate-authorities": {
@@ -124,6 +141,7 @@
       "bun": "./src/services/certificate_authorities.ts",
       "worker": "./src/services/certificate_authorities.ts",
       "workerd": "./src/services/certificate_authorities.ts",
+      "distilled-lazy": "./lib/services.lazy/certificate_authorities.js",
       "default": "./lib/services/certificate_authorities.js"
     },
     "./client-certificates": {
@@ -131,6 +149,7 @@
       "bun": "./src/services/client_certificates.ts",
       "worker": "./src/services/client_certificates.ts",
       "workerd": "./src/services/client_certificates.ts",
+      "distilled-lazy": "./lib/services.lazy/client_certificates.js",
       "default": "./lib/services/client_certificates.js"
     },
     "./cloud-connector": {
@@ -138,6 +157,7 @@
       "bun": "./src/services/cloud_connector.ts",
       "worker": "./src/services/cloud_connector.ts",
       "workerd": "./src/services/cloud_connector.ts",
+      "distilled-lazy": "./lib/services.lazy/cloud_connector.js",
       "default": "./lib/services/cloud_connector.js"
     },
     "./cloudforce-one": {
@@ -145,6 +165,7 @@
       "bun": "./src/services/cloudforce_one.ts",
       "worker": "./src/services/cloudforce_one.ts",
       "workerd": "./src/services/cloudforce_one.ts",
+      "distilled-lazy": "./lib/services.lazy/cloudforce_one.js",
       "default": "./lib/services/cloudforce_one.js"
     },
     "./content-scanning": {
@@ -152,6 +173,7 @@
       "bun": "./src/services/content_scanning.ts",
       "worker": "./src/services/content_scanning.ts",
       "workerd": "./src/services/content_scanning.ts",
+      "distilled-lazy": "./lib/services.lazy/content_scanning.js",
       "default": "./lib/services/content_scanning.js"
     },
     "./csam-scanner": {
@@ -159,6 +181,7 @@
       "bun": "./src/services/csam_scanner.ts",
       "worker": "./src/services/csam_scanner.ts",
       "workerd": "./src/services/csam_scanner.ts",
+      "distilled-lazy": "./lib/services.lazy/csam_scanner.js",
       "default": "./lib/services/csam_scanner.js"
     },
     "./custom-certificates": {
@@ -166,6 +189,7 @@
       "bun": "./src/services/custom_certificates.ts",
       "worker": "./src/services/custom_certificates.ts",
       "workerd": "./src/services/custom_certificates.ts",
+      "distilled-lazy": "./lib/services.lazy/custom_certificates.js",
       "default": "./lib/services/custom_certificates.js"
     },
     "./custom-csrs": {
@@ -173,6 +197,7 @@
       "bun": "./src/services/custom_csrs.ts",
       "worker": "./src/services/custom_csrs.ts",
       "workerd": "./src/services/custom_csrs.ts",
+      "distilled-lazy": "./lib/services.lazy/custom_csrs.js",
       "default": "./lib/services/custom_csrs.js"
     },
     "./custom-hostnames": {
@@ -180,6 +205,7 @@
       "bun": "./src/services/custom_hostnames.ts",
       "worker": "./src/services/custom_hostnames.ts",
       "workerd": "./src/services/custom_hostnames.ts",
+      "distilled-lazy": "./lib/services.lazy/custom_hostnames.js",
       "default": "./lib/services/custom_hostnames.js"
     },
     "./custom-nameservers": {
@@ -187,6 +213,7 @@
       "bun": "./src/services/custom_nameservers.ts",
       "worker": "./src/services/custom_nameservers.ts",
       "workerd": "./src/services/custom_nameservers.ts",
+      "distilled-lazy": "./lib/services.lazy/custom_nameservers.js",
       "default": "./lib/services/custom_nameservers.js"
     },
     "./custom-pages": {
@@ -194,6 +221,7 @@
       "bun": "./src/services/custom_pages.ts",
       "worker": "./src/services/custom_pages.ts",
       "workerd": "./src/services/custom_pages.ts",
+      "distilled-lazy": "./lib/services.lazy/custom_pages.js",
       "default": "./lib/services/custom_pages.js"
     },
     "./dcv-delegation": {
@@ -201,6 +229,7 @@
       "bun": "./src/services/dcv_delegation.ts",
       "worker": "./src/services/dcv_delegation.ts",
       "workerd": "./src/services/dcv_delegation.ts",
+      "distilled-lazy": "./lib/services.lazy/dcv_delegation.js",
       "default": "./lib/services/dcv_delegation.js"
     },
     "./ddos-protection": {
@@ -208,6 +237,7 @@
       "bun": "./src/services/ddos_protection.ts",
       "worker": "./src/services/ddos_protection.ts",
       "workerd": "./src/services/ddos_protection.ts",
+      "distilled-lazy": "./lib/services.lazy/ddos_protection.js",
       "default": "./lib/services/ddos_protection.js"
     },
     "./dns-firewall": {
@@ -215,6 +245,7 @@
       "bun": "./src/services/dns_firewall.ts",
       "worker": "./src/services/dns_firewall.ts",
       "workerd": "./src/services/dns_firewall.ts",
+      "distilled-lazy": "./lib/services.lazy/dns_firewall.js",
       "default": "./lib/services/dns_firewall.js"
     },
     "./durable-objects": {
@@ -222,6 +253,7 @@
       "bun": "./src/services/durable_objects.ts",
       "worker": "./src/services/durable_objects.ts",
       "workerd": "./src/services/durable_objects.ts",
+      "distilled-lazy": "./lib/services.lazy/durable_objects.js",
       "default": "./lib/services/durable_objects.js"
     },
     "./email-auth": {
@@ -229,6 +261,7 @@
       "bun": "./src/services/email_auth.ts",
       "worker": "./src/services/email_auth.ts",
       "workerd": "./src/services/email_auth.ts",
+      "distilled-lazy": "./lib/services.lazy/email_auth.js",
       "default": "./lib/services/email_auth.js"
     },
     "./email-routing": {
@@ -236,6 +269,7 @@
       "bun": "./src/services/email_routing.ts",
       "worker": "./src/services/email_routing.ts",
       "workerd": "./src/services/email_routing.ts",
+      "distilled-lazy": "./lib/services.lazy/email_routing.js",
       "default": "./lib/services/email_routing.js"
     },
     "./email-security": {
@@ -243,6 +277,7 @@
       "bun": "./src/services/email_security.ts",
       "worker": "./src/services/email_security.ts",
       "workerd": "./src/services/email_security.ts",
+      "distilled-lazy": "./lib/services.lazy/email_security.js",
       "default": "./lib/services/email_security.js"
     },
     "./email-sending": {
@@ -250,6 +285,7 @@
       "bun": "./src/services/email_sending.ts",
       "worker": "./src/services/email_sending.ts",
       "workerd": "./src/services/email_sending.ts",
+      "distilled-lazy": "./lib/services.lazy/email_sending.js",
       "default": "./lib/services/email_sending.js"
     },
     "./google-tag-gateway": {
@@ -257,6 +293,7 @@
       "bun": "./src/services/google_tag_gateway.ts",
       "worker": "./src/services/google_tag_gateway.ts",
       "workerd": "./src/services/google_tag_gateway.ts",
+      "distilled-lazy": "./lib/services.lazy/google_tag_gateway.js",
       "default": "./lib/services/google_tag_gateway.js"
     },
     "./keyless-certificates": {
@@ -264,6 +301,7 @@
       "bun": "./src/services/keyless_certificates.ts",
       "worker": "./src/services/keyless_certificates.ts",
       "workerd": "./src/services/keyless_certificates.ts",
+      "distilled-lazy": "./lib/services.lazy/keyless_certificates.js",
       "default": "./lib/services/keyless_certificates.js"
     },
     "./leaked-credential-checks": {
@@ -271,6 +309,7 @@
       "bun": "./src/services/leaked_credential_checks.ts",
       "worker": "./src/services/leaked_credential_checks.ts",
       "workerd": "./src/services/leaked_credential_checks.ts",
+      "distilled-lazy": "./lib/services.lazy/leaked_credential_checks.js",
       "default": "./lib/services/leaked_credential_checks.js"
     },
     "./load-balancers": {
@@ -278,6 +317,7 @@
       "bun": "./src/services/load_balancers.ts",
       "worker": "./src/services/load_balancers.ts",
       "workerd": "./src/services/load_balancers.ts",
+      "distilled-lazy": "./lib/services.lazy/load_balancers.js",
       "default": "./lib/services/load_balancers.js"
     },
     "./magic-cloud-networking": {
@@ -285,6 +325,7 @@
       "bun": "./src/services/magic_cloud_networking.ts",
       "worker": "./src/services/magic_cloud_networking.ts",
       "workerd": "./src/services/magic_cloud_networking.ts",
+      "distilled-lazy": "./lib/services.lazy/magic_cloud_networking.js",
       "default": "./lib/services/magic_cloud_networking.js"
     },
     "./magic-network-monitoring": {
@@ -292,6 +333,7 @@
       "bun": "./src/services/magic_network_monitoring.ts",
       "worker": "./src/services/magic_network_monitoring.ts",
       "workerd": "./src/services/magic_network_monitoring.ts",
+      "distilled-lazy": "./lib/services.lazy/magic_network_monitoring.js",
       "default": "./lib/services/magic_network_monitoring.js"
     },
     "./magic-transit": {
@@ -299,6 +341,7 @@
       "bun": "./src/services/magic_transit.ts",
       "worker": "./src/services/magic_transit.ts",
       "workerd": "./src/services/magic_transit.ts",
+      "distilled-lazy": "./lib/services.lazy/magic_transit.js",
       "default": "./lib/services/magic_transit.js"
     },
     "./managed-transforms": {
@@ -306,6 +349,7 @@
       "bun": "./src/services/managed_transforms.ts",
       "worker": "./src/services/managed_transforms.ts",
       "workerd": "./src/services/managed_transforms.ts",
+      "distilled-lazy": "./lib/services.lazy/managed_transforms.js",
       "default": "./lib/services/managed_transforms.js"
     },
     "./mtls-certificates": {
@@ -313,6 +357,7 @@
       "bun": "./src/services/mtls_certificates.ts",
       "worker": "./src/services/mtls_certificates.ts",
       "workerd": "./src/services/mtls_certificates.ts",
+      "distilled-lazy": "./lib/services.lazy/mtls_certificates.js",
       "default": "./lib/services/mtls_certificates.js"
     },
     "./network-interconnects": {
@@ -320,6 +365,7 @@
       "bun": "./src/services/network_interconnects.ts",
       "worker": "./src/services/network_interconnects.ts",
       "workerd": "./src/services/network_interconnects.ts",
+      "distilled-lazy": "./lib/services.lazy/network_interconnects.js",
       "default": "./lib/services/network_interconnects.js"
     },
     "./origin-ca-certificates": {
@@ -327,6 +373,7 @@
       "bun": "./src/services/origin_ca_certificates.ts",
       "worker": "./src/services/origin_ca_certificates.ts",
       "workerd": "./src/services/origin_ca_certificates.ts",
+      "distilled-lazy": "./lib/services.lazy/origin_ca_certificates.js",
       "default": "./lib/services/origin_ca_certificates.js"
     },
     "./origin-post-quantum-encryption": {
@@ -334,6 +381,7 @@
       "bun": "./src/services/origin_post_quantum_encryption.ts",
       "worker": "./src/services/origin_post_quantum_encryption.ts",
       "workerd": "./src/services/origin_post_quantum_encryption.ts",
+      "distilled-lazy": "./lib/services.lazy/origin_post_quantum_encryption.js",
       "default": "./lib/services/origin_post_quantum_encryption.js"
     },
     "./origin-tls-client-auth": {
@@ -341,6 +389,7 @@
       "bun": "./src/services/origin_tls_client_auth.ts",
       "worker": "./src/services/origin_tls_client_auth.ts",
       "workerd": "./src/services/origin_tls_client_auth.ts",
+      "distilled-lazy": "./lib/services.lazy/origin_tls_client_auth.js",
       "default": "./lib/services/origin_tls_client_auth.js"
     },
     "./origin-tls-compliance-modes": {
@@ -348,6 +397,7 @@
       "bun": "./src/services/origin_tls_compliance_modes.ts",
       "worker": "./src/services/origin_tls_compliance_modes.ts",
       "workerd": "./src/services/origin_tls_compliance_modes.ts",
+      "distilled-lazy": "./lib/services.lazy/origin_tls_compliance_modes.js",
       "default": "./lib/services/origin_tls_compliance_modes.js"
     },
     "./page-rules": {
@@ -355,6 +405,7 @@
       "bun": "./src/services/page_rules.ts",
       "worker": "./src/services/page_rules.ts",
       "workerd": "./src/services/page_rules.ts",
+      "distilled-lazy": "./lib/services.lazy/page_rules.js",
       "default": "./lib/services/page_rules.js"
     },
     "./page-shield": {
@@ -362,6 +413,7 @@
       "bun": "./src/services/page_shield.ts",
       "worker": "./src/services/page_shield.ts",
       "workerd": "./src/services/page_shield.ts",
+      "distilled-lazy": "./lib/services.lazy/page_shield.js",
       "default": "./lib/services/page_shield.js"
     },
     "./r2-data-catalog": {
@@ -369,6 +421,7 @@
       "bun": "./src/services/r2_data_catalog.ts",
       "worker": "./src/services/r2_data_catalog.ts",
       "workerd": "./src/services/r2_data_catalog.ts",
+      "distilled-lazy": "./lib/services.lazy/r2_data_catalog.js",
       "default": "./lib/services/r2_data_catalog.js"
     },
     "./rate-limits": {
@@ -376,6 +429,7 @@
       "bun": "./src/services/rate_limits.ts",
       "worker": "./src/services/rate_limits.ts",
       "workerd": "./src/services/rate_limits.ts",
+      "distilled-lazy": "./lib/services.lazy/rate_limits.js",
       "default": "./lib/services/rate_limits.js"
     },
     "./realtime-kit": {
@@ -383,6 +437,7 @@
       "bun": "./src/services/realtime_kit.ts",
       "worker": "./src/services/realtime_kit.ts",
       "workerd": "./src/services/realtime_kit.ts",
+      "distilled-lazy": "./lib/services.lazy/realtime_kit.js",
       "default": "./lib/services/realtime_kit.js"
     },
     "./request-tracers": {
@@ -390,6 +445,7 @@
       "bun": "./src/services/request_tracers.ts",
       "worker": "./src/services/request_tracers.ts",
       "workerd": "./src/services/request_tracers.ts",
+      "distilled-lazy": "./lib/services.lazy/request_tracers.js",
       "default": "./lib/services/request_tracers.js"
     },
     "./resource-sharing": {
@@ -397,6 +453,7 @@
       "bun": "./src/services/resource_sharing.ts",
       "worker": "./src/services/resource_sharing.ts",
       "workerd": "./src/services/resource_sharing.ts",
+      "distilled-lazy": "./lib/services.lazy/resource_sharing.js",
       "default": "./lib/services/resource_sharing.js"
     },
     "./resource-tagging": {
@@ -404,6 +461,7 @@
       "bun": "./src/services/resource_tagging.ts",
       "worker": "./src/services/resource_tagging.ts",
       "workerd": "./src/services/resource_tagging.ts",
+      "distilled-lazy": "./lib/services.lazy/resource_tagging.js",
       "default": "./lib/services/resource_tagging.js"
     },
     "./schema-validation": {
@@ -411,6 +469,7 @@
       "bun": "./src/services/schema_validation.ts",
       "worker": "./src/services/schema_validation.ts",
       "workerd": "./src/services/schema_validation.ts",
+      "distilled-lazy": "./lib/services.lazy/schema_validation.js",
       "default": "./lib/services/schema_validation.js"
     },
     "./secrets-store": {
@@ -418,6 +477,7 @@
       "bun": "./src/services/secrets_store.ts",
       "worker": "./src/services/secrets_store.ts",
       "workerd": "./src/services/secrets_store.ts",
+      "distilled-lazy": "./lib/services.lazy/secrets_store.js",
       "default": "./lib/services/secrets_store.js"
     },
     "./security-center": {
@@ -425,6 +485,7 @@
       "bun": "./src/services/security_center.ts",
       "worker": "./src/services/security_center.ts",
       "workerd": "./src/services/security_center.ts",
+      "distilled-lazy": "./lib/services.lazy/security_center.js",
       "default": "./lib/services/security_center.js"
     },
     "./security-txt": {
@@ -432,6 +493,7 @@
       "bun": "./src/services/security_txt.ts",
       "worker": "./src/services/security_txt.ts",
       "workerd": "./src/services/security_txt.ts",
+      "distilled-lazy": "./lib/services.lazy/security_txt.js",
       "default": "./lib/services/security_txt.js"
     },
     "./tenant-custom-nameservers": {
@@ -439,6 +501,7 @@
       "bun": "./src/services/tenant_custom_nameservers.ts",
       "worker": "./src/services/tenant_custom_nameservers.ts",
       "workerd": "./src/services/tenant_custom_nameservers.ts",
+      "distilled-lazy": "./lib/services.lazy/tenant_custom_nameservers.js",
       "default": "./lib/services/tenant_custom_nameservers.js"
     },
     "./token-validation": {
@@ -446,6 +509,7 @@
       "bun": "./src/services/token_validation.ts",
       "worker": "./src/services/token_validation.ts",
       "workerd": "./src/services/token_validation.ts",
+      "distilled-lazy": "./lib/services.lazy/token_validation.js",
       "default": "./lib/services/token_validation.js"
     },
     "./url-normalization": {
@@ -453,6 +517,7 @@
       "bun": "./src/services/url_normalization.ts",
       "worker": "./src/services/url_normalization.ts",
       "workerd": "./src/services/url_normalization.ts",
+      "distilled-lazy": "./lib/services.lazy/url_normalization.js",
       "default": "./lib/services/url_normalization.js"
     },
     "./url-scanner": {
@@ -460,6 +525,7 @@
       "bun": "./src/services/url_scanner.ts",
       "worker": "./src/services/url_scanner.ts",
       "workerd": "./src/services/url_scanner.ts",
+      "distilled-lazy": "./lib/services.lazy/url_scanner.js",
       "default": "./lib/services/url_scanner.js"
     },
     "./vulnerability-scanner": {
@@ -467,6 +533,7 @@
       "bun": "./src/services/vulnerability_scanner.ts",
       "worker": "./src/services/vulnerability_scanner.ts",
       "workerd": "./src/services/vulnerability_scanner.ts",
+      "distilled-lazy": "./lib/services.lazy/vulnerability_scanner.js",
       "default": "./lib/services/vulnerability_scanner.js"
     },
     "./waiting-rooms": {
@@ -474,6 +541,7 @@
       "bun": "./src/services/waiting_rooms.ts",
       "worker": "./src/services/waiting_rooms.ts",
       "workerd": "./src/services/waiting_rooms.ts",
+      "distilled-lazy": "./lib/services.lazy/waiting_rooms.js",
       "default": "./lib/services/waiting_rooms.js"
     },
     "./workers-for-platforms": {
@@ -481,6 +549,7 @@
       "bun": "./src/services/workers_for_platforms.ts",
       "worker": "./src/services/workers_for_platforms.ts",
       "workerd": "./src/services/workers_for_platforms.ts",
+      "distilled-lazy": "./lib/services.lazy/workers_for_platforms.js",
       "default": "./lib/services/workers_for_platforms.js"
     },
     "./zero-trust": {
@@ -488,6 +557,7 @@
       "bun": "./src/services/zero_trust.ts",
       "worker": "./src/services/zero_trust.ts",
       "workerd": "./src/services/zero_trust.ts",
+      "distilled-lazy": "./lib/services.lazy/zero_trust.js",
       "default": "./lib/services/zero_trust.js"
     },
     ".": {
@@ -495,6 +565,7 @@
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
       "workerd": "./src/index.ts",
+      "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
     "./*": {
@@ -502,6 +573,7 @@
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
       "workerd": "./src/services/*.ts",
+      "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
     },
     "./Protocol": {
@@ -513,24 +585,29 @@
     }
   },
   "scripts": {
-    "build": "tsc -b",
-    "convert": "bun scripts/spec-to-smithy.ts",
-    "spec-to-smithy": "bun scripts/spec-to-smithy.ts",
-    "generate": "bun scripts/generate.ts",
-    "typecheck": "tsc -p tsconfig.json",
-    "typecheck:strict": "tsc -p tsconfig.strict.json",
+    "build": "tsrs -b",
+    "convert": "node --conditions=bun scripts/spec-to-smithy.ts",
+    "spec-to-smithy": "node --conditions=bun scripts/spec-to-smithy.ts",
+    "generate": "node --conditions=bun scripts/generate.ts",
+    "typecheck": "tsrs -p tsconfig.json",
+    "typecheck:strict": "tsrs -p tsconfig.strict.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-cloudflare",
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-cloudflare"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*"
+    "@distilled.cloud/core": "workspace:*",
+    "@distilled.cloud/s3": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:",
-    "@types/node": "catalog:",
-    "@effect/platform-bun": "catalog:"
+    "@distilled.cloud/dev": "workspace:*",
+    "@effect/platform-node": "catalog:",
+    "@types/node": "catalog:"
   },
   "peerDependencies": {
     "effect": "catalog:"
+  },
+  "distilled": {
+    "generatedAt": "2026-11-10",
+    "specUpdatedAt": "2026-11-07"
   }
 }

@@ -1,20 +1,25 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const svc = T.AwsApiService({
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "Connect Contact Lens",
   serviceShapeName: "AmazonConnectContactLens",
 });
-const auth = T.AwsAuthSigv4({ name: "connect" });
-const ver = T.ServiceVersion("2020-08-21");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "connect" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2020-08-21");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -26,14 +31,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +61,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://contact-lens-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,181 +69,135 @@ const rules = T.EndpointResolver((p, _) => {
               `https://contact-lens.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://contact-lens.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://contact-lens.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://contact-lens.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "ConnectContactLens",
+  service: "ConnectContactLens",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class InternalServiceException
   extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()(
     "InternalServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidRequestException
   extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
     "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(404),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export type InstanceId = string;
 export type ContactId = string;
 export type MaxResults = number;
 export type NextToken = string;
-export interface ListRealtimeContactAnalysisSegmentsRequest {
-  InstanceId?: string;
-  ContactId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+export type TagKey = string;
+export type TagValue = string;
+export type TagComparisonType = "EQUALS" | "NOT_EQUALS" | (string & {});
+export interface TagCondition {
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+  ComparisonType?: TagComparisonType | undefined;
 }
-export const ListRealtimeContactAnalysisSegmentsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      InstanceId: S.optional(S.String),
-      ContactId: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/realtime-contact-analysis/analysis-segments",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListRealtimeContactAnalysisSegmentsRequest",
-  }) as any as S.Schema<ListRealtimeContactAnalysisSegmentsRequest>;
+export type TagAndConditionList = TagCondition[];
+export interface CategoriesAttributeAndCondition {
+  TagConditions?: TagCondition[] | undefined;
+}
+export type CategoriesAttributeOrConditionList = CategoriesAttributeAndCondition[];
+export interface CategoriesAttributeFilter {
+  OrConditions?: CategoriesAttributeAndCondition[] | undefined;
+  AndCondition?: CategoriesAttributeAndCondition | undefined;
+  TagCondition?: TagCondition | undefined;
+}
+export interface RealTimeContactAnalysisSegmentsFilter {
+  CategoriesAttributeFilter?: CategoriesAttributeFilter | undefined;
+}
+export interface ListRealtimeContactAnalysisSegmentsRequest {
+  InstanceId?: string | undefined;
+  ContactId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ListFilter?: RealTimeContactAnalysisSegmentsFilter | undefined;
+}
 export type TranscriptId = string;
 export type ParticipantId = string;
 export type ParticipantRole = string;
 export type TranscriptContent = string;
 export type OffsetMillis = number;
-export type SentimentValue =
-  | "POSITIVE"
-  | "NEUTRAL"
-  | "NEGATIVE"
-  | (string & {});
-export const SentimentValue = S.String;
-
+export type SentimentValue = "POSITIVE" | "NEUTRAL" | "NEGATIVE" | (string & {});
 export type CharacterOffset = number;
 export interface CharacterOffsets {
-  BeginOffsetChar?: number;
-  EndOffsetChar?: number;
+  BeginOffsetChar?: number | undefined;
+  EndOffsetChar?: number | undefined;
 }
-export const CharacterOffsets = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BeginOffsetChar: S.optional(S.Number),
-    EndOffsetChar: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CharacterOffsets",
-}) as any as S.Schema<CharacterOffsets>;
 export interface IssueDetected {
-  CharacterOffsets?: CharacterOffsets;
+  CharacterOffsets?: CharacterOffsets | undefined;
 }
-export const IssueDetected = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CharacterOffsets: S.optional(CharacterOffsets) }),
-).annotate({ identifier: "IssueDetected" }) as any as S.Schema<IssueDetected>;
 export type IssuesDetected = IssueDetected[];
-export const IssuesDetected = /*@__PURE__*/ S.Array(IssueDetected);
 export interface Transcript {
-  Id?: string;
-  ParticipantId?: string;
-  ParticipantRole?: string;
-  Content?: string;
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
-  Sentiment?: SentimentValue;
-  IssuesDetected?: IssueDetected[];
+  Id?: string | undefined;
+  ParticipantId?: string | undefined;
+  ParticipantRole?: string | undefined;
+  Content?: string | undefined;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
+  Sentiment?: SentimentValue | undefined;
+  IssuesDetected?: IssueDetected[] | undefined;
 }
-export const Transcript = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    ParticipantId: S.optional(S.String),
-    ParticipantRole: S.optional(S.String),
-    Content: S.optional(S.String),
-    BeginOffsetMillis: S.optional(S.Number),
-    EndOffsetMillis: S.optional(S.Number),
-    Sentiment: S.optional(SentimentValue),
-    IssuesDetected: S.optional(IssuesDetected),
-  }),
-).annotate({ identifier: "Transcript" }) as any as S.Schema<Transcript>;
 export type CategoryName = string;
 export type MatchedCategories = string[];
-export const MatchedCategories = /*@__PURE__*/ S.Array(S.String);
 export interface PointOfInterest {
-  BeginOffsetMillis?: number;
-  EndOffsetMillis?: number;
+  BeginOffsetMillis?: number | undefined;
+  EndOffsetMillis?: number | undefined;
 }
-export const PointOfInterest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BeginOffsetMillis: S.optional(S.Number),
-    EndOffsetMillis: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PointOfInterest",
-}) as any as S.Schema<PointOfInterest>;
 export type PointsOfInterest = PointOfInterest[];
-export const PointsOfInterest = /*@__PURE__*/ S.Array(PointOfInterest);
+export type RuleId = string;
 export interface CategoryDetails {
-  PointsOfInterest?: PointOfInterest[];
+  PointsOfInterest?: PointOfInterest[] | undefined;
+  RuleId?: string | undefined;
 }
-export const CategoryDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PointsOfInterest: S.optional(PointsOfInterest) }),
-).annotate({
-  identifier: "CategoryDetails",
-}) as any as S.Schema<CategoryDetails>;
 export type MatchedDetails = { [key: string]: CategoryDetails | undefined };
-export const MatchedDetails = /*@__PURE__*/ S.Record(
-  S.String,
-  CategoryDetails.pipe(S.optional),
-);
 export interface Categories {
-  MatchedCategories?: string[];
-  MatchedDetails?: { [key: string]: CategoryDetails | undefined };
+  MatchedCategories?: string[] | undefined;
+  MatchedDetails?: { [key: string]: CategoryDetails | undefined } | undefined;
 }
-export const Categories = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MatchedCategories: S.optional(MatchedCategories),
-    MatchedDetails: S.optional(MatchedDetails),
-  }),
-).annotate({ identifier: "Categories" }) as any as S.Schema<Categories>;
 export type PostContactSummaryContent = string;
 export type PostContactSummaryStatus = "FAILED" | "COMPLETED" | (string & {});
-export const PostContactSummaryStatus = S.String;
-
 export type PostContactSummaryFailureCode =
   | "QUOTA_EXCEEDED"
   | "INSUFFICIENT_CONVERSATION_CONTENT"
@@ -252,42 +205,20 @@ export type PostContactSummaryFailureCode =
   | "INVALID_ANALYSIS_CONFIGURATION"
   | "INTERNAL_ERROR"
   | (string & {});
-export const PostContactSummaryFailureCode = S.String;
-
 export interface PostContactSummary {
-  Content?: string;
-  Status?: PostContactSummaryStatus;
-  FailureCode?: PostContactSummaryFailureCode;
+  Content?: string | undefined;
+  Status?: PostContactSummaryStatus | undefined;
+  FailureCode?: PostContactSummaryFailureCode | undefined;
 }
-export const PostContactSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Content: S.optional(S.String),
-    Status: S.optional(PostContactSummaryStatus),
-    FailureCode: S.optional(PostContactSummaryFailureCode),
-  }),
-).annotate({
-  identifier: "PostContactSummary",
-}) as any as S.Schema<PostContactSummary>;
 export type ExtractionDefinitionId = string;
 export type ExtractionDefinitionName = string;
 export type ExtractionDefinitionDisplayLabel = string;
 export type ExtractedInformationContent = string;
 export interface ExtractedInformationValue {
-  Content?: string;
-  PointsOfInterest?: PointOfInterest[];
+  Content?: string | undefined;
+  PointsOfInterest?: PointOfInterest[] | undefined;
 }
-export const ExtractedInformationValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Content: S.optional(S.String),
-    PointsOfInterest: S.optional(PointsOfInterest),
-  }),
-).annotate({
-  identifier: "ExtractedInformationValue",
-}) as any as S.Schema<ExtractedInformationValue>;
 export type ExtractedInformationValues = ExtractedInformationValue[];
-export const ExtractedInformationValues = /*@__PURE__*/ S.Array(
-  ExtractedInformationValue,
-);
 export type ExtractedInformationFailureCode =
   | "QUOTA_EXCEEDED"
   | "INSUFFICIENT_CONVERSATION_CONTENT"
@@ -295,46 +226,20 @@ export type ExtractedInformationFailureCode =
   | "INTERNAL_ERROR"
   | "MAX_PACKAGE_FEATURE_ONLY"
   | (string & {});
-export const ExtractedInformationFailureCode = S.String;
-
 export interface ExtractedInformation {
-  ExtractionDefinitionId?: string;
-  ExtractionDefinitionName?: string;
-  ExtractionDefinitionDisplayLabel?: string;
-  ExtractedValues?: ExtractedInformationValue[];
-  FailureCode?: ExtractedInformationFailureCode;
+  ExtractionDefinitionId?: string | undefined;
+  ExtractionDefinitionName?: string | undefined;
+  ExtractionDefinitionDisplayLabel?: string | undefined;
+  ExtractedValues?: ExtractedInformationValue[] | undefined;
+  FailureCode?: ExtractedInformationFailureCode | undefined;
 }
-export const ExtractedInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExtractionDefinitionId: S.optional(S.String),
-    ExtractionDefinitionName: S.optional(S.String),
-    ExtractionDefinitionDisplayLabel: S.optional(S.String),
-    ExtractedValues: S.optional(ExtractedInformationValues),
-    FailureCode: S.optional(ExtractedInformationFailureCode),
-  }),
-).annotate({
-  identifier: "ExtractedInformation",
-}) as any as S.Schema<ExtractedInformation>;
 export interface RealtimeContactAnalysisSegment {
-  Transcript?: Transcript;
-  Categories?: Categories;
-  PostContactSummary?: PostContactSummary;
-  ExtractedInformation?: ExtractedInformation;
+  Transcript?: Transcript | undefined;
+  Categories?: Categories | undefined;
+  PostContactSummary?: PostContactSummary | undefined;
+  ExtractedInformation?: ExtractedInformation | undefined;
 }
-export const RealtimeContactAnalysisSegment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Transcript: S.optional(Transcript),
-    Categories: S.optional(Categories),
-    PostContactSummary: S.optional(PostContactSummary),
-    ExtractedInformation: S.optional(ExtractedInformation),
-  }),
-).annotate({
-  identifier: "RealtimeContactAnalysisSegment",
-}) as any as S.Schema<RealtimeContactAnalysisSegment>;
 export type RealtimeContactAnalysisSegments = RealtimeContactAnalysisSegment[];
-export const RealtimeContactAnalysisSegments = /*@__PURE__*/ S.Array(
-  RealtimeContactAnalysisSegment,
-);
 export interface ListRealtimeContactAnalysisSegmentsResponse {
   Segments: (RealtimeContactAnalysisSegment & {
     Transcript: Transcript & {
@@ -364,9 +269,7 @@ export interface ListRealtimeContactAnalysisSegmentsResponse {
           | undefined;
       };
     };
-    PostContactSummary: PostContactSummary & {
-      Status: PostContactSummaryStatus;
-    };
+    PostContactSummary: PostContactSummary & { Status: PostContactSummaryStatus };
     ExtractedInformation: ExtractedInformation & {
       ExtractionDefinitionId: ExtractionDefinitionId;
       ExtractionDefinitionName: ExtractionDefinitionName;
@@ -379,17 +282,8 @@ export interface ListRealtimeContactAnalysisSegmentsResponse {
       })[];
     };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListRealtimeContactAnalysisSegmentsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Segments: S.optional(RealtimeContactAnalysisSegments),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListRealtimeContactAnalysisSegmentsResponse",
-  }) as any as S.Schema<ListRealtimeContactAnalysisSegmentsResponse>;
 export type Message = string;
 export type ListRealtimeContactAnalysisSegmentsError =
   | AccessDeniedException
@@ -406,14 +300,14 @@ export type ListRealtimeContactAnalysisSegmentsError =
  * time.
  */
 export const listRealtimeContactAnalysisSegments: API.PaginatedOperationMethod<
-  ListRealtimeContactAnalysisSegmentsRequest,
+  ListRealtimeContactAnalysisSegmentsRequest & RegionInput,
   ListRealtimeContactAnalysisSegmentsResponse,
   ListRealtimeContactAnalysisSegmentsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListRealtimeContactAnalysisSegmentsRequest,
-  output: ListRealtimeContactAnalysisSegmentsResponse,
+  input: __S(6, __c0, 6) as any as S.Schema<ListRealtimeContactAnalysisSegmentsRequest>,
+  output: __S(23, __c0, 23) as any as S.Schema<ListRealtimeContactAnalysisSegmentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -429,4 +323,152 @@ export const listRealtimeContactAnalysisSegments: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListRealtimeContactAnalysisSegments",
 })) as any;
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          TagKey: S.optional(S.String),
+          TagValue: S.optional(S.String),
+          ComparisonType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TagCondition" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ TagConditions: S.optional(__S(1, __c0, 1)) })).annotate({
+        identifier: "CategoriesAttributeAndCondition",
+      });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          OrConditions: S.optional(__S(3, __c0, 3)),
+          AndCondition: S.optional(__S(2, __c0, 2)),
+          TagCondition: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "CategoriesAttributeFilter" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ CategoriesAttributeFilter: S.optional(__S(4, __c0, 4)) }),
+      ).annotate({ identifier: "RealTimeContactAnalysisSegmentsFilter" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceId: S.optional(S.String),
+          ContactId: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          ListFilter: S.optional(__S(5, __c0, 5)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/realtime-contact-analysis/analysis-segments" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListRealtimeContactAnalysisSegmentsRequest" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ BeginOffsetChar: S.optional(S.Number), EndOffsetChar: S.optional(S.Number) }),
+      ).annotate({ identifier: "CharacterOffsets" });
+    case 8:
+      return S.suspend(() => S.Struct({ CharacterOffsets: S.optional(__S(7, __c0, 7)) })).annotate({
+        identifier: "IssueDetected",
+      });
+    case 9:
+      return S.Array(__S(8, __c0, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.optional(S.String),
+          ParticipantId: S.optional(S.String),
+          ParticipantRole: S.optional(S.String),
+          Content: S.optional(S.String),
+          BeginOffsetMillis: S.optional(S.Number),
+          EndOffsetMillis: S.optional(S.Number),
+          Sentiment: S.optional(S.String),
+          IssuesDetected: S.optional(__S(9, __c0, 9)),
+        }),
+      ).annotate({ identifier: "Transcript" });
+    case 11:
+      return S.Array(S.String);
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          BeginOffsetMillis: S.optional(S.Number),
+          EndOffsetMillis: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PointOfInterest" });
+    case 13:
+      return S.Array(__S(12, __c0, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({ PointsOfInterest: S.optional(__S(13, __c0, 13)), RuleId: S.optional(S.String) }),
+      ).annotate({ identifier: "CategoryDetails" });
+    case 15:
+      return S.Record(S.String, /*@__PURE__*/ __S(14, __c0, 14).pipe(S.optional));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          MatchedCategories: S.optional(__S(11, __c0, 11)),
+          MatchedDetails: S.optional(__S(15, __c0, 15)),
+        }),
+      ).annotate({ identifier: "Categories" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          Content: S.optional(S.String),
+          Status: S.optional(S.String),
+          FailureCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostContactSummary" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          Content: S.optional(S.String),
+          PointsOfInterest: S.optional(__S(13, __c0, 13)),
+        }),
+      ).annotate({ identifier: "ExtractedInformationValue" });
+    case 19:
+      return S.Array(__S(18, __c0, 18));
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          ExtractionDefinitionId: S.optional(S.String),
+          ExtractionDefinitionName: S.optional(S.String),
+          ExtractionDefinitionDisplayLabel: S.optional(S.String),
+          ExtractedValues: S.optional(__S(19, __c0, 19)),
+          FailureCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExtractedInformation" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          Transcript: S.optional(__S(10, __c0, 10)),
+          Categories: S.optional(__S(16, __c0, 16)),
+          PostContactSummary: S.optional(__S(17, __c0, 17)),
+          ExtractedInformation: S.optional(__S(20, __c0, 20)),
+        }),
+      ).annotate({ identifier: "RealtimeContactAnalysisSegment" });
+    case 22:
+      return S.Array(__S(21, __c0, 21));
+    case 23:
+      return S.suspend(() =>
+        S.Struct({ Segments: S.optional(__S(22, __c0, 22)), NextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListRealtimeContactAnalysisSegmentsResponse" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

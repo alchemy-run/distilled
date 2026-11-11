@@ -1,23 +1,28 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema-lite";
+import * as __L from "@distilled.cloud/core/schema-lite";
+import * as TxXray from "@distilled.cloud/core/telemetry-xray";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
-const ns = T.XmlNamespace("http://es.amazonaws.com/doc/2021-01-01/");
-const svc = T.AwsApiService({
+import * as T from "../traits.ts";
+// Schema table, filled on first reach (see __S at the end).
+const __s: any[] = [];
+const ns = /*@__PURE__*/ T.XmlNamespace("http://es.amazonaws.com/doc/2021-01-01/");
+const svc = /*@__PURE__*/ T.AwsApiService({
   sdkId: "OpenSearch",
   serviceShapeName: "AmazonOpenSearchService",
 });
-const auth = T.AwsAuthSigv4({ name: "es" });
-const ver = T.ServiceVersion("2021-01-01");
-const proto = T.AwsProtocolsRestJson1();
-const rules = T.EndpointResolver((p, _) => {
+const auth = /*@__PURE__*/ T.AwsAuthSigv4({ name: "es" });
+const ver = /*@__PURE__*/ T.ServiceVersion("2021-01-01");
+const proto = /*@__PURE__*/ T.AwsProtocolsRestJson1();
+const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
   const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
@@ -29,14 +34,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,13 +60,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://es-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://es-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -78,163 +75,139 @@ const rules = T.EndpointResolver((p, _) => {
             if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
               return e(`https://aos.${Region}.api.aws`);
             }
-            return e(
-              `https://es.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://es.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://es.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://es.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
   return err("Invalid Configuration: Missing Region");
-});
+}, '{"url":"https://es.{R}.{D}","properties":{},"headers":{}}');
+
+/** Span facts shared by every operation (com.distilled.telemetry#service). */
+const TELEMETRY = {
+  system: "aws-api",
+  responseHeaders: [
+    { header: "x-amzn-requestid", name: "aws.request_id" },
+    { header: "x-amz-request-id", name: "aws.request_id" },
+    { header: "x-amzn-request-id", name: "aws.request_id" },
+    { header: "x-amz-id-2", name: "aws.extended_request_id" },
+  ],
+  prefix: "OpenSearch",
+  service: "OpenSearch",
+  propagate: TxXray.propagate,
+} as const;
 
 export class AccessDeniedException
   extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
     "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(403),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class BaseException
   extends /*@__PURE__*/ S.TaggedError<BaseException>()("BaseException", {
-    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
   }) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class DependencyFailureException
   extends /*@__PURE__*/ S.TaggedError<DependencyFailureException>()(
     "DependencyFailureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(424),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(424),
   ) {}
 export class DisabledOperationException
   extends /*@__PURE__*/ S.TaggedError<DisabledOperationException>()(
     "DisabledOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalException
   extends /*@__PURE__*/ S.TaggedError<InternalException>()(
     "InternalException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(500),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidPaginationTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidPaginationTokenException>()(
     "InvalidPaginationTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class InvalidTypeException
   extends /*@__PURE__*/ S.TaggedError<InvalidTypeException>()(
     "InvalidTypeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
     "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ResourceAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
     "ResourceAlreadyExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(409),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ServiceQuotaExceededException
   extends /*@__PURE__*/ S.TaggedError<ServiceQuotaExceededException>()(
     "ServiceQuotaExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(402),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(402),
   ).pipe(C.withQuotaError) {}
 export class SlotNotAvailableException
   extends /*@__PURE__*/ S.TaggedError<SlotNotAvailableException>()(
     "SlotNotAvailableException",
     {
-      SlotSuggestions: S.optional(
-        S.suspend(() => SlotList).annotate({ identifier: "SlotList" }),
+      SlotSuggestions: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.suspend(() => __S(608, __c19, 0)).annotate({ identifier: "SlotList" }),
       ),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
     },
-    T.HttpError(409),
+    /*@__PURE__*/ T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(429),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.HttpError(400),
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type ConnectionId = string;
 export interface AcceptInboundConnectionRequest {
   ConnectionId: string;
 }
-export const AcceptInboundConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/accept",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AcceptInboundConnectionRequest",
-}) as any as S.Schema<AcceptInboundConnectionRequest>;
 export type OwnerId = string;
 export type DomainName = string;
 export type Region = string;
 export interface AWSDomainInformation {
-  OwnerId?: string;
+  OwnerId?: string | undefined;
   DomainName: string;
-  Region?: string;
+  Region?: string | undefined;
 }
-export const AWSDomainInformation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    OwnerId: S.optional(S.String),
-    DomainName: S.String,
-    Region: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AWSDomainInformation",
-}) as any as S.Schema<AWSDomainInformation>;
 export interface DomainInformationContainer {
-  AWSDomainInformation?: AWSDomainInformation;
+  AWSDomainInformation?: AWSDomainInformation | undefined;
 }
-export const DomainInformationContainer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AWSDomainInformation: S.optional(AWSDomainInformation) }),
-).annotate({
-  identifier: "DomainInformationContainer",
-}) as any as S.Schema<DomainInformationContainer>;
 export type InboundConnectionStatusCode =
   | "PENDING_ACCEPTANCE"
   | "APPROVED"
@@ -245,155 +218,70 @@ export type InboundConnectionStatusCode =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const InboundConnectionStatusCode = S.String;
-
 export type ConnectionStatusMessage = string;
 export interface InboundConnectionStatus {
-  StatusCode?: InboundConnectionStatusCode;
-  Message?: string;
+  StatusCode?: InboundConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
-export const InboundConnectionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatusCode: S.optional(InboundConnectionStatusCode),
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "InboundConnectionStatus",
-}) as any as S.Schema<InboundConnectionStatus>;
 export type ConnectionMode = "DIRECT" | "VPC_ENDPOINT" | (string & {});
-export const ConnectionMode = S.String;
-
 export interface InboundConnection {
-  LocalDomainInfo?: DomainInformationContainer;
-  RemoteDomainInfo?: DomainInformationContainer;
-  ConnectionId?: string;
-  ConnectionStatus?: InboundConnectionStatus;
-  ConnectionMode?: ConnectionMode;
+  LocalDomainInfo?: DomainInformationContainer | undefined;
+  RemoteDomainInfo?: DomainInformationContainer | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionStatus?: InboundConnectionStatus | undefined;
+  ConnectionMode?: ConnectionMode | undefined;
 }
-export const InboundConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocalDomainInfo: S.optional(DomainInformationContainer),
-    RemoteDomainInfo: S.optional(DomainInformationContainer),
-    ConnectionId: S.optional(S.String),
-    ConnectionStatus: S.optional(InboundConnectionStatus),
-    ConnectionMode: S.optional(ConnectionMode),
-  }),
-).annotate({
-  identifier: "InboundConnection",
-}) as any as S.Schema<InboundConnection>;
 export interface AcceptInboundConnectionResponse {
-  Connection?: InboundConnection;
+  Connection?: InboundConnection | undefined;
 }
-export const AcceptInboundConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connection: S.optional(InboundConnection) }).pipe(ns),
-).annotate({
-  identifier: "AcceptInboundConnectionResponse",
-}) as any as S.Schema<AcceptInboundConnectionResponse>;
 export type DataSourceName = string;
 export type RoleArn = string;
 export interface S3GlueDataCatalog {
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
-export const S3GlueDataCatalog = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleArn: S.optional(S.String) }),
-).annotate({
-  identifier: "S3GlueDataCatalog",
-}) as any as S.Schema<S3GlueDataCatalog>;
 export type DataSourceType = { S3GlueDataCatalog: S3GlueDataCatalog };
-export const DataSourceType = /*@__PURE__*/ S.Union([
-  S.Struct({ S3GlueDataCatalog: S3GlueDataCatalog }),
-]);
 export type DataSourceDescription = string;
 export interface AddDataSourceRequest {
   DomainName: string;
   Name: string;
   DataSourceType: DataSourceType;
-  Description?: string;
+  Description?: string | undefined;
 }
-export const AddDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Name: S.String,
-    DataSourceType: DataSourceType,
-    Description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddDataSourceRequest",
-}) as any as S.Schema<AddDataSourceRequest>;
 export interface AddDataSourceResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
-export const AddDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "AddDataSourceResponse",
-}) as any as S.Schema<AddDataSourceResponse>;
 export type DirectQueryDataSourceName = string;
 export type DirectQueryDataSourceRoleArn = string;
 export interface CloudWatchDirectQueryDataSource {
   RoleArn: string;
 }
-export const CloudWatchDirectQueryDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleArn: S.String }),
-).annotate({
-  identifier: "CloudWatchDirectQueryDataSource",
-}) as any as S.Schema<CloudWatchDirectQueryDataSource>;
 export interface SecurityLakeDirectQueryDataSource {
   RoleArn: string;
 }
-export const SecurityLakeDirectQueryDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleArn: S.String }),
-).annotate({
-  identifier: "SecurityLakeDirectQueryDataSource",
-}) as any as S.Schema<SecurityLakeDirectQueryDataSource>;
 export type AMPWorkspaceArn = string;
 export interface PrometheusDirectQueryDataSource {
   RoleArn: string;
   WorkspaceArn: string;
 }
-export const PrometheusDirectQueryDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RoleArn: S.String, WorkspaceArn: S.String }),
-).annotate({
-  identifier: "PrometheusDirectQueryDataSource",
-}) as any as S.Schema<PrometheusDirectQueryDataSource>;
 export type DirectQueryDataSourceType =
   | {
       CloudWatchLog: CloudWatchDirectQueryDataSource;
-      SecurityLake?: never;
-      Prometheus?: never;
+      SecurityLake?: undefined;
+      Prometheus?: undefined;
     }
   | {
-      CloudWatchLog?: never;
+      CloudWatchLog?: undefined;
       SecurityLake: SecurityLakeDirectQueryDataSource;
-      Prometheus?: never;
+      Prometheus?: undefined;
     }
   | {
-      CloudWatchLog?: never;
-      SecurityLake?: never;
+      CloudWatchLog?: undefined;
+      SecurityLake?: undefined;
       Prometheus: PrometheusDirectQueryDataSource;
     };
-export const DirectQueryDataSourceType = /*@__PURE__*/ S.Union([
-  S.Struct({ CloudWatchLog: CloudWatchDirectQueryDataSource }),
-  S.Struct({ SecurityLake: SecurityLakeDirectQueryDataSource }),
-  S.Struct({ Prometheus: PrometheusDirectQueryDataSource }),
-]);
 export type DirectQueryDataSourceDescription = string;
 export type ARN = string;
 export type DirectQueryOpenSearchARNList = string[];
-export const DirectQueryOpenSearchARNList = /*@__PURE__*/ S.Array(S.String);
 export type PolicyDocument = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -401,127 +289,58 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Key: S.String, Value: S.String }),
-).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = /*@__PURE__*/ S.Array(Tag);
 export interface AddDirectQueryDataSourceRequest {
   DataSourceName: string;
   DataSourceType: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceAccessPolicy?: string;
-  TagList?: Tag[];
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceAccessPolicy?: string | undefined;
+  TagList?: Tag[] | undefined;
 }
-export const AddDirectQueryDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceName: S.String,
-    DataSourceType: DirectQueryDataSourceType,
-    Description: S.optional(S.String),
-    OpenSearchArns: S.optional(DirectQueryOpenSearchARNList),
-    DataSourceAccessPolicy: S.optional(S.String),
-    TagList: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/directQueryDataSource",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AddDirectQueryDataSourceRequest",
-}) as any as S.Schema<AddDirectQueryDataSourceRequest>;
 export interface AddDirectQueryDataSourceResponse {
-  DataSourceArn?: string;
+  DataSourceArn?: string | undefined;
 }
-export const AddDirectQueryDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "AddDirectQueryDataSourceResponse",
-}) as any as S.Schema<AddDirectQueryDataSourceResponse>;
+export type DomainArn = string;
+export interface AddReplicationPeerRequest {
+  DomainName: string;
+  PeerDomainArn: string;
+  DryRun?: boolean | undefined;
+}
+export type ReplicationStatus =
+  | "PENDING_SETUP"
+  | "ACTIVE"
+  | "SWITCHING_OVER"
+  | "FAILING_OVER"
+  | "PENDING_REMOVAL"
+  | "DETACHED"
+  | "EJECTED"
+  | "FAILED"
+  | (string & {});
+export interface AddReplicationPeerResponse {
+  DomainArn?: string | undefined;
+  Status?: ReplicationStatus | undefined;
+}
 export interface AddTagsRequest {
   ARN: string;
   TagList: Tag[];
 }
-export const AddTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ARN: S.String, TagList: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({ identifier: "AddTagsRequest" }) as any as S.Schema<AddTagsRequest>;
 export interface AddTagsResponse {}
-export const AddTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddTagsResponse",
-}) as any as S.Schema<AddTagsResponse>;
 export type PackageID = string;
 export type PackageIDList = string[];
-export const PackageIDList = /*@__PURE__*/ S.Array(S.String);
 export interface KeyStoreAccessOption {
-  KeyAccessRoleArn?: string;
+  KeyAccessRoleArn?: string | undefined;
   KeyStoreAccessEnabled: boolean;
 }
-export const KeyStoreAccessOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyAccessRoleArn: S.optional(S.String),
-    KeyStoreAccessEnabled: S.Boolean,
-  }),
-).annotate({
-  identifier: "KeyStoreAccessOption",
-}) as any as S.Schema<KeyStoreAccessOption>;
 export interface PackageAssociationConfiguration {
-  KeyStoreAccessOption?: KeyStoreAccessOption;
+  KeyStoreAccessOption?: KeyStoreAccessOption | undefined;
 }
-export const PackageAssociationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ KeyStoreAccessOption: S.optional(KeyStoreAccessOption) }),
-).annotate({
-  identifier: "PackageAssociationConfiguration",
-}) as any as S.Schema<PackageAssociationConfiguration>;
 export interface AssociatePackageRequest {
   PackageID: string;
   DomainName: string;
-  PrerequisitePackageIDList?: string[];
-  AssociationConfiguration?: PackageAssociationConfiguration;
+  PrerequisitePackageIDList?: string[] | undefined;
+  AssociationConfiguration?: PackageAssociationConfiguration | undefined;
 }
-export const AssociatePackageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    PrerequisitePackageIDList: S.optional(PackageIDList),
-    AssociationConfiguration: S.optional(PackageAssociationConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/packages/associate/{PackageID}/{DomainName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociatePackageRequest",
-}) as any as S.Schema<AssociatePackageRequest>;
 export type PackageName = string;
 export type PackageType =
   | "TXT-DICTIONARY"
@@ -529,8 +348,6 @@ export type PackageType =
   | "PACKAGE-LICENSE"
   | "PACKAGE-CONFIG"
   | (string & {});
-export const PackageType = S.String;
-
 export type LastUpdated = Date;
 export type DomainPackageStatus =
   | "ASSOCIATING"
@@ -539,330 +356,107 @@ export type DomainPackageStatus =
   | "DISSOCIATING"
   | "DISSOCIATION_FAILED"
   | (string & {});
-export const DomainPackageStatus = S.String;
-
 export type PackageVersion = string;
 export type ReferencePath = string;
 export type ErrorType = string;
 export type ErrorMessage = string;
 export interface ErrorDetails {
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
-export const ErrorDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ErrorType: S.optional(S.String),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({ identifier: "ErrorDetails" }) as any as S.Schema<ErrorDetails>;
 export interface DomainPackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  LastUpdated?: Date;
-  DomainName?: string;
-  DomainPackageStatus?: DomainPackageStatus;
-  PackageVersion?: string;
-  PrerequisitePackageIDList?: string[];
-  ReferencePath?: string;
-  ErrorDetails?: ErrorDetails;
-  AssociationConfiguration?: PackageAssociationConfiguration;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  LastUpdated?: Date | undefined;
+  DomainName?: string | undefined;
+  DomainPackageStatus?: DomainPackageStatus | undefined;
+  PackageVersion?: string | undefined;
+  PrerequisitePackageIDList?: string[] | undefined;
+  ReferencePath?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
+  AssociationConfiguration?: PackageAssociationConfiguration | undefined;
 }
-export const DomainPackageDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.optional(S.String),
-    PackageName: S.optional(S.String),
-    PackageType: S.optional(PackageType),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    DomainName: S.optional(S.String),
-    DomainPackageStatus: S.optional(DomainPackageStatus),
-    PackageVersion: S.optional(S.String),
-    PrerequisitePackageIDList: S.optional(PackageIDList),
-    ReferencePath: S.optional(S.String),
-    ErrorDetails: S.optional(ErrorDetails),
-    AssociationConfiguration: S.optional(PackageAssociationConfiguration),
-  }),
-).annotate({
-  identifier: "DomainPackageDetails",
-}) as any as S.Schema<DomainPackageDetails>;
 export interface AssociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
-export const AssociatePackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainPackageDetails: S.optional(DomainPackageDetails) }).pipe(ns),
-).annotate({
-  identifier: "AssociatePackageResponse",
-}) as any as S.Schema<AssociatePackageResponse>;
 export interface PackageDetailsForAssociation {
   PackageID: string;
-  PrerequisitePackageIDList?: string[];
-  AssociationConfiguration?: PackageAssociationConfiguration;
+  PrerequisitePackageIDList?: string[] | undefined;
+  AssociationConfiguration?: PackageAssociationConfiguration | undefined;
 }
-export const PackageDetailsForAssociation = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.String,
-    PrerequisitePackageIDList: S.optional(PackageIDList),
-    AssociationConfiguration: S.optional(PackageAssociationConfiguration),
-  }),
-).annotate({
-  identifier: "PackageDetailsForAssociation",
-}) as any as S.Schema<PackageDetailsForAssociation>;
 export type PackageDetailsForAssociationList = PackageDetailsForAssociation[];
-export const PackageDetailsForAssociationList = /*@__PURE__*/ S.Array(
-  PackageDetailsForAssociation,
-);
 export interface AssociatePackagesRequest {
   PackageList: PackageDetailsForAssociation[];
   DomainName: string;
 }
-export const AssociatePackagesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageList: PackageDetailsForAssociationList,
-    DomainName: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/packages/associateMultiple" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AssociatePackagesRequest",
-}) as any as S.Schema<AssociatePackagesRequest>;
 export type DomainPackageDetailsList = DomainPackageDetails[];
-export const DomainPackageDetailsList =
-  /*@__PURE__*/ S.Array(DomainPackageDetails);
 export interface AssociatePackagesResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
 }
-export const AssociatePackagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainPackageDetailsList: S.optional(DomainPackageDetailsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "AssociatePackagesResponse",
-}) as any as S.Schema<AssociatePackagesResponse>;
 export type Id = string;
 export interface WorkspaceConfigurationInput {
   name: string;
   workspaceType: string;
 }
-export const WorkspaceConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String, workspaceType: S.String }),
-).annotate({
-  identifier: "WorkspaceConfigurationInput",
-}) as any as S.Schema<WorkspaceConfigurationInput>;
 export type ClientToken = string;
 export interface AttachDataSourceRequest {
   id: string;
   dataSourceArn: string;
-  workspaceId?: string;
-  workspaceConfiguration?: WorkspaceConfigurationInput;
-  clientToken?: string;
+  workspaceId?: string | undefined;
+  workspaceConfiguration?: WorkspaceConfigurationInput | undefined;
+  clientToken?: string | undefined;
 }
-export const AttachDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    dataSourceArn: S.String,
-    workspaceId: S.optional(S.String),
-    workspaceConfiguration: S.optional(WorkspaceConfigurationInput),
-    clientToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/application/{id}/attachDataSource",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AttachDataSourceRequest",
-}) as any as S.Schema<AttachDataSourceRequest>;
-export type DataSourceAttachmentStatus =
-  | "PENDING"
-  | "ATTACHED"
-  | "FAILED"
-  | (string & {});
-export const DataSourceAttachmentStatus = S.String;
-
+export type DataSourceAttachmentStatus = "PENDING" | "ATTACHED" | "FAILED" | (string & {});
 export interface AttachDataSourceResponse {
-  attachmentId?: string;
-  id?: string;
-  arn?: string;
-  dataSourceArn?: string;
-  status?: DataSourceAttachmentStatus;
+  attachmentId?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  dataSourceArn?: string | undefined;
+  status?: DataSourceAttachmentStatus | undefined;
 }
-export const AttachDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attachmentId: S.optional(S.String),
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    dataSourceArn: S.optional(S.String),
-    status: S.optional(DataSourceAttachmentStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "AttachDataSourceResponse",
-}) as any as S.Schema<AttachDataSourceResponse>;
 export type AWSAccount = string;
-export type AWSServicePrincipal =
-  | "application.opensearchservice.amazonaws.com"
-  | (string & {});
-export const AWSServicePrincipal = S.String;
-
+export type AWSServicePrincipal = "application.opensearchservice.amazonaws.com" | (string & {});
 export type RegionsList = string[];
-export const RegionsList = /*@__PURE__*/ S.Array(S.String);
 export interface ServiceOptions {
-  SupportedRegions?: string[];
+  SupportedRegions?: string[] | undefined;
 }
-export const ServiceOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ SupportedRegions: S.optional(RegionsList) }),
-).annotate({ identifier: "ServiceOptions" }) as any as S.Schema<ServiceOptions>;
 export interface AuthorizeVpcEndpointAccessRequest {
   DomainName: string;
-  Account?: string;
-  Service?: AWSServicePrincipal;
-  ServiceOptions?: ServiceOptions;
+  Account?: string | undefined;
+  Service?: AWSServicePrincipal | undefined;
+  ServiceOptions?: ServiceOptions | undefined;
 }
-export const AuthorizeVpcEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Account: S.optional(S.String),
-    Service: S.optional(AWSServicePrincipal),
-    ServiceOptions: S.optional(ServiceOptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/authorizeVpcEndpointAccess",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "AuthorizeVpcEndpointAccessRequest",
-}) as any as S.Schema<AuthorizeVpcEndpointAccessRequest>;
 export type PrincipalType = "AWS_ACCOUNT" | "AWS_SERVICE" | (string & {});
-export const PrincipalType = S.String;
-
 export interface AuthorizedPrincipal {
-  PrincipalType?: PrincipalType;
-  Principal?: string;
-  ServiceOptions?: ServiceOptions;
+  PrincipalType?: PrincipalType | undefined;
+  Principal?: string | undefined;
+  ServiceOptions?: ServiceOptions | undefined;
 }
-export const AuthorizedPrincipal = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PrincipalType: S.optional(PrincipalType),
-    Principal: S.optional(S.String),
-    ServiceOptions: S.optional(ServiceOptions),
-  }),
-).annotate({
-  identifier: "AuthorizedPrincipal",
-}) as any as S.Schema<AuthorizedPrincipal>;
 export interface AuthorizeVpcEndpointAccessResponse {
   AuthorizedPrincipal: AuthorizedPrincipal;
 }
-export const AuthorizeVpcEndpointAccessResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AuthorizedPrincipal: AuthorizedPrincipal }).pipe(ns),
-).annotate({
-  identifier: "AuthorizeVpcEndpointAccessResponse",
-}) as any as S.Schema<AuthorizeVpcEndpointAccessResponse>;
 export type DryRun = boolean;
 export interface CancelDomainConfigChangeRequest {
   DomainName: string;
-  DryRun?: boolean;
+  DryRun?: boolean | undefined;
 }
-export const CancelDomainConfigChangeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/config/cancel",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelDomainConfigChangeRequest",
-}) as any as S.Schema<CancelDomainConfigChangeRequest>;
 export type GUID = string;
 export type GUIDList = string[];
-export const GUIDList = /*@__PURE__*/ S.Array(S.String);
 export interface CancelledChangeProperty {
-  PropertyName?: string;
-  CancelledValue?: string;
-  ActiveValue?: string;
+  PropertyName?: string | undefined;
+  CancelledValue?: string | undefined;
+  ActiveValue?: string | undefined;
 }
-export const CancelledChangeProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PropertyName: S.optional(S.String),
-    CancelledValue: S.optional(S.String),
-    ActiveValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CancelledChangeProperty",
-}) as any as S.Schema<CancelledChangeProperty>;
 export type CancelledChangePropertyList = CancelledChangeProperty[];
-export const CancelledChangePropertyList = /*@__PURE__*/ S.Array(
-  CancelledChangeProperty,
-);
 export interface CancelDomainConfigChangeResponse {
-  CancelledChangeIds?: string[];
-  CancelledChangeProperties?: CancelledChangeProperty[];
-  DryRun?: boolean;
+  CancelledChangeIds?: string[] | undefined;
+  CancelledChangeProperties?: CancelledChangeProperty[] | undefined;
+  DryRun?: boolean | undefined;
 }
-export const CancelDomainConfigChangeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CancelledChangeIds: S.optional(GUIDList),
-    CancelledChangeProperties: S.optional(CancelledChangePropertyList),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(ns),
-).annotate({
-  identifier: "CancelDomainConfigChangeResponse",
-}) as any as S.Schema<CancelDomainConfigChangeResponse>;
 export interface CancelServiceSoftwareUpdateRequest {
   DomainName: string;
 }
-export const CancelServiceSoftwareUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CancelServiceSoftwareUpdateRequest",
-}) as any as S.Schema<CancelServiceSoftwareUpdateRequest>;
 export type DeploymentStatus =
   | "PENDING_UPDATE"
   | "IN_PROGRESS"
@@ -870,165 +464,117 @@ export type DeploymentStatus =
   | "NOT_ELIGIBLE"
   | "ELIGIBLE"
   | (string & {});
-export const DeploymentStatus = S.String;
-
 export type DeploymentCloseDateTimeStamp = Date;
 export interface ServiceSoftwareOptions {
-  CurrentVersion?: string;
-  NewVersion?: string;
-  UpdateAvailable?: boolean;
-  Cancellable?: boolean;
-  UpdateStatus?: DeploymentStatus;
-  Description?: string;
-  AutomatedUpdateDate?: Date;
-  OptionalDeployment?: boolean;
+  CurrentVersion?: string | undefined;
+  NewVersion?: string | undefined;
+  UpdateAvailable?: boolean | undefined;
+  Cancellable?: boolean | undefined;
+  UpdateStatus?: DeploymentStatus | undefined;
+  Description?: string | undefined;
+  AutomatedUpdateDate?: Date | undefined;
+  OptionalDeployment?: boolean | undefined;
 }
-export const ServiceSoftwareOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CurrentVersion: S.optional(S.String),
-    NewVersion: S.optional(S.String),
-    UpdateAvailable: S.optional(S.Boolean),
-    Cancellable: S.optional(S.Boolean),
-    UpdateStatus: S.optional(DeploymentStatus),
-    Description: S.optional(S.String),
-    AutomatedUpdateDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    OptionalDeployment: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ServiceSoftwareOptions",
-}) as any as S.Schema<ServiceSoftwareOptions>;
 export interface CancelServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
 }
-export const CancelServiceSoftwareUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceSoftwareOptions: S.optional(ServiceSoftwareOptions) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "CancelServiceSoftwareUpdateResponse",
-}) as any as S.Schema<CancelServiceSoftwareUpdateResponse>;
+export type MetadataCategory = string;
+export type MetadataCategoryList = string[];
+export interface CompareDomainConfigurationRequest {
+  SourceDomainArn: string;
+  TargetDomainArn: string;
+  Categories: string[];
+}
+export type DiffStatus = "compared" | "error" | (string & {});
+export type DiffCount = number;
+export type DiffItemName = string;
+export type DiffItemNameList = string[];
+export type DiffFieldPath = string;
+export type DiffFieldValue = string;
+export type DiffFieldPolicy = "redacted" | (string & {});
+export interface DivergentField {
+  Path?: string | undefined;
+  SourceValue?: string | undefined;
+  TargetValue?: string | undefined;
+  Policy?: DiffFieldPolicy | undefined;
+}
+export type DivergentFieldList = DivergentField[];
+export interface DivergentItem {
+  Name?: string | undefined;
+  Fields?: DivergentField[] | undefined;
+}
+export type DivergentItemList = DivergentItem[];
+export interface DiffItems {
+  SourceOnly?: string[] | undefined;
+  TargetOnly?: string[] | undefined;
+  Diverged?: DivergentItem[] | undefined;
+}
+export interface CategoryDiffResult {
+  Status?: DiffStatus | undefined;
+  InSync?: number | undefined;
+  SourceOnly?: number | undefined;
+  TargetOnly?: number | undefined;
+  Diverged?: number | undefined;
+  Items?: DiffItems | undefined;
+  Truncated?: boolean | undefined;
+}
+export type CompareDomainConfigurationCategoryMap = {
+  [key: string]: CategoryDiffResult | undefined;
+};
+export interface CompareDomainConfigurationResponse {
+  SourceDomainArn?: string | undefined;
+  TargetDomainArn?: string | undefined;
+  Categories?: { [key: string]: CategoryDiffResult | undefined } | undefined;
+}
 export type ApplicationName = string;
 export interface DataSource {
-  dataSourceArn?: string;
-  dataSourceDescription?: string;
-  iamRoleForDataSourceArn?: string;
+  dataSourceArn?: string | undefined;
+  dataSourceDescription?: string | undefined;
+  iamRoleForDataSourceArn?: string | undefined;
 }
-export const DataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataSourceArn: S.optional(S.String),
-    dataSourceDescription: S.optional(S.String),
-    iamRoleForDataSourceArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export type DataSources = DataSource[];
-export const DataSources = /*@__PURE__*/ S.Array(DataSource);
 export interface IamIdentityCenterOptionsInput {
-  enabled?: boolean;
-  iamIdentityCenterInstanceArn?: string;
-  iamRoleForIdentityCenterApplicationArn?: string;
+  enabled?: boolean | undefined;
+  iamIdentityCenterInstanceArn?: string | undefined;
+  iamRoleForIdentityCenterApplicationArn?: string | undefined;
 }
-export const IamIdentityCenterOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    iamIdentityCenterInstanceArn: S.optional(S.String),
-    iamRoleForIdentityCenterApplicationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IamIdentityCenterOptionsInput",
-}) as any as S.Schema<IamIdentityCenterOptionsInput>;
 export type AppConfigType =
   | "opensearchDashboards.dashboardAdmin.users"
   | "opensearchDashboards.dashboardAdmin.groups"
   | (string & {});
-export const AppConfigType = S.String;
-
 export type AppConfigValue = string;
 export interface AppConfig {
-  key?: AppConfigType;
-  value?: string;
+  key?: AppConfigType | undefined;
+  value?: string | undefined;
 }
-export const AppConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ key: S.optional(AppConfigType), value: S.optional(S.String) }),
-).annotate({ identifier: "AppConfig" }) as any as S.Schema<AppConfig>;
 export type AppConfigs = AppConfig[];
-export const AppConfigs = /*@__PURE__*/ S.Array(AppConfig);
 export type KmsKeyArn = string;
 export interface CreateApplicationRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  dataSources?: DataSource[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput;
-  appConfigs?: AppConfig[];
-  tagList?: Tag[];
-  kmsKeyArn?: string;
+  dataSources?: DataSource[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  tagList?: Tag[] | undefined;
+  kmsKeyArn?: string | undefined;
 }
-export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    name: S.String,
-    dataSources: S.optional(DataSources),
-    iamIdentityCenterOptions: S.optional(IamIdentityCenterOptionsInput),
-    appConfigs: S.optional(AppConfigs),
-    tagList: S.optional(TagList),
-    kmsKeyArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/application" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
 export interface IamIdentityCenterOptions {
-  enabled?: boolean;
-  iamIdentityCenterInstanceArn?: string;
-  iamRoleForIdentityCenterApplicationArn?: string;
-  iamIdentityCenterApplicationArn?: string;
+  enabled?: boolean | undefined;
+  iamIdentityCenterInstanceArn?: string | undefined;
+  iamRoleForIdentityCenterApplicationArn?: string | undefined;
+  iamIdentityCenterApplicationArn?: string | undefined;
 }
-export const IamIdentityCenterOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    enabled: S.optional(S.Boolean),
-    iamIdentityCenterInstanceArn: S.optional(S.String),
-    iamRoleForIdentityCenterApplicationArn: S.optional(S.String),
-    iamIdentityCenterApplicationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IamIdentityCenterOptions",
-}) as any as S.Schema<IamIdentityCenterOptions>;
 export interface CreateApplicationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  dataSources?: DataSource[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptions;
-  appConfigs?: AppConfig[];
-  tagList?: Tag[];
-  createdAt?: Date;
-  kmsKeyArn?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  dataSources?: DataSource[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptions | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  tagList?: Tag[] | undefined;
+  createdAt?: Date | undefined;
+  kmsKeyArn?: string | undefined;
 }
-export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    dataSources: S.optional(DataSources),
-    iamIdentityCenterOptions: S.optional(IamIdentityCenterOptions),
-    appConfigs: S.optional(AppConfigs),
-    tagList: S.optional(TagList),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    kmsKeyArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateApplicationResponse",
-}) as any as S.Schema<CreateApplicationResponse>;
 export type VersionString = string;
 export type OpenSearchPartitionInstanceType =
   | "m3.medium.search"
@@ -1135,733 +681,307 @@ export type OpenSearchPartitionInstanceType =
   | "t4g.small.search"
   | "t4g.medium.search"
   | (string & {});
-export const OpenSearchPartitionInstanceType = S.String;
-
 export type IntegerClass = number;
 export interface ZoneAwarenessConfig {
-  AvailabilityZoneCount?: number;
+  AvailabilityZoneCount?: number | undefined;
 }
-export const ZoneAwarenessConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AvailabilityZoneCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "ZoneAwarenessConfig",
-}) as any as S.Schema<ZoneAwarenessConfig>;
 export type OpenSearchWarmPartitionInstanceType =
   | "ultrawarm1.medium.search"
   | "ultrawarm1.large.search"
   | "ultrawarm1.xlarge.search"
   | (string & {});
-export const OpenSearchWarmPartitionInstanceType = S.String;
-
 export interface ColdStorageOptions {
   Enabled: boolean;
 }
-export const ColdStorageOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.Boolean }),
-).annotate({
-  identifier: "ColdStorageOptions",
-}) as any as S.Schema<ColdStorageOptions>;
 export type NodeOptionsNodeType = "coordinator" | (string & {});
-export const NodeOptionsNodeType = S.String;
-
 export interface NodeConfig {
-  Enabled?: boolean;
-  Type?: OpenSearchPartitionInstanceType;
-  Count?: number;
+  Enabled?: boolean | undefined;
+  Type?: OpenSearchPartitionInstanceType | undefined;
+  Count?: number | undefined;
 }
-export const NodeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    Type: S.optional(OpenSearchPartitionInstanceType),
-    Count: S.optional(S.Number),
-  }),
-).annotate({ identifier: "NodeConfig" }) as any as S.Schema<NodeConfig>;
 export interface NodeOption {
-  NodeType?: NodeOptionsNodeType;
-  NodeConfig?: NodeConfig;
+  NodeType?: NodeOptionsNodeType | undefined;
+  NodeConfig?: NodeConfig | undefined;
 }
-export const NodeOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NodeType: S.optional(NodeOptionsNodeType),
-    NodeConfig: S.optional(NodeConfig),
-  }),
-).annotate({ identifier: "NodeOption" }) as any as S.Schema<NodeOption>;
 export type NodeOptionsList = NodeOption[];
-export const NodeOptionsList = /*@__PURE__*/ S.Array(NodeOption);
 export interface ClusterConfig {
-  InstanceType?: OpenSearchPartitionInstanceType;
-  InstanceCount?: number;
-  DedicatedMasterEnabled?: boolean;
-  ZoneAwarenessEnabled?: boolean;
-  ZoneAwarenessConfig?: ZoneAwarenessConfig;
-  DedicatedMasterType?: OpenSearchPartitionInstanceType;
-  DedicatedMasterCount?: number;
-  WarmEnabled?: boolean;
-  WarmType?: OpenSearchWarmPartitionInstanceType;
-  WarmCount?: number;
-  ColdStorageOptions?: ColdStorageOptions;
-  MultiAZWithStandbyEnabled?: boolean;
-  NodeOptions?: NodeOption[];
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  InstanceCount?: number | undefined;
+  DedicatedMasterEnabled?: boolean | undefined;
+  ZoneAwarenessEnabled?: boolean | undefined;
+  ZoneAwarenessConfig?: ZoneAwarenessConfig | undefined;
+  DedicatedMasterType?: OpenSearchPartitionInstanceType | undefined;
+  DedicatedMasterCount?: number | undefined;
+  WarmEnabled?: boolean | undefined;
+  WarmType?: OpenSearchWarmPartitionInstanceType | undefined;
+  WarmCount?: number | undefined;
+  ColdStorageOptions?: ColdStorageOptions | undefined;
+  MultiAZWithStandbyEnabled?: boolean | undefined;
+  NodeOptions?: NodeOption[] | undefined;
 }
-export const ClusterConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceType: S.optional(OpenSearchPartitionInstanceType),
-    InstanceCount: S.optional(S.Number),
-    DedicatedMasterEnabled: S.optional(S.Boolean),
-    ZoneAwarenessEnabled: S.optional(S.Boolean),
-    ZoneAwarenessConfig: S.optional(ZoneAwarenessConfig),
-    DedicatedMasterType: S.optional(OpenSearchPartitionInstanceType),
-    DedicatedMasterCount: S.optional(S.Number),
-    WarmEnabled: S.optional(S.Boolean),
-    WarmType: S.optional(OpenSearchWarmPartitionInstanceType),
-    WarmCount: S.optional(S.Number),
-    ColdStorageOptions: S.optional(ColdStorageOptions),
-    MultiAZWithStandbyEnabled: S.optional(S.Boolean),
-    NodeOptions: S.optional(NodeOptionsList),
-  }),
-).annotate({ identifier: "ClusterConfig" }) as any as S.Schema<ClusterConfig>;
 export type VolumeType = "standard" | "gp2" | "io1" | "gp3" | (string & {});
-export const VolumeType = S.String;
-
 export interface EBSOptions {
-  EBSEnabled?: boolean;
-  VolumeType?: VolumeType;
-  VolumeSize?: number;
-  Iops?: number;
-  Throughput?: number;
+  EBSEnabled?: boolean | undefined;
+  VolumeType?: VolumeType | undefined;
+  VolumeSize?: number | undefined;
+  Iops?: number | undefined;
+  Throughput?: number | undefined;
 }
-export const EBSOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EBSEnabled: S.optional(S.Boolean),
-    VolumeType: S.optional(VolumeType),
-    VolumeSize: S.optional(S.Number),
-    Iops: S.optional(S.Number),
-    Throughput: S.optional(S.Number),
-  }),
-).annotate({ identifier: "EBSOptions" }) as any as S.Schema<EBSOptions>;
 export type IPAddressType = "ipv4" | "dualstack" | (string & {});
-export const IPAddressType = S.String;
-
 export interface SnapshotOptions {
-  AutomatedSnapshotStartHour?: number;
+  AutomatedSnapshotStartHour?: number | undefined;
 }
-export const SnapshotOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AutomatedSnapshotStartHour: S.optional(S.Number) }),
-).annotate({
-  identifier: "SnapshotOptions",
-}) as any as S.Schema<SnapshotOptions>;
 export type StringList = string[];
-export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface VPCOptions {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
-  EgressEnabled?: boolean;
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  EgressEnabled?: boolean | undefined;
 }
-export const VPCOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetIds: S.optional(StringList),
-    SecurityGroupIds: S.optional(StringList),
-    EgressEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "VPCOptions" }) as any as S.Schema<VPCOptions>;
 export type UserPoolId = string;
 export type IdentityPoolId = string;
 export interface CognitoOptions {
-  Enabled?: boolean;
-  UserPoolId?: string;
-  IdentityPoolId?: string;
-  RoleArn?: string;
+  Enabled?: boolean | undefined;
+  UserPoolId?: string | undefined;
+  IdentityPoolId?: string | undefined;
+  RoleArn?: string | undefined;
 }
-export const CognitoOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    UserPoolId: S.optional(S.String),
-    IdentityPoolId: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-  }),
-).annotate({ identifier: "CognitoOptions" }) as any as S.Schema<CognitoOptions>;
 export type KmsKeyId = string;
+export type EncryptionMode = "DISK" | "NATIVE" | (string & {});
 export interface EncryptionAtRestOptions {
-  Enabled?: boolean;
-  KmsKeyId?: string;
+  Enabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  EncryptionMode?: EncryptionMode | undefined;
 }
-export const EncryptionAtRestOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean), KmsKeyId: S.optional(S.String) }),
-).annotate({
-  identifier: "EncryptionAtRestOptions",
-}) as any as S.Schema<EncryptionAtRestOptions>;
 export interface NodeToNodeEncryptionOptions {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
-export const NodeToNodeEncryptionOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "NodeToNodeEncryptionOptions",
-}) as any as S.Schema<NodeToNodeEncryptionOptions>;
 export type AdvancedOptions = { [key: string]: string | undefined };
-export const AdvancedOptions = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type LogType =
   | "INDEX_SLOW_LOGS"
   | "SEARCH_SLOW_LOGS"
   | "ES_APPLICATION_LOGS"
   | "AUDIT_LOGS"
   | (string & {});
-export const LogType = S.String;
-
 export type CloudWatchLogsLogGroupArn = string;
 export interface LogPublishingOption {
-  CloudWatchLogsLogGroupArn?: string;
-  Enabled?: boolean;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  Enabled?: boolean | undefined;
 }
-export const LogPublishingOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CloudWatchLogsLogGroupArn: S.optional(S.String),
-    Enabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "LogPublishingOption",
-}) as any as S.Schema<LogPublishingOption>;
-export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption };
-export const LogPublishingOptions = /*@__PURE__*/ S.Record(
-  LogType,
-  LogPublishingOption.pipe(S.optional),
-);
+export type LogPublishingOptions = { [key in LogType]?: LogPublishingOption | undefined };
 export type TLSSecurityPolicy =
   | "Policy-Min-TLS-1-0-2019-07"
   | "Policy-Min-TLS-1-2-2019-07"
   | "Policy-Min-TLS-1-2-PFS-2023-10"
   | "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
+  | "Policy-Min-TLS-1-2-FIPS-PQ-2026-10"
   | (string & {});
-export const TLSSecurityPolicy = S.String;
-
 export type DomainNameFqdn = string;
 export interface DomainEndpointOptions {
-  EnforceHTTPS?: boolean;
-  TLSSecurityPolicy?: TLSSecurityPolicy;
-  CustomEndpointEnabled?: boolean;
-  CustomEndpoint?: string;
-  CustomEndpointCertificateArn?: string;
+  EnforceHTTPS?: boolean | undefined;
+  TLSSecurityPolicy?: TLSSecurityPolicy | undefined;
+  CustomEndpointEnabled?: boolean | undefined;
+  CustomEndpoint?: string | undefined;
+  CustomEndpointCertificateArn?: string | undefined;
 }
-export const DomainEndpointOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnforceHTTPS: S.optional(S.Boolean),
-    TLSSecurityPolicy: S.optional(TLSSecurityPolicy),
-    CustomEndpointEnabled: S.optional(S.Boolean),
-    CustomEndpoint: S.optional(S.String),
-    CustomEndpointCertificateArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DomainEndpointOptions",
-}) as any as S.Schema<DomainEndpointOptions>;
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
 export interface MasterUserOptions {
-  MasterUserARN?: string;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterUserPassword?: string | redacted.Redacted<string>;
+  MasterUserARN?: string | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterUserPassword?: string | redacted.Redacted<string> | undefined;
 }
-export const MasterUserOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MasterUserARN: S.optional(S.String),
-    MasterUserName: S.optional(SensitiveString),
-    MasterUserPassword: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "MasterUserOptions",
-}) as any as S.Schema<MasterUserOptions>;
 export type SAMLMetadata = string;
 export type SAMLEntityId = string;
 export interface SAMLIdp {
   MetadataContent: string;
   EntityId: string;
 }
-export const SAMLIdp = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MetadataContent: S.String, EntityId: S.String }),
-).annotate({ identifier: "SAMLIdp" }) as any as S.Schema<SAMLIdp>;
 export type BackendRole = string;
 export interface SAMLOptionsInput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  MasterUserName?: string | redacted.Redacted<string>;
-  MasterBackendRole?: string;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  MasterUserName?: string | redacted.Redacted<string> | undefined;
+  MasterBackendRole?: string | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
-export const SAMLOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    Idp: S.optional(SAMLIdp),
-    MasterUserName: S.optional(SensitiveString),
-    MasterBackendRole: S.optional(S.String),
-    SubjectKey: S.optional(S.String),
-    RolesKey: S.optional(S.String),
-    SessionTimeoutMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SAMLOptionsInput",
-}) as any as S.Schema<SAMLOptionsInput>;
 export type SubjectKey = string;
 export type RolesKey = string;
 export type JwksUrl = string;
 export interface JWTOptionsInput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
-  JwksUrl?: string;
-  PublicKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  JwksUrl?: string | undefined;
+  PublicKey?: string | undefined;
 }
-export const JWTOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    SubjectKey: S.optional(S.String),
-    RolesKey: S.optional(S.String),
-    JwksUrl: S.optional(S.String),
-    PublicKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JWTOptionsInput",
-}) as any as S.Schema<JWTOptionsInput>;
 export type IAMFederationSubjectKey = string;
 export type IAMFederationRolesKey = string;
 export interface IAMFederationOptionsInput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
 }
-export const IAMFederationOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    SubjectKey: S.optional(S.String),
-    RolesKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IAMFederationOptionsInput",
-}) as any as S.Schema<IAMFederationOptionsInput>;
 export interface AdvancedSecurityOptionsInput {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  MasterUserOptions?: MasterUserOptions;
-  SAMLOptions?: SAMLOptionsInput;
-  JWTOptions?: JWTOptionsInput;
-  IAMFederationOptions?: IAMFederationOptionsInput;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  MasterUserOptions?: MasterUserOptions | undefined;
+  SAMLOptions?: SAMLOptionsInput | undefined;
+  JWTOptions?: JWTOptionsInput | undefined;
+  IAMFederationOptions?: IAMFederationOptionsInput | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
-export const AdvancedSecurityOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    InternalUserDatabaseEnabled: S.optional(S.Boolean),
-    MasterUserOptions: S.optional(MasterUserOptions),
-    SAMLOptions: S.optional(SAMLOptionsInput),
-    JWTOptions: S.optional(JWTOptionsInput),
-    IAMFederationOptions: S.optional(IAMFederationOptionsInput),
-    AnonymousAuthEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AdvancedSecurityOptionsInput",
-}) as any as S.Schema<AdvancedSecurityOptionsInput>;
 export type IdentityCenterInstanceARN = string;
-export type SubjectKeyIdCOption =
-  | "UserName"
-  | "UserId"
-  | "Email"
-  | (string & {});
-export const SubjectKeyIdCOption = S.String;
-
+export type SubjectKeyIdCOption = "UserName" | "UserId" | "Email" | (string & {});
 export type RolesKeyIdCOption = "GroupName" | "GroupId" | (string & {});
-export const RolesKeyIdCOption = S.String;
-
 export interface IdentityCenterOptionsInput {
-  EnabledAPIAccess?: boolean;
-  IdentityCenterInstanceARN?: string;
-  IdentityCenterInstanceRegion?: string;
-  SubjectKey?: SubjectKeyIdCOption;
-  RolesKey?: RolesKeyIdCOption;
+  EnabledAPIAccess?: boolean | undefined;
+  IdentityCenterInstanceARN?: string | undefined;
+  IdentityCenterInstanceRegion?: string | undefined;
+  SubjectKey?: SubjectKeyIdCOption | undefined;
+  RolesKey?: RolesKeyIdCOption | undefined;
 }
-export const IdentityCenterOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnabledAPIAccess: S.optional(S.Boolean),
-    IdentityCenterInstanceARN: S.optional(S.String),
-    IdentityCenterInstanceRegion: S.optional(S.String),
-    SubjectKey: S.optional(SubjectKeyIdCOption),
-    RolesKey: S.optional(RolesKeyIdCOption),
-  }),
-).annotate({
-  identifier: "IdentityCenterOptionsInput",
-}) as any as S.Schema<IdentityCenterOptionsInput>;
 export type AutoTuneDesiredState = "ENABLED" | "DISABLED" | (string & {});
-export const AutoTuneDesiredState = S.String;
-
 export type StartAt = Date;
 export type DurationValue = number;
 export type TimeUnit = "HOURS" | (string & {});
-export const TimeUnit = S.String;
-
 export interface Duration {
-  Value?: number;
-  Unit?: TimeUnit;
+  Value?: number | undefined;
+  Unit?: TimeUnit | undefined;
 }
-export const Duration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.optional(S.Number), Unit: S.optional(TimeUnit) }),
-).annotate({ identifier: "Duration" }) as any as S.Schema<Duration>;
 export interface AutoTuneMaintenanceSchedule {
-  StartAt?: Date;
-  Duration?: Duration;
-  CronExpressionForRecurrence?: string;
+  StartAt?: Date | undefined;
+  Duration?: Duration | undefined;
+  CronExpressionForRecurrence?: string | undefined;
 }
-export const AutoTuneMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StartAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Duration: S.optional(Duration),
-    CronExpressionForRecurrence: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AutoTuneMaintenanceSchedule",
-}) as any as S.Schema<AutoTuneMaintenanceSchedule>;
 export type AutoTuneMaintenanceScheduleList = AutoTuneMaintenanceSchedule[];
-export const AutoTuneMaintenanceScheduleList = /*@__PURE__*/ S.Array(
-  AutoTuneMaintenanceSchedule,
-);
 export interface AutoTuneOptionsInput {
-  DesiredState?: AutoTuneDesiredState;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
-  UseOffPeakWindow?: boolean;
+  DesiredState?: AutoTuneDesiredState | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
+  UseOffPeakWindow?: boolean | undefined;
 }
-export const AutoTuneOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DesiredState: S.optional(AutoTuneDesiredState),
-    MaintenanceSchedules: S.optional(AutoTuneMaintenanceScheduleList),
-    UseOffPeakWindow: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AutoTuneOptionsInput",
-}) as any as S.Schema<AutoTuneOptionsInput>;
 export type StartTimeHours = number;
 export type StartTimeMinutes = number;
 export interface WindowStartTime {
   Hours: number;
   Minutes: number;
 }
-export const WindowStartTime = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Hours: S.Number, Minutes: S.Number }),
-).annotate({
-  identifier: "WindowStartTime",
-}) as any as S.Schema<WindowStartTime>;
 export interface OffPeakWindow {
-  WindowStartTime?: WindowStartTime;
+  WindowStartTime?: WindowStartTime | undefined;
 }
-export const OffPeakWindow = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ WindowStartTime: S.optional(WindowStartTime) }),
-).annotate({ identifier: "OffPeakWindow" }) as any as S.Schema<OffPeakWindow>;
 export interface OffPeakWindowOptions {
-  Enabled?: boolean;
-  OffPeakWindow?: OffPeakWindow;
+  Enabled?: boolean | undefined;
+  OffPeakWindow?: OffPeakWindow | undefined;
 }
-export const OffPeakWindowOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    OffPeakWindow: S.optional(OffPeakWindow),
-  }),
-).annotate({
-  identifier: "OffPeakWindowOptions",
-}) as any as S.Schema<OffPeakWindowOptions>;
 export interface SoftwareUpdateOptions {
-  AutoSoftwareUpdateEnabled?: boolean;
-  UseLatestServiceSoftwareForBlueGreen?: boolean;
+  AutoSoftwareUpdateEnabled?: boolean | undefined;
+  UseLatestServiceSoftwareForBlueGreen?: boolean | undefined;
 }
-export const SoftwareUpdateOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoSoftwareUpdateEnabled: S.optional(S.Boolean),
-    UseLatestServiceSoftwareForBlueGreen: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "SoftwareUpdateOptions",
-}) as any as S.Schema<SoftwareUpdateOptions>;
-export type NaturalLanguageQueryGenerationDesiredState =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
-export const NaturalLanguageQueryGenerationDesiredState = S.String;
-
+export type NaturalLanguageQueryGenerationDesiredState = "ENABLED" | "DISABLED" | (string & {});
 export interface NaturalLanguageQueryGenerationOptionsInput {
-  DesiredState?: NaturalLanguageQueryGenerationDesiredState;
+  DesiredState?: NaturalLanguageQueryGenerationDesiredState | undefined;
 }
-export const NaturalLanguageQueryGenerationOptionsInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DesiredState: S.optional(NaturalLanguageQueryGenerationDesiredState),
-    }),
-  ).annotate({
-    identifier: "NaturalLanguageQueryGenerationOptionsInput",
-  }) as any as S.Schema<NaturalLanguageQueryGenerationOptionsInput>;
 export interface S3VectorsEngine {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
-export const S3VectorsEngine = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "S3VectorsEngine",
-}) as any as S.Schema<S3VectorsEngine>;
 export interface ServerlessVectorAcceleration {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
-export const ServerlessVectorAcceleration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "ServerlessVectorAcceleration",
-}) as any as S.Schema<ServerlessVectorAcceleration>;
 export interface AIMLOptionsInput {
-  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsInput;
-  S3VectorsEngine?: S3VectorsEngine;
-  ServerlessVectorAcceleration?: ServerlessVectorAcceleration;
+  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsInput | undefined;
+  S3VectorsEngine?: S3VectorsEngine | undefined;
+  ServerlessVectorAcceleration?: ServerlessVectorAcceleration | undefined;
 }
-export const AIMLOptionsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NaturalLanguageQueryGenerationOptions: S.optional(
-      NaturalLanguageQueryGenerationOptionsInput,
-    ),
-    S3VectorsEngine: S.optional(S3VectorsEngine),
-    ServerlessVectorAcceleration: S.optional(ServerlessVectorAcceleration),
-  }),
-).annotate({
-  identifier: "AIMLOptionsInput",
-}) as any as S.Schema<AIMLOptionsInput>;
-export type DeploymentStrategy =
-  | "Default"
-  | "CapacityOptimized"
-  | (string & {});
-export const DeploymentStrategy = S.String;
-
+export type DeploymentStrategy = "Default" | "CapacityOptimized" | (string & {});
 export interface DeploymentStrategyOptions {
   DeploymentStrategy: DeploymentStrategy;
 }
-export const DeploymentStrategyOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DeploymentStrategy: DeploymentStrategy }),
-).annotate({
-  identifier: "DeploymentStrategyOptions",
-}) as any as S.Schema<DeploymentStrategyOptions>;
 export interface AutomatedSnapshotPauseRequestOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
-export const AutomatedSnapshotPauseRequestOptions = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Enabled: S.Boolean,
-      StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
-).annotate({
-  identifier: "AutomatedSnapshotPauseRequestOptions",
-}) as any as S.Schema<AutomatedSnapshotPauseRequestOptions>;
-export type DomainUseCase =
-  | "SEARCH"
-  | "VECTOR"
-  | "OBSERVABILITY"
-  | "MIXED"
-  | (string & {});
-export const DomainUseCase = S.String;
-
+export type DomainUseCase = "SEARCH" | "VECTOR" | "OBSERVABILITY" | "MIXED" | (string & {});
 export type EngineMode = "GENERAL" | "OPTIMIZED" | (string & {});
-export const EngineMode = S.String;
-
 export interface CreateDomainRequest {
   DomainName: string;
-  EngineVersion?: string;
-  ClusterConfig?: ClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  IPAddressType?: IPAddressType;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  IdentityCenterOptions?: IdentityCenterOptionsInput;
-  TagList?: Tag[];
-  AutoTuneOptions?: AutoTuneOptionsInput;
-  OffPeakWindowOptions?: OffPeakWindowOptions;
-  SoftwareUpdateOptions?: SoftwareUpdateOptions;
-  AIMLOptions?: AIMLOptionsInput;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: EngineMode;
+  EngineVersion?: string | undefined;
+  ClusterConfig?: ClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  IPAddressType?: IPAddressType | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  IdentityCenterOptions?: IdentityCenterOptionsInput | undefined;
+  TagList?: Tag[] | undefined;
+  AutoTuneOptions?: AutoTuneOptionsInput | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptions | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptions | undefined;
+  AIMLOptions?: AIMLOptionsInput | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: EngineMode | undefined;
 }
-export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    EngineVersion: S.optional(S.String),
-    ClusterConfig: S.optional(ClusterConfig),
-    EBSOptions: S.optional(EBSOptions),
-    AccessPolicies: S.optional(S.String),
-    IPAddressType: S.optional(IPAddressType),
-    SnapshotOptions: S.optional(SnapshotOptions),
-    VPCOptions: S.optional(VPCOptions),
-    CognitoOptions: S.optional(CognitoOptions),
-    EncryptionAtRestOptions: S.optional(EncryptionAtRestOptions),
-    NodeToNodeEncryptionOptions: S.optional(NodeToNodeEncryptionOptions),
-    AdvancedOptions: S.optional(AdvancedOptions),
-    LogPublishingOptions: S.optional(LogPublishingOptions),
-    DomainEndpointOptions: S.optional(DomainEndpointOptions),
-    AdvancedSecurityOptions: S.optional(AdvancedSecurityOptionsInput),
-    IdentityCenterOptions: S.optional(IdentityCenterOptionsInput),
-    TagList: S.optional(TagList),
-    AutoTuneOptions: S.optional(AutoTuneOptionsInput),
-    OffPeakWindowOptions: S.optional(OffPeakWindowOptions),
-    SoftwareUpdateOptions: S.optional(SoftwareUpdateOptions),
-    AIMLOptions: S.optional(AIMLOptionsInput),
-    DeploymentStrategyOptions: S.optional(DeploymentStrategyOptions),
-    AutomatedSnapshotPauseOptions: S.optional(
-      AutomatedSnapshotPauseRequestOptions,
-    ),
-    UseCase: S.optional(DomainUseCase),
-    EngineMode: S.optional(EngineMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/domain" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateDomainRequest",
-}) as any as S.Schema<CreateDomainRequest>;
 export type DomainId = string;
 export type ServiceUrl = string;
 export type EndpointsMap = { [key: string]: string | undefined };
-export const EndpointsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
 export type HostedZoneId = string;
 export interface VPCDerivedInfo {
-  VPCId?: string;
-  SubnetIds?: string[];
-  AvailabilityZones?: string[];
-  SecurityGroupIds?: string[];
-  EgressEnabled?: boolean;
+  VPCId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  AvailabilityZones?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  EgressEnabled?: boolean | undefined;
 }
-export const VPCDerivedInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VPCId: S.optional(S.String),
-    SubnetIds: S.optional(StringList),
-    AvailabilityZones: S.optional(StringList),
-    SecurityGroupIds: S.optional(StringList),
-    EgressEnabled: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "VPCDerivedInfo" }) as any as S.Schema<VPCDerivedInfo>;
 export interface SAMLOptionsOutput {
-  Enabled?: boolean;
-  Idp?: SAMLIdp;
-  SubjectKey?: string;
-  RolesKey?: string;
-  SessionTimeoutMinutes?: number;
+  Enabled?: boolean | undefined;
+  Idp?: SAMLIdp | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  SessionTimeoutMinutes?: number | undefined;
 }
-export const SAMLOptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    Idp: S.optional(SAMLIdp),
-    SubjectKey: S.optional(S.String),
-    RolesKey: S.optional(S.String),
-    SessionTimeoutMinutes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "SAMLOptionsOutput",
-}) as any as S.Schema<SAMLOptionsOutput>;
 export interface JWTOptionsOutput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
-  JwksUrl?: string;
-  PublicKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
+  JwksUrl?: string | undefined;
+  PublicKey?: string | undefined;
 }
-export const JWTOptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    SubjectKey: S.optional(S.String),
-    RolesKey: S.optional(S.String),
-    JwksUrl: S.optional(S.String),
-    PublicKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JWTOptionsOutput",
-}) as any as S.Schema<JWTOptionsOutput>;
 export interface IAMFederationOptionsOutput {
-  Enabled?: boolean;
-  SubjectKey?: string;
-  RolesKey?: string;
+  Enabled?: boolean | undefined;
+  SubjectKey?: string | undefined;
+  RolesKey?: string | undefined;
 }
-export const IAMFederationOptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    SubjectKey: S.optional(S.String),
-    RolesKey: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IAMFederationOptionsOutput",
-}) as any as S.Schema<IAMFederationOptionsOutput>;
 export type DisableTimestamp = Date;
 export interface AdvancedSecurityOptions {
-  Enabled?: boolean;
-  InternalUserDatabaseEnabled?: boolean;
-  SAMLOptions?: SAMLOptionsOutput;
-  JWTOptions?: JWTOptionsOutput;
-  IAMFederationOptions?: IAMFederationOptionsOutput;
-  AnonymousAuthDisableDate?: Date;
-  AnonymousAuthEnabled?: boolean;
+  Enabled?: boolean | undefined;
+  InternalUserDatabaseEnabled?: boolean | undefined;
+  SAMLOptions?: SAMLOptionsOutput | undefined;
+  JWTOptions?: JWTOptionsOutput | undefined;
+  IAMFederationOptions?: IAMFederationOptionsOutput | undefined;
+  AnonymousAuthDisableDate?: Date | undefined;
+  AnonymousAuthEnabled?: boolean | undefined;
 }
-export const AdvancedSecurityOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    InternalUserDatabaseEnabled: S.optional(S.Boolean),
-    SAMLOptions: S.optional(SAMLOptionsOutput),
-    JWTOptions: S.optional(JWTOptionsOutput),
-    IAMFederationOptions: S.optional(IAMFederationOptionsOutput),
-    AnonymousAuthDisableDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AnonymousAuthEnabled: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AdvancedSecurityOptions",
-}) as any as S.Schema<AdvancedSecurityOptions>;
 export type IdentityCenterApplicationARN = string;
 export type IdentityStoreId = string;
 export interface IdentityCenterOptions {
-  EnabledAPIAccess?: boolean;
-  IdentityCenterInstanceARN?: string;
-  IdentityCenterInstanceRegion?: string;
-  SubjectKey?: SubjectKeyIdCOption;
-  RolesKey?: RolesKeyIdCOption;
-  IdentityCenterApplicationARN?: string;
-  IdentityStoreId?: string;
+  EnabledAPIAccess?: boolean | undefined;
+  IdentityCenterInstanceARN?: string | undefined;
+  IdentityCenterInstanceRegion?: string | undefined;
+  SubjectKey?: SubjectKeyIdCOption | undefined;
+  RolesKey?: RolesKeyIdCOption | undefined;
+  IdentityCenterApplicationARN?: string | undefined;
+  IdentityStoreId?: string | undefined;
 }
-export const IdentityCenterOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EnabledAPIAccess: S.optional(S.Boolean),
-    IdentityCenterInstanceARN: S.optional(S.String),
-    IdentityCenterInstanceRegion: S.optional(S.String),
-    SubjectKey: S.optional(SubjectKeyIdCOption),
-    RolesKey: S.optional(RolesKeyIdCOption),
-    IdentityCenterApplicationARN: S.optional(S.String),
-    IdentityStoreId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "IdentityCenterOptions",
-}) as any as S.Schema<IdentityCenterOptions>;
 export type AutoTuneState =
   | "ENABLED"
   | "DISABLED"
@@ -1873,22 +993,11 @@ export type AutoTuneState =
   | "DISABLED_AND_ROLLBACK_ERROR"
   | "ERROR"
   | (string & {});
-export const AutoTuneState = S.String;
-
 export interface AutoTuneOptionsOutput {
-  State?: AutoTuneState;
-  ErrorMessage?: string;
-  UseOffPeakWindow?: boolean;
+  State?: AutoTuneState | undefined;
+  ErrorMessage?: string | undefined;
+  UseOffPeakWindow?: boolean | undefined;
 }
-export const AutoTuneOptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    State: S.optional(AutoTuneState),
-    ErrorMessage: S.optional(S.String),
-    UseOffPeakWindow: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AutoTuneOptionsOutput",
-}) as any as S.Schema<AutoTuneOptionsOutput>;
 export type Message = string;
 export type ConfigChangeStatus =
   | "Pending"
@@ -1900,34 +1009,16 @@ export type ConfigChangeStatus =
   | "PendingUserInput"
   | "Cancelled"
   | (string & {});
-export const ConfigChangeStatus = S.String;
-
 export type InitiatedBy = "CUSTOMER" | "SERVICE" | (string & {});
-export const InitiatedBy = S.String;
-
 export type UpdateTimestamp = Date;
 export interface ChangeProgressDetails {
-  ChangeId?: string;
-  Message?: string;
-  ConfigChangeStatus?: ConfigChangeStatus;
-  InitiatedBy?: InitiatedBy;
-  StartTime?: Date;
-  LastUpdatedTime?: Date;
+  ChangeId?: string | undefined;
+  Message?: string | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
+  StartTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
-export const ChangeProgressDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChangeId: S.optional(S.String),
-    Message: S.optional(S.String),
-    ConfigChangeStatus: S.optional(ConfigChangeStatus),
-    InitiatedBy: S.optional(InitiatedBy),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
-).annotate({
-  identifier: "ChangeProgressDetails",
-}) as any as S.Schema<ChangeProgressDetails>;
 export type DomainProcessingStatusType =
   | "Creating"
   | "Active"
@@ -1937,33 +1028,14 @@ export type DomainProcessingStatusType =
   | "Isolated"
   | "Deleting"
   | (string & {});
-export const DomainProcessingStatusType = S.String;
-
-export type PropertyValueType =
-  | "PLAIN_TEXT"
-  | "STRINGIFIED_JSON"
-  | (string & {});
-export const PropertyValueType = S.String;
-
+export type PropertyValueType = "PLAIN_TEXT" | "STRINGIFIED_JSON" | (string & {});
 export interface ModifyingProperties {
-  Name?: string;
-  ActiveValue?: string;
-  PendingValue?: string;
-  ValueType?: PropertyValueType;
+  Name?: string | undefined;
+  ActiveValue?: string | undefined;
+  PendingValue?: string | undefined;
+  ValueType?: PropertyValueType | undefined;
 }
-export const ModifyingProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    ActiveValue: S.optional(S.String),
-    PendingValue: S.optional(S.String),
-    ValueType: S.optional(PropertyValueType),
-  }),
-).annotate({
-  identifier: "ModifyingProperties",
-}) as any as S.Schema<ModifyingProperties>;
 export type ModifyingPropertiesList = ModifyingProperties[];
-export const ModifyingPropertiesList =
-  /*@__PURE__*/ S.Array(ModifyingProperties);
 export type NaturalLanguageQueryGenerationCurrentState =
   | "NOT_ENABLED"
   | "ENABLE_COMPLETE"
@@ -1973,151 +1045,65 @@ export type NaturalLanguageQueryGenerationCurrentState =
   | "DISABLE_IN_PROGRESS"
   | "DISABLE_FAILED"
   | (string & {});
-export const NaturalLanguageQueryGenerationCurrentState = S.String;
-
 export interface NaturalLanguageQueryGenerationOptionsOutput {
-  DesiredState?: NaturalLanguageQueryGenerationDesiredState;
-  CurrentState?: NaturalLanguageQueryGenerationCurrentState;
+  DesiredState?: NaturalLanguageQueryGenerationDesiredState | undefined;
+  CurrentState?: NaturalLanguageQueryGenerationCurrentState | undefined;
 }
-export const NaturalLanguageQueryGenerationOptionsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DesiredState: S.optional(NaturalLanguageQueryGenerationDesiredState),
-      CurrentState: S.optional(NaturalLanguageQueryGenerationCurrentState),
-    }),
-  ).annotate({
-    identifier: "NaturalLanguageQueryGenerationOptionsOutput",
-  }) as any as S.Schema<NaturalLanguageQueryGenerationOptionsOutput>;
 export interface AIMLOptionsOutput {
-  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsOutput;
-  S3VectorsEngine?: S3VectorsEngine;
-  ServerlessVectorAcceleration?: ServerlessVectorAcceleration;
+  NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsOutput | undefined;
+  S3VectorsEngine?: S3VectorsEngine | undefined;
+  ServerlessVectorAcceleration?: ServerlessVectorAcceleration | undefined;
 }
-export const AIMLOptionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NaturalLanguageQueryGenerationOptions: S.optional(
-      NaturalLanguageQueryGenerationOptionsOutput,
-    ),
-    S3VectorsEngine: S.optional(S3VectorsEngine),
-    ServerlessVectorAcceleration: S.optional(ServerlessVectorAcceleration),
-  }),
-).annotate({
-  identifier: "AIMLOptionsOutput",
-}) as any as S.Schema<AIMLOptionsOutput>;
-export type PauseState =
-  | "Active"
-  | "Completed"
-  | "Scheduled"
-  | "Disabled"
-  | (string & {});
-export const PauseState = S.String;
-
+export type PauseState = "Active" | "Completed" | "Scheduled" | "Disabled" | (string & {});
 export interface AutomatedSnapshotPauseOptions {
   Enabled: boolean;
-  StartTime?: Date;
-  EndTime?: Date;
-  State?: PauseState;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  State?: PauseState | undefined;
 }
-export const AutomatedSnapshotPauseOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.Boolean,
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    State: S.optional(PauseState),
-  }),
-).annotate({
-  identifier: "AutomatedSnapshotPauseOptions",
-}) as any as S.Schema<AutomatedSnapshotPauseOptions>;
 export interface DomainStatus {
   DomainId: string;
   DomainName: string;
   ARN: string;
-  Created?: boolean;
-  Deleted?: boolean;
-  Endpoint?: string;
-  EndpointV2?: string;
-  Endpoints?: { [key: string]: string | undefined };
-  DomainEndpointV2HostedZoneId?: string;
-  Processing?: boolean;
-  UpgradeProcessing?: boolean;
-  EngineVersion?: string;
+  Created?: boolean | undefined;
+  Deleted?: boolean | undefined;
+  Endpoint?: string | undefined;
+  EndpointV2?: string | undefined;
+  Endpoints?: { [key: string]: string | undefined } | undefined;
+  DomainEndpointV2HostedZoneId?: string | undefined;
+  Processing?: boolean | undefined;
+  UpgradeProcessing?: boolean | undefined;
+  EngineVersion?: string | undefined;
   ClusterConfig: ClusterConfig;
-  EBSOptions?: EBSOptions;
-  AccessPolicies?: string;
-  IPAddressType?: IPAddressType;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCDerivedInfo;
-  CognitoOptions?: CognitoOptions;
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
-  DomainEndpointOptions?: DomainEndpointOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptions;
-  IdentityCenterOptions?: IdentityCenterOptions;
-  AutoTuneOptions?: AutoTuneOptionsOutput;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  OffPeakWindowOptions?: OffPeakWindowOptions;
-  SoftwareUpdateOptions?: SoftwareUpdateOptions;
-  DomainProcessingStatus?: DomainProcessingStatusType;
-  ModifyingProperties?: ModifyingProperties[];
-  AIMLOptions?: AIMLOptionsOutput;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: EngineMode;
+  EBSOptions?: EBSOptions | undefined;
+  AccessPolicies?: string | undefined;
+  IPAddressType?: IPAddressType | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCDerivedInfo | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptions | undefined;
+  IdentityCenterOptions?: IdentityCenterOptions | undefined;
+  AutoTuneOptions?: AutoTuneOptionsOutput | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptions | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptions | undefined;
+  DomainProcessingStatus?: DomainProcessingStatusType | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  AIMLOptions?: AIMLOptionsOutput | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: EngineMode | undefined;
 }
-export const DomainStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainId: S.String,
-    DomainName: S.String,
-    ARN: S.String,
-    Created: S.optional(S.Boolean),
-    Deleted: S.optional(S.Boolean),
-    Endpoint: S.optional(S.String),
-    EndpointV2: S.optional(S.String),
-    Endpoints: S.optional(EndpointsMap),
-    DomainEndpointV2HostedZoneId: S.optional(S.String),
-    Processing: S.optional(S.Boolean),
-    UpgradeProcessing: S.optional(S.Boolean),
-    EngineVersion: S.optional(S.String),
-    ClusterConfig: ClusterConfig,
-    EBSOptions: S.optional(EBSOptions),
-    AccessPolicies: S.optional(S.String),
-    IPAddressType: S.optional(IPAddressType),
-    SnapshotOptions: S.optional(SnapshotOptions),
-    VPCOptions: S.optional(VPCDerivedInfo),
-    CognitoOptions: S.optional(CognitoOptions),
-    EncryptionAtRestOptions: S.optional(EncryptionAtRestOptions),
-    NodeToNodeEncryptionOptions: S.optional(NodeToNodeEncryptionOptions),
-    AdvancedOptions: S.optional(AdvancedOptions),
-    LogPublishingOptions: S.optional(LogPublishingOptions),
-    ServiceSoftwareOptions: S.optional(ServiceSoftwareOptions),
-    DomainEndpointOptions: S.optional(DomainEndpointOptions),
-    AdvancedSecurityOptions: S.optional(AdvancedSecurityOptions),
-    IdentityCenterOptions: S.optional(IdentityCenterOptions),
-    AutoTuneOptions: S.optional(AutoTuneOptionsOutput),
-    ChangeProgressDetails: S.optional(ChangeProgressDetails),
-    OffPeakWindowOptions: S.optional(OffPeakWindowOptions),
-    SoftwareUpdateOptions: S.optional(SoftwareUpdateOptions),
-    DomainProcessingStatus: S.optional(DomainProcessingStatusType),
-    ModifyingProperties: S.optional(ModifyingPropertiesList),
-    AIMLOptions: S.optional(AIMLOptionsOutput),
-    DeploymentStrategyOptions: S.optional(DeploymentStrategyOptions),
-    AutomatedSnapshotPauseOptions: S.optional(AutomatedSnapshotPauseOptions),
-    UseCase: S.optional(DomainUseCase),
-    EngineMode: S.optional(EngineMode),
-  }),
-).annotate({ identifier: "DomainStatus" }) as any as S.Schema<DomainStatus>;
 export interface CreateDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
-export const CreateDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
-).annotate({
-  identifier: "CreateDomainResponse",
-}) as any as S.Schema<CreateDomainResponse>;
 export type IndexName = string;
 export type IndexSchema = unknown;
 export interface CreateIndexRequest {
@@ -2125,95 +1111,27 @@ export interface CreateIndexRequest {
   IndexName: string;
   IndexSchema: any;
 }
-export const CreateIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    IndexName: S.String,
-    IndexSchema: S.Any,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/index",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateIndexRequest",
-}) as any as S.Schema<CreateIndexRequest>;
 export type IndexStatus = "CREATED" | "UPDATED" | "DELETED" | (string & {});
-export const IndexStatus = S.String;
-
 export interface CreateIndexResponse {
   Status: IndexStatus;
 }
-export const CreateIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: IndexStatus }).pipe(ns),
-).annotate({
-  identifier: "CreateIndexResponse",
-}) as any as S.Schema<CreateIndexResponse>;
 export type ConnectionAlias = string;
 export type Endpoint = string;
 export type SkipUnavailableStatus = "ENABLED" | "DISABLED" | (string & {});
-export const SkipUnavailableStatus = S.String;
-
 export interface CrossClusterSearchConnectionProperties {
-  SkipUnavailable?: SkipUnavailableStatus;
+  SkipUnavailable?: SkipUnavailableStatus | undefined;
 }
-export const CrossClusterSearchConnectionProperties = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ SkipUnavailable: S.optional(SkipUnavailableStatus) }),
-).annotate({
-  identifier: "CrossClusterSearchConnectionProperties",
-}) as any as S.Schema<CrossClusterSearchConnectionProperties>;
 export interface ConnectionProperties {
-  Endpoint?: string;
-  CrossClusterSearch?: CrossClusterSearchConnectionProperties;
+  Endpoint?: string | undefined;
+  CrossClusterSearch?: CrossClusterSearchConnectionProperties | undefined;
 }
-export const ConnectionProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Endpoint: S.optional(S.String),
-    CrossClusterSearch: S.optional(CrossClusterSearchConnectionProperties),
-  }),
-).annotate({
-  identifier: "ConnectionProperties",
-}) as any as S.Schema<ConnectionProperties>;
 export interface CreateOutboundConnectionRequest {
   LocalDomainInfo: DomainInformationContainer;
   RemoteDomainInfo: DomainInformationContainer;
   ConnectionAlias: string;
-  ConnectionMode?: ConnectionMode;
-  ConnectionProperties?: ConnectionProperties;
+  ConnectionMode?: ConnectionMode | undefined;
+  ConnectionProperties?: ConnectionProperties | undefined;
 }
-export const CreateOutboundConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocalDomainInfo: DomainInformationContainer,
-    RemoteDomainInfo: DomainInformationContainer,
-    ConnectionAlias: S.String,
-    ConnectionMode: S.optional(ConnectionMode),
-    ConnectionProperties: S.optional(ConnectionProperties),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/cc/outboundConnection",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateOutboundConnectionRequest",
-}) as any as S.Schema<CreateOutboundConnectionRequest>;
 export type OutboundConnectionStatusCode =
   | "VALIDATING"
   | "VALIDATION_FAILED"
@@ -2226,127 +1144,52 @@ export type OutboundConnectionStatusCode =
   | "DELETING"
   | "DELETED"
   | (string & {});
-export const OutboundConnectionStatusCode = S.String;
-
 export interface OutboundConnectionStatus {
-  StatusCode?: OutboundConnectionStatusCode;
-  Message?: string;
+  StatusCode?: OutboundConnectionStatusCode | undefined;
+  Message?: string | undefined;
 }
-export const OutboundConnectionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StatusCode: S.optional(OutboundConnectionStatusCode),
-    Message: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "OutboundConnectionStatus",
-}) as any as S.Schema<OutboundConnectionStatus>;
 export interface CreateOutboundConnectionResponse {
-  LocalDomainInfo?: DomainInformationContainer;
-  RemoteDomainInfo?: DomainInformationContainer;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundConnectionStatus;
-  ConnectionId?: string;
-  ConnectionMode?: ConnectionMode;
-  ConnectionProperties?: ConnectionProperties;
+  LocalDomainInfo?: DomainInformationContainer | undefined;
+  RemoteDomainInfo?: DomainInformationContainer | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundConnectionStatus | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionMode?: ConnectionMode | undefined;
+  ConnectionProperties?: ConnectionProperties | undefined;
 }
-export const CreateOutboundConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocalDomainInfo: S.optional(DomainInformationContainer),
-    RemoteDomainInfo: S.optional(DomainInformationContainer),
-    ConnectionAlias: S.optional(S.String),
-    ConnectionStatus: S.optional(OutboundConnectionStatus),
-    ConnectionId: S.optional(S.String),
-    ConnectionMode: S.optional(ConnectionMode),
-    ConnectionProperties: S.optional(ConnectionProperties),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateOutboundConnectionResponse",
-}) as any as S.Schema<CreateOutboundConnectionResponse>;
 export type PackageDescription = string;
 export type S3BucketName = string;
 export type S3Key = string;
 export interface PackageSource {
-  S3BucketName?: string;
-  S3Key?: string;
+  S3BucketName?: string | undefined;
+  S3Key?: string | undefined;
 }
-export const PackageSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ S3BucketName: S.optional(S.String), S3Key: S.optional(S.String) }),
-).annotate({ identifier: "PackageSource" }) as any as S.Schema<PackageSource>;
 export type RequirementLevel = "REQUIRED" | "OPTIONAL" | "NONE" | (string & {});
-export const RequirementLevel = S.String;
-
 export type LicenseFilepath = string;
 export interface PackageConfiguration {
   LicenseRequirement: RequirementLevel;
-  LicenseFilepath?: string;
+  LicenseFilepath?: string | undefined;
   ConfigurationRequirement: RequirementLevel;
-  RequiresRestartForConfigurationUpdate?: boolean;
+  RequiresRestartForConfigurationUpdate?: boolean | undefined;
 }
-export const PackageConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LicenseRequirement: RequirementLevel,
-    LicenseFilepath: S.optional(S.String),
-    ConfigurationRequirement: RequirementLevel,
-    RequiresRestartForConfigurationUpdate: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "PackageConfiguration",
-}) as any as S.Schema<PackageConfiguration>;
 export type EngineVersion = string;
 export interface PackageVendingOptions {
   VendingEnabled: boolean;
 }
-export const PackageVendingOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VendingEnabled: S.Boolean }),
-).annotate({
-  identifier: "PackageVendingOptions",
-}) as any as S.Schema<PackageVendingOptions>;
 export interface PackageEncryptionOptions {
-  KmsKeyIdentifier?: string;
+  KmsKeyIdentifier?: string | undefined;
   EncryptionEnabled: boolean;
 }
-export const PackageEncryptionOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KmsKeyIdentifier: S.optional(S.String),
-    EncryptionEnabled: S.Boolean,
-  }),
-).annotate({
-  identifier: "PackageEncryptionOptions",
-}) as any as S.Schema<PackageEncryptionOptions>;
 export interface CreatePackageRequest {
   PackageName: string;
   PackageType: PackageType;
-  PackageDescription?: string;
+  PackageDescription?: string | undefined;
   PackageSource: PackageSource;
-  PackageConfiguration?: PackageConfiguration;
-  EngineVersion?: string;
-  PackageVendingOptions?: PackageVendingOptions;
-  PackageEncryptionOptions?: PackageEncryptionOptions;
+  PackageConfiguration?: PackageConfiguration | undefined;
+  EngineVersion?: string | undefined;
+  PackageVendingOptions?: PackageVendingOptions | undefined;
+  PackageEncryptionOptions?: PackageEncryptionOptions | undefined;
 }
-export const CreatePackageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageName: S.String,
-    PackageType: PackageType,
-    PackageDescription: S.optional(S.String),
-    PackageSource: PackageSource,
-    PackageConfiguration: S.optional(PackageConfiguration),
-    EngineVersion: S.optional(S.String),
-    PackageVendingOptions: S.optional(PackageVendingOptions),
-    PackageEncryptionOptions: S.optional(PackageEncryptionOptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/packages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreatePackageRequest",
-}) as any as S.Schema<CreatePackageRequest>;
 export type PackageStatus =
   | "COPYING"
   | "COPY_FAILED"
@@ -2357,8 +1200,6 @@ export type PackageStatus =
   | "DELETED"
   | "DELETE_FAILED"
   | (string & {});
-export const PackageStatus = S.String;
-
 export type CreatedAt = Date;
 export type PluginName = string;
 export type PluginDescription = string;
@@ -2366,98 +1207,41 @@ export type PluginVersion = string;
 export type PluginClassName = string;
 export type UncompressedPluginSizeInBytes = number;
 export interface PluginProperties {
-  Name?: string;
-  Description?: string;
-  Version?: string;
-  ClassName?: string;
-  UncompressedSizeInBytes?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Version?: string | undefined;
+  ClassName?: string | undefined;
+  UncompressedSizeInBytes?: number | undefined;
 }
-export const PluginProperties = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Version: S.optional(S.String),
-    ClassName: S.optional(S.String),
-    UncompressedSizeInBytes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "PluginProperties",
-}) as any as S.Schema<PluginProperties>;
 export type PackageUser = string;
 export type PackageUserList = string[];
-export const PackageUserList = /*@__PURE__*/ S.Array(S.String);
 export type PackageOwner = string;
 export interface PackageDetails {
-  PackageID?: string;
-  PackageName?: string;
-  PackageType?: PackageType;
-  PackageDescription?: string;
-  PackageStatus?: PackageStatus;
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  AvailablePackageVersion?: string;
-  ErrorDetails?: ErrorDetails;
-  EngineVersion?: string;
-  AvailablePluginProperties?: PluginProperties;
-  AvailablePackageConfiguration?: PackageConfiguration;
-  AllowListedUserList?: string[];
-  PackageOwner?: string;
-  PackageVendingOptions?: PackageVendingOptions;
-  PackageEncryptionOptions?: PackageEncryptionOptions;
+  PackageID?: string | undefined;
+  PackageName?: string | undefined;
+  PackageType?: PackageType | undefined;
+  PackageDescription?: string | undefined;
+  PackageStatus?: PackageStatus | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  AvailablePackageVersion?: string | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
+  EngineVersion?: string | undefined;
+  AvailablePluginProperties?: PluginProperties | undefined;
+  AvailablePackageConfiguration?: PackageConfiguration | undefined;
+  AllowListedUserList?: string[] | undefined;
+  PackageOwner?: string | undefined;
+  PackageVendingOptions?: PackageVendingOptions | undefined;
+  PackageEncryptionOptions?: PackageEncryptionOptions | undefined;
 }
-export const PackageDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.optional(S.String),
-    PackageName: S.optional(S.String),
-    PackageType: S.optional(PackageType),
-    PackageDescription: S.optional(S.String),
-    PackageStatus: S.optional(PackageStatus),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    AvailablePackageVersion: S.optional(S.String),
-    ErrorDetails: S.optional(ErrorDetails),
-    EngineVersion: S.optional(S.String),
-    AvailablePluginProperties: S.optional(PluginProperties),
-    AvailablePackageConfiguration: S.optional(PackageConfiguration),
-    AllowListedUserList: S.optional(PackageUserList),
-    PackageOwner: S.optional(S.String),
-    PackageVendingOptions: S.optional(PackageVendingOptions),
-    PackageEncryptionOptions: S.optional(PackageEncryptionOptions),
-  }),
-).annotate({ identifier: "PackageDetails" }) as any as S.Schema<PackageDetails>;
 export interface CreatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
-export const CreatePackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PackageDetails: S.optional(PackageDetails) }).pipe(ns),
-).annotate({
-  identifier: "CreatePackageResponse",
-}) as any as S.Schema<CreatePackageResponse>;
-export type DomainArn = string;
 export interface CreateVpcEndpointRequest {
   DomainArn: string;
   VpcOptions: VPCOptions;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
-export const CreateVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainArn: S.String,
-    VpcOptions: VPCOptions,
-    ClientToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/vpcEndpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "CreateVpcEndpointRequest",
-}) as any as S.Schema<CreateVpcEndpointRequest>;
 export type VpcEndpointId = string;
 export type VpcEndpointStatus =
   | "CREATING"
@@ -2468,363 +1252,90 @@ export type VpcEndpointStatus =
   | "DELETING"
   | "DELETE_FAILED"
   | (string & {});
-export const VpcEndpointStatus = S.String;
-
 export interface VpcEndpoint {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  VpcOptions?: VPCDerivedInfo;
-  Status?: VpcEndpointStatus;
-  Endpoint?: string;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  VpcOptions?: VPCDerivedInfo | undefined;
+  Status?: VpcEndpointStatus | undefined;
+  Endpoint?: string | undefined;
 }
-export const VpcEndpoint = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcEndpointId: S.optional(S.String),
-    VpcEndpointOwner: S.optional(S.String),
-    DomainArn: S.optional(S.String),
-    VpcOptions: S.optional(VPCDerivedInfo),
-    Status: S.optional(VpcEndpointStatus),
-    Endpoint: S.optional(S.String),
-  }),
-).annotate({ identifier: "VpcEndpoint" }) as any as S.Schema<VpcEndpoint>;
 export interface CreateVpcEndpointResponse {
   VpcEndpoint: VpcEndpoint;
 }
-export const CreateVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpoint: VpcEndpoint }).pipe(ns),
-).annotate({
-  identifier: "CreateVpcEndpointResponse",
-}) as any as S.Schema<CreateVpcEndpointResponse>;
 export interface DeleteApplicationRequest {
   id: string;
 }
-export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/application/{id}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteApplicationResponse",
-}) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteDataSourceRequest {
   DomainName: string;
   Name: string;
 }
-export const DeleteDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Name: S.String.pipe(T.HttpLabel("Name")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDataSourceRequest",
-}) as any as S.Schema<DeleteDataSourceRequest>;
 export interface DeleteDataSourceResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
-export const DeleteDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDataSourceResponse",
-}) as any as S.Schema<DeleteDataSourceResponse>;
 export interface DeleteDirectQueryDataSourceRequest {
   DataSourceName: string;
 }
-export const DeleteDirectQueryDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceName: S.String.pipe(T.HttpLabel("DataSourceName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDirectQueryDataSourceRequest",
-}) as any as S.Schema<DeleteDirectQueryDataSourceRequest>;
 export interface DeleteDirectQueryDataSourceResponse {}
-export const DeleteDirectQueryDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteDirectQueryDataSourceResponse",
-}) as any as S.Schema<DeleteDirectQueryDataSourceResponse>;
 export interface DeleteDomainRequest {
   DomainName: string;
 }
-export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDomainRequest",
-}) as any as S.Schema<DeleteDomainRequest>;
 export interface DeleteDomainResponse {
-  DomainStatus?: DomainStatus;
+  DomainStatus?: DomainStatus | undefined;
 }
-export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainStatus: S.optional(DomainStatus) }).pipe(ns),
-).annotate({
-  identifier: "DeleteDomainResponse",
-}) as any as S.Schema<DeleteDomainResponse>;
 export interface DeleteInboundConnectionRequest {
   ConnectionId: string;
 }
-export const DeleteInboundConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteInboundConnectionRequest",
-}) as any as S.Schema<DeleteInboundConnectionRequest>;
 export interface DeleteInboundConnectionResponse {
-  Connection?: InboundConnection;
+  Connection?: InboundConnection | undefined;
 }
-export const DeleteInboundConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connection: S.optional(InboundConnection) }).pipe(ns),
-).annotate({
-  identifier: "DeleteInboundConnectionResponse",
-}) as any as S.Schema<DeleteInboundConnectionResponse>;
 export interface DeleteIndexRequest {
   DomainName: string;
   IndexName: string;
 }
-export const DeleteIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    IndexName: S.String.pipe(T.HttpLabel("IndexName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteIndexRequest",
-}) as any as S.Schema<DeleteIndexRequest>;
 export interface DeleteIndexResponse {
   Status: IndexStatus;
 }
-export const DeleteIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: IndexStatus }).pipe(ns),
-).annotate({
-  identifier: "DeleteIndexResponse",
-}) as any as S.Schema<DeleteIndexResponse>;
 export interface DeleteOutboundConnectionRequest {
   ConnectionId: string;
 }
-export const DeleteOutboundConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/cc/outboundConnection/{ConnectionId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteOutboundConnectionRequest",
-}) as any as S.Schema<DeleteOutboundConnectionRequest>;
 export interface OutboundConnection {
-  LocalDomainInfo?: DomainInformationContainer;
-  RemoteDomainInfo?: DomainInformationContainer;
-  ConnectionId?: string;
-  ConnectionAlias?: string;
-  ConnectionStatus?: OutboundConnectionStatus;
-  ConnectionMode?: ConnectionMode;
-  ConnectionProperties?: ConnectionProperties;
+  LocalDomainInfo?: DomainInformationContainer | undefined;
+  RemoteDomainInfo?: DomainInformationContainer | undefined;
+  ConnectionId?: string | undefined;
+  ConnectionAlias?: string | undefined;
+  ConnectionStatus?: OutboundConnectionStatus | undefined;
+  ConnectionMode?: ConnectionMode | undefined;
+  ConnectionProperties?: ConnectionProperties | undefined;
 }
-export const OutboundConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocalDomainInfo: S.optional(DomainInformationContainer),
-    RemoteDomainInfo: S.optional(DomainInformationContainer),
-    ConnectionId: S.optional(S.String),
-    ConnectionAlias: S.optional(S.String),
-    ConnectionStatus: S.optional(OutboundConnectionStatus),
-    ConnectionMode: S.optional(ConnectionMode),
-    ConnectionProperties: S.optional(ConnectionProperties),
-  }),
-).annotate({
-  identifier: "OutboundConnection",
-}) as any as S.Schema<OutboundConnection>;
 export interface DeleteOutboundConnectionResponse {
-  Connection?: OutboundConnection;
+  Connection?: OutboundConnection | undefined;
 }
-export const DeleteOutboundConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connection: S.optional(OutboundConnection) }).pipe(ns),
-).annotate({
-  identifier: "DeleteOutboundConnectionResponse",
-}) as any as S.Schema<DeleteOutboundConnectionResponse>;
 export interface DeletePackageRequest {
   PackageID: string;
 }
-export const DeletePackageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PackageID: S.String.pipe(T.HttpLabel("PackageID")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/2021-01-01/packages/{PackageID}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeletePackageRequest",
-}) as any as S.Schema<DeletePackageRequest>;
 export interface DeletePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
-export const DeletePackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PackageDetails: S.optional(PackageDetails) }).pipe(ns),
-).annotate({
-  identifier: "DeletePackageResponse",
-}) as any as S.Schema<DeletePackageResponse>;
 export interface DeleteVpcEndpointRequest {
   VpcEndpointId: string;
 }
-export const DeleteVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpointId: S.String.pipe(T.HttpLabel("VpcEndpointId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/vpcEndpoints/{VpcEndpointId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteVpcEndpointRequest",
-}) as any as S.Schema<DeleteVpcEndpointRequest>;
 export interface VpcEndpointSummary {
-  VpcEndpointId?: string;
-  VpcEndpointOwner?: string;
-  DomainArn?: string;
-  Status?: VpcEndpointStatus;
+  VpcEndpointId?: string | undefined;
+  VpcEndpointOwner?: string | undefined;
+  DomainArn?: string | undefined;
+  Status?: VpcEndpointStatus | undefined;
 }
-export const VpcEndpointSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcEndpointId: S.optional(S.String),
-    VpcEndpointOwner: S.optional(S.String),
-    DomainArn: S.optional(S.String),
-    Status: S.optional(VpcEndpointStatus),
-  }),
-).annotate({
-  identifier: "VpcEndpointSummary",
-}) as any as S.Schema<VpcEndpointSummary>;
 export interface DeleteVpcEndpointResponse {
   VpcEndpointSummary: VpcEndpointSummary;
 }
-export const DeleteVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpointSummary: VpcEndpointSummary }).pipe(ns),
-).annotate({
-  identifier: "DeleteVpcEndpointResponse",
-}) as any as S.Schema<DeleteVpcEndpointResponse>;
 export type ApplicationId = string;
 export type CapabilityName = string;
 export interface DeregisterCapabilityRequest {
   applicationId: string;
   capabilityName: string;
 }
-export const DeregisterCapabilityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-    capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "DELETE",
-        uri: "/2021-01-01/opensearch/application/{applicationId}/capability/deregister/{capabilityName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeregisterCapabilityRequest",
-}) as any as S.Schema<DeregisterCapabilityRequest>;
 export type CapabilityStatus =
   | "creating"
   | "create_failed"
@@ -2834,1216 +1345,469 @@ export type CapabilityStatus =
   | "deleting"
   | "delete_failed"
   | (string & {});
-export const CapabilityStatus = S.String;
-
 export interface DeregisterCapabilityResponse {
-  status?: CapabilityStatus;
+  status?: CapabilityStatus | undefined;
 }
-export const DeregisterCapabilityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ status: S.optional(CapabilityStatus) }).pipe(ns),
-).annotate({
-  identifier: "DeregisterCapabilityResponse",
-}) as any as S.Schema<DeregisterCapabilityResponse>;
 export interface DescribeDataSourceAttachmentRequest {
   id: string;
   dataSourceArn: string;
 }
-export const DescribeDataSourceAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    dataSourceArn: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/application/{id}/describeDataSourceAttachment",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDataSourceAttachmentRequest",
-}) as any as S.Schema<DescribeDataSourceAttachmentRequest>;
 export interface DescribeDataSourceAttachmentResponse {
-  attachmentId?: string;
-  id?: string;
-  arn?: string;
-  dataSourceArn?: string;
-  status?: DataSourceAttachmentStatus;
+  attachmentId?: string | undefined;
+  id?: string | undefined;
+  arn?: string | undefined;
+  dataSourceArn?: string | undefined;
+  status?: DataSourceAttachmentStatus | undefined;
 }
-export const DescribeDataSourceAttachmentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      attachmentId: S.optional(S.String),
-      id: S.optional(S.String),
-      arn: S.optional(S.String),
-      dataSourceArn: S.optional(S.String),
-      status: S.optional(DataSourceAttachmentStatus),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeDataSourceAttachmentResponse",
-}) as any as S.Schema<DescribeDataSourceAttachmentResponse>;
 export interface DescribeDomainRequest {
   DomainName: string;
 }
-export const DescribeDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDomainRequest",
-}) as any as S.Schema<DescribeDomainRequest>;
 export interface DescribeDomainResponse {
   DomainStatus: DomainStatus;
 }
-export const DescribeDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainStatus: DomainStatus }).pipe(ns),
-).annotate({
-  identifier: "DescribeDomainResponse",
-}) as any as S.Schema<DescribeDomainResponse>;
 export type MaxResults = number;
 export type NextToken = string;
 export interface DescribeDomainAutoTunesRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeDomainAutoTunesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/autoTunes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDomainAutoTunesRequest",
-}) as any as S.Schema<DescribeDomainAutoTunesRequest>;
 export type AutoTuneType = "SCHEDULED_ACTION" | (string & {});
-export const AutoTuneType = S.String;
-
 export type AutoTuneDate = Date;
 export type ScheduledAutoTuneActionType =
   | "JVM_HEAP_SIZE_TUNING"
   | "JVM_YOUNG_GEN_TUNING"
   | (string & {});
-export const ScheduledAutoTuneActionType = S.String;
-
 export type ScheduledAutoTuneDescription = string;
-export type ScheduledAutoTuneSeverityType =
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | (string & {});
-export const ScheduledAutoTuneSeverityType = S.String;
-
+export type ScheduledAutoTuneSeverityType = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface ScheduledAutoTuneDetails {
-  Date?: Date;
-  ActionType?: ScheduledAutoTuneActionType;
-  Action?: string;
-  Severity?: ScheduledAutoTuneSeverityType;
+  Date?: Date | undefined;
+  ActionType?: ScheduledAutoTuneActionType | undefined;
+  Action?: string | undefined;
+  Severity?: ScheduledAutoTuneSeverityType | undefined;
 }
-export const ScheduledAutoTuneDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ActionType: S.optional(ScheduledAutoTuneActionType),
-    Action: S.optional(S.String),
-    Severity: S.optional(ScheduledAutoTuneSeverityType),
-  }),
-).annotate({
-  identifier: "ScheduledAutoTuneDetails",
-}) as any as S.Schema<ScheduledAutoTuneDetails>;
 export interface AutoTuneDetails {
-  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails;
+  ScheduledAutoTuneDetails?: ScheduledAutoTuneDetails | undefined;
 }
-export const AutoTuneDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduledAutoTuneDetails: S.optional(ScheduledAutoTuneDetails) }),
-).annotate({
-  identifier: "AutoTuneDetails",
-}) as any as S.Schema<AutoTuneDetails>;
 export interface AutoTune {
-  AutoTuneType?: AutoTuneType;
-  AutoTuneDetails?: AutoTuneDetails;
+  AutoTuneType?: AutoTuneType | undefined;
+  AutoTuneDetails?: AutoTuneDetails | undefined;
 }
-export const AutoTune = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoTuneType: S.optional(AutoTuneType),
-    AutoTuneDetails: S.optional(AutoTuneDetails),
-  }),
-).annotate({ identifier: "AutoTune" }) as any as S.Schema<AutoTune>;
 export type AutoTuneList = AutoTune[];
-export const AutoTuneList = /*@__PURE__*/ S.Array(AutoTune);
 export interface DescribeDomainAutoTunesResponse {
-  AutoTunes?: AutoTune[];
-  NextToken?: string;
+  AutoTunes?: AutoTune[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeDomainAutoTunesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutoTunes: S.optional(AutoTuneList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeDomainAutoTunesResponse",
-}) as any as S.Schema<DescribeDomainAutoTunesResponse>;
 export interface DescribeDomainChangeProgressRequest {
   DomainName: string;
-  ChangeId?: string;
+  ChangeId?: string | undefined;
 }
-export const DescribeDomainChangeProgressRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    ChangeId: S.optional(S.String).pipe(T.HttpQuery("changeid")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/progress",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDomainChangeProgressRequest",
-}) as any as S.Schema<DescribeDomainChangeProgressRequest>;
-export type OverallChangeStatus =
-  | "PENDING"
-  | "PROCESSING"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
-export const OverallChangeStatus = S.String;
-
+export type OverallChangeStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED" | (string & {});
 export type TotalNumberOfStages = number;
 export type ChangeProgressStageName = string;
 export type ChangeProgressStageStatus = string;
 export type Description = string;
 export interface ChangeProgressStage {
-  Name?: string;
-  Status?: string;
-  Description?: string;
-  LastUpdated?: Date;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Description?: string | undefined;
+  LastUpdated?: Date | undefined;
 }
-export const ChangeProgressStage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Status: S.optional(S.String),
-    Description: S.optional(S.String),
-    LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "ChangeProgressStage",
-}) as any as S.Schema<ChangeProgressStage>;
 export type ChangeProgressStageList = ChangeProgressStage[];
-export const ChangeProgressStageList =
-  /*@__PURE__*/ S.Array(ChangeProgressStage);
+export type TrafficPercent = number;
+export interface TrafficPercents {
+  PrimaryReadTrafficPercent: number;
+  CloneReadTrafficPercent: number;
+}
+export type ClonedBlueGreenScheduledActionType =
+  | "AutomaticCutoverToPrimaryCluster"
+  | "DeletePrimaryCluster"
+  | (string & {});
+export interface ClonedBlueGreenScheduledAction {
+  Action?: ClonedBlueGreenScheduledActionType | undefined;
+  ScheduledTime?: Date | undefined;
+}
+export interface ClonedBlueGreenUpgradeDetails {
+  TrafficSplit?: TrafficPercents | undefined;
+  ScheduledAction?: ClonedBlueGreenScheduledAction | undefined;
+  RetentionInHours?: number | undefined;
+}
+export type ValidationFailureSeverity = "Critical" | "Warning" | (string & {});
+export interface ValidationFailure {
+  Code?: string | undefined;
+  Message?: string | undefined;
+  Severity?: ValidationFailureSeverity | undefined;
+}
+export type ValidationFailures = ValidationFailure[];
+export type AcceptedWarningsList = string[];
 export interface ChangeProgressStatusDetails {
-  ChangeId?: string;
-  StartTime?: Date;
-  Status?: OverallChangeStatus;
-  PendingProperties?: string[];
-  CompletedProperties?: string[];
-  TotalNumberOfStages?: number;
-  ChangeProgressStages?: ChangeProgressStage[];
-  LastUpdatedTime?: Date;
-  ConfigChangeStatus?: ConfigChangeStatus;
-  InitiatedBy?: InitiatedBy;
+  ChangeId?: string | undefined;
+  StartTime?: Date | undefined;
+  Status?: OverallChangeStatus | undefined;
+  PendingProperties?: string[] | undefined;
+  CompletedProperties?: string[] | undefined;
+  TotalNumberOfStages?: number | undefined;
+  ChangeProgressStages?: ChangeProgressStage[] | undefined;
+  LastUpdatedTime?: Date | undefined;
+  ConfigChangeStatus?: ConfigChangeStatus | undefined;
+  InitiatedBy?: InitiatedBy | undefined;
+  ClonedBlueGreenUpgradeDetails?: ClonedBlueGreenUpgradeDetails | undefined;
+  ValidationFailures?: ValidationFailure[] | undefined;
+  AcceptedWarnings?: string[] | undefined;
 }
-export const ChangeProgressStatusDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ChangeId: S.optional(S.String),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(OverallChangeStatus),
-    PendingProperties: S.optional(StringList),
-    CompletedProperties: S.optional(StringList),
-    TotalNumberOfStages: S.optional(S.Number),
-    ChangeProgressStages: S.optional(ChangeProgressStageList),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ConfigChangeStatus: S.optional(ConfigChangeStatus),
-    InitiatedBy: S.optional(InitiatedBy),
-  }),
-).annotate({
-  identifier: "ChangeProgressStatusDetails",
-}) as any as S.Schema<ChangeProgressStatusDetails>;
 export interface DescribeDomainChangeProgressResponse {
-  ChangeProgressStatus?: ChangeProgressStatusDetails;
+  ChangeProgressStatus?: ChangeProgressStatusDetails | undefined;
 }
-export const DescribeDomainChangeProgressResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChangeProgressStatus: S.optional(ChangeProgressStatusDetails),
-    }).pipe(ns),
-).annotate({
-  identifier: "DescribeDomainChangeProgressResponse",
-}) as any as S.Schema<DescribeDomainChangeProgressResponse>;
 export interface DescribeDomainConfigRequest {
   DomainName: string;
 }
-export const DescribeDomainConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDomainConfigRequest",
-}) as any as S.Schema<DescribeDomainConfigRequest>;
 export type UIntValue = number;
-export type OptionState =
-  | "RequiresIndexDocuments"
-  | "Processing"
-  | "Active"
-  | (string & {});
-export const OptionState = S.String;
-
+export type OptionState = "RequiresIndexDocuments" | "Processing" | "Active" | (string & {});
 export interface OptionStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: OptionState;
-  PendingDeletion?: boolean;
+  PendingDeletion?: boolean | undefined;
 }
-export const OptionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    UpdateVersion: S.optional(S.Number),
-    State: OptionState,
-    PendingDeletion: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "OptionStatus" }) as any as S.Schema<OptionStatus>;
 export interface VersionStatus {
   Options: string;
   Status: OptionStatus;
 }
-export const VersionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: S.String, Status: OptionStatus }),
-).annotate({ identifier: "VersionStatus" }) as any as S.Schema<VersionStatus>;
 export interface ClusterConfigStatus {
   Options: ClusterConfig;
   Status: OptionStatus;
 }
-export const ClusterConfigStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: ClusterConfig, Status: OptionStatus }),
-).annotate({
-  identifier: "ClusterConfigStatus",
-}) as any as S.Schema<ClusterConfigStatus>;
 export interface EBSOptionsStatus {
   Options: EBSOptions;
   Status: OptionStatus;
 }
-export const EBSOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: EBSOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "EBSOptionsStatus",
-}) as any as S.Schema<EBSOptionsStatus>;
 export interface AccessPoliciesStatus {
   Options: string;
   Status: OptionStatus;
 }
-export const AccessPoliciesStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: S.String, Status: OptionStatus }),
-).annotate({
-  identifier: "AccessPoliciesStatus",
-}) as any as S.Schema<AccessPoliciesStatus>;
 export interface IPAddressTypeStatus {
   Options: IPAddressType;
   Status: OptionStatus;
 }
-export const IPAddressTypeStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: IPAddressType, Status: OptionStatus }),
-).annotate({
-  identifier: "IPAddressTypeStatus",
-}) as any as S.Schema<IPAddressTypeStatus>;
 export interface SnapshotOptionsStatus {
   Options: SnapshotOptions;
   Status: OptionStatus;
 }
-export const SnapshotOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: SnapshotOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "SnapshotOptionsStatus",
-}) as any as S.Schema<SnapshotOptionsStatus>;
 export interface VPCDerivedInfoStatus {
   Options: VPCDerivedInfo;
   Status: OptionStatus;
 }
-export const VPCDerivedInfoStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: VPCDerivedInfo, Status: OptionStatus }),
-).annotate({
-  identifier: "VPCDerivedInfoStatus",
-}) as any as S.Schema<VPCDerivedInfoStatus>;
 export interface CognitoOptionsStatus {
   Options: CognitoOptions;
   Status: OptionStatus;
 }
-export const CognitoOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: CognitoOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "CognitoOptionsStatus",
-}) as any as S.Schema<CognitoOptionsStatus>;
 export interface EncryptionAtRestOptionsStatus {
   Options: EncryptionAtRestOptions;
   Status: OptionStatus;
 }
-export const EncryptionAtRestOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: EncryptionAtRestOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "EncryptionAtRestOptionsStatus",
-}) as any as S.Schema<EncryptionAtRestOptionsStatus>;
 export interface NodeToNodeEncryptionOptionsStatus {
   Options: NodeToNodeEncryptionOptions;
   Status: OptionStatus;
 }
-export const NodeToNodeEncryptionOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: NodeToNodeEncryptionOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "NodeToNodeEncryptionOptionsStatus",
-}) as any as S.Schema<NodeToNodeEncryptionOptionsStatus>;
 export interface AdvancedOptionsStatus {
   Options: { [key: string]: string | undefined };
   Status: OptionStatus;
 }
-export const AdvancedOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: AdvancedOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "AdvancedOptionsStatus",
-}) as any as S.Schema<AdvancedOptionsStatus>;
 export interface LogPublishingOptionsStatus {
-  Options?: { [key: string]: LogPublishingOption | undefined };
-  Status?: OptionStatus;
+  Options?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  Status?: OptionStatus | undefined;
 }
-export const LogPublishingOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Options: S.optional(LogPublishingOptions),
-    Status: S.optional(OptionStatus),
-  }),
-).annotate({
-  identifier: "LogPublishingOptionsStatus",
-}) as any as S.Schema<LogPublishingOptionsStatus>;
 export interface DomainEndpointOptionsStatus {
   Options: DomainEndpointOptions;
   Status: OptionStatus;
 }
-export const DomainEndpointOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: DomainEndpointOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "DomainEndpointOptionsStatus",
-}) as any as S.Schema<DomainEndpointOptionsStatus>;
 export interface AdvancedSecurityOptionsStatus {
   Options: AdvancedSecurityOptions;
   Status: OptionStatus;
 }
-export const AdvancedSecurityOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: AdvancedSecurityOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "AdvancedSecurityOptionsStatus",
-}) as any as S.Schema<AdvancedSecurityOptionsStatus>;
 export interface IdentityCenterOptionsStatus {
   Options: IdentityCenterOptions;
   Status: OptionStatus;
 }
-export const IdentityCenterOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: IdentityCenterOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "IdentityCenterOptionsStatus",
-}) as any as S.Schema<IdentityCenterOptionsStatus>;
-export type RollbackOnDisable =
-  | "NO_ROLLBACK"
-  | "DEFAULT_ROLLBACK"
-  | (string & {});
-export const RollbackOnDisable = S.String;
-
+export type RollbackOnDisable = "NO_ROLLBACK" | "DEFAULT_ROLLBACK" | (string & {});
 export interface AutoTuneOptions {
-  DesiredState?: AutoTuneDesiredState;
-  RollbackOnDisable?: RollbackOnDisable;
-  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
-  UseOffPeakWindow?: boolean;
+  DesiredState?: AutoTuneDesiredState | undefined;
+  RollbackOnDisable?: RollbackOnDisable | undefined;
+  MaintenanceSchedules?: AutoTuneMaintenanceSchedule[] | undefined;
+  UseOffPeakWindow?: boolean | undefined;
 }
-export const AutoTuneOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DesiredState: S.optional(AutoTuneDesiredState),
-    RollbackOnDisable: S.optional(RollbackOnDisable),
-    MaintenanceSchedules: S.optional(AutoTuneMaintenanceScheduleList),
-    UseOffPeakWindow: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AutoTuneOptions",
-}) as any as S.Schema<AutoTuneOptions>;
 export interface AutoTuneStatus {
   CreationDate: Date;
   UpdateDate: Date;
-  UpdateVersion?: number;
+  UpdateVersion?: number | undefined;
   State: AutoTuneState;
-  ErrorMessage?: string;
-  PendingDeletion?: boolean;
+  ErrorMessage?: string | undefined;
+  PendingDeletion?: boolean | undefined;
 }
-export const AutoTuneStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    UpdateVersion: S.optional(S.Number),
-    State: AutoTuneState,
-    ErrorMessage: S.optional(S.String),
-    PendingDeletion: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "AutoTuneStatus" }) as any as S.Schema<AutoTuneStatus>;
 export interface AutoTuneOptionsStatus {
-  Options?: AutoTuneOptions;
-  Status?: AutoTuneStatus;
+  Options?: AutoTuneOptions | undefined;
+  Status?: AutoTuneStatus | undefined;
 }
-export const AutoTuneOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Options: S.optional(AutoTuneOptions),
-    Status: S.optional(AutoTuneStatus),
-  }),
-).annotate({
-  identifier: "AutoTuneOptionsStatus",
-}) as any as S.Schema<AutoTuneOptionsStatus>;
 export interface OffPeakWindowOptionsStatus {
-  Options?: OffPeakWindowOptions;
-  Status?: OptionStatus;
+  Options?: OffPeakWindowOptions | undefined;
+  Status?: OptionStatus | undefined;
 }
-export const OffPeakWindowOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Options: S.optional(OffPeakWindowOptions),
-    Status: S.optional(OptionStatus),
-  }),
-).annotate({
-  identifier: "OffPeakWindowOptionsStatus",
-}) as any as S.Schema<OffPeakWindowOptionsStatus>;
 export interface SoftwareUpdateOptionsStatus {
-  Options?: SoftwareUpdateOptions;
-  Status?: OptionStatus;
+  Options?: SoftwareUpdateOptions | undefined;
+  Status?: OptionStatus | undefined;
 }
-export const SoftwareUpdateOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Options: S.optional(SoftwareUpdateOptions),
-    Status: S.optional(OptionStatus),
-  }),
-).annotate({
-  identifier: "SoftwareUpdateOptionsStatus",
-}) as any as S.Schema<SoftwareUpdateOptionsStatus>;
 export interface AIMLOptionsStatus {
-  Options?: AIMLOptionsOutput;
-  Status?: OptionStatus;
+  Options?: AIMLOptionsOutput | undefined;
+  Status?: OptionStatus | undefined;
 }
-export const AIMLOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Options: S.optional(AIMLOptionsOutput),
-    Status: S.optional(OptionStatus),
-  }),
-).annotate({
-  identifier: "AIMLOptionsStatus",
-}) as any as S.Schema<AIMLOptionsStatus>;
 export interface DeploymentStrategyOptionsStatus {
   Options: DeploymentStrategyOptions;
   Status: OptionStatus;
 }
-export const DeploymentStrategyOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: DeploymentStrategyOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "DeploymentStrategyOptionsStatus",
-}) as any as S.Schema<DeploymentStrategyOptionsStatus>;
 export interface AutomatedSnapshotPauseOptionsStatus {
   Options: AutomatedSnapshotPauseOptions;
   Status: OptionStatus;
 }
-export const AutomatedSnapshotPauseOptionsStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: AutomatedSnapshotPauseOptions, Status: OptionStatus }),
-).annotate({
-  identifier: "AutomatedSnapshotPauseOptionsStatus",
-}) as any as S.Schema<AutomatedSnapshotPauseOptionsStatus>;
 export interface UseCaseStatus {
   Options: DomainUseCase;
   Status: OptionStatus;
 }
-export const UseCaseStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: DomainUseCase, Status: OptionStatus }),
-).annotate({ identifier: "UseCaseStatus" }) as any as S.Schema<UseCaseStatus>;
 export interface EngineModeStatus {
   Options: EngineMode;
   Status: OptionStatus;
 }
-export const EngineModeStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Options: EngineMode, Status: OptionStatus }),
-).annotate({
-  identifier: "EngineModeStatus",
-}) as any as S.Schema<EngineModeStatus>;
 export interface DomainConfig {
-  EngineVersion?: VersionStatus;
-  ClusterConfig?: ClusterConfigStatus;
-  EBSOptions?: EBSOptionsStatus;
-  AccessPolicies?: AccessPoliciesStatus;
-  IPAddressType?: IPAddressTypeStatus;
-  SnapshotOptions?: SnapshotOptionsStatus;
-  VPCOptions?: VPCDerivedInfoStatus;
-  CognitoOptions?: CognitoOptionsStatus;
-  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus;
-  AdvancedOptions?: AdvancedOptionsStatus;
-  LogPublishingOptions?: LogPublishingOptionsStatus;
-  DomainEndpointOptions?: DomainEndpointOptionsStatus;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus;
-  IdentityCenterOptions?: IdentityCenterOptionsStatus;
-  AutoTuneOptions?: AutoTuneOptionsStatus;
-  ChangeProgressDetails?: ChangeProgressDetails;
-  OffPeakWindowOptions?: OffPeakWindowOptionsStatus;
-  SoftwareUpdateOptions?: SoftwareUpdateOptionsStatus;
-  ModifyingProperties?: ModifyingProperties[];
-  AIMLOptions?: AIMLOptionsStatus;
-  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus;
-  UseCase?: UseCaseStatus;
-  EngineMode?: EngineModeStatus;
+  EngineVersion?: VersionStatus | undefined;
+  ClusterConfig?: ClusterConfigStatus | undefined;
+  EBSOptions?: EBSOptionsStatus | undefined;
+  AccessPolicies?: AccessPoliciesStatus | undefined;
+  IPAddressType?: IPAddressTypeStatus | undefined;
+  SnapshotOptions?: SnapshotOptionsStatus | undefined;
+  VPCOptions?: VPCDerivedInfoStatus | undefined;
+  CognitoOptions?: CognitoOptionsStatus | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptionsStatus | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptionsStatus | undefined;
+  AdvancedOptions?: AdvancedOptionsStatus | undefined;
+  LogPublishingOptions?: LogPublishingOptionsStatus | undefined;
+  DomainEndpointOptions?: DomainEndpointOptionsStatus | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsStatus | undefined;
+  IdentityCenterOptions?: IdentityCenterOptionsStatus | undefined;
+  AutoTuneOptions?: AutoTuneOptionsStatus | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptionsStatus | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptionsStatus | undefined;
+  ModifyingProperties?: ModifyingProperties[] | undefined;
+  AIMLOptions?: AIMLOptionsStatus | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptionsStatus | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseOptionsStatus | undefined;
+  UseCase?: UseCaseStatus | undefined;
+  EngineMode?: EngineModeStatus | undefined;
 }
-export const DomainConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineVersion: S.optional(VersionStatus),
-    ClusterConfig: S.optional(ClusterConfigStatus),
-    EBSOptions: S.optional(EBSOptionsStatus),
-    AccessPolicies: S.optional(AccessPoliciesStatus),
-    IPAddressType: S.optional(IPAddressTypeStatus),
-    SnapshotOptions: S.optional(SnapshotOptionsStatus),
-    VPCOptions: S.optional(VPCDerivedInfoStatus),
-    CognitoOptions: S.optional(CognitoOptionsStatus),
-    EncryptionAtRestOptions: S.optional(EncryptionAtRestOptionsStatus),
-    NodeToNodeEncryptionOptions: S.optional(NodeToNodeEncryptionOptionsStatus),
-    AdvancedOptions: S.optional(AdvancedOptionsStatus),
-    LogPublishingOptions: S.optional(LogPublishingOptionsStatus),
-    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
-    AdvancedSecurityOptions: S.optional(AdvancedSecurityOptionsStatus),
-    IdentityCenterOptions: S.optional(IdentityCenterOptionsStatus),
-    AutoTuneOptions: S.optional(AutoTuneOptionsStatus),
-    ChangeProgressDetails: S.optional(ChangeProgressDetails),
-    OffPeakWindowOptions: S.optional(OffPeakWindowOptionsStatus),
-    SoftwareUpdateOptions: S.optional(SoftwareUpdateOptionsStatus),
-    ModifyingProperties: S.optional(ModifyingPropertiesList),
-    AIMLOptions: S.optional(AIMLOptionsStatus),
-    DeploymentStrategyOptions: S.optional(DeploymentStrategyOptionsStatus),
-    AutomatedSnapshotPauseOptions: S.optional(
-      AutomatedSnapshotPauseOptionsStatus,
-    ),
-    UseCase: S.optional(UseCaseStatus),
-    EngineMode: S.optional(EngineModeStatus),
-  }),
-).annotate({ identifier: "DomainConfig" }) as any as S.Schema<DomainConfig>;
 export interface DescribeDomainConfigResponse {
   DomainConfig: DomainConfig;
 }
-export const DescribeDomainConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainConfig: DomainConfig }).pipe(ns),
-).annotate({
-  identifier: "DescribeDomainConfigResponse",
-}) as any as S.Schema<DescribeDomainConfigResponse>;
 export interface DescribeDomainHealthRequest {
   DomainName: string;
 }
-export const DescribeDomainHealthRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/health",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDomainHealthRequest",
-}) as any as S.Schema<DescribeDomainHealthRequest>;
-export type DomainState =
-  | "Active"
-  | "Processing"
-  | "NotAvailable"
-  | (string & {});
-export const DomainState = S.String;
-
+export type DomainState = "Active" | "Processing" | "NotAvailable" | (string & {});
 export type NumberOfAZs = string;
 export type NumberOfNodes = string;
 export type MasterNodeStatus = "Available" | "UnAvailable" | (string & {});
-export const MasterNodeStatus = S.String;
-
-export type DomainHealth =
-  | "Red"
-  | "Yellow"
-  | "Green"
-  | "NotAvailable"
-  | (string & {});
-export const DomainHealth = S.String;
-
+export type DomainHealth = "Red" | "Yellow" | "Green" | "NotAvailable" | (string & {});
 export type NumberOfShards = string;
 export type AvailabilityZone = string;
 export type ZoneStatus = "Active" | "StandBy" | "NotAvailable" | (string & {});
-export const ZoneStatus = S.String;
-
 export interface AvailabilityZoneInfo {
-  AvailabilityZoneName?: string;
-  ZoneStatus?: ZoneStatus;
-  ConfiguredDataNodeCount?: string;
-  AvailableDataNodeCount?: string;
-  TotalShards?: string;
-  TotalUnAssignedShards?: string;
+  AvailabilityZoneName?: string | undefined;
+  ZoneStatus?: ZoneStatus | undefined;
+  ConfiguredDataNodeCount?: string | undefined;
+  AvailableDataNodeCount?: string | undefined;
+  TotalShards?: string | undefined;
+  TotalUnAssignedShards?: string | undefined;
 }
-export const AvailabilityZoneInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZoneName: S.optional(S.String),
-    ZoneStatus: S.optional(ZoneStatus),
-    ConfiguredDataNodeCount: S.optional(S.String),
-    AvailableDataNodeCount: S.optional(S.String),
-    TotalShards: S.optional(S.String),
-    TotalUnAssignedShards: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AvailabilityZoneInfo",
-}) as any as S.Schema<AvailabilityZoneInfo>;
 export type AvailabilityZoneInfoList = AvailabilityZoneInfo[];
-export const AvailabilityZoneInfoList =
-  /*@__PURE__*/ S.Array(AvailabilityZoneInfo);
 export interface EnvironmentInfo {
-  AvailabilityZoneInformation?: AvailabilityZoneInfo[];
+  AvailabilityZoneInformation?: AvailabilityZoneInfo[] | undefined;
 }
-export const EnvironmentInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZoneInformation: S.optional(AvailabilityZoneInfoList),
-  }),
-).annotate({
-  identifier: "EnvironmentInfo",
-}) as any as S.Schema<EnvironmentInfo>;
 export type EnvironmentInfoList = EnvironmentInfo[];
-export const EnvironmentInfoList = /*@__PURE__*/ S.Array(EnvironmentInfo);
 export interface DescribeDomainHealthResponse {
-  DomainState?: DomainState;
-  AvailabilityZoneCount?: string;
-  ActiveAvailabilityZoneCount?: string;
-  StandByAvailabilityZoneCount?: string;
-  DataNodeCount?: string;
-  DedicatedMaster?: boolean;
-  MasterEligibleNodeCount?: string;
-  WarmNodeCount?: string;
-  MasterNode?: MasterNodeStatus;
-  ClusterHealth?: DomainHealth;
-  TotalShards?: string;
-  TotalUnAssignedShards?: string;
-  EnvironmentInformation?: EnvironmentInfo[];
+  DomainState?: DomainState | undefined;
+  AvailabilityZoneCount?: string | undefined;
+  ActiveAvailabilityZoneCount?: string | undefined;
+  StandByAvailabilityZoneCount?: string | undefined;
+  DataNodeCount?: string | undefined;
+  DedicatedMaster?: boolean | undefined;
+  MasterEligibleNodeCount?: string | undefined;
+  WarmNodeCount?: string | undefined;
+  MasterNode?: MasterNodeStatus | undefined;
+  ClusterHealth?: DomainHealth | undefined;
+  TotalShards?: string | undefined;
+  TotalUnAssignedShards?: string | undefined;
+  EnvironmentInformation?: EnvironmentInfo[] | undefined;
 }
-export const DescribeDomainHealthResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainState: S.optional(DomainState),
-    AvailabilityZoneCount: S.optional(S.String),
-    ActiveAvailabilityZoneCount: S.optional(S.String),
-    StandByAvailabilityZoneCount: S.optional(S.String),
-    DataNodeCount: S.optional(S.String),
-    DedicatedMaster: S.optional(S.Boolean),
-    MasterEligibleNodeCount: S.optional(S.String),
-    WarmNodeCount: S.optional(S.String),
-    MasterNode: S.optional(MasterNodeStatus),
-    ClusterHealth: S.optional(DomainHealth),
-    TotalShards: S.optional(S.String),
-    TotalUnAssignedShards: S.optional(S.String),
-    EnvironmentInformation: S.optional(EnvironmentInfoList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeDomainHealthResponse",
-}) as any as S.Schema<DescribeDomainHealthResponse>;
 export interface DescribeDomainNodesRequest {
   DomainName: string;
 }
-export const DescribeDomainNodesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/nodes",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDomainNodesRequest",
-}) as any as S.Schema<DescribeDomainNodesRequest>;
 export type NodeId = string;
 export type NodeType = "Data" | "Ultrawarm" | "Master" | "Warm" | (string & {});
-export const NodeType = S.String;
-
 export type NodeStatus = "Active" | "StandBy" | "NotAvailable" | (string & {});
-export const NodeStatus = S.String;
-
 export type StorageTypeName = string;
 export type VolumeSize = string;
 export interface DomainNodesStatus {
-  NodeId?: string;
-  NodeType?: NodeType;
-  AvailabilityZone?: string;
-  InstanceType?: OpenSearchPartitionInstanceType;
-  NodeStatus?: NodeStatus;
-  StorageType?: string;
-  StorageVolumeType?: VolumeType;
-  StorageSize?: string;
+  NodeId?: string | undefined;
+  NodeType?: NodeType | undefined;
+  AvailabilityZone?: string | undefined;
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  NodeStatus?: NodeStatus | undefined;
+  StorageType?: string | undefined;
+  StorageVolumeType?: VolumeType | undefined;
+  StorageSize?: string | undefined;
 }
-export const DomainNodesStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NodeId: S.optional(S.String),
-    NodeType: S.optional(NodeType),
-    AvailabilityZone: S.optional(S.String),
-    InstanceType: S.optional(OpenSearchPartitionInstanceType),
-    NodeStatus: S.optional(NodeStatus),
-    StorageType: S.optional(S.String),
-    StorageVolumeType: S.optional(VolumeType),
-    StorageSize: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DomainNodesStatus",
-}) as any as S.Schema<DomainNodesStatus>;
 export type DomainNodesStatusList = DomainNodesStatus[];
-export const DomainNodesStatusList = /*@__PURE__*/ S.Array(DomainNodesStatus);
 export interface DescribeDomainNodesResponse {
-  DomainNodesStatusList?: DomainNodesStatus[];
+  DomainNodesStatusList?: DomainNodesStatus[] | undefined;
 }
-export const DescribeDomainNodesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainNodesStatusList: S.optional(DomainNodesStatusList) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "DescribeDomainNodesResponse",
-}) as any as S.Schema<DescribeDomainNodesResponse>;
+export interface DescribeDomainReplicationRequest {
+  DomainName: string;
+}
+export type ReplicationRole = "PRIMARY" | "SECONDARY" | (string & {});
+export type ReplicationStatusMessage = string;
+export interface ReplicationPeer {
+  PeerDomainArn?: string | undefined;
+  PeerRole?: ReplicationRole | undefined;
+  Status?: ReplicationStatus | undefined;
+  StatusMessage?: string | undefined;
+}
+export type ReplicationPeerList = ReplicationPeer[];
+export interface DescribeDomainReplicationResponse {
+  DomainArn?: string | undefined;
+  Role?: ReplicationRole | undefined;
+  Peers?: ReplicationPeer[] | undefined;
+}
 export type DomainNameList = string[];
-export const DomainNameList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeDomainsRequest {
   DomainNames: string[];
 }
-export const DescribeDomainsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainNames: DomainNameList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/domain-info" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDomainsRequest",
-}) as any as S.Schema<DescribeDomainsRequest>;
 export type DomainStatusList = DomainStatus[];
-export const DomainStatusList = /*@__PURE__*/ S.Array(DomainStatus);
 export interface DescribeDomainsResponse {
   DomainStatusList: DomainStatus[];
 }
-export const DescribeDomainsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainStatusList: DomainStatusList }).pipe(ns),
-).annotate({
-  identifier: "DescribeDomainsResponse",
-}) as any as S.Schema<DescribeDomainsResponse>;
 export interface DescribeDryRunProgressRequest {
   DomainName: string;
-  DryRunId?: string;
-  LoadDryRunConfig?: boolean;
+  DryRunId?: string | undefined;
+  LoadDryRunConfig?: boolean | undefined;
 }
-export const DescribeDryRunProgressRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    DryRunId: S.optional(S.String).pipe(T.HttpQuery("dryRunId")),
-    LoadDryRunConfig: S.optional(S.Boolean).pipe(
-      T.HttpQuery("loadDryRunConfig"),
-    ),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/dryRun",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeDryRunProgressRequest",
-}) as any as S.Schema<DescribeDryRunProgressRequest>;
-export interface ValidationFailure {
-  Code?: string;
-  Message?: string;
-}
-export const ValidationFailure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Code: S.optional(S.String), Message: S.optional(S.String) }),
-).annotate({
-  identifier: "ValidationFailure",
-}) as any as S.Schema<ValidationFailure>;
-export type ValidationFailures = ValidationFailure[];
-export const ValidationFailures = /*@__PURE__*/ S.Array(ValidationFailure);
 export interface DryRunProgressStatus {
   DryRunId: string;
   DryRunStatus: string;
   CreationDate: string;
   UpdateDate: string;
-  ValidationFailures?: ValidationFailure[];
+  ValidationFailures?: ValidationFailure[] | undefined;
+  AcceptedWarnings?: string[] | undefined;
 }
-export const DryRunProgressStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRunId: S.String,
-    DryRunStatus: S.String,
-    CreationDate: S.String,
-    UpdateDate: S.String,
-    ValidationFailures: S.optional(ValidationFailures),
-  }),
-).annotate({
-  identifier: "DryRunProgressStatus",
-}) as any as S.Schema<DryRunProgressStatus>;
 export type DeploymentType = string;
 export interface DryRunResults {
-  DeploymentType?: string;
-  Message?: string;
+  DeploymentType?: string | undefined;
+  Message?: string | undefined;
 }
-export const DryRunResults = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeploymentType: S.optional(S.String),
-    Message: S.optional(S.String),
-  }),
-).annotate({ identifier: "DryRunResults" }) as any as S.Schema<DryRunResults>;
 export interface DescribeDryRunProgressResponse {
-  DryRunProgressStatus?: DryRunProgressStatus;
-  DryRunConfig?: DomainStatus;
-  DryRunResults?: DryRunResults;
+  DryRunProgressStatus?: DryRunProgressStatus | undefined;
+  DryRunConfig?: DomainStatus | undefined;
+  DryRunResults?: DryRunResults | undefined;
 }
-export const DescribeDryRunProgressResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRunProgressStatus: S.optional(DryRunProgressStatus),
-    DryRunConfig: S.optional(DomainStatus),
-    DryRunResults: S.optional(DryRunResults),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeDryRunProgressResponse",
-}) as any as S.Schema<DescribeDryRunProgressResponse>;
 export type NonEmptyString = string;
 export type ValueStringList = string[];
-export const ValueStringList = /*@__PURE__*/ S.Array(S.String);
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
-export const Filter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.optional(S.String), Values: S.optional(ValueStringList) }),
-).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 export type FilterList = Filter[];
-export const FilterList = /*@__PURE__*/ S.Array(Filter);
 export interface DescribeInboundConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeInboundConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/cc/inboundConnection/search",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeInboundConnectionsRequest",
-}) as any as S.Schema<DescribeInboundConnectionsRequest>;
 export type InboundConnections = InboundConnection[];
-export const InboundConnections = /*@__PURE__*/ S.Array(InboundConnection);
 export interface DescribeInboundConnectionsResponse {
-  Connections?: InboundConnection[];
-  NextToken?: string;
+  Connections?: InboundConnection[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeInboundConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Connections: S.optional(InboundConnections),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeInboundConnectionsResponse",
-}) as any as S.Schema<DescribeInboundConnectionsResponse>;
 export type InsightEntityType = "Account" | "DomainName" | (string & {});
-export const InsightEntityType = S.String;
-
 export type InsightEntityValue = string;
 export interface InsightEntity {
   Type: InsightEntityType;
-  Value?: string;
+  Value?: string | undefined;
 }
-export const InsightEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: InsightEntityType, Value: S.optional(S.String) }),
-).annotate({ identifier: "InsightEntity" }) as any as S.Schema<InsightEntity>;
 export interface DescribeInsightDetailsRequest {
   Entity: InsightEntity;
   InsightId: string;
-  ShowHtmlContent?: boolean;
+  ShowHtmlContent?: boolean | undefined;
 }
-export const DescribeInsightDetailsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entity: InsightEntity,
-    InsightId: S.String,
-    ShowHtmlContent: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/insight-details" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeInsightDetailsRequest",
-}) as any as S.Schema<DescribeInsightDetailsRequest>;
 export type InsightFieldType = "text" | "metric" | (string & {});
-export const InsightFieldType = S.String;
-
 export interface InsightField {
   Name: string;
   Type: InsightFieldType;
   Value: string;
 }
-export const InsightField = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String, Type: InsightFieldType, Value: S.String }),
-).annotate({ identifier: "InsightField" }) as any as S.Schema<InsightField>;
 export type InsightFieldList = InsightField[];
-export const InsightFieldList = /*@__PURE__*/ S.Array(InsightField);
 export interface DescribeInsightDetailsResponse {
   Fields: InsightField[];
 }
-export const DescribeInsightDetailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Fields: InsightFieldList }).pipe(ns),
-).annotate({
-  identifier: "DescribeInsightDetailsResponse",
-}) as any as S.Schema<DescribeInsightDetailsResponse>;
 export interface DescribeInstanceTypeLimitsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
   InstanceType: OpenSearchPartitionInstanceType;
   EngineVersion: string;
 }
-export const DescribeInstanceTypeLimitsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
-    InstanceType: OpenSearchPartitionInstanceType.pipe(
-      T.HttpLabel("InstanceType"),
-    ),
-    EngineVersion: S.String.pipe(T.HttpLabel("EngineVersion")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/instanceTypeLimits/{EngineVersion}/{InstanceType}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeInstanceTypeLimitsRequest",
-}) as any as S.Schema<DescribeInstanceTypeLimitsRequest>;
 export type InstanceRole = string;
 export type StorageSubTypeName = string;
 export type LimitName = string;
 export type LimitValue = string;
 export type LimitValueList = string[];
-export const LimitValueList = /*@__PURE__*/ S.Array(S.String);
 export interface StorageTypeLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
-export const StorageTypeLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LimitName: S.optional(S.String),
-    LimitValues: S.optional(LimitValueList),
-  }),
-).annotate({
-  identifier: "StorageTypeLimit",
-}) as any as S.Schema<StorageTypeLimit>;
 export type StorageTypeLimitList = StorageTypeLimit[];
-export const StorageTypeLimitList = /*@__PURE__*/ S.Array(StorageTypeLimit);
 export interface StorageType {
-  StorageTypeName?: string;
-  StorageSubTypeName?: string;
-  StorageTypeLimits?: StorageTypeLimit[];
+  StorageTypeName?: string | undefined;
+  StorageSubTypeName?: string | undefined;
+  StorageTypeLimits?: StorageTypeLimit[] | undefined;
 }
-export const StorageType = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StorageTypeName: S.optional(S.String),
-    StorageSubTypeName: S.optional(S.String),
-    StorageTypeLimits: S.optional(StorageTypeLimitList),
-  }),
-).annotate({ identifier: "StorageType" }) as any as S.Schema<StorageType>;
 export type StorageTypeList = StorageType[];
-export const StorageTypeList = /*@__PURE__*/ S.Array(StorageType);
 export type MinimumInstanceCount = number;
 export type MaximumInstanceCount = number;
 export interface InstanceCountLimits {
-  MinimumInstanceCount?: number;
-  MaximumInstanceCount?: number;
+  MinimumInstanceCount?: number | undefined;
+  MaximumInstanceCount?: number | undefined;
 }
-export const InstanceCountLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MinimumInstanceCount: S.optional(S.Number),
-    MaximumInstanceCount: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "InstanceCountLimits",
-}) as any as S.Schema<InstanceCountLimits>;
 export interface InstanceLimits {
-  InstanceCountLimits?: InstanceCountLimits;
+  InstanceCountLimits?: InstanceCountLimits | undefined;
 }
-export const InstanceLimits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ InstanceCountLimits: S.optional(InstanceCountLimits) }),
-).annotate({ identifier: "InstanceLimits" }) as any as S.Schema<InstanceLimits>;
 export interface AdditionalLimit {
-  LimitName?: string;
-  LimitValues?: string[];
+  LimitName?: string | undefined;
+  LimitValues?: string[] | undefined;
 }
-export const AdditionalLimit = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LimitName: S.optional(S.String),
-    LimitValues: S.optional(LimitValueList),
-  }),
-).annotate({
-  identifier: "AdditionalLimit",
-}) as any as S.Schema<AdditionalLimit>;
 export type AdditionalLimitList = AdditionalLimit[];
-export const AdditionalLimitList = /*@__PURE__*/ S.Array(AdditionalLimit);
 export interface Limits {
-  StorageTypes?: StorageType[];
-  InstanceLimits?: InstanceLimits;
-  AdditionalLimits?: AdditionalLimit[];
+  StorageTypes?: StorageType[] | undefined;
+  InstanceLimits?: InstanceLimits | undefined;
+  AdditionalLimits?: AdditionalLimit[] | undefined;
 }
-export const Limits = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StorageTypes: S.optional(StorageTypeList),
-    InstanceLimits: S.optional(InstanceLimits),
-    AdditionalLimits: S.optional(AdditionalLimitList),
-  }),
-).annotate({ identifier: "Limits" }) as any as S.Schema<Limits>;
 export type LimitsByRole = { [key: string]: Limits | undefined };
-export const LimitsByRole = /*@__PURE__*/ S.Record(
-  S.String,
-  Limits.pipe(S.optional),
-);
 export interface DescribeInstanceTypeLimitsResponse {
-  LimitsByRole?: { [key: string]: Limits | undefined };
+  LimitsByRole?: { [key: string]: Limits | undefined } | undefined;
 }
-export const DescribeInstanceTypeLimitsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ LimitsByRole: S.optional(LimitsByRole) }).pipe(ns),
-).annotate({
-  identifier: "DescribeInstanceTypeLimitsResponse",
-}) as any as S.Schema<DescribeInstanceTypeLimitsResponse>;
 export interface DescribeOutboundConnectionsRequest {
-  Filters?: Filter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: Filter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeOutboundConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(FilterList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/cc/outboundConnection/search",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeOutboundConnectionsRequest",
-}) as any as S.Schema<DescribeOutboundConnectionsRequest>;
 export type OutboundConnections = OutboundConnection[];
-export const OutboundConnections = /*@__PURE__*/ S.Array(OutboundConnection);
 export interface DescribeOutboundConnectionsResponse {
-  Connections?: OutboundConnection[];
-  NextToken?: string;
+  Connections?: OutboundConnection[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeOutboundConnectionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Connections: S.optional(OutboundConnections),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeOutboundConnectionsResponse",
-}) as any as S.Schema<DescribeOutboundConnectionsResponse>;
 export type DescribePackagesFilterName =
   | "PackageID"
   | "PackageName"
@@ -4052,422 +1816,131 @@ export type DescribePackagesFilterName =
   | "EngineVersion"
   | "PackageOwner"
   | (string & {});
-export const DescribePackagesFilterName = S.String;
-
 export type DescribePackagesFilterValue = string;
 export type DescribePackagesFilterValues = string[];
-export const DescribePackagesFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface DescribePackagesFilter {
-  Name?: DescribePackagesFilterName;
-  Value?: string[];
+  Name?: DescribePackagesFilterName | undefined;
+  Value?: string[] | undefined;
 }
-export const DescribePackagesFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(DescribePackagesFilterName),
-    Value: S.optional(DescribePackagesFilterValues),
-  }),
-).annotate({
-  identifier: "DescribePackagesFilter",
-}) as any as S.Schema<DescribePackagesFilter>;
 export type DescribePackagesFilterList = DescribePackagesFilter[];
-export const DescribePackagesFilterList = /*@__PURE__*/ S.Array(
-  DescribePackagesFilter,
-);
 export interface DescribePackagesRequest {
-  Filters?: DescribePackagesFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: DescribePackagesFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribePackagesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Filters: S.optional(DescribePackagesFilterList),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/packages/describe" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribePackagesRequest",
-}) as any as S.Schema<DescribePackagesRequest>;
 export type PackageDetailsList = PackageDetails[];
-export const PackageDetailsList = /*@__PURE__*/ S.Array(PackageDetails);
 export interface DescribePackagesResponse {
-  PackageDetailsList?: PackageDetails[];
-  NextToken?: string;
+  PackageDetailsList?: PackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribePackagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageDetailsList: S.optional(PackageDetailsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribePackagesResponse",
-}) as any as S.Schema<DescribePackagesResponse>;
 export interface DescribeReservedInstanceOfferingsRequest {
-  ReservedInstanceOfferingId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedInstanceOfferingId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeReservedInstanceOfferingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedInstanceOfferingId: S.optional(S.String).pipe(
-        T.HttpQuery("offeringId"),
-      ),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2021-01-01/opensearch/reservedInstanceOfferings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeReservedInstanceOfferingsRequest",
-}) as any as S.Schema<DescribeReservedInstanceOfferingsRequest>;
 export type ReservedInstancePaymentOption =
   | "ALL_UPFRONT"
   | "PARTIAL_UPFRONT"
   | "NO_UPFRONT"
   | (string & {});
-export const ReservedInstancePaymentOption = S.String;
-
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
-export const RecurringCharge = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecurringChargeAmount: S.optional(S.Number),
-    RecurringChargeFrequency: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecurringCharge",
-}) as any as S.Schema<RecurringCharge>;
 export type RecurringChargeList = RecurringCharge[];
-export const RecurringChargeList = /*@__PURE__*/ S.Array(
-  RecurringCharge.pipe(T.XmlName("RecurringCharge")).annotate({
-    identifier: "RecurringCharge",
-  }),
-);
 export interface ReservedInstanceOffering {
-  ReservedInstanceOfferingId?: string;
-  InstanceType?: OpenSearchPartitionInstanceType;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  PaymentOption?: ReservedInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservedInstanceOfferingId?: string | undefined;
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  PaymentOption?: ReservedInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
-export const ReservedInstanceOffering = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedInstanceOfferingId: S.optional(S.String),
-    InstanceType: S.optional(OpenSearchPartitionInstanceType),
-    Duration: S.optional(S.Number),
-    FixedPrice: S.optional(S.Number),
-    UsagePrice: S.optional(S.Number),
-    CurrencyCode: S.optional(S.String),
-    PaymentOption: S.optional(ReservedInstancePaymentOption),
-    RecurringCharges: S.optional(RecurringChargeList),
-  }),
-).annotate({
-  identifier: "ReservedInstanceOffering",
-}) as any as S.Schema<ReservedInstanceOffering>;
 export type ReservedInstanceOfferingList = ReservedInstanceOffering[];
-export const ReservedInstanceOfferingList = /*@__PURE__*/ S.Array(
-  ReservedInstanceOffering.pipe(T.XmlName("ReservedInstanceOffering")).annotate(
-    { identifier: "ReservedInstanceOffering" },
-  ),
-);
 export interface DescribeReservedInstanceOfferingsResponse {
-  NextToken?: string;
-  ReservedInstanceOfferings?: ReservedInstanceOffering[];
+  NextToken?: string | undefined;
+  ReservedInstanceOfferings?: ReservedInstanceOffering[] | undefined;
 }
-export const DescribeReservedInstanceOfferingsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      ReservedInstanceOfferings: S.optional(ReservedInstanceOfferingList),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeReservedInstanceOfferingsResponse",
-  }) as any as S.Schema<DescribeReservedInstanceOfferingsResponse>;
 export interface DescribeReservedInstancesRequest {
-  ReservedInstanceId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ReservedInstanceId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const DescribeReservedInstancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservedInstanceId: S.optional(S.String).pipe(T.HttpQuery("reservationId")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/reservedInstances",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReservedInstancesRequest",
-}) as any as S.Schema<DescribeReservedInstancesRequest>;
 export type ReservationToken = string;
 export interface ReservedInstance {
-  ReservationName?: string;
-  ReservedInstanceId?: string;
-  BillingSubscriptionId?: number;
-  ReservedInstanceOfferingId?: string;
-  InstanceType?: OpenSearchPartitionInstanceType;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CurrencyCode?: string;
-  InstanceCount?: number;
-  State?: string;
-  PaymentOption?: ReservedInstancePaymentOption;
-  RecurringCharges?: RecurringCharge[];
+  ReservationName?: string | undefined;
+  ReservedInstanceId?: string | undefined;
+  BillingSubscriptionId?: number | undefined;
+  ReservedInstanceOfferingId?: string | undefined;
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CurrencyCode?: string | undefined;
+  InstanceCount?: number | undefined;
+  State?: string | undefined;
+  PaymentOption?: ReservedInstancePaymentOption | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
-export const ReservedInstance = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReservationName: S.optional(S.String),
-    ReservedInstanceId: S.optional(S.String),
-    BillingSubscriptionId: S.optional(S.Number),
-    ReservedInstanceOfferingId: S.optional(S.String),
-    InstanceType: S.optional(OpenSearchPartitionInstanceType),
-    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Duration: S.optional(S.Number),
-    FixedPrice: S.optional(S.Number),
-    UsagePrice: S.optional(S.Number),
-    CurrencyCode: S.optional(S.String),
-    InstanceCount: S.optional(S.Number),
-    State: S.optional(S.String),
-    PaymentOption: S.optional(ReservedInstancePaymentOption),
-    RecurringCharges: S.optional(RecurringChargeList),
-  }),
-).annotate({
-  identifier: "ReservedInstance",
-}) as any as S.Schema<ReservedInstance>;
 export type ReservedInstanceList = ReservedInstance[];
-export const ReservedInstanceList = /*@__PURE__*/ S.Array(ReservedInstance);
 export interface DescribeReservedInstancesResponse {
-  NextToken?: string;
-  ReservedInstances?: ReservedInstance[];
+  NextToken?: string | undefined;
+  ReservedInstances?: ReservedInstance[] | undefined;
 }
-export const DescribeReservedInstancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    ReservedInstances: S.optional(ReservedInstanceList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeReservedInstancesResponse",
-}) as any as S.Schema<DescribeReservedInstancesResponse>;
 export type VpcEndpointIdList = string[];
-export const VpcEndpointIdList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeVpcEndpointsRequest {
   VpcEndpointIds: string[];
 }
-export const DescribeVpcEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpointIds: VpcEndpointIdList }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/vpcEndpoints/describe",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeVpcEndpointsRequest",
-}) as any as S.Schema<DescribeVpcEndpointsRequest>;
 export type VpcEndpoints = VpcEndpoint[];
-export const VpcEndpoints = /*@__PURE__*/ S.Array(VpcEndpoint);
-export type VpcEndpointErrorCode =
-  | "ENDPOINT_NOT_FOUND"
-  | "SERVER_ERROR"
-  | (string & {});
-export const VpcEndpointErrorCode = S.String;
-
+export type VpcEndpointErrorCode = "ENDPOINT_NOT_FOUND" | "SERVER_ERROR" | (string & {});
 export interface VpcEndpointError {
-  VpcEndpointId?: string;
-  ErrorCode?: VpcEndpointErrorCode;
-  ErrorMessage?: string;
+  VpcEndpointId?: string | undefined;
+  ErrorCode?: VpcEndpointErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
-export const VpcEndpointError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcEndpointId: S.optional(S.String),
-    ErrorCode: S.optional(VpcEndpointErrorCode),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "VpcEndpointError",
-}) as any as S.Schema<VpcEndpointError>;
 export type VpcEndpointErrorList = VpcEndpointError[];
-export const VpcEndpointErrorList = /*@__PURE__*/ S.Array(VpcEndpointError);
 export interface DescribeVpcEndpointsResponse {
   VpcEndpoints: VpcEndpoint[];
   VpcEndpointErrors: VpcEndpointError[];
 }
-export const DescribeVpcEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcEndpoints: VpcEndpoints,
-    VpcEndpointErrors: VpcEndpointErrorList,
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeVpcEndpointsResponse",
-}) as any as S.Schema<DescribeVpcEndpointsResponse>;
 export interface DetachDataSourceRequest {
   id: string;
   dataSourceArn: string;
 }
-export const DetachDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    dataSourceArn: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/application/{id}/detachDataSource",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DetachDataSourceRequest",
-}) as any as S.Schema<DetachDataSourceRequest>;
 export interface DetachDataSourceResponse {
-  id?: string;
-  arn?: string;
-  dataSourceArn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  dataSourceArn?: string | undefined;
 }
-export const DetachDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    dataSourceArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DetachDataSourceResponse",
-}) as any as S.Schema<DetachDataSourceResponse>;
 export interface DissociatePackageRequest {
   PackageID: string;
   DomainName: string;
 }
-export const DissociatePackageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/packages/dissociate/{PackageID}/{DomainName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DissociatePackageRequest",
-}) as any as S.Schema<DissociatePackageRequest>;
 export interface DissociatePackageResponse {
-  DomainPackageDetails?: DomainPackageDetails;
+  DomainPackageDetails?: DomainPackageDetails | undefined;
 }
-export const DissociatePackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainPackageDetails: S.optional(DomainPackageDetails) }).pipe(ns),
-).annotate({
-  identifier: "DissociatePackageResponse",
-}) as any as S.Schema<DissociatePackageResponse>;
 export interface DissociatePackagesRequest {
   PackageList: string[];
   DomainName: string;
 }
-export const DissociatePackagesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PackageList: PackageIDList, DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/packages/dissociateMultiple",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DissociatePackagesRequest",
-}) as any as S.Schema<DissociatePackagesRequest>;
 export interface DissociatePackagesResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
 }
-export const DissociatePackagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainPackageDetailsList: S.optional(DomainPackageDetailsList),
-  }).pipe(ns),
-).annotate({
-  identifier: "DissociatePackagesResponse",
-}) as any as S.Schema<DissociatePackagesResponse>;
+export interface FailoverReplicationRequest {
+  DomainName: string;
+  PeerDomainArn: string;
+  AllowDataLoss: boolean;
+}
+export interface FailoverReplicationResponse {
+  DomainArn?: string | undefined;
+  Status?: ReplicationStatus | undefined;
+}
 export interface GetApplicationRequest {
   id: string;
 }
-export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/opensearch/application/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
 export type ApplicationStatus =
   | "CREATING"
   | "UPDATING"
@@ -4475,298 +1948,82 @@ export type ApplicationStatus =
   | "ACTIVE"
   | "FAILED"
   | (string & {});
-export const ApplicationStatus = S.String;
-
 export interface GetApplicationResponse {
-  id?: string;
-  arn?: string;
-  name?: string;
-  endpoint?: string;
-  status?: ApplicationStatus;
-  iamIdentityCenterOptions?: IamIdentityCenterOptions;
-  dataSources?: DataSource[];
-  appConfigs?: AppConfig[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  kmsKeyArn?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  endpoint?: string | undefined;
+  status?: ApplicationStatus | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptions | undefined;
+  dataSources?: DataSource[] | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  kmsKeyArn?: string | undefined;
 }
-export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    endpoint: S.optional(S.String),
-    status: S.optional(ApplicationStatus),
-    iamIdentityCenterOptions: S.optional(IamIdentityCenterOptions),
-    dataSources: S.optional(DataSources),
-    appConfigs: S.optional(AppConfigs),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    kmsKeyArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
 export interface GetCapabilityRequest {
   applicationId: string;
   capabilityName: string;
 }
-export const GetCapabilityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-    capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/application/{applicationId}/capability/{capabilityName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCapabilityRequest",
-}) as any as S.Schema<GetCapabilityRequest>;
 export interface AIConfig {}
-export const AIConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "AIConfig",
-}) as any as S.Schema<AIConfig>;
 export type CapabilityExtendedResponseConfig = { aiConfig: AIConfig };
-export const CapabilityExtendedResponseConfig = /*@__PURE__*/ S.Union([
-  S.Struct({ aiConfig: AIConfig }),
-]);
-export type CapabilityFailureReason =
-  | "KMS_KEY_INSUFFICIENT_PERMISSION"
-  | (string & {});
-export const CapabilityFailureReason = S.String;
-
+export type CapabilityFailureReason = "KMS_KEY_INSUFFICIENT_PERMISSION" | (string & {});
 export type CapabilityFailureDetails = string;
 export interface CapabilityFailure {
-  reason?: CapabilityFailureReason;
-  details?: string;
+  reason?: CapabilityFailureReason | undefined;
+  details?: string | undefined;
 }
-export const CapabilityFailure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    reason: S.optional(CapabilityFailureReason),
-    details: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CapabilityFailure",
-}) as any as S.Schema<CapabilityFailure>;
 export type CapabilityFailures = CapabilityFailure[];
-export const CapabilityFailures = /*@__PURE__*/ S.Array(CapabilityFailure);
 export interface GetCapabilityResponse {
-  capabilityName?: string;
-  applicationId?: string;
-  status?: CapabilityStatus;
-  capabilityConfig?: CapabilityExtendedResponseConfig;
-  failures?: CapabilityFailure[];
+  capabilityName?: string | undefined;
+  applicationId?: string | undefined;
+  status?: CapabilityStatus | undefined;
+  capabilityConfig?: CapabilityExtendedResponseConfig | undefined;
+  failures?: CapabilityFailure[] | undefined;
 }
-export const GetCapabilityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capabilityName: S.optional(S.String),
-    applicationId: S.optional(S.String),
-    status: S.optional(CapabilityStatus),
-    capabilityConfig: S.optional(CapabilityExtendedResponseConfig),
-    failures: S.optional(CapabilityFailures),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetCapabilityResponse",
-}) as any as S.Schema<GetCapabilityResponse>;
 export interface GetCompatibleVersionsRequest {
-  DomainName?: string;
+  DomainName?: string | undefined;
 }
-export const GetCompatibleVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/compatibleVersions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetCompatibleVersionsRequest",
-}) as any as S.Schema<GetCompatibleVersionsRequest>;
 export type VersionList = string[];
-export const VersionList = /*@__PURE__*/ S.Array(S.String);
 export interface CompatibleVersionsMap {
-  SourceVersion?: string;
-  TargetVersions?: string[];
+  SourceVersion?: string | undefined;
+  TargetVersions?: string[] | undefined;
 }
-export const CompatibleVersionsMap = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SourceVersion: S.optional(S.String),
-    TargetVersions: S.optional(VersionList),
-  }),
-).annotate({
-  identifier: "CompatibleVersionsMap",
-}) as any as S.Schema<CompatibleVersionsMap>;
 export type CompatibleVersionsList = CompatibleVersionsMap[];
-export const CompatibleVersionsList = /*@__PURE__*/ S.Array(
-  CompatibleVersionsMap,
-);
 export interface GetCompatibleVersionsResponse {
-  CompatibleVersions?: CompatibleVersionsMap[];
+  CompatibleVersions?: CompatibleVersionsMap[] | undefined;
 }
-export const GetCompatibleVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ CompatibleVersions: S.optional(CompatibleVersionsList) }).pipe(ns),
-).annotate({
-  identifier: "GetCompatibleVersionsResponse",
-}) as any as S.Schema<GetCompatibleVersionsResponse>;
 export interface GetDataSourceRequest {
   DomainName: string;
   Name: string;
 }
-export const GetDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Name: S.String.pipe(T.HttpLabel("Name")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDataSourceRequest",
-}) as any as S.Schema<GetDataSourceRequest>;
 export type DataSourceStatus = "ACTIVE" | "DISABLED" | (string & {});
-export const DataSourceStatus = S.String;
-
 export interface GetDataSourceResponse {
-  DataSourceType?: DataSourceType;
-  Name?: string;
-  Description?: string;
-  Status?: DataSourceStatus;
+  DataSourceType?: DataSourceType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: DataSourceStatus | undefined;
 }
-export const GetDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceType: S.optional(DataSourceType),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Status: S.optional(DataSourceStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDataSourceResponse",
-}) as any as S.Schema<GetDataSourceResponse>;
 export interface GetDefaultApplicationSettingRequest {}
-export const GetDefaultApplicationSettingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/defaultApplicationSetting",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDefaultApplicationSettingRequest",
-}) as any as S.Schema<GetDefaultApplicationSettingRequest>;
 export interface GetDefaultApplicationSettingResponse {
-  applicationArn?: string;
+  applicationArn?: string | undefined;
 }
-export const GetDefaultApplicationSettingResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ applicationArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetDefaultApplicationSettingResponse",
-}) as any as S.Schema<GetDefaultApplicationSettingResponse>;
 export interface GetDirectQueryDataSourceRequest {
   DataSourceName: string;
 }
-export const GetDirectQueryDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceName: S.String.pipe(T.HttpLabel("DataSourceName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDirectQueryDataSourceRequest",
-}) as any as S.Schema<GetDirectQueryDataSourceRequest>;
 export interface GetDirectQueryDataSourceResponse {
-  DataSourceName?: string;
-  DataSourceType?: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceAccessPolicy?: string;
-  DataSourceArn?: string;
+  DataSourceName?: string | undefined;
+  DataSourceType?: DirectQueryDataSourceType | undefined;
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceAccessPolicy?: string | undefined;
+  DataSourceArn?: string | undefined;
 }
-export const GetDirectQueryDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceName: S.optional(S.String),
-    DataSourceType: S.optional(DirectQueryDataSourceType),
-    Description: S.optional(S.String),
-    OpenSearchArns: S.optional(DirectQueryOpenSearchARNList),
-    DataSourceAccessPolicy: S.optional(S.String),
-    DataSourceArn: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDirectQueryDataSourceResponse",
-}) as any as S.Schema<GetDirectQueryDataSourceResponse>;
 export type RequestId = string;
 export interface GetDomainMaintenanceStatusRequest {
   DomainName: string;
   MaintenanceId: string;
 }
-export const GetDomainMaintenanceStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    MaintenanceId: S.String.pipe(T.HttpQuery("maintenanceId")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenance",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDomainMaintenanceStatusRequest",
-}) as any as S.Schema<GetDomainMaintenanceStatusRequest>;
 export type MaintenanceStatus =
   | "PENDING"
   | "IN_PROGRESS"
@@ -4774,222 +2031,72 @@ export type MaintenanceStatus =
   | "FAILED"
   | "TIMED_OUT"
   | (string & {});
-export const MaintenanceStatus = S.String;
-
 export type MaintenanceStatusMessage = string;
 export type MaintenanceType =
   | "REBOOT_NODE"
   | "RESTART_SEARCH_PROCESS"
   | "RESTART_DASHBOARD"
   | (string & {});
-export const MaintenanceType = S.String;
-
 export interface GetDomainMaintenanceStatusResponse {
-  Status?: MaintenanceStatus;
-  StatusMessage?: string;
-  NodeId?: string;
-  Action?: MaintenanceType;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Status?: MaintenanceStatus | undefined;
+  StatusMessage?: string | undefined;
+  NodeId?: string | undefined;
+  Action?: MaintenanceType | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
-export const GetDomainMaintenanceStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Status: S.optional(MaintenanceStatus),
-    StatusMessage: S.optional(S.String),
-    NodeId: S.optional(S.String),
-    Action: S.optional(MaintenanceType),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetDomainMaintenanceStatusResponse",
-}) as any as S.Schema<GetDomainMaintenanceStatusResponse>;
 export interface GetIndexRequest {
   DomainName: string;
   IndexName: string;
 }
-export const GetIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    IndexName: S.String.pipe(T.HttpLabel("IndexName")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetIndexRequest",
-}) as any as S.Schema<GetIndexRequest>;
 export interface GetIndexResponse {
   IndexSchema: any;
 }
-export const GetIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IndexSchema: S.Any }).pipe(ns),
-).annotate({
-  identifier: "GetIndexResponse",
-}) as any as S.Schema<GetIndexResponse>;
 export interface GetMigrationRequest {
   migrationId: string;
 }
-export const GetMigrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ migrationId: S.String.pipe(T.HttpLabel("migrationId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/app-migrations/{migrationId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetMigrationRequest",
-}) as any as S.Schema<GetMigrationRequest>;
 export interface MigrationSource {
   datasourceArn: string;
 }
-export const MigrationSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ datasourceArn: S.String }),
-).annotate({
-  identifier: "MigrationSource",
-}) as any as S.Schema<MigrationSource>;
 export interface MigrationError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
-export const MigrationError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
-).annotate({ identifier: "MigrationError" }) as any as S.Schema<MigrationError>;
 export interface GetMigrationResponse {
-  migrationId?: string;
-  status?: string;
-  applicationId?: string;
-  source?: MigrationSource;
-  exportedCount?: number;
-  importedCount?: number;
-  error?: MigrationError;
-  createdAt?: Date;
-  updatedAt?: Date;
+  migrationId?: string | undefined;
+  status?: string | undefined;
+  applicationId?: string | undefined;
+  source?: MigrationSource | undefined;
+  exportedCount?: number | undefined;
+  importedCount?: number | undefined;
+  error?: MigrationError | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
-export const GetMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migrationId: S.optional(S.String),
-    status: S.optional(S.String),
-    applicationId: S.optional(S.String),
-    source: S.optional(MigrationSource),
-    exportedCount: S.optional(S.Number),
-    importedCount: S.optional(S.Number),
-    error: S.optional(MigrationError),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetMigrationResponse",
-}) as any as S.Schema<GetMigrationResponse>;
 export interface GetPackageVersionHistoryRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const GetPackageVersionHistoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/packages/{PackageID}/history",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetPackageVersionHistoryRequest",
-}) as any as S.Schema<GetPackageVersionHistoryRequest>;
 export type CommitMessage = string;
 export interface PackageVersionHistory {
-  PackageVersion?: string;
-  CommitMessage?: string;
-  CreatedAt?: Date;
-  PluginProperties?: PluginProperties;
-  PackageConfiguration?: PackageConfiguration;
+  PackageVersion?: string | undefined;
+  CommitMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  PluginProperties?: PluginProperties | undefined;
+  PackageConfiguration?: PackageConfiguration | undefined;
 }
-export const PackageVersionHistory = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageVersion: S.optional(S.String),
-    CommitMessage: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    PluginProperties: S.optional(PluginProperties),
-    PackageConfiguration: S.optional(PackageConfiguration),
-  }),
-).annotate({
-  identifier: "PackageVersionHistory",
-}) as any as S.Schema<PackageVersionHistory>;
 export type PackageVersionHistoryList = PackageVersionHistory[];
-export const PackageVersionHistoryList = /*@__PURE__*/ S.Array(
-  PackageVersionHistory,
-);
 export interface GetPackageVersionHistoryResponse {
-  PackageID?: string;
-  PackageVersionHistoryList?: PackageVersionHistory[];
-  NextToken?: string;
+  PackageID?: string | undefined;
+  PackageVersionHistoryList?: PackageVersionHistory[] | undefined;
+  NextToken?: string | undefined;
 }
-export const GetPackageVersionHistoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.optional(S.String),
-    PackageVersionHistoryList: S.optional(PackageVersionHistoryList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetPackageVersionHistoryResponse",
-}) as any as S.Schema<GetPackageVersionHistoryResponse>;
 export interface GetUpgradeHistoryRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const GetUpgradeHistoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/history",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetUpgradeHistoryRequest",
-}) as any as S.Schema<GetUpgradeHistoryRequest>;
 export type UpgradeName = string;
 export type StartTimestamp = Date;
 export type UpgradeStatus =
@@ -4998,849 +2105,259 @@ export type UpgradeStatus =
   | "SUCCEEDED_WITH_ISSUES"
   | "FAILED"
   | (string & {});
-export const UpgradeStatus = S.String;
-
-export type UpgradeStep =
-  | "PRE_UPGRADE_CHECK"
-  | "SNAPSHOT"
-  | "UPGRADE"
-  | (string & {});
-export const UpgradeStep = S.String;
-
+export type UpgradeStep = "PRE_UPGRADE_CHECK" | "SNAPSHOT" | "UPGRADE" | (string & {});
 export type Issue = string;
 export type Issues = string[];
-export const Issues = /*@__PURE__*/ S.Array(S.String);
 export interface UpgradeStepItem {
-  UpgradeStep?: UpgradeStep;
-  UpgradeStepStatus?: UpgradeStatus;
-  Issues?: string[];
-  ProgressPercent?: number;
+  UpgradeStep?: UpgradeStep | undefined;
+  UpgradeStepStatus?: UpgradeStatus | undefined;
+  Issues?: string[] | undefined;
+  ProgressPercent?: number | undefined;
 }
-export const UpgradeStepItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpgradeStep: S.optional(UpgradeStep),
-    UpgradeStepStatus: S.optional(UpgradeStatus),
-    Issues: S.optional(Issues),
-    ProgressPercent: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "UpgradeStepItem",
-}) as any as S.Schema<UpgradeStepItem>;
 export type UpgradeStepsList = UpgradeStepItem[];
-export const UpgradeStepsList = /*@__PURE__*/ S.Array(UpgradeStepItem);
 export interface UpgradeHistory {
-  UpgradeName?: string;
-  StartTimestamp?: Date;
-  UpgradeStatus?: UpgradeStatus;
-  StepsList?: UpgradeStepItem[];
+  UpgradeName?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  UpgradeStatus?: UpgradeStatus | undefined;
+  StepsList?: UpgradeStepItem[] | undefined;
 }
-export const UpgradeHistory = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpgradeName: S.optional(S.String),
-    StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpgradeStatus: S.optional(UpgradeStatus),
-    StepsList: S.optional(UpgradeStepsList),
-  }),
-).annotate({ identifier: "UpgradeHistory" }) as any as S.Schema<UpgradeHistory>;
 export type UpgradeHistoryList = UpgradeHistory[];
-export const UpgradeHistoryList = /*@__PURE__*/ S.Array(UpgradeHistory);
 export interface GetUpgradeHistoryResponse {
-  UpgradeHistories?: UpgradeHistory[];
-  NextToken?: string;
+  UpgradeHistories?: UpgradeHistory[] | undefined;
+  NextToken?: string | undefined;
 }
-export const GetUpgradeHistoryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpgradeHistories: S.optional(UpgradeHistoryList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetUpgradeHistoryResponse",
-}) as any as S.Schema<GetUpgradeHistoryResponse>;
 export interface GetUpgradeStatusRequest {
   DomainName: string;
 }
-export const GetUpgradeStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/status",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetUpgradeStatusRequest",
-}) as any as S.Schema<GetUpgradeStatusRequest>;
 export interface GetUpgradeStatusResponse {
-  UpgradeStep?: UpgradeStep;
-  StepStatus?: UpgradeStatus;
-  UpgradeName?: string;
+  UpgradeStep?: UpgradeStep | undefined;
+  StepStatus?: UpgradeStatus | undefined;
+  UpgradeName?: string | undefined;
 }
-export const GetUpgradeStatusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpgradeStep: S.optional(UpgradeStep),
-    StepStatus: S.optional(UpgradeStatus),
-    UpgradeName: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetUpgradeStatusResponse",
-}) as any as S.Schema<GetUpgradeStatusResponse>;
 export type InsightFeedbackEntityType = "DomainName" | (string & {});
-export const InsightFeedbackEntityType = S.String;
-
 export interface InsightFeedbackEntity {
   Type: InsightFeedbackEntityType;
   Value: string;
 }
-export const InsightFeedbackEntity = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Type: InsightFeedbackEntityType, Value: S.String }),
-).annotate({
-  identifier: "InsightFeedbackEntity",
-}) as any as S.Schema<InsightFeedbackEntity>;
 export type InsightFeedbackThumbs = "Up" | "Down" | (string & {});
-export const InsightFeedbackThumbs = S.String;
-
 export type InsightFeedbackText = string;
 export interface InsightFeedbackRequest {
   Entity: InsightFeedbackEntity;
   InsightId: string;
   Thumbs: InsightFeedbackThumbs;
-  FeedbackText?: string;
+  FeedbackText?: string | undefined;
 }
-export const InsightFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entity: InsightFeedbackEntity,
-    InsightId: S.String,
-    Thumbs: InsightFeedbackThumbs,
-    FeedbackText: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/insight-feedback",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "InsightFeedbackRequest",
-}) as any as S.Schema<InsightFeedbackRequest>;
 export type InsightResponseStatus = "SUCCESS" | "ERROR" | (string & {});
-export const InsightResponseStatus = S.String;
-
 export interface InsightFeedbackResponse {
-  Status?: InsightResponseStatus;
+  Status?: InsightResponseStatus | undefined;
 }
-export const InsightFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: S.optional(InsightResponseStatus) }).pipe(ns),
-).annotate({
-  identifier: "InsightFeedbackResponse",
-}) as any as S.Schema<InsightFeedbackResponse>;
 export type ApplicationStatuses = ApplicationStatus[];
-export const ApplicationStatuses = /*@__PURE__*/ S.Array(ApplicationStatus);
 export interface ListApplicationsRequest {
-  nextToken?: string;
-  statuses?: ApplicationStatus[];
-  maxResults?: number;
+  nextToken?: string | undefined;
+  statuses?: ApplicationStatus[] | undefined;
+  maxResults?: number | undefined;
 }
-export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    statuses: S.optional(ApplicationStatuses).pipe(T.HttpQuery("statuses")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/list-applications",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
 export interface ApplicationSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  endpoint?: string;
-  status?: ApplicationStatus;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  endpoint?: string | undefined;
+  status?: ApplicationStatus | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
-export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    name: S.optional(S.String),
-    endpoint: S.optional(S.String),
-    status: S.optional(ApplicationStatus),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
 export type ApplicationSummaries = ApplicationSummary[];
-export const ApplicationSummaries = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
-  ApplicationSummaries?: ApplicationSummary[];
-  nextToken?: string;
+  ApplicationSummaries?: ApplicationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ApplicationSummaries: S.optional(ApplicationSummaries),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
 export interface ListDataSourceAttachmentsRequest {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
-export const ListDataSourceAttachmentsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/application/{id}/listDataSourceAttachments",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDataSourceAttachmentsRequest",
-}) as any as S.Schema<ListDataSourceAttachmentsRequest>;
 export interface DataSourceAttachmentSummary {
-  attachmentId?: string;
-  dataSourceArn?: string;
-  status?: DataSourceAttachmentStatus;
+  attachmentId?: string | undefined;
+  dataSourceArn?: string | undefined;
+  status?: DataSourceAttachmentStatus | undefined;
 }
-export const DataSourceAttachmentSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attachmentId: S.optional(S.String),
-    dataSourceArn: S.optional(S.String),
-    status: S.optional(DataSourceAttachmentStatus),
-  }),
-).annotate({
-  identifier: "DataSourceAttachmentSummary",
-}) as any as S.Schema<DataSourceAttachmentSummary>;
 export type DataSourceAttachmentSummaryList = DataSourceAttachmentSummary[];
-export const DataSourceAttachmentSummaryList = /*@__PURE__*/ S.Array(
-  DataSourceAttachmentSummary,
-);
 export interface ListDataSourceAttachmentsResponse {
-  attachments?: DataSourceAttachmentSummary[];
-  nextToken?: string;
+  attachments?: DataSourceAttachmentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListDataSourceAttachmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attachments: S.optional(DataSourceAttachmentSummaryList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDataSourceAttachmentsResponse",
-}) as any as S.Schema<ListDataSourceAttachmentsResponse>;
 export interface ListDataSourcesRequest {
   DomainName: string;
 }
-export const ListDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDataSourcesRequest",
-}) as any as S.Schema<ListDataSourcesRequest>;
 export interface DataSourceDetails {
-  DataSourceType?: DataSourceType;
-  Name?: string;
-  Description?: string;
-  Status?: DataSourceStatus;
+  DataSourceType?: DataSourceType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: DataSourceStatus | undefined;
 }
-export const DataSourceDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceType: S.optional(DataSourceType),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    Status: S.optional(DataSourceStatus),
-  }),
-).annotate({
-  identifier: "DataSourceDetails",
-}) as any as S.Schema<DataSourceDetails>;
 export type DataSourceList = DataSourceDetails[];
-export const DataSourceList = /*@__PURE__*/ S.Array(DataSourceDetails);
 export interface ListDataSourcesResponse {
-  DataSources?: DataSourceDetails[];
+  DataSources?: DataSourceDetails[] | undefined;
 }
-export const ListDataSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSources: S.optional(DataSourceList) }).pipe(ns),
-).annotate({
-  identifier: "ListDataSourcesResponse",
-}) as any as S.Schema<ListDataSourcesResponse>;
 export interface ListDirectQueryDataSourcesRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListDirectQueryDataSourcesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nexttoken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/directQueryDataSource",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDirectQueryDataSourcesRequest",
-}) as any as S.Schema<ListDirectQueryDataSourcesRequest>;
 export interface DirectQueryDataSource {
-  DataSourceName?: string;
-  DataSourceType?: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceArn?: string;
-  TagList?: Tag[];
+  DataSourceName?: string | undefined;
+  DataSourceType?: DirectQueryDataSourceType | undefined;
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceArn?: string | undefined;
+  TagList?: Tag[] | undefined;
 }
-export const DirectQueryDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceName: S.optional(S.String),
-    DataSourceType: S.optional(DirectQueryDataSourceType),
-    Description: S.optional(S.String),
-    OpenSearchArns: S.optional(DirectQueryOpenSearchARNList),
-    DataSourceArn: S.optional(S.String),
-    TagList: S.optional(TagList),
-  }),
-).annotate({
-  identifier: "DirectQueryDataSource",
-}) as any as S.Schema<DirectQueryDataSource>;
 export type DirectQueryDataSourceList = DirectQueryDataSource[];
-export const DirectQueryDataSourceList = /*@__PURE__*/ S.Array(
-  DirectQueryDataSource,
-);
 export interface ListDirectQueryDataSourcesResponse {
-  NextToken?: string;
-  DirectQueryDataSources?: DirectQueryDataSource[];
+  NextToken?: string | undefined;
+  DirectQueryDataSources?: DirectQueryDataSource[] | undefined;
 }
-export const ListDirectQueryDataSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    DirectQueryDataSources: S.optional(DirectQueryDataSourceList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDirectQueryDataSourcesResponse",
-}) as any as S.Schema<ListDirectQueryDataSourcesResponse>;
 export interface ListDomainMaintenancesRequest {
   DomainName: string;
-  Action?: MaintenanceType;
-  Status?: MaintenanceStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  Action?: MaintenanceType | undefined;
+  Status?: MaintenanceStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListDomainMaintenancesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Action: S.optional(MaintenanceType).pipe(T.HttpQuery("action")),
-    Status: S.optional(MaintenanceStatus).pipe(T.HttpQuery("status")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenances",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainMaintenancesRequest",
-}) as any as S.Schema<ListDomainMaintenancesRequest>;
 export interface DomainMaintenanceDetails {
-  MaintenanceId?: string;
-  DomainName?: string;
-  Action?: MaintenanceType;
-  NodeId?: string;
-  Status?: MaintenanceStatus;
-  StatusMessage?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  MaintenanceId?: string | undefined;
+  DomainName?: string | undefined;
+  Action?: MaintenanceType | undefined;
+  NodeId?: string | undefined;
+  Status?: MaintenanceStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
-export const DomainMaintenanceDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaintenanceId: S.optional(S.String),
-    DomainName: S.optional(S.String),
-    Action: S.optional(MaintenanceType),
-    NodeId: S.optional(S.String),
-    Status: S.optional(MaintenanceStatus),
-    StatusMessage: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "DomainMaintenanceDetails",
-}) as any as S.Schema<DomainMaintenanceDetails>;
 export type DomainMaintenanceList = DomainMaintenanceDetails[];
-export const DomainMaintenanceList = /*@__PURE__*/ S.Array(
-  DomainMaintenanceDetails,
-);
 export interface ListDomainMaintenancesResponse {
-  DomainMaintenances?: DomainMaintenanceDetails[];
-  NextToken?: string;
+  DomainMaintenances?: DomainMaintenanceDetails[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListDomainMaintenancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainMaintenances: S.optional(DomainMaintenanceList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDomainMaintenancesResponse",
-}) as any as S.Schema<ListDomainMaintenancesResponse>;
 export type EngineType = "OpenSearch" | "Elasticsearch" | (string & {});
-export const EngineType = S.String;
-
 export interface ListDomainNamesRequest {
-  EngineType?: EngineType;
+  EngineType?: EngineType | undefined;
 }
-export const ListDomainNamesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineType: S.optional(EngineType).pipe(T.HttpQuery("engineType")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/domain" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainNamesRequest",
-}) as any as S.Schema<ListDomainNamesRequest>;
 export interface DomainInfo {
-  DomainName?: string;
-  EngineType?: EngineType;
+  DomainName?: string | undefined;
+  EngineType?: EngineType | undefined;
 }
-export const DomainInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.optional(S.String),
-    EngineType: S.optional(EngineType),
-  }),
-).annotate({ identifier: "DomainInfo" }) as any as S.Schema<DomainInfo>;
 export type DomainInfoList = DomainInfo[];
-export const DomainInfoList = /*@__PURE__*/ S.Array(DomainInfo);
 export interface ListDomainNamesResponse {
-  DomainNames?: DomainInfo[];
+  DomainNames?: DomainInfo[] | undefined;
 }
-export const ListDomainNamesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainNames: S.optional(DomainInfoList) }).pipe(ns),
-).annotate({
-  identifier: "ListDomainNamesResponse",
-}) as any as S.Schema<ListDomainNamesResponse>;
 export interface ListDomainsForPackageRequest {
   PackageID: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListDomainsForPackageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.String.pipe(T.HttpLabel("PackageID")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/packages/{PackageID}/domains",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListDomainsForPackageRequest",
-}) as any as S.Schema<ListDomainsForPackageRequest>;
 export interface ListDomainsForPackageResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListDomainsForPackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainPackageDetailsList: S.optional(DomainPackageDetailsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListDomainsForPackageResponse",
-}) as any as S.Schema<ListDomainsForPackageResponse>;
 export interface InsightTimeRange {
   From: number;
   To: number;
 }
-export const InsightTimeRange = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ From: S.Number, To: S.Number }),
-).annotate({
-  identifier: "InsightTimeRange",
-}) as any as S.Schema<InsightTimeRange>;
 export type InsightSortOrder = "ASC" | "DESC" | (string & {});
-export const InsightSortOrder = S.String;
-
 export type InsightPageSize = number;
 export interface ListInsightsRequest {
   Entity: InsightEntity;
-  TimeRange?: InsightTimeRange;
-  SortOrder?: InsightSortOrder;
-  MaxResults?: number;
-  NextToken?: string;
+  TimeRange?: InsightTimeRange | undefined;
+  SortOrder?: InsightSortOrder | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListInsightsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entity: InsightEntity,
-    TimeRange: S.optional(InsightTimeRange),
-    SortOrder: S.optional(InsightSortOrder),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/insights" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInsightsRequest",
-}) as any as S.Schema<ListInsightsRequest>;
 export type InsightType = "EVENT" | "RECOMMENDATION" | (string & {});
-export const InsightType = S.String;
-
-export type InsightPriorityLevel =
-  | "CRITICAL"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW"
-  | (string & {});
-export const InsightPriorityLevel = S.String;
-
+export type InsightPriorityLevel = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export type InsightStatus = "ACTIVE" | "RESOLVED" | "DISMISSED" | (string & {});
-export const InsightStatus = S.String;
-
 export interface Insight {
-  InsightId?: string;
-  DisplayName?: string;
-  Type?: InsightType;
-  Priority?: InsightPriorityLevel;
-  Status?: InsightStatus;
-  CreationTime?: Date;
-  UpdateTime?: Date;
-  IsExperimental?: boolean;
+  InsightId?: string | undefined;
+  DisplayName?: string | undefined;
+  Type?: InsightType | undefined;
+  Priority?: InsightPriorityLevel | undefined;
+  Status?: InsightStatus | undefined;
+  CreationTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  IsExperimental?: boolean | undefined;
 }
-export const Insight = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InsightId: S.optional(S.String),
-    DisplayName: S.optional(S.String),
-    Type: S.optional(InsightType),
-    Priority: S.optional(InsightPriorityLevel),
-    Status: S.optional(InsightStatus),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    IsExperimental: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "Insight" }) as any as S.Schema<Insight>;
 export type InsightList = Insight[];
-export const InsightList = /*@__PURE__*/ S.Array(Insight);
 export interface ListInsightsResponse {
-  Insights?: Insight[];
-  NextToken?: string;
+  Insights?: Insight[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListInsightsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Insights: S.optional(InsightList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInsightsResponse",
-}) as any as S.Schema<ListInsightsResponse>;
 export type InstanceTypeString = string;
 export interface ListInstanceTypeDetailsRequest {
   EngineVersion: string;
-  DomainName?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  RetrieveAZs?: boolean;
-  InstanceType?: string;
+  DomainName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  RetrieveAZs?: boolean | undefined;
+  InstanceType?: string | undefined;
 }
-export const ListInstanceTypeDetailsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EngineVersion: S.String.pipe(T.HttpLabel("EngineVersion")),
-    DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    RetrieveAZs: S.optional(S.Boolean).pipe(T.HttpQuery("retrieveAZs")),
-    InstanceType: S.optional(S.String).pipe(T.HttpQuery("instanceType")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/instanceTypeDetails/{EngineVersion}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListInstanceTypeDetailsRequest",
-}) as any as S.Schema<ListInstanceTypeDetailsRequest>;
 export type InstanceRoleList = string[];
-export const InstanceRoleList = /*@__PURE__*/ S.Array(S.String);
 export type AvailabilityZoneList = string[];
-export const AvailabilityZoneList = /*@__PURE__*/ S.Array(S.String);
 export interface InstanceTypeDetails {
-  InstanceType?: OpenSearchPartitionInstanceType;
-  EncryptionEnabled?: boolean;
-  CognitoEnabled?: boolean;
-  AppLogsEnabled?: boolean;
-  AdvancedSecurityEnabled?: boolean;
-  WarmEnabled?: boolean;
-  InstanceRole?: string[];
-  AvailabilityZones?: string[];
+  InstanceType?: OpenSearchPartitionInstanceType | undefined;
+  EncryptionEnabled?: boolean | undefined;
+  CognitoEnabled?: boolean | undefined;
+  AppLogsEnabled?: boolean | undefined;
+  AdvancedSecurityEnabled?: boolean | undefined;
+  WarmEnabled?: boolean | undefined;
+  InstanceRole?: string[] | undefined;
+  AvailabilityZones?: string[] | undefined;
 }
-export const InstanceTypeDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceType: S.optional(OpenSearchPartitionInstanceType),
-    EncryptionEnabled: S.optional(S.Boolean),
-    CognitoEnabled: S.optional(S.Boolean),
-    AppLogsEnabled: S.optional(S.Boolean),
-    AdvancedSecurityEnabled: S.optional(S.Boolean),
-    WarmEnabled: S.optional(S.Boolean),
-    InstanceRole: S.optional(InstanceRoleList),
-    AvailabilityZones: S.optional(AvailabilityZoneList),
-  }),
-).annotate({
-  identifier: "InstanceTypeDetails",
-}) as any as S.Schema<InstanceTypeDetails>;
 export type InstanceTypeDetailsList = InstanceTypeDetails[];
-export const InstanceTypeDetailsList =
-  /*@__PURE__*/ S.Array(InstanceTypeDetails);
 export interface ListInstanceTypeDetailsResponse {
-  InstanceTypeDetails?: InstanceTypeDetails[];
-  NextToken?: string;
+  InstanceTypeDetails?: InstanceTypeDetails[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListInstanceTypeDetailsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceTypeDetails: S.optional(InstanceTypeDetailsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListInstanceTypeDetailsResponse",
-}) as any as S.Schema<ListInstanceTypeDetailsResponse>;
 export interface ListMigrationsRequest {
   applicationId: string;
-  status?: string;
-  maxResults?: number;
-  nextToken?: string;
+  status?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
-export const ListMigrationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationId: S.String.pipe(T.HttpQuery("applicationId")),
-    status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/opensearch/app-migrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListMigrationsRequest",
-}) as any as S.Schema<ListMigrationsRequest>;
 export interface MigrationSummary {
-  migrationId?: string;
-  status?: string;
-  applicationId?: string;
-  source?: MigrationSource;
-  exportedCount?: number;
-  importedCount?: number;
-  error?: MigrationError;
-  createdAt?: Date;
-  updatedAt?: Date;
+  migrationId?: string | undefined;
+  status?: string | undefined;
+  applicationId?: string | undefined;
+  source?: MigrationSource | undefined;
+  exportedCount?: number | undefined;
+  importedCount?: number | undefined;
+  error?: MigrationError | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
-export const MigrationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migrationId: S.optional(S.String),
-    status: S.optional(S.String),
-    applicationId: S.optional(S.String),
-    source: S.optional(MigrationSource),
-    exportedCount: S.optional(S.Number),
-    importedCount: S.optional(S.Number),
-    error: S.optional(MigrationError),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }),
-).annotate({
-  identifier: "MigrationSummary",
-}) as any as S.Schema<MigrationSummary>;
 export type MigrationSummaryList = MigrationSummary[];
-export const MigrationSummaryList = /*@__PURE__*/ S.Array(MigrationSummary);
 export interface ListMigrationsResponse {
-  migrations?: MigrationSummary[];
-  nextToken?: string;
+  migrations?: MigrationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
-export const ListMigrationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migrations: S.optional(MigrationSummaryList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListMigrationsResponse",
-}) as any as S.Schema<ListMigrationsResponse>;
 export interface ListPackagesForDomainRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListPackagesForDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/domain/{DomainName}/packages",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListPackagesForDomainRequest",
-}) as any as S.Schema<ListPackagesForDomainRequest>;
 export interface ListPackagesForDomainResponse {
-  DomainPackageDetailsList?: DomainPackageDetails[];
-  NextToken?: string;
+  DomainPackageDetailsList?: DomainPackageDetails[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListPackagesForDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainPackageDetailsList: S.optional(DomainPackageDetailsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListPackagesForDomainResponse",
-}) as any as S.Schema<ListPackagesForDomainResponse>;
 export interface ListScheduledActionsRequest {
   DomainName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListScheduledActionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/scheduledActions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListScheduledActionsRequest",
-}) as any as S.Schema<ListScheduledActionsRequest>;
 export type ActionType =
   | "SERVICE_SOFTWARE_UPDATE"
   | "JVM_HEAP_SIZE_TUNING"
   | "JVM_YOUNG_GEN_TUNING"
   | (string & {});
-export const ActionType = S.String;
-
 export type ActionSeverity = "HIGH" | "MEDIUM" | "LOW" | (string & {});
-export const ActionSeverity = S.String;
-
 export type ScheduledBy = "CUSTOMER" | "SYSTEM" | (string & {});
-export const ScheduledBy = S.String;
-
 export type ActionStatus =
   | "PENDING_UPDATE"
   | "IN_PROGRESS"
@@ -5849,1107 +2366,364 @@ export type ActionStatus =
   | "NOT_ELIGIBLE"
   | "ELIGIBLE"
   | (string & {});
-export const ActionStatus = S.String;
-
 export interface ScheduledAction {
   Id: string;
   Type: ActionType;
   Severity: ActionSeverity;
   ScheduledTime: number;
-  Description?: string;
-  ScheduledBy?: ScheduledBy;
-  Status?: ActionStatus;
-  Mandatory?: boolean;
-  Cancellable?: boolean;
+  Description?: string | undefined;
+  ScheduledBy?: ScheduledBy | undefined;
+  Status?: ActionStatus | undefined;
+  Mandatory?: boolean | undefined;
+  Cancellable?: boolean | undefined;
 }
-export const ScheduledAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    Type: ActionType,
-    Severity: ActionSeverity,
-    ScheduledTime: S.Number,
-    Description: S.optional(S.String),
-    ScheduledBy: S.optional(ScheduledBy),
-    Status: S.optional(ActionStatus),
-    Mandatory: S.optional(S.Boolean),
-    Cancellable: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ScheduledAction",
-}) as any as S.Schema<ScheduledAction>;
 export type ScheduledActionsList = ScheduledAction[];
-export const ScheduledActionsList = /*@__PURE__*/ S.Array(ScheduledAction);
 export interface ListScheduledActionsResponse {
-  ScheduledActions?: ScheduledAction[];
-  NextToken?: string;
+  ScheduledActions?: ScheduledAction[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListScheduledActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ScheduledActions: S.optional(ScheduledActionsList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListScheduledActionsResponse",
-}) as any as S.Schema<ListScheduledActionsResponse>;
 export interface ListTagsRequest {
   ARN: string;
 }
-export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
 export interface ListTagsResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
-export const ListTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ TagList: S.optional(TagList) }).pipe(ns),
-).annotate({
-  identifier: "ListTagsResponse",
-}) as any as S.Schema<ListTagsResponse>;
 export interface ListVersionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
-export const ListVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/opensearch/versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVersionsRequest",
-}) as any as S.Schema<ListVersionsRequest>;
 export interface ListVersionsResponse {
-  Versions?: string[];
-  NextToken?: string;
+  Versions?: string[] | undefined;
+  NextToken?: string | undefined;
 }
-export const ListVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Versions: S.optional(VersionList),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVersionsResponse",
-}) as any as S.Schema<ListVersionsResponse>;
 export interface ListVpcEndpointAccessRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListVpcEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/listVpcEndpointAccess",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVpcEndpointAccessRequest",
-}) as any as S.Schema<ListVpcEndpointAccessRequest>;
 export type AuthorizedPrincipalList = AuthorizedPrincipal[];
-export const AuthorizedPrincipalList =
-  /*@__PURE__*/ S.Array(AuthorizedPrincipal);
 export interface ListVpcEndpointAccessResponse {
   AuthorizedPrincipalList: AuthorizedPrincipal[];
   NextToken: string;
 }
-export const ListVpcEndpointAccessResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AuthorizedPrincipalList: AuthorizedPrincipalList,
-    NextToken: S.String,
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVpcEndpointAccessResponse",
-}) as any as S.Schema<ListVpcEndpointAccessResponse>;
 export interface ListVpcEndpointsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListVpcEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/opensearch/vpcEndpoints" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVpcEndpointsRequest",
-}) as any as S.Schema<ListVpcEndpointsRequest>;
 export type VpcEndpointSummaryList = VpcEndpointSummary[];
-export const VpcEndpointSummaryList = /*@__PURE__*/ S.Array(VpcEndpointSummary);
 export interface ListVpcEndpointsResponse {
   VpcEndpointSummaryList: VpcEndpointSummary[];
   NextToken: string;
 }
-export const ListVpcEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcEndpointSummaryList: VpcEndpointSummaryList,
-    NextToken: S.String,
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVpcEndpointsResponse",
-}) as any as S.Schema<ListVpcEndpointsResponse>;
 export interface ListVpcEndpointsForDomainRequest {
   DomainName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
-export const ListVpcEndpointsForDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "GET",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/vpcEndpoints",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "ListVpcEndpointsForDomainRequest",
-}) as any as S.Schema<ListVpcEndpointsForDomainRequest>;
 export interface ListVpcEndpointsForDomainResponse {
   VpcEndpointSummaryList: VpcEndpointSummary[];
   NextToken: string;
 }
-export const ListVpcEndpointsForDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpcEndpointSummaryList: VpcEndpointSummaryList,
-    NextToken: S.String,
-  }).pipe(ns),
-).annotate({
-  identifier: "ListVpcEndpointsForDomainResponse",
-}) as any as S.Schema<ListVpcEndpointsForDomainResponse>;
 export type InstanceCount = number;
 export interface PurchaseReservedInstanceOfferingRequest {
   ReservedInstanceOfferingId: string;
   ReservationName: string;
-  InstanceCount?: number;
+  InstanceCount?: number | undefined;
 }
-export const PurchaseReservedInstanceOfferingRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedInstanceOfferingId: S.String,
-      ReservationName: S.String,
-      InstanceCount: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "PurchaseReservedInstanceOfferingRequest",
-}) as any as S.Schema<PurchaseReservedInstanceOfferingRequest>;
 export interface PurchaseReservedInstanceOfferingResponse {
-  ReservedInstanceId?: string;
-  ReservationName?: string;
+  ReservedInstanceId?: string | undefined;
+  ReservationName?: string | undefined;
 }
-export const PurchaseReservedInstanceOfferingResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedInstanceId: S.optional(S.String),
-      ReservationName: S.optional(S.String),
-    }).pipe(ns),
-).annotate({
-  identifier: "PurchaseReservedInstanceOfferingResponse",
-}) as any as S.Schema<PurchaseReservedInstanceOfferingResponse>;
 export interface PutDefaultApplicationSettingRequest {
   applicationArn: string;
   setAsDefault: boolean;
 }
-export const PutDefaultApplicationSettingRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ applicationArn: S.String, setAsDefault: S.Boolean }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2021-01-01/opensearch/defaultApplicationSetting",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "PutDefaultApplicationSettingRequest",
-}) as any as S.Schema<PutDefaultApplicationSettingRequest>;
 export interface PutDefaultApplicationSettingResponse {
-  applicationArn?: string;
+  applicationArn?: string | undefined;
 }
-export const PutDefaultApplicationSettingResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ applicationArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "PutDefaultApplicationSettingResponse",
-}) as any as S.Schema<PutDefaultApplicationSettingResponse>;
 export type CapabilityBaseRequestConfig = { aiConfig: AIConfig };
-export const CapabilityBaseRequestConfig = /*@__PURE__*/ S.Union([
-  S.Struct({ aiConfig: AIConfig }),
-]);
 export interface RegisterCapabilityRequest {
   applicationId: string;
   capabilityName: string;
   capabilityConfig: CapabilityBaseRequestConfig;
 }
-export const RegisterCapabilityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationId: S.String.pipe(T.HttpLabel("applicationId")),
-    capabilityName: S.String,
-    capabilityConfig: CapabilityBaseRequestConfig,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/application/{applicationId}/capability/register",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RegisterCapabilityRequest",
-}) as any as S.Schema<RegisterCapabilityRequest>;
 export type CapabilityBaseResponseConfig = { aiConfig: AIConfig };
-export const CapabilityBaseResponseConfig = /*@__PURE__*/ S.Union([
-  S.Struct({ aiConfig: AIConfig }),
-]);
 export interface RegisterCapabilityResponse {
-  capabilityName?: string;
-  applicationId?: string;
-  status?: CapabilityStatus;
-  capabilityConfig?: CapabilityBaseResponseConfig;
+  capabilityName?: string | undefined;
+  applicationId?: string | undefined;
+  status?: CapabilityStatus | undefined;
+  capabilityConfig?: CapabilityBaseResponseConfig | undefined;
 }
-export const RegisterCapabilityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    capabilityName: S.optional(S.String),
-    applicationId: S.optional(S.String),
-    status: S.optional(CapabilityStatus),
-    capabilityConfig: S.optional(CapabilityBaseResponseConfig),
-  }).pipe(ns),
-).annotate({
-  identifier: "RegisterCapabilityResponse",
-}) as any as S.Schema<RegisterCapabilityResponse>;
 export interface RejectInboundConnectionRequest {
   ConnectionId: string;
 }
-export const RejectInboundConnectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/reject",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RejectInboundConnectionRequest",
-}) as any as S.Schema<RejectInboundConnectionRequest>;
 export interface RejectInboundConnectionResponse {
-  Connection?: InboundConnection;
+  Connection?: InboundConnection | undefined;
 }
-export const RejectInboundConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Connection: S.optional(InboundConnection) }).pipe(ns),
-).annotate({
-  identifier: "RejectInboundConnectionResponse",
-}) as any as S.Schema<RejectInboundConnectionResponse>;
+export interface RemoveReplicationPeerRequest {
+  DomainName: string;
+  PeerDomainArn: string;
+}
+export interface RemoveReplicationPeerResponse {
+  DomainArn?: string | undefined;
+  Status?: ReplicationStatus | undefined;
+}
 export interface RemoveTagsRequest {
   ARN: string;
   TagKeys: string[];
 }
-export const RemoveTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ARN: S.String, TagKeys: StringList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/tags-removal" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RemoveTagsRequest",
-}) as any as S.Schema<RemoveTagsRequest>;
 export interface RemoveTagsResponse {}
-export const RemoveTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RemoveTagsResponse",
-}) as any as S.Schema<RemoveTagsResponse>;
 export interface RevokeVpcEndpointAccessRequest {
   DomainName: string;
-  Account?: string;
-  Service?: AWSServicePrincipal;
-  ServiceOptions?: ServiceOptions;
+  Account?: string | undefined;
+  Service?: AWSServicePrincipal | undefined;
+  ServiceOptions?: ServiceOptions | undefined;
 }
-export const RevokeVpcEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Account: S.optional(S.String),
-    Service: S.optional(AWSServicePrincipal),
-    ServiceOptions: S.optional(ServiceOptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/revokeVpcEndpointAccess",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RevokeVpcEndpointAccessRequest",
-}) as any as S.Schema<RevokeVpcEndpointAccessRequest>;
 export interface RevokeVpcEndpointAccessResponse {}
-export const RevokeVpcEndpointAccessResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RevokeVpcEndpointAccessResponse",
-}) as any as S.Schema<RevokeVpcEndpointAccessResponse>;
 export interface RollbackServiceSoftwareUpdateRequest {
   DomainName: string;
 }
-export const RollbackServiceSoftwareUpdateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DomainName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "RollbackServiceSoftwareUpdateRequest",
-}) as any as S.Schema<RollbackServiceSoftwareUpdateRequest>;
 export interface RollbackServiceSoftwareOptions {
-  CurrentVersion?: string;
-  NewVersion?: string;
-  RollbackAvailable?: boolean;
-  Description?: string;
+  CurrentVersion?: string | undefined;
+  NewVersion?: string | undefined;
+  RollbackAvailable?: boolean | undefined;
+  Description?: string | undefined;
 }
-export const RollbackServiceSoftwareOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CurrentVersion: S.optional(S.String),
-    NewVersion: S.optional(S.String),
-    RollbackAvailable: S.optional(S.Boolean),
-    Description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RollbackServiceSoftwareOptions",
-}) as any as S.Schema<RollbackServiceSoftwareOptions>;
 export interface RollbackServiceSoftwareUpdateResponse {
-  RollbackServiceSoftwareOptions?: RollbackServiceSoftwareOptions;
+  RollbackServiceSoftwareOptions?: RollbackServiceSoftwareOptions | undefined;
 }
-export const RollbackServiceSoftwareUpdateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RollbackServiceSoftwareOptions: S.optional(
-        RollbackServiceSoftwareOptions,
-      ),
-    }).pipe(ns),
-).annotate({
-  identifier: "RollbackServiceSoftwareUpdateResponse",
-}) as any as S.Schema<RollbackServiceSoftwareUpdateResponse>;
 export interface StartDomainMaintenanceRequest {
   DomainName: string;
   Action: MaintenanceType;
-  NodeId?: string;
+  NodeId?: string | undefined;
 }
-export const StartDomainMaintenanceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Action: MaintenanceType,
-    NodeId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenance",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartDomainMaintenanceRequest",
-}) as any as S.Schema<StartDomainMaintenanceRequest>;
 export interface StartDomainMaintenanceResponse {
-  MaintenanceId?: string;
+  MaintenanceId?: string | undefined;
 }
-export const StartDomainMaintenanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ MaintenanceId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartDomainMaintenanceResponse",
-}) as any as S.Schema<StartDomainMaintenanceResponse>;
 export interface MigrationWorkspace {
-  workspaceId?: string;
-  createWorkspace?: boolean;
-  name?: string;
-  type?: string;
+  workspaceId?: string | undefined;
+  createWorkspace?: boolean | undefined;
+  name?: string | undefined;
+  type?: string | undefined;
 }
-export const MigrationWorkspace = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    workspaceId: S.optional(S.String),
-    createWorkspace: S.optional(S.Boolean),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MigrationWorkspace",
-}) as any as S.Schema<MigrationWorkspace>;
 export interface SavedObjectIdentifier {
   type: string;
   id: string;
 }
-export const SavedObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ type: S.String, id: S.String }),
-).annotate({
-  identifier: "SavedObjectIdentifier",
-}) as any as S.Schema<SavedObjectIdentifier>;
 export type SavedObjectIdentifierList = SavedObjectIdentifier[];
-export const SavedObjectIdentifierList = /*@__PURE__*/ S.Array(
-  SavedObjectIdentifier,
-);
 export interface ExportOptions {
-  types?: string[];
-  objects?: SavedObjectIdentifier[];
-  includeReferencesDeep?: boolean;
+  types?: string[] | undefined;
+  objects?: SavedObjectIdentifier[] | undefined;
+  includeReferencesDeep?: boolean | undefined;
 }
-export const ExportOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    types: S.optional(StringList),
-    objects: S.optional(SavedObjectIdentifierList),
-    includeReferencesDeep: S.optional(S.Boolean),
-  }),
-).annotate({ identifier: "ExportOptions" }) as any as S.Schema<ExportOptions>;
 export interface MigrationOptions {
   source: MigrationSource;
   workspace: MigrationWorkspace;
-  exportOptions?: ExportOptions;
-  conflictResolution?: string;
+  exportOptions?: ExportOptions | undefined;
+  conflictResolution?: string | undefined;
 }
-export const MigrationOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    source: MigrationSource,
-    workspace: MigrationWorkspace,
-    exportOptions: S.optional(ExportOptions),
-    conflictResolution: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MigrationOptions",
-}) as any as S.Schema<MigrationOptions>;
 export interface StartMigrationRequest {
   applicationId: string;
   migrationOptions: MigrationOptions;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
-export const StartMigrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    applicationId: S.String,
-    migrationOptions: MigrationOptions,
-    clientToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/app-migrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartMigrationRequest",
-}) as any as S.Schema<StartMigrationRequest>;
 export interface StartMigrationResponse {
-  migrationId?: string;
-  status?: string;
+  migrationId?: string | undefined;
+  status?: string | undefined;
 }
-export const StartMigrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    migrationId: S.optional(S.String),
-    status: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "StartMigrationResponse",
-}) as any as S.Schema<StartMigrationResponse>;
-export type ScheduleAt =
-  | "NOW"
-  | "TIMESTAMP"
-  | "OFF_PEAK_WINDOW"
-  | (string & {});
-export const ScheduleAt = S.String;
-
+export type ScheduleAt = "NOW" | "TIMESTAMP" | "OFF_PEAK_WINDOW" | (string & {});
 export interface StartServiceSoftwareUpdateRequest {
   DomainName: string;
-  ScheduleAt?: ScheduleAt;
-  DesiredStartTime?: number;
+  ScheduleAt?: ScheduleAt | undefined;
+  DesiredStartTime?: number | undefined;
 }
-export const StartServiceSoftwareUpdateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    ScheduleAt: S.optional(ScheduleAt),
-    DesiredStartTime: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/start",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "StartServiceSoftwareUpdateRequest",
-}) as any as S.Schema<StartServiceSoftwareUpdateRequest>;
 export interface StartServiceSoftwareUpdateResponse {
-  ServiceSoftwareOptions?: ServiceSoftwareOptions;
+  ServiceSoftwareOptions?: ServiceSoftwareOptions | undefined;
 }
-export const StartServiceSoftwareUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceSoftwareOptions: S.optional(ServiceSoftwareOptions) }).pipe(
-    ns,
-  ),
-).annotate({
-  identifier: "StartServiceSoftwareUpdateResponse",
-}) as any as S.Schema<StartServiceSoftwareUpdateResponse>;
+export interface SwitchoverReplicationRequest {
+  DomainName: string;
+  PeerDomainArn: string;
+}
+export interface SwitchoverReplicationResponse {
+  DomainArn?: string | undefined;
+  Status?: ReplicationStatus | undefined;
+}
 export interface UpdateApplicationRequest {
   id: string;
-  dataSources?: DataSource[];
-  appConfigs?: AppConfig[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput;
+  dataSources?: DataSource[] | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptionsInput | undefined;
 }
-export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String.pipe(T.HttpLabel("id")),
-    dataSources: S.optional(DataSources),
-    appConfigs: S.optional(AppConfigs),
-    iamIdentityCenterOptions: S.optional(IamIdentityCenterOptionsInput),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "PUT", uri: "/2021-01-01/opensearch/application/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {
-  id?: string;
-  name?: string;
-  arn?: string;
-  dataSources?: DataSource[];
-  iamIdentityCenterOptions?: IamIdentityCenterOptions;
-  appConfigs?: AppConfig[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  id?: string | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  dataSources?: DataSource[] | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterOptions | undefined;
+  appConfigs?: AppConfig[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
-export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    arn: S.optional(S.String),
-    dataSources: S.optional(DataSources),
-    iamIdentityCenterOptions: S.optional(IamIdentityCenterOptions),
-    appConfigs: S.optional(AppConfigs),
-    createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateApplicationResponse",
-}) as any as S.Schema<UpdateApplicationResponse>;
+export type TrafficStrategy = "ShiftReadTrafficPercent" | (string & {});
+export interface TrafficSplitRequestOptions {
+  Strategy: TrafficStrategy;
+  CloneReadTrafficPercent: number;
+}
+export type CutoverTarget = "ClonedCluster" | "PrimaryCluster" | (string & {});
+export interface CutoverRequestOptions {
+  Target: CutoverTarget;
+}
+export type RetentionAction = "RollbackToPrimaryCluster" | "DeletePrimaryCluster" | (string & {});
+export type RetentionOptions =
+  | { RetentionInHours: number; RetentionAction?: undefined }
+  | { RetentionInHours?: undefined; RetentionAction: RetentionAction };
+export interface UpdateCloneRequest {
+  DomainName: string;
+  TrafficSplitOptions?: TrafficSplitRequestOptions | undefined;
+  CutoverOptions?: CutoverRequestOptions | undefined;
+  RetentionOptions?: RetentionOptions | undefined;
+}
+export type CutoverStatus = "InProgress" | "Completed" | "Failed" | (string & {});
+export interface CutoverOptions {
+  Target: CutoverTarget;
+  Status: CutoverStatus;
+}
+export type TrafficSplitStatus = "InProgress" | "Completed" | "Failed" | (string & {});
+export interface TrafficSplitOptions {
+  Current: TrafficPercents;
+  Target: TrafficPercents;
+  Status: TrafficSplitStatus;
+}
+export interface UpdateCloneResponse {
+  DomainName: string;
+  ChangeId: string;
+  CutoverOptions?: CutoverOptions | undefined;
+  TrafficSplitOptions?: TrafficSplitOptions | undefined;
+  RetentionOptions?: RetentionOptions | undefined;
+}
 export interface UpdateDataSourceRequest {
   DomainName: string;
   Name: string;
   DataSourceType: DataSourceType;
-  Description?: string;
-  Status?: DataSourceStatus;
+  Description?: string | undefined;
+  Status?: DataSourceStatus | undefined;
 }
-export const UpdateDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    DataSourceType: DataSourceType,
-    Description: S.optional(S.String),
-    Status: S.optional(DataSourceStatus),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDataSourceRequest",
-}) as any as S.Schema<UpdateDataSourceRequest>;
 export interface UpdateDataSourceResponse {
-  Message?: string;
+  Message?: string | undefined;
 }
-export const UpdateDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Message: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateDataSourceResponse",
-}) as any as S.Schema<UpdateDataSourceResponse>;
 export interface UpdateDirectQueryDataSourceRequest {
   DataSourceName: string;
   DataSourceType: DirectQueryDataSourceType;
-  Description?: string;
-  OpenSearchArns?: string[];
-  DataSourceAccessPolicy?: string;
+  Description?: string | undefined;
+  OpenSearchArns?: string[] | undefined;
+  DataSourceAccessPolicy?: string | undefined;
 }
-export const UpdateDirectQueryDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSourceName: S.String.pipe(T.HttpLabel("DataSourceName")),
-    DataSourceType: DirectQueryDataSourceType,
-    Description: S.optional(S.String),
-    OpenSearchArns: S.optional(DirectQueryOpenSearchARNList),
-    DataSourceAccessPolicy: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDirectQueryDataSourceRequest",
-}) as any as S.Schema<UpdateDirectQueryDataSourceRequest>;
 export interface UpdateDirectQueryDataSourceResponse {
-  DataSourceArn?: string;
+  DataSourceArn?: string | undefined;
 }
-export const UpdateDirectQueryDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DataSourceArn: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateDirectQueryDataSourceResponse",
-}) as any as S.Schema<UpdateDirectQueryDataSourceResponse>;
 export type DryRunMode = "Basic" | "Verbose" | (string & {});
-export const DryRunMode = S.String;
-
 export interface UpdateDomainConfigRequest {
   DomainName: string;
-  ClusterConfig?: ClusterConfig;
-  EBSOptions?: EBSOptions;
-  SnapshotOptions?: SnapshotOptions;
-  VPCOptions?: VPCOptions;
-  CognitoOptions?: CognitoOptions;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  AccessPolicies?: string;
-  IPAddressType?: IPAddressType;
-  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined };
-  EncryptionAtRestOptions?: EncryptionAtRestOptions;
-  DomainEndpointOptions?: DomainEndpointOptions;
-  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions;
-  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput;
-  IdentityCenterOptions?: IdentityCenterOptionsInput;
-  AutoTuneOptions?: AutoTuneOptions;
-  DryRun?: boolean;
-  DryRunMode?: DryRunMode;
-  OffPeakWindowOptions?: OffPeakWindowOptions;
-  SoftwareUpdateOptions?: SoftwareUpdateOptions;
-  AIMLOptions?: AIMLOptionsInput;
-  DeploymentStrategyOptions?: DeploymentStrategyOptions;
-  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions;
-  UseCase?: DomainUseCase;
-  EngineMode?: EngineMode;
+  ClusterConfig?: ClusterConfig | undefined;
+  EBSOptions?: EBSOptions | undefined;
+  SnapshotOptions?: SnapshotOptions | undefined;
+  VPCOptions?: VPCOptions | undefined;
+  CognitoOptions?: CognitoOptions | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  AccessPolicies?: string | undefined;
+  IPAddressType?: IPAddressType | undefined;
+  LogPublishingOptions?: { [key: string]: LogPublishingOption | undefined } | undefined;
+  EncryptionAtRestOptions?: EncryptionAtRestOptions | undefined;
+  DomainEndpointOptions?: DomainEndpointOptions | undefined;
+  NodeToNodeEncryptionOptions?: NodeToNodeEncryptionOptions | undefined;
+  AdvancedSecurityOptions?: AdvancedSecurityOptionsInput | undefined;
+  IdentityCenterOptions?: IdentityCenterOptionsInput | undefined;
+  AutoTuneOptions?: AutoTuneOptions | undefined;
+  DryRun?: boolean | undefined;
+  DryRunMode?: DryRunMode | undefined;
+  OffPeakWindowOptions?: OffPeakWindowOptions | undefined;
+  SoftwareUpdateOptions?: SoftwareUpdateOptions | undefined;
+  AIMLOptions?: AIMLOptionsInput | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOptions | undefined;
+  AutomatedSnapshotPauseOptions?: AutomatedSnapshotPauseRequestOptions | undefined;
+  UseCase?: DomainUseCase | undefined;
+  EngineMode?: EngineMode | undefined;
+  AcceptedWarnings?: string[] | undefined;
 }
-export const UpdateDomainConfigRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    ClusterConfig: S.optional(ClusterConfig),
-    EBSOptions: S.optional(EBSOptions),
-    SnapshotOptions: S.optional(SnapshotOptions),
-    VPCOptions: S.optional(VPCOptions),
-    CognitoOptions: S.optional(CognitoOptions),
-    AdvancedOptions: S.optional(AdvancedOptions),
-    AccessPolicies: S.optional(S.String),
-    IPAddressType: S.optional(IPAddressType),
-    LogPublishingOptions: S.optional(LogPublishingOptions),
-    EncryptionAtRestOptions: S.optional(EncryptionAtRestOptions),
-    DomainEndpointOptions: S.optional(DomainEndpointOptions),
-    NodeToNodeEncryptionOptions: S.optional(NodeToNodeEncryptionOptions),
-    AdvancedSecurityOptions: S.optional(AdvancedSecurityOptionsInput),
-    IdentityCenterOptions: S.optional(IdentityCenterOptionsInput),
-    AutoTuneOptions: S.optional(AutoTuneOptions),
-    DryRun: S.optional(S.Boolean),
-    DryRunMode: S.optional(DryRunMode),
-    OffPeakWindowOptions: S.optional(OffPeakWindowOptions),
-    SoftwareUpdateOptions: S.optional(SoftwareUpdateOptions),
-    AIMLOptions: S.optional(AIMLOptionsInput),
-    DeploymentStrategyOptions: S.optional(DeploymentStrategyOptions),
-    AutomatedSnapshotPauseOptions: S.optional(
-      AutomatedSnapshotPauseRequestOptions,
-    ),
-    UseCase: S.optional(DomainUseCase),
-    EngineMode: S.optional(EngineMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/config",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateDomainConfigRequest",
-}) as any as S.Schema<UpdateDomainConfigRequest>;
 export interface UpdateDomainConfigResponse {
   DomainConfig: DomainConfig;
-  DryRunResults?: DryRunResults;
-  DryRunProgressStatus?: DryRunProgressStatus;
+  DryRunResults?: DryRunResults | undefined;
+  DryRunProgressStatus?: DryRunProgressStatus | undefined;
 }
-export const UpdateDomainConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainConfig: DomainConfig,
-    DryRunResults: S.optional(DryRunResults),
-    DryRunProgressStatus: S.optional(DryRunProgressStatus),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdateDomainConfigResponse",
-}) as any as S.Schema<UpdateDomainConfigResponse>;
 export interface UpdateIndexRequest {
   DomainName: string;
   IndexName: string;
   IndexSchema: any;
 }
-export const UpdateIndexRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    IndexName: S.String.pipe(T.HttpLabel("IndexName")),
-    IndexSchema: S.Any,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateIndexRequest",
-}) as any as S.Schema<UpdateIndexRequest>;
 export interface UpdateIndexResponse {
   Status: IndexStatus;
 }
-export const UpdateIndexResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: IndexStatus }).pipe(ns),
-).annotate({
-  identifier: "UpdateIndexResponse",
-}) as any as S.Schema<UpdateIndexResponse>;
 export interface UpdatePackageRequest {
   PackageID: string;
   PackageSource: PackageSource;
-  PackageDescription?: string;
-  CommitMessage?: string;
-  PackageConfiguration?: PackageConfiguration;
-  PackageEncryptionOptions?: PackageEncryptionOptions;
+  PackageDescription?: string | undefined;
+  CommitMessage?: string | undefined;
+  PackageConfiguration?: PackageConfiguration | undefined;
+  PackageEncryptionOptions?: PackageEncryptionOptions | undefined;
 }
-export const UpdatePackageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.String,
-    PackageSource: PackageSource,
-    PackageDescription: S.optional(S.String),
-    CommitMessage: S.optional(S.String),
-    PackageConfiguration: S.optional(PackageConfiguration),
-    PackageEncryptionOptions: S.optional(PackageEncryptionOptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/packages/update" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdatePackageRequest",
-}) as any as S.Schema<UpdatePackageRequest>;
 export interface UpdatePackageResponse {
-  PackageDetails?: PackageDetails;
+  PackageDetails?: PackageDetails | undefined;
 }
-export const UpdatePackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ PackageDetails: S.optional(PackageDetails) }).pipe(ns),
-).annotate({
-  identifier: "UpdatePackageResponse",
-}) as any as S.Schema<UpdatePackageResponse>;
-export type PackageScopeOperationEnum =
-  | "ADD"
-  | "OVERRIDE"
-  | "REMOVE"
-  | (string & {});
-export const PackageScopeOperationEnum = S.String;
-
+export type PackageScopeOperationEnum = "ADD" | "OVERRIDE" | "REMOVE" | (string & {});
 export interface UpdatePackageScopeRequest {
   PackageID: string;
   Operation: PackageScopeOperationEnum;
   PackageUserList: string[];
 }
-export const UpdatePackageScopeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.String,
-    Operation: PackageScopeOperationEnum,
-    PackageUserList: PackageUserList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/packages/updateScope" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdatePackageScopeRequest",
-}) as any as S.Schema<UpdatePackageScopeRequest>;
 export interface UpdatePackageScopeResponse {
-  PackageID?: string;
-  Operation?: PackageScopeOperationEnum;
-  PackageUserList?: string[];
+  PackageID?: string | undefined;
+  Operation?: PackageScopeOperationEnum | undefined;
+  PackageUserList?: string[] | undefined;
 }
-export const UpdatePackageScopeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PackageID: S.optional(S.String),
-    Operation: S.optional(PackageScopeOperationEnum),
-    PackageUserList: S.optional(PackageUserList),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpdatePackageScopeResponse",
-}) as any as S.Schema<UpdatePackageScopeResponse>;
 export interface UpdateScheduledActionRequest {
   DomainName: string;
   ActionID: string;
   ActionType: ActionType;
   ScheduleAt: ScheduleAt;
-  DesiredStartTime?: number;
+  DesiredStartTime?: number | undefined;
 }
-export const UpdateScheduledActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    ActionID: S.String,
-    ActionType: ActionType,
-    ScheduleAt: ScheduleAt,
-    DesiredStartTime: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "PUT",
-        uri: "/2021-01-01/opensearch/domain/{DomainName}/scheduledAction/update",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateScheduledActionRequest",
-}) as any as S.Schema<UpdateScheduledActionRequest>;
 export interface UpdateScheduledActionResponse {
-  ScheduledAction?: ScheduledAction;
+  ScheduledAction?: ScheduledAction | undefined;
 }
-export const UpdateScheduledActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ScheduledAction: S.optional(ScheduledAction) }).pipe(ns),
-).annotate({
-  identifier: "UpdateScheduledActionResponse",
-}) as any as S.Schema<UpdateScheduledActionResponse>;
 export interface UpdateVpcEndpointRequest {
   VpcEndpointId: string;
   VpcOptions: VPCOptions;
 }
-export const UpdateVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpointId: S.String, VpcOptions: VPCOptions }).pipe(
-    T.all(
-      ns,
-      T.Http({
-        method: "POST",
-        uri: "/2021-01-01/opensearch/vpcEndpoints/update",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateVpcEndpointRequest",
-}) as any as S.Schema<UpdateVpcEndpointRequest>;
 export interface UpdateVpcEndpointResponse {
   VpcEndpoint: VpcEndpoint;
 }
-export const UpdateVpcEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ VpcEndpoint: VpcEndpoint }).pipe(ns),
-).annotate({
-  identifier: "UpdateVpcEndpointResponse",
-}) as any as S.Schema<UpdateVpcEndpointResponse>;
+export type DeploymentStrategyOverride = "ClonedBlueGreen" | (string & {});
+export interface ClonedBlueGreenOptions {
+  RetentionOptions?: RetentionOptions | undefined;
+}
+export interface DeploymentStrategyOverrideOptions {
+  DeploymentStrategy: DeploymentStrategyOverride;
+  ClonedBlueGreenOptions?: ClonedBlueGreenOptions | undefined;
+}
 export interface UpgradeDomainRequest {
   DomainName: string;
   TargetVersion: string;
-  PerformCheckOnly?: boolean;
-  AdvancedOptions?: { [key: string]: string | undefined };
+  PerformCheckOnly?: boolean | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOverrideOptions | undefined;
 }
-export const UpgradeDomainRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DomainName: S.String,
-    TargetVersion: S.String,
-    PerformCheckOnly: S.optional(S.Boolean),
-    AdvancedOptions: S.optional(AdvancedOptions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/opensearch/upgradeDomain" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpgradeDomainRequest",
-}) as any as S.Schema<UpgradeDomainRequest>;
 export interface UpgradeDomainResponse {
-  UpgradeId?: string;
-  DomainName?: string;
-  TargetVersion?: string;
-  PerformCheckOnly?: boolean;
-  AdvancedOptions?: { [key: string]: string | undefined };
-  ChangeProgressDetails?: ChangeProgressDetails;
+  UpgradeId?: string | undefined;
+  DomainName?: string | undefined;
+  TargetVersion?: string | undefined;
+  PerformCheckOnly?: boolean | undefined;
+  AdvancedOptions?: { [key: string]: string | undefined } | undefined;
+  DeploymentStrategyOptions?: DeploymentStrategyOverrideOptions | undefined;
+  ChangeProgressDetails?: ChangeProgressDetails | undefined;
 }
-export const UpgradeDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UpgradeId: S.optional(S.String),
-    DomainName: S.optional(S.String),
-    TargetVersion: S.optional(S.String),
-    PerformCheckOnly: S.optional(S.Boolean),
-    AdvancedOptions: S.optional(AdvancedOptions),
-    ChangeProgressDetails: S.optional(ChangeProgressDetails),
-  }).pipe(ns),
-).annotate({
-  identifier: "UpgradeDomainResponse",
-}) as any as S.Schema<UpgradeDomainResponse>;
 export type SlotList = number[];
-export const SlotList = /*@__PURE__*/ S.Array(S.Number);
 export type AcceptInboundConnectionError =
   | DisabledOperationException
   | LimitExceededException
@@ -6960,21 +2734,19 @@ export type AcceptInboundConnectionError =
  * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const acceptInboundConnection: API.OperationMethod<
-  AcceptInboundConnectionRequest,
+  AcceptInboundConnectionRequest & RegionInput,
   AcceptInboundConnectionResponse,
   AcceptInboundConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AcceptInboundConnectionRequest,
-  output: AcceptInboundConnectionResponse,
-  errors: [
-    DisabledOperationException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  input: __S(640, __c20, 0) as any as S.Schema<AcceptInboundConnectionRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<AcceptInboundConnectionResponse>,
+  errors: [DisabledOperationException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInboundConnection",
+  telemetry: TELEMETRY,
+  span: "AcceptInboundConnection",
 }));
 
 export type AddDataSourceError =
@@ -6992,13 +2764,13 @@ export type AddDataSourceError =
  * S3.
  */
 export const addDataSource: API.OperationMethod<
-  AddDataSourceRequest,
+  AddDataSourceRequest & RegionInput,
   AddDataSourceResponse,
   AddDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddDataSourceRequest,
-  output: AddDataSourceResponse,
+  input: __S(768, __c24, 0) as any as S.Schema<AddDataSourceRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<AddDataSourceResponse>,
   errors: [
     BaseException,
     DependencyFailureException,
@@ -7011,6 +2783,8 @@ export const addDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDataSource",
+  telemetry: TELEMETRY,
+  span: "AddDataSource",
 }));
 
 export type AddDirectQueryDataSourceError =
@@ -7026,13 +2800,13 @@ export type AddDirectQueryDataSourceError =
  * queries on external data.
  */
 export const addDirectQueryDataSource: API.OperationMethod<
-  AddDirectQueryDataSourceRequest,
+  AddDirectQueryDataSourceRequest & RegionInput,
   AddDirectQueryDataSourceResponse,
   AddDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddDirectQueryDataSourceRequest,
-  output: AddDirectQueryDataSourceResponse,
+  input: __S(864, __c27, 0) as any as S.Schema<AddDirectQueryDataSourceRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<AddDirectQueryDataSourceResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -7044,6 +2818,45 @@ export const addDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "AddDirectQueryDataSource",
+}));
+
+export type AddReplicationPeerError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceAlreadyExistsException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts replicating a domain to a peer domain in another AWS Region. A domain can have one
+ * peer. The domain you call becomes the primary and the peer becomes the secondary, which
+ * receives a copy of the primary's indexes and serves read requests.
+ *
+ * Replication is established asynchronously. Use the `DescribeDomainReplication` operation to check whether the
+ * relationship has reached the `ACTIVE` state.
+ */
+export const addReplicationPeer: API.OperationMethod<
+  AddReplicationPeerRequest & RegionInput,
+  AddReplicationPeerResponse,
+  AddReplicationPeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1024, __c32, 0) as any as S.Schema<AddReplicationPeerRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<AddReplicationPeerResponse>,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    ResourceAlreadyExistsException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "AddReplicationPeer",
+  telemetry: TELEMETRY,
+  span: "AddReplicationPeer",
 }));
 
 export type AddTagsError =
@@ -7060,22 +2873,19 @@ export type AddTagsError =
  * application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const addTags: API.OperationMethod<
-  AddTagsRequest,
+  AddTagsRequest & RegionInput,
   AddTagsResponse,
   AddTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AddTagsRequest,
-  output: AddTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    LimitExceededException,
-    ValidationException,
-  ],
+  input: __S(1088, __c34, 0) as any as S.Schema<AddTagsRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<AddTagsResponse>,
+  errors: [BaseException, InternalException, LimitExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  telemetry: TELEMETRY,
+  span: "AddTags",
 }));
 
 export type AssociatePackageError =
@@ -7092,13 +2902,13 @@ export type AssociatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const associatePackage: API.OperationMethod<
-  AssociatePackageRequest,
+  AssociatePackageRequest & RegionInput,
   AssociatePackageResponse,
   AssociatePackageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociatePackageRequest,
-  output: AssociatePackageResponse,
+  input: __S(1152, __c36, 0) as any as S.Schema<AssociatePackageRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<AssociatePackageResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -7110,6 +2920,8 @@ export const associatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackage",
+  telemetry: TELEMETRY,
+  span: "AssociatePackage",
 }));
 
 export type AssociatePackagesError =
@@ -7125,13 +2937,13 @@ export type AssociatePackagesError =
  * a domain simultaneously.
  */
 export const associatePackages: API.OperationMethod<
-  AssociatePackagesRequest,
+  AssociatePackagesRequest & RegionInput,
   AssociatePackagesResponse,
   AssociatePackagesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AssociatePackagesRequest,
-  output: AssociatePackagesResponse,
+  input: __S(1282, __c40, 2) as any as S.Schema<AssociatePackagesRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<AssociatePackagesResponse>,
   errors: [
     BaseException,
     ConflictException,
@@ -7143,6 +2955,8 @@ export const associatePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackages",
+  telemetry: TELEMETRY,
+  span: "AssociatePackages",
 }));
 
 export type AttachDataSourceError =
@@ -7157,13 +2971,13 @@ export type AttachDataSourceError =
  * Attaches a data source to an OpenSearch application. The data source must be an Amazon OpenSearch Service domain. If both the application and the data source are active, the attachment completes immediately with a status of `ATTACHED`. Otherwise, the operation returns `PENDING` and completes the attachment automatically once both become active. If the attachment cannot be completed, its status becomes `FAILED`. This operation is idempotent: If the data source is already attached or pending, the operation returns the existing attachment.
  */
 export const attachDataSource: API.OperationMethod<
-  AttachDataSourceRequest,
+  AttachDataSourceRequest & RegionInput,
   AttachDataSourceResponse,
   AttachDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AttachDataSourceRequest,
-  output: AttachDataSourceResponse,
+  input: __S(1377, __c43, 1) as any as S.Schema<AttachDataSourceRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<AttachDataSourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7175,6 +2989,8 @@ export const attachDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachDataSource",
+  telemetry: TELEMETRY,
+  span: "AttachDataSource",
 }));
 
 export type AuthorizeVpcEndpointAccessError =
@@ -7190,13 +3006,13 @@ export type AuthorizeVpcEndpointAccessError =
  * VPC endpoint.
  */
 export const authorizeVpcEndpointAccess: API.OperationMethod<
-  AuthorizeVpcEndpointAccessRequest,
+  AuthorizeVpcEndpointAccessRequest & RegionInput,
   AuthorizeVpcEndpointAccessResponse,
   AuthorizeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: AuthorizeVpcEndpointAccessRequest,
-  output: AuthorizeVpcEndpointAccessResponse,
+  input: __S(1440, __c45, 0) as any as S.Schema<AuthorizeVpcEndpointAccessRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<AuthorizeVpcEndpointAccessResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -7208,6 +3024,8 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "AuthorizeVpcEndpointAccess",
 }));
 
 export type CancelDomainConfigChangeError =
@@ -7221,13 +3039,13 @@ export type CancelDomainConfigChangeError =
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
 export const cancelDomainConfigChange: API.OperationMethod<
-  CancelDomainConfigChangeRequest,
+  CancelDomainConfigChangeRequest & RegionInput,
   CancelDomainConfigChangeResponse,
   CancelDomainConfigChangeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelDomainConfigChangeRequest,
-  output: CancelDomainConfigChangeResponse,
+  input: __S(1536, __c48, 0) as any as S.Schema<CancelDomainConfigChangeRequest>,
+  output: __S(1539, __c48, 3) as any as S.Schema<CancelDomainConfigChangeResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -7238,6 +3056,8 @@ export const cancelDomainConfigChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainConfigChange",
+  telemetry: TELEMETRY,
+  span: "CancelDomainConfigChange",
 }));
 
 export type CancelServiceSoftwareUpdateError =
@@ -7254,22 +3074,55 @@ export type CancelServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const cancelServiceSoftwareUpdate: API.OperationMethod<
-  CancelServiceSoftwareUpdateRequest,
+  CancelServiceSoftwareUpdateRequest & RegionInput,
   CancelServiceSoftwareUpdateResponse,
   CancelServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CancelServiceSoftwareUpdateRequest,
-  output: CancelServiceSoftwareUpdateResponse,
+  input: __S(1568, __c49, 0) as any as S.Schema<CancelServiceSoftwareUpdateRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<CancelServiceSoftwareUpdateResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "CancelServiceSoftwareUpdate",
+}));
+
+export type CompareDomainConfigurationError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Compares the metadata of two domains and reports where they differ. Use this operation to
+ * check that a secondary domain is configured consistently with its primary before you rely on
+ * it, because replication copies index data but does not copy domain metadata such as index
+ * templates, ingest pipelines, or security roles.
+ *
+ * You choose which categories to compare. The response reports, for each category, how many
+ * items match, how many exist on only one domain, and which fields diverge.
+ */
+export const compareDomainConfiguration: API.OperationMethod<
+  CompareDomainConfigurationRequest & RegionInput,
+  CompareDomainConfigurationResponse,
+  CompareDomainConfigurationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1664, __c52, 0) as any as S.Schema<CompareDomainConfigurationRequest>,
+  output: __S(1672, __c52, 8) as any as S.Schema<CompareDomainConfigurationResponse>,
   errors: [
-    BaseException,
+    DisabledOperationException,
     InternalException,
     ResourceNotFoundException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
-  operationName: "CancelServiceSoftwareUpdate",
+  operationName: "CompareDomainConfiguration",
+  telemetry: TELEMETRY,
+  span: "CompareDomainConfiguration",
 }));
 
 export type CreateApplicationError =
@@ -7284,13 +3137,13 @@ export type CreateApplicationError =
  * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
  */
 export const createApplication: API.OperationMethod<
-  CreateApplicationRequest,
+  CreateApplicationRequest & RegionInput,
   CreateApplicationResponse,
   CreateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateApplicationRequest,
-  output: CreateApplicationResponse,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<CreateApplicationResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -7302,6 +3155,8 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  telemetry: TELEMETRY,
+  span: "CreateApplication",
 }));
 
 export type CreateDomainError =
@@ -7318,13 +3173,13 @@ export type CreateDomainError =
  * managing Amazon OpenSearch Service domains.
  */
 export const createDomain: API.OperationMethod<
-  CreateDomainRequest,
+  CreateDomainRequest & RegionInput,
   CreateDomainResponse,
   CreateDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateDomainRequest,
-  output: CreateDomainResponse,
+  input: __S(1793, __c56, 1) as any as S.Schema<CreateDomainRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<CreateDomainResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -7337,6 +3192,8 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  telemetry: TELEMETRY,
+  span: "CreateDomain",
 }));
 
 export type CreateIndexError =
@@ -7353,13 +3210,13 @@ export type CreateIndexError =
  * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
  */
 export const createIndex: API.OperationMethod<
-  CreateIndexRequest,
+  CreateIndexRequest & RegionInput,
   CreateIndexResponse,
   CreateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateIndexRequest,
-  output: CreateIndexResponse,
+  input: __S(2080, __c65, 0) as any as S.Schema<CreateIndexRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<CreateIndexResponse>,
   errors: [
     AccessDeniedException,
     DependencyFailureException,
@@ -7373,6 +3230,8 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  telemetry: TELEMETRY,
+  span: "CreateIndex",
 }));
 
 export type CreateOutboundConnectionError =
@@ -7387,13 +3246,13 @@ export type CreateOutboundConnectionError =
  * for Amazon OpenSearch Service.
  */
 export const createOutboundConnection: API.OperationMethod<
-  CreateOutboundConnectionRequest,
+  CreateOutboundConnectionRequest & RegionInput,
   CreateOutboundConnectionResponse,
   CreateOutboundConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateOutboundConnectionRequest,
-  output: CreateOutboundConnectionResponse,
+  input: __S(2144, __c67, 0) as any as S.Schema<CreateOutboundConnectionRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<CreateOutboundConnectionResponse>,
   errors: [
     DisabledOperationException,
     InternalException,
@@ -7403,6 +3262,8 @@ export const createOutboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundConnection",
+  telemetry: TELEMETRY,
+  span: "CreateOutboundConnection",
 }));
 
 export type CreatePackageError =
@@ -7420,13 +3281,13 @@ export type CreatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const createPackage: API.OperationMethod<
-  CreatePackageRequest,
+  CreatePackageRequest & RegionInput,
   CreatePackageResponse,
   CreatePackageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreatePackageRequest,
-  output: CreatePackageResponse,
+  input: __S(2208, __c69, 0) as any as S.Schema<CreatePackageRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<CreatePackageResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -7439,6 +3300,8 @@ export const createPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
+  telemetry: TELEMETRY,
+  span: "CreatePackage",
 }));
 
 export type CreateVpcEndpointError =
@@ -7453,13 +3316,13 @@ export type CreateVpcEndpointError =
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
 export const createVpcEndpoint: API.OperationMethod<
-  CreateVpcEndpointRequest,
+  CreateVpcEndpointRequest & RegionInput,
   CreateVpcEndpointResponse,
   CreateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: CreateVpcEndpointRequest,
-  output: CreateVpcEndpointResponse,
+  input: __S(2368, __c74, 0) as any as S.Schema<CreateVpcEndpointRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<CreateVpcEndpointResponse>,
   errors: [
     BaseException,
     ConflictException,
@@ -7471,6 +3334,8 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "CreateVpcEndpoint",
 }));
 
 export type DeleteApplicationError =
@@ -7486,13 +3351,13 @@ export type DeleteApplicationError =
  * Deletes a specified OpenSearch application.
  */
 export const deleteApplication: API.OperationMethod<
-  DeleteApplicationRequest,
+  DeleteApplicationRequest & RegionInput,
   DeleteApplicationResponse,
   DeleteApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteApplicationRequest,
-  output: DeleteApplicationResponse,
+  input: __S(2464, __c77, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -7505,6 +3370,8 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  telemetry: TELEMETRY,
+  span: "DeleteApplication",
 }));
 
 export type DeleteDataSourceError =
@@ -7520,13 +3387,13 @@ export type DeleteDataSourceError =
  * an Amazon OpenSearch Service data source with Amazon S3.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDataSourceRequest,
-  output: DeleteDataSourceResponse,
+  input: __S(2496, __c78, 0) as any as S.Schema<DeleteDataSourceRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<DeleteDataSourceResponse>,
   errors: [
     BaseException,
     DependencyFailureException,
@@ -7538,6 +3405,8 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDataSource",
 }));
 
 export type DeleteDirectQueryDataSourceError =
@@ -7552,13 +3421,13 @@ export type DeleteDirectQueryDataSourceError =
  * Service.
  */
 export const deleteDirectQueryDataSource: API.OperationMethod<
-  DeleteDirectQueryDataSourceRequest,
+  DeleteDirectQueryDataSourceRequest & RegionInput,
   DeleteDirectQueryDataSourceResponse,
   DeleteDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDirectQueryDataSourceRequest,
-  output: DeleteDirectQueryDataSourceResponse,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteDirectQueryDataSourceRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DeleteDirectQueryDataSourceResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -7569,6 +3438,8 @@ export const deleteDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "DeleteDirectQueryDataSource",
 }));
 
 export type DeleteDomainError =
@@ -7582,22 +3453,19 @@ export type DeleteDomainError =
  * domain after you delete it.
  */
 export const deleteDomain: API.OperationMethod<
-  DeleteDomainRequest,
+  DeleteDomainRequest & RegionInput,
   DeleteDomainResponse,
   DeleteDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteDomainRequest,
-  output: DeleteDomainResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(2560, __c80, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<DeleteDomainResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  telemetry: TELEMETRY,
+  span: "DeleteDomain",
 }));
 
 export type DeleteInboundConnectionError =
@@ -7609,17 +3477,19 @@ export type DeleteInboundConnectionError =
  * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const deleteInboundConnection: API.OperationMethod<
-  DeleteInboundConnectionRequest,
+  DeleteInboundConnectionRequest & RegionInput,
   DeleteInboundConnectionResponse,
   DeleteInboundConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteInboundConnectionRequest,
-  output: DeleteInboundConnectionResponse,
+  input: __S(2592, __c81, 0) as any as S.Schema<DeleteInboundConnectionRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<DeleteInboundConnectionResponse>,
   errors: [DisabledOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteInboundConnection",
 }));
 
 export type DeleteIndexError =
@@ -7635,13 +3505,13 @@ export type DeleteIndexError =
  * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
  */
 export const deleteIndex: API.OperationMethod<
-  DeleteIndexRequest,
+  DeleteIndexRequest & RegionInput,
   DeleteIndexResponse,
   DeleteIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteIndexRequest,
-  output: DeleteIndexResponse,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteIndexRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<DeleteIndexResponse>,
   errors: [
     AccessDeniedException,
     DependencyFailureException,
@@ -7654,6 +3524,8 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  telemetry: TELEMETRY,
+  span: "DeleteIndex",
 }));
 
 export type DeleteOutboundConnectionError =
@@ -7665,17 +3537,19 @@ export type DeleteOutboundConnectionError =
  * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const deleteOutboundConnection: API.OperationMethod<
-  DeleteOutboundConnectionRequest,
+  DeleteOutboundConnectionRequest & RegionInput,
   DeleteOutboundConnectionResponse,
   DeleteOutboundConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteOutboundConnectionRequest,
-  output: DeleteOutboundConnectionResponse,
+  input: __S(2656, __c83, 0) as any as S.Schema<DeleteOutboundConnectionRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<DeleteOutboundConnectionResponse>,
   errors: [DisabledOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundConnection",
+  telemetry: TELEMETRY,
+  span: "DeleteOutboundConnection",
 }));
 
 export type DeletePackageError =
@@ -7691,13 +3565,13 @@ export type DeletePackageError =
  * for Amazon OpenSearch Service.
  */
 export const deletePackage: API.OperationMethod<
-  DeletePackageRequest,
+  DeletePackageRequest & RegionInput,
   DeletePackageResponse,
   DeletePackageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeletePackageRequest,
-  output: DeletePackageResponse,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeletePackageRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<DeletePackageResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -7709,6 +3583,8 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
+  telemetry: TELEMETRY,
+  span: "DeletePackage",
 }));
 
 export type DeleteVpcEndpointError =
@@ -7721,22 +3597,19 @@ export type DeleteVpcEndpointError =
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const deleteVpcEndpoint: API.OperationMethod<
-  DeleteVpcEndpointRequest,
+  DeleteVpcEndpointRequest & RegionInput,
   DeleteVpcEndpointResponse,
   DeleteVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeleteVpcEndpointRequest,
-  output: DeleteVpcEndpointResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+  input: __S(2752, __c86, 0) as any as S.Schema<DeleteVpcEndpointRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<DeleteVpcEndpointResponse>,
+  errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "DeleteVpcEndpoint",
 }));
 
 export type DeregisterCapabilityError =
@@ -7751,13 +3624,13 @@ export type DeregisterCapabilityError =
  * Deregisters a capability from an OpenSearch UI application. This operation removes the capability and its associated configuration.
  */
 export const deregisterCapability: API.OperationMethod<
-  DeregisterCapabilityRequest,
+  DeregisterCapabilityRequest & RegionInput,
   DeregisterCapabilityResponse,
   DeregisterCapabilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DeregisterCapabilityRequest,
-  output: DeregisterCapabilityResponse,
+  input: __S(2816, __c88, 0) as any as S.Schema<DeregisterCapabilityRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<DeregisterCapabilityResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7769,6 +3642,8 @@ export const deregisterCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCapability",
+  telemetry: TELEMETRY,
+  span: "DeregisterCapability",
 }));
 
 export type DescribeDataSourceAttachmentError =
@@ -7782,13 +3657,13 @@ export type DescribeDataSourceAttachmentError =
  * Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a `ResourceNotFoundException` if no attachment record exists for the specified application and data source combination.
  */
 export const describeDataSourceAttachment: API.OperationMethod<
-  DescribeDataSourceAttachmentRequest,
+  DescribeDataSourceAttachmentRequest & RegionInput,
   DescribeDataSourceAttachmentResponse,
   DescribeDataSourceAttachmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDataSourceAttachmentRequest,
-  output: DescribeDataSourceAttachmentResponse,
+  input: __S(2848, __c89, 0) as any as S.Schema<DescribeDataSourceAttachmentRequest>,
+  output: __S(1408, __c44, 0) as any as S.Schema<DescribeDataSourceAttachmentResponse>,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
@@ -7799,6 +3674,8 @@ export const describeDataSourceAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSourceAttachment",
+  telemetry: TELEMETRY,
+  span: "DescribeDataSourceAttachment",
 }));
 
 export type DescribeDomainError =
@@ -7812,22 +3689,19 @@ export type DescribeDomainError =
  * including the domain ID, domain service endpoint, and domain ARN.
  */
 export const describeDomain: API.OperationMethod<
-  DescribeDomainRequest,
+  DescribeDomainRequest & RegionInput,
   DescribeDomainResponse,
   DescribeDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDomainRequest,
-  output: DescribeDomainResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(2880, __c90, 0) as any as S.Schema<DescribeDomainRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<DescribeDomainResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
+  telemetry: TELEMETRY,
+  span: "DescribeDomain",
 }));
 
 export type DescribeDomainAutoTunesError =
@@ -7842,20 +3716,15 @@ export type DescribeDomainAutoTunesError =
  * OpenSearch Service.
  */
 export const describeDomainAutoTunes: API.PaginatedOperationMethod<
-  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesRequest & RegionInput,
   DescribeDomainAutoTunesResponse,
   DescribeDomainAutoTunesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeDomainAutoTunesRequest,
-  output: DescribeDomainAutoTunesResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(2912, __c91, 0) as any as S.Schema<DescribeDomainAutoTunesRequest>,
+  output: __S(2917, __c91, 5) as any as S.Schema<DescribeDomainAutoTunesResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainAutoTunes",
@@ -7864,6 +3733,8 @@ export const describeDomainAutoTunes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeDomainAutoTunes",
 })) as any;
 
 export type DescribeDomainChangeProgressError =
@@ -7877,22 +3748,19 @@ export type DescribeDomainChangeProgressError =
  * OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
  */
 export const describeDomainChangeProgress: API.OperationMethod<
-  DescribeDomainChangeProgressRequest,
+  DescribeDomainChangeProgressRequest & RegionInput,
   DescribeDomainChangeProgressResponse,
   DescribeDomainChangeProgressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDomainChangeProgressRequest,
-  output: DescribeDomainChangeProgressResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(2944, __c92, 0) as any as S.Schema<DescribeDomainChangeProgressRequest>,
+  output: __S(2950, __c92, 6) as any as S.Schema<DescribeDomainChangeProgressResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainChangeProgress",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainChangeProgress",
 }));
 
 export type DescribeDomainConfigError =
@@ -7905,22 +3773,19 @@ export type DescribeDomainConfigError =
  * Returns the configuration of an Amazon OpenSearch Service domain.
  */
 export const describeDomainConfig: API.OperationMethod<
-  DescribeDomainConfigRequest,
+  DescribeDomainConfigRequest & RegionInput,
   DescribeDomainConfigResponse,
   DescribeDomainConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDomainConfigRequest,
-  output: DescribeDomainConfigResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(3040, __c95, 0) as any as S.Schema<DescribeDomainConfigRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<DescribeDomainConfigResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainConfig",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainConfig",
 }));
 
 export type DescribeDomainHealthError =
@@ -7935,13 +3800,13 @@ export type DescribeDomainHealthError =
  * number of nodes per Availability Zone, and shard count per node.
  */
 export const describeDomainHealth: API.OperationMethod<
-  DescribeDomainHealthRequest,
+  DescribeDomainHealthRequest & RegionInput,
   DescribeDomainHealthResponse,
   DescribeDomainHealthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDomainHealthRequest,
-  output: DescribeDomainHealthResponse,
+  input: __S(3104, __c97, 0) as any as S.Schema<DescribeDomainHealthRequest>,
+  output: __S(3109, __c97, 5) as any as S.Schema<DescribeDomainHealthResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -7952,6 +3817,8 @@ export const describeDomainHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainHealth",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainHealth",
 }));
 
 export type DescribeDomainNodesError =
@@ -7968,13 +3835,13 @@ export type DescribeDomainNodesError =
  * states.
  */
 export const describeDomainNodes: API.OperationMethod<
-  DescribeDomainNodesRequest,
+  DescribeDomainNodesRequest & RegionInput,
   DescribeDomainNodesResponse,
   DescribeDomainNodesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDomainNodesRequest,
-  output: DescribeDomainNodesResponse,
+  input: __S(3136, __c98, 0) as any as S.Schema<DescribeDomainNodesRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<DescribeDomainNodesResponse>,
   errors: [
     BaseException,
     DependencyFailureException,
@@ -7986,6 +3853,43 @@ export const describeDomainNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainNodes",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainNodes",
+}));
+
+export type DescribeDomainReplicationError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Describes the replication arrangement that a domain participates in, including the domain's
+ * role and the state of its relationship with each peer.
+ *
+ * A domain that is not replicating is returned with an empty `Peers` list and no
+ * `Role`. Returns `ResourceNotFoundException` if the domain does not
+ * exist.
+ */
+export const describeDomainReplication: API.OperationMethod<
+  DescribeDomainReplicationRequest & RegionInput,
+  DescribeDomainReplicationResponse,
+  DescribeDomainReplicationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3168, __c99, 0) as any as S.Schema<DescribeDomainReplicationRequest>,
+  output: __S(3171, __c99, 3) as any as S.Schema<DescribeDomainReplicationResponse>,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeDomainReplication",
+  telemetry: TELEMETRY,
+  span: "DescribeDomainReplication",
 }));
 
 export type DescribeDomainsError =
@@ -7998,17 +3902,19 @@ export type DescribeDomainsError =
  * domains.
  */
 export const describeDomains: API.OperationMethod<
-  DescribeDomainsRequest,
+  DescribeDomainsRequest & RegionInput,
   DescribeDomainsResponse,
   DescribeDomainsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDomainsRequest,
-  output: DescribeDomainsResponse,
+  input: __S(3200, __c100, 0) as any as S.Schema<DescribeDomainsRequest>,
+  output: __S(3202, __c100, 2) as any as S.Schema<DescribeDomainsResponse>,
   errors: [BaseException, InternalException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomains",
+  telemetry: TELEMETRY,
+  span: "DescribeDomains",
 }));
 
 export type DescribeDryRunProgressError =
@@ -8023,13 +3929,13 @@ export type DescribeDryRunProgressError =
  * Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
  */
 export const describeDryRunProgress: API.OperationMethod<
-  DescribeDryRunProgressRequest,
+  DescribeDryRunProgressRequest & RegionInput,
   DescribeDryRunProgressResponse,
   DescribeDryRunProgressError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeDryRunProgressRequest,
-  output: DescribeDryRunProgressResponse,
+  input: __S(3232, __c101, 0) as any as S.Schema<DescribeDryRunProgressRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<DescribeDryRunProgressResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8040,6 +3946,8 @@ export const describeDryRunProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDryRunProgress",
+  telemetry: TELEMETRY,
+  span: "DescribeDryRunProgress",
 }));
 
 export type DescribeInboundConnectionsError =
@@ -8051,14 +3959,14 @@ export type DescribeInboundConnectionsError =
  * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const describeInboundConnections: API.PaginatedOperationMethod<
-  DescribeInboundConnectionsRequest,
+  DescribeInboundConnectionsRequest & RegionInput,
   DescribeInboundConnectionsResponse,
   DescribeInboundConnectionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeInboundConnectionsRequest,
-  output: DescribeInboundConnectionsResponse,
+  input: __S(3296, __c103, 0) as any as S.Schema<DescribeInboundConnectionsRequest>,
+  output: __S(3298, __c103, 2) as any as S.Schema<DescribeInboundConnectionsResponse>,
   errors: [DisabledOperationException, InvalidPaginationTokenException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8068,6 +3976,8 @@ export const describeInboundConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeInboundConnections",
 })) as any;
 
 export type DescribeInsightDetailsError =
@@ -8084,13 +3994,13 @@ export type DescribeInsightDetailsError =
  * and metric data.
  */
 export const describeInsightDetails: API.OperationMethod<
-  DescribeInsightDetailsRequest,
+  DescribeInsightDetailsRequest & RegionInput,
   DescribeInsightDetailsResponse,
   DescribeInsightDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeInsightDetailsRequest,
-  output: DescribeInsightDetailsResponse,
+  input: __S(3360, __c105, 0) as any as S.Schema<DescribeInsightDetailsRequest>,
+  output: __S(3363, __c105, 3) as any as S.Schema<DescribeInsightDetailsResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8102,6 +4012,8 @@ export const describeInsightDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsightDetails",
+  telemetry: TELEMETRY,
+  span: "DescribeInsightDetails",
 }));
 
 export type DescribeInstanceTypeLimitsError =
@@ -8117,13 +4029,13 @@ export type DescribeInstanceTypeLimitsError =
  * or Elasticsearch version and instance type.
  */
 export const describeInstanceTypeLimits: API.OperationMethod<
-  DescribeInstanceTypeLimitsRequest,
+  DescribeInstanceTypeLimitsRequest & RegionInput,
   DescribeInstanceTypeLimitsResponse,
   DescribeInstanceTypeLimitsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeInstanceTypeLimitsRequest,
-  output: DescribeInstanceTypeLimitsResponse,
+  input: __S(3424, __c107, 0) as any as S.Schema<DescribeInstanceTypeLimitsRequest>,
+  output: __S(3433, __c107, 9) as any as S.Schema<DescribeInstanceTypeLimitsResponse>,
   errors: [
     BaseException,
     InternalException,
@@ -8135,6 +4047,8 @@ export const describeInstanceTypeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceTypeLimits",
+  telemetry: TELEMETRY,
+  span: "DescribeInstanceTypeLimits",
 }));
 
 export type DescribeOutboundConnectionsError =
@@ -8146,14 +4060,14 @@ export type DescribeOutboundConnectionsError =
  * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
 export const describeOutboundConnections: API.PaginatedOperationMethod<
-  DescribeOutboundConnectionsRequest,
+  DescribeOutboundConnectionsRequest & RegionInput,
   DescribeOutboundConnectionsResponse,
   DescribeOutboundConnectionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeOutboundConnectionsRequest,
-  output: DescribeOutboundConnectionsResponse,
+  input: __S(3456, __c108, 0) as any as S.Schema<DescribeOutboundConnectionsRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<DescribeOutboundConnectionsResponse>,
   errors: [DisabledOperationException, InvalidPaginationTokenException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8163,6 +4077,8 @@ export const describeOutboundConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeOutboundConnections",
 })) as any;
 
 export type DescribePackagesError =
@@ -8178,14 +4094,14 @@ export type DescribePackagesError =
  * for Amazon OpenSearch Service.
  */
 export const describePackages: API.PaginatedOperationMethod<
-  DescribePackagesRequest,
+  DescribePackagesRequest & RegionInput,
   DescribePackagesResponse,
   DescribePackagesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribePackagesRequest,
-  output: DescribePackagesResponse,
+  input: __S(3490, __c109, 2) as any as S.Schema<DescribePackagesRequest>,
+  output: __S(3492, __c109, 4) as any as S.Schema<DescribePackagesResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -8201,6 +4117,8 @@ export const describePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribePackages",
 })) as any;
 
 export type DescribeReservedInstanceOfferingsError =
@@ -8215,14 +4133,14 @@ export type DescribeReservedInstanceOfferingsError =
  * OpenSearch Service.
  */
 export const describeReservedInstanceOfferings: API.PaginatedOperationMethod<
-  DescribeReservedInstanceOfferingsRequest,
+  DescribeReservedInstanceOfferingsRequest & RegionInput,
   DescribeReservedInstanceOfferingsResponse,
   DescribeReservedInstanceOfferingsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReservedInstanceOfferingsRequest,
-  output: DescribeReservedInstanceOfferingsResponse,
+  input: __S(3520, __c110, 0) as any as S.Schema<DescribeReservedInstanceOfferingsRequest>,
+  output: __S(3523, __c110, 3) as any as S.Schema<DescribeReservedInstanceOfferingsResponse>,
   errors: [
     DisabledOperationException,
     InternalException,
@@ -8237,6 +4155,8 @@ export const describeReservedInstanceOfferings: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedInstanceOfferings",
 })) as any;
 
 export type DescribeReservedInstancesError =
@@ -8251,14 +4171,14 @@ export type DescribeReservedInstancesError =
  * OpenSearch Service.
  */
 export const describeReservedInstances: API.PaginatedOperationMethod<
-  DescribeReservedInstancesRequest,
+  DescribeReservedInstancesRequest & RegionInput,
   DescribeReservedInstancesResponse,
   DescribeReservedInstancesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: DescribeReservedInstancesRequest,
-  output: DescribeReservedInstancesResponse,
+  input: __S(3584, __c112, 0) as any as S.Schema<DescribeReservedInstancesRequest>,
+  output: __S(3587, __c112, 3) as any as S.Schema<DescribeReservedInstancesResponse>,
   errors: [
     DisabledOperationException,
     InternalException,
@@ -8273,6 +4193,8 @@ export const describeReservedInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "DescribeReservedInstances",
 })) as any;
 
 export type DescribeVpcEndpointsError =
@@ -8285,22 +4207,19 @@ export type DescribeVpcEndpointsError =
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
 export const describeVpcEndpoints: API.OperationMethod<
-  DescribeVpcEndpointsRequest,
+  DescribeVpcEndpointsRequest & RegionInput,
   DescribeVpcEndpointsResponse,
   DescribeVpcEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DescribeVpcEndpointsRequest,
-  output: DescribeVpcEndpointsResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ValidationException,
-  ],
+  input: __S(3616, __c113, 0) as any as S.Schema<DescribeVpcEndpointsRequest>,
+  output: __S(3620, __c113, 4) as any as S.Schema<DescribeVpcEndpointsResponse>,
+  errors: [BaseException, DisabledOperationException, InternalException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "DescribeVpcEndpoints",
 }));
 
 export type DetachDataSourceError =
@@ -8315,13 +4234,13 @@ export type DetachDataSourceError =
  * Removes a data source from an OpenSearch application. The application must be in the `ACTIVE` state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a `ConflictException` if the specified data source has a `PENDING` attachment, and a `ResourceNotFoundException` if the data source is not currently attached to the application.
  */
 export const detachDataSource: API.OperationMethod<
-  DetachDataSourceRequest,
+  DetachDataSourceRequest & RegionInput,
   DetachDataSourceResponse,
   DetachDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DetachDataSourceRequest,
-  output: DetachDataSourceResponse,
+  input: __S(3648, __c114, 0) as any as S.Schema<DetachDataSourceRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<DetachDataSourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8333,6 +4252,8 @@ export const detachDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachDataSource",
+  telemetry: TELEMETRY,
+  span: "DetachDataSource",
 }));
 
 export type DissociatePackageError =
@@ -8351,13 +4272,13 @@ export type DissociatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const dissociatePackage: API.OperationMethod<
-  DissociatePackageRequest,
+  DissociatePackageRequest & RegionInput,
   DissociatePackageResponse,
   DissociatePackageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DissociatePackageRequest,
-  output: DissociatePackageResponse,
+  input: __S(3680, __c115, 0) as any as S.Schema<DissociatePackageRequest>,
+  output: __S(1248, __c39, 0) as any as S.Schema<DissociatePackageResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -8369,6 +4290,8 @@ export const dissociatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackage",
+  telemetry: TELEMETRY,
+  span: "DissociatePackage",
 }));
 
 export type DissociatePackagesError =
@@ -8383,13 +4306,13 @@ export type DissociatePackagesError =
  * Dissociates multiple packages from a domain simultaneously.
  */
 export const dissociatePackages: API.OperationMethod<
-  DissociatePackagesRequest,
+  DissociatePackagesRequest & RegionInput,
   DissociatePackagesResponse,
   DissociatePackagesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: DissociatePackagesRequest,
-  output: DissociatePackagesResponse,
+  input: __S(3712, __c116, 0) as any as S.Schema<DissociatePackagesRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<DissociatePackagesResponse>,
   errors: [
     BaseException,
     ConflictException,
@@ -8401,6 +4324,45 @@ export const dissociatePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackages",
+  telemetry: TELEMETRY,
+  span: "DissociatePackages",
+}));
+
+export type FailoverReplicationError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Promotes a secondary domain to primary without coordinating with the current primary. Use
+ * this operation when the primary is unreachable and you cannot wait for it to recover.
+ *
+ * Writes that had not yet replicated when the primary became unreachable are lost. You must
+ * set `AllowDataLoss` to acknowledge this. To promote a domain without losing writes,
+ * use the `SwitchoverReplication` operation instead.
+ *
+ * Call this operation in the Region of the domain you want to promote.
+ */
+export const failoverReplication: API.OperationMethod<
+  FailoverReplicationRequest & RegionInput,
+  FailoverReplicationResponse,
+  FailoverReplicationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3744, __c117, 0) as any as S.Schema<FailoverReplicationRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<FailoverReplicationResponse>,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "FailoverReplication",
+  telemetry: TELEMETRY,
+  span: "FailoverReplication",
 }));
 
 export type GetApplicationError =
@@ -8415,13 +4377,13 @@ export type GetApplicationError =
  * Retrieves the configuration and status of an existing OpenSearch application.
  */
 export const getApplication: API.OperationMethod<
-  GetApplicationRequest,
+  GetApplicationRequest & RegionInput,
   GetApplicationResponse,
   GetApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetApplicationRequest,
-  output: GetApplicationResponse,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(3777, __c118, 1) as any as S.Schema<GetApplicationResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -8433,6 +4395,8 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  telemetry: TELEMETRY,
+  span: "GetApplication",
 }));
 
 export type GetCapabilityError =
@@ -8446,13 +4410,13 @@ export type GetCapabilityError =
  * Retrieves information about a registered capability for an OpenSearch UI application, including its configuration and current status.
  */
 export const getCapability: API.OperationMethod<
-  GetCapabilityRequest,
+  GetCapabilityRequest & RegionInput,
   GetCapabilityResponse,
   GetCapabilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCapabilityRequest,
-  output: GetCapabilityResponse,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetCapabilityRequest>,
+  output: __S(3811, __c119, 3) as any as S.Schema<GetCapabilityResponse>,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
@@ -8463,6 +4427,8 @@ export const getCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapability",
+  telemetry: TELEMETRY,
+  span: "GetCapability",
 }));
 
 export type GetCompatibleVersionsError =
@@ -8477,13 +4443,13 @@ export type GetCompatibleVersionsError =
  * them to.
  */
 export const getCompatibleVersions: API.OperationMethod<
-  GetCompatibleVersionsRequest,
+  GetCompatibleVersionsRequest & RegionInput,
   GetCompatibleVersionsResponse,
   GetCompatibleVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetCompatibleVersionsRequest,
-  output: GetCompatibleVersionsResponse,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetCompatibleVersionsRequest>,
+  output: __S(3875, __c121, 3) as any as S.Schema<GetCompatibleVersionsResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8494,6 +4460,8 @@ export const getCompatibleVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleVersions",
+  telemetry: TELEMETRY,
+  span: "GetCompatibleVersions",
 }));
 
 export type GetDataSourceError =
@@ -8508,13 +4476,13 @@ export type GetDataSourceError =
  * Retrieves information about a direct query data source.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDataSourceRequest,
-  output: GetDataSourceResponse,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetDataSourceRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<GetDataSourceResponse>,
   errors: [
     BaseException,
     DependencyFailureException,
@@ -8526,6 +4494,8 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDataSource",
 }));
 
 export type GetDefaultApplicationSettingError =
@@ -8541,13 +4511,13 @@ export type GetDefaultApplicationSettingError =
  * error.
  */
 export const getDefaultApplicationSetting: API.OperationMethod<
-  GetDefaultApplicationSettingRequest,
+  GetDefaultApplicationSettingRequest & RegionInput,
   GetDefaultApplicationSettingResponse,
   GetDefaultApplicationSettingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDefaultApplicationSettingRequest,
-  output: GetDefaultApplicationSettingResponse,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetDefaultApplicationSettingRequest>,
+  output: __S(3968, __c124, 0) as any as S.Schema<GetDefaultApplicationSettingResponse>,
   errors: [
     AccessDeniedException,
     InternalException,
@@ -8557,6 +4527,8 @@ export const getDefaultApplicationSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultApplicationSetting",
+  telemetry: TELEMETRY,
+  span: "GetDefaultApplicationSetting",
 }));
 
 export type GetDirectQueryDataSourceError =
@@ -8571,13 +4543,13 @@ export type GetDirectQueryDataSourceError =
  * Amazon OpenSearch Service.
  */
 export const getDirectQueryDataSource: API.OperationMethod<
-  GetDirectQueryDataSourceRequest,
+  GetDirectQueryDataSourceRequest & RegionInput,
   GetDirectQueryDataSourceResponse,
   GetDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDirectQueryDataSourceRequest,
-  output: GetDirectQueryDataSourceResponse,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetDirectQueryDataSourceRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<GetDirectQueryDataSourceResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8588,6 +4560,8 @@ export const getDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "GetDirectQueryDataSource",
 }));
 
 export type GetDomainMaintenanceStatusError =
@@ -8601,13 +4575,13 @@ export type GetDomainMaintenanceStatusError =
  * The status of the maintenance action.
  */
 export const getDomainMaintenanceStatus: API.OperationMethod<
-  GetDomainMaintenanceStatusRequest,
+  GetDomainMaintenanceStatusRequest & RegionInput,
   GetDomainMaintenanceStatusResponse,
   GetDomainMaintenanceStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetDomainMaintenanceStatusRequest,
-  output: GetDomainMaintenanceStatusResponse,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetDomainMaintenanceStatusRequest>,
+  output: __S(4033, __c126, 1) as any as S.Schema<GetDomainMaintenanceStatusResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8618,6 +4592,8 @@ export const getDomainMaintenanceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainMaintenanceStatus",
+  telemetry: TELEMETRY,
+  span: "GetDomainMaintenanceStatus",
 }));
 
 export type GetIndexError =
@@ -8633,13 +4609,13 @@ export type GetIndexError =
  * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
  */
 export const getIndex: API.OperationMethod<
-  GetIndexRequest,
+  GetIndexRequest & RegionInput,
   GetIndexResponse,
   GetIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetIndexRequest,
-  output: GetIndexResponse,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetIndexRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<GetIndexResponse>,
   errors: [
     AccessDeniedException,
     DependencyFailureException,
@@ -8652,6 +4628,8 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  telemetry: TELEMETRY,
+  span: "GetIndex",
 }));
 
 export type GetMigrationError =
@@ -8665,13 +4643,13 @@ export type GetMigrationError =
  * Retrieves the current status and progress of a migration job, including the number of exported and imported objects and error details if the migration failed.
  */
 export const getMigration: API.OperationMethod<
-  GetMigrationRequest,
+  GetMigrationRequest & RegionInput,
   GetMigrationResponse,
   GetMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetMigrationRequest,
-  output: GetMigrationResponse,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetMigrationRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<GetMigrationResponse>,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
@@ -8682,6 +4660,8 @@ export const getMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMigration",
+  telemetry: TELEMETRY,
+  span: "GetMigration",
 }));
 
 export type GetPackageVersionHistoryError =
@@ -8698,14 +4678,14 @@ export type GetPackageVersionHistoryError =
  * OpenSearch Service.
  */
 export const getPackageVersionHistory: API.PaginatedOperationMethod<
-  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryRequest & RegionInput,
   GetPackageVersionHistoryResponse,
   GetPackageVersionHistoryError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetPackageVersionHistoryRequest,
-  output: GetPackageVersionHistoryResponse,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetPackageVersionHistoryRequest>,
+  output: __S(4195, __c131, 3) as any as S.Schema<GetPackageVersionHistoryResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -8721,6 +4701,8 @@ export const getPackageVersionHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetPackageVersionHistory",
 })) as any;
 
 export type GetUpgradeHistoryError =
@@ -8735,14 +4717,14 @@ export type GetUpgradeHistoryError =
  * Service domain.
  */
 export const getUpgradeHistory: API.PaginatedOperationMethod<
-  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryRequest & RegionInput,
   GetUpgradeHistoryResponse,
   GetUpgradeHistoryError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: GetUpgradeHistoryRequest,
-  output: GetUpgradeHistoryResponse,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetUpgradeHistoryRequest>,
+  output: __S(4229, __c132, 5) as any as S.Schema<GetUpgradeHistoryResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8758,6 +4740,8 @@ export const getUpgradeHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "GetUpgradeHistory",
 })) as any;
 
 export type GetUpgradeStatusError =
@@ -8772,13 +4756,13 @@ export type GetUpgradeStatusError =
  * an Amazon OpenSearch Service domain.
  */
 export const getUpgradeStatus: API.OperationMethod<
-  GetUpgradeStatusRequest,
+  GetUpgradeStatusRequest & RegionInput,
   GetUpgradeStatusResponse,
   GetUpgradeStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: GetUpgradeStatusRequest,
-  output: GetUpgradeStatusResponse,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetUpgradeStatusRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<GetUpgradeStatusResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8789,6 +4773,8 @@ export const getUpgradeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpgradeStatus",
+  telemetry: TELEMETRY,
+  span: "GetUpgradeStatus",
 }));
 
 export type InsightFeedbackError =
@@ -8805,13 +4791,13 @@ export type InsightFeedbackError =
  * for a specific insight.
  */
 export const insightFeedback: API.OperationMethod<
-  InsightFeedbackRequest,
+  InsightFeedbackRequest & RegionInput,
   InsightFeedbackResponse,
   InsightFeedbackError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: InsightFeedbackRequest,
-  output: InsightFeedbackResponse,
+  input: __S(4289, __c134, 1) as any as S.Schema<InsightFeedbackRequest>,
+  output: __S(4290, __c134, 2) as any as S.Schema<InsightFeedbackResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8823,6 +4809,8 @@ export const insightFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InsightFeedback",
+  telemetry: TELEMETRY,
+  span: "InsightFeedback",
 }));
 
 export type ListApplicationsError =
@@ -8837,14 +4825,14 @@ export type ListApplicationsError =
  * Lists all OpenSearch applications under your account.
  */
 export const listApplications: API.PaginatedOperationMethod<
-  ListApplicationsRequest,
+  ListApplicationsRequest & RegionInput,
   ListApplicationsResponse,
   ListApplicationsError,
   Credentials | HttpClient.HttpClient,
   ApplicationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListApplicationsRequest,
-  output: ListApplicationsResponse,
+  input: __S(4321, __c135, 1) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(4324, __c135, 4) as any as S.Schema<ListApplicationsResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -8862,6 +4850,8 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaries",
     pageSize: "maxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListApplications",
 })) as any;
 
 export type ListDataSourceAttachmentsError =
@@ -8875,13 +4865,13 @@ export type ListDataSourceAttachmentsError =
  * Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (`PENDING`, `ATTACHED`, and `FAILED`).
  */
 export const listDataSourceAttachments: API.OperationMethod<
-  ListDataSourceAttachmentsRequest,
+  ListDataSourceAttachmentsRequest & RegionInput,
   ListDataSourceAttachmentsResponse,
   ListDataSourceAttachmentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDataSourceAttachmentsRequest,
-  output: ListDataSourceAttachmentsResponse,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListDataSourceAttachmentsRequest>,
+  output: __S(4355, __c136, 3) as any as S.Schema<ListDataSourceAttachmentsResponse>,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
@@ -8892,6 +4882,8 @@ export const listDataSourceAttachments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSourceAttachments",
+  telemetry: TELEMETRY,
+  span: "ListDataSourceAttachments",
 }));
 
 export type ListDataSourcesError =
@@ -8908,13 +4900,13 @@ export type ListDataSourcesError =
  * Amazon OpenSearch Service direct queries with Amazon S3.
  */
 export const listDataSources: API.OperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDataSourcesRequest,
-  output: ListDataSourcesResponse,
+  input: __S(4384, __c137, 0) as any as S.Schema<ListDataSourcesRequest>,
+  output: __S(4387, __c137, 3) as any as S.Schema<ListDataSourcesResponse>,
   errors: [
     BaseException,
     DependencyFailureException,
@@ -8926,6 +4918,8 @@ export const listDataSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSources",
+  telemetry: TELEMETRY,
+  span: "ListDataSources",
 }));
 
 export type ListDirectQueryDataSourcesError =
@@ -8940,13 +4934,13 @@ export type ListDirectQueryDataSourcesError =
  * within Amazon OpenSearch Service.
  */
 export const listDirectQueryDataSources: API.OperationMethod<
-  ListDirectQueryDataSourcesRequest,
+  ListDirectQueryDataSourcesRequest & RegionInput,
   ListDirectQueryDataSourcesResponse,
   ListDirectQueryDataSourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDirectQueryDataSourcesRequest,
-  output: ListDirectQueryDataSourcesResponse,
+  input: __S(4416, __c138, 0) as any as S.Schema<ListDirectQueryDataSourcesRequest>,
+  output: __S(4419, __c138, 3) as any as S.Schema<ListDirectQueryDataSourcesResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8957,6 +4951,8 @@ export const listDirectQueryDataSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDirectQueryDataSources",
+  telemetry: TELEMETRY,
+  span: "ListDirectQueryDataSources",
 }));
 
 export type ListDomainMaintenancesError =
@@ -8970,14 +4966,14 @@ export type ListDomainMaintenancesError =
  * A list of maintenance actions for the domain.
  */
 export const listDomainMaintenances: API.PaginatedOperationMethod<
-  ListDomainMaintenancesRequest,
+  ListDomainMaintenancesRequest & RegionInput,
   ListDomainMaintenancesResponse,
   ListDomainMaintenancesError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainMaintenancesRequest,
-  output: ListDomainMaintenancesResponse,
+  input: __S(4448, __c139, 0) as any as S.Schema<ListDomainMaintenancesRequest>,
+  output: __S(4451, __c139, 3) as any as S.Schema<ListDomainMaintenancesResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -8993,28 +4989,29 @@ export const listDomainMaintenances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainMaintenances",
 })) as any;
 
-export type ListDomainNamesError =
-  | BaseException
-  | ValidationException
-  | CommonErrors;
+export type ListDomainNamesError = BaseException | ValidationException | CommonErrors;
 /**
  * Returns the names of all Amazon OpenSearch Service domains owned by the current user
  * in the active Region.
  */
 export const listDomainNames: API.OperationMethod<
-  ListDomainNamesRequest,
+  ListDomainNamesRequest & RegionInput,
   ListDomainNamesResponse,
   ListDomainNamesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListDomainNamesRequest,
-  output: ListDomainNamesResponse,
+  input: __S(4480, __c140, 0) as any as S.Schema<ListDomainNamesRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<ListDomainNamesResponse>,
   errors: [BaseException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
+  telemetry: TELEMETRY,
+  span: "ListDomainNames",
 }));
 
 export type ListDomainsForPackageError =
@@ -9030,14 +5027,14 @@ export type ListDomainsForPackageError =
  * for Amazon OpenSearch Service.
  */
 export const listDomainsForPackage: API.PaginatedOperationMethod<
-  ListDomainsForPackageRequest,
+  ListDomainsForPackageRequest & RegionInput,
   ListDomainsForPackageResponse,
   ListDomainsForPackageError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListDomainsForPackageRequest,
-  output: ListDomainsForPackageResponse,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListDomainsForPackageRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<ListDomainsForPackageResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -9053,6 +5050,8 @@ export const listDomainsForPackage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListDomainsForPackage",
 })) as any;
 
 export type ListInsightsError =
@@ -9069,13 +5068,13 @@ export type ListInsightsError =
  * and sort order.
  */
 export const listInsights: API.OperationMethod<
-  ListInsightsRequest,
+  ListInsightsRequest & RegionInput,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListInsightsRequest,
-  output: ListInsightsResponse,
+  input: __S(4577, __c143, 1) as any as S.Schema<ListInsightsRequest>,
+  output: __S(4580, __c143, 4) as any as S.Schema<ListInsightsResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -9087,6 +5086,8 @@ export const listInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInsights",
+  telemetry: TELEMETRY,
+  span: "ListInsights",
 }));
 
 export type ListInstanceTypeDetailsError =
@@ -9100,20 +5101,15 @@ export type ListInstanceTypeDetailsError =
  * Elasticsearch version.
  */
 export const listInstanceTypeDetails: API.PaginatedOperationMethod<
-  ListInstanceTypeDetailsRequest,
+  ListInstanceTypeDetailsRequest & RegionInput,
   ListInstanceTypeDetailsResponse,
   ListInstanceTypeDetailsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListInstanceTypeDetailsRequest,
-  output: ListInstanceTypeDetailsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(4608, __c144, 0) as any as S.Schema<ListInstanceTypeDetailsRequest>,
+  output: __S(4611, __c144, 3) as any as S.Schema<ListInstanceTypeDetailsResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceTypeDetails",
@@ -9122,6 +5118,8 @@ export const listInstanceTypeDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListInstanceTypeDetails",
 })) as any;
 
 export type ListMigrationsError =
@@ -9134,13 +5132,13 @@ export type ListMigrationsError =
  * Lists migration jobs for an Amazon OpenSearch Service application. You can filter results by migration status. Use pagination to ensure that the operation returns quickly and successfully.
  */
 export const listMigrations: API.OperationMethod<
-  ListMigrationsRequest,
+  ListMigrationsRequest & RegionInput,
   ListMigrationsResponse,
   ListMigrationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListMigrationsRequest,
-  output: ListMigrationsResponse,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListMigrationsRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<ListMigrationsResponse>,
   errors: [
     AccessDeniedException,
     DisabledOperationException,
@@ -9150,6 +5148,8 @@ export const listMigrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMigrations",
+  telemetry: TELEMETRY,
+  span: "ListMigrations",
 }));
 
 export type ListPackagesForDomainError =
@@ -9165,14 +5165,14 @@ export type ListPackagesForDomainError =
  * for Amazon OpenSearch Service.
  */
 export const listPackagesForDomain: API.PaginatedOperationMethod<
-  ListPackagesForDomainRequest,
+  ListPackagesForDomainRequest & RegionInput,
   ListPackagesForDomainResponse,
   ListPackagesForDomainError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListPackagesForDomainRequest,
-  output: ListPackagesForDomainResponse,
+  input: __S(4672, __c146, 0) as any as S.Schema<ListPackagesForDomainRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<ListPackagesForDomainResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -9188,6 +5188,8 @@ export const listPackagesForDomain: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListPackagesForDomain",
 })) as any;
 
 export type ListScheduledActionsError =
@@ -9203,14 +5205,14 @@ export type ListScheduledActionsError =
  * software updates or blue/green Auto-Tune enhancements.
  */
 export const listScheduledActions: API.PaginatedOperationMethod<
-  ListScheduledActionsRequest,
+  ListScheduledActionsRequest & RegionInput,
   ListScheduledActionsResponse,
   ListScheduledActionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListScheduledActionsRequest,
-  output: ListScheduledActionsResponse,
+  input: __S(4704, __c147, 0) as any as S.Schema<ListScheduledActionsRequest>,
+  output: __S(4706, __c147, 2) as any as S.Schema<ListScheduledActionsResponse>,
   errors: [
     BaseException,
     InternalException,
@@ -9226,6 +5228,8 @@ export const listScheduledActions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduledActions",
 })) as any;
 
 export type ListTagsError =
@@ -9239,22 +5243,19 @@ export type ListTagsError =
  * application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const listTags: API.OperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListTagsRequest,
-  output: ListTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(4768, __c149, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(4769, __c149, 1) as any as S.Schema<ListTagsResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  telemetry: TELEMETRY,
+  span: "ListTags",
 }));
 
 export type ListVersionsError =
@@ -9268,20 +5269,15 @@ export type ListVersionsError =
  * supports.
  */
 export const listVersions: API.PaginatedOperationMethod<
-  ListVersionsRequest,
+  ListVersionsRequest & RegionInput,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: ListVersionsRequest,
-  output: ListVersionsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  input: __S(4800, __c150, 0) as any as S.Schema<ListVersionsRequest>,
+  output: __S(4801, __c150, 1) as any as S.Schema<ListVersionsResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVersions",
@@ -9290,6 +5286,8 @@ export const listVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  telemetry: TELEMETRY,
+  span: "ListVersions",
 })) as any;
 
 export type ListVpcEndpointAccessError =
@@ -9304,22 +5302,19 @@ export type ListVpcEndpointAccessError =
  * endpoint.
  */
 export const listVpcEndpointAccess: API.OperationMethod<
-  ListVpcEndpointAccessRequest,
+  ListVpcEndpointAccessRequest & RegionInput,
   ListVpcEndpointAccessResponse,
   ListVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVpcEndpointAccessRequest,
-  output: ListVpcEndpointAccessResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+  input: __S(4832, __c151, 0) as any as S.Schema<ListVpcEndpointAccessRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<ListVpcEndpointAccessResponse>,
+  errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointAccess",
 }));
 
 export type ListVpcEndpointsError =
@@ -9331,17 +5326,19 @@ export type ListVpcEndpointsError =
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
  */
 export const listVpcEndpoints: API.OperationMethod<
-  ListVpcEndpointsRequest,
+  ListVpcEndpointsRequest & RegionInput,
   ListVpcEndpointsResponse,
   ListVpcEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVpcEndpointsRequest,
-  output: ListVpcEndpointsResponse,
+  input: __S(4864, __c152, 0) as any as S.Schema<ListVpcEndpointsRequest>,
+  output: __S(4897, __c153, 1) as any as S.Schema<ListVpcEndpointsResponse>,
   errors: [BaseException, DisabledOperationException, InternalException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpoints",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpoints",
 }));
 
 export type ListVpcEndpointsForDomainError =
@@ -9355,22 +5352,19 @@ export type ListVpcEndpointsForDomainError =
  * particular domain.
  */
 export const listVpcEndpointsForDomain: API.OperationMethod<
-  ListVpcEndpointsForDomainRequest,
+  ListVpcEndpointsForDomainRequest & RegionInput,
   ListVpcEndpointsForDomainResponse,
   ListVpcEndpointsForDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListVpcEndpointsForDomainRequest,
-  output: ListVpcEndpointsForDomainResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+  input: __S(4928, __c154, 0) as any as S.Schema<ListVpcEndpointsForDomainRequest>,
+  output: __S(4897, __c153, 1) as any as S.Schema<ListVpcEndpointsForDomainResponse>,
+  errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointsForDomain",
+  telemetry: TELEMETRY,
+  span: "ListVpcEndpointsForDomain",
 }));
 
 export type PurchaseReservedInstanceOfferingError =
@@ -9385,13 +5379,13 @@ export type PurchaseReservedInstanceOfferingError =
  * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
  */
 export const purchaseReservedInstanceOffering: API.OperationMethod<
-  PurchaseReservedInstanceOfferingRequest,
+  PurchaseReservedInstanceOfferingRequest & RegionInput,
   PurchaseReservedInstanceOfferingResponse,
   PurchaseReservedInstanceOfferingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PurchaseReservedInstanceOfferingRequest,
-  output: PurchaseReservedInstanceOfferingResponse,
+  input: __S(4960, __c155, 0) as any as S.Schema<PurchaseReservedInstanceOfferingRequest>,
+  output: __S(4961, __c155, 1) as any as S.Schema<PurchaseReservedInstanceOfferingResponse>,
   errors: [
     DisabledOperationException,
     InternalException,
@@ -9403,6 +5397,8 @@ export const purchaseReservedInstanceOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedInstanceOffering",
+  telemetry: TELEMETRY,
+  span: "PurchaseReservedInstanceOffering",
 }));
 
 export type PutDefaultApplicationSettingError =
@@ -9420,13 +5416,13 @@ export type PutDefaultApplicationSettingError =
  * `setAsDefault` parameter set to `false`.
  */
 export const putDefaultApplicationSetting: API.OperationMethod<
-  PutDefaultApplicationSettingRequest,
+  PutDefaultApplicationSettingRequest & RegionInput,
   PutDefaultApplicationSettingResponse,
   PutDefaultApplicationSettingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: PutDefaultApplicationSettingRequest,
-  output: PutDefaultApplicationSettingResponse,
+  input: __S(4992, __c156, 0) as any as S.Schema<PutDefaultApplicationSettingRequest>,
+  output: __S(3968, __c124, 0) as any as S.Schema<PutDefaultApplicationSettingResponse>,
   errors: [
     AccessDeniedException,
     InternalException,
@@ -9436,6 +5432,8 @@ export const putDefaultApplicationSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDefaultApplicationSetting",
+  telemetry: TELEMETRY,
+  span: "PutDefaultApplicationSetting",
 }));
 
 export type RegisterCapabilityError =
@@ -9451,13 +5449,13 @@ export type RegisterCapabilityError =
  * Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI.
  */
 export const registerCapability: API.OperationMethod<
-  RegisterCapabilityRequest,
+  RegisterCapabilityRequest & RegionInput,
   RegisterCapabilityResponse,
   RegisterCapabilityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RegisterCapabilityRequest,
-  output: RegisterCapabilityResponse,
+  input: __S(5024, __c157, 0) as any as S.Schema<RegisterCapabilityRequest>,
+  output: __S(5025, __c157, 1) as any as S.Schema<RegisterCapabilityResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9470,6 +5468,8 @@ export const registerCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCapability",
+  telemetry: TELEMETRY,
+  span: "RegisterCapability",
 }));
 
 export type RejectInboundConnectionError =
@@ -9481,17 +5481,50 @@ export type RejectInboundConnectionError =
  * cross-cluster connection request.
  */
 export const rejectInboundConnection: API.OperationMethod<
-  RejectInboundConnectionRequest,
+  RejectInboundConnectionRequest & RegionInput,
   RejectInboundConnectionResponse,
   RejectInboundConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RejectInboundConnectionRequest,
-  output: RejectInboundConnectionResponse,
+  input: __S(5056, __c158, 0) as any as S.Schema<RejectInboundConnectionRequest>,
+  output: __S(736, __c23, 0) as any as S.Schema<RejectInboundConnectionResponse>,
   errors: [DisabledOperationException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInboundConnection",
+  telemetry: TELEMETRY,
+  span: "RejectInboundConnection",
+}));
+
+export type RemoveReplicationPeerError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Stops replicating a domain to its peer. Replication ends for both domains, and each domain
+ * keeps the data it holds at that point. Neither domain is deleted.
+ */
+export const removeReplicationPeer: API.OperationMethod<
+  RemoveReplicationPeerRequest & RegionInput,
+  RemoveReplicationPeerResponse,
+  RemoveReplicationPeerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5088, __c159, 0) as any as S.Schema<RemoveReplicationPeerRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<RemoveReplicationPeerResponse>,
+  errors: [
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RemoveReplicationPeer",
+  telemetry: TELEMETRY,
+  span: "RemoveReplicationPeer",
 }));
 
 export type RemoveTagsError =
@@ -9504,17 +5537,19 @@ export type RemoveTagsError =
  * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
 export const removeTags: API.OperationMethod<
-  RemoveTagsRequest,
+  RemoveTagsRequest & RegionInput,
   RemoveTagsResponse,
   RemoveTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RemoveTagsRequest,
-  output: RemoveTagsResponse,
+  input: __S(0, __c0, 0) as any as S.Schema<RemoveTagsRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<RemoveTagsResponse>,
   errors: [BaseException, InternalException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  telemetry: TELEMETRY,
+  span: "RemoveTags",
 }));
 
 export type RevokeVpcEndpointAccessError =
@@ -9529,13 +5564,13 @@ export type RevokeVpcEndpointAccessError =
  * interface VPC endpoint.
  */
 export const revokeVpcEndpointAccess: API.OperationMethod<
-  RevokeVpcEndpointAccessRequest,
+  RevokeVpcEndpointAccessRequest & RegionInput,
   RevokeVpcEndpointAccessResponse,
   RevokeVpcEndpointAccessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeVpcEndpointAccessRequest,
-  output: RevokeVpcEndpointAccessResponse,
+  input: __S(32, __c1, 0) as any as S.Schema<RevokeVpcEndpointAccessRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<RevokeVpcEndpointAccessResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -9546,6 +5581,8 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeVpcEndpointAccess",
+  telemetry: TELEMETRY,
+  span: "RevokeVpcEndpointAccess",
 }));
 
 export type RollbackServiceSoftwareUpdateError =
@@ -9561,13 +5598,13 @@ export type RollbackServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const rollbackServiceSoftwareUpdate: API.OperationMethod<
-  RollbackServiceSoftwareUpdateRequest,
+  RollbackServiceSoftwareUpdateRequest & RegionInput,
   RollbackServiceSoftwareUpdateResponse,
   RollbackServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: RollbackServiceSoftwareUpdateRequest,
-  output: RollbackServiceSoftwareUpdateResponse,
+  input: __S(64, __c2, 0) as any as S.Schema<RollbackServiceSoftwareUpdateRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<RollbackServiceSoftwareUpdateResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -9578,6 +5615,8 @@ export const rollbackServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "RollbackServiceSoftwareUpdate",
 }));
 
 export type StartDomainMaintenanceError =
@@ -9593,13 +5632,13 @@ export type StartDomainMaintenanceError =
  * restart.
  */
 export const startDomainMaintenance: API.OperationMethod<
-  StartDomainMaintenanceRequest,
+  StartDomainMaintenanceRequest & RegionInput,
   StartDomainMaintenanceResponse,
   StartDomainMaintenanceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartDomainMaintenanceRequest,
-  output: StartDomainMaintenanceResponse,
+  input: __S(96, __c3, 0) as any as S.Schema<StartDomainMaintenanceRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<StartDomainMaintenanceResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -9610,6 +5649,8 @@ export const startDomainMaintenance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainMaintenance",
+  telemetry: TELEMETRY,
+  span: "StartDomainMaintenance",
 }));
 
 export type StartMigrationError =
@@ -9624,13 +5665,13 @@ export type StartMigrationError =
  * Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the target workspace.
  */
 export const startMigration: API.OperationMethod<
-  StartMigrationRequest,
+  StartMigrationRequest & RegionInput,
   StartMigrationResponse,
   StartMigrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartMigrationRequest,
-  output: StartMigrationResponse,
+  input: __S(133, __c4, 5) as any as S.Schema<StartMigrationRequest>,
+  output: __S(134, __c4, 6) as any as S.Schema<StartMigrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9642,6 +5683,8 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
+  telemetry: TELEMETRY,
+  span: "StartMigration",
 }));
 
 export type StartServiceSoftwareUpdateError =
@@ -9656,22 +5699,55 @@ export type StartServiceSoftwareUpdateError =
  * software updates in Amazon OpenSearch Service.
  */
 export const startServiceSoftwareUpdate: API.OperationMethod<
-  StartServiceSoftwareUpdateRequest,
+  StartServiceSoftwareUpdateRequest & RegionInput,
   StartServiceSoftwareUpdateResponse,
   StartServiceSoftwareUpdateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: StartServiceSoftwareUpdateRequest,
-  output: StartServiceSoftwareUpdateResponse,
+  input: __S(160, __c5, 0) as any as S.Schema<StartServiceSoftwareUpdateRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<StartServiceSoftwareUpdateResponse>,
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartServiceSoftwareUpdate",
+  telemetry: TELEMETRY,
+  span: "StartServiceSoftwareUpdate",
+}));
+
+export type SwitchoverReplicationError =
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Promotes a secondary domain to primary, coordinating with the current primary so that no
+ * writes are lost. Use this operation for planned role changes, such as testing your recovery
+ * procedure or moving write traffic to another Region.
+ *
+ * Call this operation in the Region of the domain you want to promote. If the current primary
+ * is unreachable, use the `FailoverReplication` operation
+ * instead.
+ */
+export const switchoverReplication: API.OperationMethod<
+  SwitchoverReplicationRequest & RegionInput,
+  SwitchoverReplicationResponse,
+  SwitchoverReplicationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c6, 0) as any as S.Schema<SwitchoverReplicationRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<SwitchoverReplicationResponse>,
   errors: [
-    BaseException,
+    DisabledOperationException,
     InternalException,
     ResourceNotFoundException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
-  operationName: "StartServiceSoftwareUpdate",
+  operationName: "SwitchoverReplication",
+  telemetry: TELEMETRY,
+  span: "SwitchoverReplication",
 }));
 
 export type UpdateApplicationError =
@@ -9687,13 +5763,13 @@ export type UpdateApplicationError =
  * Updates the configuration and settings of an existing OpenSearch application.
  */
 export const updateApplication: API.OperationMethod<
-  UpdateApplicationRequest,
+  UpdateApplicationRequest & RegionInput,
   UpdateApplicationResponse,
   UpdateApplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateApplicationRequest,
-  output: UpdateApplicationResponse,
+  input: __S(224, __c7, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<UpdateApplicationResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -9706,6 +5782,40 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  telemetry: TELEMETRY,
+  span: "UpdateApplication",
+}));
+
+export type UpdateCloneError =
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Manages a cloned blue/green upgrade that is in progress on a domain. Use it to shift a percentage of search traffic to the cloned cluster, to cut over to the cloned cluster or back to the primary cluster, or to change the retention period. Specify exactly one of `TrafficSplitOptions`, `CutoverOptions`, or `RetentionOptions` in each request.
+ */
+export const updateClone: API.OperationMethod<
+  UpdateCloneRequest & RegionInput,
+  UpdateCloneResponse,
+  UpdateCloneError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(258, __c8, 2) as any as S.Schema<UpdateCloneRequest>,
+  output: __S(261, __c8, 5) as any as S.Schema<UpdateCloneResponse>,
+  errors: [
+    BaseException,
+    DisabledOperationException,
+    InternalException,
+    ResourceNotFoundException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateClone",
+  telemetry: TELEMETRY,
+  span: "UpdateClone",
 }));
 
 export type UpdateDataSourceError =
@@ -9722,13 +5832,13 @@ export type UpdateDataSourceError =
  * S3.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDataSourceRequest,
-  output: UpdateDataSourceResponse,
+  input: __S(320, __c10, 0) as any as S.Schema<UpdateDataSourceRequest>,
+  output: __S(800, __c25, 0) as any as S.Schema<UpdateDataSourceResponse>,
   errors: [
     BaseException,
     DependencyFailureException,
@@ -9740,6 +5850,8 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDataSource",
 }));
 
 export type UpdateDirectQueryDataSourceError =
@@ -9755,13 +5867,13 @@ export type UpdateDirectQueryDataSourceError =
  * Amazon OpenSearch Service.
  */
 export const updateDirectQueryDataSource: API.OperationMethod<
-  UpdateDirectQueryDataSourceRequest,
+  UpdateDirectQueryDataSourceRequest & RegionInput,
   UpdateDirectQueryDataSourceResponse,
   UpdateDirectQueryDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDirectQueryDataSourceRequest,
-  output: UpdateDirectQueryDataSourceResponse,
+  input: __S(352, __c11, 0) as any as S.Schema<UpdateDirectQueryDataSourceRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<UpdateDirectQueryDataSourceResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -9773,6 +5885,8 @@ export const updateDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectQueryDataSource",
+  telemetry: TELEMETRY,
+  span: "UpdateDirectQueryDataSource",
 }));
 
 export type UpdateDomainConfigError =
@@ -9788,13 +5902,13 @@ export type UpdateDomainConfigError =
  * domain.
  */
 export const updateDomainConfig: API.OperationMethod<
-  UpdateDomainConfigRequest,
+  UpdateDomainConfigRequest & RegionInput,
   UpdateDomainConfigResponse,
   UpdateDomainConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateDomainConfigRequest,
-  output: UpdateDomainConfigResponse,
+  input: __S(384, __c12, 0) as any as S.Schema<UpdateDomainConfigRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<UpdateDomainConfigResponse>,
   errors: [
     BaseException,
     InternalException,
@@ -9806,6 +5920,8 @@ export const updateDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateDomainConfig",
 }));
 
 export type UpdateIndexError =
@@ -9821,13 +5937,13 @@ export type UpdateIndexError =
  * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
  */
 export const updateIndex: API.OperationMethod<
-  UpdateIndexRequest,
+  UpdateIndexRequest & RegionInput,
   UpdateIndexResponse,
   UpdateIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateIndexRequest,
-  output: UpdateIndexResponse,
+  input: __S(416, __c13, 0) as any as S.Schema<UpdateIndexRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<UpdateIndexResponse>,
   errors: [
     AccessDeniedException,
     DependencyFailureException,
@@ -9840,6 +5956,8 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
+  telemetry: TELEMETRY,
+  span: "UpdateIndex",
 }));
 
 export type UpdatePackageError =
@@ -9856,13 +5974,13 @@ export type UpdatePackageError =
  * for Amazon OpenSearch Service.
  */
 export const updatePackage: API.OperationMethod<
-  UpdatePackageRequest,
+  UpdatePackageRequest & RegionInput,
   UpdatePackageResponse,
   UpdatePackageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdatePackageRequest,
-  output: UpdatePackageResponse,
+  input: __S(448, __c14, 0) as any as S.Schema<UpdatePackageRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<UpdatePackageResponse>,
   errors: [
     AccessDeniedException,
     BaseException,
@@ -9874,6 +5992,8 @@ export const updatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackage",
+  telemetry: TELEMETRY,
+  span: "UpdatePackage",
 }));
 
 export type UpdatePackageScopeError =
@@ -9888,13 +6008,13 @@ export type UpdatePackageScopeError =
  * associate a package.
  */
 export const updatePackageScope: API.OperationMethod<
-  UpdatePackageScopeRequest,
+  UpdatePackageScopeRequest & RegionInput,
   UpdatePackageScopeResponse,
   UpdatePackageScopeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdatePackageScopeRequest,
-  output: UpdatePackageScopeResponse,
+  input: __S(480, __c15, 0) as any as S.Schema<UpdatePackageScopeRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<UpdatePackageScopeResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -9905,6 +6025,8 @@ export const updatePackageScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageScope",
+  telemetry: TELEMETRY,
+  span: "UpdatePackageScope",
 }));
 
 export type UpdateScheduledActionError =
@@ -9922,13 +6044,13 @@ export type UpdateScheduledActionError =
  * software update or a blue/green Auto-Tune enhancement.
  */
 export const updateScheduledAction: API.OperationMethod<
-  UpdateScheduledActionRequest,
+  UpdateScheduledActionRequest & RegionInput,
   UpdateScheduledActionResponse,
   UpdateScheduledActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateScheduledActionRequest,
-  output: UpdateScheduledActionResponse,
+  input: __S(512, __c16, 0) as any as S.Schema<UpdateScheduledActionRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<UpdateScheduledActionResponse>,
   errors: [
     BaseException,
     ConflictException,
@@ -9941,6 +6063,8 @@ export const updateScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledAction",
+  telemetry: TELEMETRY,
+  span: "UpdateScheduledAction",
 }));
 
 export type UpdateVpcEndpointError =
@@ -9955,13 +6079,13 @@ export type UpdateVpcEndpointError =
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
 export const updateVpcEndpoint: API.OperationMethod<
-  UpdateVpcEndpointRequest,
+  UpdateVpcEndpointRequest & RegionInput,
   UpdateVpcEndpointResponse,
   UpdateVpcEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpdateVpcEndpointRequest,
-  output: UpdateVpcEndpointResponse,
+  input: __S(544, __c17, 0) as any as S.Schema<UpdateVpcEndpointRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<UpdateVpcEndpointResponse>,
   errors: [
     BaseException,
     ConflictException,
@@ -9973,6 +6097,8 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
+  telemetry: TELEMETRY,
+  span: "UpdateVpcEndpoint",
 }));
 
 export type UpgradeDomainError =
@@ -9988,13 +6114,13 @@ export type UpgradeDomainError =
  * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
  */
 export const upgradeDomain: API.OperationMethod<
-  UpgradeDomainRequest,
+  UpgradeDomainRequest & RegionInput,
   UpgradeDomainResponse,
   UpgradeDomainError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: UpgradeDomainRequest,
-  output: UpgradeDomainResponse,
+  input: __S(578, __c18, 2) as any as S.Schema<UpgradeDomainRequest>,
+  output: __S(579, __c18, 3) as any as S.Schema<UpgradeDomainResponse>,
   errors: [
     BaseException,
     DisabledOperationException,
@@ -10006,4 +6132,4463 @@ export const upgradeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeDomain",
+  telemetry: TELEMETRY,
+  span: "UpgradeDomain",
 }));
+
+// Schema builders: each runs one schema initializer, on that schema's first use.
+function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ARN: S.String, TagKeys: __S(960, __c30, 0) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/tags-removal" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RemoveTagsRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Account: S.optional(S.String),
+          Service: S.optional(S.String),
+          ServiceOptions: S.optional(__S(1504, __c47, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/revokeVpcEndpointAccess",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RevokeVpcEndpointAccessRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RollbackServiceSoftwareUpdateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CurrentVersion: S.optional(S.String),
+          NewVersion: S.optional(S.String),
+          RollbackAvailable: S.optional(S.Boolean),
+          Description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RollbackServiceSoftwareOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ RollbackServiceSoftwareOptions: S.optional(__S(65, __c2, 1)) }).pipe(ns),
+      ).annotate({ identifier: "RollbackServiceSoftwareUpdateResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Action: S.String,
+          NodeId: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenance",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartDomainMaintenanceRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ MaintenanceId: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "StartDomainMaintenanceResponse",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workspaceId: S.optional(S.String),
+          createWorkspace: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationWorkspace" });
+    case 1:
+      return S.suspend(() => S.Struct({ type: S.String, id: S.String })).annotate({
+        identifier: "SavedObjectIdentifier",
+      });
+    case 2:
+      return S.Array(__S(129, __c4, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          types: S.optional(__S(960, __c30, 0)),
+          objects: S.optional(__S(130, __c4, 2)),
+          includeReferencesDeep: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ExportOptions" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          source: __S(4160, __c130, 0),
+          workspace: __S(128, __c4, 0),
+          exportOptions: S.optional(__S(131, __c4, 3)),
+          conflictResolution: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MigrationOptions" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          applicationId: S.String,
+          migrationOptions: __S(132, __c4, 4),
+          clientToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/app-migrations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartMigrationRequest" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ migrationId: S.optional(S.String), status: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "StartMigrationResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String,
+          ScheduleAt: S.optional(S.String),
+          DesiredStartTime: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/start" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "StartServiceSoftwareUpdateRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          PeerDomainArn: S.String,
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/replication/switchover",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "SwitchoverReplicationRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.HttpLabel("id")),
+          dataSources: S.optional(__S(1761, __c55, 1)),
+          appConfigs: S.optional(__S(1763, __c55, 3)),
+          iamIdentityCenterOptions: S.optional(__S(1728, __c54, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "PUT", uri: "/2021-01-01/opensearch/application/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateApplicationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          arn: S.optional(S.String),
+          dataSources: S.optional(__S(1761, __c55, 1)),
+          iamIdentityCenterOptions: S.optional(__S(1764, __c55, 4)),
+          appConfigs: S.optional(__S(1763, __c55, 3)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateApplicationResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Strategy: S.String, CloneReadTrafficPercent: S.Number }),
+      ).annotate({ identifier: "TrafficSplitRequestOptions" });
+    case 1:
+      return S.suspend(() => S.Struct({ Target: S.String })).annotate({
+        identifier: "CutoverRequestOptions",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          TrafficSplitOptions: S.optional(__S(256, __c8, 0)),
+          CutoverOptions: S.optional(__S(257, __c8, 1)),
+          RetentionOptions: S.optional(__S(288, __c9, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/domain/{DomainName}/clone" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateCloneRequest" });
+    case 3:
+      return S.suspend(() => S.Struct({ Target: S.String, Status: S.String })).annotate({
+        identifier: "CutoverOptions",
+      });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ Current: __S(2976, __c93, 0), Target: __S(2976, __c93, 0), Status: S.String }),
+      ).annotate({ identifier: "TrafficSplitOptions" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String,
+          ChangeId: S.String,
+          CutoverOptions: S.optional(__S(259, __c8, 3)),
+          TrafficSplitOptions: S.optional(__S(260, __c8, 4)),
+          RetentionOptions: S.optional(__S(288, __c9, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateCloneResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ RetentionInHours: S.Number }),
+        /*@__PURE__*/ S.Struct({ RetentionAction: S.String }),
+      ]);
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Name: S.String.pipe(T.HttpLabel("Name")),
+          DataSourceType: __S(833, __c26, 1),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "PUT",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateDataSourceRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceName: S.String.pipe(T.HttpLabel("DataSourceName")),
+          DataSourceType: __S(994, __c31, 2),
+          Description: S.optional(S.String),
+          OpenSearchArns: S.optional(__S(960, __c30, 0)),
+          DataSourceAccessPolicy: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "PUT",
+              uri: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateDirectQueryDataSourceRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          ClusterConfig: S.optional(__S(1957, __c61, 5)),
+          EBSOptions: S.optional(__S(1958, __c61, 6)),
+          SnapshotOptions: S.optional(__S(1959, __c61, 7)),
+          VPCOptions: S.optional(__S(1856, __c58, 0)),
+          CognitoOptions: S.optional(__S(1960, __c61, 8)),
+          AdvancedOptions: S.optional(__S(1984, __c62, 0)),
+          AccessPolicies: S.optional(S.String),
+          IPAddressType: S.optional(S.String),
+          LogPublishingOptions: S.optional(__S(1964, __c61, 12)),
+          EncryptionAtRestOptions: S.optional(__S(1961, __c61, 9)),
+          DomainEndpointOptions: S.optional(__S(1965, __c61, 13)),
+          NodeToNodeEncryptionOptions: S.optional(__S(1962, __c61, 10)),
+          AdvancedSecurityOptions: S.optional(__S(1826, __c57, 2)),
+          IdentityCenterOptions: S.optional(__S(1827, __c57, 3)),
+          AutoTuneOptions: S.optional(__S(3087, __c96, 15)),
+          DryRun: S.optional(S.Boolean),
+          DryRunMode: S.optional(S.String),
+          OffPeakWindowOptions: S.optional(__S(1971, __c61, 19)),
+          SoftwareUpdateOptions: S.optional(__S(1972, __c61, 20)),
+          AIMLOptions: S.optional(__S(1829, __c57, 5)),
+          DeploymentStrategyOptions: S.optional(__S(1973, __c61, 21)),
+          AutomatedSnapshotPauseOptions: S.optional(__S(1830, __c57, 6)),
+          UseCase: S.optional(S.String),
+          EngineMode: S.optional(S.String),
+          AcceptedWarnings: S.optional(__S(960, __c30, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/domain/{DomainName}/config" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateDomainConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DomainConfig: __S(3095, __c96, 23),
+          DryRunResults: S.optional(__S(3265, __c102, 1)),
+          DryRunProgressStatus: S.optional(__S(3264, __c102, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdateDomainConfigResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          IndexName: S.String.pipe(T.HttpLabel("IndexName")),
+          IndexSchema: S.Any,
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "PUT",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateIndexRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.String,
+          PackageSource: __S(2240, __c70, 0),
+          PackageDescription: S.optional(S.String),
+          CommitMessage: S.optional(S.String),
+          PackageConfiguration: S.optional(__S(2336, __c73, 0)),
+          PackageEncryptionOptions: S.optional(__S(2305, __c72, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/packages/update" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdatePackageRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.String,
+          Operation: S.String,
+          PackageUserList: __S(960, __c30, 0),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/packages/updateScope" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdatePackageScopeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.optional(S.String),
+          Operation: S.optional(S.String),
+          PackageUserList: S.optional(__S(960, __c30, 0)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpdatePackageScopeResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          ActionID: S.String,
+          ActionType: S.String,
+          ScheduleAt: S.String,
+          DesiredStartTime: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "PUT",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/scheduledAction/update",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateScheduledActionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ ScheduledAction: S.optional(__S(4736, __c148, 0)) }).pipe(ns),
+      ).annotate({ identifier: "UpdateScheduledActionResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointId: S.String, VpcOptions: __S(1856, __c58, 0) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/vpcEndpoints/update" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateVpcEndpointRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ RetentionOptions: S.optional(__S(288, __c9, 0)) }),
+      ).annotate({ identifier: "ClonedBlueGreenOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DeploymentStrategy: S.String,
+          ClonedBlueGreenOptions: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "DeploymentStrategyOverrideOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String,
+          TargetVersion: S.String,
+          PerformCheckOnly: S.optional(S.Boolean),
+          AdvancedOptions: S.optional(__S(1984, __c62, 0)),
+          DeploymentStrategyOptions: S.optional(__S(577, __c18, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/upgradeDomain" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpgradeDomainRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          UpgradeId: S.optional(S.String),
+          DomainName: S.optional(S.String),
+          TargetVersion: S.optional(S.String),
+          PerformCheckOnly: S.optional(S.Boolean),
+          AdvancedOptions: S.optional(__S(1984, __c62, 0)),
+          DeploymentStrategyOptions: S.optional(__S(577, __c18, 1)),
+          ChangeProgressDetails: S.optional(__S(1985, __c62, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "UpgradeDomainResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "PUT",
+              uri: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/accept",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AcceptInboundConnectionRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          OwnerId: S.optional(S.String),
+          DomainName: S.String,
+          Region: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AWSDomainInformation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AWSDomainInformation: S.optional(__S(672, __c21, 0)) }),
+      ).annotate({ identifier: "DomainInformationContainer" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ StatusCode: S.optional(S.String), Message: S.optional(S.String) }),
+      ).annotate({ identifier: "InboundConnectionStatus" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LocalDomainInfo: S.optional(__S(673, __c21, 1)),
+          RemoteDomainInfo: S.optional(__S(673, __c21, 1)),
+          ConnectionId: S.optional(S.String),
+          ConnectionStatus: S.optional(__S(674, __c21, 2)),
+          ConnectionMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InboundConnection" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Connection: S.optional(__S(704, __c22, 0)) }).pipe(ns),
+      ).annotate({ identifier: "AcceptInboundConnectionResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Name: S.String,
+          DataSourceType: __S(833, __c26, 1),
+          Description: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AddDataSourceRequest" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Message: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "AddDataSourceResponse",
+      });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ RoleArn: S.optional(S.String) })).annotate({
+        identifier: "S3GlueDataCatalog",
+      });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ S3GlueDataCatalog: __S(832, __c26, 0) })]);
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceName: S.String,
+          DataSourceType: __S(994, __c31, 2),
+          Description: S.optional(S.String),
+          OpenSearchArns: S.optional(__S(960, __c30, 0)),
+          DataSourceAccessPolicy: S.optional(S.String),
+          TagList: S.optional(__S(929, __c29, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/directQueryDataSource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AddDirectQueryDataSourceRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ DataSourceArn: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "AddDirectQueryDataSourceResponse",
+      });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Key: S.String, Value: S.String })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(928, __c29, 0));
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ RoleArn: S.String })).annotate({
+        identifier: "CloudWatchDirectQueryDataSource",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ RoleArn: S.String, WorkspaceArn: S.String })).annotate({
+        identifier: "PrometheusDirectQueryDataSource",
+      });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ CloudWatchLog: __S(992, __c31, 0) }),
+        /*@__PURE__*/ S.Struct({ SecurityLake: __S(992, __c31, 0) }),
+        /*@__PURE__*/ S.Struct({ Prometheus: __S(993, __c31, 1) }),
+      ]);
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          PeerDomainArn: S.String,
+          DryRun: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/replication/addPeer",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AddReplicationPeerRequest" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainArn: S.optional(S.String), Status: S.optional(S.String) }).pipe(ns),
+      ).annotate({ identifier: "AddReplicationPeerResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ARN: S.String, TagList: __S(929, __c29, 1) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/tags" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AddTagsRequest" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "AddTagsResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.String.pipe(T.HttpLabel("PackageID")),
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          PrerequisitePackageIDList: S.optional(__S(960, __c30, 0)),
+          AssociationConfiguration: S.optional(__S(1217, __c38, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/packages/associate/{PackageID}/{DomainName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociatePackageRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ErrorType: S.optional(S.String), ErrorMessage: S.optional(S.String) }),
+      ).annotate({ identifier: "ErrorDetails" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ KeyAccessRoleArn: S.optional(S.String), KeyStoreAccessEnabled: S.Boolean }),
+      ).annotate({ identifier: "KeyStoreAccessOption" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ KeyStoreAccessOption: S.optional(__S(1216, __c38, 0)) }),
+      ).annotate({ identifier: "PackageAssociationConfiguration" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.optional(S.String),
+          PackageName: S.optional(S.String),
+          PackageType: S.optional(S.String),
+          LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          DomainName: S.optional(S.String),
+          DomainPackageStatus: S.optional(S.String),
+          PackageVersion: S.optional(S.String),
+          PrerequisitePackageIDList: S.optional(__S(960, __c30, 0)),
+          ReferencePath: S.optional(S.String),
+          ErrorDetails: S.optional(__S(1184, __c37, 0)),
+          AssociationConfiguration: S.optional(__S(1217, __c38, 1)),
+        }),
+      ).annotate({ identifier: "DomainPackageDetails" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainPackageDetails: S.optional(__S(1218, __c38, 2)) }).pipe(ns),
+      ).annotate({ identifier: "AssociatePackageResponse" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.String,
+          PrerequisitePackageIDList: S.optional(__S(960, __c30, 0)),
+          AssociationConfiguration: S.optional(__S(1217, __c38, 1)),
+        }),
+      ).annotate({ identifier: "PackageDetailsForAssociation" });
+    case 1:
+      return S.Array(__S(1280, __c40, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ PackageList: __S(1281, __c40, 1), DomainName: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/packages/associateMultiple" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociatePackagesRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainPackageDetailsList: S.optional(__S(1344, __c42, 0)) }).pipe(ns),
+      ).annotate({ identifier: "AssociatePackagesResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1218, __c38, 2));
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, workspaceType: S.String })).annotate({
+        identifier: "WorkspaceConfigurationInput",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.HttpLabel("id")),
+          dataSourceArn: S.String,
+          workspaceId: S.optional(S.String),
+          workspaceConfiguration: S.optional(__S(1376, __c43, 0)),
+          clientToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/application/{id}/attachDataSource",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AttachDataSourceRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attachmentId: S.optional(S.String),
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          dataSourceArn: S.optional(S.String),
+          status: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "AttachDataSourceResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Account: S.optional(S.String),
+          Service: S.optional(S.String),
+          ServiceOptions: S.optional(__S(1504, __c47, 0)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/authorizeVpcEndpointAccess",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AuthorizeVpcEndpointAccessRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ AuthorizedPrincipal: __S(1472, __c46, 0) }).pipe(ns),
+      ).annotate({ identifier: "AuthorizeVpcEndpointAccessResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PrincipalType: S.optional(S.String),
+          Principal: S.optional(S.String),
+          ServiceOptions: S.optional(__S(1504, __c47, 0)),
+        }),
+      ).annotate({ identifier: "AuthorizedPrincipal" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ SupportedRegions: S.optional(__S(960, __c30, 0)) }),
+      ).annotate({ identifier: "ServiceOptions" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          DryRun: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/config/cancel",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CancelDomainConfigChangeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PropertyName: S.optional(S.String),
+          CancelledValue: S.optional(S.String),
+          ActiveValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CancelledChangeProperty" });
+    case 2:
+      return S.Array(__S(1537, __c48, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          CancelledChangeIds: S.optional(__S(960, __c30, 0)),
+          CancelledChangeProperties: S.optional(__S(1538, __c48, 2)),
+          DryRun: S.optional(S.Boolean),
+        }).pipe(ns),
+      ).annotate({ identifier: "CancelDomainConfigChangeResponse" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CancelServiceSoftwareUpdateRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ServiceSoftwareOptions: S.optional(__S(1632, __c51, 0)) }).pipe(ns),
+      ).annotate({ identifier: "CancelServiceSoftwareUpdateResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CurrentVersion: S.optional(S.String),
+          NewVersion: S.optional(S.String),
+          UpdateAvailable: S.optional(S.Boolean),
+          Cancellable: S.optional(S.Boolean),
+          UpdateStatus: S.optional(S.String),
+          Description: S.optional(S.String),
+          AutomatedUpdateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          OptionalDeployment: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ServiceSoftwareOptions" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SourceDomainArn: S.String,
+          TargetDomainArn: S.String,
+          Categories: __S(960, __c30, 0),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/compareDomainConfiguration" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CompareDomainConfigurationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Path: S.optional(S.String),
+          SourceValue: S.optional(S.String),
+          TargetValue: S.optional(S.String),
+          Policy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DivergentField" });
+    case 2:
+      return S.Array(__S(1665, __c52, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Fields: S.optional(__S(1666, __c52, 2)) }),
+      ).annotate({ identifier: "DivergentItem" });
+    case 4:
+      return S.Array(__S(1667, __c52, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          SourceOnly: S.optional(__S(960, __c30, 0)),
+          TargetOnly: S.optional(__S(960, __c30, 0)),
+          Diverged: S.optional(__S(1668, __c52, 4)),
+        }),
+      ).annotate({ identifier: "DiffItems" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          InSync: S.optional(S.Number),
+          SourceOnly: S.optional(S.Number),
+          TargetOnly: S.optional(S.Number),
+          Diverged: S.optional(S.Number),
+          Items: S.optional(__S(1669, __c52, 5)),
+          Truncated: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CategoryDiffResult" });
+    case 7:
+      return S.Record(S.String, /*@__PURE__*/ __S(1670, __c52, 6).pipe(S.optional));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          SourceDomainArn: S.optional(S.String),
+          TargetDomainArn: S.optional(S.String),
+          Categories: S.optional(__S(1671, __c52, 7)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CompareDomainConfigurationResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          name: S.String,
+          dataSources: S.optional(__S(1761, __c55, 1)),
+          iamIdentityCenterOptions: S.optional(__S(1728, __c54, 0)),
+          appConfigs: S.optional(__S(1763, __c55, 3)),
+          tagList: S.optional(__S(929, __c29, 1)),
+          kmsKeyArn: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/application" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateApplicationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          arn: S.optional(S.String),
+          dataSources: S.optional(__S(1761, __c55, 1)),
+          iamIdentityCenterOptions: S.optional(__S(1764, __c55, 4)),
+          appConfigs: S.optional(__S(1763, __c55, 3)),
+          tagList: S.optional(__S(929, __c29, 1)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          kmsKeyArn: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateApplicationResponse" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          iamIdentityCenterInstanceArn: S.optional(S.String),
+          iamRoleForIdentityCenterApplicationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IamIdentityCenterOptionsInput" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dataSourceArn: S.optional(S.String),
+          dataSourceDescription: S.optional(S.String),
+          iamRoleForDataSourceArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataSource" });
+    case 1:
+      return S.Array(__S(1760, __c55, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
+      ).annotate({ identifier: "AppConfig" });
+    case 3:
+      return S.Array(__S(1762, __c55, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          iamIdentityCenterInstanceArn: S.optional(S.String),
+          iamRoleForIdentityCenterApplicationArn: S.optional(S.String),
+          iamIdentityCenterApplicationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IamIdentityCenterOptions" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DesiredState: S.optional(S.String),
+          MaintenanceSchedules: S.optional(__S(2050, __c64, 2)),
+          UseOffPeakWindow: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AutoTuneOptionsInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String,
+          EngineVersion: S.optional(S.String),
+          ClusterConfig: S.optional(__S(1957, __c61, 5)),
+          EBSOptions: S.optional(__S(1958, __c61, 6)),
+          AccessPolicies: S.optional(S.String),
+          IPAddressType: S.optional(S.String),
+          SnapshotOptions: S.optional(__S(1959, __c61, 7)),
+          VPCOptions: S.optional(__S(1856, __c58, 0)),
+          CognitoOptions: S.optional(__S(1960, __c61, 8)),
+          EncryptionAtRestOptions: S.optional(__S(1961, __c61, 9)),
+          NodeToNodeEncryptionOptions: S.optional(__S(1962, __c61, 10)),
+          AdvancedOptions: S.optional(__S(1984, __c62, 0)),
+          LogPublishingOptions: S.optional(__S(1964, __c61, 12)),
+          DomainEndpointOptions: S.optional(__S(1965, __c61, 13)),
+          AdvancedSecurityOptions: S.optional(__S(1826, __c57, 2)),
+          IdentityCenterOptions: S.optional(__S(1827, __c57, 3)),
+          TagList: S.optional(__S(929, __c29, 1)),
+          AutoTuneOptions: S.optional(__S(1792, __c56, 0)),
+          OffPeakWindowOptions: S.optional(__S(1971, __c61, 19)),
+          SoftwareUpdateOptions: S.optional(__S(1972, __c61, 20)),
+          AIMLOptions: S.optional(__S(1829, __c57, 5)),
+          DeploymentStrategyOptions: S.optional(__S(1973, __c61, 21)),
+          AutomatedSnapshotPauseOptions: S.optional(__S(1830, __c57, 6)),
+          UseCase: S.optional(S.String),
+          EngineMode: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/domain" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateDomainRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MasterUserARN: S.optional(S.String),
+          MasterUserName: S.optional(SensitiveString),
+          MasterUserPassword: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "MasterUserOptions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          Idp: S.optional(__S(1966, __c61, 14)),
+          MasterUserName: S.optional(SensitiveString),
+          MasterBackendRole: S.optional(S.String),
+          SubjectKey: S.optional(S.String),
+          RolesKey: S.optional(S.String),
+          SessionTimeoutMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SAMLOptionsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          InternalUserDatabaseEnabled: S.optional(S.Boolean),
+          MasterUserOptions: S.optional(__S(1824, __c57, 0)),
+          SAMLOptions: S.optional(__S(1825, __c57, 1)),
+          JWTOptions: S.optional(__S(1967, __c61, 15)),
+          IAMFederationOptions: S.optional(__S(1968, __c61, 16)),
+          AnonymousAuthEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AdvancedSecurityOptionsInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          EnabledAPIAccess: S.optional(S.Boolean),
+          IdentityCenterInstanceARN: S.optional(S.String),
+          IdentityCenterInstanceRegion: S.optional(S.String),
+          SubjectKey: S.optional(S.String),
+          RolesKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IdentityCenterOptionsInput" });
+    case 4:
+      return S.suspend(() => S.Struct({ DesiredState: S.optional(S.String) })).annotate({
+        identifier: "NaturalLanguageQueryGenerationOptionsInput",
+      });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          NaturalLanguageQueryGenerationOptions: S.optional(__S(1828, __c57, 4)),
+          S3VectorsEngine: S.optional(__S(1962, __c61, 10)),
+          ServerlessVectorAcceleration: S.optional(__S(1962, __c61, 10)),
+        }),
+      ).annotate({ identifier: "AIMLOptionsInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.Boolean,
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "AutomatedSnapshotPauseRequestOptions" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          SubnetIds: S.optional(__S(960, __c30, 0)),
+          SecurityGroupIds: S.optional(__S(960, __c30, 0)),
+          EgressEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VPCOptions" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VPCId: S.optional(S.String),
+          SubnetIds: S.optional(__S(960, __c30, 0)),
+          AvailabilityZones: S.optional(__S(960, __c30, 0)),
+          SecurityGroupIds: S.optional(__S(960, __c30, 0)),
+          EgressEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "VPCDerivedInfo" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainStatus: S.optional(__S(2017, __c63, 1)) }).pipe(ns),
+      ).annotate({ identifier: "CreateDomainResponse" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ AvailabilityZoneCount: S.optional(S.Number) })).annotate({
+        identifier: "ZoneAwarenessConfig",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ Enabled: S.Boolean })).annotate({
+        identifier: "ColdStorageOptions",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          Type: S.optional(S.String),
+          Count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NodeConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ NodeType: S.optional(S.String), NodeConfig: S.optional(__S(1954, __c61, 2)) }),
+      ).annotate({ identifier: "NodeOption" });
+    case 4:
+      return S.Array(__S(1955, __c61, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceType: S.optional(S.String),
+          InstanceCount: S.optional(S.Number),
+          DedicatedMasterEnabled: S.optional(S.Boolean),
+          ZoneAwarenessEnabled: S.optional(S.Boolean),
+          ZoneAwarenessConfig: S.optional(__S(1952, __c61, 0)),
+          DedicatedMasterType: S.optional(S.String),
+          DedicatedMasterCount: S.optional(S.Number),
+          WarmEnabled: S.optional(S.Boolean),
+          WarmType: S.optional(S.String),
+          WarmCount: S.optional(S.Number),
+          ColdStorageOptions: S.optional(__S(1953, __c61, 1)),
+          MultiAZWithStandbyEnabled: S.optional(S.Boolean),
+          NodeOptions: S.optional(__S(1956, __c61, 4)),
+        }),
+      ).annotate({ identifier: "ClusterConfig" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          EBSEnabled: S.optional(S.Boolean),
+          VolumeType: S.optional(S.String),
+          VolumeSize: S.optional(S.Number),
+          Iops: S.optional(S.Number),
+          Throughput: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EBSOptions" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ AutomatedSnapshotStartHour: S.optional(S.Number) }),
+      ).annotate({ identifier: "SnapshotOptions" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          UserPoolId: S.optional(S.String),
+          IdentityPoolId: S.optional(S.String),
+          RoleArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CognitoOptions" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          KmsKeyId: S.optional(S.String),
+          EncryptionMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EncryptionAtRestOptions" });
+    case 10:
+      return S.suspend(() => S.Struct({ Enabled: S.optional(S.Boolean) })).annotate({
+        identifier: "NodeToNodeEncryptionOptions",
+      });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          CloudWatchLogsLogGroupArn: S.optional(S.String),
+          Enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LogPublishingOption" });
+    case 12:
+      return S.Record(S.String, /*@__PURE__*/ __S(1963, __c61, 11).pipe(S.optional));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          EnforceHTTPS: S.optional(S.Boolean),
+          TLSSecurityPolicy: S.optional(S.String),
+          CustomEndpointEnabled: S.optional(S.Boolean),
+          CustomEndpoint: S.optional(S.String),
+          CustomEndpointCertificateArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainEndpointOptions" });
+    case 14:
+      return S.suspend(() => S.Struct({ MetadataContent: S.String, EntityId: S.String })).annotate({
+        identifier: "SAMLIdp",
+      });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          SubjectKey: S.optional(S.String),
+          RolesKey: S.optional(S.String),
+          JwksUrl: S.optional(S.String),
+          PublicKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "JWTOptionsInput" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          SubjectKey: S.optional(S.String),
+          RolesKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IAMFederationOptionsInput" });
+    case 17:
+      return S.suspend(() => S.Struct({ Hours: S.Number, Minutes: S.Number })).annotate({
+        identifier: "WindowStartTime",
+      });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({ WindowStartTime: S.optional(__S(1969, __c61, 17)) }),
+      ).annotate({ identifier: "OffPeakWindow" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          OffPeakWindow: S.optional(__S(1970, __c61, 18)),
+        }),
+      ).annotate({ identifier: "OffPeakWindowOptions" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          AutoSoftwareUpdateEnabled: S.optional(S.Boolean),
+          UseLatestServiceSoftwareForBlueGreen: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SoftwareUpdateOptions" });
+    case 21:
+      return S.suspend(() => S.Struct({ DeploymentStrategy: S.String })).annotate({
+        identifier: "DeploymentStrategyOptions",
+      });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          Idp: S.optional(__S(1966, __c61, 14)),
+          SubjectKey: S.optional(S.String),
+          RolesKey: S.optional(S.String),
+          SessionTimeoutMinutes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SAMLOptionsOutput" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.optional(S.Boolean),
+          InternalUserDatabaseEnabled: S.optional(S.Boolean),
+          SAMLOptions: S.optional(__S(1974, __c61, 22)),
+          JWTOptions: S.optional(__S(1967, __c61, 15)),
+          IAMFederationOptions: S.optional(__S(1968, __c61, 16)),
+          AnonymousAuthDisableDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AnonymousAuthEnabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AdvancedSecurityOptions" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          EnabledAPIAccess: S.optional(S.Boolean),
+          IdentityCenterInstanceARN: S.optional(S.String),
+          IdentityCenterInstanceRegion: S.optional(S.String),
+          SubjectKey: S.optional(S.String),
+          RolesKey: S.optional(S.String),
+          IdentityCenterApplicationARN: S.optional(S.String),
+          IdentityStoreId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IdentityCenterOptions" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          ActiveValue: S.optional(S.String),
+          PendingValue: S.optional(S.String),
+          ValueType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ModifyingProperties" });
+    case 26:
+      return S.Array(__S(1977, __c61, 25));
+    case 27:
+      return S.suspend(() =>
+        S.Struct({ DesiredState: S.optional(S.String), CurrentState: S.optional(S.String) }),
+      ).annotate({ identifier: "NaturalLanguageQueryGenerationOptionsOutput" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          NaturalLanguageQueryGenerationOptions: S.optional(__S(1979, __c61, 27)),
+          S3VectorsEngine: S.optional(__S(1962, __c61, 10)),
+          ServerlessVectorAcceleration: S.optional(__S(1962, __c61, 10)),
+        }),
+      ).annotate({ identifier: "AIMLOptionsOutput" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          Enabled: S.Boolean,
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          State: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutomatedSnapshotPauseOptions" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ChangeId: S.optional(S.String),
+          Message: S.optional(S.String),
+          ConfigChangeStatus: S.optional(S.String),
+          InitiatedBy: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ChangeProgressDetails" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          State: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+          UseOffPeakWindow: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AutoTuneOptionsOutput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DomainId: S.String,
+          DomainName: S.String,
+          ARN: S.String,
+          Created: S.optional(S.Boolean),
+          Deleted: S.optional(S.Boolean),
+          Endpoint: S.optional(S.String),
+          EndpointV2: S.optional(S.String),
+          Endpoints: S.optional(__S(1984, __c62, 0)),
+          DomainEndpointV2HostedZoneId: S.optional(S.String),
+          Processing: S.optional(S.Boolean),
+          UpgradeProcessing: S.optional(S.Boolean),
+          EngineVersion: S.optional(S.String),
+          ClusterConfig: __S(1957, __c61, 5),
+          EBSOptions: S.optional(__S(1958, __c61, 6)),
+          AccessPolicies: S.optional(S.String),
+          IPAddressType: S.optional(S.String),
+          SnapshotOptions: S.optional(__S(1959, __c61, 7)),
+          VPCOptions: S.optional(__S(1888, __c59, 0)),
+          CognitoOptions: S.optional(__S(1960, __c61, 8)),
+          EncryptionAtRestOptions: S.optional(__S(1961, __c61, 9)),
+          NodeToNodeEncryptionOptions: S.optional(__S(1962, __c61, 10)),
+          AdvancedOptions: S.optional(__S(1984, __c62, 0)),
+          LogPublishingOptions: S.optional(__S(1964, __c61, 12)),
+          ServiceSoftwareOptions: S.optional(__S(1632, __c51, 0)),
+          DomainEndpointOptions: S.optional(__S(1965, __c61, 13)),
+          AdvancedSecurityOptions: S.optional(__S(1975, __c61, 23)),
+          IdentityCenterOptions: S.optional(__S(1976, __c61, 24)),
+          AutoTuneOptions: S.optional(__S(2016, __c63, 0)),
+          ChangeProgressDetails: S.optional(__S(1985, __c62, 1)),
+          OffPeakWindowOptions: S.optional(__S(1971, __c61, 19)),
+          SoftwareUpdateOptions: S.optional(__S(1972, __c61, 20)),
+          DomainProcessingStatus: S.optional(S.String),
+          ModifyingProperties: S.optional(__S(1978, __c61, 26)),
+          AIMLOptions: S.optional(__S(1980, __c61, 28)),
+          DeploymentStrategyOptions: S.optional(__S(1973, __c61, 21)),
+          AutomatedSnapshotPauseOptions: S.optional(__S(1981, __c61, 29)),
+          UseCase: S.optional(S.String),
+          EngineMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainStatus" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Value: S.optional(S.Number), Unit: S.optional(S.String) }),
+      ).annotate({ identifier: "Duration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          StartAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Duration: S.optional(__S(2048, __c64, 0)),
+          CronExpressionForRecurrence: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoTuneMaintenanceSchedule" });
+    case 2:
+      return S.Array(__S(2049, __c64, 1));
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          IndexName: S.String,
+          IndexSchema: S.Any,
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/domain/{DomainName}/index" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateIndexRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Status: S.String }).pipe(ns)).annotate({
+        identifier: "CreateIndexResponse",
+      });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LocalDomainInfo: __S(673, __c21, 1),
+          RemoteDomainInfo: __S(673, __c21, 1),
+          ConnectionAlias: S.String,
+          ConnectionMode: S.optional(S.String),
+          ConnectionProperties: S.optional(__S(2177, __c68, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/cc/outboundConnection" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateOutboundConnectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          LocalDomainInfo: S.optional(__S(673, __c21, 1)),
+          RemoteDomainInfo: S.optional(__S(673, __c21, 1)),
+          ConnectionAlias: S.optional(S.String),
+          ConnectionStatus: S.optional(__S(674, __c21, 2)),
+          ConnectionId: S.optional(S.String),
+          ConnectionMode: S.optional(S.String),
+          ConnectionProperties: S.optional(__S(2177, __c68, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "CreateOutboundConnectionResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ SkipUnavailable: S.optional(S.String) })).annotate({
+        identifier: "CrossClusterSearchConnectionProperties",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Endpoint: S.optional(S.String),
+          CrossClusterSearch: S.optional(__S(2176, __c68, 0)),
+        }),
+      ).annotate({ identifier: "ConnectionProperties" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageName: S.String,
+          PackageType: S.String,
+          PackageDescription: S.optional(S.String),
+          PackageSource: __S(2240, __c70, 0),
+          PackageConfiguration: S.optional(__S(2336, __c73, 0)),
+          EngineVersion: S.optional(S.String),
+          PackageVendingOptions: S.optional(__S(2304, __c72, 0)),
+          PackageEncryptionOptions: S.optional(__S(2305, __c72, 1)),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/packages" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreatePackageRequest" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ S3BucketName: S.optional(S.String), S3Key: S.optional(S.String) }),
+      ).annotate({ identifier: "PackageSource" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PackageDetails: S.optional(__S(2306, __c72, 2)) }).pipe(ns),
+      ).annotate({ identifier: "CreatePackageResponse" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ VendingEnabled: S.Boolean })).annotate({
+        identifier: "PackageVendingOptions",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ KmsKeyIdentifier: S.optional(S.String), EncryptionEnabled: S.Boolean }),
+      ).annotate({ identifier: "PackageEncryptionOptions" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.optional(S.String),
+          PackageName: S.optional(S.String),
+          PackageType: S.optional(S.String),
+          PackageDescription: S.optional(S.String),
+          PackageStatus: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          AvailablePackageVersion: S.optional(S.String),
+          ErrorDetails: S.optional(__S(1184, __c37, 0)),
+          EngineVersion: S.optional(S.String),
+          AvailablePluginProperties: S.optional(__S(2337, __c73, 1)),
+          AvailablePackageConfiguration: S.optional(__S(2336, __c73, 0)),
+          AllowListedUserList: S.optional(__S(960, __c30, 0)),
+          PackageOwner: S.optional(S.String),
+          PackageVendingOptions: S.optional(__S(2304, __c72, 0)),
+          PackageEncryptionOptions: S.optional(__S(2305, __c72, 1)),
+        }),
+      ).annotate({ identifier: "PackageDetails" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LicenseRequirement: S.String,
+          LicenseFilepath: S.optional(S.String),
+          ConfigurationRequirement: S.String,
+          RequiresRestartForConfigurationUpdate: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PackageConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Version: S.optional(S.String),
+          ClassName: S.optional(S.String),
+          UncompressedSizeInBytes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PluginProperties" });
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainArn: S.String,
+          VpcOptions: __S(1856, __c58, 0),
+          ClientToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/vpcEndpoints" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateVpcEndpointRequest" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ VpcEndpoint: __S(2432, __c76, 0) }).pipe(ns)).annotate({
+        identifier: "CreateVpcEndpointResponse",
+      });
+  }
+}
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VpcEndpointId: S.optional(S.String),
+          VpcEndpointOwner: S.optional(S.String),
+          DomainArn: S.optional(S.String),
+          VpcOptions: S.optional(__S(1888, __c59, 0)),
+          Status: S.optional(S.String),
+          Endpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcEndpoint" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/2021-01-01/opensearch/application/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteApplicationRequest" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Name: S.String.pipe(T.HttpLabel("Name")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDataSourceRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataSourceName: S.String.pipe(T.HttpLabel("DataSourceName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDirectQueryDataSourceRequest" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/2021-01-01/opensearch/domain/{DomainName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteDomainRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteInboundConnectionRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          IndexName: S.String.pipe(T.HttpLabel("IndexName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteIndexRequest" });
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/2021-01-01/opensearch/cc/outboundConnection/{ConnectionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteOutboundConnectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Connection: S.optional(__S(2688, __c84, 0)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteOutboundConnectionResponse" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LocalDomainInfo: S.optional(__S(673, __c21, 1)),
+          RemoteDomainInfo: S.optional(__S(673, __c21, 1)),
+          ConnectionId: S.optional(S.String),
+          ConnectionAlias: S.optional(S.String),
+          ConnectionStatus: S.optional(__S(674, __c21, 2)),
+          ConnectionMode: S.optional(S.String),
+          ConnectionProperties: S.optional(__S(2177, __c68, 1)),
+        }),
+      ).annotate({ identifier: "OutboundConnection" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PackageID: S.String.pipe(T.HttpLabel("PackageID")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "DELETE", uri: "/2021-01-01/packages/{PackageID}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeletePackageRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointId: S.String.pipe(T.HttpLabel("VpcEndpointId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/2021-01-01/opensearch/vpcEndpoints/{VpcEndpointId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteVpcEndpointRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointSummary: __S(2784, __c87, 0) }).pipe(ns),
+      ).annotate({ identifier: "DeleteVpcEndpointResponse" });
+  }
+}
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          VpcEndpointId: S.optional(S.String),
+          VpcEndpointOwner: S.optional(S.String),
+          DomainArn: S.optional(S.String),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcEndpointSummary" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+          capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "DELETE",
+              uri: "/2021-01-01/opensearch/application/{applicationId}/capability/deregister/{capabilityName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeregisterCapabilityRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ status: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "DeregisterCapabilityResponse",
+      });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")), dataSourceArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/application/{id}/describeDataSourceAttachment",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDataSourceAttachmentRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ DomainStatus: __S(2017, __c63, 1) }).pipe(ns)).annotate({
+        identifier: "DescribeDomainResponse",
+      });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}/autoTunes" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainAutoTunesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Date: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ActionType: S.optional(S.String),
+          Action: S.optional(S.String),
+          Severity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScheduledAutoTuneDetails" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ ScheduledAutoTuneDetails: S.optional(__S(2913, __c91, 1)) }),
+      ).annotate({ identifier: "AutoTuneDetails" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          AutoTuneType: S.optional(S.String),
+          AutoTuneDetails: S.optional(__S(2914, __c91, 2)),
+        }),
+      ).annotate({ identifier: "AutoTune" });
+    case 4:
+      return S.Array(__S(2915, __c91, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          AutoTunes: S.optional(__S(2916, __c91, 4)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDomainAutoTunesResponse" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          ChangeId: S.optional(S.String).pipe(T.HttpQuery("changeid")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}/progress" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainChangeProgressRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Status: S.optional(S.String),
+          Description: S.optional(S.String),
+          LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ChangeProgressStage" });
+    case 2:
+      return S.Array(__S(2945, __c92, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Action: S.optional(S.String),
+          ScheduledTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ClonedBlueGreenScheduledAction" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          TrafficSplit: S.optional(__S(2976, __c93, 0)),
+          ScheduledAction: S.optional(__S(2947, __c92, 3)),
+          RetentionInHours: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ClonedBlueGreenUpgradeDetails" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ChangeId: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Status: S.optional(S.String),
+          PendingProperties: S.optional(__S(960, __c30, 0)),
+          CompletedProperties: S.optional(__S(960, __c30, 0)),
+          TotalNumberOfStages: S.optional(S.Number),
+          ChangeProgressStages: S.optional(__S(2946, __c92, 2)),
+          LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          ConfigChangeStatus: S.optional(S.String),
+          InitiatedBy: S.optional(S.String),
+          ClonedBlueGreenUpgradeDetails: S.optional(__S(2948, __c92, 4)),
+          ValidationFailures: S.optional(__S(3009, __c94, 1)),
+          AcceptedWarnings: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "ChangeProgressStatusDetails" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ ChangeProgressStatus: S.optional(__S(2949, __c92, 5)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeDomainChangeProgressResponse" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PrimaryReadTrafficPercent: S.Number, CloneReadTrafficPercent: S.Number }),
+      ).annotate({ identifier: "TrafficPercents" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Code: S.optional(S.String),
+          Message: S.optional(S.String),
+          Severity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ValidationFailure" });
+    case 1:
+      return S.Array(__S(3008, __c94, 0));
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}/config" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainConfigRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ DomainConfig: __S(3095, __c96, 23) }).pipe(ns)).annotate({
+        identifier: "DescribeDomainConfigResponse",
+      });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          UpdateVersion: S.optional(S.Number),
+          State: S.String,
+          PendingDeletion: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "OptionStatus" });
+    case 1:
+      return S.suspend(() => S.Struct({ Options: S.String, Status: __S(3072, __c96, 0) })).annotate(
+        { identifier: "VersionStatus" },
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1957, __c61, 5), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "ClusterConfigStatus" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1958, __c61, 6), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "EBSOptionsStatus" });
+    case 4:
+      return S.suspend(() => S.Struct({ Options: S.String, Status: __S(3072, __c96, 0) })).annotate(
+        { identifier: "IPAddressTypeStatus" },
+      );
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1959, __c61, 7), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "SnapshotOptionsStatus" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1888, __c59, 0), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "VPCDerivedInfoStatus" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1960, __c61, 8), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "CognitoOptionsStatus" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1961, __c61, 9), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "EncryptionAtRestOptionsStatus" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1962, __c61, 10), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "NodeToNodeEncryptionOptionsStatus" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1984, __c62, 0), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "AdvancedOptionsStatus" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          Options: S.optional(__S(1964, __c61, 12)),
+          Status: S.optional(__S(3072, __c96, 0)),
+        }),
+      ).annotate({ identifier: "LogPublishingOptionsStatus" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1965, __c61, 13), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "DomainEndpointOptionsStatus" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1975, __c61, 23), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "AdvancedSecurityOptionsStatus" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1976, __c61, 24), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "IdentityCenterOptionsStatus" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          DesiredState: S.optional(S.String),
+          RollbackOnDisable: S.optional(S.String),
+          MaintenanceSchedules: S.optional(__S(2050, __c64, 2)),
+          UseOffPeakWindow: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AutoTuneOptions" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          UpdateDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          UpdateVersion: S.optional(S.Number),
+          State: S.String,
+          ErrorMessage: S.optional(S.String),
+          PendingDeletion: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AutoTuneStatus" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          Options: S.optional(__S(3087, __c96, 15)),
+          Status: S.optional(__S(3088, __c96, 16)),
+        }),
+      ).annotate({ identifier: "AutoTuneOptionsStatus" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          Options: S.optional(__S(1971, __c61, 19)),
+          Status: S.optional(__S(3072, __c96, 0)),
+        }),
+      ).annotate({ identifier: "OffPeakWindowOptionsStatus" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          Options: S.optional(__S(1972, __c61, 20)),
+          Status: S.optional(__S(3072, __c96, 0)),
+        }),
+      ).annotate({ identifier: "SoftwareUpdateOptionsStatus" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          Options: S.optional(__S(1980, __c61, 28)),
+          Status: S.optional(__S(3072, __c96, 0)),
+        }),
+      ).annotate({ identifier: "AIMLOptionsStatus" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1973, __c61, 21), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "DeploymentStrategyOptionsStatus" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({ Options: __S(1981, __c61, 29), Status: __S(3072, __c96, 0) }),
+      ).annotate({ identifier: "AutomatedSnapshotPauseOptionsStatus" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          EngineVersion: S.optional(__S(3073, __c96, 1)),
+          ClusterConfig: S.optional(__S(3074, __c96, 2)),
+          EBSOptions: S.optional(__S(3075, __c96, 3)),
+          AccessPolicies: S.optional(__S(3073, __c96, 1)),
+          IPAddressType: S.optional(__S(3076, __c96, 4)),
+          SnapshotOptions: S.optional(__S(3077, __c96, 5)),
+          VPCOptions: S.optional(__S(3078, __c96, 6)),
+          CognitoOptions: S.optional(__S(3079, __c96, 7)),
+          EncryptionAtRestOptions: S.optional(__S(3080, __c96, 8)),
+          NodeToNodeEncryptionOptions: S.optional(__S(3081, __c96, 9)),
+          AdvancedOptions: S.optional(__S(3082, __c96, 10)),
+          LogPublishingOptions: S.optional(__S(3083, __c96, 11)),
+          DomainEndpointOptions: S.optional(__S(3084, __c96, 12)),
+          AdvancedSecurityOptions: S.optional(__S(3085, __c96, 13)),
+          IdentityCenterOptions: S.optional(__S(3086, __c96, 14)),
+          AutoTuneOptions: S.optional(__S(3089, __c96, 17)),
+          ChangeProgressDetails: S.optional(__S(1985, __c62, 1)),
+          OffPeakWindowOptions: S.optional(__S(3090, __c96, 18)),
+          SoftwareUpdateOptions: S.optional(__S(3091, __c96, 19)),
+          ModifyingProperties: S.optional(__S(1978, __c61, 26)),
+          AIMLOptions: S.optional(__S(3092, __c96, 20)),
+          DeploymentStrategyOptions: S.optional(__S(3093, __c96, 21)),
+          AutomatedSnapshotPauseOptions: S.optional(__S(3094, __c96, 22)),
+          UseCase: S.optional(__S(3076, __c96, 4)),
+          EngineMode: S.optional(__S(3076, __c96, 4)),
+        }),
+      ).annotate({ identifier: "DomainConfig" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}/health" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainHealthRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          AvailabilityZoneName: S.optional(S.String),
+          ZoneStatus: S.optional(S.String),
+          ConfiguredDataNodeCount: S.optional(S.String),
+          AvailableDataNodeCount: S.optional(S.String),
+          TotalShards: S.optional(S.String),
+          TotalUnAssignedShards: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AvailabilityZoneInfo" });
+    case 2:
+      return S.Array(__S(3105, __c97, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ AvailabilityZoneInformation: S.optional(__S(3106, __c97, 2)) }),
+      ).annotate({ identifier: "EnvironmentInfo" });
+    case 4:
+      return S.Array(__S(3107, __c97, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          DomainState: S.optional(S.String),
+          AvailabilityZoneCount: S.optional(S.String),
+          ActiveAvailabilityZoneCount: S.optional(S.String),
+          StandByAvailabilityZoneCount: S.optional(S.String),
+          DataNodeCount: S.optional(S.String),
+          DedicatedMaster: S.optional(S.Boolean),
+          MasterEligibleNodeCount: S.optional(S.String),
+          WarmNodeCount: S.optional(S.String),
+          MasterNode: S.optional(S.String),
+          ClusterHealth: S.optional(S.String),
+          TotalShards: S.optional(S.String),
+          TotalUnAssignedShards: S.optional(S.String),
+          EnvironmentInformation: S.optional(__S(3108, __c97, 4)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDomainHealthResponse" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}/nodes" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainNodesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          NodeId: S.optional(S.String),
+          NodeType: S.optional(S.String),
+          AvailabilityZone: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          NodeStatus: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          StorageVolumeType: S.optional(S.String),
+          StorageSize: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainNodesStatus" });
+    case 2:
+      return S.Array(__S(3137, __c98, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ DomainNodesStatusList: S.optional(__S(3138, __c98, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeDomainNodesResponse" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/replication",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainReplicationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PeerDomainArn: S.optional(S.String),
+          PeerRole: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplicationPeer" });
+    case 2:
+      return S.Array(__S(3169, __c99, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          DomainArn: S.optional(S.String),
+          Role: S.optional(S.String),
+          Peers: S.optional(__S(3170, __c99, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDomainReplicationResponse" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainNames: __S(960, __c30, 0) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/domain-info" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDomainsRequest" });
+    case 1:
+      return S.Array(__S(2017, __c63, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ DomainStatusList: __S(3201, __c100, 1) }).pipe(ns),
+      ).annotate({ identifier: "DescribeDomainsResponse" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          DryRunId: S.optional(S.String).pipe(T.HttpQuery("dryRunId")),
+          LoadDryRunConfig: S.optional(S.Boolean).pipe(T.HttpQuery("loadDryRunConfig")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}/dryRun" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeDryRunProgressRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DryRunProgressStatus: S.optional(__S(3264, __c102, 0)),
+          DryRunConfig: S.optional(__S(2017, __c63, 1)),
+          DryRunResults: S.optional(__S(3265, __c102, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDryRunProgressResponse" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DryRunId: S.String,
+          DryRunStatus: S.String,
+          CreationDate: S.String,
+          UpdateDate: S.String,
+          ValidationFailures: S.optional(__S(3009, __c94, 1)),
+          AcceptedWarnings: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "DryRunProgressStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DeploymentType: S.optional(S.String), Message: S.optional(S.String) }),
+      ).annotate({ identifier: "DryRunResults" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(3329, __c104, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/cc/inboundConnection/search" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeInboundConnectionsRequest" });
+    case 1:
+      return S.Array(__S(704, __c22, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Connections: S.optional(__S(3297, __c103, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeInboundConnectionsResponse" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(960, __c30, 0)) }),
+      ).annotate({ identifier: "Filter" });
+    case 1:
+      return S.Array(__S(3328, __c104, 0));
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Entity: __S(3392, __c106, 0),
+          InsightId: S.String,
+          ShowHtmlContent: S.optional(S.Boolean),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/insight-details" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeInsightDetailsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Type: S.String, Value: S.String }),
+      ).annotate({ identifier: "InsightField" });
+    case 2:
+      return S.Array(__S(3361, __c105, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ Fields: __S(3362, __c105, 2) }).pipe(ns)).annotate({
+        identifier: "DescribeInsightDetailsResponse",
+      });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Type: S.String, Value: S.optional(S.String) })).annotate({
+        identifier: "InsightEntity",
+      });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
+          InstanceType: S.String.pipe(T.HttpLabel("InstanceType")),
+          EngineVersion: S.String.pipe(T.HttpLabel("EngineVersion")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/instanceTypeLimits/{EngineVersion}/{InstanceType}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeInstanceTypeLimitsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ LimitName: S.optional(S.String), LimitValues: S.optional(__S(960, __c30, 0)) }),
+      ).annotate({ identifier: "StorageTypeLimit" });
+    case 2:
+      return S.Array(__S(3425, __c107, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          StorageTypeName: S.optional(S.String),
+          StorageSubTypeName: S.optional(S.String),
+          StorageTypeLimits: S.optional(__S(3426, __c107, 2)),
+        }),
+      ).annotate({ identifier: "StorageType" });
+    case 4:
+      return S.Array(__S(3427, __c107, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          MinimumInstanceCount: S.optional(S.Number),
+          MaximumInstanceCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "InstanceCountLimits" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ InstanceCountLimits: S.optional(__S(3429, __c107, 5)) }),
+      ).annotate({ identifier: "InstanceLimits" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          StorageTypes: S.optional(__S(3428, __c107, 4)),
+          InstanceLimits: S.optional(__S(3430, __c107, 6)),
+          AdditionalLimits: S.optional(__S(3426, __c107, 2)),
+        }),
+      ).annotate({ identifier: "Limits" });
+    case 8:
+      return S.Record(S.String, /*@__PURE__*/ __S(3431, __c107, 7).pipe(S.optional));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ LimitsByRole: S.optional(__S(3432, __c107, 8)) }).pipe(ns),
+      ).annotate({ identifier: "DescribeInstanceTypeLimitsResponse" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(3329, __c104, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/cc/outboundConnection/search" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeOutboundConnectionsRequest" });
+    case 1:
+      return S.Array(__S(2688, __c84, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Connections: S.optional(__S(3457, __c108, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeOutboundConnectionsResponse" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Value: S.optional(__S(960, __c30, 0)) }),
+      ).annotate({ identifier: "DescribePackagesFilter" });
+    case 1:
+      return S.Array(__S(3488, __c109, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Filters: S.optional(__S(3489, __c109, 1)),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/packages/describe" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribePackagesRequest" });
+    case 3:
+      return S.Array(__S(2306, __c72, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          PackageDetailsList: S.optional(__S(3491, __c109, 3)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribePackagesResponse" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedInstanceOfferingId: S.optional(S.String).pipe(T.HttpQuery("offeringId")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/reservedInstanceOfferings" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeReservedInstanceOfferingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedInstanceOfferingId: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          Duration: S.optional(S.Number),
+          FixedPrice: S.optional(S.Number),
+          UsagePrice: S.optional(S.Number),
+          CurrencyCode: S.optional(S.String),
+          PaymentOption: S.optional(S.String),
+          RecurringCharges: S.optional(__S(3553, __c111, 1)),
+        }),
+      ).annotate({ identifier: "ReservedInstanceOffering" });
+    case 2:
+      return S.Array(
+        /*@__PURE__*/ __S(3521, __c110, 1)
+          .pipe(/*@__PURE__*/ T.XmlName("ReservedInstanceOffering"))
+          .annotate({ identifier: "ReservedInstanceOffering" }),
+      );
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ReservedInstanceOfferings: S.optional(__S(3522, __c110, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReservedInstanceOfferingsResponse" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RecurringChargeAmount: S.optional(S.Number),
+          RecurringChargeFrequency: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecurringCharge" });
+    case 1:
+      return S.Array(
+        /*@__PURE__*/ __S(3552, __c111, 0)
+          .pipe(/*@__PURE__*/ T.XmlName("RecurringCharge"))
+          .annotate({ identifier: "RecurringCharge" }),
+      );
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedInstanceId: S.optional(S.String).pipe(T.HttpQuery("reservationId")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/reservedInstances" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeReservedInstancesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReservationName: S.optional(S.String),
+          ReservedInstanceId: S.optional(S.String),
+          BillingSubscriptionId: S.optional(S.Number),
+          ReservedInstanceOfferingId: S.optional(S.String),
+          InstanceType: S.optional(S.String),
+          StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Duration: S.optional(S.Number),
+          FixedPrice: S.optional(S.Number),
+          UsagePrice: S.optional(S.Number),
+          CurrencyCode: S.optional(S.String),
+          InstanceCount: S.optional(S.Number),
+          State: S.optional(S.String),
+          PaymentOption: S.optional(S.String),
+          RecurringCharges: S.optional(__S(3553, __c111, 1)),
+        }),
+      ).annotate({ identifier: "ReservedInstance" });
+    case 2:
+      return S.Array(__S(3585, __c112, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          ReservedInstances: S.optional(__S(3586, __c112, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeReservedInstancesResponse" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointIds: __S(960, __c30, 0) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/vpcEndpoints/describe" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DescribeVpcEndpointsRequest" });
+    case 1:
+      return S.Array(__S(2432, __c76, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          VpcEndpointId: S.optional(S.String),
+          ErrorCode: S.optional(S.String),
+          ErrorMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VpcEndpointError" });
+    case 3:
+      return S.Array(__S(3618, __c113, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          VpcEndpoints: __S(3617, __c113, 1),
+          VpcEndpointErrors: __S(3619, __c113, 3),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeVpcEndpointsResponse" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")), dataSourceArn: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/application/{id}/detachDataSource",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DetachDataSourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          dataSourceArn: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DetachDataSourceResponse" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.String.pipe(T.HttpLabel("PackageID")),
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/packages/dissociate/{PackageID}/{DomainName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DissociatePackageRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ PackageList: __S(960, __c30, 0), DomainName: S.String }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/packages/dissociateMultiple" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DissociatePackagesRequest" });
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          PeerDomainArn: S.String,
+          AllowDataLoss: S.Boolean,
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/replication/failover",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "FailoverReplicationRequest" });
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/application/{id}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetApplicationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          status: S.optional(S.String),
+          iamIdentityCenterOptions: S.optional(__S(1764, __c55, 4)),
+          dataSources: S.optional(__S(1761, __c55, 1)),
+          appConfigs: S.optional(__S(1763, __c55, 3)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          kmsKeyArn: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetApplicationResponse" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+          capabilityName: S.String.pipe(T.HttpLabel("capabilityName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/application/{applicationId}/capability/{capabilityName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetCapabilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ reason: S.optional(S.String), details: S.optional(S.String) }),
+      ).annotate({ identifier: "CapabilityFailure" });
+    case 2:
+      return S.Array(__S(3809, __c119, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          capabilityName: S.optional(S.String),
+          applicationId: S.optional(S.String),
+          status: S.optional(S.String),
+          capabilityConfig: S.optional(__S(3841, __c120, 1)),
+          failures: S.optional(__S(3810, __c119, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetCapabilityResponse" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "AIConfig" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ aiConfig: __S(3840, __c120, 0) })]);
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/compatibleVersions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetCompatibleVersionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          SourceVersion: S.optional(S.String),
+          TargetVersions: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "CompatibleVersionsMap" });
+    case 2:
+      return S.Array(__S(3873, __c121, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ CompatibleVersions: S.optional(__S(3874, __c121, 2)) }).pipe(ns),
+      ).annotate({ identifier: "GetCompatibleVersionsResponse" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Name: S.String.pipe(T.HttpLabel("Name")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource/{Name}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDataSourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceType: S.optional(__S(833, __c26, 1)),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetDataSourceResponse" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/defaultApplicationSetting" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDefaultApplicationSettingRequest" });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ applicationArn: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "GetDefaultApplicationSettingResponse",
+      });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DataSourceName: S.String.pipe(T.HttpLabel("DataSourceName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/directQueryDataSource/{DataSourceName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDirectQueryDataSourceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceName: S.optional(S.String),
+          DataSourceType: S.optional(__S(994, __c31, 2)),
+          Description: S.optional(S.String),
+          OpenSearchArns: S.optional(__S(960, __c30, 0)),
+          DataSourceAccessPolicy: S.optional(S.String),
+          DataSourceArn: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetDirectQueryDataSourceResponse" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          MaintenanceId: S.String.pipe(T.HttpQuery("maintenanceId")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenance",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetDomainMaintenanceStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          NodeId: S.optional(S.String),
+          Action: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetDomainMaintenanceStatusResponse" });
+  }
+}
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          IndexName: S.String.pipe(T.HttpLabel("IndexName")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetIndexRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ IndexSchema: S.Any }).pipe(ns)).annotate({
+        identifier: "GetIndexResponse",
+      });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ migrationId: S.String.pipe(T.HttpLabel("migrationId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/app-migrations/{migrationId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetMigrationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          migrationId: S.optional(S.String),
+          status: S.optional(S.String),
+          applicationId: S.optional(S.String),
+          source: S.optional(__S(4160, __c130, 0)),
+          exportedCount: S.optional(S.Number),
+          importedCount: S.optional(S.Number),
+          error: S.optional(__S(4128, __c129, 0)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetMigrationResponse" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "MigrationError" });
+  }
+}
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ datasourceArn: S.String })).annotate({
+        identifier: "MigrationSource",
+      });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.String.pipe(T.HttpLabel("PackageID")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/packages/{PackageID}/history" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetPackageVersionHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          PackageVersion: S.optional(S.String),
+          CommitMessage: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          PluginProperties: S.optional(__S(2337, __c73, 1)),
+          PackageConfiguration: S.optional(__S(2336, __c73, 0)),
+        }),
+      ).annotate({ identifier: "PackageVersionHistory" });
+    case 2:
+      return S.Array(__S(4193, __c131, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.optional(S.String),
+          PackageVersionHistoryList: S.optional(__S(4194, __c131, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetPackageVersionHistoryResponse" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/history",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetUpgradeHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpgradeStep: S.optional(S.String),
+          UpgradeStepStatus: S.optional(S.String),
+          Issues: S.optional(__S(960, __c30, 0)),
+          ProgressPercent: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "UpgradeStepItem" });
+    case 2:
+      return S.Array(__S(4225, __c132, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          UpgradeName: S.optional(S.String),
+          StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpgradeStatus: S.optional(S.String),
+          StepsList: S.optional(__S(4226, __c132, 2)),
+        }),
+      ).annotate({ identifier: "UpgradeHistory" });
+    case 4:
+      return S.Array(__S(4227, __c132, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          UpgradeHistories: S.optional(__S(4228, __c132, 4)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetUpgradeHistoryResponse" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/upgradeDomain/{DomainName}/status",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetUpgradeStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          UpgradeStep: S.optional(S.String),
+          StepStatus: S.optional(S.String),
+          UpgradeName: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "GetUpgradeStatusResponse" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Type: S.String, Value: S.String })).annotate({
+        identifier: "InsightFeedbackEntity",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Entity: __S(4288, __c134, 0),
+          InsightId: S.String,
+          Thumbs: S.String,
+          FeedbackText: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/insight-feedback" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "InsightFeedbackRequest" });
+    case 2:
+      return S.suspend(() => S.Struct({ Status: S.optional(S.String) }).pipe(ns)).annotate({
+        identifier: "InsightFeedbackResponse",
+      });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          statuses: S.optional(__S(4320, __c135, 0)).pipe(T.HttpQuery("statuses")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/list-applications" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListApplicationsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          arn: S.optional(S.String),
+          name: S.optional(S.String),
+          endpoint: S.optional(S.String),
+          status: S.optional(S.String),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ApplicationSummary" });
+    case 3:
+      return S.Array(__S(4322, __c135, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ApplicationSummaries: S.optional(__S(4323, __c135, 3)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListApplicationsResponse" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.HttpLabel("id")),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/application/{id}/listDataSourceAttachments",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDataSourceAttachmentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          attachmentId: S.optional(S.String),
+          dataSourceArn: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataSourceAttachmentSummary" });
+    case 2:
+      return S.Array(__S(4353, __c136, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          attachments: S.optional(__S(4354, __c136, 2)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListDataSourceAttachmentsResponse" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.String.pipe(T.HttpLabel("DomainName")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/domain/{DomainName}/dataSource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDataSourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceType: S.optional(__S(833, __c26, 1)),
+          Name: S.optional(S.String),
+          Description: S.optional(S.String),
+          Status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataSourceDetails" });
+    case 2:
+      return S.Array(__S(4385, __c137, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ DataSources: S.optional(__S(4386, __c137, 2)) }).pipe(ns),
+      ).annotate({ identifier: "ListDataSourcesResponse" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String).pipe(T.HttpQuery("nexttoken")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/directQueryDataSource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDirectQueryDataSourcesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          DataSourceName: S.optional(S.String),
+          DataSourceType: S.optional(__S(994, __c31, 2)),
+          Description: S.optional(S.String),
+          OpenSearchArns: S.optional(__S(960, __c30, 0)),
+          DataSourceArn: S.optional(S.String),
+          TagList: S.optional(__S(929, __c29, 1)),
+        }),
+      ).annotate({ identifier: "DirectQueryDataSource" });
+    case 2:
+      return S.Array(__S(4417, __c138, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          NextToken: S.optional(S.String),
+          DirectQueryDataSources: S.optional(__S(4418, __c138, 2)),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListDirectQueryDataSourcesResponse" });
+  }
+}
+function __c139(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          Action: S.optional(S.String).pipe(T.HttpQuery("action")),
+          Status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/domainMaintenances",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDomainMaintenancesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          MaintenanceId: S.optional(S.String),
+          DomainName: S.optional(S.String),
+          Action: S.optional(S.String),
+          NodeId: S.optional(S.String),
+          Status: S.optional(S.String),
+          StatusMessage: S.optional(S.String),
+          CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "DomainMaintenanceDetails" });
+    case 2:
+      return S.Array(__S(4449, __c139, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          DomainMaintenances: S.optional(__S(4450, __c139, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListDomainMaintenancesResponse" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ EngineType: S.optional(S.String).pipe(T.HttpQuery("engineType")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/domain" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDomainNamesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ DomainName: S.optional(S.String), EngineType: S.optional(S.String) }),
+      ).annotate({ identifier: "DomainInfo" });
+    case 2:
+      return S.Array(__S(4481, __c140, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ DomainNames: S.optional(__S(4482, __c140, 2)) }).pipe(ns),
+      ).annotate({ identifier: "ListDomainNamesResponse" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          PackageID: S.String.pipe(T.HttpLabel("PackageID")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/packages/{PackageID}/domains" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListDomainsForPackageRequest" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainPackageDetailsList: S.optional(__S(1344, __c42, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListDomainsForPackageResponse" });
+  }
+}
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ From: S.Number, To: S.Number })).annotate({
+        identifier: "InsightTimeRange",
+      });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Entity: __S(3392, __c106, 0),
+          TimeRange: S.optional(__S(4576, __c143, 0)),
+          SortOrder: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/2021-01-01/opensearch/insights" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListInsightsRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          InsightId: S.optional(S.String),
+          DisplayName: S.optional(S.String),
+          Type: S.optional(S.String),
+          Priority: S.optional(S.String),
+          Status: S.optional(S.String),
+          CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          IsExperimental: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "Insight" });
+    case 3:
+      return S.Array(__S(4578, __c143, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          Insights: S.optional(__S(4579, __c143, 3)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListInsightsResponse" });
+  }
+}
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          EngineVersion: S.String.pipe(T.HttpLabel("EngineVersion")),
+          DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          RetrieveAZs: S.optional(S.Boolean).pipe(T.HttpQuery("retrieveAZs")),
+          InstanceType: S.optional(S.String).pipe(T.HttpQuery("instanceType")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/instanceTypeDetails/{EngineVersion}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListInstanceTypeDetailsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceType: S.optional(S.String),
+          EncryptionEnabled: S.optional(S.Boolean),
+          CognitoEnabled: S.optional(S.Boolean),
+          AppLogsEnabled: S.optional(S.Boolean),
+          AdvancedSecurityEnabled: S.optional(S.Boolean),
+          WarmEnabled: S.optional(S.Boolean),
+          InstanceRole: S.optional(__S(960, __c30, 0)),
+          AvailabilityZones: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "InstanceTypeDetails" });
+    case 2:
+      return S.Array(__S(4609, __c144, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          InstanceTypeDetails: S.optional(__S(4610, __c144, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListInstanceTypeDetailsResponse" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationId: S.String.pipe(T.HttpQuery("applicationId")),
+          status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/app-migrations" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListMigrationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          migrationId: S.optional(S.String),
+          status: S.optional(S.String),
+          applicationId: S.optional(S.String),
+          source: S.optional(__S(4160, __c130, 0)),
+          exportedCount: S.optional(S.Number),
+          importedCount: S.optional(S.Number),
+          error: S.optional(__S(4128, __c129, 0)),
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "MigrationSummary" });
+    case 2:
+      return S.Array(__S(4641, __c145, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          migrations: S.optional(__S(4642, __c145, 2)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListMigrationsResponse" });
+  }
+}
+function __c146(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/domain/{DomainName}/packages" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListPackagesForDomainRequest" });
+  }
+}
+function __c147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/scheduledActions",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListScheduledActionsRequest" });
+    case 1:
+      return S.Array(__S(4736, __c148, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ScheduledActions: S.optional(__S(4705, __c147, 1)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListScheduledActionsResponse" });
+  }
+}
+function __c148(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Id: S.String,
+          Type: S.String,
+          Severity: S.String,
+          ScheduledTime: S.Number,
+          Description: S.optional(S.String),
+          ScheduledBy: S.optional(S.String),
+          Status: S.optional(S.String),
+          Mandatory: S.optional(S.Boolean),
+          Cancellable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ScheduledAction" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/tags" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ TagList: S.optional(__S(929, __c29, 1)) }).pipe(ns),
+      ).annotate({ identifier: "ListTagsResponse" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/versions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListVersionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Versions: S.optional(__S(960, __c30, 0)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "ListVersionsResponse" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/listVpcEndpointAccess",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListVpcEndpointAccessRequest" });
+    case 1:
+      return S.Array(__S(1472, __c46, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ AuthorizedPrincipalList: __S(4833, __c151, 1), NextToken: S.String }).pipe(ns),
+      ).annotate({ identifier: "ListVpcEndpointAccessResponse" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/2021-01-01/opensearch/vpcEndpoints" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListVpcEndpointsRequest" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2784, __c87, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ VpcEndpointSummaryList: __S(4896, __c153, 0), NextToken: S.String }).pipe(ns),
+      ).annotate({ identifier: "ListVpcEndpointsResponse" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "GET",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/vpcEndpoints",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListVpcEndpointsForDomainRequest" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedInstanceOfferingId: S.String,
+          ReservationName: S.String,
+          InstanceCount: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PurchaseReservedInstanceOfferingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ReservedInstanceId: S.optional(S.String),
+          ReservationName: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "PurchaseReservedInstanceOfferingResponse" });
+  }
+}
+function __c156(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ applicationArn: S.String, setAsDefault: S.Boolean }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "PUT", uri: "/2021-01-01/opensearch/defaultApplicationSetting" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PutDefaultApplicationSettingRequest" });
+  }
+}
+function __c157(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationId: S.String.pipe(T.HttpLabel("applicationId")),
+          capabilityName: S.String,
+          capabilityConfig: __S(3841, __c120, 1),
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/application/{applicationId}/capability/register",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RegisterCapabilityRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          capabilityName: S.optional(S.String),
+          applicationId: S.optional(S.String),
+          status: S.optional(S.String),
+          capabilityConfig: S.optional(__S(3841, __c120, 1)),
+        }).pipe(ns),
+      ).annotate({ identifier: "RegisterCapabilityResponse" });
+  }
+}
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "PUT",
+              uri: "/2021-01-01/opensearch/cc/inboundConnection/{ConnectionId}/reject",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RejectInboundConnectionRequest" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+          PeerDomainArn: S.String,
+        }).pipe(
+          T.all(
+            ns,
+            T.Http({
+              method: "POST",
+              uri: "/2021-01-01/opensearch/domain/{DomainName}/replication/removePeer",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RemoveReplicationPeerRequest" });
+  }
+}
+// Schema table: entry i is schema j of builder f, made on first reach.
+function __S(i: number, f: (j: number) => unknown, j: number): any {
+  return (__s[i] ??= __L.at(f, j));
+}

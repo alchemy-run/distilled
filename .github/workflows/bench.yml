@@ -1,0 +1,167 @@
+name: Benchmarks
+
+# Benchmarks a PR against main. bench-comment.yml then posts the comparison on
+# the PR; this job runs the PR's code and has no secrets, so fork PRs work too.
+#
+# `benches/sdks/ci.ts` measures a fixed panel of SDKs (benches/sdks/ci.json)
+# plus the SDKs the PR changes: 1-auth + 1-operation bundle size for every
+# protocol, and for the small SDKs import heap, live objects, import time,
+# first call, added call latency and download size. Offline, like every
+# bench: each call hits a canned in-memory response.
+#
+# Main's numbers come from the Actions cache: every push to main runs the same
+# script with `--wide` (every SDK), appends it to a rolling history (the line
+# charts), and saves both under `bench-ci-main-v2-<sha>-<run id>`. A PR restores
+# the entry for its base commit, or the newest main entry when that is missing.
+# Run the workflow by hand on main with `backfill: N` to seed the history with
+# main's last N commits.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: Benchmark main's last N commits into the history first (about 3 min each)
+        type: number
+        default: 0
+
+concurrency:
+  group: bench-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  bench:
+    name: Benchmarks (PR vs main)
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    permissions:
+      contents: read
+    steps:
+      # Depth 2: on a PR the checkout is the merge commit, and its first
+      # parent is main, which is how ci.ts finds the SDKs the PR changes.
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 2
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # On main, the previous entry holds the history this run appends to.
+      - name: Restore main's benchmark
+        id: main-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            .bench-ci/main.json
+            .bench-ci/history.json
+          # Keys end in a run id, so the key never matches exactly: the base
+          # commit's newest entry wins, then main's newest entry. Bump v2 (here
+          # and in the save step) when a metric's measurement changes, so old
+          # runs are dropped. v2: added latency's call and roundtrip interleaved.
+          key: bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-none
+          restore-keys: |
+            bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-
+            bench-ci-main-v2-
+
+      - name: Backfill main's history
+        if: github.event_name == 'workflow_dispatch' && inputs.backfill > 0
+        env:
+          N: ${{ inputs.backfill }}
+        run: |
+          mkdir -p .bench-ci
+          git fetch -q --depth=$((N + 1)) origin "$GITHUB_SHA"
+          for sha in $(git rev-list --first-parent -n "$((N + 1))" "$GITHUB_SHA" | tail -n +2 | tac); do
+            dir="$RUNNER_TEMP/backfill-$sha"
+            git worktree add -q --detach "$dir" "$sha"
+            ./.github/bench-copy.sh "$dir"
+            if (cd "$dir" && pnpm install --frozen-lockfile --prefer-offline > /dev/null \
+                && BENCH_HEAD_SHA=$sha node benches/sdks/ci.ts run --wide --out "$RUNNER_TEMP/$sha.json"); then
+              node benches/sdks/ci.ts history --history .bench-ci/history.json --add "$RUNNER_TEMP/$sha.json"
+            else
+              echo "::warning::backfill of $sha failed; skipped"
+            fi
+            git worktree remove --force "$dir"
+          done
+
+      - name: Benchmark
+        env:
+          BENCH_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          SCOPE: ${{ github.event_name == 'pull_request' && '--changed-since HEAD^1' || '--wide' }}
+        run: |
+          mkdir -p .bench-ci
+          # Whole-SDK heap is copied from main's run for SDKs this PR leaves unchanged.
+          reuse=""; [ -f .bench-ci/main.json ] && reuse="--reuse .bench-ci/main.json"
+          node benches/sdks/ci.ts run --out .bench-ci/head.json $SCOPE $reuse
+
+      # No main run in the cache (the first PR after this job lands, or an
+      # evicted entry): benchmark the base commit here, with this PR's runner
+      # and the same SDK list. Doubles the job time, only on a miss.
+      - name: Benchmark main (no cached run)
+        if: github.event_name == 'pull_request' && steps.main-cache.outputs.cache-matched-key == ''
+        env:
+          BENCH_HEAD_SHA: ${{ github.event.pull_request.base.sha }}
+          BENCH_SOURCE: same-job
+        run: |
+          base="$RUNNER_TEMP/base"
+          git worktree add -q --detach "$base" HEAD^1
+          ./.github/bench-copy.sh "$base"
+          (cd "$base" && pnpm install --frozen-lockfile --prefer-offline > /dev/null)
+          extra=$(node -p 'require("./.bench-ci/head.json").scope.changed.join(",")')
+          (cd "$base" && node benches/sdks/ci.ts run --out "$GITHUB_WORKSPACE/.bench-ci/main.json" ${extra:+--extra "$extra"} \
+            --reuse "$GITHUB_WORKSPACE/.bench-ci/head.json")
+
+      - name: Add this run to main's history
+        if: github.event_name != 'pull_request'
+        run: |
+          cp .bench-ci/head.json .bench-ci/main.json
+          node benches/sdks/ci.ts history --history .bench-ci/history.json --add .bench-ci/head.json
+
+      - name: Cache main's benchmark
+        if: github.event_name != 'pull_request'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            .bench-ci/main.json
+            .bench-ci/history.json
+          key: bench-ci-main-v2-${{ github.sha }}-${{ github.run_id }}
+
+      - name: Write report
+        env:
+          BENCH_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          base=""
+          if [ "${{ github.event_name }}" = pull_request ] && [ -f .bench-ci/main.json ]; then
+            base="--base .bench-ci/main.json"
+          fi
+          node benches/sdks/ci.ts report --head .bench-ci/head.json $base --out .bench-ci/comment.md
+          cat .bench-ci/comment.md >> "$GITHUB_STEP_SUMMARY"
+
+      # bench-comment.yml reads this, runs with secrets, and comments on the PR.
+      # This job runs the PR's code, so it gets no secrets, even from a fork.
+      - name: Record the PR
+        if: github.event_name == 'pull_request'
+        env:
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          node -e 'require("fs").writeFileSync(".bench-ci/pr.json", JSON.stringify({ number: +process.env.PR, sha: process.env.SHA, title: process.env.TITLE }))'
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: benchmarks
+          path: .bench-ci/
+          include-hidden-files: true
+          retention-days: 30

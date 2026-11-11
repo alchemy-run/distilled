@@ -1,0 +1,15 @@
+{
+  "description": "Paginate SandboxGetTimeRangeStats. Token pagination: `pageToken` takes the previous reply's `nextPageToken`, which is empty on the last page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.sandbox#SandboxGetTimeRangeStats/traits/smithy.api#paginated",
+      "value": {
+        "mode": "token",
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "groups"
+      }
+    }
+  ]
+}

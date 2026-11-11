@@ -1,11 +1,15 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * InngestProtocol — hand-written.
+ * InngestProtocol -- hand-written.
  *
  * Inngest speaks bearer-authenticated JSON REST. Success bodies keep the
  * `{ data, metadata, page? }` envelope the OpenAPI document describes.
  * Failures nest under `{ errors: [{ code, message }] }`.
  *
- *   request:  credentials → `Authorization: Bearer <apiKey>` + base URL
+ *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
  *             (default https://api.inngest.com/v2), resolved from the
  *             calling fiber on every request
  *
@@ -16,18 +20,12 @@
  *             {@link UnknownInngestError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownInngestError } from "./errors.ts";
+import { UnknownInngestError, InngestParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Inngest operation. Generated service
@@ -39,7 +37,10 @@ export type InngestOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownInngestError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | InngestParseError
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Inngest operation. */
 export type InngestOpContext = Credentials | HttpClient.HttpClient;
@@ -58,9 +59,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
       const err = first as Record<string, unknown>;
       const message = typeof err.message === "string" ? err.message : undefined;
       const code =
-        typeof err.code === "string" || typeof err.code === "number"
-          ? err.code
-          : undefined;
+        typeof err.code === "string" || typeof err.code === "number" ? err.code : undefined;
       if (code !== undefined || message !== undefined) {
         return { code, message };
       }
@@ -72,36 +71,25 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
       : typeof rec.error === "string"
         ? rec.error
         : undefined;
-  const code =
-    typeof rec.code === "string" || typeof rec.code === "number"
-      ? rec.code
-      : undefined;
+  const code = typeof rec.code === "string" || typeof rec.code === "number" ? rec.code : undefined;
   if (code === undefined && message === undefined) return undefined;
   return { code, message };
 };
 
-export const InngestProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const InngestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownInngestError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownInngestError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+  parseError: ({ body, cause }) => new InngestParseError({ body, cause }),
+});

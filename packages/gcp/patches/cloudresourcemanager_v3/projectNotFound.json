@@ -1,0 +1,68 @@
+{
+  "description": "Type the 403 Resource Manager returns for a project that does not exist ('Permission ... denied on resource ... (or it may not exist).'). It surfaced as a generic Forbidden, indistinguishable from a real permission denial.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#ProjectNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The project does not exist, or the caller cannot see it. Resource Manager answers both with HTTP 403 'Permission ... denied on resource ... (or it may not exist).'",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "(or it may not exist)"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetIamPolicyProjects/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#ProjectNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#PatchProjects/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#ProjectNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#DeleteProjects/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#ProjectNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#UndeleteProjects/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#ProjectNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#GetProjects/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#ProjectNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudresourcemanager_v3#MoveProjects/errors/-",
+      "value": {
+        "target": "com.gcp.cloudresourcemanager_v3#ProjectNotFound"
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the three Axiom OpenAPI specs into Smithy 2.0 JSON models.
  *
@@ -18,13 +18,13 @@
  * chain — hence `parse` rather than the (post-patch) `preprocess` hook.
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Axiom's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Axiom's pipeline
  * config. `scripts/generate.ts` compiles the models into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const specsDir = "specs/spec-mirror-axiom/specs/restapi/versions";
 
 /**
@@ -100,6 +100,8 @@ for (const version of VERSIONS) {
       // v0 parity: includeOperationErrors=true with the default status→class
       // map and default error statuses (401/429/500/503 covered globally).
       skipDeprecated: true,
+      // Field deletion answers `202 Accepted` with a DeleteDatasetFieldsResult body.
+      successStatuses: ["200", "201", "202", "204"],
     },
   });
 }

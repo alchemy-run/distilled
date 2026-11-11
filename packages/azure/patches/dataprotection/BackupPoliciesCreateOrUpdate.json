@@ -1,0 +1,15 @@
+{
+  "description": "BaseBackupPolicy is polymorphic on `objectType` (BackupPolicy); the converted model keeps only the base members, so S.Struct strips `policyRules` on encode and decode. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.dataprotection#BaseBackupPolicy/members/policyRules",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Policy rules (`AzureBackupRule` / `AzureRetentionRule`) of a `BackupPolicy`."
+        }
+      }
+    }
+  ]
+}

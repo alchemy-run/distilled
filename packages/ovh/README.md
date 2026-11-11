@@ -12,7 +12,7 @@ npm install @distilled.cloud/ovh effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Ovh from "@distilled.cloud/ovh";
 
 const program = Effect.gen(function* () {

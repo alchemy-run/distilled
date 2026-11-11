@@ -1,5 +1,5 @@
 /**
- * PlanetScale pagination — hand-written.
+ * PlanetScale pagination -- hand-written.
  *
  * PlanetScale's paginated list operations are all page-number mode (`page`
  * in, `next_page` out, items under `data`); generated operations pass

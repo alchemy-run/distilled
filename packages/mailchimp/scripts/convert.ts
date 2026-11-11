@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn Mailchimp's Marketing API document into a Smithy 2.0 JSON model.
  *
@@ -8,11 +8,11 @@
  * Output: .generated-specs/marketing.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Mailchimp's pipeline
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Mailchimp's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const METHODS = ["get", "put", "post", "patch", "delete"] as const;
 
@@ -59,10 +59,8 @@ const OVERRIDES: Readonly<Record<string, string>> = {
   "POST /landing-pages": "createLandingPage",
   "GET /search-campaigns": "searchCampaigns",
   "GET /search-members": "searchMembers",
-  "POST /sms-campaigns/{sms_campaign_id}/actions/cancel-send":
-    "cancelSmsCampaignSend",
-  "POST /sms-campaigns/{sms_campaign_id}/actions/schedule":
-    "scheduleSmsCampaign",
+  "POST /sms-campaigns/{sms_campaign_id}/actions/cancel-send": "cancelSmsCampaignSend",
+  "POST /sms-campaigns/{sms_campaign_id}/actions/schedule": "scheduleSmsCampaign",
   "POST /sms-campaigns/{sms_campaign_id}/actions/send": "sendSmsCampaign",
   "PUT /sms-campaigns/{sms_campaign_id}/content": "setSmsCampaignContent",
 };
@@ -85,7 +83,7 @@ const collectVendorNames = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "marketing",

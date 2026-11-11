@@ -4,7 +4,7 @@
  * Re-exports the common HTTP errors from core and adds the Atlas-specific
  * classes (ported from distilled v0). Note the generated service module
  * additionally defines its own per-status matcher classes
- * (BadRequest/PaymentRequired/…) for the statuses each operation declares —
+ * (BadRequest/PaymentRequired/...) for the statuses each operation declares --
  * those share `_tag`s with the classes here, so `catchTag` works against
  * either.
  */
@@ -28,35 +28,31 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
-/** Payment Required — billing/quota limit (402). */
-export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()(
-  "PaymentRequired",
-  { message: Schema.String },
-).pipe(Category.withBadRequestError) {}
+/** Payment Required -- billing/quota limit (402). */
+export class PaymentRequired
+  extends /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+    message: Schema.String,
+  }).pipe(Category.withBadRequestError) {}
 
 /**
- * Unknown MongoDB Atlas error — returned when nothing else matches the
+ * Unknown MongoDB Atlas error -- returned when nothing else matches the
  * failure. Carries the Atlas error envelope fields
  * (`{ error, errorCode, reason?, detail? }`) for later cataloging.
  */
-export class UnknownMongodbAtlasError extends Schema.TaggedError<UnknownMongodbAtlasError>()(
-  "UnknownMongodbAtlasError",
-  {
-    errorCode: Schema.optional(Schema.String),
-    reason: Schema.optional(Schema.String),
-    detail: Schema.optional(Schema.String),
+export class UnknownMongodbAtlasError
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownMongodbAtlasError>()("UnknownMongodbAtlasError", {
+    errorCode: /*@__PURE__*/ Schema.optional(Schema.String),
+    reason: /*@__PURE__*/ Schema.optional(Schema.String),
+    detail: /*@__PURE__*/ Schema.optional(Schema.String),
     body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError) {}
 
-/** Schema parse error wrapper (kept for v0 surface parity). */
-export class MongodbAtlasParseError extends Schema.TaggedError<MongodbAtlasParseError>()(
-  "MongodbAtlasParseError",
-  {
+/** A 2xx body that does not match the output schema (strict response validation). */
+export class MongodbAtlasParseError
+  extends /*@__PURE__*/ Schema.TaggedError<MongodbAtlasParseError>()("MongodbAtlasParseError", {
     body: Schema.Unknown,
     cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+  }).pipe(Category.withParseError) {}

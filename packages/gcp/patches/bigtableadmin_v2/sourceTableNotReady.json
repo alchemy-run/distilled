@@ -1,0 +1,29 @@
+{
+  "description": "Type creating a materialized view over a table that is still being created or modified (HTTP 400). It surfaced as a generic BadRequest, so the provider matched the message to retry it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#SourceTableNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A table referenced by the materialized view query is still being created or modified (HTTP 400: '... while it is being created or modified'). Retryable after a short wait.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "includes": "while it is being created or modified" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#CreateProjectsInstancesMaterializedViews/errors/-",
+      "value": { "target": "com.gcp.bigtableadmin_v2#SourceTableNotReady" }
+    }
+  ]
+}

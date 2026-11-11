@@ -12,7 +12,7 @@ npm install @distilled.cloud/fly-io effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Fly from "@distilled.cloud/fly-io";
 
 const program = Effect.gen(function* () {

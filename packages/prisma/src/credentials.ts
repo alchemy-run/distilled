@@ -1,46 +1,48 @@
 /**
- * Prisma credentials — hand-written.
+ * Prisma credentials -- hand-written.
  *
  * API-compatible port of the distilled repo's prisma credentials
  * module: the `Credentials` service holds an *effect* that resolves the
  * current credentials on every request. Auth is a single bearer token
- * (`Authorization: Bearer <apiToken>`) against `https://api.prisma.io`.
+ * (`Authorization: Bearer <apiToken>`) against `https://api.prisma.io`,
+ * or none when the `HttpClient` authenticates requests itself.
  */
-import * as EffectConfig from "effect/Config";
+import * as EffectConfig from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.prisma.io";
 
 export interface Config {
-  readonly apiToken: Redacted.Redacted<string>;
+  /** Absent when the `HttpClient` authenticates requests itself. No Authorization header is sent. */
+  readonly apiToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config, ConfigError, never>
->()("PrismaCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError, never>>()(
+    "PrismaCredentials",
+  ) {}
 
-/** Layer from a plain token + optional base URL. */
+/** Layer from a redacted token + optional base URL. */
 export const fromApiToken = (config: {
-  readonly apiToken: string;
+  readonly apiToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiToken: Redacted.make(config.apiToken),
+      apiToken: config.apiToken,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
 
-const envConfig = EffectConfig.all({
-  apiToken: EffectConfig.String("PRISMA_API_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.String("PRISMA_POSTGRES_API_TOKEN")),
+const envConfig = /*@__PURE__*/ EffectConfig.all({
+  apiToken: /*@__PURE__*/ EffectConfig.Redacted("PRISMA_API_TOKEN").pipe(
+    /*@__PURE__*/ EffectConfig.orElse(() => EffectConfig.Redacted("PRISMA_POSTGRES_API_TOKEN")),
   ),
 });
 
@@ -49,18 +51,18 @@ const envConfig = EffectConfig.all({
  * `PRISMA_POSTGRES_API_TOKEN` as a backwards-compatible fallback.
  * The base URL is fixed to {@link DEFAULT_API_BASE_URL}.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
-  envConfig.pipe(
-    Effect.mapError(
+  /*@__PURE__*/ envConfig.pipe(
+    /*@__PURE__*/ Effect.mapError(
       () =>
         new ConfigError({
           message:
             "PRISMA_API_TOKEN (or PRISMA_POSTGRES_API_TOKEN) environment variable is required",
         }),
     ),
-    Effect.map(({ apiToken }) => ({
-      apiToken: Redacted.make(apiToken),
+    /*@__PURE__*/ Effect.map(({ apiToken }) => ({
+      apiToken,
       apiBaseUrl: DEFAULT_API_BASE_URL,
     })),
   ),

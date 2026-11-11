@@ -1,0 +1,34 @@
+{
+  "description": "Type the transient 400 a data store answers while it is still initializing ('... try again later'). It surfaced as a generic BadRequest, so the Schema provider matched the message to retry it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#DataStoreNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The parent data store is still being set up and cannot accept the change yet (HTTP 400: '... try again later'). Retryable after a short wait.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "includes": "try again later" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsDataStoresSchemas/errors/-",
+      "value": { "target": "com.gcp.discoveryengine_v1#DataStoreNotReady" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.discoveryengine_v1#CreateProjectsLocationsCollectionsDataStoresSchemas/errors/-",
+      "value": { "target": "com.gcp.discoveryengine_v1#DataStoreNotReady" }
+    }
+  ]
+}

@@ -9,10 +9,7 @@
   "errorCategories": {
     "RepositoryAlreadyExistsException": ["ConflictError", "AlreadyExistsError"],
     "RepositoryNotFoundException": ["NotFoundError"],
-    "RepositoryNotEmptyException": [
-      "ConflictError",
-      "DependencyViolationError"
-    ],
+    "RepositoryNotEmptyException": ["ConflictError", "DependencyViolationError"],
     "LifecyclePolicyNotFoundException": ["NotFoundError"],
     "RepositoryPolicyNotFoundException": ["NotFoundError"],
     "LimitExceededException": ["QuotaError"],

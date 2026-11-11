@@ -12,7 +12,7 @@ npm install @distilled.cloud/coolify effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Coolify from "@distilled.cloud/coolify";
 
 const program = Effect.gen(function* () {

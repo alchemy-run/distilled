@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn the Squarespace Commerce OpenAPI spec into a Smithy 2.0
  * JSON model.
@@ -8,11 +8,11 @@
  * Output: .generated-specs/squarespace.json
  *
  * The OpenAPI→Smithy converter lives in
- * `@distilled.cloud/core/codegen/openapi`; this script is Squarespace's
+ * `@distilled.cloud/dev/codegen/openapi`; this script is Squarespace's
  * pipeline config. `scripts/generate.ts` compiles the model into src/services.
  */
 import * as path from "node:path";
-import { runOpenApiConvert } from "@distilled.cloud/core/codegen/openapi-cli";
+import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
 
@@ -57,7 +57,7 @@ const dropProtocolHeaders = (spec: any): void => {
 };
 
 await runOpenApiConvert({
-  root: path.resolve(import.meta.dir, ".."),
+  root: path.resolve(import.meta.dirname, ".."),
   specs: [
     {
       name: "squarespace",

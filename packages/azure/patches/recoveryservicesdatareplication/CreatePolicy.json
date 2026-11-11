@@ -1,0 +1,27 @@
+{
+  "description": "Policy customProperties is polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI); the converted model keeps only the discriminator, so S.Struct strips every subtype field on encode and decode. Retype as an untyped document.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicesdatareplication#PolicyModelProperties/members/customProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicesdatareplication#PolicyModelPropertiesInput/members/customProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Policy model custom properties. Polymorphic on `instanceType` (HyperVToAzStackHCI, VMwareToAzStackHCI).",
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

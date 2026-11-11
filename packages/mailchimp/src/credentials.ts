@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Mailchimp credentials — hand-written.
  *
@@ -16,7 +17,6 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
@@ -24,10 +24,10 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config, ConfigError>
->()("MailchimpCredentials") {}
+export class Credentials
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+    "MailchimpCredentials",
+  ) {}
 
 /** The data-centre suffix of an API key (`abc123-us21` → `us21`). */
 export const serverPrefixFromApiKey = (apiKey: string): string | undefined => {
@@ -47,14 +47,11 @@ const resolve = (config: {
   readonly serverPrefix?: string | undefined;
   readonly apiBaseUrl?: string | undefined;
 }): Effect.Effect<Config, ConfigError> => {
-  const apiKey = Redacted.isRedacted(config.apiKey)
-    ? config.apiKey
-    : Redacted.make(config.apiKey);
+  const apiKey = Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey);
   if (config.apiBaseUrl !== undefined) {
     return Effect.succeed({ apiKey, apiBaseUrl: trimSlash(config.apiBaseUrl) });
   }
-  const server =
-    config.serverPrefix ?? serverPrefixFromApiKey(Redacted.value(apiKey));
+  const server = config.serverPrefix ?? serverPrefixFromApiKey(Redacted.value(apiKey));
   if (server === undefined) {
     return Effect.fail(
       new ConfigError({
@@ -81,13 +78,11 @@ export const fromApiKey = (config: {
  * `MAILCHIMP_SERVER_PREFIX` through Effect `Config`, so it follows whatever
  * `ConfigProvider` is installed — in a Worker, one built from `env`.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
   Credentials,
   Effect.gen(function* () {
     const apiKey = yield* EffectConfig.Redacted("MAILCHIMP_API_KEY");
-    const serverPrefix = yield* EffectConfig.option(
-      EffectConfig.String("MAILCHIMP_SERVER_PREFIX"),
-    );
+    const serverPrefix = yield* EffectConfig.option(EffectConfig.String("MAILCHIMP_SERVER_PREFIX"));
     return { apiKey, serverPrefix: Option.getOrUndefined(serverPrefix) };
   }).pipe(
     Effect.mapError(
