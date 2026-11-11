@@ -145,7 +145,10 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "vanta",
     ],
   ],
-  ["Messaging & support", ["slack", "discord", "resend", "intercom", "zendesk", "customerio"]],
+  [
+    "Messaging & support",
+    ["slack", "discord", "resend", "intercom", "zendesk", "customerio", "mailchimp"],
+  ],
   [
     "Developer tools",
     [
