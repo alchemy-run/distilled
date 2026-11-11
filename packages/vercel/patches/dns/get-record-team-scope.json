@@ -1,5 +1,5 @@
 {
-  "description": "GET /domains/records/{recordId} declares only the recordId path parameter, but like every other DNS operation it is scoped by the teamId and slug query parameters; without them a record on a team-owned domain cannot be read. Vercel's Terraform provider passes `?teamId=` on this endpoint (https://github.com/vercel/terraform-provider-vercel/blob/152fffc2d661ac6b1583496635804d5107b45037/client/dns_record.go, GetDNSRecord).",
+  "description": "GET /domains/records/{recordId} declares only the recordId path parameter, but like every other DNS operation it is scoped by the teamId and slug query parameters. Live probe (2026-11-11): `?teamId=` of the team that owns the record answered 200 with the record, and `?teamId=` of a team the token does not belong to answered 403 `forbidden` \"Not authorized\", so the endpoint reads the parameter. Without it the same token also read the record; its default team owns the domain. Vercel's Terraform provider passes `?teamId=` on this endpoint (https://github.com/vercel/terraform-provider-vercel/blob/152fffc2d661ac6b1583496635804d5107b45037/client/dns_record.go, GetDNSRecord).",
   "patches": [
     {
       "op": "add",
