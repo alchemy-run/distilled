@@ -108,8 +108,8 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType | (string & {}) | undefined;
   /** Deprecated, at some point */
+  type?: GPUType | (string & {}) | undefined;
   count?: number | undefined;
   gpuType?: string | undefined;
 }
@@ -135,8 +135,9 @@ export interface FunctionInput {
   args?: string | undefined;
   argsBlobId?: string | undefined;
   finalInput?: boolean | undefined;
-  dataFormat?: DataFormat | (string & {}) | undefined;
   /** For args_oneof. */
+  dataFormat?: DataFormat | (string & {}) | undefined;
+  /** specifies which method to call when calling a class/object function */
   methodName?: string | undefined;
 }
 export interface BuildFunction {
@@ -164,10 +165,11 @@ export interface Image {
   contextMountId?: string | undefined;
   gpuConfig?: GPUConfig | undefined;
   imageRegistryConfig?: ImageRegistryConfig | undefined;
+  /** deprecated after 0.58.96 */
   buildFunctionDef?: string | undefined;
   /** deprecated after 0.58.96 */
   buildFunctionGlobals?: string | undefined;
-  /** deprecated after 0.58.96 If set, overrides the runtime used by the function. Specify either "runc" or "gvisor". */
+  /** If set, overrides the runtime used by the function. Specify either "runc" or "gvisor". */
   runtime?: string | undefined;
   /** Not included in image definition checksum as debug features do not affect built image. */
   runtimeDebug?: boolean | undefined;
@@ -186,8 +188,8 @@ export type DeploymentNamespace =
 export interface ImageGetOrCreateRequest {
   image?: Image | undefined;
   appId?: string | undefined;
-  existingImageId?: string | undefined;
   /** ignored */
+  existingImageId?: string | undefined;
   buildFunctionId?: string | undefined;
   forceBuild?: boolean | undefined;
   namespace?: DeploymentNamespace | (string & {}) | undefined;
@@ -210,24 +212,24 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
-/** sub-type for generic types like lists */
 export interface GenericResult {
-  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception: string;
+  status: GenericResultGenericStatus;
   /** Exception message for failures, if available. */
-  exitcode: number;
+  exception: string;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback: string;
+  exitcode: number;
   /** String value of the Python traceback. */
-  serializedTb: string;
+  traceback: string;
   /** Pickled traceback object. */
-  tbLineCache: string;
+  serializedTb: string;
   /** Pickled line cache for traceback object. */
-  data?: string | undefined;
+  tbLineCache: string;
   /** Inline data of the result. */
-  dataBlobId?: string | undefined;
+  data?: string | undefined;
   /** Blob ID for large data. */
+  dataBlobId?: string | undefined;
+  /** (?) */
   propagationReason: string;
 }
 export interface ImageGetOrCreateResponse {
@@ -287,6 +289,7 @@ export interface ImageJoinStreamingResponse {
   taskLogs: TaskLogsList;
   entryId: string;
   eof: boolean;
+  /** set on success */
   metadata?: ImageMetadata | undefined;
 }
 export type ImageJoinStreamingResponseList = Array<ImageJoinStreamingResponse>;
@@ -304,7 +307,6 @@ export interface ImageListTagsRequest {
   /** Returns only the tags that currently point at this image. Optional. */
   imageId?: string | undefined;
 }
-/** set on success */
 export interface ImageListTagsItem {
   tag: string;
   imageId: string;

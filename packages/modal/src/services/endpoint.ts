@@ -147,12 +147,12 @@ export type EndpointLifecycleStatus =
 export interface EndpointLifecycle {
   status: EndpointLifecycleStatus;
   createdAt: number;
+  /** User or service user name */
   createdBy: string;
-  /** User or service user name */
-  stoppedAt: number;
   /** Unset when Endpoint is active */
-  stoppedBy: string;
+  stoppedAt: number;
   /** User or service user name */
+  stoppedBy: string;
   environmentName: string;
 }
 export interface EndpointGetInfoResponseEndpointInfoSummary {
@@ -215,7 +215,7 @@ export interface ListEndpointRequest {
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface EndpointMetadata {

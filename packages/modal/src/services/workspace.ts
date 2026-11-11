@@ -76,8 +76,8 @@ export interface WorkspaceBillingReportRequest {
   /** Workspace ID will be implicit in the request metadata */
   startTimestamp?: string | undefined;
   endTimestamp?: string | undefined;
-  resolution?: string | undefined;
   /** e.g. 'd' or 'h'; server defines what we accept */
+  resolution?: string | undefined;
   tagNames?: StringList | undefined;
   environmentIds?: StringList | undefined;
   appIds?: StringList | undefined;

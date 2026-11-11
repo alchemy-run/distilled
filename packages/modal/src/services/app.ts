@@ -77,8 +77,8 @@ export interface AppDeploymentHistoryRequest {
   appId?: string | undefined;
 }
 export interface CommitInfo {
-  vcs?: string | undefined;
   /** Only git is supported for now */
+  vcs?: string | undefined;
   branch?: string | undefined;
   commitHash?: string | undefined;
   commitTimestamp?: string | undefined;
@@ -166,11 +166,11 @@ export interface TaskLogsBatch {
   appDone: boolean;
   functionId: string;
   inputId: string;
-  imageId: string;
   /** Used for image logs */
+  imageId: string;
   eof: boolean;
-  ptyExecId: string;
   /** Used for interactive functions */
+  ptyExecId: string;
   rootFunctionId: string;
   ttlDays: number;
   sandboxId: string;
@@ -196,29 +196,30 @@ export type AppState =
   | "APP_STATE_DISABLED"
   | "APP_STATE_DETACHED_DISCONNECTED"
   | "APP_STATE_DERIVED";
-/** tag -> class id */
 export interface AppLifecycle {
   appState: AppState;
   createdAt: number;
+  /** User or service user name */
   createdBy: string;
-  /** User or service user name */
-  deployedAt: number;
   /** Most recent deployment event */
-  deployedBy: string;
+  deployedAt: number;
   /** User or service user name */
-  version: number;
+  deployedBy: string;
   /** Only meaningful when App is deployed */
-  stoppedAt: number;
+  version: number;
   /** Unset when App is still running */
+  stoppedAt: number;
+  /** User or service user name, null if running or ephemeral App that finished normally */
   stoppedBy: string;
 }
 export interface AppGetByDeploymentNameResponse {
-  appId: string;
   /** Null when App with requested name is not deployed */
-  previousAppId: string;
+  appId: string;
   /** Populated if App with requested name was recently stopped */
-  environmentName: string;
+  previousAppId: string;
   /** Populated because server may resolve default environment */
+  environmentName: string;
+  /** Lifecycle of current App or recently stopped App */
   lifecycle?: AppLifecycle | undefined;
 }
 export interface AppGetInfoRequest {
@@ -230,6 +231,7 @@ export interface AppHandleMetadata {
   appId: string;
   environmentName: string;
   lifecycle?: AppLifecycle | undefined;
+  /** tag -> function id */
   functions: StringMap;
   /** tag -> function id */
   servers: StringMap;
@@ -246,8 +248,8 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type: GPUType;
   /** Deprecated, at some point */
+  type: GPUType;
   count: number;
   gpuType: string;
 }
@@ -310,13 +312,14 @@ export type ParameterType =
 export type GenericPayloadTypeList = Array<GenericPayloadType>;
 export interface GenericPayloadType {
   baseType: ParameterType;
+  /** sub-type for generic types like lists */
   subTypes: GenericPayloadTypeList;
 }
 export interface ClassParameterSpec {
   /** TODO: rename into NamedPayloadType or similar */
   name: string;
-  type: ParameterType;
   /** TODO: deprecate - use full_type instead */
+  type: ParameterType;
   hasDefault: boolean;
   /** Default *values* are only registered for class parameters */
   stringDefault?: string | undefined;
@@ -324,19 +327,20 @@ export interface ClassParameterSpec {
   pickleDefault?: string | undefined;
   bytesDefault?: string | undefined;
   boolDefault?: boolean | undefined;
+  /** supersedes `type` */
   fullType?: GenericPayloadType | undefined;
 }
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export interface ClassParameterInfo {
-  /** new format using api.FunctionParameterSet */
   format: ClassParameterInfoParameterSerializationFormat;
+  /** only set for PARAM_SERIALIZATION_FORMAT_PROTO */
   schema: ClassParameterSpecList;
 }
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export type FunctionSchemaFunctionSchemaType = "FUNCTION_SCHEMA_UNSPECIFIED" | "FUNCTION_SCHEMA_V1";
 export interface FunctionSchema {
-  schemaType: FunctionSchemaFunctionSchemaType;
   /** allows easy disambiguation between empty schema and no schema collection etc. */
+  schemaType: FunctionSchemaFunctionSchemaType;
   arguments: ClassParameterSpecList;
   returnType?: GenericPayloadType | undefined;
 }
@@ -357,7 +361,6 @@ export interface FunctionHandleMetadata {
   isMethod: boolean;
   /** use_function_id, pre-0.67 class method placeholders */
   useMethodName: string;
-  /** used for methods */
   definitionId: string;
   classParameterInfo?: ClassParameterInfo | undefined;
   /** Mapping of method names to their metadata, only non-empty for class service functions */
@@ -368,8 +371,8 @@ export interface FunctionHandleMetadata {
   /** Use optional to ensure unset values default to None instead of 0 */
   maxObjectSizeBytes?: string | undefined;
   maxAsyncObjectSizeBytes?: string | undefined;
-  ExperimentalFlashUrls: StringList;
   /** (Optional) urls for flash services */
+  ExperimentalFlashUrls: StringList;
   supportedInputFormats: DataFormatList;
   supportedOutputFormats: DataFormatList;
   appId: string;
@@ -404,31 +407,30 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
-/** sub-type for generic types like lists */
 export interface GenericResult {
-  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception: string;
+  status: GenericResultGenericStatus;
   /** Exception message for failures, if available. */
-  exitcode: number;
+  exception: string;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback: string;
+  exitcode: number;
   /** String value of the Python traceback. */
-  serializedTb: string;
+  traceback: string;
   /** Pickled traceback object. */
-  tbLineCache: string;
+  serializedTb: string;
   /** Pickled line cache for traceback object. */
-  data?: string | undefined;
+  tbLineCache: string;
   /** Inline data of the result. */
-  dataBlobId?: string | undefined;
+  data?: string | undefined;
   /** Blob ID for large data. */
+  dataBlobId?: string | undefined;
+  /** (?) */
   propagationReason: string;
 }
 export interface SandboxHandleMetadata {
   result?: GenericResult | undefined;
   appId: string;
 }
-/** HTTP/2 tunnel */
 export type VolumeFsVersion =
   | "VOLUME_FS_VERSION_UNSPECIFIED"
   | "VOLUME_FS_VERSION_V1"
@@ -436,7 +438,7 @@ export type VolumeFsVersion =
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface VolumeMetadata {
@@ -455,8 +457,9 @@ export interface Object {
 export type ObjectList = Array<Object>;
 export interface AppLayout {
   objects: ObjectList;
-  functionIds: StringMap;
   /** tag -> function id */
+  functionIds: StringMap;
+  /** tag -> class id */
   classIds: StringMap;
 }
 export interface AppGetLayoutResponse {
@@ -488,6 +491,7 @@ export interface AppGetLogsStream {
 export interface AppGetObjectsRequest {
   appId?: string | undefined;
   includeUnindexed?: boolean | undefined;
+  /** True starting with 0.67.x clients, which don't create method placeholder functions */
   onlyClassFunction?: boolean | undefined;
 }
 export interface AppGetObjectsItem {
@@ -522,13 +526,15 @@ export interface AppGetTagsResponse {
 }
 export interface AppGetTimeRangeStatsRequest {
   appId?: string | undefined;
-  since?: string | undefined;
   /** Required, inclusive. */
+  since?: string | undefined;
+  /** Required, exclusive; at most seven days after since. */
   until?: string | undefined;
 }
 export interface AppCallCounts {
   total: string;
   succeeded: string;
+  /** All non-success outcomes, including timeouts. */
   failed: string;
 }
 export interface AppContainerCounts {
@@ -542,8 +548,8 @@ export interface AppFunctionCounts {
   containers?: AppContainerCounts | undefined;
 }
 export interface AppFunctionStats {
-  objectId: string;
   /** Root Function ID */
+  objectId: string;
   counts?: AppFunctionCounts | undefined;
 }
 export type AppFunctionStatsMap = { [key: string]: AppFunctionStats | undefined };
@@ -556,9 +562,9 @@ export interface AppFunctionStatsGroup {
 export interface AppRequestCounts {
   total: string;
   ok2xx: string;
+  /** All non-2xx responses, including status zero. */
   other: string;
 }
-/** Pending, starting, or running at the exclusive until cutoff. */
 export interface AppServerCounts {
   requests?: AppRequestCounts | undefined;
   containers?: AppContainerCounts | undefined;
@@ -575,22 +581,24 @@ export interface AppServerStatsGroup {
   byName: AppServerStatsMap;
 }
 export interface AppSandboxCounts {
-  total: string;
   /** finished + live; not the number created during the window. */
-  finished: string;
+  total: string;
   /** Finished in [since, until), regardless of terminal outcome. */
+  finished: string;
+  /** Pending, starting, or running at the exclusive until cutoff. */
   live: string;
 }
 export interface AppGetTimeRangeStatsResponse {
-  since?: string | undefined;
   /** Inclusive. */
-  until?: string | undefined;
+  since?: string | undefined;
   /** Exclusive. */
+  until?: string | undefined;
   functions?: AppFunctionStatsGroup | undefined;
   servers?: AppServerStatsGroup | undefined;
   sandboxes?: AppSandboxCounts | undefined;
+  /** Current App metadata at query time. */
   lifecycle?: AppLifecycle | undefined;
-  /** Current App metadata at query time. Live publishes in [since, until); absent for ephemeral and detached run Apps. */
+  /** Live publishes in [since, until); absent for ephemeral and detached run Apps. */
   deploymentCount?: string | undefined;
 }
 export interface AppHeartbeatRequest {
@@ -599,6 +607,7 @@ export interface AppHeartbeatRequest {
 export interface AppHeartbeatResponse {}
 export interface AppRollbackRequest {
   appId?: string | undefined;
+  /** signed as we support negative "roll back n versions" requests */
   version?: number | undefined;
 }
 export type WarningWarningType =
@@ -629,6 +638,7 @@ export interface AppSetObjectsRequest {
   indexedObjectIds?: StringMap | undefined;
   clientId?: string | undefined;
   unindexedObjectIds?: StringList | undefined;
+  /** promotes an app from initializing to this new state */
   newAppState?: AppState | (string & {}) | undefined;
 }
 export interface AppSetObjectsResponse {}
@@ -639,10 +649,11 @@ export interface AppSetTagsRequest {
 export interface AppSetTagsResponse {}
 export interface CreateAppRequest {
   clientId?: string | undefined;
-  description?: string | undefined;
   /** Human readable label for the app */
+  description?: string | undefined;
   environmentName?: string | undefined;
   appState?: AppState | (string & {}) | undefined;
+  /** Additional metadata to attach to the App */
   tags?: StringMap | undefined;
 }
 export interface CreateAppResponse {
@@ -715,24 +726,25 @@ export interface PromoteAppResponse {
 export interface PublishAppRequest {
   appId?: string | undefined;
   name?: string | undefined;
-  deploymentTag?: string | undefined;
   /** Additional metadata to identify a deployment */
-  appState?: AppState | (string & {}) | undefined;
+  deploymentTag?: string | undefined;
   /** Published app will be in this state */
-  functionIds?: StringMap | undefined;
+  appState?: AppState | (string & {}) | undefined;
   /** function_name -> function_id */
-  classIds?: StringMap | undefined;
+  functionIds?: StringMap | undefined;
   /** class_name -> class_id */
-  definitionIds?: StringMap | undefined;
+  classIds?: StringMap | undefined;
   /** function_id -> definition_id */
+  definitionIds?: StringMap | undefined;
+  /** Unused by client, but used internally */
   rollbackVersion?: number | undefined;
   /** Unused by client, but used internally */
   clientVersion?: string | undefined;
-  /** Unused by client, but used internally */
-  commitInfo?: CommitInfo | undefined;
   /** Git information for deployment tracking */
+  commitInfo?: CommitInfo | undefined;
+  /** Additional metadata to attach to the App */
   tags?: StringMap | undefined;
-  /** Additional metadata to attach to the App If true, create a version pinned deployment but don't update the production deployment definition on publish */
+  /** If true, create a version pinned deployment but don't update the production deployment definition on publish */
   staged?: boolean | undefined;
   deploymentType?: DeploymentType | (string & {}) | undefined;
 }

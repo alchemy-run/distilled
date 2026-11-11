@@ -66,7 +66,6 @@ export interface UserIdentity {
   userId: string;
   username: string;
 }
-/** Additional URL suffix added for ephemeral Apps */
 export interface WebhookToken {
   tokenId: string;
   createdAt: number;

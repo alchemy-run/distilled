@@ -24,22 +24,24 @@ const TELEMETRY = {
 } as const;
 
 export interface AuditLogCountRequest {
-  q?: string | undefined;
   /** Search query in the audit log search syntax */
-  oldestMs?: string | undefined;
+  q?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
+  oldestMs?: string | undefined;
+  /** Newest time bound in Unix milliseconds, exclusive */
   newestMs?: string | undefined;
 }
 export interface AuditLogCountResponse {
   count: string;
 }
 export interface AuditLogPlanRequest {
-  q?: string | undefined;
   /** Search query in the audit log search syntax */
-  oldestMs?: string | undefined;
+  q?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string | undefined;
+  oldestMs?: string | undefined;
   /** Newest time bound in Unix milliseconds, exclusive */
+  newestMs?: string | undefined;
+  /** Approximate entries per bucket; 0 selects the default */
   bucketSize?: number | undefined;
 }
 /** A position in the results. Pass it back unchanged. */
@@ -62,35 +64,35 @@ export interface GetAuditLogSettingsResponse {
   planTimeoutSecs: number;
 }
 export interface ListAuditLogRequest {
-  q?: string | undefined;
   /** Search query in the audit log search syntax */
-  oldestMs?: string | undefined;
+  q?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string | undefined;
+  oldestMs?: string | undefined;
   /** Newest time bound in Unix milliseconds, exclusive */
-  limit?: number | undefined;
+  newestMs?: string | undefined;
   /** Maximum entries to return; 0 selects the default */
-  oldestCursor?: AuditLogCursor | undefined;
+  limit?: number | undefined;
   /** Oldest cursor bound, inclusive; omit to read to oldest_ms */
+  oldestCursor?: AuditLogCursor | undefined;
+  /** Newest cursor bound, exclusive; omit to start at newest_ms */
   newestCursor?: AuditLogCursor | undefined;
 }
 export interface AuditLogActor {
-  type: string;
   /** "user", "service_user", "oauth_grant" or "system" */
+  type: string;
   id: string;
 }
 export interface AuditLogTarget {
-  type: string;
   /** For example "app", "function" or "secret" */
+  type: string;
   id: string;
 }
 export type AuditLogTargetList = Array<AuditLogTarget>;
-/** Approximate entries per bucket; 0 selects the default */
 export interface AuditLogContext {
   workspaceId: string;
   environmentId: string;
-  source: string;
   /** "sdk", "web" or "unknown" */
+  source: string;
   ipAddress: string;
   isModalAdmin: boolean;
 }
@@ -100,16 +102,18 @@ export interface AuditLogEntry {
   action: string;
   targets: AuditLogTargetList;
   context?: AuditLogContext | undefined;
-  eventAt: string;
   /** ISO 8601 timestamp */
-  status: string;
+  eventAt: string;
   /** "success" or "error" */
+  status: string;
+  /** JSON-encoded string */
   metadataJson: string;
 }
 export type AuditLogEntryList = Array<AuditLogEntry>;
 export interface ListAuditLogResponse {
-  items: AuditLogEntryList;
   /** Newest first */
+  items: AuditLogEntryList;
+  /** Set when more entries may follow */
   nextCursor?: AuditLogCursor | undefined;
 }
 export type AuditLogCountError = ModalOpError;

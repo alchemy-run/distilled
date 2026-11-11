@@ -89,7 +89,7 @@ export interface DictGetByIdRequest {
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface DictMetadata {
@@ -112,6 +112,7 @@ export interface DictGetOrCreateRequest {
   /** removed namespace */
   environmentName?: string | undefined;
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  /** Unused after 1.4.0 */
   data?: DictEntryList | undefined;
 }
 export interface DictGetOrCreateResponse {
@@ -154,8 +155,8 @@ export interface ListDictRequest {
 }
 export interface ListDictResponseDictInfo {
   name: string;
-  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
+  createdAt: number;
   dictId: string;
   metadata?: DictMetadata | undefined;
 }

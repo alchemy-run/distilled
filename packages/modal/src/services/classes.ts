@@ -55,13 +55,14 @@ export type ParameterType =
 export type GenericPayloadTypeList = Array<GenericPayloadType>;
 export interface GenericPayloadType {
   baseType?: ParameterType | (string & {}) | undefined;
+  /** sub-type for generic types like lists */
   subTypes?: GenericPayloadTypeList | undefined;
 }
 export interface ClassParameterSpec {
   /** TODO: rename into NamedPayloadType or similar */
   name?: string | undefined;
-  type?: ParameterType | (string & {}) | undefined;
   /** TODO: deprecate - use full_type instead */
+  type?: ParameterType | (string & {}) | undefined;
   hasDefault?: boolean | undefined;
   /** Default *values* are only registered for class parameters */
   stringDefault?: string | undefined;
@@ -69,19 +70,20 @@ export interface ClassParameterSpec {
   pickleDefault?: string | undefined;
   bytesDefault?: string | undefined;
   boolDefault?: boolean | undefined;
+  /** supersedes `type` */
   fullType?: GenericPayloadType | undefined;
 }
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export interface ClassParameterInfo {
-  /** new format using api.FunctionParameterSet */
   format?: ClassParameterInfoParameterSerializationFormat | (string & {}) | undefined;
+  /** only set for PARAM_SERIALIZATION_FORMAT_PROTO */
   schema?: ClassParameterSpecList | undefined;
 }
 export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export type FunctionSchemaFunctionSchemaType = "FUNCTION_SCHEMA_UNSPECIFIED" | "FUNCTION_SCHEMA_V1";
 export interface FunctionSchema {
-  schemaType?: FunctionSchemaFunctionSchemaType | (string & {}) | undefined;
   /** allows easy disambiguation between empty schema and no schema collection etc. */
+  schemaType?: FunctionSchemaFunctionSchemaType | (string & {}) | undefined;
   arguments?: ClassParameterSpecList | undefined;
   returnType?: GenericPayloadType | undefined;
 }
@@ -102,7 +104,6 @@ export interface FunctionHandleMetadata {
   isMethod?: boolean | undefined;
   /** use_function_id, pre-0.67 class method placeholders */
   useMethodName?: string | undefined;
-  /** used for methods */
   definitionId?: string | undefined;
   classParameterInfo?: ClassParameterInfo | undefined;
   /** Mapping of method names to their metadata, only non-empty for class service functions */
@@ -113,8 +114,8 @@ export interface FunctionHandleMetadata {
   /** Use optional to ensure unset values default to None instead of 0 */
   maxObjectSizeBytes?: string | undefined;
   maxAsyncObjectSizeBytes?: string | undefined;
-  ExperimentalFlashUrls?: StringList | undefined;
   /** (Optional) urls for flash services */
+  ExperimentalFlashUrls?: StringList | undefined;
   supportedInputFormats?: DataFormatList | undefined;
   supportedOutputFormats?: DataFormatList | undefined;
   appId?: string | undefined;
@@ -151,7 +152,6 @@ export interface GetClassRequest {
   environmentName?: string | undefined;
   /** workspace_name */
   onlyClassFunction?: boolean | undefined;
-  /** True starting with 0.67.x clients, which don't create method placeholder functions */
   appVersion?: number | undefined;
 }
 export type WarningWarningType =
