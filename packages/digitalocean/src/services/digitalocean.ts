@@ -8611,15 +8611,15 @@ export type MicrovmUrlsList = Array<MicrovmUrl>;
 /** A MicroVM. All fields are set at creation. There is no update endpoint. */
 export interface Microvm {
   /** The unique ID of the MicroVM. */
-  id?: string | undefined;
+  id: string;
   /** The name of the MicroVM. Must be unique in the region and contain 1 to 63 lowercase letters, digits, and hyphens. */
-  name?: string | undefined;
+  name: string;
   /** The slug of the region the MicroVM is in. */
-  region?: string | undefined;
+  region: string;
   size?: MicrovmSize | undefined;
   source?: MicrovmSource | undefined;
   /** The MicroVM's current state. */
-  state?: MicrovmState | undefined;
+  state: MicrovmState;
   /** Why the MicroVM failed. Present only when `state` is `failed`. */
   failure_reason?: string | undefined;
   /** `public` sends outbound traffic through a shared NAT gateway. `vpc` places the MicroVM in the VPC network set by `vpc_uuid`. */
@@ -8638,10 +8638,10 @@ export interface Microvm {
   /** The MicroVM's HTTPS endpoints. The entry with `default` set to `true` is the endpoint for the HTTP port. */
   urls?: MicrovmUrlsList | undefined;
   /** When the MicroVM was created, in ISO 8601 format. */
-  created_at?: string | undefined;
+  created_at: string;
 }
 export interface CreateMicrovmResponse {
-  microvm?: Microvm | undefined;
+  microvm: Microvm;
 }
 export interface CreateMicrovmCheckpointRequest {
   /** The unique ID of the MicroVM. */
@@ -8659,7 +8659,7 @@ export type Checkpoint2Status =
 /** A checkpoint of a MicroVM's memory and disk. New MicroVMs created from a checkpoint start from that state. */
 export interface Checkpoint2 {
   /** The unique ID of the checkpoint. */
-  id?: string | undefined;
+  id: string;
   /** The name of the checkpoint. If you do not set one, a name such as `checkpoint-20260929-143559` is generated. */
   name?: string | undefined;
   /** The ID of the MicroVM the checkpoint was taken from. */
@@ -8670,16 +8670,16 @@ export interface Checkpoint2 {
   region?: string | undefined;
   size?: MicrovmSize | undefined;
   /** The checkpoint's status. You can create MicroVMs from the checkpoint when it is `CHECKPOINT_AVAILABLE`. */
-  status?: Checkpoint2Status | undefined;
+  status: Checkpoint2Status;
   /** The stored size of the checkpoint's memory, in bytes. */
   memory_bytes?: number | undefined;
   /** The stored size of the checkpoint's disk, in bytes. */
   disk_bytes?: number | undefined;
   /** When the checkpoint was created, in ISO 8601 format. */
-  created_at?: string | undefined;
+  created_at: string;
 }
 export interface CreateMicrovmCheckpointResponse {
-  checkpoint?: Checkpoint2 | undefined;
+  checkpoint: Checkpoint2;
 }
 /** An email to notify on an alert trigger. */
 export type AlertsEmailList = Array<string>;
@@ -15351,14 +15351,14 @@ export interface GetMicrovmRequest {
   microvm_id: string;
 }
 export interface GetMicrovmResponse {
-  microvm?: Microvm | undefined;
+  microvm: Microvm;
 }
 export interface GetMicrovmCheckpointRequest {
   /** The unique ID of the checkpoint. */
   checkpoint_id: string;
 }
 export interface GetMicrovmCheckpointResponse {
-  checkpoint?: Checkpoint2 | undefined;
+  checkpoint: Checkpoint2;
 }
 export interface GetMicrovmConsoleRequest {
   /** The unique ID of the MicroVM. */
@@ -22525,7 +22525,7 @@ export interface MicrovmsPostResumeRequest {
   microvm_id: string;
 }
 export interface MicrovmsPostResumeResponse {
-  microvm?: Microvm | undefined;
+  microvm: Microvm;
 }
 export interface MonitoringGetAppRestartCountMetricsYmlRequest {
   /** The app UUID. */
@@ -23195,7 +23195,7 @@ export interface PostMicrovmPauseRequest {
   microvm_id: string;
 }
 export interface PostMicrovmPauseResponse {
-  microvm?: Microvm | undefined;
+  microvm: Microvm;
 }
 /** The type of action to initiate for the reserved IP. */
 export type ReservedIpActionUnassignType = "assign" | "unassign";
@@ -23591,11 +23591,11 @@ export interface RunMicrovmCommandRequest {
 /** The result of a command. The command has 60 seconds to finish. Combined `stdout` and `stderr` are limited to 4 MiB. */
 export interface ExecResponse {
   /** The command's standard output. Bytes that are not valid UTF-8 are replaced. */
-  stdout?: string | undefined;
+  stdout: string;
   /** The command's standard error. Bytes that are not valid UTF-8 are replaced. */
-  stderr?: string | undefined;
+  stderr: string;
   /** The command's exit code. */
-  exit_code?: number | undefined;
+  exit_code: number;
   /** Present and `true` when the output exceeded 4 MiB and was cut off. */
   truncated?: boolean | undefined;
 }
@@ -43118,12 +43118,12 @@ function __c41(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          region: S.optional(S.String),
+          id: S.String,
+          name: S.String,
+          region: S.String,
           size: S.optional(__S(1280, __c40, 0)),
           source: S.optional(__S(1312, __c41, 0)),
-          state: S.optional(S.String),
+          state: S.String,
           failure_reason: S.optional(S.String),
           networking: S.optional(S.String),
           vpc_uuid: S.optional(S.String),
@@ -43133,7 +43133,7 @@ function __c41(j: number): any {
           ports: S.optional(__S(2752, __c86, 0)),
           tags: S.optional(__S(1792, __c56, 0)),
           urls: S.optional(__S(1315, __c41, 3)),
-          created_at: S.optional(S.String),
+          created_at: S.String,
         }),
       ).annotate({ identifier: "Microvm" });
   }
@@ -43143,7 +43143,7 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          microvm: S.optional(__S(1316, __c41, 4)),
+          microvm: __S(1316, __c41, 4),
         }),
       ).annotate({ identifier: "CreateMicrovmResponse" });
   }
@@ -43166,7 +43166,7 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          checkpoint: S.optional(__S(1440, __c45, 0)),
+          checkpoint: __S(1440, __c45, 0),
         }),
       ).annotate({ identifier: "CreateMicrovmCheckpointResponse" });
   }
@@ -43176,16 +43176,16 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           name: S.optional(S.String),
           microvm_id: S.optional(S.String),
           microvm_name: S.optional(S.String),
           region: S.optional(S.String),
           size: S.optional(__S(1280, __c40, 0)),
-          status: S.optional(S.String),
+          status: S.String,
           memory_bytes: S.optional(S.Number),
           disk_bytes: S.optional(S.Number),
-          created_at: S.optional(S.String),
+          created_at: S.String,
         }),
       ).annotate({ identifier: "Checkpoint2" });
   }
@@ -64461,9 +64461,9 @@ function __c1081(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          stdout: S.optional(S.String),
-          stderr: S.optional(S.String),
-          exit_code: S.optional(S.Number),
+          stdout: S.String,
+          stderr: S.String,
+          exit_code: S.Number,
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ExecResponse" });
