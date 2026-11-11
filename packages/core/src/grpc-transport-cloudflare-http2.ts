@@ -86,6 +86,10 @@ const SETTINGS_ENABLE_PUSH = 2;
 const SETTINGS_INITIAL_WINDOW_SIZE = 4;
 const SETTINGS_MAX_FRAME_SIZE = 5;
 
+/** The largest flow-control window and the largest frame HTTP/2 allows. */
+const MAX_WINDOW = 0x7fffffff;
+const MAX_FRAME_LIMIT = 0xffffff;
+
 /** The flow-control window and frame size both ends start with. */
 const DEFAULT_WINDOW = 65_535;
 const DEFAULT_MAX_FRAME = 16_384;
@@ -148,7 +152,7 @@ const settings = (entries: ReadonlyArray<readonly [id: number, value: number]>):
 /** A header block as one HEADERS frame, continued when it outgrows a frame. */
 const headerFrames = (block: Uint8Array, endStream: boolean): Uint8Array[] => {
   const frames: Uint8Array[] = [];
-  for (let at = 0; at === 0 || at < block.length; at += DEFAULT_MAX_FRAME) {
+  for (let at = 0; at < block.length; at += DEFAULT_MAX_FRAME) {
     const last = at + DEFAULT_MAX_FRAME >= block.length;
     frames.push(
       frame(
@@ -177,6 +181,11 @@ const send = async (
   url: URL,
   signal: AbortSignal,
 ) => {
+  // A gRPC request is one frame of octets. Any other body would be left
+  // behind, so it is refused before a connection is opened.
+  if (request.body._tag !== "Uint8Array" && request.body._tag !== "Empty") {
+    throw new ProtocolViolation(`a ${request.body._tag} request body cannot be sent`);
+  }
   const connect = await connectFn();
   const tls = url.protocol === "https:";
   const socket = connect(
@@ -190,12 +199,16 @@ const send = async (
     signal.removeEventListener("abort", close);
     void socket.close().catch(() => undefined);
   };
-  signal.addEventListener("abort", close, { once: true });
-  // A call that fails before it returns a body leaves no one to close the socket.
-  return exchange(request, url, socket, close).catch((cause: unknown) => {
-    close();
-    throw cause;
-  });
+  signal.addEventListener("abort", close);
+  // A call that fails before it returns a body leaves no one to close the
+  // socket. That includes a head `Response` refuses (a header name that is
+  // no token).
+  return exchange(request, url, socket, close)
+    .then((reply) => respond(request, reply))
+    .catch((cause: unknown) => {
+      close();
+      throw cause;
+    });
 };
 
 /** One request and its response on stream 1 of a fresh connection. */
@@ -229,55 +242,65 @@ const exchange = async (
   let block: { readonly fragments: Uint8Array[]; readonly endStream: boolean } | undefined;
   let buffered: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
 
-  // After the reply ends the server may already have closed the socket.
-  const write = (bytes: Uint8Array): Promise<void> =>
-    ended ? writer.write(bytes).catch(() => undefined) : writer.write(bytes);
-
+  // The first failure ends the stream, so there is never a second.
   const fail = (message: string) => {
-    failure ??= { cause: new ProtocolViolation(message) };
+    failure = { cause: new ProtocolViolation(message) };
     ended = true;
   };
 
   const onHeaders = (fields: ReadonlyArray<HeaderField>, endStream: boolean) => {
-    const headers: Record<string, string> = {};
+    // A map, so a header named like something every object has (`constructor`,
+    // `__proto__`) is a header like any other.
+    const joined = new Map<string, string>();
     let pseudoStatus: string | undefined;
     for (const [name, value] of fields) {
       if (name === ":status") pseudoStatus = value;
       else if (!name.startsWith(":")) {
-        headers[name] = headers[name] === undefined ? value : `${headers[name]}, ${value}`;
+        const previous = joined.get(name);
+        joined.set(name, previous === undefined ? value : `${previous}, ${value}`);
       }
     }
+    const headers: Record<string, string> = Object.fromEntries(joined);
     if (responseHeaders === undefined) {
-      const code = Number(pseudoStatus ?? 0);
+      const code = /^[0-9]{3}$/.test(pseudoStatus ?? "") ? Number(pseudoStatus) : Number.NaN;
       // An interim response (100 Continue) precedes the real one.
       if (code >= 100 && code < 200 && !endStream) return;
+      if (!isResponseStatus(code)) {
+        return fail(`invalid HTTP status ${pseudoStatus ?? "(none)"}`);
+      }
       status = code;
       responseHeaders = headers;
     } else {
+      // RFC 9113 section 8.1: a second header block is the trailers.
+      if (!endStream) return fail("the trailers do not end the stream");
       trailers = headers;
     }
     if (endStream) ended = true;
   };
 
   const onFrame = async (type: number, flags: number, stream: number, payload: Uint8Array) => {
-    if (block !== undefined && type !== CONTINUATION) {
+    // RFC 9113 section 6.10: nothing may come between the frames of a block.
+    if (block !== undefined && (type !== CONTINUATION || stream !== STREAM)) {
       return fail("a header block was interrupted by another frame");
+    }
+    // Push is disabled, so the server has no other stream to send these on.
+    if (stream !== STREAM && (type === DATA || type === HEADERS || type === CONTINUATION)) {
+      return fail(`a frame on stream ${stream}, which this end did not open`);
     }
     switch (type) {
       case DATA: {
+        if (responseHeaders === undefined) return fail("DATA before the response headers");
+        const start = (flags & PADDED) !== 0 ? 1 : 0;
+        const end = payload.length - (start === 1 ? (payload[0] ?? 0) : 0);
+        if (end < start) return fail("DATA padding exceeds the frame");
+        if (end > start) chunks.push(payload.subarray(start, end));
+        if ((flags & END_STREAM) !== 0) ended = true;
+        // Padding counts against the window too.
         unacknowledged += payload.length;
-        if (stream === STREAM && !ended) {
-          const padded = (flags & PADDED) !== 0;
-          const end = payload.length - (padded ? payload[0]! : 0);
-          if (end < (padded ? 1 : 0)) return fail("DATA padding exceeds the frame");
-          const data = payload.subarray(padded ? 1 : 0, end);
-          if (data.length > 0) chunks.push(data);
-          if ((flags & END_STREAM) !== 0) ended = true;
-        }
         if (unacknowledged >= WINDOW_STEP && !ended) {
           const increment = uint32Payload(unacknowledged);
           unacknowledged = 0;
-          await write(
+          await writer.write(
             concat([
               frame(WINDOW_UPDATE, 0, 0, increment),
               frame(WINDOW_UPDATE, 0, STREAM, increment),
@@ -287,15 +310,14 @@ const exchange = async (
         return;
       }
       case HEADERS: {
-        let at = 0;
-        let end = payload.length;
-        if ((flags & PADDED) !== 0) {
-          end -= payload[0]!;
-          at += 1;
-        }
-        if ((flags & PRIORITY) !== 0) at += 5;
-        if (at > end) return fail("HEADERS padding exceeds the frame");
-        block = { fragments: [payload.subarray(at, end)], endStream: (flags & END_STREAM) !== 0 };
+        const padded = (flags & PADDED) !== 0;
+        const start = (padded ? 1 : 0) + ((flags & PRIORITY) !== 0 ? 5 : 0);
+        const end = payload.length - (padded ? (payload[0] ?? 0) : 0);
+        if (start > end) return fail("HEADERS padding or priority exceeds the frame");
+        block = {
+          fragments: [payload.subarray(start, end)],
+          endStream: (flags & END_STREAM) !== 0,
+        };
         break;
       }
       case CONTINUATION: {
@@ -305,21 +327,29 @@ const exchange = async (
       }
       case SETTINGS: {
         if ((flags & ACK) !== 0) return;
-        for (let at = 0; at + 6 <= payload.length; at += 6) {
+        if (payload.length % 6 !== 0) return fail("malformed SETTINGS");
+        for (let at = 0; at < payload.length; at += 6) {
           const id = (payload[at]! << 8) | payload[at + 1]!;
           const value = uint32(payload, at + 2);
           if (id === SETTINGS_INITIAL_WINDOW_SIZE) {
+            if (value > MAX_WINDOW) return fail("SETTINGS_INITIAL_WINDOW_SIZE exceeds the limit");
+            // The change applies to the stream's window as it stands, which
+            // may leave it negative.
             streamSendWindow += value - peerInitialWindow;
             peerInitialWindow = value;
           } else if (id === SETTINGS_MAX_FRAME_SIZE) {
+            if (value < DEFAULT_MAX_FRAME || value > MAX_FRAME_LIMIT) {
+              return fail("SETTINGS_MAX_FRAME_SIZE is out of range");
+            }
             peerMaxFrame = value;
           }
         }
-        await write(frame(SETTINGS, ACK, 0, new Uint8Array(0)));
+        await writer.write(frame(SETTINGS, ACK, 0, new Uint8Array(0)));
         return;
       }
       case PING: {
-        if ((flags & ACK) === 0) await write(frame(PING, ACK, 0, payload));
+        if (payload.length !== 8) return fail("malformed PING");
+        if ((flags & ACK) === 0) await writer.write(frame(PING, ACK, 0, payload));
         return;
       }
       case WINDOW_UPDATE: {
@@ -330,16 +360,18 @@ const exchange = async (
         return;
       }
       case RST_STREAM: {
-        // A server may reset a stream it has already ended (code 0).
-        if (stream === STREAM && !ended) {
+        if (payload.length !== 4) return fail("malformed RST_STREAM");
+        if (stream === STREAM) {
           fail(`the server reset the stream (HTTP/2 error ${uint32(payload, 0)})`);
         }
         return;
       }
       case GOAWAY: {
+        if (payload.length < 8) return fail("malformed GOAWAY");
         const lastStream = uint32(payload, 0) % 0x80000000;
         const code = uint32(payload, 4);
-        if (!ended && (code !== 0 || lastStream < STREAM)) {
+        // A graceful shutdown (code 0) that still covers this stream lets it finish.
+        if (code !== 0 || lastStream < STREAM) {
           fail(`the server closed the connection (HTTP/2 error ${code})`);
         }
         return;
@@ -353,18 +385,17 @@ const exchange = async (
     if ((flags & END_HEADERS) === 0) return;
     const complete = block;
     block = undefined;
-    // Every block is decoded, in order: the dynamic table depends on it.
-    const fields = hpack.decode(concat(complete.fragments));
-    if (stream === STREAM && !ended) onHeaders(fields, complete.endStream);
+    onHeaders(hpack.decode(concat(complete.fragments)), complete.endStream);
   };
 
-  /** Read from the socket and handle every complete frame that arrived. */
+  /**
+   * Read from the socket and handle the complete frames that arrived, up to
+   * the end of the stream: the connection carries nothing else, so what
+   * follows is never read. Only called while the stream is open.
+   */
   const step = async () => {
     const { value, done } = await reader.read();
-    if (done) {
-      if (!ended) fail("connection closed before the response ended");
-      return;
-    }
+    if (done) return fail("connection closed before the response ended");
     buffered = buffered.length === 0 ? value : concat([buffered, value]);
     while (buffered.length >= 9) {
       const length = (buffered[0]! << 16) | (buffered[1]! << 8) | buffered[2]!;
@@ -377,7 +408,7 @@ const exchange = async (
       const stream = uint32(buffered, 5) % 0x80000000;
       buffered = buffered.subarray(9 + length);
       await onFrame(type, flags, stream, payload);
-      if (failure !== undefined) return;
+      if (ended) return;
     }
   };
 
@@ -412,17 +443,17 @@ const exchange = async (
       continue;
     }
     const last = at + size === body.length;
-    await write(frame(DATA, last ? END_STREAM : 0, STREAM, body.subarray(at, at + size)));
+    await writer.write(frame(DATA, last ? END_STREAM : 0, STREAM, body.subarray(at, at + size)));
     sendWindow -= size;
     streamSendWindow -= size;
     at += size;
   }
 
-  while (responseHeaders === undefined && !ended) await step();
-  if (responseHeaders === undefined) {
-    throw failure?.cause ?? new ProtocolViolation("the stream ended before the response headers");
+  while (responseHeaders === undefined) {
+    // Before its headers a stream only ends by failing.
+    if (failure !== undefined) throw failure.cause;
+    await step();
   }
-  if (!isResponseStatus(status)) throw new ProtocolViolation(`invalid HTTP status ${status}`);
 
   let resolveTrailers!: (t: Trailers) => void;
   const trailersDone = new Promise<Trailers>((resolve) => (resolveTrailers = resolve));
@@ -435,7 +466,7 @@ const exchange = async (
       try {
         while (chunks.length === 0 && !ended) await step();
       } catch (error) {
-        failure ??= { cause: error };
+        failure = { cause: error };
         ended = true;
       }
       for (const chunk of chunks.splice(0)) controller.enqueue(chunk);
@@ -453,13 +484,10 @@ const exchange = async (
 
 /** An `HttpClient` that sends each request as an HTTP/2 stream on its own `cloudflare:sockets` socket. */
 export const client: HttpClient.HttpClient = /*@__PURE__*/ HttpClient.make((request, url, signal) =>
-  Effect.map(
-    Effect.tryPromise({
-      try: () => send(request, url, signal),
-      catch: (cause) => transportError(request, cause),
-    }),
-    (reply) => respond(request, reply),
-  ),
+  Effect.tryPromise({
+    try: () => send(request, url, signal),
+    catch: (cause) => transportError(request, cause),
+  }),
 );
 
 /** Send gRPC calls over HTTP/2 on `cloudflare:sockets` in this scope. */

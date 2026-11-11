@@ -107,8 +107,9 @@ const EOS = 256;
  * symbol (`-(symbol + 1)`).
  */
 const buildHuffmanTree = (): number[] => {
+  // The sort is stable, so codes of one length stay in symbol order.
   const symbols = HUFFMAN_BITS.map((bits, symbol) => ({ bits, symbol })).sort(
-    (a, b) => a.bits - b.bits || a.symbol - b.symbol,
+    (a, b) => a.bits - b.bits,
   );
   const tree = [0, 0];
   let code = 0;
@@ -218,8 +219,8 @@ export const makeDecoder = (maxTableSize = 4096): HpackDecoder => {
       const fields: HeaderField[] = [];
       let at = 0;
 
+      // Every caller has checked that the octet the integer starts in is there.
       const integer = (prefix: number): number => {
-        if (at >= block.length) throw new HpackError("header block ends inside an integer");
         const max = 2 ** prefix - 1;
         let value = block[at++]! & max;
         if (value < max) return value;
@@ -233,8 +234,9 @@ export const makeDecoder = (maxTableSize = 4096): HpackDecoder => {
       };
 
       const string = (): { readonly text: string; readonly octets: number } => {
-        if (at >= block.length) throw new HpackError("header block ends inside a string");
-        const huffman = (block[at]! & 0x80) !== 0;
+        const first = block[at];
+        if (first === undefined) throw new HpackError("header block ends inside a string");
+        const huffman = (first & 0x80) !== 0;
         const length = integer(7);
         if (at + length > block.length) throw new HpackError("header block ends inside a string");
         const raw = block.subarray(at, at + length);
@@ -273,6 +275,10 @@ export const makeDecoder = (maxTableSize = 4096): HpackDecoder => {
         } else if ((first & 0x40) !== 0) {
           literal(6, true);
         } else if ((first & 0x20) !== 0) {
+          // RFC 7541 section 4.2: only at the start of a block.
+          if (fields.length > 0) {
+            throw new HpackError("dynamic table size update after a header field");
+          }
           const next = integer(5);
           if (next > maxTableSize) throw new HpackError("dynamic table size exceeds the limit");
           limit = next;
