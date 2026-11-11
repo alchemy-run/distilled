@@ -243,6 +243,12 @@
       "path": "./packages/adyen/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/convex/tsconfig.json"
+    },
+    {
+      "path": "./packages/convex/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/coolify/tsconfig.json"
     },
     {
@@ -489,6 +495,12 @@
     },
     {
       "path": "./packages/squarespace/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/tailscale/tsconfig.json"
+    },
+    {
+      "path": "./packages/tailscale/tsconfig.scripts.json"
     },
     {
       "path": "./packages/temporal/tsconfig.json"

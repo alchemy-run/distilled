@@ -18,6 +18,11 @@
 	url = https://github.com/distilled-mirror/spec-mirror-coinbase.git
 	shallow = true
 	ignore = dirty
+[submodule "packages/convex/specs/spec-mirror-convex"]
+	path = packages/convex/specs/spec-mirror-convex
+	url = https://github.com/distilled-mirror/spec-mirror-convex.git
+	ignore = dirty
+	shallow = true
 [submodule "packages/discord/specs/spec-mirror-discord"]
 	path = packages/discord/specs/spec-mirror-discord
 	url = https://github.com/distilled-mirror/spec-mirror-discord.git
@@ -411,6 +416,11 @@
 [submodule "packages/boat-dev/specs/spec-mirror-boat-dev"]
 	path = packages/boat-dev/specs/spec-mirror-boat-dev
 	url = https://github.com/distilled-mirror/spec-mirror-boat-dev.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/tailscale/specs/spec-mirror-tailscale"]
+	path = packages/tailscale/specs/spec-mirror-tailscale
+	url = https://github.com/distilled-mirror/spec-mirror-tailscale.git
 	ignore = dirty
 	shallow = true
 [submodule "packages/iceberg/specs/spec-mirror-iceberg"]

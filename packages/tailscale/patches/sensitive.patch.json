@@ -1,0 +1,55 @@
+{
+  "description": "Mark secrets the converter's name patterns miss sensitive: the log-streaming token, s3SecretAccessKey and gcsCredentials, Key.key, the invite URLs and the accept request's invite (bearer links), and webhook endpointUrl (incoming-webhook URLs carry their token).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeviceInvite/members/inviteUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UserInvite/members/inviteUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#AcceptDeviceInviteRequest/members/invite/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#LogstreamEndpointConfigurationOutput/members/gcsCredentials/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetLogStreamingConfigurationRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetLogStreamingConfigurationRequest/members/s3SecretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetLogStreamingConfigurationRequest/members/gcsCredentials/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#Key/members/key/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#Webhook/members/endpointUrl/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreateWebhookRequest/members/endpointUrl/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
