@@ -17,6 +17,10 @@ export const DEFAULT_API_BASE_URL = "https://api.digitalocean.com";
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
+  /** Spaces access key id, for the S3-compatible API (`Spaces.layerS3`). */
+  readonly spacesAccessKeyId?: Redacted.Redacted<string> | undefined;
+  /** Spaces secret access key, for the S3-compatible API. */
+  readonly spacesSecretAccessKey?: Redacted.Redacted<string> | undefined;
 }
 
 export class Credentials
@@ -28,19 +32,24 @@ export class Credentials
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+  readonly spacesAccessKeyId?: Redacted.Redacted<string>;
+  readonly spacesSecretAccessKey?: Redacted.Redacted<string>;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
       apiKey: config.apiKey,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
+      spacesAccessKeyId: config.spacesAccessKeyId,
+      spacesSecretAccessKey: config.spacesSecretAccessKey,
     }),
   );
 
 /**
  * Reads the API token from DIGITALOCEAN_TOKEN, DIGITALOCEAN_ACCESS_TOKEN or
  * DIGITALOCEAN_API_KEY (first set wins; one is required) and
- * DIGITALOCEAN_API_BASE_URL (optional). DIGITALOCEAN_TOKEN is what the
+ * DIGITALOCEAN_API_BASE_URL (optional), and the Spaces keys from
+ * SPACES_ACCESS_KEY_ID and SPACES_SECRET_ACCESS_KEY (optional). DIGITALOCEAN_TOKEN is what the
  * Terraform provider reads; `doctl` uses DIGITALOCEAN_ACCESS_TOKEN.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.succeed(
@@ -58,9 +67,15 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       });
     }
 
+    const spacesAccessKeyId = process.env.SPACES_ACCESS_KEY_ID;
+    const spacesSecretAccessKey = process.env.SPACES_SECRET_ACCESS_KEY;
     return {
       apiKey: Redacted.make(apiKey),
       apiBaseUrl: process.env.DIGITALOCEAN_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      spacesAccessKeyId: spacesAccessKeyId ? Redacted.make(spacesAccessKeyId) : undefined,
+      spacesSecretAccessKey: spacesSecretAccessKey
+        ? Redacted.make(spacesSecretAccessKey)
+        : undefined,
     };
   }),
 );
