@@ -33,6 +33,15 @@ export class CommandDeadlineElapsed
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
   ) {}
 
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  ) {}
+
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -51,7 +60,11 @@ export type DatacentersListResponseDatacentersList = Array<Datacenter>;
 export interface DatacentersListResponse {
   datacenters: DatacentersListResponseDatacentersList;
 }
-export type ListDatacentersError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
+export type ListDatacentersError =
+  | StorageOverloaded
+  | StorageCommandCapacity
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Lists the datacenters of the deployment. This version serves a single datacenter named `default`. */
 export const listDatacenters: API.OperationMethod<
   ListDatacentersRequest,
@@ -61,7 +74,7 @@ export const listDatacenters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListDatacentersRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<DatacentersListResponse>,
-  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

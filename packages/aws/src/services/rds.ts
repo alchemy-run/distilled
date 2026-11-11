@@ -302,6 +302,15 @@ export class DBClusterBacktrackNotFoundFault
       /*@__PURE__*/ T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
+export class DBClusterDeletionProtected
+  extends /*@__PURE__*/ S.TaggedError<DBClusterDeletionProtected>()(
+    "DBClusterDeletionProtected",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "InvalidParameterCombination",
+      message: { includes: "Cannot delete protected Cluster" },
+    }),
+  ) {}
 export class DBClusterEndpointAlreadyExistsFault
   extends /*@__PURE__*/ S.TaggedError<DBClusterEndpointAlreadyExistsFault>()(
     "DBClusterEndpointAlreadyExistsFault",
@@ -452,6 +461,15 @@ export class DBInstanceAutomatedBackupQuotaExceededFault
       /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export class DBInstanceDeletionProtected
+  extends /*@__PURE__*/ S.TaggedError<DBInstanceDeletionProtected>()(
+    "DBInstanceDeletionProtected",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.SyntheticError({
+      from: "InvalidParameterCombination",
+      message: { includes: "Cannot delete protected DB Instance" },
+    }),
+  ) {}
 export class DBInstanceNotFoundFault
   extends /*@__PURE__*/ S.TaggedError<DBInstanceNotFoundFault>()(
     "DBInstanceNotFoundFault",
@@ -6878,6 +6896,7 @@ export type DeleteDBClusterError =
   | InvalidGlobalClusterStateFault
   | KMSKeyNotAccessibleFault
   | SnapshotQuotaExceededFault
+  | DBClusterDeletionProtected
   | CommonErrors;
 /**
  * The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted.
@@ -6905,6 +6924,7 @@ export const deleteDBCluster: API.OperationMethod<
     InvalidGlobalClusterStateFault,
     KMSKeyNotAccessibleFault,
     SnapshotQuotaExceededFault,
+    DBClusterDeletionProtected,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -7030,6 +7050,7 @@ export type DeleteDBInstanceError =
   | InvalidDBInstanceStateFault
   | KMSKeyNotAccessibleFault
   | SnapshotQuotaExceededFault
+  | DBInstanceDeletionProtected
   | CommonErrors;
 /**
  * Deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. However, manual DB snapshots of the DB instance aren't deleted.
@@ -7064,6 +7085,7 @@ export const deleteDBInstance: API.OperationMethod<
     InvalidDBInstanceStateFault,
     KMSKeyNotAccessibleFault,
     SnapshotQuotaExceededFault,
+    DBInstanceDeletionProtected,
   ],
   protocol: AwsProtocol,
   retry: Retry,
