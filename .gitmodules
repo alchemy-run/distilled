@@ -503,6 +503,11 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-linear.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/entire/specs/spec-mirror-entire"]
+	path = packages/entire/specs/spec-mirror-entire
+	url = https://github.com/distilled-mirror/spec-mirror-entire.git
+	ignore = dirty
+	shallow = true
 [submodule "packages/mailchimp/specs/spec-mirror-mailchimp"]
 	path = packages/mailchimp/specs/spec-mirror-mailchimp
 	url = https://github.com/distilled-mirror/spec-mirror-mailchimp.git
