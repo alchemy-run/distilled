@@ -5,19 +5,26 @@ const source = `
 syntax = "proto3";
 package example.v1;
 
-message Spec {
+message Spec { // A box.
     string name = 1;  // Immutable; letters, digits or hyphens.
     // Where the box runs.
     string site = 2;
     string creator = 3; /* E.g. user_... */
-    string volume = 4;
+    reserved 4; // removed region
+    string volume = 5;
 }
 
 enum Mode {
     MODE_UNSPECIFIED = 0; // Not set.
     // Shared with the tenant.
     MODE_TENANT = 1;
-    MODE_PRIVATE = 2;
+    reserved 2; // removed
+    MODE_PRIVATE = 3;
+}
+
+service Boxes {
+    rpc CreateBox(Spec) returns (Spec); // Creates a box.
+    rpc GetBox(Spec) returns (Spec);
 }
 `;
 
@@ -28,6 +35,9 @@ describe("proto trailing comments", () => {
   );
   const values = Object.fromEntries(
     file.enums[0]!.values.map((value) => [value.name, value.documentation]),
+  );
+  const rpcs = Object.fromEntries(
+    file.services[0]!.rpcs.map((rpc) => [rpc.name, rpc.documentation]),
   );
 
   test("a same-line comment documents the field it follows", () => {
@@ -45,5 +55,10 @@ describe("proto trailing comments", () => {
       MODE_TENANT: "Shared with the tenant.",
       MODE_PRIVATE: undefined,
     });
+  });
+
+  test("a comment after an rpc or an opening brace documents that declaration", () => {
+    expect(rpcs).toEqual({ CreateBox: "Creates a box.", GetBox: undefined });
+    expect(file.messages[0]!.documentation).toBe("A box.");
   });
 });
