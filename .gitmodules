@@ -508,3 +508,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-entire.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/steel/specs/spec-mirror-steel"]
+	path = packages/steel/specs/spec-mirror-steel
+	url = https://github.com/distilled-mirror/spec-mirror-steel.git
+	ignore = dirty
+	shallow = true
