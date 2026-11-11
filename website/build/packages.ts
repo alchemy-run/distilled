@@ -84,6 +84,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "rivet",
       "remote",
       "tailscale",
+      "netbird",
     ],
   ],
   [
@@ -256,6 +257,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   "apache-superset": "bi dashboards",
   modrinth: "minecraft mods",
   tailscale: "vpn wireguard tailnet zero trust",
+  netbird: "vpn wireguard zero trust mesh",
   core: "runtime shared",
 };
 
