@@ -1,5 +1,5 @@
 {
-  "description": "DELETE /v2/vpcs/{vpc_id} answers 409 `Can not delete VPC with members` while a droplet, cluster or database is still in the VPC, including for a while after a member was destroyed (live response, alchemy DigitalOcean Vpc suite). The spec lists only 401/404/429/500. Type it as VpcHasMembers so a delete can wait for the members to leave.",
+  "description": "DELETE /v2/vpcs/{vpc_id} answers 409 `Can not delete VPC with members` while a droplet, cluster or database is still in the VPC, including for a while after a member was destroyed (live response, alchemy DigitalOcean Vpc suite). The spec lists only 401/404/429/500. Type it as VpcHasMembers so a delete can wait for the members to leave. It answers 403 `Can not delete default VPCs` for a region's default VPC, which DigitalOcean makes of the first VPC in a region; type that as VpcIsDefault so it is not mistaken for a permission error.",
   "patches": [
     {
       "op": "add",
@@ -27,6 +27,34 @@
       "path": "/shapes/com.digitalocean.api#VpcsDelete/errors/-",
       "value": {
         "target": "com.digitalocean.api#VpcHasMembers"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcIsDefault",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The VPC is its region's default VPC, which cannot be deleted (403 `Can not delete default VPCs`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "delete default VPC"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VpcsDelete/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#VpcIsDefault"
       }
     }
   ]
