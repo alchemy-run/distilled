@@ -1,0 +1,90 @@
+{
+  "description": "Type the session errors Steel returns with a machine-readable code (observed live 2026-11-10 against api.steel.dev). `session_ended` (410, `{ error: { code, message } }`) from runCommands, getCommandExecution and cancelCommandExecution on a released session: \"Session <id> has ended. Create a new session to keep going.\" `profile_not_found` (404, `{ error, code, message, param: \"profileId\" }`) from createSession with an unknown profileId; the spec does not list 404 for createSession at all, so NotFound is added too.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#SessionEnded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 410,
+          "smithy.api#documentation": "The session has ended (`session_ended`): it was released or timed out. Create a new session to keep going.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 410,
+              "body": {
+                "/error/code": "session_ended"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#RunCommands/errors/-",
+      "value": {
+        "target": "dev.steel.sessions#SessionEnded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#GetCommandExecution/errors/-",
+      "value": {
+        "target": "dev.steel.sessions#SessionEnded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#CancelCommandExecution/errors/-",
+      "value": {
+        "target": "dev.steel.sessions#SessionEnded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#ProfileNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The `profileId` names no profile in this organization (`profile_not_found`); profiles expire after a TTL.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/code": "profile_not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#CreateSession/errors/-",
+      "value": {
+        "target": "dev.steel.sessions#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/dev.steel.sessions#CreateSession/errors/-",
+      "value": {
+        "target": "dev.steel.sessions#ProfileNotFound"
+      }
+    }
+  ]
+}
