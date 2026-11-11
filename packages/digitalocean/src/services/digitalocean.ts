@@ -1441,11 +1441,11 @@ export type AppsDeploymentWorkersList = Array<AppsDeploymentJob>;
 export interface AppsDeployment {
   cause?: string | undefined;
   cloned_from?: string | undefined;
-  created_at?: string | undefined;
-  id?: string | undefined;
+  created_at: string;
+  id: string;
   jobs?: AppsDeploymentJobsList | undefined;
   functions?: AppsDeploymentFunctionsList | undefined;
-  phase?: AppsDeploymentPhase | undefined;
+  phase: AppsDeploymentPhase;
   phase_last_updated_at?: string | undefined;
   progress?: AppsDeploymentProgress | undefined;
   services?: AppsDeploymentServicesList | undefined;
@@ -1456,7 +1456,7 @@ export interface AppsDeployment {
   workers?: AppsDeploymentWorkersList | undefined;
 }
 export interface AppsDeploymentResponse {
-  deployment?: AppsDeployment | undefined;
+  deployment: AppsDeployment;
 }
 export type AssignAppAlertDestinationsRequestEmailsList = Array<string>;
 export interface AppAlertSlackWebhook {
@@ -3236,10 +3236,10 @@ export type AppDedicatedIpsList = Array<AppsDedicatedEgressIp>;
 /** An application's configuration and status. */
 export interface App {
   active_deployment?: AppsDeployment | undefined;
-  created_at?: string | undefined;
+  created_at: string;
   default_ingress?: string | undefined;
   domains?: AppDomainsList | undefined;
-  id?: string | undefined;
+  id: string;
   in_progress_deployment?: AppsDeployment | undefined;
   last_deployment_created_at?: string | undefined;
   live_domain?: string | undefined;
@@ -3258,7 +3258,7 @@ export interface App {
   vpc?: AppsVpc | undefined;
 }
 export interface AppResponse {
-  app?: App | undefined;
+  app: App;
 }
 export interface CreateAppDeploymentRequest {
   /** The app ID */
@@ -46288,11 +46288,11 @@ function __c244(j: number): any {
         S.Struct({
           cause: S.optional(S.String),
           cloned_from: S.optional(S.String),
-          created_at: S.optional(S.String),
-          id: S.optional(S.String),
+          created_at: S.String,
+          id: S.String,
           jobs: S.optional(__S(7809, __c244, 1)),
           functions: S.optional(__S(7811, __c244, 3)),
-          phase: S.optional(S.String),
+          phase: S.String,
           phase_last_updated_at: S.optional(S.String),
           progress: S.optional(__S(7814, __c244, 6)),
           services: S.optional(__S(7809, __c244, 1)),
@@ -46757,7 +46757,7 @@ function __c247(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deployment: S.optional(__S(7815, __c244, 7)),
+          deployment: __S(7815, __c244, 7),
         }),
       ).annotate({ identifier: "AppsDeploymentResponse" });
   }
@@ -54021,35 +54021,55 @@ function __c598(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          cause: S.optional(S.String),
+          cloned_from: S.optional(S.String),
+          created_at: S.optional(S.String),
+          id: S.optional(S.String),
+          jobs: S.optional(__S(7809, __c244, 1)),
+          functions: S.optional(__S(7811, __c244, 3)),
+          phase: S.optional(S.String),
+          phase_last_updated_at: S.optional(S.String),
+          progress: S.optional(__S(7814, __c244, 6)),
+          services: S.optional(__S(7809, __c244, 1)),
+          spec: S.optional(__S(7894, __c246, 22)),
+          static_sites: S.optional(__S(7809, __c244, 1)),
+          tier_slug: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          workers: S.optional(__S(7809, __c244, 1)),
+        }),
+      ).annotate({ identifier: "AppPendingDeployment" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           ip: S.optional(S.String),
           id: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppsDedicatedEgressIp" });
-    case 6:
-      return S.Array(__S(19141, __c598, 5));
     case 7:
+      return S.Array(__S(19142, __c598, 6));
+    case 8:
       return S.suspend(() =>
         S.Struct({
           active_deployment: S.optional(__S(7815, __c244, 7)),
-          created_at: S.optional(S.String),
+          created_at: S.String,
           default_ingress: S.optional(S.String),
           domains: S.optional(__S(19140, __c598, 4)),
-          id: S.optional(S.String),
+          id: S.String,
           in_progress_deployment: S.optional(__S(7815, __c244, 7)),
           last_deployment_created_at: S.optional(S.String),
           live_domain: S.optional(S.String),
           live_url: S.optional(S.String),
           live_url_base: S.optional(S.String),
           owner_uuid: S.optional(S.String),
-          pending_deployment: S.optional(__S(7815, __c244, 7)),
+          pending_deployment: S.optional(__S(19141, __c598, 5)),
           project_id: S.optional(S.String),
           region: S.optional(__S(19104, __c597, 0)),
           spec: __S(7894, __c246, 22),
           tier_slug: S.optional(S.String),
           updated_at: S.optional(S.String),
-          pinned_deployment: S.optional(__S(7815, __c244, 7)),
-          dedicated_ips: S.optional(__S(19142, __c598, 6)),
+          pinned_deployment: S.optional(__S(19141, __c598, 5)),
+          dedicated_ips: S.optional(__S(19143, __c598, 7)),
           vpc: S.optional(__S(7893, __c246, 21)),
         }),
       ).annotate({ identifier: "App" });
@@ -54060,7 +54080,7 @@ function __c599(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(__S(19143, __c598, 7)),
+          app: __S(19144, __c598, 8),
         }),
       ).annotate({ identifier: "AppResponse" });
   }
@@ -57267,7 +57287,7 @@ function __c758(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/apps", code: 200 })),
       ).annotate({ identifier: "ListAppsRequest" });
     case 1:
-      return S.Array(__S(19143, __c598, 7));
+      return S.Array(__S(19144, __c598, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
