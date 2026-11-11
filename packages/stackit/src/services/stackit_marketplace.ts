@@ -65,7 +65,7 @@ export interface ApproveSubscriptionRequest {
   projectId: string;
   subscriptionId: string;
   /** The target URL of the user instance, used to redirect the user to the instance after the subscription is active. */
-  instanceTarget?: string;
+  instanceTarget?: string | undefined;
 }
 export interface ApproveSubscriptionResponse {}
 export interface CancelConsumersSubscriptionRequest {
@@ -75,11 +75,11 @@ export interface CancelConsumersSubscriptionRequest {
 export interface CancelConsumersSubscriptionResponse {}
 export interface ConsumersSubscriptionsListByOrganizationRequest {
   organizationId: string;
-  cursor?: string;
-  limit?: number;
-  productId?: string;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  productId?: string | undefined;
   /** Flag to control if cancelled or rejected subscriptions should be returned. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
 }
 export type MarketplaceSubscriptionV1SubscriptionLifecycleState =
   | "STATE_UNSPECIFIED"
@@ -92,18 +92,18 @@ export type MarketplaceSubscriptionV1SubscriptionLifecycleState =
   | "SUBSCRIPTION_APPROVAL_TIMED_OUT";
 export interface MarketplaceSubscriptionV1FileLocalizedVersion {
   /** The file version matching the file name (localized). */
-  de?: string;
+  de?: string | undefined;
   /** The file version matching the file name (localized). */
-  en?: string;
+  en?: string | undefined;
 }
 export interface MarketplaceSubscriptionV1File {
-  version?: MarketplaceSubscriptionV1FileLocalizedVersion;
+  version?: MarketplaceSubscriptionV1FileLocalizedVersion | undefined;
 }
 export interface MarketplaceSubscriptionV1Assets {
-  endUserLicenseAgreement?: MarketplaceSubscriptionV1File;
-  productDescription?: MarketplaceSubscriptionV1File;
-  serviceCertificate?: MarketplaceSubscriptionV1File;
-  serviceLevelAgreement?: MarketplaceSubscriptionV1File;
+  endUserLicenseAgreement?: MarketplaceSubscriptionV1File | undefined;
+  productDescription?: MarketplaceSubscriptionV1File | undefined;
+  serviceCertificate?: MarketplaceSubscriptionV1File | undefined;
+  serviceLevelAgreement?: MarketplaceSubscriptionV1File | undefined;
 }
 /** The product delivery method/type. For reference: SAAS - Software as a Service, CLOUD_IMAGE - STACKIT Cloud Image */
 export type MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod =
@@ -124,7 +124,7 @@ export type MarketplaceSubscriptionV1SubscriptionProductPriceType =
   | "BYOL"
   | "PAYG";
 export interface MarketplaceSubscriptionV1SubscriptionProduct {
-  assets?: MarketplaceSubscriptionV1Assets;
+  assets?: MarketplaceSubscriptionV1Assets | undefined;
   /** The product delivery method/type. For reference: SAAS - Software as a Service, CLOUD_IMAGE - STACKIT Cloud Image */
   deliveryMethod: MarketplaceSubscriptionV1SubscriptionProductDeliveryMethod;
   /** The lifecycle state of the product. */
@@ -148,17 +148,17 @@ export interface MarketplaceSubscriptionV1SubscriptionProduct {
   /** The product vendor's name. */
   vendorName: string;
   /** The vendor provided plan ID. */
-  vendorPlanId?: string;
+  vendorPlanId?: string | undefined;
   /** The vendor provided prduct ID. */
-  vendorProductId?: string;
+  vendorProductId?: string | undefined;
   /** The vendor's website. */
   vendorWebsiteUrl: string;
 }
 export interface MarketplaceSubscriptionV1Subscription {
   /** Period between the subscription was created until the approval needs to happen. */
-  approvalTimeout?: string;
+  approvalTimeout?: string | undefined;
   /** If true, the the subscription will extend its validity automatically at the end of the current period. */
-  autoRenewal?: boolean;
+  autoRenewal?: boolean | undefined;
   lifecycleState: MarketplaceSubscriptionV1SubscriptionLifecycleState;
   /** When the subscription was ordered. */
   orderedAt: string;
@@ -171,31 +171,31 @@ export interface MarketplaceSubscriptionV1Subscription {
   /** The UUID of the subscription. */
   subscriptionId: string;
   /** Timestamp when the subscription will finally terminate. */
-  terminatesAt?: string;
+  terminatesAt?: string | undefined;
   /** Timestamp when the subscription validity has started. */
-  validFrom?: string;
+  validFrom?: string | undefined;
   /** Timestamp when the current subscription validity will end. May be automatically renewed. */
-  validUntil?: string;
+  validUntil?: string | undefined;
 }
 export type MarketplaceSubscriptionV1ListSubscriptionsResponseItemsList =
   Array<MarketplaceSubscriptionV1Subscription>;
 export interface MarketplaceSubscriptionV1ListSubscriptionsResponse {
-  cursor?: string;
-  items?: MarketplaceSubscriptionV1ListSubscriptionsResponseItemsList;
-  limit?: number;
+  cursor?: string | undefined;
+  items?: MarketplaceSubscriptionV1ListSubscriptionsResponseItemsList | undefined;
+  limit?: number | undefined;
 }
 export interface ConsumersSubscriptionsListByProjectRequest {
   projectId: string;
-  cursor?: string;
-  limit?: number;
-  productId?: string;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  productId?: string | undefined;
   /** Flag to control if cancelled or rejected subscriptions should be returned. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
 }
 export interface CreateConsumersSubscriptionRequest {
   projectId: string;
   /** An E-Mail address the vendor can reach the consuer about subscription updates. */
-  consumerNotificationEmail?: string;
+  consumerNotificationEmail?: string | undefined;
   /** The user-readable ID of the product. */
   productId: string;
   /** The concrete variant of the product. */
@@ -205,12 +205,12 @@ export interface GetConsumersSubscriptionRequest {
   projectId: string;
   subscriptionId: string;
   /** Flag to control if cancelled or rejected subscriptions should be returned. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
 }
 export interface GetConsumersSubscriptionsRedirectRequest {
   projectId: string;
   subscriptionId: string;
-  redirectTarget?: string;
+  redirectTarget?: string | undefined;
 }
 export interface MarketplaceSubscriptionV1SubscriptionRedirect {
   redirectTarget: string;
@@ -220,7 +220,7 @@ export interface GetVendorsSubscriptionRequest {
   projectId: string;
   subscriptionId: string;
   /** Flag to control if cancelled or rejected subscriptions should be returned. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
 }
 export interface RejectVendorsSubscriptionRequest {
   projectId: string;
@@ -239,19 +239,19 @@ export interface TerminateConsumersSubscriptionRequest {
 export interface TerminateConsumersSubscriptionResponse {}
 export interface VendorsSubscriptionsListByOrganizationRequest {
   organizationId: string;
-  cursor?: string;
-  limit?: number;
-  productId?: string;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  productId?: string | undefined;
   /** Flag to control if cancelled or rejected subscriptions should be returned. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
 }
 export interface VendorsSubscriptionsListByProjectRequest {
   projectId: string;
-  cursor?: string;
-  limit?: number;
-  productId?: string;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  productId?: string | undefined;
   /** Flag to control if cancelled or rejected subscriptions should be returned. */
-  includeExpired?: boolean;
+  includeExpired?: boolean | undefined;
 }
 export type ApproveSubscriptionError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Approve a pending subscription. Approve a pending subscription. */

@@ -44,11 +44,11 @@ export interface TargetServiceBase {
   /** The target service type. */
   type: TargetServiceType | (string & {});
   /** The Id of the target Azure resource (`type: AzureResource`). */
-  id?: string;
+  id?: string | undefined;
   /** Additional target resource properties (`type: AzureResource`), polymorphic on `type`, e.g. `{ type: "KeyVault", connectAsKubernetesCsiDriver: true }`. */
-  resourceProperties?: unknown;
+  resourceProperties?: unknown | undefined;
   /** The endpoint of the service (`type: ConfluentBootstrapServer | ConfluentSchemaRegistry | SelfHostedServer`). */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** The authentication type. */
 export type AuthType =
@@ -69,29 +69,29 @@ export interface AuthInfoBase {
   /** The authentication type. */
   authType: AuthType | (string & {});
   /** Optional. Indicates how to configure authentication. If optInAllAuth, service linker configures authentication such as enabling identity on source resource and granting RBAC roles. If optOutAllAuth, opt out authentication setup. Default is optInAllAuth. */
-  authMode?: AuthMode | (string & {});
+  authMode?: AuthMode | (string & {}) | undefined;
   /** Username created in the database mapped to the identity/user (identity, userAccount, servicePrincipal* auth types). */
-  userName?: string;
+  userName?: string | undefined;
   /** Indicates whether to clean up previous operation when Linker is updating or deleting. */
-  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {});
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {}) | undefined;
   /** Optional, the RBAC role names to grant on the target (string array). */
-  roles?: unknown;
+  roles?: unknown | undefined;
   /** Client Id of the user-assigned identity or service principal (`userAssignedIdentity`, `servicePrincipal*`). */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Subscription id of the user-assigned identity (`userAssignedIdentity`). */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Principal Id of the service principal or user (`servicePrincipal*`, `userAccount`). */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Secret of the service principal (`servicePrincipalSecret`). */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** ServicePrincipal certificate (`servicePrincipalCertificate`). */
-  certificate?: string | Redacted.Redacted<string>;
+  certificate?: string | Redacted.Redacted<string> | undefined;
   /** Username or account name for secret auth (`secret`). */
-  name?: string;
+  name?: string | undefined;
   /** Password or key vault secret for secret auth (`secret`), polymorphic on `secretType`: `{ secretType: "rawValue", value }`, `{ secretType: "keyVaultSecretReference", name, version }`, `{ secretType: "keyVaultSecretUri", value }`. */
-  secretInfo?: unknown;
+  secretInfo?: unknown | undefined;
   /** Permissions of the accessKey (`accessKey`): string array of `Read`, `Write`, `Listen`, `Send`, `Manage`. */
-  permissions?: unknown;
+  permissions?: unknown | undefined;
 }
 /** The application client type */
 export type ClientType =
@@ -113,16 +113,16 @@ export type VNetSolutionType = "serviceEndpoint" | "privateLink";
 /** The VNet solution for linker */
 export interface VNetSolution {
   /** Type of VNet solution. */
-  type?: VNetSolutionType | (string & {}) | null;
+  type?: VNetSolutionType | (string & {}) | null | undefined;
   /** Indicates whether to clean up previous operation when Linker is updating or deleting */
-  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {});
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {}) | undefined;
 }
 /** An option to store secret value in secure place */
 export interface SecretStore {
   /** The key vault id to store secret */
-  keyVaultId?: string | null;
+  keyVaultId?: string | null | undefined;
   /** The key vault secret name to store secret, only valid when storing one secret */
-  keyVaultSecretName?: string | null;
+  keyVaultSecretName?: string | null | undefined;
 }
 /** Indicates how to apply the connector operations, such as opt out network configuration, opt in configuration. */
 export type ActionType = "enable" | "optOut";
@@ -133,20 +133,20 @@ export type AllowType = "true" | "false";
 /** Target service's firewall rules. to allow connections from source service. */
 export interface FirewallRules {
   /** This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. */
-  ipRanges?: FirewallRulesIpRangesList;
+  ipRanges?: FirewallRulesIpRangesList | undefined;
   /** Allow Azure services to access the target service if true. */
-  azureServices?: AllowType | (string & {});
+  azureServices?: AllowType | (string & {}) | undefined;
   /** Allow caller client IP to access the target service if true. the property is used when connecting local application to target service. */
-  callerClientIP?: AllowType | (string & {});
+  callerClientIP?: AllowType | (string & {}) | undefined;
 }
 /** Indicates public network solution, include firewall rules */
 export interface PublicNetworkSolution {
   /** Indicates whether to clean up previous operation(such as firewall rules) when Linker is updating or deleting */
-  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {});
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {}) | undefined;
   /** Optional. Indicates public network solution. If enable, enable public network access of target service with best try. Default is enable. If optOut, opt out public network access configuration. */
-  action?: ActionType | (string & {});
+  action?: ActionType | (string & {}) | undefined;
   /** Describe firewall rules of target service to make sure source application could connect to the target. */
-  firewallRules?: FirewallRules;
+  firewallRules?: FirewallRules | undefined;
 }
 /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
 export type ConfigurationInfoInputCustomizedKeysMap = { [key: string]: string | undefined };
@@ -155,15 +155,15 @@ export type DaprMetadataRequired = "true" | "false";
 /** The dapr component metadata. */
 export interface DaprMetadata {
   /** Metadata property name. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata property value. */
-  value?: string;
+  value?: string | undefined;
   /** The secret name where dapr could get value */
-  secretRef?: string;
+  secretRef?: string | undefined;
   /** The description of the metadata, returned from configuration api */
-  description?: string;
+  description?: string | undefined;
   /** The value indicating whether the metadata is required or not */
-  required?: DaprMetadataRequired | (string & {});
+  required?: DaprMetadataRequired | (string & {}) | undefined;
 }
 /** Additional dapr metadata */
 export type DaprPropertiesInputMetadataList = Array<DaprMetadata>;
@@ -172,15 +172,15 @@ export type DaprPropertiesInputScopesList = Array<string>;
 /** Indicates some additional properties for dapr client type */
 export interface DaprPropertiesInput {
   /** The dapr component version */
-  version?: string | null;
+  version?: string | null | undefined;
   /** The dapr component type */
-  componentType?: string | null;
+  componentType?: string | null | undefined;
   /** The name of a secret store dapr to retrieve secret */
-  secretStoreComponent?: string | null;
+  secretStoreComponent?: string | null | undefined;
   /** Additional dapr metadata */
-  metadata?: DaprPropertiesInputMetadataList;
+  metadata?: DaprPropertiesInputMetadataList | undefined;
   /** The dapr component scopes */
-  scopes?: DaprPropertiesInputScopesList;
+  scopes?: DaprPropertiesInputScopesList | undefined;
 }
 /** A dictionary of additional configurations to be added. Service will auto generate a set of basic configurations and this property is to full fill more customized configurations */
 export type ConfigurationInfoInputAdditionalConfigurationsMap = {
@@ -193,43 +193,45 @@ export type ConfigurationInfoInputAdditionalConnectionStringPropertiesMap = {
 /** An option to store configuration into different place */
 export interface ConfigurationStore {
   /** The app configuration id to store configuration */
-  appConfigurationId?: string | null;
+  appConfigurationId?: string | null | undefined;
 }
 /** The configuration information, used to generate configurations or save to applications */
 export interface ConfigurationInfoInput {
   /** Indicates whether to clean up previous operation when Linker is updating or deleting */
-  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {});
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {}) | undefined;
   /** Optional, indicate whether to apply configurations on source application. If enable, generate configurations and applied to the source application. Default is enable. If optOut, no configuration change will be made on source. */
-  action?: ActionType | (string & {});
+  action?: ActionType | (string & {}) | undefined;
   /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
-  customizedKeys?: ConfigurationInfoInputCustomizedKeysMap;
+  customizedKeys?: ConfigurationInfoInputCustomizedKeysMap | undefined;
   /** Indicates some additional properties for dapr client type */
-  daprProperties?: DaprPropertiesInput;
+  daprProperties?: DaprPropertiesInput | undefined;
   /** A dictionary of additional configurations to be added. Service will auto generate a set of basic configurations and this property is to full fill more customized configurations */
-  additionalConfigurations?: ConfigurationInfoInputAdditionalConfigurationsMap;
+  additionalConfigurations?: ConfigurationInfoInputAdditionalConfigurationsMap | undefined;
   /** A dictionary of additional properties to be added in the end of connection string. */
-  additionalConnectionStringProperties?: ConfigurationInfoInputAdditionalConnectionStringPropertiesMap;
+  additionalConnectionStringProperties?:
+    | ConfigurationInfoInputAdditionalConnectionStringPropertiesMap
+    | undefined;
   /** An option to store configuration into different place */
-  configurationStore?: ConfigurationStore | null;
+  configurationStore?: ConfigurationStore | null | undefined;
 }
 /** The properties of the Linker. */
 export interface LinkerPropertiesInput {
   /** The target service properties */
-  targetService?: TargetServiceBase;
+  targetService?: TargetServiceBase | undefined;
   /** The authentication type. */
-  authInfo?: AuthInfoBase;
+  authInfo?: AuthInfoBase | undefined;
   /** The application client type */
-  clientType?: ClientType | (string & {});
+  clientType?: ClientType | (string & {}) | undefined;
   /** The VNet solution. */
-  vNetSolution?: VNetSolution | null;
+  vNetSolution?: VNetSolution | null | undefined;
   /** An option to store secret value in secure place */
-  secretStore?: SecretStore | null;
+  secretStore?: SecretStore | null | undefined;
   /** connection scope in source service. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The network solution. */
-  publicNetworkSolution?: PublicNetworkSolution | null;
+  publicNetworkSolution?: PublicNetworkSolution | null | undefined;
   /** The connection information consumed by applications, including secrets, connection strings. */
-  configurationInfo?: ConfigurationInfoInput | null;
+  configurationInfo?: ConfigurationInfoInput | null | undefined;
 }
 export interface ConnectorCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -250,17 +252,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
 export type ConfigurationInfoCustomizedKeysMap = { [key: string]: string | undefined };
@@ -273,19 +275,19 @@ export type DaprPropertiesBindingComponentDirection = "input" | "output";
 /** Indicates some additional properties for dapr client type */
 export interface DaprProperties {
   /** The dapr component version */
-  version?: string | null;
+  version?: string | null | undefined;
   /** The dapr component type */
-  componentType?: string | null;
+  componentType?: string | null | undefined;
   /** The name of a secret store dapr to retrieve secret */
-  secretStoreComponent?: string | null;
+  secretStoreComponent?: string | null | undefined;
   /** Additional dapr metadata */
-  metadata?: DaprPropertiesMetadataList;
+  metadata?: DaprPropertiesMetadataList | undefined;
   /** The dapr component scopes */
-  scopes?: DaprPropertiesScopesList;
+  scopes?: DaprPropertiesScopesList | undefined;
   /** The runtime version supported by the properties */
-  runtimeVersion?: string | null;
+  runtimeVersion?: string | null | undefined;
   /** The direction supported by the dapr binding component */
-  bindingComponentDirection?: DaprPropertiesBindingComponentDirection | null;
+  bindingComponentDirection?: DaprPropertiesBindingComponentDirection | null | undefined;
 }
 /** A dictionary of additional configurations to be added. Service will auto generate a set of basic configurations and this property is to full fill more customized configurations */
 export type ConfigurationInfoAdditionalConfigurationsMap = { [key: string]: string | undefined };
@@ -296,50 +298,52 @@ export type ConfigurationInfoAdditionalConnectionStringPropertiesMap = {
 /** The configuration information, used to generate configurations or save to applications */
 export interface ConfigurationInfo {
   /** Indicates whether to clean up previous operation when Linker is updating or deleting */
-  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | undefined;
   /** Optional, indicate whether to apply configurations on source application. If enable, generate configurations and applied to the source application. Default is enable. If optOut, no configuration change will be made on source. */
-  action?: ActionType;
+  action?: ActionType | undefined;
   /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
-  customizedKeys?: ConfigurationInfoCustomizedKeysMap;
+  customizedKeys?: ConfigurationInfoCustomizedKeysMap | undefined;
   /** Indicates some additional properties for dapr client type */
-  daprProperties?: DaprProperties;
+  daprProperties?: DaprProperties | undefined;
   /** A dictionary of additional configurations to be added. Service will auto generate a set of basic configurations and this property is to full fill more customized configurations */
-  additionalConfigurations?: ConfigurationInfoAdditionalConfigurationsMap;
+  additionalConfigurations?: ConfigurationInfoAdditionalConfigurationsMap | undefined;
   /** A dictionary of additional properties to be added in the end of connection string. */
-  additionalConnectionStringProperties?: ConfigurationInfoAdditionalConnectionStringPropertiesMap;
+  additionalConnectionStringProperties?:
+    | ConfigurationInfoAdditionalConnectionStringPropertiesMap
+    | undefined;
   /** An option to store configuration into different place */
-  configurationStore?: ConfigurationStore | null;
+  configurationStore?: ConfigurationStore | null | undefined;
 }
 /** The properties of the Linker. */
 export interface LinkerProperties {
   /** The target service properties */
-  targetService?: TargetServiceBase;
+  targetService?: TargetServiceBase | undefined;
   /** The authentication type. */
-  authInfo?: AuthInfoBase;
+  authInfo?: AuthInfoBase | undefined;
   /** The application client type */
-  clientType?: ClientType;
+  clientType?: ClientType | undefined;
   /** The provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The VNet solution. */
-  vNetSolution?: VNetSolution | null;
+  vNetSolution?: VNetSolution | null | undefined;
   /** An option to store secret value in secure place */
-  secretStore?: SecretStore | null;
+  secretStore?: SecretStore | null | undefined;
   /** connection scope in source service. */
-  scope?: string | null;
+  scope?: string | null | undefined;
   /** The network solution. */
-  publicNetworkSolution?: PublicNetworkSolution | null;
+  publicNetworkSolution?: PublicNetworkSolution | null | undefined;
   /** The connection information consumed by applications, including secrets, connection strings. */
-  configurationInfo?: ConfigurationInfo | null;
+  configurationInfo?: ConfigurationInfo | null | undefined;
 }
 export interface ConnectorCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -352,7 +356,7 @@ export interface DryrunParameters {
 /** The properties of the dryrun job */
 export interface DryrunPropertiesInput {
   /** The parameters of the dryrun */
-  parameters?: DryrunParameters;
+  parameters?: DryrunParameters | undefined;
 }
 export interface CreateConnectorDryrunRequest {
   /** The ID of the target subscription. */
@@ -364,7 +368,7 @@ export interface CreateConnectorDryrunRequest {
   /** The name of dryrun. */
   dryrunName: string;
   /** The properties of the dryrun job. */
-  properties?: DryrunPropertiesInput;
+  properties?: DryrunPropertiesInput | undefined;
 }
 /** The type of dryrun result. */
 export type DryrunPrerequisiteResultType = "basicError" | "permissionsMissing";
@@ -382,40 +386,40 @@ export type DryrunOperationPreviewOperationType =
 /** The preview of the operations for creation */
 export interface DryrunOperationPreview {
   /** The operation name */
-  name?: string;
+  name?: string | undefined;
   /** The operation type */
-  operationType?: DryrunOperationPreviewOperationType;
+  operationType?: DryrunOperationPreviewOperationType | undefined;
   /** The description of the operation */
-  description?: string;
+  description?: string | undefined;
   /** The action defined by RBAC, refer https://docs.microsoft.com/azure/role-based-access-control/role-definitions#actions-format */
-  action?: string;
+  action?: string | undefined;
   /** The scope of the operation, refer https://docs.microsoft.com/azure/role-based-access-control/scope-overview */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** the preview of the operations for creation */
 export type DryrunPropertiesOperationPreviewsList = Array<DryrunOperationPreview>;
 /** The properties of the dryrun job */
 export interface DryrunProperties {
   /** The parameters of the dryrun */
-  parameters?: DryrunParameters;
+  parameters?: DryrunParameters | undefined;
   /** the result of the dryrun */
-  prerequisiteResults?: DryrunPropertiesPrerequisiteResultsList;
+  prerequisiteResults?: DryrunPropertiesPrerequisiteResultsList | undefined;
   /** the preview of the operations for creation */
-  operationPreviews?: DryrunPropertiesOperationPreviewsList;
+  operationPreviews?: DryrunPropertiesOperationPreviewsList | undefined;
   /** The provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreateConnectorDryrunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the dryrun job. */
-  properties?: DryrunProperties;
+  properties?: DryrunProperties | undefined;
 }
 export interface CreateLinkerDryrunRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
@@ -423,19 +427,19 @@ export interface CreateLinkerDryrunRequest {
   /** The name of dryrun. */
   dryrunName: string;
   /** The properties of the dryrun job. */
-  properties?: DryrunPropertiesInput;
+  properties?: DryrunPropertiesInput | undefined;
 }
 export interface CreateLinkerDryrunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the dryrun job. */
-  properties?: DryrunProperties;
+  properties?: DryrunProperties | undefined;
 }
 export interface DeleteConnectorRequest {
   /** The ID of the target subscription. */
@@ -495,41 +499,45 @@ export interface GenerateConnectorConfigurationsRequest {
   /** The name of resource. */
   connectorName: string;
   /** Indicates whether to clean up previous operation when Linker is updating or deleting */
-  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {});
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {}) | undefined;
   /** Optional, indicate whether to apply configurations on source application. If enable, generate configurations and applied to the source application. Default is enable. If optOut, no configuration change will be made on source. */
-  action?: ActionType | (string & {});
+  action?: ActionType | (string & {}) | undefined;
   /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
-  customizedKeys?: GenerateConnectorConfigurationsRequestCustomizedKeysMap;
+  customizedKeys?: GenerateConnectorConfigurationsRequestCustomizedKeysMap | undefined;
   /** Indicates some additional properties for dapr client type */
-  daprProperties?: DaprPropertiesInput;
+  daprProperties?: DaprPropertiesInput | undefined;
   /** A dictionary of additional configurations to be added. Service will auto generate a set of basic configurations and this property is to full fill more customized configurations */
-  additionalConfigurations?: GenerateConnectorConfigurationsRequestAdditionalConfigurationsMap;
+  additionalConfigurations?:
+    | GenerateConnectorConfigurationsRequestAdditionalConfigurationsMap
+    | undefined;
   /** A dictionary of additional properties to be added in the end of connection string. */
-  additionalConnectionStringProperties?: GenerateConnectorConfigurationsRequestAdditionalConnectionStringPropertiesMap;
+  additionalConnectionStringProperties?:
+    | GenerateConnectorConfigurationsRequestAdditionalConnectionStringPropertiesMap
+    | undefined;
   /** An option to store configuration into different place */
-  configurationStore?: ConfigurationStore | null;
+  configurationStore?: ConfigurationStore | null | undefined;
 }
 /** Type of configuration to determine whether the configuration can be modified after creation. KeyvaultSecret means the configuration references a key vault secret, such as App Service/ACA key vault reference. Default means the configuration is real value, such as user name, raw secret, etc. */
 export type LinkerConfigurationType = "Default" | "KeyVaultSecret";
 /** A configuration item for source resource */
 export interface SourceConfiguration {
   /** The name of setting. */
-  name?: string;
+  name?: string | undefined;
   /** The value of setting */
-  value?: string | null;
+  value?: string | null | undefined;
   /** The type of setting */
-  configType?: LinkerConfigurationType;
+  configType?: LinkerConfigurationType | undefined;
   /** The identity for key vault reference, system or user-assigned managed identity ID */
-  keyVaultReferenceIdentity?: string | null;
+  keyVaultReferenceIdentity?: string | null | undefined;
   /** Descriptive information for the configuration */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** The configuration properties for source resource. */
 export type ConfigurationResultConfigurationsList = Array<SourceConfiguration>;
 /** Configurations for source resource, include appSettings, connectionString and serviceBindings */
 export interface ConfigurationResult {
   /** The configuration properties for source resource. */
-  configurations?: ConfigurationResultConfigurationsList;
+  configurations?: ConfigurationResultConfigurationsList | undefined;
 }
 /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
 export type GenerateLinkerConfigurationsRequestCustomizedKeysMap = {
@@ -549,19 +557,23 @@ export interface GenerateLinkerConfigurationsRequest {
   /** The name Linker resource. */
   linkerName: string;
   /** Indicates whether to clean up previous operation when Linker is updating or deleting */
-  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {});
+  deleteOrUpdateBehavior?: DeleteOrUpdateBehavior | (string & {}) | undefined;
   /** Optional, indicate whether to apply configurations on source application. If enable, generate configurations and applied to the source application. Default is enable. If optOut, no configuration change will be made on source. */
-  action?: ActionType | (string & {});
+  action?: ActionType | (string & {}) | undefined;
   /** Optional. A dictionary of default key name and customized key name mapping. If not specified, default key name will be used for generate configurations */
-  customizedKeys?: GenerateLinkerConfigurationsRequestCustomizedKeysMap;
+  customizedKeys?: GenerateLinkerConfigurationsRequestCustomizedKeysMap | undefined;
   /** Indicates some additional properties for dapr client type */
-  daprProperties?: DaprPropertiesInput;
+  daprProperties?: DaprPropertiesInput | undefined;
   /** A dictionary of additional configurations to be added. Service will auto generate a set of basic configurations and this property is to full fill more customized configurations */
-  additionalConfigurations?: GenerateLinkerConfigurationsRequestAdditionalConfigurationsMap;
+  additionalConfigurations?:
+    | GenerateLinkerConfigurationsRequestAdditionalConfigurationsMap
+    | undefined;
   /** A dictionary of additional properties to be added in the end of connection string. */
-  additionalConnectionStringProperties?: GenerateLinkerConfigurationsRequestAdditionalConnectionStringPropertiesMap;
+  additionalConnectionStringProperties?:
+    | GenerateLinkerConfigurationsRequestAdditionalConnectionStringPropertiesMap
+    | undefined;
   /** An option to store configuration into different place */
-  configurationStore?: ConfigurationStore | null;
+  configurationStore?: ConfigurationStore | null | undefined;
 }
 export interface GetConnectorRequest {
   /** The ID of the target subscription. */
@@ -575,13 +587,13 @@ export interface GetConnectorRequest {
 }
 export interface GetConnectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -597,15 +609,15 @@ export interface GetConnectorDryrunRequest {
 }
 export interface GetConnectorDryrunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the dryrun job. */
-  properties?: DryrunProperties;
+  properties?: DryrunProperties | undefined;
 }
 export interface GetLinkerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
@@ -615,13 +627,13 @@ export interface GetLinkerRequest {
 }
 export interface GetLinkerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -633,15 +645,15 @@ export interface GetLinkerDryrunRequest {
 }
 export interface GetLinkerDryrunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the dryrun job. */
-  properties?: DryrunProperties;
+  properties?: DryrunProperties | undefined;
 }
 export interface LinkerCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
@@ -653,61 +665,61 @@ export interface LinkerCreateOrUpdateRequest {
 }
 export interface LinkerCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
 export interface ListConfigurationNamesRequest {
   /** OData filter options. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** OData skipToken option for pagination. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The type of secret source. */
 export type SecretSourceType = "rawValue" | "keyVaultSecret";
 /** The configuration names. */
 export interface ConfigurationName {
-  value?: string;
+  value?: string | undefined;
   /** Description for the configuration name. */
-  description?: string;
+  description?: string | undefined;
   /** Represent the configuration is required or not */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** The configuration names to be set in compute service environment. */
 export type ConfigurationNamesNamesList = Array<ConfigurationName>;
 /** The configuration names which will be set based on specific target resource, client type, auth type. */
 export interface ConfigurationNames {
   /** The target service provider name and resource name. */
-  targetService?: string;
+  targetService?: string | undefined;
   /** The client type for configuration names. */
-  clientType?: ClientType;
+  clientType?: ClientType | undefined;
   /** The auth type. */
-  authType?: AuthType;
+  authType?: AuthType | undefined;
   /** Indicates where the secrets in configuration from. Used when secrets are from Keyvault. */
-  secretType?: SecretSourceType;
+  secretType?: SecretSourceType | undefined;
   /** Deprecated, please use #/definitions/DaprConfigurationList instead */
-  daprProperties?: DaprProperties;
+  daprProperties?: DaprProperties | undefined;
   /** The configuration names to be set in compute service environment. */
-  names?: ConfigurationNamesNamesList;
+  names?: ConfigurationNamesNamesList | undefined;
 }
 export interface ConfigurationNameItem {
   /** The result detail. */
-  properties?: ConfigurationNames | null;
+  properties?: ConfigurationNames | null | undefined;
 }
 /** Expected configuration names for each target service. */
 export type ConfigurationNameResultValueList = Array<ConfigurationNameItem>;
 /** Configuration Name list which will be set based on different target resource, client type, auth type. */
 export interface ConfigurationNameResult {
   /** Expected configuration names for each target service. */
-  value?: ConfigurationNameResultValueList;
+  value?: ConfigurationNameResultValueList | undefined;
   /** Link to next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConnectorRequest {
   /** The ID of the target subscription. */
@@ -720,13 +732,13 @@ export interface ListConnectorRequest {
 /** Linker of source and target resource */
 export interface LinkerResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -735,9 +747,9 @@ export type ResourceListValueList = Array<LinkerResource>;
 /** The list of Linker. */
 export interface ResourceList {
   /** The Linker used to get the next page of Linker list. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** The list of Linkers. */
-  value?: ResourceListValueList;
+  value?: ResourceListValueList | undefined;
 }
 export interface ListConnectorDryrunRequest {
   /** The ID of the target subscription. */
@@ -750,24 +762,24 @@ export interface ListConnectorDryrunRequest {
 /** a dryrun job resource */
 export interface DryrunResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the dryrun job. */
-  properties?: DryrunProperties;
+  properties?: DryrunProperties | undefined;
 }
 /** The list of dryrun. */
 export type DryrunListValueList = Array<DryrunResource>;
 /** The list of dryrun. */
 export interface DryrunList {
   /** The link used to get the next page of dryrun list. */
-  nextLink?: string | null;
+  nextLink?: string | null | undefined;
   /** The list of dryrun. */
-  value?: DryrunListValueList;
+  value?: DryrunListValueList | undefined;
 }
 export interface ListLinkerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
@@ -785,23 +797,23 @@ export interface ListLinkerDaprConfigurationsRequest {
 }
 export interface DaprConfigurationProperties {
   /** Supported target resource type, extract from resource id, uppercase */
-  targetType?: string;
-  authType?: AuthType;
-  daprProperties?: DaprProperties;
+  targetType?: string | undefined;
+  authType?: AuthType | undefined;
+  daprProperties?: DaprProperties | undefined;
 }
 /** Represent one resource of the dapr configuration list */
 export interface DaprConfigurationResource {
   /** The properties of the dapr configuration. */
-  properties?: DaprConfigurationProperties;
+  properties?: DaprConfigurationProperties | undefined;
 }
 /** The list of dapr configurations */
 export type DaprConfigurationListValueList = Array<DaprConfigurationResource>;
 /** Dapr configuration list supported by Service Connector */
 export interface DaprConfigurationList {
   /** The list of dapr configurations */
-  value?: DaprConfigurationListValueList;
+  value?: DaprConfigurationListValueList | undefined;
   /** Link to next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLinkerDryrunRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
@@ -811,13 +823,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -826,23 +838,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface UpdateConnectorRequest {
   /** The ID of the target subscription. */
@@ -854,17 +866,17 @@ export interface UpdateConnectorRequest {
   /** The name of resource. */
   connectorName: string;
   /** Linker properties */
-  properties?: LinkerPropertiesInput;
+  properties?: LinkerPropertiesInput | undefined;
 }
 export interface UpdateConnectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -878,19 +890,19 @@ export interface UpdateConnectorDryrunRequest {
   /** The name of dryrun. */
   dryrunName: string;
   /** The properties of the dryrun job. */
-  properties?: DryrunPropertiesInput;
+  properties?: DryrunPropertiesInput | undefined;
 }
 export interface UpdateConnectorDryrunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the dryrun job. */
-  properties?: DryrunProperties;
+  properties?: DryrunProperties | undefined;
 }
 export interface UpdateLinkerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */
@@ -898,17 +910,17 @@ export interface UpdateLinkerRequest {
   /** The name Linker resource. */
   linkerName: string;
   /** Linker properties */
-  properties?: LinkerPropertiesInput;
+  properties?: LinkerPropertiesInput | undefined;
 }
 export interface UpdateLinkerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the Linker. */
   properties: LinkerProperties;
 }
@@ -918,19 +930,19 @@ export interface UpdateLinkerDryrunRequest {
   /** The name of dryrun. */
   dryrunName: string;
   /** The properties of the dryrun job. */
-  properties?: DryrunPropertiesInput;
+  properties?: DryrunPropertiesInput | undefined;
 }
 export interface UpdateLinkerDryrunResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the dryrun job. */
-  properties?: DryrunProperties;
+  properties?: DryrunProperties | undefined;
 }
 export interface ValidateConnectorRequest {
   /** The ID of the target subscription. */
@@ -947,45 +959,45 @@ export type ValidationResultItemResult = "success" | "failure" | "warning";
 /** The validation item for a Linker. */
 export interface ValidationResultItem {
   /** The validation item name. */
-  name?: string;
+  name?: string | undefined;
   /** The display name of validation item */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The result of validation */
-  result?: ValidationResultItemResult | null;
+  result?: ValidationResultItemResult | null | undefined;
   /** The error message of validation result */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** The error code of validation result */
-  errorCode?: string | null;
+  errorCode?: string | null | undefined;
 }
 /** The detail of validation result */
 export type ValidateResultValidationDetailList = Array<ValidationResultItem>;
 /** The validation result for a Linker. */
 export interface ValidateResult {
   /** The linker name. */
-  linkerName?: string | null;
+  linkerName?: string | null | undefined;
   /** A boolean value indicating whether the connection is available or not */
-  isConnectionAvailable?: boolean | null;
+  isConnectionAvailable?: boolean | null | undefined;
   /** The start time of the validation report. */
-  reportStartTimeUtc?: string | null;
+  reportStartTimeUtc?: string | null | undefined;
   /** The end time of the validation report. */
-  reportEndTimeUtc?: string | null;
+  reportEndTimeUtc?: string | null | undefined;
   /** The resource id of the Linker source application. */
-  sourceId?: string | null;
+  sourceId?: string | null | undefined;
   /** The resource Id of target service. */
-  targetId?: string | null;
+  targetId?: string | null | undefined;
   /** The authentication type. */
-  authType?: AuthType | null;
+  authType?: AuthType | null | undefined;
   /** The detail of validation result */
-  validationDetail?: ValidateResultValidationDetailList;
+  validationDetail?: ValidateResultValidationDetailList | undefined;
 }
 /** The validation operation result for a Linker. */
 export interface ValidateOperationResult {
   /** The validation result detail. */
-  properties?: ValidateResult | null;
+  properties?: ValidateResult | null | undefined;
   /** Validated Linker id. */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
   /** Validation operation status. */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export interface ValidateLinkerRequest {
   /** The fully qualified Azure Resource manager identifier of the resource to be connected. */

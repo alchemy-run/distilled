@@ -514,22 +514,22 @@ export type ProductCategory =
   | "WOMEN_CLOTHING";
 export interface CreateProductRequest {
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** The server stores keys for 72 hours. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The ID of the product. You can specify the SKU for the product. If you omit the ID, the system generates it. System-generated IDs have the `PROD-` prefix. */
-  id?: string;
+  id?: string | undefined;
   /** The product name. */
   name: string;
   /** The product description. */
-  description?: string;
+  description?: string | undefined;
   /** The product type. Indicates whether the product is physical or digital goods, or a service. */
   type: CreateProductRequestType | (string & {});
-  category?: ProductCategory | (string & {});
+  category?: ProductCategory | (string & {}) | undefined;
   /** The image URL for the product. */
-  image_url?: string;
+  image_url?: string | undefined;
   /** The home page URL for the product. */
-  home_url?: string;
+  home_url?: string | undefined;
 }
 /** The product type. Indicates whether the product is physical or digital goods, or a service. */
 export type ProductType = "PHYSICAL" | "DIGITAL" | "SERVICE";
@@ -550,30 +550,30 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/overview/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
 /** The product details. */
 export interface Product {
   /** The ID of the product. */
-  id?: string;
+  id?: string | undefined;
   /** The product name. */
-  name?: string;
+  name?: string | undefined;
   /** The product description. */
-  description?: string;
+  description?: string | undefined;
   /** The product type. Indicates whether the product is physical or digital goods, or a service. */
-  type?: ProductType;
-  category?: ProductCategory;
+  type?: ProductType | undefined;
+  category?: ProductCategory | undefined;
   /** The image URL for the product. */
-  image_url?: string;
+  image_url?: string | undefined;
   /** The home page URL for the product. */
-  home_url?: string;
+  home_url?: string | undefined;
   /** The date and time when the product was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The date and time when the product was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  update_time?: string;
-  links?: LinkDescriptionList;
+  update_time?: string | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface GetProductRequest {
   /** The product ID. */
@@ -581,34 +581,34 @@ export interface GetProductRequest {
 }
 export interface ListProductsRequest {
   /** The number of items to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** A non-zero integer which is the start index of the entire list of items that are returned in the response. So, the combination of `page=1` and `page_size=20` returns the first 20 items. The combination of `page=2` and `page_size=20` returns the next 20 items. */
-  page?: number;
+  page?: number | undefined;
   /** Indicates whether to show the total items and total pages in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
 }
 /** The details for a product in the collection response. */
 export interface ProductCollectionElement {
   /** The ID of the product. */
-  id?: string;
+  id?: string | undefined;
   /** The product name. */
-  name?: string;
+  name?: string | undefined;
   /** The product description. */
-  description?: string;
+  description?: string | undefined;
   /** The date and time when the product was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
-  links?: LinkDescriptionList;
+  create_time?: string | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** An array of products. */
 export type ProductCollectionElementList = Array<ProductCollectionElement>;
 /** The list of products, with details. */
 export interface ProductCollection {
-  products?: ProductCollectionElementList;
+  products?: ProductCollectionElementList | undefined;
   /** The total number of items. */
-  total_items?: number;
+  total_items?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
-  links?: LinkDescriptionList;
+  total_pages?: number | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** The operation. */
 export type PatchOp = "add" | "remove" | "replace" | "move" | "copy" | "test";
@@ -617,18 +617,18 @@ export interface Patch {
   /** The operation. */
   op: PatchOp | (string & {});
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location at which to complete the operation. */
-  path?: string;
+  path?: string | undefined;
   /** The value to apply. The <code>remove</code> operation does not require a value. */
-  value?: unknown | null;
+  value?: unknown | null | undefined;
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location from which to move the value. Required for the <code>move</code> operation. */
-  from?: string;
+  from?: string | undefined;
 }
 /** An array of JSON patch objects to apply partial updates to resources. */
 export type PatchRequest = Array<Patch>;
 export interface PatchProductRequest {
   /** The product ID. */
   product_id: string;
-  body?: PatchRequest;
+  body?: PatchRequest | undefined;
 }
 export interface PatchProductResponse {}
 export type CreateProductError = BadRequest | Forbidden | UnprocessableEntity | PaypalOpError;

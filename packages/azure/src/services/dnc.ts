@@ -42,9 +42,9 @@ export interface CreateControllerRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: CreateControllerRequestTagsMap;
+  tags?: CreateControllerRequestTagsMap | undefined;
 }
 /** The resource tags. */
 export type CreateControllerResponseTagsMap = { [key: string]: string | undefined };
@@ -57,29 +57,29 @@ export type DelegatedControllerPropertiesProvisioningState =
 /** Properties of Delegated controller resource. */
 export interface DelegatedControllerProperties {
   /** Resource guid. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
   /** The current state of dnc controller resource. */
-  provisioningState?: DelegatedControllerPropertiesProvisioningState;
+  provisioningState?: DelegatedControllerPropertiesProvisioningState | undefined;
   /** dnc application id should be used by customer to authenticate with dnc gateway. */
-  dncAppId?: string;
+  dncAppId?: string | undefined;
   /** tenant id of dnc application id */
-  dncTenantId?: string;
+  dncTenantId?: string | undefined;
   /** dnc endpoint url that customers can use to connect to */
-  dncEndpoint?: string;
+  dncEndpoint?: string | undefined;
 }
 export interface CreateControllerResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: CreateControllerResponseTagsMap;
+  tags?: CreateControllerResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedControllerProperties;
+  properties?: DelegatedControllerProperties | undefined;
 }
 /** The kind of workbook. Choices are user and shared. */
 export type CreateOrchestratorInstanceServiceRequestKind = "Kubernetes";
@@ -87,27 +87,27 @@ export type CreateOrchestratorInstanceServiceRequestKind = "Kubernetes";
 export type OrchestratorIdentityInputType = "SystemAssigned" | "None";
 export interface OrchestratorIdentityInput {
   /** The type of identity used for orchestrator cluster. Type 'SystemAssigned' will use an implicitly created identity orchestrator clusters */
-  type?: OrchestratorIdentityInputType | (string & {});
+  type?: OrchestratorIdentityInputType | (string & {}) | undefined;
 }
 /** The resource tags. */
 export type CreateOrchestratorInstanceServiceRequestTagsMap = { [key: string]: string | undefined };
 /** controller details */
 export interface OrchestratorResourcePropertiesInputControllerDetails {
   /** controller arm resource id */
-  id?: string;
+  id?: string | undefined;
 }
 /** Properties of orchestrator */
 export interface OrchestratorResourcePropertiesInput {
   /** AAD ID used with apiserver */
-  orchestratorAppId?: string;
+  orchestratorAppId?: string | undefined;
   /** TenantID of server App ID */
-  orchestratorTenantId?: string;
+  orchestratorTenantId?: string | undefined;
   /** RootCA certificate of kubernetes cluster base64 encoded */
-  clusterRootCA?: string;
+  clusterRootCA?: string | undefined;
   /** K8s APIServer url. Either one of apiServerEndpoint or privateLinkResourceId can be specified */
-  apiServerEndpoint?: string;
+  apiServerEndpoint?: string | undefined;
   /** private link arm resource id. Either one of apiServerEndpoint or privateLinkResourceId can be specified */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** controller details */
   controllerDetails: OrchestratorResourcePropertiesInputControllerDetails;
 }
@@ -119,15 +119,15 @@ export interface CreateOrchestratorInstanceServiceRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of workbook. Choices are user and shared. */
   kind: CreateOrchestratorInstanceServiceRequestKind | (string & {});
   /** The identity of the orchestrator */
-  identity?: OrchestratorIdentityInput;
+  identity?: OrchestratorIdentityInput | undefined;
   /** The resource tags. */
-  tags?: CreateOrchestratorInstanceServiceRequestTagsMap;
+  tags?: CreateOrchestratorInstanceServiceRequestTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: OrchestratorResourcePropertiesInput;
+  properties?: OrchestratorResourcePropertiesInput | undefined;
 }
 /** The kind of workbook. Choices are user and shared. */
 export type CreateOrchestratorInstanceServiceResponseKind = "Kubernetes";
@@ -135,11 +135,11 @@ export type CreateOrchestratorInstanceServiceResponseKind = "Kubernetes";
 export type OrchestratorIdentityType = "SystemAssigned" | "None";
 export interface OrchestratorIdentity {
   /** The principal id of the system assigned identity which is used by orchestrator. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of the system assigned identity which is used by orchestrator. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for orchestrator cluster. Type 'SystemAssigned' will use an implicitly created identity orchestrator clusters */
-  type?: OrchestratorIdentityType;
+  type?: OrchestratorIdentityType | undefined;
 }
 /** The resource tags. */
 export type CreateOrchestratorInstanceServiceResponseTagsMap = {
@@ -157,39 +157,39 @@ export type OrchestratorResourcePropertiesControllerDetails =
 /** Properties of orchestrator */
 export interface OrchestratorResourceProperties {
   /** Resource guid. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
   /** The current state of orchestratorInstance resource. */
-  provisioningState?: OrchestratorResourcePropertiesProvisioningState;
+  provisioningState?: OrchestratorResourcePropertiesProvisioningState | undefined;
   /** AAD ID used with apiserver */
-  orchestratorAppId?: string;
+  orchestratorAppId?: string | undefined;
   /** TenantID of server App ID */
-  orchestratorTenantId?: string;
+  orchestratorTenantId?: string | undefined;
   /** RootCA certificate of kubernetes cluster base64 encoded */
-  clusterRootCA?: string;
+  clusterRootCA?: string | undefined;
   /** K8s APIServer url. Either one of apiServerEndpoint or privateLinkResourceId can be specified */
-  apiServerEndpoint?: string;
+  apiServerEndpoint?: string | undefined;
   /** private link arm resource id. Either one of apiServerEndpoint or privateLinkResourceId can be specified */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** controller details */
   controllerDetails: OrchestratorResourcePropertiesInputControllerDetails;
 }
 export interface CreateOrchestratorInstanceServiceResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of workbook. Choices are user and shared. */
   kind: CreateOrchestratorInstanceServiceResponseKind;
   /** The identity of the orchestrator */
-  identity?: OrchestratorIdentity;
+  identity?: OrchestratorIdentity | undefined;
   /** The resource tags. */
-  tags?: CreateOrchestratorInstanceServiceResponseTagsMap;
+  tags?: CreateOrchestratorInstanceServiceResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: OrchestratorResourceProperties;
+  properties?: OrchestratorResourceProperties | undefined;
 }
 export interface DeleteControllerRequest {
   /** The ID of the target subscription. */
@@ -208,7 +208,7 @@ export interface DeleteDelegatedSubnetServiceDetailsRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** Force delete resource */
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteDelegatedSubnetServiceDetailsResponse {}
 export interface DeleteOrchestratorInstanceServiceRequest {
@@ -219,7 +219,7 @@ export interface DeleteOrchestratorInstanceServiceRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** Force delete resource */
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteOrchestratorInstanceServiceResponse {}
 export interface GetControllerDetailsRequest {
@@ -234,17 +234,17 @@ export interface GetControllerDetailsRequest {
 export type GetControllerDetailsResponseTagsMap = { [key: string]: string | undefined };
 export interface GetControllerDetailsResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetControllerDetailsResponseTagsMap;
+  tags?: GetControllerDetailsResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedControllerProperties;
+  properties?: DelegatedControllerProperties | undefined;
 }
 export interface GetDelegatedSubnetServiceDetailsRequest {
   /** The ID of the target subscription. */
@@ -265,7 +265,7 @@ export type DelegatedSubnetPropertiesProvisioningState =
 /** Properties of orchestrator */
 export interface SubnetDetails {
   /** subnet arm resource id */
-  id?: string;
+  id?: string | undefined;
 }
 /** controller details */
 export type DelegatedSubnetPropertiesControllerDetails =
@@ -273,27 +273,27 @@ export type DelegatedSubnetPropertiesControllerDetails =
 /** Properties of delegated subnet */
 export interface DelegatedSubnetProperties {
   /** Resource guid. */
-  resourceGuid?: string;
+  resourceGuid?: string | undefined;
   /** The current state of dnc delegated subnet resource. */
-  provisioningState?: DelegatedSubnetPropertiesProvisioningState;
+  provisioningState?: DelegatedSubnetPropertiesProvisioningState | undefined;
   /** subnet details */
-  subnetDetails?: SubnetDetails;
+  subnetDetails?: SubnetDetails | undefined;
   /** controller details */
-  controllerDetails?: OrchestratorResourcePropertiesInputControllerDetails;
+  controllerDetails?: OrchestratorResourcePropertiesInputControllerDetails | undefined;
 }
 export interface GetDelegatedSubnetServiceDetailsResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetDelegatedSubnetServiceDetailsResponseTagsMap;
+  tags?: GetDelegatedSubnetServiceDetailsResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedSubnetProperties;
+  properties?: DelegatedSubnetProperties | undefined;
 }
 export interface GetOrchestratorInstanceServiceDetailsRequest {
   /** The ID of the target subscription. */
@@ -311,21 +311,21 @@ export type GetOrchestratorInstanceServiceDetailsResponseTagsMap = {
 };
 export interface GetOrchestratorInstanceServiceDetailsResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of workbook. Choices are user and shared. */
   kind: GetOrchestratorInstanceServiceDetailsResponseKind;
   /** The identity of the orchestrator */
-  identity?: OrchestratorIdentity;
+  identity?: OrchestratorIdentity | undefined;
   /** The resource tags. */
-  tags?: GetOrchestratorInstanceServiceDetailsResponseTagsMap;
+  tags?: GetOrchestratorInstanceServiceDetailsResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: OrchestratorResourceProperties;
+  properties?: OrchestratorResourceProperties | undefined;
 }
 export interface ListDelegatedNetworkByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -338,17 +338,17 @@ export type DelegatedControllerTagsMap = { [key: string]: string | undefined };
 /** Represents an instance of a DNC controller. */
 export interface DelegatedController {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: DelegatedControllerTagsMap;
+  tags?: DelegatedControllerTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedControllerProperties;
+  properties?: DelegatedControllerProperties | undefined;
 }
 /** An array of Delegated controller resources. */
 export type DelegatedControllersValueList = Array<DelegatedController>;
@@ -357,7 +357,7 @@ export interface DelegatedControllers {
   /** An array of Delegated controller resources. */
   value: DelegatedControllersValueList;
   /** The URL to get the next set of controllers. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDelegatedNetworkBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -374,17 +374,17 @@ export type DelegatedSubnetTagsMap = { [key: string]: string | undefined };
 /** Represents an instance of a orchestrator. */
 export interface DelegatedSubnet {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: DelegatedSubnetTagsMap;
+  tags?: DelegatedSubnetTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedSubnetProperties;
+  properties?: DelegatedSubnetProperties | undefined;
 }
 /** An array of DelegatedSubnet resources. */
 export type DelegatedSubnetsValueList = Array<DelegatedSubnet>;
@@ -393,7 +393,7 @@ export interface DelegatedSubnets {
   /** An array of DelegatedSubnet resources. */
   value: DelegatedSubnetsValueList;
   /** The URL to get the next set of DelegatedSubnet resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDelegatedSubnetServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -403,13 +403,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -418,23 +418,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrchestratorInstanceServiceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -449,21 +449,21 @@ export type OrchestratorTagsMap = { [key: string]: string | undefined };
 /** Represents an instance of a orchestrator. */
 export interface Orchestrator {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of workbook. Choices are user and shared. */
   kind: OrchestratorKind;
   /** The identity of the orchestrator */
-  identity?: OrchestratorIdentity;
+  identity?: OrchestratorIdentity | undefined;
   /** The resource tags. */
-  tags?: OrchestratorTagsMap;
+  tags?: OrchestratorTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: OrchestratorResourceProperties;
+  properties?: OrchestratorResourceProperties | undefined;
 }
 /** An array of OrchestratorInstance resources. */
 export type OrchestratorsValueList = Array<Orchestrator>;
@@ -472,7 +472,7 @@ export interface Orchestrators {
   /** An array of OrchestratorInstance resources. */
   value: OrchestratorsValueList;
   /** The URL to get the next set of orchestrators. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrchestratorInstanceServiceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -488,23 +488,23 @@ export interface PatchControllerRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** The resource tags. */
-  tags?: PatchControllerRequestTagsMap;
+  tags?: PatchControllerRequestTagsMap | undefined;
 }
 /** The resource tags. */
 export type PatchControllerResponseTagsMap = { [key: string]: string | undefined };
 export interface PatchControllerResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: PatchControllerResponseTagsMap;
+  tags?: PatchControllerResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedControllerProperties;
+  properties?: DelegatedControllerProperties | undefined;
 }
 /** The resource tags. */
 export type PatchDelegatedSubnetServiceDetailsRequestTagsMap = {
@@ -518,7 +518,7 @@ export interface PatchDelegatedSubnetServiceDetailsRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** The resource tags. */
-  tags?: PatchDelegatedSubnetServiceDetailsRequestTagsMap;
+  tags?: PatchDelegatedSubnetServiceDetailsRequestTagsMap | undefined;
 }
 /** The resource tags. */
 export type PatchDelegatedSubnetServiceDetailsResponseTagsMap = {
@@ -526,17 +526,17 @@ export type PatchDelegatedSubnetServiceDetailsResponseTagsMap = {
 };
 export interface PatchDelegatedSubnetServiceDetailsResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: PatchDelegatedSubnetServiceDetailsResponseTagsMap;
+  tags?: PatchDelegatedSubnetServiceDetailsResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedSubnetProperties;
+  properties?: DelegatedSubnetProperties | undefined;
 }
 /** The resource tags. */
 export type PatchOrchestratorInstanceServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -548,7 +548,7 @@ export interface PatchOrchestratorInstanceServiceRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** The resource tags. */
-  tags?: PatchOrchestratorInstanceServiceRequestTagsMap;
+  tags?: PatchOrchestratorInstanceServiceRequestTagsMap | undefined;
 }
 /** The kind of workbook. Choices are user and shared. */
 export type PatchOrchestratorInstanceServiceResponseKind = "Kubernetes";
@@ -556,21 +556,21 @@ export type PatchOrchestratorInstanceServiceResponseKind = "Kubernetes";
 export type PatchOrchestratorInstanceServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface PatchOrchestratorInstanceServiceResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The kind of workbook. Choices are user and shared. */
   kind: PatchOrchestratorInstanceServiceResponseKind;
   /** The identity of the orchestrator */
-  identity?: OrchestratorIdentity;
+  identity?: OrchestratorIdentity | undefined;
   /** The resource tags. */
-  tags?: PatchOrchestratorInstanceServiceResponseTagsMap;
+  tags?: PatchOrchestratorInstanceServiceResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: OrchestratorResourceProperties;
+  properties?: OrchestratorResourceProperties | undefined;
 }
 /** The resource tags. */
 export type PutDelegatedSubnetServiceDetailsRequestTagsMap = { [key: string]: string | undefined };
@@ -580,9 +580,9 @@ export type DelegatedSubnetPropertiesInputControllerDetails =
 /** Properties of delegated subnet */
 export interface DelegatedSubnetPropertiesInput {
   /** subnet details */
-  subnetDetails?: SubnetDetails;
+  subnetDetails?: SubnetDetails | undefined;
   /** controller details */
-  controllerDetails?: OrchestratorResourcePropertiesInputControllerDetails;
+  controllerDetails?: OrchestratorResourcePropertiesInputControllerDetails | undefined;
 }
 export interface PutDelegatedSubnetServiceDetailsRequest {
   /** The ID of the target subscription. */
@@ -592,27 +592,27 @@ export interface PutDelegatedSubnetServiceDetailsRequest {
   /** The name of the resource. It must be a minimum of 3 characters, and a maximum of 63. */
   resourceName: string;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: PutDelegatedSubnetServiceDetailsRequestTagsMap;
+  tags?: PutDelegatedSubnetServiceDetailsRequestTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedSubnetPropertiesInput;
+  properties?: DelegatedSubnetPropertiesInput | undefined;
 }
 /** The resource tags. */
 export type PutDelegatedSubnetServiceDetailsResponseTagsMap = { [key: string]: string | undefined };
 export interface PutDelegatedSubnetServiceDetailsResponse {
   /** An identifier that represents the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: PutDelegatedSubnetServiceDetailsResponseTagsMap;
+  tags?: PutDelegatedSubnetServiceDetailsResponseTagsMap | undefined;
   /** Properties of the provision operation request. */
-  properties?: DelegatedSubnetProperties;
+  properties?: DelegatedSubnetProperties | undefined;
 }
 export type CreateControllerError = AzureOpError;
 /** Create a dnc controller */

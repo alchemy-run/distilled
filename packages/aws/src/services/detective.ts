@@ -211,53 +211,53 @@ export type DatasourcePackage =
   | (string & {});
 export type DatasourcePackageIngestState = "STARTED" | "STOPPED" | "DISABLED" | (string & {});
 export interface TimestampForCollection {
-  Timestamp?: Date;
+  Timestamp?: Date | undefined;
 }
 export type LastIngestStateChangeDates = {
-  [key in DatasourcePackageIngestState]?: TimestampForCollection;
+  [key in DatasourcePackageIngestState]?: TimestampForCollection | undefined;
 };
 export type DatasourcePackageIngestHistory = {
-  [key in DatasourcePackage]?: { [key: string]: TimestampForCollection | undefined };
+  [key in DatasourcePackage]?: { [key: string]: TimestampForCollection | undefined } | undefined;
 };
 export interface MembershipDatasources {
-  AccountId?: string;
-  GraphArn?: string;
-  DatasourcePackageIngestHistory?: {
-    [key: string]: { [key: string]: TimestampForCollection | undefined } | undefined;
-  };
+  AccountId?: string | undefined;
+  GraphArn?: string | undefined;
+  DatasourcePackageIngestHistory?:
+    | { [key: string]: { [key: string]: TimestampForCollection | undefined } | undefined }
+    | undefined;
 }
 export type MembershipDatasourcesList = MembershipDatasources[];
 export type UnprocessedReason = string;
 export interface UnprocessedAccount {
-  AccountId?: string;
-  Reason?: string;
+  AccountId?: string | undefined;
+  Reason?: string | undefined;
 }
 export type UnprocessedAccountList = UnprocessedAccount[];
 export interface BatchGetGraphMemberDatasourcesResponse {
-  MemberDatasources?: MembershipDatasources[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  MemberDatasources?: MembershipDatasources[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export type GraphArnList = string[];
 export interface BatchGetMembershipDatasourcesRequest {
   GraphArns: string[];
 }
 export interface UnprocessedGraph {
-  GraphArn?: string;
-  Reason?: string;
+  GraphArn?: string | undefined;
+  Reason?: string | undefined;
 }
 export type UnprocessedGraphList = UnprocessedGraph[];
 export interface BatchGetMembershipDatasourcesResponse {
-  MembershipDatasources?: MembershipDatasources[];
-  UnprocessedGraphs?: UnprocessedGraph[];
+  MembershipDatasources?: MembershipDatasources[] | undefined;
+  UnprocessedGraphs?: UnprocessedGraph[] | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateGraphRequest {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateGraphResponse {
-  GraphArn?: string;
+  GraphArn?: string | undefined;
 }
 export type EmailMessage = string | redacted.Redacted<string>;
 export type EmailAddress = string | redacted.Redacted<string>;
@@ -268,8 +268,8 @@ export interface Account {
 export type AccountList = Account[];
 export interface CreateMembersRequest {
   GraphArn: string;
-  Message?: string | redacted.Redacted<string>;
-  DisableEmailNotification?: boolean;
+  Message?: string | redacted.Redacted<string> | undefined;
+  DisableEmailNotification?: boolean | undefined;
   Accounts: Account[];
 }
 export type MemberStatus =
@@ -284,37 +284,41 @@ export type ByteValue = number;
 export type Percentage = number;
 export type InvitationType = "INVITATION" | "ORGANIZATION" | (string & {});
 export interface DatasourcePackageUsageInfo {
-  VolumeUsageInBytes?: number;
-  VolumeUsageUpdateTime?: Date;
+  VolumeUsageInBytes?: number | undefined;
+  VolumeUsageUpdateTime?: Date | undefined;
 }
 export type VolumeUsageByDatasourcePackage = {
-  [key in DatasourcePackage]?: DatasourcePackageUsageInfo;
+  [key in DatasourcePackage]?: DatasourcePackageUsageInfo | undefined;
 };
 export type DatasourcePackageIngestStates = {
-  [key in DatasourcePackage]?: DatasourcePackageIngestState;
+  [key in DatasourcePackage]?: DatasourcePackageIngestState | undefined;
 };
 export interface MemberDetail {
-  AccountId?: string;
-  EmailAddress?: string | redacted.Redacted<string>;
-  GraphArn?: string;
-  MasterId?: string;
-  AdministratorId?: string;
-  Status?: MemberStatus;
-  DisabledReason?: MemberDisabledReason;
-  InvitedTime?: Date;
-  UpdatedTime?: Date;
-  VolumeUsageInBytes?: number;
-  VolumeUsageUpdatedTime?: Date;
-  PercentOfGraphUtilization?: number;
-  PercentOfGraphUtilizationUpdatedTime?: Date;
-  InvitationType?: InvitationType;
-  VolumeUsageByDatasourcePackage?: { [key: string]: DatasourcePackageUsageInfo | undefined };
-  DatasourcePackageIngestStates?: { [key: string]: DatasourcePackageIngestState | undefined };
+  AccountId?: string | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  GraphArn?: string | undefined;
+  MasterId?: string | undefined;
+  AdministratorId?: string | undefined;
+  Status?: MemberStatus | undefined;
+  DisabledReason?: MemberDisabledReason | undefined;
+  InvitedTime?: Date | undefined;
+  UpdatedTime?: Date | undefined;
+  VolumeUsageInBytes?: number | undefined;
+  VolumeUsageUpdatedTime?: Date | undefined;
+  PercentOfGraphUtilization?: number | undefined;
+  PercentOfGraphUtilizationUpdatedTime?: Date | undefined;
+  InvitationType?: InvitationType | undefined;
+  VolumeUsageByDatasourcePackage?:
+    | { [key: string]: DatasourcePackageUsageInfo | undefined }
+    | undefined;
+  DatasourcePackageIngestStates?:
+    | { [key: string]: DatasourcePackageIngestState | undefined }
+    | undefined;
 }
 export type MemberDetailList = MemberDetail[];
 export interface CreateMembersResponse {
-  Members?: MemberDetail[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  Members?: MemberDetail[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export interface DeleteGraphRequest {
   GraphArn: string;
@@ -326,14 +330,14 @@ export interface DeleteMembersRequest {
   AccountIds: string[];
 }
 export interface DeleteMembersResponse {
-  AccountIds?: string[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  AccountIds?: string[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export interface DescribeOrganizationConfigurationRequest {
   GraphArn: string;
 }
 export interface DescribeOrganizationConfigurationResponse {
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface DisableOrganizationAdminAccountRequest {}
 export interface DisableOrganizationAdminAccountResponse {}
@@ -356,55 +360,55 @@ export type Status = "RUNNING" | "FAILED" | "SUCCESSFUL" | (string & {});
 export type Severity = "INFORMATIONAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
 export type State = "ACTIVE" | "ARCHIVED" | (string & {});
 export interface GetInvestigationResponse {
-  GraphArn?: string;
-  InvestigationId?: string;
-  EntityArn?: string;
-  EntityType?: EntityType;
-  CreatedTime?: Date;
-  ScopeStartTime?: Date;
-  ScopeEndTime?: Date;
-  Status?: Status;
-  Severity?: Severity;
-  State?: State;
+  GraphArn?: string | undefined;
+  InvestigationId?: string | undefined;
+  EntityArn?: string | undefined;
+  EntityType?: EntityType | undefined;
+  CreatedTime?: Date | undefined;
+  ScopeStartTime?: Date | undefined;
+  ScopeEndTime?: Date | undefined;
+  Status?: Status | undefined;
+  Severity?: Severity | undefined;
+  State?: State | undefined;
 }
 export interface GetMembersRequest {
   GraphArn: string;
   AccountIds: string[];
 }
 export interface GetMembersResponse {
-  MemberDetails?: MemberDetail[];
-  UnprocessedAccounts?: UnprocessedAccount[];
+  MemberDetails?: MemberDetail[] | undefined;
+  UnprocessedAccounts?: UnprocessedAccount[] | undefined;
 }
 export type PaginationToken = string;
 export type MemberResultsLimit = number;
 export interface ListDatasourcePackagesRequest {
   GraphArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DatasourcePackageIngestDetail {
-  DatasourcePackageIngestState?: DatasourcePackageIngestState;
-  LastIngestStateChange?: { [key: string]: TimestampForCollection | undefined };
+  DatasourcePackageIngestState?: DatasourcePackageIngestState | undefined;
+  LastIngestStateChange?: { [key: string]: TimestampForCollection | undefined } | undefined;
 }
 export type DatasourcePackageIngestDetails = {
-  [key in DatasourcePackage]?: DatasourcePackageIngestDetail;
+  [key in DatasourcePackage]?: DatasourcePackageIngestDetail | undefined;
 };
 export interface ListDatasourcePackagesResponse {
-  DatasourcePackages?: { [key: string]: DatasourcePackageIngestDetail | undefined };
-  NextToken?: string;
+  DatasourcePackages?: { [key: string]: DatasourcePackageIngestDetail | undefined } | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGraphsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Graph {
-  Arn?: string;
-  CreatedTime?: Date;
+  Arn?: string | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type GraphList = Graph[];
 export interface ListGraphsResponse {
-  GraphList?: Graph[];
-  NextToken?: string;
+  GraphList?: Graph[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IndicatorType =
   | "TTP_OBSERVED"
@@ -421,9 +425,9 @@ export type MaxResults = number;
 export interface ListIndicatorsRequest {
   GraphArn: string;
   InvestigationId: string;
-  IndicatorType?: IndicatorType;
-  NextToken?: string;
-  MaxResults?: number;
+  IndicatorType?: IndicatorType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Tactic = string;
 export type Technique = string;
@@ -433,74 +437,74 @@ export type APIName = string;
 export type APISuccessCount = number;
 export type APIFailureCount = number;
 export interface TTPsObservedDetail {
-  Tactic?: string;
-  Technique?: string;
-  Procedure?: string;
-  IpAddress?: string;
-  APIName?: string;
-  APISuccessCount?: number;
-  APIFailureCount?: number;
+  Tactic?: string | undefined;
+  Technique?: string | undefined;
+  Procedure?: string | undefined;
+  IpAddress?: string | undefined;
+  APIName?: string | undefined;
+  APISuccessCount?: number | undefined;
+  APIFailureCount?: number | undefined;
 }
 export type Location = string;
 export type HourlyTimeDelta = number;
 export interface ImpossibleTravelDetail {
-  StartingIpAddress?: string;
-  EndingIpAddress?: string;
-  StartingLocation?: string;
-  EndingLocation?: string;
-  HourlyTimeDelta?: number;
+  StartingIpAddress?: string | undefined;
+  EndingIpAddress?: string | undefined;
+  StartingLocation?: string | undefined;
+  EndingLocation?: string | undefined;
+  HourlyTimeDelta?: number | undefined;
 }
 export type Reason = "AWS_THREAT_INTELLIGENCE" | (string & {});
 export interface FlaggedIpAddressDetail {
-  IpAddress?: string;
-  Reason?: Reason;
+  IpAddress?: string | undefined;
+  Reason?: Reason | undefined;
 }
 export type IsNewForEntireAccount = boolean;
 export interface NewGeolocationDetail {
-  Location?: string;
-  IpAddress?: string;
-  IsNewForEntireAccount?: boolean;
+  Location?: string | undefined;
+  IpAddress?: string | undefined;
+  IsNewForEntireAccount?: boolean | undefined;
 }
 export type Aso = string;
 export interface NewAsoDetail {
-  Aso?: string;
-  IsNewForEntireAccount?: boolean;
+  Aso?: string | undefined;
+  IsNewForEntireAccount?: boolean | undefined;
 }
 export type UserAgent = string;
 export interface NewUserAgentDetail {
-  UserAgent?: string;
-  IsNewForEntireAccount?: boolean;
+  UserAgent?: string | undefined;
+  IsNewForEntireAccount?: boolean | undefined;
 }
 export type Type = string;
 export interface RelatedFindingDetail {
-  Arn?: string;
-  Type?: string;
-  IpAddress?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  IpAddress?: string | undefined;
 }
 export type Id = string;
 export interface RelatedFindingGroupDetail {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface IndicatorDetail {
-  TTPsObservedDetail?: TTPsObservedDetail;
-  ImpossibleTravelDetail?: ImpossibleTravelDetail;
-  FlaggedIpAddressDetail?: FlaggedIpAddressDetail;
-  NewGeolocationDetail?: NewGeolocationDetail;
-  NewAsoDetail?: NewAsoDetail;
-  NewUserAgentDetail?: NewUserAgentDetail;
-  RelatedFindingDetail?: RelatedFindingDetail;
-  RelatedFindingGroupDetail?: RelatedFindingGroupDetail;
+  TTPsObservedDetail?: TTPsObservedDetail | undefined;
+  ImpossibleTravelDetail?: ImpossibleTravelDetail | undefined;
+  FlaggedIpAddressDetail?: FlaggedIpAddressDetail | undefined;
+  NewGeolocationDetail?: NewGeolocationDetail | undefined;
+  NewAsoDetail?: NewAsoDetail | undefined;
+  NewUserAgentDetail?: NewUserAgentDetail | undefined;
+  RelatedFindingDetail?: RelatedFindingDetail | undefined;
+  RelatedFindingGroupDetail?: RelatedFindingGroupDetail | undefined;
 }
 export interface Indicator {
-  IndicatorType?: IndicatorType;
-  IndicatorDetail?: IndicatorDetail;
+  IndicatorType?: IndicatorType | undefined;
+  IndicatorDetail?: IndicatorDetail | undefined;
 }
 export type Indicators = Indicator[];
 export interface ListIndicatorsResponse {
-  GraphArn?: string;
-  InvestigationId?: string;
-  NextToken?: string;
-  Indicators?: Indicator[];
+  GraphArn?: string | undefined;
+  InvestigationId?: string | undefined;
+  NextToken?: string | undefined;
+  Indicators?: Indicator[] | undefined;
 }
 export type Value = string;
 export interface StringFilter {
@@ -511,75 +515,75 @@ export interface DateFilter {
   EndInclusive: Date;
 }
 export interface FilterCriteria {
-  Severity?: StringFilter;
-  Status?: StringFilter;
-  State?: StringFilter;
-  EntityArn?: StringFilter;
-  CreatedTime?: DateFilter;
+  Severity?: StringFilter | undefined;
+  Status?: StringFilter | undefined;
+  State?: StringFilter | undefined;
+  EntityArn?: StringFilter | undefined;
+  CreatedTime?: DateFilter | undefined;
 }
 export type Field = "SEVERITY" | "STATUS" | "CREATED_TIME" | (string & {});
 export type SortOrder = "ASC" | "DESC" | (string & {});
 export interface SortCriteria {
-  Field?: Field;
-  SortOrder?: SortOrder;
+  Field?: Field | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export interface ListInvestigationsRequest {
   GraphArn: string;
-  NextToken?: string;
-  MaxResults?: number;
-  FilterCriteria?: FilterCriteria;
-  SortCriteria?: SortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  FilterCriteria?: FilterCriteria | undefined;
+  SortCriteria?: SortCriteria | undefined;
 }
 export interface InvestigationDetail {
-  InvestigationId?: string;
-  Severity?: Severity;
-  Status?: Status;
-  State?: State;
-  CreatedTime?: Date;
-  EntityArn?: string;
-  EntityType?: EntityType;
+  InvestigationId?: string | undefined;
+  Severity?: Severity | undefined;
+  Status?: Status | undefined;
+  State?: State | undefined;
+  CreatedTime?: Date | undefined;
+  EntityArn?: string | undefined;
+  EntityType?: EntityType | undefined;
 }
 export type InvestigationDetails = InvestigationDetail[];
 export interface ListInvestigationsResponse {
-  InvestigationDetails?: InvestigationDetail[];
-  NextToken?: string;
+  InvestigationDetails?: InvestigationDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListInvitationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListInvitationsResponse {
-  Invitations?: MemberDetail[];
-  NextToken?: string;
+  Invitations?: MemberDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMembersRequest {
   GraphArn: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListMembersResponse {
-  MemberDetails?: MemberDetail[];
-  NextToken?: string;
+  MemberDetails?: MemberDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOrganizationAdminAccountsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface Administrator {
-  AccountId?: string;
-  GraphArn?: string;
-  DelegationTime?: Date;
+  AccountId?: string | undefined;
+  GraphArn?: string | undefined;
+  DelegationTime?: Date | undefined;
 }
 export type AdministratorList = Administrator[];
 export interface ListOrganizationAdminAccountsResponse {
-  Administrators?: Administrator[];
-  NextToken?: string;
+  Administrators?: Administrator[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RejectInvitationRequest {
   GraphArn: string;
@@ -592,7 +596,7 @@ export interface StartInvestigationRequest {
   ScopeEndTime: Date;
 }
 export interface StartInvestigationResponse {
-  InvestigationId?: string;
+  InvestigationId?: string | undefined;
 }
 export interface StartMonitoringMemberRequest {
   GraphArn: string;
@@ -624,7 +628,7 @@ export interface UpdateInvestigationStateRequest {
 export interface UpdateInvestigationStateResponse {}
 export interface UpdateOrganizationConfigurationRequest {
   GraphArn: string;
-  AutoEnable?: boolean;
+  AutoEnable?: boolean | undefined;
 }
 export interface UpdateOrganizationConfigurationResponse {}
 export type ErrorMessage = string;

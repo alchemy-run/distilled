@@ -36,7 +36,7 @@ export interface ListPermissionsRequest {
   /** Tag of the resource to check against: an account (`biz_`), product (`prod_`), experience (`exp_`), or app (`app_`). A resource the credential cannot see is reported as granted nothing rather than as an error. */
   resource_id: string;
   /** Comma-separated permission actions to check, for example `stats:read,payment:basic:read`. Every action is returned when omitted. */
-  actions?: string;
+  actions?: string | undefined;
 }
 /** A permission action identifier, such as `company:basic:read`. */
 export type PermissionAction =

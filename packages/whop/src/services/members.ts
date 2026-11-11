@@ -100,18 +100,18 @@ export interface ListMemberLogsRequest {
   /** Member ID (`mber_` tag). */
   id: string;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export interface ListMemberLogsResponseDataItemActor {
   id: string;
-  name?: string | null;
-  username?: string | null;
+  name?: string | null | undefined;
+  username?: string | null | undefined;
 }
 export interface ListMemberLogsResponseDataItem {
   action: string | null;
@@ -140,31 +140,31 @@ export type ListMembersRequestOrder =
 export type ListMembersRequestDirection = "asc" | "desc";
 export interface ListMembersRequest {
   /** The account to list members for (`biz_` tag). Defaults to the account the credential acts as. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Filter by what the member can reach on the account. */
-  access_level?: ListMembersRequestAccessLevel | (string & {});
+  access_level?: ListMembersRequestAccessLevel | (string & {}) | undefined;
   /** Filter by whether the member is still part of the account. */
-  status?: ListMembersRequestStatus | (string & {});
+  status?: ListMembersRequestStatus | (string & {}) | undefined;
   /** Only return members whose users match these `user_` identifiers. */
-  user_ids?: ListMembersRequestUserIdsList;
+  user_ids?: ListMembersRequestUserIdsList | undefined;
   /** Search members by name or username. An exact email address also matches when the credential holds the member:email:read scope. */
-  query?: string;
+  query?: string | undefined;
   /** Only members who joined after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only members who joined before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Sort field. */
-  order?: ListMembersRequestOrder | (string & {});
+  order?: ListMembersRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListMembersRequestDirection | (string & {});
+  direction?: ListMembersRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListMembersResponseDataList = Array<Member>;
 export type ListMembersResponsePageInfo = ListMemberLogsResponsePageInfo;

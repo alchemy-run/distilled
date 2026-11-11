@@ -44,20 +44,20 @@ export interface AddFilesRequest {
 export interface AddFilesResponse {}
 export interface AddRemoteRequest {
   /** Fetch fetches from the remote immediately after adding it. */
-  fetch?: boolean;
+  fetch?: boolean | undefined;
   name: string;
   /** Overwrite replaces an existing remote with the same name. */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
   path: string;
   url: string;
 }
 export interface AddRemoteResponse {}
 export interface AuthenticateRequest {
   /** Host defaults to github.com. */
-  host?: string;
+  host?: string | undefined;
   password: string | Redacted.Redacted<string>;
   /** Protocol defaults to https. */
-  protocol?: string;
+  protocol?: string | undefined;
   username: string;
 }
 export interface AuthenticateResponse {}
@@ -67,20 +67,20 @@ export interface CheckoutBranchRequest {
 }
 export interface CheckoutBranchResponse {}
 export interface CloneRepositoryRequest {
-  branch?: string;
-  commit_id?: string;
+  branch?: string | undefined;
+  commit_id?: string | undefined;
   /** Depth creates a shallow clone truncated to the given number of commits. */
-  depth?: number;
+  depth?: number | undefined;
   /** Skip TLS certificate verification for this clone. Defaults to false (verify). Set to true ONLY for trusted internal Git servers with self-signed or private-CA certs; credentials, if supplied, will be transmitted over an unverified TLS connection and are exposed to any MITM on the route. */
-  insecure_skip_tls?: boolean;
-  password?: string | Redacted.Redacted<string>;
+  insecure_skip_tls?: boolean | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   path: string;
   url: string;
-  username?: string;
+  username?: string | undefined;
 }
 export interface CloneRepositoryResponse {}
 export interface CommitChangesRequest {
-  allow_empty?: boolean;
+  allow_empty?: boolean | undefined;
   author: string;
   email: string;
   message: string;
@@ -93,9 +93,9 @@ export interface ConfigureUserRequest {
   email: string;
   name: string;
   /** Path is the repository path, required when scope is "local". */
-  path?: string;
+  path?: string | undefined;
   /** Scope is one of global (default), local or system. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface ConfigureUserResponse {}
 export interface CreateBranchRequest {
@@ -125,13 +125,13 @@ export interface GetGitConfigRequest {
   /** Config key (e.g. user.name) */
   key: string;
   /** Repository path (required for local scope) */
-  path?: string;
+  path?: string | undefined;
   /** Config scope: global (default), local or system */
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface GitConfigResponse {
   /** Value is the config value, null when the key is not set. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetStatusRequest {
   /** Repository path */
@@ -154,21 +154,21 @@ export interface FileStatus {
 }
 export type GitStatusFileStatusList = Array<FileStatus>;
 export interface GitStatus {
-  ahead?: number;
-  behind?: number;
-  branchPublished?: boolean;
+  ahead?: number | undefined;
+  behind?: number | undefined;
+  branchPublished?: boolean | undefined;
   currentBranch: string;
   /** Detached is true when HEAD is not on a branch (detached HEAD state). */
-  detached?: boolean;
+  detached?: boolean | undefined;
   fileStatus: GitStatusFileStatusList;
   /** Upstream is the upstream tracking branch (e.g. "origin/main"), empty when unset. */
-  upstream?: string;
+  upstream?: string | undefined;
 }
 export interface InitRepositoryRequest {
   /** Bare creates a repository without a working tree. */
-  bare?: boolean;
+  bare?: boolean | undefined;
   /** InitialBranch sets the name of the initial branch. */
-  initial_branch?: string;
+  initial_branch?: string | undefined;
   path: string;
 }
 export interface InitRepositoryResponse {}
@@ -180,7 +180,7 @@ export type ListBranchResponseBranchesList = Array<string>;
 export interface ListBranchResponse {
   branches: ListBranchResponseBranchesList;
   /** Current is the name of the checked out branch (empty when HEAD is detached). */
-  current?: string;
+  current?: string | undefined;
 }
 export interface ListRemotesRequest {
   /** Repository path */
@@ -196,36 +196,36 @@ export interface ListRemotesResponse {
 }
 export interface PullChangesRequest {
   /** Branch to pull (defaults to the current branch's upstream). */
-  branch?: string;
-  password?: string | Redacted.Redacted<string>;
+  branch?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   path: string;
   /** Remote to pull from (defaults to "origin"). */
-  remote?: string;
-  username?: string;
+  remote?: string | undefined;
+  username?: string | undefined;
 }
 export interface PullChangesResponse {}
 export interface PushChangesRequest {
   /** Branch to push (defaults to the current branch). */
-  branch?: string;
-  password?: string | Redacted.Redacted<string>;
+  branch?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   path: string;
   /** Remote to push to (defaults to "origin"). */
-  remote?: string;
+  remote?: string | undefined;
   /** SetUpstream records the pushed branch as the upstream tracking branch. */
-  set_upstream?: boolean;
-  username?: string;
+  set_upstream?: boolean | undefined;
+  username?: string | undefined;
 }
 export interface PushChangesResponse {}
 /** Files constrains the reset to the given paths. */
 export type ResetChangesRequestFilesList = Array<string>;
 export interface ResetChangesRequest {
   /** Files constrains the reset to the given paths. */
-  files?: ResetChangesRequestFilesList;
+  files?: ResetChangesRequestFilesList | undefined;
   /** Mode is one of soft, mixed (default), hard, merge or keep. */
-  mode?: string;
+  mode?: string | undefined;
   path: string;
   /** Target is the revision to reset to (defaults to HEAD). */
-  target?: string;
+  target?: string | undefined;
 }
 export interface ResetChangesResponse {}
 export type RestoreFilesRequestFilesList = Array<string>;
@@ -233,19 +233,19 @@ export interface RestoreFilesRequest {
   files: RestoreFilesRequestFilesList;
   path: string;
   /** Source restores file contents from the given revision instead of the index. */
-  source?: string;
+  source?: string | undefined;
   /** Staged restores the staging index for the given files. */
-  staged?: boolean;
+  staged?: boolean | undefined;
   /** Worktree restores the working tree for the given files. */
-  worktree?: boolean;
+  worktree?: boolean | undefined;
 }
 export interface RestoreFilesResponse {}
 export interface SetGitConfigRequest {
   key: string;
   /** Path is the repository path, required when scope is "local". */
-  path?: string;
+  path?: string | undefined;
   /** Scope is one of global (default), local or system. */
-  scope?: string;
+  scope?: string | undefined;
   value: string;
 }
 export interface SetGitConfigResponse {}

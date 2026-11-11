@@ -18,9 +18,12 @@
  * - `@distilled.cloud/core/grpc-transport-cloudflare-sockets` speaks HTTP/1.1
  *   over a `cloudflare:sockets` TLS socket, for a Cloudflare Worker calling a
  *   gRPC server that is itself behind Cloudflare (a Worker's `fetch` to such
- *   a site takes Cloudflare's internal path, which resets gRPC upstreams).
+ *   a site takes Cloudflare's internal path, which resets gRPC upstreams);
+ * - `@distilled.cloud/core/grpc-transport-cloudflare-http2` speaks HTTP/2
+ *   over a `cloudflare:sockets` socket, for a Cloudflare Worker calling a
+ *   server that offers nothing else (workerd has no working `node:http2`).
  *
- * Neither is imported by this module, so a bundle only carries the one it
+ * None is imported by this module, so a bundle only carries the ones it
  * provides.
  */
 import * as Context from "effect/Context";
@@ -80,14 +83,18 @@ export const respond = (
     readonly reliableTrailers?: boolean;
   },
 ): HttpClientResponse.HttpClientResponse => {
+  // `Response` refuses a body on these, so the transport's is let go.
+  const bodiless = reply.status === 204 || reply.status === 205 || reply.status === 304;
+  if (bodiless) void reply.body.cancel().catch(() => undefined);
+  const response = HttpClientResponse.fromWeb(
+    request,
+    new Response(bodiless ? null : reply.body, { status: reply.status, headers: reply.headers }),
+  );
   trailersByRequest.set(request, {
     trailers: reply.trailers,
     reliable: reply.reliableTrailers ?? true,
   });
-  return HttpClientResponse.fromWeb(
-    request,
-    new Response(reply.body, { status: reply.status, headers: reply.headers }),
-  );
+  return response;
 };
 
 /**
@@ -107,5 +114,5 @@ export const trailersOf = (
   const entry = trailersByRequest.get(response.request);
   return entry === undefined
     ? Effect.succeed({})
-    : Effect.promise(() => entry.trailers.catch((): Trailers => ({})));
+    : Effect.tryPromise(() => entry.trailers).pipe(Effect.orElseSucceed((): Trailers => ({})));
 };

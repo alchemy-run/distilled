@@ -24,28 +24,28 @@ const TELEMETRY = {
 } as const;
 
 export interface AuditLogCountRequest {
-  q?: string;
+  q?: string | undefined;
   /** Search query in the audit log search syntax */
-  oldestMs?: string;
+  oldestMs?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string;
+  newestMs?: string | undefined;
 }
 export interface AuditLogCountResponse {
   count: string;
 }
 export interface AuditLogPlanRequest {
-  q?: string;
+  q?: string | undefined;
   /** Search query in the audit log search syntax */
-  oldestMs?: string;
+  oldestMs?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string;
+  newestMs?: string | undefined;
   /** Newest time bound in Unix milliseconds, exclusive */
-  bucketSize?: number;
+  bucketSize?: number | undefined;
 }
 /** A position in the results. Pass it back unchanged. */
 export interface AuditLogCursor {
-  eventAtDesc?: string;
-  id?: string;
+  eventAtDesc?: string | undefined;
+  id?: string | undefined;
 }
 export type AuditLogCursorList = Array<AuditLogCursor>;
 export interface AuditLogPlanResponse {
@@ -58,25 +58,21 @@ export interface GetAuditLogSettingsResponse {
   pageSize: number;
   maxConcurrentRequests: number;
   maxBufferedBuckets: number;
-  maxAttempts: number;
-  retryDelaySecs: number;
-  retryBackoffFactor: number;
   requestTimeoutSecs: number;
   planTimeoutSecs: number;
-  planMaxAttempts: number;
 }
 export interface ListAuditLogRequest {
-  q?: string;
+  q?: string | undefined;
   /** Search query in the audit log search syntax */
-  oldestMs?: string;
+  oldestMs?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string;
+  newestMs?: string | undefined;
   /** Newest time bound in Unix milliseconds, exclusive */
-  limit?: number;
+  limit?: number | undefined;
   /** Maximum entries to return; 0 selects the default */
-  oldestCursor?: AuditLogCursor;
+  oldestCursor?: AuditLogCursor | undefined;
   /** Oldest cursor bound, inclusive; omit to read to oldest_ms */
-  newestCursor?: AuditLogCursor;
+  newestCursor?: AuditLogCursor | undefined;
 }
 export interface AuditLogActor {
   type: string;
@@ -100,10 +96,10 @@ export interface AuditLogContext {
 }
 export interface AuditLogEntry {
   id: string;
-  actor?: AuditLogActor;
+  actor?: AuditLogActor | undefined;
   action: string;
   targets: AuditLogTargetList;
-  context?: AuditLogContext;
+  context?: AuditLogContext | undefined;
   eventAt: string;
   /** ISO 8601 timestamp */
   status: string;
@@ -114,7 +110,7 @@ export type AuditLogEntryList = Array<AuditLogEntry>;
 export interface ListAuditLogResponse {
   items: AuditLogEntryList;
   /** Newest first */
-  nextCursor?: AuditLogCursor;
+  nextCursor?: AuditLogCursor | undefined;
 }
 export type AuditLogCountError = ModalOpError;
 /** Audit logs */
@@ -255,12 +251,8 @@ function __c3(j: number): any {
           pageSize: S.Number,
           maxConcurrentRequests: S.Number,
           maxBufferedBuckets: S.Number,
-          maxAttempts: S.Number,
-          retryDelaySecs: S.Number,
-          retryBackoffFactor: S.Number,
           requestTimeoutSecs: S.Number,
           planTimeoutSecs: S.Number,
-          planMaxAttempts: S.Number,
         }),
       ).annotate({ identifier: "GetAuditLogSettingsResponse" });
   }

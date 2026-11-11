@@ -193,19 +193,21 @@ export interface AccountSummary {
   Name: string;
 }
 export type Participant =
-  | { PartnerProfile: PartnerProfileSummary; SellerProfile?: never; Account?: never }
-  | { PartnerProfile?: never; SellerProfile: SellerProfileSummary; Account?: never }
-  | { PartnerProfile?: never; SellerProfile?: never; Account: AccountSummary };
+  | { PartnerProfile: PartnerProfileSummary; SellerProfile?: undefined; Account?: undefined }
+  | { PartnerProfile?: undefined; SellerProfile: SellerProfileSummary; Account?: undefined }
+  | { PartnerProfile?: undefined; SellerProfile?: undefined; Account: AccountSummary };
 export interface ConnectionTypeDetail {
   CreatedAt: Date;
   InviterEmail: string;
   InviterName: string | redacted.Redacted<string>;
   Status: ConnectionTypeStatus;
-  CanceledAt?: Date;
-  CanceledBy?: string;
+  CanceledAt?: Date | undefined;
+  CanceledBy?: string | undefined;
   OtherParticipant: Participant;
 }
-export type ConnectionTypeDetailMap = { [key in ConnectionType]?: ConnectionTypeDetail };
+export type ConnectionTypeDetailMap = {
+  [key in ConnectionType]?: ConnectionTypeDetail | undefined;
+};
 export interface Connection {
   Catalog: string;
   Id: string;
@@ -222,7 +224,7 @@ export type EmailVerificationCode = string | redacted.Redacted<string>;
 export interface AssociateAwsTrainingCertificationEmailDomainRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Email: string;
   EmailVerificationCode: string | redacted.Redacted<string>;
 }
@@ -262,11 +264,11 @@ export interface CancelConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -278,7 +280,7 @@ export type ProfileTaskId = string;
 export interface CancelProfileUpdateTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   TaskId: string;
 }
 export type PartnerArn = string;
@@ -357,8 +359,8 @@ export interface TaskDetails {
   PrimarySolutionType: PrimarySolutionType;
   IndustrySegments: IndustrySegment[];
   TranslationSourceLocale: string;
-  LocalizedContents?: LocalizedContent[];
-  Headquarters?: Headquarters;
+  LocalizedContents?: LocalizedContent[] | undefined;
+  Headquarters?: Headquarters | undefined;
 }
 export type ProfileTaskStatus = "IN_PROGRESS" | "CANCELED" | "SUCCEEDED" | "FAILED" | (string & {});
 export type ProfileValidationErrorReason =
@@ -384,8 +386,8 @@ export interface CancelProfileUpdateTaskResponse {
   TaskDetails: TaskDetails;
   StartedAt: Date;
   Status: ProfileTaskStatus;
-  EndedAt?: Date;
-  ErrorDetailList?: ErrorDetail[];
+  EndedAt?: Date | undefined;
+  ErrorDetailList?: ErrorDetail[] | undefined;
 }
 export interface CreateConnectionInvitationRequest {
   Catalog: string;
@@ -400,11 +402,11 @@ export interface CreateConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -427,12 +429,12 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreatePartnerRequest {
   Catalog: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   LegalName: string | redacted.Redacted<string>;
   PrimarySolutionType: PrimarySolutionType;
   AllianceLeadContact: AllianceLeadContact;
   EmailVerificationCode: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PartnerProfile {
   DisplayName: string;
@@ -442,9 +444,9 @@ export interface PartnerProfile {
   PrimarySolutionType: PrimarySolutionType;
   IndustrySegments: IndustrySegment[];
   TranslationSourceLocale: string;
-  LocalizedContents?: LocalizedContent[];
-  Headquarters?: Headquarters;
-  ProfileId?: string;
+  LocalizedContents?: LocalizedContent[] | undefined;
+  Headquarters?: Headquarters | undefined;
+  ProfileId?: string | undefined;
 }
 export type DomainName = string;
 export interface PartnerDomain {
@@ -459,13 +461,13 @@ export interface CreatePartnerResponse {
   LegalName: string | redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
-  AwsTrainingCertificationEmailDomains?: PartnerDomain[];
+  AwsTrainingCertificationEmailDomains?: PartnerDomain[] | undefined;
   AllianceLeadContact: AllianceLeadContact;
 }
 export interface DisassociateAwsTrainingCertificationEmailDomainRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   DomainName: string;
 }
 export interface DisassociateAwsTrainingCertificationEmailDomainResponse {}
@@ -499,11 +501,11 @@ export interface GetConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -522,7 +524,7 @@ export interface GetConnectionPreferencesResponse {
   Catalog: string;
   Arn: string;
   AccessType: AccessType;
-  ExcludedParticipantIds?: string[];
+  ExcludedParticipantIds?: string[] | undefined;
   UpdatedAt: Date;
   Revision: number;
 }
@@ -537,7 +539,7 @@ export interface GetPartnerResponse {
   LegalName: string | redacted.Redacted<string>;
   CreatedAt: Date;
   Profile: PartnerProfile;
-  AwsTrainingCertificationEmailDomains?: PartnerDomain[];
+  AwsTrainingCertificationEmailDomains?: PartnerDomain[] | undefined;
 }
 export interface GetProfileUpdateTaskRequest {
   Catalog: string;
@@ -551,8 +553,8 @@ export interface GetProfileUpdateTaskResponse {
   TaskDetails: TaskDetails;
   StartedAt: Date;
   Status: ProfileTaskStatus;
-  EndedAt?: Date;
-  ErrorDetailList?: ErrorDetail[];
+  EndedAt?: Date | undefined;
+  ErrorDetailList?: ErrorDetail[] | undefined;
 }
 export interface GetProfileVisibilityRequest {
   Catalog: string;
@@ -572,8 +574,8 @@ export interface GetQualificationsAssociationDetailsRequest {
 }
 export type QualificationsAssociationStatus = "ASSOCIATED" | "NOT_ASSOCIATED" | (string & {});
 export interface QualificationsAssociationPartner {
-  ProfileId?: string;
-  AccountId?: string;
+  ProfileId?: string | undefined;
+  AccountId?: string | undefined;
 }
 export type AssociatedPartnerList = QualificationsAssociationPartner[];
 export interface GetQualificationsAssociationDetailsResponse {
@@ -581,9 +583,9 @@ export interface GetQualificationsAssociationDetailsResponse {
   Arn: string;
   Id: string;
   Status: QualificationsAssociationStatus;
-  PrimaryPartner?: QualificationsAssociationPartner;
-  AssociatedPartners?: QualificationsAssociationPartner[];
-  UpdatedAt?: Date;
+  PrimaryPartner?: QualificationsAssociationPartner | undefined;
+  AssociatedPartners?: QualificationsAssociationPartner[] | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetQualificationsAssociationTaskRequest {
   Catalog: string;
@@ -599,7 +601,7 @@ export interface GetQualificationsAssociationTaskResponse {
   Status: QualificationsAssociationTaskStatus;
   PrimaryPartner: QualificationsAssociationPartner;
   StartedAt: Date;
-  EndedAt?: Date;
+  EndedAt?: Date | undefined;
 }
 export interface GetQualificationsDisassociationTaskRequest {
   Catalog: string;
@@ -615,7 +617,7 @@ export interface GetQualificationsDisassociationTaskResponse {
   Status: QualificationsDisassociationTaskStatus;
   AssociatedPartner: QualificationsAssociationPartner;
   StartedAt: Date;
-  EndedAt?: Date;
+  EndedAt?: Date | undefined;
 }
 export type VerificationType = "BUSINESS_VERIFICATION" | "REGISTRANT_VERIFICATION" | (string & {});
 export interface GetVerificationRequest {
@@ -636,13 +638,13 @@ export interface BusinessVerificationDetails {
   LegalName: string | redacted.Redacted<string>;
   RegistrationId: string | redacted.Redacted<string>;
   CountryCode: string;
-  JurisdictionOfIncorporation?: string;
+  JurisdictionOfIncorporation?: string | undefined;
 }
 export type CompletionUrl = string;
 export interface BusinessVerificationResponse {
   BusinessVerificationDetails: BusinessVerificationDetails;
-  CompletionUrl?: string;
-  CompletionUrlExpiresAt?: Date;
+  CompletionUrl?: string | undefined;
+  CompletionUrlExpiresAt?: Date | undefined;
 }
 export interface RegistrantVerificationResponse {
   CompletionUrl: string;
@@ -651,40 +653,40 @@ export interface RegistrantVerificationResponse {
 export type VerificationResponseDetails =
   | {
       BusinessVerificationResponse: BusinessVerificationResponse;
-      RegistrantVerificationResponse?: never;
+      RegistrantVerificationResponse?: undefined;
     }
   | {
-      BusinessVerificationResponse?: never;
+      BusinessVerificationResponse?: undefined;
       RegistrantVerificationResponse: RegistrantVerificationResponse;
     };
 export interface GetVerificationResponse {
   VerificationType: VerificationType;
   VerificationStatus: VerificationStatus;
-  VerificationStatusReason?: string;
+  VerificationStatusReason?: string | undefined;
   VerificationResponseDetails: VerificationResponseDetails;
   StartedAt: Date;
-  CompletedAt?: Date;
+  CompletedAt?: Date | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListConnectionInvitationsRequest {
   Catalog: string;
-  NextToken?: string;
-  ConnectionType?: ConnectionType;
-  MaxResults?: number;
-  OtherParticipantIdentifiers?: string[];
-  ParticipantType?: ParticipantType;
-  Status?: InvitationStatus;
+  NextToken?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  MaxResults?: number | undefined;
+  OtherParticipantIdentifiers?: string[] | undefined;
+  ParticipantType?: ParticipantType | undefined;
+  Status?: InvitationStatus | undefined;
 }
 export interface ConnectionInvitationSummary {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -692,21 +694,23 @@ export interface ConnectionInvitationSummary {
 export type ConnectionInvitationSummaryList = ConnectionInvitationSummary[];
 export interface ListConnectionInvitationsResponse {
   ConnectionInvitationSummaries: ConnectionInvitationSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ConnectionTypeFilter = string;
 export interface ListConnectionsRequest {
   Catalog: string;
-  NextToken?: string;
-  ConnectionType?: string;
-  MaxResults?: number;
-  OtherParticipantIdentifiers?: string[];
+  NextToken?: string | undefined;
+  ConnectionType?: string | undefined;
+  MaxResults?: number | undefined;
+  OtherParticipantIdentifiers?: string[] | undefined;
 }
 export interface ConnectionTypeSummary {
   Status: ConnectionTypeStatus;
   OtherParticipant: Participant;
 }
-export type ConnectionTypeSummaryMap = { [key in ConnectionType]?: ConnectionTypeSummary };
+export type ConnectionTypeSummaryMap = {
+  [key in ConnectionType]?: ConnectionTypeSummary | undefined;
+};
 export interface ConnectionSummary {
   Catalog: string;
   Id: string;
@@ -718,11 +722,11 @@ export interface ConnectionSummary {
 export type ConnectionSummaryList = ConnectionSummary[];
 export interface ListConnectionsResponse {
   ConnectionSummaries: ConnectionSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListPartnersRequest {
   Catalog: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PartnerSummary {
   Catalog: string;
@@ -734,7 +738,7 @@ export interface PartnerSummary {
 export type PartnerSummaryList = PartnerSummary[];
 export interface ListPartnersResponse {
   PartnerSummaryList: PartnerSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -742,13 +746,13 @@ export interface ListTagsForResourceRequest {
 }
 export interface ListTagsForResourceResponse {
   ResourceArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutAllianceLeadContactRequest {
   Catalog: string;
   Identifier: string;
   AllianceLeadContact: AllianceLeadContact;
-  EmailVerificationCode?: string | redacted.Redacted<string>;
+  EmailVerificationCode?: string | redacted.Redacted<string> | undefined;
 }
 export interface PutAllianceLeadContactResponse {
   Catalog: string;
@@ -772,17 +776,17 @@ export interface RejectConnectionInvitationRequest {
   Catalog: string;
   Identifier: string;
   ClientToken: string;
-  Reason?: string;
+  Reason?: string | undefined;
 }
 export interface RejectConnectionInvitationResponse {
   Catalog: string;
   Id: string;
   Arn: string;
-  ConnectionId?: string;
+  ConnectionId?: string | undefined;
   ConnectionType: ConnectionType;
   CreatedAt: Date;
   UpdatedAt: Date;
-  ExpiresAt?: Date;
+  ExpiresAt?: Date | undefined;
   OtherParticipantIdentifier: string;
   ParticipantType: ParticipantType;
   Status: InvitationStatus;
@@ -798,7 +802,7 @@ export interface SendEmailVerificationCodeResponse {}
 export interface StartProfileUpdateTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   TaskDetails: TaskDetails;
 }
 export interface StartProfileUpdateTaskResponse {
@@ -809,13 +813,13 @@ export interface StartProfileUpdateTaskResponse {
   TaskDetails: TaskDetails;
   StartedAt: Date;
   Status: ProfileTaskStatus;
-  EndedAt?: Date;
-  ErrorDetailList?: ErrorDetail[];
+  EndedAt?: Date | undefined;
+  ErrorDetailList?: ErrorDetail[] | undefined;
 }
 export interface StartQualificationsAssociationTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   PrimaryPartner: QualificationsAssociationPartner;
 }
 export interface StartQualificationsAssociationTaskResponse {
@@ -830,7 +834,7 @@ export interface StartQualificationsAssociationTaskResponse {
 export interface StartQualificationsDisassociationTaskRequest {
   Catalog: string;
   Identifier: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   AssociatedPartner: QualificationsAssociationPartner;
 }
 export interface StartQualificationsDisassociationTaskResponse {
@@ -846,23 +850,23 @@ export interface RegistrantVerificationDetails {}
 export type VerificationDetails =
   | {
       BusinessVerificationDetails: BusinessVerificationDetails;
-      RegistrantVerificationDetails?: never;
+      RegistrantVerificationDetails?: undefined;
     }
   | {
-      BusinessVerificationDetails?: never;
+      BusinessVerificationDetails?: undefined;
       RegistrantVerificationDetails: RegistrantVerificationDetails;
     };
 export interface StartVerificationRequest {
-  ClientToken?: string;
-  VerificationDetails?: VerificationDetails;
+  ClientToken?: string | undefined;
+  VerificationDetails?: VerificationDetails | undefined;
 }
 export interface StartVerificationResponse {
   VerificationType: VerificationType;
   VerificationStatus: VerificationStatus;
-  VerificationStatusReason?: string;
+  VerificationStatusReason?: string | undefined;
   VerificationResponseDetails: VerificationResponseDetails;
   StartedAt: Date;
-  CompletedAt?: Date;
+  CompletedAt?: Date | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -879,13 +883,13 @@ export interface UpdateConnectionPreferencesRequest {
   Catalog: string;
   Revision: number;
   AccessType: AccessType;
-  ExcludedParticipantIdentifiers?: string[];
+  ExcludedParticipantIdentifiers?: string[] | undefined;
 }
 export interface UpdateConnectionPreferencesResponse {
   Catalog: string;
   Arn: string;
   AccessType: AccessType;
-  ExcludedParticipantIds?: string[];
+  ExcludedParticipantIds?: string[] | undefined;
   UpdatedAt: Date;
   Revision: number;
 }
@@ -969,8 +973,8 @@ export interface BusinessValidationError {
   Code: BusinessValidationCode;
 }
 export type ValidationError =
-  | { FieldValidationError: FieldValidationError; BusinessValidationError?: never }
-  | { FieldValidationError?: never; BusinessValidationError: BusinessValidationError };
+  | { FieldValidationError: FieldValidationError; BusinessValidationError?: undefined }
+  | { FieldValidationError?: undefined; BusinessValidationError: BusinessValidationError };
 export type ValidationErrorList = ValidationError[];
 export type AcceptConnectionInvitationError =
   | AccessDeniedException

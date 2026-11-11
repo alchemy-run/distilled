@@ -37,18 +37,18 @@ export type ChangeReadStatusRequestRepoType =
 export type ChangeReadStatusRequestMention = "all" | "participating" | "mentions";
 export type ChangeReadStatusRequestDiscussionIdsList = Array<string>;
 export interface ChangeReadStatusRequest {
-  p?: number;
-  readStatus?: ChangeReadStatusRequestReadStatus | (string & {});
-  repoType?: ChangeReadStatusRequestRepoType | (string & {});
-  repoName?: string;
-  postAuthor?: string;
-  paperId?: string;
-  articleId?: string;
-  mention?: ChangeReadStatusRequestMention | (string & {});
-  lastUpdate?: string;
-  applyToAll?: string;
-  discussionIds?: ChangeReadStatusRequestDiscussionIdsList;
-  read?: boolean;
+  p?: number | undefined;
+  readStatus?: ChangeReadStatusRequestReadStatus | (string & {}) | undefined;
+  repoType?: ChangeReadStatusRequestRepoType | (string & {}) | undefined;
+  repoName?: string | undefined;
+  postAuthor?: string | undefined;
+  paperId?: string | undefined;
+  articleId?: string | undefined;
+  mention?: ChangeReadStatusRequestMention | (string & {}) | undefined;
+  lastUpdate?: string | undefined;
+  applyToAll?: string | undefined;
+  discussionIds?: ChangeReadStatusRequestDiscussionIdsList | undefined;
+  read?: boolean | undefined;
 }
 export interface ChangeReadStatusResponse {}
 export type DeleteNotificationsRequestReadStatus = "all" | "unread";
@@ -62,17 +62,17 @@ export type DeleteNotificationsRequestRepoType =
 export type DeleteNotificationsRequestMention = "all" | "participating" | "mentions";
 export type DeleteNotificationsRequestDiscussionIdsList = Array<string>;
 export interface DeleteNotificationsRequest {
-  p?: number;
-  readStatus?: DeleteNotificationsRequestReadStatus | (string & {});
-  repoType?: DeleteNotificationsRequestRepoType | (string & {});
-  repoName?: string;
-  postAuthor?: string;
-  paperId?: string;
-  articleId?: string;
-  mention?: DeleteNotificationsRequestMention | (string & {});
-  lastUpdate?: string;
-  applyToAll?: string;
-  discussionIds?: DeleteNotificationsRequestDiscussionIdsList;
+  p?: number | undefined;
+  readStatus?: DeleteNotificationsRequestReadStatus | (string & {}) | undefined;
+  repoType?: DeleteNotificationsRequestRepoType | (string & {}) | undefined;
+  repoName?: string | undefined;
+  postAuthor?: string | undefined;
+  paperId?: string | undefined;
+  articleId?: string | undefined;
+  mention?: DeleteNotificationsRequestMention | (string & {}) | undefined;
+  lastUpdate?: string | undefined;
+  applyToAll?: string | undefined;
+  discussionIds?: DeleteNotificationsRequestDiscussionIdsList | undefined;
 }
 export interface DeleteNotificationsResponse {}
 export type ListNotificationsRequestReadStatus = "all" | "unread";
@@ -85,15 +85,15 @@ export type ListNotificationsRequestRepoType =
   | "container";
 export type ListNotificationsRequestMention = "all" | "participating" | "mentions";
 export interface ListNotificationsRequest {
-  p?: number;
-  readStatus?: ListNotificationsRequestReadStatus | (string & {});
-  repoType?: ListNotificationsRequestRepoType | (string & {});
-  repoName?: string;
-  postAuthor?: string;
-  paperId?: string;
-  articleId?: string;
-  mention?: ListNotificationsRequestMention | (string & {});
-  lastUpdate?: string;
+  p?: number | undefined;
+  readStatus?: ListNotificationsRequestReadStatus | (string & {}) | undefined;
+  repoType?: ListNotificationsRequestRepoType | (string & {}) | undefined;
+  repoName?: string | undefined;
+  postAuthor?: string | undefined;
+  paperId?: string | undefined;
+  articleId?: string | undefined;
+  mention?: ListNotificationsRequestMention | (string & {}) | undefined;
+  lastUpdate?: string | undefined;
 }
 export interface ListNotificationsResponseNotificationsItemCase0Paper {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -118,7 +118,7 @@ export interface ListNotificationsResponseNotificationsItemCase0 {
   type: string;
   updatedAt: string;
   read: boolean;
-  discussionEventId?: string;
+  discussionEventId?: string | undefined;
   paper: ListNotificationsResponseNotificationsItemCase0Paper;
   paperDiscussion: ListNotificationsResponseNotificationsItemCase0PaperDiscussion;
 }
@@ -149,7 +149,7 @@ export interface ListNotificationsResponseNotificationsItemCase1 {
   type: string;
   updatedAt: string;
   read: boolean;
-  discussionEventId?: string;
+  discussionEventId?: string | undefined;
   repo: RepoId;
   discussion: ListNotificationsResponseNotificationsItemCase1Discussion;
 }
@@ -168,7 +168,7 @@ export interface ListNotificationsResponseNotificationsItemCase2 {
   type: string;
   updatedAt: string;
   read: boolean;
-  discussionEventId?: string;
+  discussionEventId?: string | undefined;
   post: ListNotificationsResponseNotificationsItemCase2Post;
 }
 export type ListNotificationsResponseNotificationsItemCase3BlogParticipatingItem =
@@ -180,14 +180,14 @@ export interface ListNotificationsResponseNotificationsItemCase3Blog {
   slug: string;
   title: string;
   canonical: boolean;
-  authorName?: string;
+  authorName?: string | undefined;
   participating: ListNotificationsResponseNotificationsItemCase3BlogParticipatingList;
 }
 export interface ListNotificationsResponseNotificationsItemCase3 {
   type: string;
   updatedAt: string;
   read: boolean;
-  discussionEventId?: string;
+  discussionEventId?: string | undefined;
   blog: ListNotificationsResponseNotificationsItemCase3Blog;
 }
 export type ListNotificationsResponseNotificationsItem =
@@ -208,38 +208,38 @@ export interface ListNotificationsResponse {
   start: number;
 }
 export interface UpdateNotificationSettingsRequestNotifications {
-  announcements?: boolean;
-  arxiv_paper_activity?: boolean;
-  content_access_policy_request?: boolean;
-  daily_papers_digest?: boolean;
-  discussions_participating?: boolean;
-  discussions_watched?: boolean;
-  gated_user_access_request?: boolean;
-  inference_endpoint_status?: boolean;
-  job_status?: boolean;
-  launch_autonlp?: boolean;
-  launch_spaces?: boolean;
-  launch_prepaid_credits?: boolean;
-  launch_training_cluster?: boolean;
-  org_request?: boolean;
-  org_suggestions?: boolean;
-  org_verified_suggestions?: boolean;
-  org_suggestions_to_create?: boolean;
-  posts_participating?: boolean;
-  user_follows?: boolean;
-  secret_detected?: boolean;
-  web_discussions_participating?: boolean;
-  web_discussions_watched?: boolean;
-  web_posts_participating?: boolean;
-  product_updates_after?: string;
-  api_inference_sunset?: boolean;
-  locked_out?: boolean;
-  repo_release?: boolean;
+  announcements?: boolean | undefined;
+  arxiv_paper_activity?: boolean | undefined;
+  content_access_policy_request?: boolean | undefined;
+  daily_papers_digest?: boolean | undefined;
+  discussions_participating?: boolean | undefined;
+  discussions_watched?: boolean | undefined;
+  gated_user_access_request?: boolean | undefined;
+  inference_endpoint_status?: boolean | undefined;
+  job_status?: boolean | undefined;
+  launch_autonlp?: boolean | undefined;
+  launch_spaces?: boolean | undefined;
+  launch_prepaid_credits?: boolean | undefined;
+  launch_training_cluster?: boolean | undefined;
+  org_request?: boolean | undefined;
+  org_suggestions?: boolean | undefined;
+  org_verified_suggestions?: boolean | undefined;
+  org_suggestions_to_create?: boolean | undefined;
+  posts_participating?: boolean | undefined;
+  user_follows?: boolean | undefined;
+  secret_detected?: boolean | undefined;
+  web_discussions_participating?: boolean | undefined;
+  web_discussions_watched?: boolean | undefined;
+  web_posts_participating?: boolean | undefined;
+  product_updates_after?: string | undefined;
+  api_inference_sunset?: boolean | undefined;
+  locked_out?: boolean | undefined;
+  repo_release?: boolean | undefined;
 }
 export interface UpdateNotificationSettingsRequest {
   notifications: UpdateNotificationSettingsRequestNotifications;
   /** To be provided when enabling launch_prepaid_credits */
-  prepaidAmount?: string;
+  prepaidAmount?: string | undefined;
 }
 export interface UpdateNotificationSettingsResponse {}
 export type UpdateWatchSettingsRequestDeleteItemType = "org" | "user" | "repo";
@@ -255,8 +255,8 @@ export interface UpdateWatchSettingsRequestAddItem {
 }
 export type UpdateWatchSettingsRequestAddList = Array<UpdateWatchSettingsRequestAddItem>;
 export interface UpdateWatchSettingsRequest {
-  delete?: UpdateWatchSettingsRequestDeleteList;
-  add?: UpdateWatchSettingsRequestAddList;
+  delete?: UpdateWatchSettingsRequestDeleteList | undefined;
+  add?: UpdateWatchSettingsRequestAddList | undefined;
 }
 export interface UpdateWatchSettingsResponse {}
 export type ChangeReadStatusError = HuggingFaceOpError;

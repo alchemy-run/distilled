@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * MeilisearchProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type MeilisearchOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | MeilisearchParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Meilisearch operation. */
 export type MeilisearchOpContext = Credentials | HttpClient.HttpClient;

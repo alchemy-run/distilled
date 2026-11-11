@@ -130,16 +130,16 @@ export class TooManyRequestsException
   ).pipe(C.withThrottlingError) {}
 export type WordCharactersWithDelimiters = string;
 export interface CreateConfigurationSetRequest {
-  ConfigurationSetName?: string;
+  ConfigurationSetName?: string | undefined;
 }
 export interface CreateConfigurationSetResponse {}
 export interface CloudWatchLogsDestination {
-  IamRoleArn?: string;
-  LogGroupArn?: string;
+  IamRoleArn?: string | undefined;
+  LogGroupArn?: string | undefined;
 }
 export interface KinesisFirehoseDestination {
-  DeliveryStreamArn?: string;
-  IamRoleArn?: string;
+  DeliveryStreamArn?: string | undefined;
+  IamRoleArn?: string | undefined;
 }
 export type EventType =
   | "INITIATED_CALL"
@@ -152,20 +152,20 @@ export type EventType =
   | (string & {});
 export type EventTypes = EventType[];
 export interface SnsDestination {
-  TopicArn?: string;
+  TopicArn?: string | undefined;
 }
 export interface EventDestinationDefinition {
-  CloudWatchLogsDestination?: CloudWatchLogsDestination;
-  Enabled?: boolean;
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  MatchingEventTypes?: EventType[];
-  SnsDestination?: SnsDestination;
+  CloudWatchLogsDestination?: CloudWatchLogsDestination | undefined;
+  Enabled?: boolean | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  MatchingEventTypes?: EventType[] | undefined;
+  SnsDestination?: SnsDestination | undefined;
 }
 export type NonEmptyString = string;
 export interface CreateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
-  EventDestination?: EventDestinationDefinition;
-  EventDestinationName?: string;
+  EventDestination?: EventDestinationDefinition | undefined;
+  EventDestinationName?: string | undefined;
 }
 export interface CreateConfigurationSetEventDestinationResponse {}
 export interface DeleteConfigurationSetRequest {
@@ -181,58 +181,58 @@ export interface GetConfigurationSetEventDestinationsRequest {
   ConfigurationSetName: string;
 }
 export interface EventDestination {
-  CloudWatchLogsDestination?: CloudWatchLogsDestination;
-  Enabled?: boolean;
-  KinesisFirehoseDestination?: KinesisFirehoseDestination;
-  MatchingEventTypes?: EventType[];
-  Name?: string;
-  SnsDestination?: SnsDestination;
+  CloudWatchLogsDestination?: CloudWatchLogsDestination | undefined;
+  Enabled?: boolean | undefined;
+  KinesisFirehoseDestination?: KinesisFirehoseDestination | undefined;
+  MatchingEventTypes?: EventType[] | undefined;
+  Name?: string | undefined;
+  SnsDestination?: SnsDestination | undefined;
 }
 export type EventDestinations = EventDestination[];
 export interface GetConfigurationSetEventDestinationsResponse {
-  EventDestinations?: EventDestination[];
+  EventDestinations?: EventDestination[] | undefined;
 }
 export interface ListConfigurationSetsRequest {
-  NextToken?: string;
-  PageSize?: string;
+  NextToken?: string | undefined;
+  PageSize?: string | undefined;
 }
 export type ConfigurationSets = string[];
 export type NextTokenString = string;
 export interface ListConfigurationSetsResponse {
-  ConfigurationSets?: string[];
-  NextToken?: string;
+  ConfigurationSets?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface CallInstructionsMessageType {
-  Text?: string;
+  Text?: string | undefined;
 }
 export interface PlainTextMessageType {
-  LanguageCode?: string;
-  Text?: string;
-  VoiceId?: string;
+  LanguageCode?: string | undefined;
+  Text?: string | undefined;
+  VoiceId?: string | undefined;
 }
 export interface SSMLMessageType {
-  LanguageCode?: string;
-  Text?: string;
-  VoiceId?: string;
+  LanguageCode?: string | undefined;
+  Text?: string | undefined;
+  VoiceId?: string | undefined;
 }
 export interface VoiceMessageContent {
-  CallInstructionsMessage?: CallInstructionsMessageType;
-  PlainTextMessage?: PlainTextMessageType;
-  SSMLMessage?: SSMLMessageType;
+  CallInstructionsMessage?: CallInstructionsMessageType | undefined;
+  PlainTextMessage?: PlainTextMessageType | undefined;
+  SSMLMessage?: SSMLMessageType | undefined;
 }
 export interface SendVoiceMessageRequest {
-  CallerId?: string;
-  ConfigurationSetName?: string;
-  Content?: VoiceMessageContent;
-  DestinationPhoneNumber?: string;
-  OriginationPhoneNumber?: string;
+  CallerId?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  Content?: VoiceMessageContent | undefined;
+  DestinationPhoneNumber?: string | undefined;
+  OriginationPhoneNumber?: string | undefined;
 }
 export interface SendVoiceMessageResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export interface UpdateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
-  EventDestination?: EventDestinationDefinition;
+  EventDestination?: EventDestinationDefinition | undefined;
   EventDestinationName: string;
 }
 export interface UpdateConfigurationSetEventDestinationResponse {}

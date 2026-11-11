@@ -198,7 +198,7 @@ export type ErrorCode = string;
 export interface BatchDeleteTaxRegistrationError_ {
   accountId: string;
   message: string | redacted.Redacted<string>;
-  code?: string;
+  code?: string | undefined;
 }
 export type BatchDeleteTaxRegistrationErrors = BatchDeleteTaxRegistrationError_[];
 export interface BatchDeleteTaxRegistrationResponse {
@@ -211,35 +211,35 @@ export type CountryCode = string;
 export type State = string;
 export interface Authority {
   country: string;
-  state?: string;
+  state?: string | undefined;
 }
 export type DisplayName = string;
 export type Authorities = Authority[];
 export interface TaxExemptionType {
-  displayName?: string;
-  description?: string;
-  applicableJurisdictions?: Authority[];
+  displayName?: string | undefined;
+  description?: string | undefined;
+  applicableJurisdictions?: Authority[] | undefined;
 }
 export type EntityExemptionAccountStatus = "None" | "Valid" | "Expired" | "Pending" | (string & {});
 export interface TaxExemption {
   authority: Authority;
   taxExemptionType: TaxExemptionType;
-  effectiveDate?: Date;
-  expirationDate?: Date;
-  systemEffectiveDate?: Date;
-  status?: EntityExemptionAccountStatus;
+  effectiveDate?: Date | undefined;
+  expirationDate?: Date | undefined;
+  systemEffectiveDate?: Date | undefined;
+  status?: EntityExemptionAccountStatus | undefined;
 }
 export type TaxExemptions = TaxExemption[];
 export interface TaxExemptionDetails {
-  taxExemptions?: TaxExemption[];
-  heritageObtainedDetails?: boolean;
-  heritageObtainedParentEntity?: string;
-  heritageObtainedReason?: string;
+  taxExemptions?: TaxExemption[] | undefined;
+  heritageObtainedDetails?: boolean | undefined;
+  heritageObtainedParentEntity?: string | undefined;
+  heritageObtainedReason?: string | undefined;
 }
 export type TaxExemptionDetailsMap = { [key: string]: TaxExemptionDetails | undefined };
 export interface BatchGetTaxExemptionsResponse {
-  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails | undefined };
-  failedAccounts?: string[];
+  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails | undefined } | undefined;
+  failedAccounts?: string[] | undefined;
 }
 export type RegistrationId = string;
 export type TaxRegistrationType =
@@ -252,6 +252,11 @@ export type TaxRegistrationType =
   | "NRIC"
   | "PAN"
   | "NIP"
+  | "CUIT"
+  | "CDI"
+  | "RUT"
+  | "NIE"
+  | "CI"
   | (string & {});
 export type LegalName = string;
 export type AddressLine1 = string;
@@ -261,12 +266,12 @@ export type District = string;
 export type City = string;
 export type PostalCode = string;
 export interface Address {
-  addressLine1?: string;
-  addressLine2?: string;
-  addressLine3?: string;
-  districtOrCounty?: string;
-  city?: string;
-  stateOrRegion?: string;
+  addressLine1?: string | undefined;
+  addressLine2?: string | undefined;
+  addressLine3?: string | undefined;
+  districtOrCounty?: string | undefined;
+  city?: string | undefined;
+  stateOrRegion?: string | undefined;
   postalCode: string;
   countryCode: string;
 }
@@ -281,9 +286,9 @@ export type MalaysiaServiceTaxCodesList = MalaysiaServiceTaxCode[];
 export type TaxInformationNumber = string;
 export type BusinessRegistrationNumber = string;
 export interface MalaysiaAdditionalInfo {
-  serviceTaxCodes?: MalaysiaServiceTaxCode[];
-  taxInformationNumber?: string;
-  businessRegistrationNumber?: string;
+  serviceTaxCodes?: MalaysiaServiceTaxCode[] | undefined;
+  taxInformationNumber?: string | undefined;
+  businessRegistrationNumber?: string | undefined;
 }
 export type IsraelDealerType = "Authorized" | "Non-authorized" | (string & {});
 export type IsraelCustomerType = "Business" | "Individual" | (string & {});
@@ -299,10 +304,10 @@ export type CanadaProvincialSalesTaxIdString = string;
 export type CanadaQuebecSalesTaxNumberString = string;
 export type CanadaRetailSalesTaxNumberString = string;
 export interface CanadaAdditionalInfo {
-  provincialSalesTaxId?: string;
-  canadaQuebecSalesTaxNumber?: string;
-  canadaRetailSalesTaxNumber?: string;
-  isResellerAccount?: boolean;
+  provincialSalesTaxId?: string | undefined;
+  canadaQuebecSalesTaxNumber?: string | undefined;
+  canadaRetailSalesTaxNumber?: string | undefined;
+  isResellerAccount?: boolean | undefined;
 }
 export type RegistrationType = "Intra-EU" | "Local" | (string & {});
 export interface SpainAdditionalInfo {
@@ -332,10 +337,10 @@ export type Industries =
   | "DevelopmentAgencies"
   | (string & {});
 export interface TurkeyAdditionalInfo {
-  taxOffice?: string;
-  kepEmailId?: string;
-  secondaryTaxId?: string;
-  industries?: Industries;
+  taxOffice?: string | undefined;
+  kepEmailId?: string | undefined;
+  secondaryTaxId?: string | undefined;
+  industries?: Industries | undefined;
 }
 export interface GeorgiaAdditionalInfo {
   personType: PersonType;
@@ -346,11 +351,11 @@ export type CupNumber = string;
 export type TaxCode = string;
 export type CustomerType = "Business" | "Individual" | (string & {});
 export interface ItalyAdditionalInfo {
-  sdiAccountId?: string;
-  cigNumber?: string;
-  cupNumber?: string;
-  taxCode?: string;
-  customerType?: CustomerType;
+  sdiAccountId?: string | undefined;
+  cigNumber?: string | undefined;
+  cupNumber?: string | undefined;
+  taxCode?: string | undefined;
+  customerType?: CustomerType | undefined;
 }
 export type TaxRegistrationNumberType =
   | "TaxRegistrationNumber"
@@ -370,9 +375,9 @@ export type PolandTaxRegistrationNumberType =
   | "LocalRegistrationNumber"
   | (string & {});
 export interface PolandAdditionalInfo {
-  individualRegistrationNumber?: string;
-  isGroupVatEnabled?: boolean;
-  taxRegistrationNumberType?: PolandTaxRegistrationNumberType;
+  individualRegistrationNumber?: string | undefined;
+  isGroupVatEnabled?: boolean | undefined;
+  taxRegistrationNumberType?: PolandTaxRegistrationNumberType | undefined;
 }
 export type SaudiArabiaTaxRegistrationNumberType =
   | "TaxRegistrationNumber"
@@ -380,7 +385,7 @@ export type SaudiArabiaTaxRegistrationNumberType =
   | "CommercialRegistrationNumber"
   | (string & {});
 export interface SaudiArabiaAdditionalInfo {
-  taxRegistrationNumberType?: SaudiArabiaTaxRegistrationNumberType;
+  taxRegistrationNumberType?: SaudiArabiaTaxRegistrationNumberType | undefined;
 }
 export type IndonesiaTaxRegistrationNumberType =
   | "NIK"
@@ -391,82 +396,98 @@ export type IndonesiaTaxRegistrationNumberType =
 export type PpnExceptionDesignationCode = string;
 export type DecisionNumber = string;
 export interface IndonesiaAdditionalInfo {
-  taxRegistrationNumberType?: IndonesiaTaxRegistrationNumberType;
-  ppnExceptionDesignationCode?: string;
-  decisionNumber?: string;
+  taxRegistrationNumberType?: IndonesiaTaxRegistrationNumberType | undefined;
+  ppnExceptionDesignationCode?: string | undefined;
+  decisionNumber?: string | undefined;
 }
 export type EnterpriseIdentificationNumber = string;
 export type ElectronicTransactionCodeNumber = string;
 export type PaymentVoucherNumber = string;
 export type DateString = string;
 export interface VietnamAdditionalInfo {
-  enterpriseIdentificationNumber?: string;
-  electronicTransactionCodeNumber?: string;
-  paymentVoucherNumber?: string;
-  paymentVoucherNumberDate?: string;
+  enterpriseIdentificationNumber?: string | undefined;
+  electronicTransactionCodeNumber?: string | undefined;
+  paymentVoucherNumber?: string | undefined;
+  paymentVoucherNumberDate?: string | undefined;
 }
 export type UniqueIdentificationNumber = string;
 export interface EgyptAdditionalInfo {
-  uniqueIdentificationNumber?: string;
-  uniqueIdentificationNumberExpirationDate?: string;
+  uniqueIdentificationNumber?: string | undefined;
+  uniqueIdentificationNumberExpirationDate?: string | undefined;
 }
 export type ContractingAuthorityCode = string;
 export interface GreeceAdditionalInfo {
-  contractingAuthorityCode?: string;
+  contractingAuthorityCode?: string | undefined;
 }
 export type UzbekistanTaxRegistrationNumberType = "Business" | "Individual" | (string & {});
 export type VatRegistrationNumber = string;
 export interface UzbekistanAdditionalInfo {
-  taxRegistrationNumberType?: UzbekistanTaxRegistrationNumberType;
-  vatRegistrationNumber?: string;
+  taxRegistrationNumberType?: UzbekistanTaxRegistrationNumberType | undefined;
+  vatRegistrationNumber?: string | undefined;
 }
 export interface PhilippinesAdditionalInfo {
-  isVatRegistered?: boolean;
+  isVatRegistered?: boolean | undefined;
 }
 export type PeppolId = string;
 export interface BelgiumAdditionalInfo {
-  peppolId?: string;
-  isMercuriusBoxEnabled?: boolean;
+  peppolId?: string | undefined;
+  isMercuriusBoxEnabled?: boolean | undefined;
 }
 export type ChileDocumentType = "Invoice" | "Receipt" | (string & {});
 export interface ChileAdditionalInfo {
-  documentType?: ChileDocumentType;
-  businessActivity?: string;
+  documentType?: ChileDocumentType | undefined;
+  businessActivity?: string | undefined;
 }
 export type SirenNumber = string;
 export interface FranceAdditionalInfo {
   sirenNumber: string;
-  eInvoiceRoutingCode?: string;
+  eInvoiceRoutingCode?: string | undefined;
 }
 export type BusinessNumber = string;
 export interface MonacoAdditionalInfo {
   businessNumber: string;
 }
+export type EconomicIdentificationNumber = string;
+export type Steuernummer = string;
+export interface GermanyAdditionalInfo {
+  economicIdentificationNumber?: string | undefined;
+  steuernummer?: string | undefined;
+}
+export type MexicoTaxRegimeCode = string;
+export type MexicoTaxRegimeFullName = string;
+export type MexicoCfdiUsageCode = string;
+export interface MexicoAdditionalInfo {
+  taxRegime?: string | undefined;
+  taxRegimeFullName?: string | undefined;
+  cfdiUsageCode?: string | undefined;
+}
 export interface AdditionalInfoRequest {
-  malaysiaAdditionalInfo?: MalaysiaAdditionalInfo;
-  israelAdditionalInfo?: IsraelAdditionalInfo;
-  estoniaAdditionalInfo?: EstoniaAdditionalInfo;
-  canadaAdditionalInfo?: CanadaAdditionalInfo;
-  spainAdditionalInfo?: SpainAdditionalInfo;
-  kenyaAdditionalInfo?: KenyaAdditionalInfo;
-  southKoreaAdditionalInfo?: SouthKoreaAdditionalInfo;
-  turkeyAdditionalInfo?: TurkeyAdditionalInfo;
-  georgiaAdditionalInfo?: GeorgiaAdditionalInfo;
-  italyAdditionalInfo?: ItalyAdditionalInfo;
-  romaniaAdditionalInfo?: RomaniaAdditionalInfo;
-  ukraineAdditionalInfo?: UkraineAdditionalInfo;
-  polandAdditionalInfo?: PolandAdditionalInfo;
-  saudiArabiaAdditionalInfo?: SaudiArabiaAdditionalInfo;
-  indonesiaAdditionalInfo?: IndonesiaAdditionalInfo;
-  vietnamAdditionalInfo?: VietnamAdditionalInfo;
-  egyptAdditionalInfo?: EgyptAdditionalInfo;
-  greeceAdditionalInfo?: GreeceAdditionalInfo;
-  uzbekistanAdditionalInfo?: UzbekistanAdditionalInfo;
-  philippinesAdditionalInfo?: PhilippinesAdditionalInfo;
-  belgiumAdditionalInfo?: BelgiumAdditionalInfo;
-  chileAdditionalInfo?: ChileAdditionalInfo;
-  franceAdditionalInfo?: FranceAdditionalInfo;
-  monacoAdditionalInfo?: MonacoAdditionalInfo;
+  malaysiaAdditionalInfo?: MalaysiaAdditionalInfo | undefined;
+  israelAdditionalInfo?: IsraelAdditionalInfo | undefined;
+  estoniaAdditionalInfo?: EstoniaAdditionalInfo | undefined;
+  canadaAdditionalInfo?: CanadaAdditionalInfo | undefined;
+  spainAdditionalInfo?: SpainAdditionalInfo | undefined;
+  kenyaAdditionalInfo?: KenyaAdditionalInfo | undefined;
+  southKoreaAdditionalInfo?: SouthKoreaAdditionalInfo | undefined;
+  turkeyAdditionalInfo?: TurkeyAdditionalInfo | undefined;
+  georgiaAdditionalInfo?: GeorgiaAdditionalInfo | undefined;
+  italyAdditionalInfo?: ItalyAdditionalInfo | undefined;
+  romaniaAdditionalInfo?: RomaniaAdditionalInfo | undefined;
+  ukraineAdditionalInfo?: UkraineAdditionalInfo | undefined;
+  polandAdditionalInfo?: PolandAdditionalInfo | undefined;
+  saudiArabiaAdditionalInfo?: SaudiArabiaAdditionalInfo | undefined;
+  indonesiaAdditionalInfo?: IndonesiaAdditionalInfo | undefined;
+  vietnamAdditionalInfo?: VietnamAdditionalInfo | undefined;
+  egyptAdditionalInfo?: EgyptAdditionalInfo | undefined;
+  greeceAdditionalInfo?: GreeceAdditionalInfo | undefined;
+  uzbekistanAdditionalInfo?: UzbekistanAdditionalInfo | undefined;
+  philippinesAdditionalInfo?: PhilippinesAdditionalInfo | undefined;
+  belgiumAdditionalInfo?: BelgiumAdditionalInfo | undefined;
+  chileAdditionalInfo?: ChileAdditionalInfo | undefined;
+  franceAdditionalInfo?: FranceAdditionalInfo | undefined;
+  monacoAdditionalInfo?: MonacoAdditionalInfo | undefined;
+  germanyAdditionalInfo?: GermanyAdditionalInfo | undefined;
+  mexicoAdditionalInfo?: MexicoAdditionalInfo | undefined;
 }
 export type DateOfBirth = string;
 export type S3BucketName = string;
@@ -482,24 +503,24 @@ export interface TaxRegistrationDocFile {
   fileContent: Uint8Array;
 }
 export interface TaxRegistrationDocument {
-  s3Location?: SourceS3Location;
-  file?: TaxRegistrationDocFile;
+  s3Location?: SourceS3Location | undefined;
+  file?: TaxRegistrationDocFile | undefined;
 }
 export type TaxRegistrationDocuments = TaxRegistrationDocument[];
 export interface VerificationDetails {
-  dateOfBirth?: string;
-  taxRegistrationDocuments?: TaxRegistrationDocument[];
+  dateOfBirth?: string | undefined;
+  taxRegistrationDocuments?: TaxRegistrationDocument[] | undefined;
 }
 export type CertifiedEmailId = string;
 export interface TaxRegistrationEntry {
   registrationId: string;
   registrationType: TaxRegistrationType;
-  legalName?: string;
-  legalAddress?: Address;
-  sector?: Sector;
-  additionalTaxInformation?: AdditionalInfoRequest;
-  verificationDetails?: VerificationDetails;
-  certifiedEmailId?: string;
+  legalName?: string | undefined;
+  legalAddress?: Address | undefined;
+  sector?: Sector | undefined;
+  additionalTaxInformation?: AdditionalInfoRequest | undefined;
+  verificationDetails?: VerificationDetails | undefined;
+  certifiedEmailId?: string | undefined;
 }
 export interface BatchPutTaxRegistrationRequest {
   accountIds: string[];
@@ -509,11 +530,11 @@ export type TaxRegistrationStatus = "Verified" | "Pending" | "Deleted" | "Reject
 export interface BatchPutTaxRegistrationError_ {
   accountId: string;
   message: string | redacted.Redacted<string>;
-  code?: string;
+  code?: string | undefined;
 }
 export type BatchPutTaxRegistrationErrors = BatchPutTaxRegistrationError_[];
 export interface BatchPutTaxRegistrationResponse {
-  status?: TaxRegistrationStatus;
+  status?: TaxRegistrationStatus | undefined;
   errors: BatchPutTaxRegistrationError_[];
 }
 export interface DeleteSupplementalTaxRegistrationRequest {
@@ -521,21 +542,21 @@ export interface DeleteSupplementalTaxRegistrationRequest {
 }
 export interface DeleteSupplementalTaxRegistrationResponse {}
 export interface DeleteTaxRegistrationRequest {
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface DeleteTaxRegistrationResponse {}
 export interface GetTaxExemptionTypesRequest {}
 export type TaxExemptionTypes = TaxExemptionType[];
 export interface GetTaxExemptionTypesResponse {
-  taxExemptionTypes?: TaxExemptionType[];
+  taxExemptionTypes?: TaxExemptionType[] | undefined;
 }
 export interface GetTaxInheritanceRequest {}
 export type HeritageStatus = "OptIn" | "OptOut" | (string & {});
 export interface GetTaxInheritanceResponse {
-  heritageStatus?: HeritageStatus;
+  heritageStatus?: HeritageStatus | undefined;
 }
 export interface GetTaxRegistrationRequest {
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export type TaxDocumentAccessToken = string;
 export interface TaxDocumentMetadata {
@@ -546,75 +567,93 @@ export type TaxDocumentMetadatas = TaxDocumentMetadata[];
 export type CcmCode = string;
 export type LegalNatureCode = string;
 export interface BrazilAdditionalInfo {
-  ccmCode?: string;
-  legalNatureCode?: string;
+  ccmCode?: string | undefined;
+  legalNatureCode?: string | undefined;
 }
 export type Pan = string;
 export interface IndiaAdditionalInfo {
-  pan?: string;
+  pan?: string | undefined;
+}
+export type ColombiaResponsabilidadCode = string;
+export type ColombiaResponsabilidadesList = string[];
+export type ColombiaTipoContribuyenteCode = string;
+export interface ColombiaAdditionalInfo {
+  responsibilityCodes?: string[] | undefined;
+  taxpayerTypeCode?: string | undefined;
+  issueDate?: string | undefined;
 }
 export interface AdditionalInfoResponse {
-  malaysiaAdditionalInfo?: MalaysiaAdditionalInfo;
-  israelAdditionalInfo?: IsraelAdditionalInfo;
-  estoniaAdditionalInfo?: EstoniaAdditionalInfo;
-  canadaAdditionalInfo?: CanadaAdditionalInfo;
-  brazilAdditionalInfo?: BrazilAdditionalInfo;
-  spainAdditionalInfo?: SpainAdditionalInfo;
-  kenyaAdditionalInfo?: KenyaAdditionalInfo;
-  southKoreaAdditionalInfo?: SouthKoreaAdditionalInfo;
-  turkeyAdditionalInfo?: TurkeyAdditionalInfo;
-  georgiaAdditionalInfo?: GeorgiaAdditionalInfo;
-  italyAdditionalInfo?: ItalyAdditionalInfo;
-  romaniaAdditionalInfo?: RomaniaAdditionalInfo;
-  ukraineAdditionalInfo?: UkraineAdditionalInfo;
-  polandAdditionalInfo?: PolandAdditionalInfo;
-  saudiArabiaAdditionalInfo?: SaudiArabiaAdditionalInfo;
-  indiaAdditionalInfo?: IndiaAdditionalInfo;
-  indonesiaAdditionalInfo?: IndonesiaAdditionalInfo;
-  vietnamAdditionalInfo?: VietnamAdditionalInfo;
-  egyptAdditionalInfo?: EgyptAdditionalInfo;
-  greeceAdditionalInfo?: GreeceAdditionalInfo;
-  uzbekistanAdditionalInfo?: UzbekistanAdditionalInfo;
-  philippinesAdditionalInfo?: PhilippinesAdditionalInfo;
-  belgiumAdditionalInfo?: BelgiumAdditionalInfo;
-  chileAdditionalInfo?: ChileAdditionalInfo;
-  franceAdditionalInfo?: FranceAdditionalInfo;
-  monacoAdditionalInfo?: MonacoAdditionalInfo;
+  malaysiaAdditionalInfo?: MalaysiaAdditionalInfo | undefined;
+  israelAdditionalInfo?: IsraelAdditionalInfo | undefined;
+  estoniaAdditionalInfo?: EstoniaAdditionalInfo | undefined;
+  canadaAdditionalInfo?: CanadaAdditionalInfo | undefined;
+  brazilAdditionalInfo?: BrazilAdditionalInfo | undefined;
+  spainAdditionalInfo?: SpainAdditionalInfo | undefined;
+  kenyaAdditionalInfo?: KenyaAdditionalInfo | undefined;
+  southKoreaAdditionalInfo?: SouthKoreaAdditionalInfo | undefined;
+  turkeyAdditionalInfo?: TurkeyAdditionalInfo | undefined;
+  georgiaAdditionalInfo?: GeorgiaAdditionalInfo | undefined;
+  italyAdditionalInfo?: ItalyAdditionalInfo | undefined;
+  romaniaAdditionalInfo?: RomaniaAdditionalInfo | undefined;
+  ukraineAdditionalInfo?: UkraineAdditionalInfo | undefined;
+  polandAdditionalInfo?: PolandAdditionalInfo | undefined;
+  saudiArabiaAdditionalInfo?: SaudiArabiaAdditionalInfo | undefined;
+  indiaAdditionalInfo?: IndiaAdditionalInfo | undefined;
+  indonesiaAdditionalInfo?: IndonesiaAdditionalInfo | undefined;
+  vietnamAdditionalInfo?: VietnamAdditionalInfo | undefined;
+  egyptAdditionalInfo?: EgyptAdditionalInfo | undefined;
+  greeceAdditionalInfo?: GreeceAdditionalInfo | undefined;
+  uzbekistanAdditionalInfo?: UzbekistanAdditionalInfo | undefined;
+  philippinesAdditionalInfo?: PhilippinesAdditionalInfo | undefined;
+  belgiumAdditionalInfo?: BelgiumAdditionalInfo | undefined;
+  chileAdditionalInfo?: ChileAdditionalInfo | undefined;
+  franceAdditionalInfo?: FranceAdditionalInfo | undefined;
+  monacoAdditionalInfo?: MonacoAdditionalInfo | undefined;
+  germanyAdditionalInfo?: GermanyAdditionalInfo | undefined;
+  mexicoAdditionalInfo?: MexicoAdditionalInfo | undefined;
+  colombiaAdditionalInfo?: ColombiaAdditionalInfo | undefined;
+}
+export type StatusReasonCode = string;
+export type StatusReasonMessage = string;
+export interface TaxRegistrationStatusReason {
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface TaxRegistration {
   registrationId: string;
   registrationType: TaxRegistrationType;
   legalName: string;
   status: TaxRegistrationStatus;
-  sector?: Sector;
-  taxDocumentMetadatas?: TaxDocumentMetadata[];
-  certifiedEmailId?: string;
-  additionalTaxInformation?: AdditionalInfoResponse;
+  sector?: Sector | undefined;
+  taxDocumentMetadatas?: TaxDocumentMetadata[] | undefined;
+  certifiedEmailId?: string | undefined;
+  additionalTaxInformation?: AdditionalInfoResponse | undefined;
+  statusReason?: TaxRegistrationStatusReason | undefined;
   legalAddress: Address;
 }
 export interface GetTaxRegistrationResponse {
-  taxRegistration?: TaxRegistration;
+  taxRegistration?: TaxRegistration | undefined;
 }
 export type S3Prefix = string;
 export interface DestinationS3Location {
   bucket: string;
-  prefix?: string;
+  prefix?: string | undefined;
 }
 export interface GetTaxRegistrationDocumentRequest {
-  destinationS3Location?: DestinationS3Location;
+  destinationS3Location?: DestinationS3Location | undefined;
   taxDocumentMetadata: TaxDocumentMetadata;
 }
 export type DestinationFilePath = string;
 export type Url = string;
 export interface GetTaxRegistrationDocumentResponse {
-  destinationFilePath?: string;
-  presignedS3Url?: string;
+  destinationFilePath?: string | undefined;
+  presignedS3Url?: string | undefined;
 }
 export type MaxResults = number;
 export type PaginationTokenString = string;
 export interface ListSupplementalTaxRegistrationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SupplementalTaxRegistrationType = "VAT" | (string & {});
 export interface SupplementalTaxRegistration {
@@ -628,22 +667,22 @@ export interface SupplementalTaxRegistration {
 export type SupplementalTaxRegistrationList = SupplementalTaxRegistration[];
 export interface ListSupplementalTaxRegistrationsResponse {
   taxRegistrations: SupplementalTaxRegistration[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTaxExemptionsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTaxExemptionsResponse {
-  nextToken?: string;
-  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails | undefined };
+  nextToken?: string | undefined;
+  taxExemptionDetailsMap?: { [key: string]: TaxExemptionDetails | undefined } | undefined;
 }
 export interface ListTaxRegistrationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface Jurisdiction {
-  stateOrRegion?: string;
+  stateOrRegion?: string | undefined;
   countryCode: string;
 }
 export interface TaxRegistrationWithJurisdiction {
@@ -651,38 +690,39 @@ export interface TaxRegistrationWithJurisdiction {
   registrationType: TaxRegistrationType;
   legalName: string;
   status: TaxRegistrationStatus;
-  sector?: Sector;
-  taxDocumentMetadatas?: TaxDocumentMetadata[];
-  certifiedEmailId?: string;
-  additionalTaxInformation?: AdditionalInfoResponse;
+  sector?: Sector | undefined;
+  taxDocumentMetadatas?: TaxDocumentMetadata[] | undefined;
+  certifiedEmailId?: string | undefined;
+  additionalTaxInformation?: AdditionalInfoResponse | undefined;
+  statusReason?: TaxRegistrationStatusReason | undefined;
   jurisdiction: Jurisdiction;
 }
 export type InheritanceObtainedReason = string;
 export interface TaxInheritanceDetails {
-  parentEntityId?: string;
-  inheritanceObtainedReason?: string;
+  parentEntityId?: string | undefined;
+  inheritanceObtainedReason?: string | undefined;
 }
 export type AccountName = string;
 export type Seller = string;
 export type AddressRoleType = "TaxAddress" | "BillingAddress" | "ContactAddress" | (string & {});
-export type AddressRoleMap = { [key in AddressRoleType]?: Jurisdiction };
+export type AddressRoleMap = { [key in AddressRoleType]?: Jurisdiction | undefined };
 export interface AccountMetaData {
-  accountName?: string;
-  seller?: string;
-  address?: Address;
-  addressType?: AddressRoleType;
-  addressRoleMap?: { [key: string]: Jurisdiction | undefined };
+  accountName?: string | undefined;
+  seller?: string | undefined;
+  address?: Address | undefined;
+  addressType?: AddressRoleType | undefined;
+  addressRoleMap?: { [key: string]: Jurisdiction | undefined } | undefined;
 }
 export interface AccountDetails {
-  accountId?: string;
-  taxRegistration?: TaxRegistrationWithJurisdiction;
-  taxInheritanceDetails?: TaxInheritanceDetails;
-  accountMetaData?: AccountMetaData;
+  accountId?: string | undefined;
+  taxRegistration?: TaxRegistrationWithJurisdiction | undefined;
+  taxInheritanceDetails?: TaxInheritanceDetails | undefined;
+  accountMetaData?: AccountMetaData | undefined;
 }
 export type AccountDetailsList = AccountDetails[];
 export interface ListTaxRegistrationsResponse {
   accountDetails: AccountDetails[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SupplementalTaxRegistrationEntry {
   registrationId: string;
@@ -710,18 +750,18 @@ export interface PutTaxExemptionRequest {
   exemptionCertificate: ExemptionCertificate;
 }
 export interface PutTaxExemptionResponse {
-  caseId?: string;
+  caseId?: string | undefined;
 }
 export interface PutTaxInheritanceRequest {
-  heritageStatus?: HeritageStatus;
+  heritageStatus?: HeritageStatus | undefined;
 }
 export interface PutTaxInheritanceResponse {}
 export interface PutTaxRegistrationRequest {
-  accountId?: string;
+  accountId?: string | undefined;
   taxRegistrationEntry: TaxRegistrationEntry;
 }
 export interface PutTaxRegistrationResponse {
-  status?: TaxRegistrationStatus;
+  status?: TaxRegistrationStatus | undefined;
 }
 export type ValidationExceptionErrorCode =
   | "MalformedToken"
@@ -797,6 +837,10 @@ export type BatchPutTaxRegistrationError =
  *
  * To call this API operation for specific countries, see the following country-specific requirements.
  *
+ * **Argentina**
+ *
+ * - `RegistrationType` valid values are `CUIT` (Clave Única de Identificación Tributaria) and `CDI` (Clave de Identificación).
+ *
  * **Bangladesh**
  *
  * - You must specify the tax registration certificate document in the `taxRegistrationDocuments` field of the `VerificationDetails` object.
@@ -806,6 +850,12 @@ export type BatchPutTaxRegistrationError =
  * - You must complete the tax registration process in the Payment preferences page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.
  *
  * - For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.
+ *
+ * **Colombia**
+ *
+ * - You can provide a Registro Único Tributario (RUT) document in the **verificationDetails** field.
+ *
+ * - If you provide the RUT document, you do not need to provide address and legal name. These will be populated based on your document.
  *
  * **Georgia**
  *
@@ -909,6 +959,10 @@ export type BatchPutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **Uruguay**
+ *
+ * - `RegistrationType` valid values are `RUT` (Registro Único Tributario), `NIE` (Numero de Identificacion del Extranjero), and `CI` (Cedula Identidad).
+ *
  * **Philippines**
  *
  * - You can optionally specify the `isVatRegistered` in the `philippinesAdditionalInfo` field of the `additionalTaxInformation` object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
@@ -930,6 +984,12 @@ export type BatchPutTaxRegistrationError =
  * **Monaco**
  *
  * - You must specify the `businessNumber` in the `monacoAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * **Germany**
+ *
+ * - You must provide at least one of the following: a Tax Registration Number (TRN) (`registrationId`), the `economicIdentificationNumber`, or the `steuernummer`.
+ *
+ * - You can optionally specify the `economicIdentificationNumber` (Wirtschafts-Identifikationsnummer, or W-IdNr) and the `steuernummer` (tax number issued by the local tax office) in the `germanyAdditionalInfo` field of the `additionalTaxInformation` object.
  *
  * **Poland**
  *
@@ -1299,6 +1359,10 @@ export type PutTaxRegistrationError =
  *
  * To call this API operation for specific countries, see the following country-specific requirements.
  *
+ * **Argentina**
+ *
+ * - `RegistrationType` valid values are `CUIT` (Clave Única de Identificación Tributaria) and `CDI` (Clave de Identificación).
+ *
  * **Bangladesh**
  *
  * - You must specify the tax registration certificate document in the `taxRegistrationDocuments` field of the `VerificationDetails` object.
@@ -1308,6 +1372,12 @@ export type PutTaxRegistrationError =
  * - You must complete the tax registration process in the Payment preferences page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.
  *
  * - For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.
+ *
+ * **Colombia**
+ *
+ * - You can provide a Registro Único Tributario (RUT) document in the **verificationDetails** field.
+ *
+ * - If you provide the RUT document, you do not need to provide address and legal name. These will be populated based on your document.
  *
  * **Georgia**
  *
@@ -1411,6 +1481,10 @@ export type PutTaxRegistrationError =
  *
  * - The sector valid values are `Business` and `Individual`.
  *
+ * **Uruguay**
+ *
+ * - `RegistrationType` valid values are `RUT` (Registro Único Tributario), `NIE` (Numero de Identificacion del Extranjero), and `CI` (Cedula Identidad).
+ *
  * **Philippines**
  *
  * - You can optionally specify the `isVatRegistered` in the `philippinesAdditionalInfo` field of the `additionalTaxInformation` object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
@@ -1432,6 +1506,12 @@ export type PutTaxRegistrationError =
  * **Monaco**
  *
  * - You must specify the `businessNumber` in the `monacoAdditionalInfo` field of the `additionalTaxInformation` object.
+ *
+ * **Germany**
+ *
+ * - You must provide at least one of the following: a Tax Registration Number (TRN) (`registrationId`), the `economicIdentificationNumber`, or the `steuernummer`.
+ *
+ * - You can optionally specify the `economicIdentificationNumber` (Wirtschafts-Identifikationsnummer, or W-IdNr) and the `steuernummer` (tax number issued by the local tax office) in the `germanyAdditionalInfo` field of the `additionalTaxInformation` object.
  *
  * **Poland**
  *
@@ -1565,7 +1645,8 @@ function __c5(j: number): any {
           sector: S.optional(S.String),
           taxDocumentMetadatas: S.optional(__S(224, __c7, 0)),
           certifiedEmailId: S.optional(S.String),
-          additionalTaxInformation: S.optional(__S(227, __c7, 3)),
+          additionalTaxInformation: S.optional(__S(228, __c7, 4)),
+          statusReason: S.optional(__S(229, __c7, 5)),
           legalAddress: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "TaxRegistration" });
@@ -1598,6 +1679,14 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          responsibilityCodes: S.optional(__S(576, __c18, 0)),
+          taxpayerTypeCode: S.optional(S.String),
+          issueDate: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ColombiaAdditionalInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           malaysiaAdditionalInfo: S.optional(__S(801, __c25, 1)),
           israelAdditionalInfo: S.optional(__S(802, __c25, 2)),
           estoniaAdditionalInfo: S.optional(__S(803, __c25, 3)),
@@ -1624,8 +1713,15 @@ function __c7(j: number): any {
           chileAdditionalInfo: S.optional(__S(821, __c25, 21)),
           franceAdditionalInfo: S.optional(__S(822, __c25, 22)),
           monacoAdditionalInfo: S.optional(__S(823, __c25, 23)),
+          germanyAdditionalInfo: S.optional(__S(824, __c25, 24)),
+          mexicoAdditionalInfo: S.optional(__S(825, __c25, 25)),
+          colombiaAdditionalInfo: S.optional(__S(227, __c7, 3)),
         }),
       ).annotate({ identifier: "AdditionalInfoResponse" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ code: S.optional(S.String), message: S.optional(S.String) }),
+      ).annotate({ identifier: "TaxRegistrationStatusReason" });
   }
 }
 function __c8(j: number): any {
@@ -1746,7 +1842,8 @@ function __c11(j: number): any {
           sector: S.optional(S.String),
           taxDocumentMetadatas: S.optional(__S(224, __c7, 0)),
           certifiedEmailId: S.optional(S.String),
-          additionalTaxInformation: S.optional(__S(227, __c7, 3)),
+          additionalTaxInformation: S.optional(__S(228, __c7, 4)),
+          statusReason: S.optional(__S(229, __c7, 5)),
           jurisdiction: __S(353, __c11, 1),
         }),
       ).annotate({ identifier: "TaxRegistrationWithJurisdiction" });
@@ -2180,6 +2277,21 @@ function __c25(j: number): any {
       return S.suspend(() => S.Struct({ businessNumber: S.String })).annotate({
         identifier: "MonacoAdditionalInfo",
       });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          economicIdentificationNumber: S.optional(S.String),
+          steuernummer: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GermanyAdditionalInfo" });
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          taxRegime: S.optional(S.String),
+          taxRegimeFullName: S.optional(S.String),
+          cfdiUsageCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MexicoAdditionalInfo" });
   }
 }
 function __c26(j: number): any {
@@ -2211,6 +2323,8 @@ function __c26(j: number): any {
           chileAdditionalInfo: S.optional(__S(821, __c25, 21)),
           franceAdditionalInfo: S.optional(__S(822, __c25, 22)),
           monacoAdditionalInfo: S.optional(__S(823, __c25, 23)),
+          germanyAdditionalInfo: S.optional(__S(824, __c25, 24)),
+          mexicoAdditionalInfo: S.optional(__S(825, __c25, 25)),
         }),
       ).annotate({ identifier: "AdditionalInfoRequest" });
     case 1:

@@ -37,12 +37,14 @@ export interface GetUserInfoResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
 export type GetUserInfoResponseHardwareItemsList = Array<GetUserInfoResponseHardwareItemsItem>;
 /** Whether the user is on prepaid or postpaid billing */
 export type GetUserInfoResponseBillingMode = "prepaid" | "postpaid";
+/** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+export type GetUserInfoResponseGroupsList = Array<string>;
 export type GetUserInfoResponseOrgsItemPlan = "team" | "enterprise" | "plus" | "academia";
 export type GetUserInfoResponseOrgsItemBillingMode = "prepaid" | "postpaid";
 export type GetUserInfoResponseOrgsItemRoleInOrg =
@@ -82,45 +84,47 @@ export interface GetUserInfoResponseOrgsItem {
   picture: string;
   /** Username of the organization */
   preferred_username: string;
-  plan?: GetUserInfoResponseOrgsItemPlan;
-  canPay?: boolean;
-  billingMode?: GetUserInfoResponseOrgsItemBillingMode;
-  roleInOrg?: GetUserInfoResponseOrgsItemRoleInOrg;
+  plan?: GetUserInfoResponseOrgsItemPlan | undefined;
+  canPay?: boolean | undefined;
+  billingMode?: GetUserInfoResponseOrgsItemBillingMode | undefined;
+  roleInOrg?: GetUserInfoResponseOrgsItemRoleInOrg | undefined;
   /** Current security restrictions for accessing data in this organization with current authentication method */
-  securityRestrictions?: GetUserInfoResponseOrgsItemSecurityRestrictionsList;
-  resourceGroups?: GetUserInfoResponseOrgsItemResourceGroupsList;
+  securityRestrictions?: GetUserInfoResponseOrgsItemSecurityRestrictionsList | undefined;
+  resourceGroups?: GetUserInfoResponseOrgsItemResourceGroupsList | undefined;
 }
 export type GetUserInfoResponseOrgsList = Array<GetUserInfoResponseOrgsItem>;
 export interface GetUserInfoResponse {
   /** ID of the user */
   sub: string;
   /** Full name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Username of the user */
-  preferred_username?: string;
+  preferred_username?: string | undefined;
   /** Profile URL of the user */
-  profile?: string;
+  profile?: string | undefined;
   /** Avatar URL of the user */
-  picture?: string;
+  picture?: string | undefined;
   /** Website of the user */
-  website?: string;
+  website?: string | undefined;
   /** Email of the user */
-  email?: string;
+  email?: string | undefined;
   /** Whether the email is verified */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
-  hardwareItems?: GetUserInfoResponseHardwareItemsList;
+  hardwareItems?: GetUserInfoResponseHardwareItemsList | undefined;
   /** Whether the user is a Pro user */
   isPro: boolean;
   /** Whether the user has access to billing. You should check `canPay` first. */
-  canPay?: boolean;
+  canPay?: boolean | undefined;
   /** Whether the user is on prepaid or postpaid billing */
-  billingMode?: GetUserInfoResponseBillingMode;
+  billingMode?: GetUserInfoResponseBillingMode | undefined;
+  /** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+  groups: GetUserInfoResponseGroupsList;
   orgs: GetUserInfoResponseOrgsList;
 }
 export interface InitiateDeviceAuthorizationRequest {
   client_id: string;
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface InitiateDeviceAuthorizationResponse {
   device_code: string;
@@ -138,12 +142,14 @@ export interface PostUserInfoResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
 export type PostUserInfoResponseHardwareItemsList = Array<PostUserInfoResponseHardwareItemsItem>;
 /** Whether the user is on prepaid or postpaid billing */
 export type PostUserInfoResponseBillingMode = "prepaid" | "postpaid";
+/** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+export type PostUserInfoResponseGroupsList = Array<string>;
 export type PostUserInfoResponseOrgsItemPlan = "team" | "enterprise" | "plus" | "academia";
 export type PostUserInfoResponseOrgsItemBillingMode = "prepaid" | "postpaid";
 export type PostUserInfoResponseOrgsItemRoleInOrg =
@@ -183,40 +189,42 @@ export interface PostUserInfoResponseOrgsItem {
   picture: string;
   /** Username of the organization */
   preferred_username: string;
-  plan?: PostUserInfoResponseOrgsItemPlan;
-  canPay?: boolean;
-  billingMode?: PostUserInfoResponseOrgsItemBillingMode;
-  roleInOrg?: PostUserInfoResponseOrgsItemRoleInOrg;
+  plan?: PostUserInfoResponseOrgsItemPlan | undefined;
+  canPay?: boolean | undefined;
+  billingMode?: PostUserInfoResponseOrgsItemBillingMode | undefined;
+  roleInOrg?: PostUserInfoResponseOrgsItemRoleInOrg | undefined;
   /** Current security restrictions for accessing data in this organization with current authentication method */
-  securityRestrictions?: PostUserInfoResponseOrgsItemSecurityRestrictionsList;
-  resourceGroups?: PostUserInfoResponseOrgsItemResourceGroupsList;
+  securityRestrictions?: PostUserInfoResponseOrgsItemSecurityRestrictionsList | undefined;
+  resourceGroups?: PostUserInfoResponseOrgsItemResourceGroupsList | undefined;
 }
 export type PostUserInfoResponseOrgsList = Array<PostUserInfoResponseOrgsItem>;
 export interface PostUserInfoResponse {
   /** ID of the user */
   sub: string;
   /** Full name of the user */
-  name?: string;
+  name?: string | undefined;
   /** Username of the user */
-  preferred_username?: string;
+  preferred_username?: string | undefined;
   /** Profile URL of the user */
-  profile?: string;
+  profile?: string | undefined;
   /** Avatar URL of the user */
-  picture?: string;
+  picture?: string | undefined;
   /** Website of the user */
-  website?: string;
+  website?: string | undefined;
   /** Email of the user */
-  email?: string;
+  email?: string | undefined;
   /** Whether the email is verified */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
   /** The user's hardware items, if the `profile` scope is granted and the user did not set them as private */
-  hardwareItems?: PostUserInfoResponseHardwareItemsList;
+  hardwareItems?: PostUserInfoResponseHardwareItemsList | undefined;
   /** Whether the user is a Pro user */
   isPro: boolean;
   /** Whether the user has access to billing. You should check `canPay` first. */
-  canPay?: boolean;
+  canPay?: boolean | undefined;
   /** Whether the user is on prepaid or postpaid billing */
-  billingMode?: PostUserInfoResponseBillingMode;
+  billingMode?: PostUserInfoResponseBillingMode | undefined;
+  /** Names of the organizations the user belongs to, as a list of strings for OIDC clients syncing groups from a claim */
+  groups: PostUserInfoResponseGroupsList;
   orgs: PostUserInfoResponseOrgsList;
 }
 export type RegisterOAuthAppRequestRedirectUrisList = Array<string>;
@@ -226,15 +234,18 @@ export type RegisterOAuthAppRequestTokenEndpointAuthMethod =
   | "none"
   | "client_secret_post";
 export interface RegisterOAuthAppRequest {
-  redirect_uris?: RegisterOAuthAppRequestRedirectUrisList;
-  client_name?: string;
-  client_uri?: string;
-  logo_uri?: string;
-  scope?: string;
-  contacts?: RegisterOAuthAppRequestContactsList;
-  token_endpoint_auth_method?: RegisterOAuthAppRequestTokenEndpointAuthMethod | (string & {});
-  software_id?: string;
-  software_version?: string;
+  redirect_uris?: RegisterOAuthAppRequestRedirectUrisList | undefined;
+  client_name?: string | undefined;
+  client_uri?: string | undefined;
+  logo_uri?: string | undefined;
+  scope?: string | undefined;
+  contacts?: RegisterOAuthAppRequestContactsList | undefined;
+  token_endpoint_auth_method?:
+    | RegisterOAuthAppRequestTokenEndpointAuthMethod
+    | (string & {})
+    | undefined;
+  software_id?: string | undefined;
+  software_version?: string | undefined;
 }
 export type RegisterOAuthAppResponseRedirectUrisList = Array<string>;
 export type RegisterOAuthAppResponseGrantTypesItem =
@@ -250,19 +261,19 @@ export type RegisterOAuthAppResponseTokenEndpointAuthMethod =
   | "client_secret_post";
 export interface RegisterOAuthAppResponse {
   client_id: string;
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   client_id_issued_at: number;
   client_secret_expires_at: number;
   redirect_uris: RegisterOAuthAppResponseRedirectUrisList;
-  client_name?: string;
-  client_uri?: string;
-  logo_uri?: string;
+  client_name?: string | undefined;
+  client_uri?: string | undefined;
+  logo_uri?: string | undefined;
   scope: string;
   grant_types: RegisterOAuthAppResponseGrantTypesList;
-  contacts?: RegisterOAuthAppResponseContactsList;
-  token_endpoint_auth_method?: RegisterOAuthAppResponseTokenEndpointAuthMethod;
-  software_id?: string;
-  software_version?: string;
+  contacts?: RegisterOAuthAppResponseContactsList | undefined;
+  token_endpoint_auth_method?: RegisterOAuthAppResponseTokenEndpointAuthMethod | undefined;
+  software_id?: string | undefined;
+  software_version?: string | undefined;
 }
 export type GetUserInfoError = HuggingFaceOpError;
 /** Get user info Get information about the user. Only available through oauth access tokens. Information varies depending on the scope of the oauth app and what permissions the user granted to the oauth app. */
@@ -323,8 +334,8 @@ export const registerOAuthApp: API.OperationMethod<
   RegisterOAuthAppError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(41, __c5, 1) as any as S.Schema<RegisterOAuthAppRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<RegisterOAuthAppResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<RegisterOAuthAppRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<RegisterOAuthAppResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -377,7 +388,7 @@ function __c1(j: number): any {
           canPay: S.optional(S.Boolean),
           billingMode: S.optional(S.String),
           roleInOrg: S.optional(S.String),
-          securityRestrictions: S.optional(__S(16, __c2, 0)),
+          securityRestrictions: S.optional(__S(17, __c2, 1)),
           resourceGroups: S.optional(__S(12, __c1, 4)),
         }),
       ).annotate({ identifier: "GetUserInfoResponseOrgsItem" });
@@ -398,6 +409,7 @@ function __c1(j: number): any {
           isPro: S.Boolean,
           canPay: S.optional(S.Boolean),
           billingMode: S.optional(S.String),
+          groups: __S(16, __c2, 0),
           orgs: __S(14, __c1, 6),
         }),
       ).annotate({ identifier: "GetUserInfoResponse" });
@@ -406,6 +418,8 @@ function __c1(j: number): any {
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.Array(S.String);
   }
 }
@@ -440,35 +454,33 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          redirect_uris: S.optional(__S(40, __c5, 0)),
+          redirect_uris: S.optional(__S(16, __c2, 0)),
           client_name: S.optional(S.String),
           client_uri: S.optional(S.String),
           logo_uri: S.optional(S.String),
           scope: S.optional(S.String),
-          contacts: S.optional(__S(40, __c5, 0)),
+          contacts: S.optional(__S(16, __c2, 0)),
           token_endpoint_auth_method: S.optional(S.String),
           software_id: S.optional(S.String),
           software_version: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/oauth/register", code: 200 })),
       ).annotate({ identifier: "RegisterOAuthAppRequest" });
-    case 2:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           client_id_issued_at: S.Number,
           client_secret_expires_at: S.Number,
-          redirect_uris: __S(40, __c5, 0),
+          redirect_uris: __S(16, __c2, 0),
           client_name: S.optional(S.String),
           client_uri: S.optional(S.String),
           logo_uri: S.optional(S.String),
           scope: S.String,
-          grant_types: __S(16, __c2, 0),
-          contacts: S.optional(__S(40, __c5, 0)),
+          grant_types: __S(17, __c2, 1),
+          contacts: S.optional(__S(16, __c2, 0)),
           token_endpoint_auth_method: S.optional(S.String),
           software_id: S.optional(S.String),
           software_version: S.optional(S.String),

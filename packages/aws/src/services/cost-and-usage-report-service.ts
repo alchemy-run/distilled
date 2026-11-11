@@ -126,12 +126,12 @@ export interface DeleteReportDefinitionRequest {
 }
 export type DeleteResponseMessage = string;
 export interface DeleteReportDefinitionResponse {
-  ResponseMessage?: string;
+  ResponseMessage?: string | undefined;
 }
 export type MaxResults = number;
 export interface DescribeReportDefinitionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TimeUnit = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
 export type ReportFormat = "textORcsv" | "Parquet" | (string & {});
@@ -182,8 +182,8 @@ export type BillingViewArn = string;
 export type LastDelivery = string;
 export type LastStatus = "SUCCESS" | "ERROR_PERMISSIONS" | "ERROR_NO_BUCKET" | (string & {});
 export interface ReportStatus {
-  lastDelivery?: string;
-  lastStatus?: LastStatus;
+  lastDelivery?: string | undefined;
+  lastStatus?: LastStatus | undefined;
 }
 export interface ReportDefinition {
   ReportName: string;
@@ -194,16 +194,16 @@ export interface ReportDefinition {
   S3Bucket: string;
   S3Prefix: string;
   S3Region: AWSRegion;
-  AdditionalArtifacts?: AdditionalArtifact[];
-  RefreshClosedReports?: boolean;
-  ReportVersioning?: ReportVersioning;
-  BillingViewArn?: string;
-  ReportStatus?: ReportStatus;
+  AdditionalArtifacts?: AdditionalArtifact[] | undefined;
+  RefreshClosedReports?: boolean | undefined;
+  ReportVersioning?: ReportVersioning | undefined;
+  BillingViewArn?: string | undefined;
+  ReportStatus?: ReportStatus | undefined;
 }
 export type ReportDefinitionList = ReportDefinition[];
 export interface DescribeReportDefinitionsResponse {
-  ReportDefinitions?: ReportDefinition[];
-  NextToken?: string;
+  ReportDefinitions?: ReportDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ReportName: string;
@@ -216,7 +216,7 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ModifyReportDefinitionRequest {
   ReportName: string;
@@ -225,7 +225,7 @@ export interface ModifyReportDefinitionRequest {
 export interface ModifyReportDefinitionResponse {}
 export interface PutReportDefinitionRequest {
   ReportDefinition: ReportDefinition;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutReportDefinitionResponse {}
 export interface TagResourceRequest {

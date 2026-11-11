@@ -33,6 +33,15 @@ export class CommandDeadlineElapsed
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
   ) {}
 
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  ) {}
+
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -61,9 +70,13 @@ export interface MetadataGetResponse {
   /** Version of the protocol nodes use to connect to the control plane. */
   envoyProtocolVersion: number;
   /** Actor names the default namespace's connected nodes accept. Only present for requests made with the admin token. */
-  actorNames?: MetadataGetResponseActorNamesMap;
+  actorNames?: MetadataGetResponseActorNamesMap | undefined;
 }
-export type GetMetadataError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
+export type GetMetadataError =
+  | StorageOverloaded
+  | StorageCommandCapacity
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Returns the runtime and version of the control plane. Requests with the admin token also receive the actor names served by the default namespace. */
 export const getMetadata: API.OperationMethod<
   GetMetadataRequest,
@@ -73,7 +86,7 @@ export const getMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetMetadataRequest>,
   output: __S(4, __c0, 4) as any as S.Schema<MetadataGetResponse>,
-  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

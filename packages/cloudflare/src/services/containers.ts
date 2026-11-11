@@ -178,31 +178,31 @@ export type ContainerNetworkMode = "private" | "public";
 /** Network configuration for a container deployment. Transcribed from the live API: it rejects unknown keys (`unrecognized key: "assignipv4"`). */
 export interface ContainerNetwork {
   /** Whether to assign an IPv4 address. `predefined` requests public reachability: the API infers `mode: public` when `mode` is omitted, and rejects it combined with `mode: private`. */
-  assignIpv4?: ContainerNetworkAssignIp | (string & {}) | null;
+  assignIpv4?: ContainerNetworkAssignIp | (string & {}) | null | undefined;
   /** Whether to assign an IPv6 address. Same rules as `assign_ipv4`. */
-  assignIpv6?: ContainerNetworkAssignIp | (string & {}) | null;
+  assignIpv6?: ContainerNetworkAssignIp | (string & {}) | null | undefined;
   /** Network mode. Some accounts only permit `private`. */
-  mode?: ContainerNetworkMode | (string & {}) | null;
+  mode?: ContainerNetworkMode | (string & {}) | null | undefined;
 }
 export type StringList = Array<string>;
 export interface ContainerConfiguration {
   image: string;
-  instanceType?: string;
-  vcpu?: number;
-  memory?: string;
-  memoryMib?: number;
-  disk?: unknown;
-  environmentVariables?: EnvironmentVariableList;
-  secrets?: DocumentList;
-  labels?: DocumentList;
-  ports?: DocumentList;
-  network?: ContainerNetwork;
-  command?: StringList;
-  entrypoint?: StringList;
-  observability?: unknown;
-  checks?: DocumentList;
-  dns?: unknown;
-  sshPublicKeyIds?: StringList;
+  instanceType?: string | undefined;
+  vcpu?: number | undefined;
+  memory?: string | undefined;
+  memoryMib?: number | undefined;
+  disk?: unknown | undefined;
+  environmentVariables?: EnvironmentVariableList | undefined;
+  secrets?: DocumentList | undefined;
+  labels?: DocumentList | undefined;
+  ports?: DocumentList | undefined;
+  network?: ContainerNetwork | undefined;
+  command?: StringList | undefined;
+  entrypoint?: StringList | undefined;
+  observability?: unknown | undefined;
+  checks?: DocumentList | undefined;
+  dns?: unknown | undefined;
+  sshPublicKeyIds?: StringList | undefined;
 }
 export interface DurableObjectsRef {
   namespaceId: string;
@@ -212,31 +212,31 @@ export interface CreateContainerApplicationRequest {
   name: string;
   maxInstances: number;
   configuration: ContainerConfiguration;
-  durableObjects?: DurableObjectsRef;
-  instances?: number;
-  schedulingPolicy?: string;
+  durableObjects?: DurableObjectsRef | undefined;
+  instances?: number | undefined;
+  schedulingPolicy?: string | undefined;
   /** Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRequest.ts (2026-10-23). */
-  rolloutActiveGracePeriod?: number;
-  constraints?: unknown;
-  affinities?: unknown;
-  jobs?: boolean;
+  rolloutActiveGracePeriod?: number | undefined;
+  constraints?: unknown | undefined;
+  affinities?: unknown | undefined;
+  jobs?: boolean | undefined;
 }
 export type DurableObjectSchedulingPolicy = "durable_object";
 /** Configuration for connecting to a container over SSH with Wrangler. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/WranglerSSHConfig.ts (2026-09-30). */
 export interface WranglerSSHConfiguration {
   enabled: boolean;
-  port?: number | null;
+  port?: number | null | undefined;
 }
 /** An SSH public key provided by the user. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/UserSSHPublicKey.ts (2026-09-30). */
 export interface UserSSHPublicKey {
-  name?: string | null;
+  name?: string | null | undefined;
   publicKey: string;
 }
 export type UserSSHPublicKeyList = Array<UserSSHPublicKey>;
 export interface DurableObjectContainerConfiguration {
-  wranglerSsh?: WranglerSSHConfiguration | null;
-  authorizedKeys?: UserSSHPublicKeyList | null;
-  experimentalFlags?: StringList | null;
+  wranglerSsh?: WranglerSSHConfiguration | null | undefined;
+  authorizedKeys?: UserSSHPublicKeyList | null | undefined;
+  experimentalFlags?: StringList | null | undefined;
 }
 export interface DurableObjectApplicationConstraints {
   /** The jurisdiction of the application's primary control-plane object: eu, fedramp or us. Set on create; it cannot change. */
@@ -248,13 +248,13 @@ export interface DurableObjectApplicationHealthInstances {
 }
 export interface DurableObjectApplicationHealth {
   instances: DurableObjectApplicationHealthInstances;
-  summary?: string | null;
+  summary?: string | null | undefined;
 }
 export interface ContainerApplicationLogs {
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface ContainerApplicationObservability {
-  logs?: ContainerApplicationLogs | null;
+  logs?: ContainerApplicationLogs | null | undefined;
 }
 /** An application whose Durable Objects create and manage the lifecycle of its container instances. Deployment configuration, scaling, placement constraints, versions and rollouts do not apply. Source: https://developers.cloudflare.com/api/resources/containers/subresources/applications/methods/get/ (2026-10-22) (CcDurableObjectApplication). */
 export interface DurableObjectContainerApplication {
@@ -265,37 +265,37 @@ export interface DurableObjectContainerApplication {
   name: string;
   schedulingPolicy: DurableObjectSchedulingPolicy;
   durableObjects: DurableObjectsRef;
-  configuration?: DurableObjectContainerConfiguration | null;
-  constraints?: DurableObjectApplicationConstraints | null;
-  health?: DurableObjectApplicationHealth | null;
-  observability?: ContainerApplicationObservability | null;
+  configuration?: DurableObjectContainerConfiguration | null | undefined;
+  constraints?: DurableObjectApplicationConstraints | null | undefined;
+  health?: DurableObjectApplicationHealth | null | undefined;
+  observability?: ContainerApplicationObservability | null | undefined;
 }
 export type ContainerSchedulingPolicy = "default" | "durable_object";
 export interface ContainerApplicationConfiguration {
-  image?: string | null;
-  instanceType?: string | null;
-  vcpu?: number | null;
-  memory?: string | null;
-  memoryMib?: number | null;
-  disk?: unknown | null;
-  environmentVariables?: EnvironmentVariableList | null;
-  secrets?: DocumentList | null;
-  labels?: DocumentList | null;
-  ports?: DocumentList | null;
-  network?: ContainerNetwork | null;
-  command?: StringList | null;
-  entrypoint?: StringList | null;
-  observability?: unknown | null;
-  checks?: DocumentList | null;
-  dns?: unknown | null;
-  sshPublicKeyIds?: StringList | null;
-  wranglerSsh?: WranglerSSHConfiguration | null;
-  authorizedKeys?: UserSSHPublicKeyList | null;
-  experimentalFlags?: StringList | null;
+  image?: string | null | undefined;
+  instanceType?: string | null | undefined;
+  vcpu?: number | null | undefined;
+  memory?: string | null | undefined;
+  memoryMib?: number | null | undefined;
+  disk?: unknown | null | undefined;
+  environmentVariables?: EnvironmentVariableList | null | undefined;
+  secrets?: DocumentList | null | undefined;
+  labels?: DocumentList | null | undefined;
+  ports?: DocumentList | null | undefined;
+  network?: ContainerNetwork | null | undefined;
+  command?: StringList | null | undefined;
+  entrypoint?: StringList | null | undefined;
+  observability?: unknown | null | undefined;
+  checks?: DocumentList | null | undefined;
+  dns?: unknown | null | undefined;
+  sshPublicKeyIds?: StringList | null | undefined;
+  wranglerSsh?: WranglerSSHConfiguration | null | undefined;
+  authorizedKeys?: UserSSHPublicKeyList | null | undefined;
+  experimentalFlags?: StringList | null | undefined;
 }
 export interface ScheduledApplicationConstraints {
-  jurisdiction?: string | null;
-  regions?: StringList | null;
+  jurisdiction?: string | null | undefined;
+  regions?: StringList | null | undefined;
 }
 export interface ScheduledApplicationHealthInstances {
   active: number;
@@ -304,7 +304,7 @@ export interface ScheduledApplicationHealthInstances {
 export interface ScheduledApplicationHealth {
   errors: DocumentList;
   instances: ScheduledApplicationHealthInstances;
-  summary?: string | null;
+  summary?: string | null | undefined;
 }
 /** An application that places its instances through the Containers scheduler. Source: https://developers.cloudflare.com/api/resources/containers/subresources/applications/methods/get/ (2026-10-22) (CcScheduledApplication). */
 export interface ScheduledContainerApplication {
@@ -317,15 +317,15 @@ export interface ScheduledContainerApplication {
   configuration: ContainerApplicationConfiguration;
   instances: number;
   version: number;
-  maxInstances?: number | null;
-  activeRolloutId?: string | null;
-  rolloutActiveGracePeriod?: number | null;
-  constraints?: ScheduledApplicationConstraints | null;
+  maxInstances?: number | null | undefined;
+  activeRolloutId?: string | null | undefined;
+  rolloutActiveGracePeriod?: number | null | undefined;
+  constraints?: ScheduledApplicationConstraints | null | undefined;
   /** Not in the API reference; kept from the earlier transcription of the live API. */
-  affinities?: unknown | null;
-  durableObjects?: DurableObjectsRef | null;
-  health?: ScheduledApplicationHealth | null;
-  observability?: ContainerApplicationObservability | null;
+  affinities?: unknown | null | undefined;
+  durableObjects?: DurableObjectsRef | null | undefined;
+  health?: ScheduledApplicationHealth | null | undefined;
+  observability?: ContainerApplicationObservability | null | undefined;
 }
 /** A Containers application, one case per scheduling policy (CcDurableObjectApplication | CcScheduledApplication). The durable_object case is listed first: its keys are a subset of the scheduled case's, and a key-set tie picks the first case. Source: https://developers.cloudflare.com/api/resources/containers/subresources/applications/methods/get/ (2026-10-22). */
 export type ContainerApplicationItem =
@@ -337,9 +337,9 @@ export interface CreateContainerApplicationRolloutRequest {
   applicationId: string;
   description: string;
   strategy: string;
-  kind?: string;
-  stepPercentage?: number;
-  targetConfiguration?: ContainerConfiguration;
+  kind?: string | undefined;
+  stepPercentage?: number | undefined;
+  targetConfiguration?: ContainerConfiguration | undefined;
 }
 export type CreateContainerApplicationRolloutResponse = ContainerApplicationItem;
 export interface CreateContainerRegistryCredentialsRequest {
@@ -350,8 +350,8 @@ export interface CreateContainerRegistryCredentialsRequest {
 }
 /** Registry credentials (transcribed from the distilled SDK -- endpoint is docs-absent). */
 export interface CreateContainerRegistryCredentialsResult {
-  user?: string | null;
-  username?: string | null;
+  user?: string | null | undefined;
+  username?: string | null | undefined;
   password: string;
 }
 export type CreateContainerRegistryCredentialsResponse = CreateContainerRegistryCredentialsResult;
@@ -360,8 +360,8 @@ export interface CreateDurableObjectContainerApplicationRequest {
   name: string;
   schedulingPolicy: DurableObjectSchedulingPolicy;
   durableObjects: DurableObjectsRef;
-  configuration?: DurableObjectContainerConfiguration;
-  observability?: ContainerApplicationObservability;
+  configuration?: DurableObjectContainerConfiguration | undefined;
+  observability?: ContainerApplicationObservability | undefined;
 }
 export type CreateDurableObjectContainerApplicationResponse = ContainerApplicationItem;
 export interface DeleteContainerApplicationRequest {
@@ -381,24 +381,24 @@ export type GetContainerIdentityResponse = unknown;
 export interface ListContainerApplicationInstancesRequest {
   accountId: string;
   applicationId: string;
-  perPage?: number;
-  pageToken?: string;
+  perPage?: number | undefined;
+  pageToken?: string | undefined;
 }
 export interface ContainerApplicationDurableObject {
   id: string;
-  name?: string | null;
-  deploymentId?: string | null;
-  assignedAt?: string | null;
+  name?: string | null | undefined;
+  deploymentId?: string | null | undefined;
+  assignedAt?: string | null | undefined;
 }
 export type ContainerApplicationDurableObjectList = Array<ContainerApplicationDurableObject>;
 export interface ContainerApplicationInstances {
-  instances?: DocumentList | null;
-  durableObjects?: ContainerApplicationDurableObjectList | null;
+  instances?: DocumentList | null | undefined;
+  durableObjects?: ContainerApplicationDurableObjectList | null | undefined;
 }
 export interface ListContainerApplicationInstancesResponse {
   result: ContainerApplicationInstances;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListContainerApplicationsRequest {
   accountId: string;
@@ -413,22 +413,22 @@ export type ContainerImagePreparationStatus = "pending" | "ready" | "error";
 export interface ContainerImagePreparation {
   image: string;
   status: ContainerImagePreparationStatus;
-  artifactDigest?: string | null;
-  reason?: string | null;
+  artifactDigest?: string | null | undefined;
+  reason?: string | null | undefined;
 }
 export type PrepareContainerImageResponse = ContainerImagePreparation;
 export interface UpdateContainerApplicationRequest {
   accountId: string;
   applicationId: string;
-  maxInstances?: number;
-  configuration?: ContainerApplicationConfiguration;
-  instances?: number;
-  schedulingPolicy?: string;
+  maxInstances?: number | undefined;
+  configuration?: ContainerApplicationConfiguration | undefined;
+  instances?: number | undefined;
+  schedulingPolicy?: string | undefined;
   /** Grace period, in seconds, an active instance is given before it is shut down during a rollout. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/ModifyApplicationRequestBody.ts (2026-10-23). */
-  rolloutActiveGracePeriod?: number;
-  constraints?: unknown;
-  affinities?: unknown;
-  observability?: ContainerApplicationObservability;
+  rolloutActiveGracePeriod?: number | undefined;
+  constraints?: unknown | undefined;
+  affinities?: unknown | undefined;
+  observability?: ContainerApplicationObservability | undefined;
 }
 export type UpdateContainerApplicationResponse = ContainerApplicationItem;
 export type CreateContainerApplicationError =

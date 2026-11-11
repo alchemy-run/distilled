@@ -43,7 +43,7 @@ export type GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntityTyp
 export interface GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntity {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
-  name?: string;
+  name?: string | undefined;
   type: GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemEntityType;
 }
 export type GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedItemPermissionsList =
@@ -61,14 +61,14 @@ export type GetUserInfoResponseBodyAuthAccessTokenFineGrainedGlobalList =
   Array<GetUserInfoResponseBodyAuthAccessTokenFineGrainedGlobalItem>;
 export interface GetUserInfoResponseBodyAuthAccessTokenFineGrained {
   scoped: GetUserInfoResponseBodyAuthAccessTokenFineGrainedScopedList;
-  global?: GetUserInfoResponseBodyAuthAccessTokenFineGrainedGlobalList;
+  global?: GetUserInfoResponseBodyAuthAccessTokenFineGrainedGlobalList | undefined;
   /** Allow access to all public gated repos to which the user has access */
-  canReadGatedRepos?: boolean;
+  canReadGatedRepos?: boolean | undefined;
 }
 export interface GetUserInfoResponseBodyAuthAccessToken {
   displayName: string;
   role: GetUserInfoResponseBodyAuthAccessTokenRole;
-  fineGrained?: GetUserInfoResponseBodyAuthAccessTokenFineGrained;
+  fineGrained?: GetUserInfoResponseBodyAuthAccessTokenFineGrained | undefined;
   createdAt: string;
 }
 export interface GetUserInfoResponseBodyAuthResource {
@@ -76,9 +76,9 @@ export interface GetUserInfoResponseBodyAuthResource {
 }
 export interface GetUserInfoResponseBodyAuth {
   type: string;
-  accessToken?: GetUserInfoResponseBodyAuthAccessToken;
-  expiresAt?: string;
-  resource?: GetUserInfoResponseBodyAuthResource;
+  accessToken?: GetUserInfoResponseBodyAuthAccessToken | undefined;
+  expiresAt?: string | undefined;
+  resource?: GetUserInfoResponseBodyAuthResource | undefined;
 }
 export type GetUserInfoResponseBodyBillingMode = "prepaid" | "postpaid";
 export type GetUserInfoResponseBodyOrgsItemBillingMode = "prepaid" | "postpaid";
@@ -117,17 +117,17 @@ export interface GetUserInfoResponseBodyOrgsItem {
   id: string;
   name: string;
   fullname: string;
-  email?: string | null;
-  canPay?: boolean;
-  spendLimitReached?: boolean;
-  billingMode?: GetUserInfoResponseBodyOrgsItemBillingMode;
+  email?: string | null | undefined;
+  canPay?: boolean | undefined;
+  spendLimitReached?: boolean | undefined;
+  billingMode?: GetUserInfoResponseBodyOrgsItemBillingMode | undefined;
   avatarUrl: string;
-  periodEnd?: number | null;
-  plan?: GetUserInfoResponseBodyOrgsItemPlan;
-  roleInOrg?: GetUserInfoResponseBodyOrgsItemRoleInOrg;
+  periodEnd?: number | null | undefined;
+  plan?: GetUserInfoResponseBodyOrgsItemPlan | undefined;
+  roleInOrg?: GetUserInfoResponseBodyOrgsItemRoleInOrg | undefined;
   /** Current security restrictions for accessing data in this organization with current authentication method */
-  securityRestrictions?: GetUserInfoResponseBodyOrgsItemSecurityRestrictionsList;
-  resourceGroups?: GetUserInfoResponseBodyOrgsItemResourceGroupsList;
+  securityRestrictions?: GetUserInfoResponseBodyOrgsItemSecurityRestrictionsList | undefined;
+  resourceGroups?: GetUserInfoResponseBodyOrgsItemResourceGroupsList | undefined;
 }
 export type GetUserInfoResponseBodyOrgsList = Array<GetUserInfoResponseBodyOrgsItem>;
 export interface GetUserInfoResponseBody {
@@ -136,12 +136,12 @@ export interface GetUserInfoResponseBody {
   id: string;
   name: string;
   fullname: string;
-  email?: string | null;
-  canPay?: boolean;
-  billingMode?: GetUserInfoResponseBodyBillingMode;
+  email?: string | null | undefined;
+  canPay?: boolean | undefined;
+  billingMode?: GetUserInfoResponseBodyBillingMode | undefined;
   avatarUrl: string;
-  periodEnd?: number | null;
-  emailVerified?: boolean;
+  periodEnd?: number | null | undefined;
+  emailVerified?: boolean | undefined;
   isPro: boolean;
   orgs: GetUserInfoResponseBodyOrgsList;
 }

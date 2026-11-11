@@ -24,11 +24,11 @@ const TELEMETRY = {
 } as const;
 
 export interface DeleteSharedVolumeRequest {
-  sharedVolumeId?: string;
+  sharedVolumeId?: string | undefined;
 }
 export interface DeleteSharedVolumeResponse {}
 export interface ListSharedVolumeRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 /** libmodal/modal-go: Go SDK, since version modal-go/v0.0.15 */
 export type CloudProvider =
@@ -50,12 +50,12 @@ export interface ListSharedVolumeResponse {
   environmentName: string;
 }
 export interface SharedVolumeGetFileRequest {
-  sharedVolumeId?: string;
-  path?: string;
+  sharedVolumeId?: string | undefined;
+  path?: string | undefined;
 }
 export interface SharedVolumeGetFileResponse {
-  data?: string;
-  dataBlobId?: string;
+  data?: string | undefined;
+  dataBlobId?: string | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -65,22 +65,22 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface SharedVolumeGetOrCreateRequest {
-  deploymentName?: string;
+  deploymentName?: string | undefined;
   /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
-  appId?: string;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  appId?: string | undefined;
 }
 export interface SharedVolumeGetOrCreateResponse {
   sharedVolumeId: string;
 }
 export interface SharedVolumeHeartbeatRequest {
-  sharedVolumeId?: string;
+  sharedVolumeId?: string | undefined;
 }
 export interface SharedVolumeHeartbeatResponse {}
 export interface SharedVolumeListFilesRequest {
-  sharedVolumeId?: string;
-  path?: string;
+  sharedVolumeId?: string | undefined;
+  path?: string | undefined;
 }
 export type FileEntryFileType =
   | "UNSPECIFIED"
@@ -101,8 +101,8 @@ export interface SharedVolumeListFilesResponse {
   entries: FileEntryList;
 }
 export interface SharedVolumeListFilesStreamRequest {
-  sharedVolumeId?: string;
-  path?: string;
+  sharedVolumeId?: string | undefined;
+  path?: string | undefined;
 }
 export interface SharedVolumeListFilesResponse2 {
   entries: FileEntryList;
@@ -113,20 +113,20 @@ export interface SharedVolumeListFilesStreamStream {
   items: SharedVolumeListFilesResponse2List;
 }
 export interface SharedVolumePutFileRequest {
-  sharedVolumeId?: string;
-  path?: string;
-  sha256Hex?: string;
-  data?: string;
-  dataBlobId?: string;
-  resumable?: boolean;
+  sharedVolumeId?: string | undefined;
+  path?: string | undefined;
+  sha256Hex?: string | undefined;
+  data?: string | undefined;
+  dataBlobId?: string | undefined;
+  resumable?: boolean | undefined;
 }
 export interface SharedVolumePutFileResponse {
   exists: boolean;
 }
 export interface SharedVolumeRemoveFileRequest {
-  sharedVolumeId?: string;
-  path?: string;
-  recursive?: boolean;
+  sharedVolumeId?: string | undefined;
+  path?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export interface SharedVolumeRemoveFileResponse {}
 export type DeleteSharedVolumeError = ModalOpError;

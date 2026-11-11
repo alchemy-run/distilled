@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * E2B protocols -- the shared REST protocol instantiated once per E2B host.
  *
@@ -45,7 +46,8 @@ export type E2BOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) of a control-plane operation. */
 export type E2BOpContext = Credentials | HttpClient.HttpClient;

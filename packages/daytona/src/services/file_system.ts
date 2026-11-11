@@ -34,7 +34,7 @@ export interface DeleteFileRequest {
   /** File or directory path to delete */
   path: string;
   /** Enable recursive deletion for directories */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export interface DeleteFileResponse {}
 export interface DownloadFileRequest {
@@ -69,15 +69,15 @@ export interface FileInfo {
   name: string;
   owner: string;
   /** Full path of the entry */
-  path?: string;
+  path?: string | undefined;
   permissions: string;
   size: number;
 }
 export interface ListFilesRequest {
   /** Directory path to list (defaults to working directory) */
-  path?: string;
+  path?: string | undefined;
   /** How many levels deep to list (default: 1, must be >= 1) */
-  depth?: number;
+  depth?: number | undefined;
 }
 export type ListFilesResponseBodyList = Array<FileInfo>;
 export type ListFilesResponse = ListFilesResponseBodyList;
@@ -95,9 +95,9 @@ export interface ReplaceInFilesRequest {
   pattern: string;
 }
 export interface ReplaceResult {
-  error?: string;
-  file?: string;
-  success?: boolean;
+  error?: string | undefined;
+  file?: string | undefined;
+  success?: boolean | undefined;
 }
 export type ReplaceInFilesResponseBodyList = Array<ReplaceResult>;
 export type ReplaceInFilesResponse = ReplaceInFilesResponseBodyList;
@@ -115,11 +115,11 @@ export interface SetFilePermissionsRequest {
   /** File or directory path */
   path: string;
   /** Owner (username or UID) */
-  owner?: string;
+  owner?: string | undefined;
   /** Group (group name or GID) */
-  group?: string;
+  group?: string | undefined;
   /** File mode in octal format (e.g., 0755) */
-  mode?: string;
+  mode?: string | undefined;
 }
 export interface SetFilePermissionsResponse {}
 export interface UploadFileRequest {

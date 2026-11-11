@@ -17,6 +17,7 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * Fly.io protocols -- Machines REST, UI-EX REST (MPG), GraphQL add-ons, and
  * Sprites REST.
@@ -84,7 +85,8 @@ export type FlyIoOpError =
   | ConfigError
   | CreateExtensionTosAgreementNotAuthorized
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by Machines / MPG / GraphQL operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;
@@ -671,7 +673,9 @@ const graphqlEncode = ({
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
     const op = getAnn(inputAst, graphqlOpSymbol) as GraphQLOpTrait | undefined;
     if (!op) {
-      throw new Error("operation input is missing the GraphQLOp() trait");
+      return yield* fail(
+        new SdkError({ message: "operation input is missing the GraphQLOp() trait" }),
+      );
     }
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     const variables: Record<string, unknown> = {};

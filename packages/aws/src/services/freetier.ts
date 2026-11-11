@@ -176,7 +176,7 @@ export type LanguageCode =
   | (string & {});
 export interface GetAccountActivityRequest {
   activityId: string;
-  languageCode?: LanguageCode;
+  languageCode?: LanguageCode | undefined;
 }
 export type ActivityStatus =
   | "NOT_STARTED"
@@ -197,10 +197,10 @@ export interface GetAccountActivityResponse {
   status: ActivityStatus;
   instructionsUrl: string;
   reward: ActivityReward;
-  estimatedTimeToCompleteInMinutes?: number;
-  expiresAt?: Date;
-  startedAt?: Date;
-  completedAt?: Date;
+  estimatedTimeToCompleteInMinutes?: number | undefined;
+  expiresAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export interface GetAccountPlanStateRequest {}
 export type AccountId = string;
@@ -210,8 +210,8 @@ export interface GetAccountPlanStateResponse {
   accountId: string;
   accountPlanType: AccountPlanType;
   accountPlanStatus: AccountPlanStatus;
-  accountPlanRemainingCredits?: MonetaryAmount;
-  accountPlanExpirationDate?: Date;
+  accountPlanRemainingCredits?: MonetaryAmount | undefined;
+  accountPlanExpirationDate?: Date | undefined;
 }
 export type Expressions = Expression[];
 export type Dimension =
@@ -239,41 +239,41 @@ export interface DimensionValues {
   MatchOptions: MatchOption[];
 }
 export interface Expression {
-  Or?: Expression[];
-  And?: Expression[];
-  Not?: Expression;
-  Dimensions?: DimensionValues;
+  Or?: Expression[] | undefined;
+  And?: Expression[] | undefined;
+  Not?: Expression | undefined;
+  Dimensions?: DimensionValues | undefined;
 }
 export type MaxResults = number;
 export type NextPageToken = string;
 export interface GetFreeTierUsageRequest {
-  filter?: Expression;
-  maxResults?: number;
-  nextToken?: string;
+  filter?: Expression | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FreeTierUsage {
-  service?: string;
-  operation?: string;
-  usageType?: string;
-  region?: string;
-  actualUsageAmount?: number;
-  forecastedUsageAmount?: number;
-  limit?: number;
-  unit?: string;
-  description?: string;
-  freeTierType?: string;
+  service?: string | undefined;
+  operation?: string | undefined;
+  usageType?: string | undefined;
+  region?: string | undefined;
+  actualUsageAmount?: number | undefined;
+  forecastedUsageAmount?: number | undefined;
+  limit?: number | undefined;
+  unit?: string | undefined;
+  description?: string | undefined;
+  freeTierType?: string | undefined;
 }
 export type FreeTierUsages = FreeTierUsage[];
 export interface GetFreeTierUsageResponse {
   freeTierUsages: FreeTierUsage[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type FilterActivityStatuses = ActivityStatus[];
 export interface ListAccountActivitiesRequest {
-  filterActivityStatuses?: ActivityStatus[];
-  nextToken?: string;
-  maxResults?: number;
-  languageCode?: LanguageCode;
+  filterActivityStatuses?: ActivityStatus[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  languageCode?: LanguageCode | undefined;
 }
 export interface ActivitySummary {
   activityId: string;
@@ -284,7 +284,7 @@ export interface ActivitySummary {
 export type Activities = ActivitySummary[];
 export interface ListAccountActivitiesResponse {
   activities: ActivitySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface UpgradeAccountPlanRequest {
   accountPlanType: AccountPlanType;

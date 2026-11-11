@@ -355,7 +355,7 @@ export const generateGraphQLClient = (
     const optional = argEntries.filter(([, arg]) => !arg.type.endsWith("!"));
     const argFields = [
       ...required.map(([argName, arg]) => `readonly ${argName}: ${tsArg(arg.type)}`),
-      ...optional.map(([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type)}`),
+      ...optional.map(([argName, arg]) => `readonly ${argName}?: ${tsArg(arg.type)} | undefined`),
     ].join("; ");
     const sig =
       argEntries.length === 0
@@ -482,7 +482,7 @@ export const generateGraphQLClient = (
     const type = model.types[name]!;
     const fields = Object.entries(type.inputFields ?? {}).map(
       ([fieldName, field]) =>
-        `  readonly ${fieldName}${field.type.endsWith("!") ? "" : "?"}: ${tsArg(field.type)};`,
+        `  readonly ${fieldName}${field.type.endsWith("!") ? "" : "?"}: ${tsArg(field.type)}${field.type.endsWith("!") ? "" : " | undefined"};`,
     );
     lines.push(documentation(type.description) + `export interface ${name} {`, ...fields, "}", "");
   }

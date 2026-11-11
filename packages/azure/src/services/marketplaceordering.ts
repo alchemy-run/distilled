@@ -46,49 +46,49 @@ export type OldAgreementPropertiesState = "Active" | "Canceled";
 /** Old Agreement Terms definition */
 export interface OldAgreementProperties {
   /** A unique identifier of the agreement. */
-  id?: string;
+  id?: string | undefined;
   /** Publisher identifier string of image being deployed. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Offer identifier string of image being deployed. */
-  offer?: string;
+  offer?: string | undefined;
   /** Date and time in UTC of when the terms were accepted. This is empty if state is cancelled. */
-  signDate?: string;
+  signDate?: string | undefined;
   /** Date and time in UTC of when the terms were cancelled. This is empty if state is active. */
-  cancelDate?: string;
+  cancelDate?: string | undefined;
   /** Whether the agreement is active or cancelled */
-  state?: OldAgreementPropertiesState;
+  state?: OldAgreementPropertiesState | undefined;
 }
 export interface CancelMarketplaceAgreementResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: OldAgreementProperties;
+  properties?: OldAgreementProperties | undefined;
 }
 export type CreateMarketplaceAgreementRequestOfferType = "virtualmachine";
 /** Agreement Terms definition */
 export interface AgreementProperties {
   /** Publisher identifier string of image being deployed. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** Offer identifier string of image being deployed. */
-  product?: string;
+  product?: string | undefined;
   /** Plan identifier string of image being deployed. */
-  plan?: string;
+  plan?: string | undefined;
   /** Link to HTML with Microsoft and Publisher terms. */
-  licenseTextLink?: string;
+  licenseTextLink?: string | undefined;
   /** Link to the privacy policy of the publisher. */
-  privacyPolicyLink?: string;
+  privacyPolicyLink?: string | undefined;
   /** Link to HTML with Azure Marketplace terms. */
-  marketplaceTermsLink?: string;
+  marketplaceTermsLink?: string | undefined;
   /** Date and time in UTC of when the terms were accepted. This is empty if Accepted is false. */
-  retrieveDatetime?: string;
+  retrieveDatetime?: string | undefined;
   /** Terms signature. */
-  signature?: string;
+  signature?: string | undefined;
   /** If any version of the terms have been accepted, otherwise false. */
-  accepted?: boolean;
+  accepted?: boolean | undefined;
 }
 export interface CreateMarketplaceAgreementRequest {
   /** The subscription ID that identifies an Azure subscription. */
@@ -102,7 +102,7 @@ export interface CreateMarketplaceAgreementRequest {
   /** Plan identifier string of image being deployed. */
   planId: string;
   /** Represents the properties of the resource. */
-  properties?: AgreementProperties;
+  properties?: AgreementProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type CreateMarketplaceAgreementResponseSystemDataCreatedByType =
@@ -119,29 +119,29 @@ export type CreateMarketplaceAgreementResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreateMarketplaceAgreementResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreateMarketplaceAgreementResponseSystemDataCreatedByType;
+  createdByType?: CreateMarketplaceAgreementResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateMarketplaceAgreementResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CreateMarketplaceAgreementResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateMarketplaceAgreementResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: AgreementProperties;
+  properties?: AgreementProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateMarketplaceAgreementResponseSystemData;
+  systemData?: CreateMarketplaceAgreementResponseSystemData | undefined;
 }
 export type GetMarketplaceAgreementRequestOfferType = "virtualmachine";
 export interface GetMarketplaceAgreementRequest {
@@ -171,29 +171,29 @@ export type GetMarketplaceAgreementResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetMarketplaceAgreementResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetMarketplaceAgreementResponseSystemDataCreatedByType;
+  createdByType?: GetMarketplaceAgreementResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetMarketplaceAgreementResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetMarketplaceAgreementResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetMarketplaceAgreementResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: AgreementProperties;
+  properties?: AgreementProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetMarketplaceAgreementResponseSystemData;
+  systemData?: GetMarketplaceAgreementResponseSystemData | undefined;
 }
 export interface GetMarketplaceAgreementAgreementRequest {
   /** The subscription ID that identifies an Azure subscription. */
@@ -207,13 +207,13 @@ export interface GetMarketplaceAgreementAgreementRequest {
 }
 export interface GetMarketplaceAgreementAgreementResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: OldAgreementProperties;
+  properties?: OldAgreementProperties | undefined;
 }
 export interface ListMarketplaceAgreementsRequest {
   /** The subscription ID that identifies an Azure subscription. */
@@ -222,46 +222,46 @@ export interface ListMarketplaceAgreementsRequest {
 /** Terms properties for provided Publisher/Offer/Plan tuple */
 export interface OldAgreementTerms {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: OldAgreementProperties;
+  properties?: OldAgreementProperties | undefined;
 }
 export type OldAgreementTermsListValueList = Array<OldAgreementTerms>;
 /** Agreement Terms definition list */
 export interface OldAgreementTermsList {
-  value?: OldAgreementTermsListValueList;
+  value?: OldAgreementTermsListValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.MarketplaceOrdering */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Agreement, virtualmachine, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Get Agreement, Sign Agreement, Cancel Agreement etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Microsoft.MarketplaceOrdering REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of Microsoft.MarketplaceOrdering operations supported by the Microsoft.MarketplaceOrdering resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list MarketplaceOrdering operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Microsoft.MarketplaceOrdering operations supported by the Microsoft.MarketplaceOrdering resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface SignMarketplaceAgreementRequest {
   /** The subscription ID that identifies an Azure subscription. */
@@ -275,13 +275,13 @@ export interface SignMarketplaceAgreementRequest {
 }
 export interface SignMarketplaceAgreementResponse {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Represents the properties of the resource. */
-  properties?: OldAgreementProperties;
+  properties?: OldAgreementProperties | undefined;
 }
 export type CancelMarketplaceAgreementError = AzureOpError;
 /** Cancel marketplace terms. */

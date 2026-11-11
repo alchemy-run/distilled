@@ -150,8 +150,8 @@ export class ValidationException
 export type AmazonId = string;
 export type AppServerPrivateKey = string | redacted.Redacted<string>;
 export interface SidewalkAccountInfo {
-  AmazonId?: string;
-  AppServerPrivateKey?: string | redacted.Redacted<string>;
+  AmazonId?: string | undefined;
+  AppServerPrivateKey?: string | redacted.Redacted<string> | undefined;
 }
 export type ClientRequestToken = string;
 export type TagKey = string;
@@ -163,13 +163,13 @@ export interface Tag {
 export type TagList = Tag[];
 export interface AssociateAwsAccountWithPartnerAccountRequest {
   Sidewalk: SidewalkAccountInfo;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type PartnerAccountArn = string;
 export interface AssociateAwsAccountWithPartnerAccountResponse {
-  Sidewalk?: SidewalkAccountInfo;
-  Arn?: string;
+  Sidewalk?: SidewalkAccountInfo | undefined;
+  Arn?: string | undefined;
 }
 export type FuotaTaskId = string;
 export type MulticastGroupId = string;
@@ -202,7 +202,7 @@ export interface AssociateWirelessGatewayWithCertificateRequest {
   IotCertificateId: string;
 }
 export interface AssociateWirelessGatewayWithCertificateResponse {
-  IotCertificateId?: string;
+  IotCertificateId?: string | undefined;
 }
 export interface AssociateWirelessGatewayWithThingRequest {
   Id: string;
@@ -222,15 +222,15 @@ export interface CreateDestinationRequest {
   Name: string;
   ExpressionType: ExpressionType;
   Expression: string;
-  Description?: string;
+  Description?: string | undefined;
   RoleArn: string;
-  Tags?: Tag[];
-  ClientRequestToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type DestinationArn = string;
 export interface CreateDestinationResponse {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type DeviceProfileName = string;
 export type SupportsClassB = boolean;
@@ -254,39 +254,39 @@ export type RfRegion = string;
 export type SupportsJoin = boolean;
 export type Supports32BitFCnt = boolean;
 export interface LoRaWANDeviceProfile {
-  SupportsClassB?: boolean;
-  ClassBTimeout?: number;
-  PingSlotPeriod?: number;
-  PingSlotDr?: number;
-  PingSlotFreq?: number;
-  SupportsClassC?: boolean;
-  ClassCTimeout?: number;
-  MacVersion?: string;
-  RegParamsRevision?: string;
-  RxDelay1?: number;
-  RxDrOffset1?: number;
-  RxDataRate2?: number;
-  RxFreq2?: number;
-  FactoryPresetFreqsList?: number[];
-  MaxEirp?: number;
-  MaxDutyCycle?: number;
-  RfRegion?: string;
-  SupportsJoin?: boolean;
-  Supports32BitFCnt?: boolean;
+  SupportsClassB?: boolean | undefined;
+  ClassBTimeout?: number | undefined;
+  PingSlotPeriod?: number | undefined;
+  PingSlotDr?: number | undefined;
+  PingSlotFreq?: number | undefined;
+  SupportsClassC?: boolean | undefined;
+  ClassCTimeout?: number | undefined;
+  MacVersion?: string | undefined;
+  RegParamsRevision?: string | undefined;
+  RxDelay1?: number | undefined;
+  RxDrOffset1?: number | undefined;
+  RxDataRate2?: number | undefined;
+  RxFreq2?: number | undefined;
+  FactoryPresetFreqsList?: number[] | undefined;
+  MaxEirp?: number | undefined;
+  MaxDutyCycle?: number | undefined;
+  RfRegion?: string | undefined;
+  SupportsJoin?: boolean | undefined;
+  Supports32BitFCnt?: boolean | undefined;
 }
 export interface SidewalkCreateDeviceProfile {}
 export interface CreateDeviceProfileRequest {
-  Name?: string;
-  LoRaWAN?: LoRaWANDeviceProfile;
-  Tags?: Tag[];
-  ClientRequestToken?: string;
-  Sidewalk?: SidewalkCreateDeviceProfile;
+  Name?: string | undefined;
+  LoRaWAN?: LoRaWANDeviceProfile | undefined;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | undefined;
+  Sidewalk?: SidewalkCreateDeviceProfile | undefined;
 }
 export type DeviceProfileArn = string;
 export type DeviceProfileId = string;
 export interface CreateDeviceProfileResponse {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type FuotaTaskName = string;
 export type SupportedRfRegion =
@@ -305,7 +305,7 @@ export type SupportedRfRegion =
   | "IN865"
   | (string & {});
 export interface LoRaWANFuotaTask {
-  RfRegion?: SupportedRfRegion;
+  RfRegion?: SupportedRfRegion | undefined;
 }
 export type FirmwareUpdateImage = string;
 export type FirmwareUpdateRole = string;
@@ -314,81 +314,81 @@ export type FragmentSizeBytes = number;
 export type FragmentIntervalMS = number;
 export type FileDescriptor = string;
 export interface CreateFuotaTaskRequest {
-  Name?: string;
-  Description?: string;
-  ClientRequestToken?: string;
-  LoRaWAN?: LoRaWANFuotaTask;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  LoRaWAN?: LoRaWANFuotaTask | undefined;
   FirmwareUpdateImage: string;
   FirmwareUpdateRole: string;
-  Tags?: Tag[];
-  RedundancyPercent?: number;
-  FragmentSizeBytes?: number;
-  FragmentIntervalMS?: number;
-  Descriptor?: string;
+  Tags?: Tag[] | undefined;
+  RedundancyPercent?: number | undefined;
+  FragmentSizeBytes?: number | undefined;
+  FragmentIntervalMS?: number | undefined;
+  Descriptor?: string | undefined;
 }
 export type FuotaTaskArn = string;
 export interface CreateFuotaTaskResponse {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type MulticastGroupName = string;
 export type DlClass = "ClassB" | "ClassC" | (string & {});
 export type GatewayListMulticast = string[];
 export type TransmissionIntervalMulticast = number;
 export interface ParticipatingGatewaysMulticast {
-  GatewayList?: string[];
-  TransmissionInterval?: number;
+  GatewayList?: string[] | undefined;
+  TransmissionInterval?: number | undefined;
 }
 export type DlDr = number;
 export type DlFreq = number;
 export interface DefaultSessionParametersMulticast {
-  DlDr?: number;
-  DlFreq?: number;
+  DlDr?: number | undefined;
+  DlFreq?: number | undefined;
 }
 export interface LoRaWANMulticast {
-  RfRegion?: SupportedRfRegion;
-  DlClass?: DlClass;
-  ParticipatingGateways?: ParticipatingGatewaysMulticast;
-  DefaultSessionParameters?: DefaultSessionParametersMulticast;
+  RfRegion?: SupportedRfRegion | undefined;
+  DlClass?: DlClass | undefined;
+  ParticipatingGateways?: ParticipatingGatewaysMulticast | undefined;
+  DefaultSessionParameters?: DefaultSessionParametersMulticast | undefined;
 }
 export interface CreateMulticastGroupRequest {
-  Name?: string;
-  Description?: string;
-  ClientRequestToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ClientRequestToken?: string | undefined;
   LoRaWAN: LoRaWANMulticast;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type MulticastGroupArn = string;
 export interface CreateMulticastGroupResponse {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type NetworkAnalyzerConfigurationName = string;
 export type WirelessDeviceFrameInfo = "ENABLED" | "DISABLED" | (string & {});
 export type LogLevel = "INFO" | "ERROR" | "DISABLED" | (string & {});
 export type MulticastFrameInfo = "ENABLED" | "DISABLED" | (string & {});
 export interface TraceContent {
-  WirelessDeviceFrameInfo?: WirelessDeviceFrameInfo;
-  LogLevel?: LogLevel;
-  MulticastFrameInfo?: MulticastFrameInfo;
+  WirelessDeviceFrameInfo?: WirelessDeviceFrameInfo | undefined;
+  LogLevel?: LogLevel | undefined;
+  MulticastFrameInfo?: MulticastFrameInfo | undefined;
 }
 export type WirelessDeviceList = string[];
 export type WirelessGatewayList = string[];
 export type NetworkAnalyzerMulticastGroupList = string[];
 export interface CreateNetworkAnalyzerConfigurationRequest {
   Name: string;
-  TraceContent?: TraceContent;
-  WirelessDevices?: string[];
-  WirelessGateways?: string[];
-  Description?: string;
-  Tags?: Tag[];
-  ClientRequestToken?: string;
-  MulticastGroups?: string[];
+  TraceContent?: TraceContent | undefined;
+  WirelessDevices?: string[] | undefined;
+  WirelessGateways?: string[] | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | undefined;
+  MulticastGroups?: string[] | undefined;
 }
 export type NetworkAnalyzerConfigurationArn = string;
 export interface CreateNetworkAnalyzerConfigurationResponse {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type ServiceProfileName = string;
 export type AddGwMetadata = boolean;
@@ -401,27 +401,27 @@ export type TxPowerIndexMax = number;
 export type NbTransMin = number;
 export type NbTransMax = number;
 export interface LoRaWANServiceProfile {
-  AddGwMetadata?: boolean;
-  DrMin?: number;
-  DrMax?: number;
-  PrAllowed?: boolean;
-  RaAllowed?: boolean;
-  TxPowerIndexMin?: number;
-  TxPowerIndexMax?: number;
-  NbTransMin?: number;
-  NbTransMax?: number;
+  AddGwMetadata?: boolean | undefined;
+  DrMin?: number | undefined;
+  DrMax?: number | undefined;
+  PrAllowed?: boolean | undefined;
+  RaAllowed?: boolean | undefined;
+  TxPowerIndexMin?: number | undefined;
+  TxPowerIndexMax?: number | undefined;
+  NbTransMin?: number | undefined;
+  NbTransMax?: number | undefined;
 }
 export interface CreateServiceProfileRequest {
-  Name?: string;
-  LoRaWAN?: LoRaWANServiceProfile;
-  Tags?: Tag[];
-  ClientRequestToken?: string;
+  Name?: string | undefined;
+  LoRaWAN?: LoRaWANServiceProfile | undefined;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type ServiceProfileArn = string;
 export type ServiceProfileId = string;
 export interface CreateServiceProfileResponse {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type WirelessDeviceType = "Sidewalk" | "LoRaWAN" | (string & {});
 export type WirelessDeviceName = string;
@@ -430,17 +430,17 @@ export type AppKey = string;
 export type NwkKey = string;
 export type JoinEui = string;
 export interface OtaaV1_1 {
-  AppKey?: string | redacted.Redacted<string>;
-  NwkKey?: string | redacted.Redacted<string>;
-  JoinEui?: string;
+  AppKey?: string | redacted.Redacted<string> | undefined;
+  NwkKey?: string | redacted.Redacted<string> | undefined;
+  JoinEui?: string | undefined;
 }
 export type AppEui = string;
 export type GenAppKey = string;
 export interface OtaaV1_0_x {
-  AppKey?: string | redacted.Redacted<string>;
-  AppEui?: string;
-  JoinEui?: string;
-  GenAppKey?: string | redacted.Redacted<string>;
+  AppKey?: string | redacted.Redacted<string> | undefined;
+  AppEui?: string | undefined;
+  JoinEui?: string | undefined;
+  GenAppKey?: string | redacted.Redacted<string> | undefined;
 }
 export type DevAddr = string;
 export type FNwkSIntKey = string;
@@ -448,82 +448,82 @@ export type SNwkSIntKey = string;
 export type NwkSEncKey = string;
 export type AppSKey = string;
 export interface SessionKeysAbpV1_1 {
-  FNwkSIntKey?: string | redacted.Redacted<string>;
-  SNwkSIntKey?: string | redacted.Redacted<string>;
-  NwkSEncKey?: string | redacted.Redacted<string>;
-  AppSKey?: string | redacted.Redacted<string>;
+  FNwkSIntKey?: string | redacted.Redacted<string> | undefined;
+  SNwkSIntKey?: string | redacted.Redacted<string> | undefined;
+  NwkSEncKey?: string | redacted.Redacted<string> | undefined;
+  AppSKey?: string | redacted.Redacted<string> | undefined;
 }
 export type FCntStart = number;
 export interface AbpV1_1 {
-  DevAddr?: string;
-  SessionKeys?: SessionKeysAbpV1_1;
-  FCntStart?: number;
+  DevAddr?: string | undefined;
+  SessionKeys?: SessionKeysAbpV1_1 | undefined;
+  FCntStart?: number | undefined;
 }
 export type NwkSKey = string;
 export interface SessionKeysAbpV1_0_x {
-  NwkSKey?: string | redacted.Redacted<string>;
-  AppSKey?: string | redacted.Redacted<string>;
+  NwkSKey?: string | redacted.Redacted<string> | undefined;
+  AppSKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface AbpV1_0_x {
-  DevAddr?: string;
-  SessionKeys?: SessionKeysAbpV1_0_x;
-  FCntStart?: number;
+  DevAddr?: string | undefined;
+  SessionKeys?: SessionKeysAbpV1_0_x | undefined;
+  FCntStart?: number | undefined;
 }
 export type FPort = number;
 export interface Positioning {
-  ClockSync?: number;
-  Stream?: number;
-  Gnss?: number;
+  ClockSync?: number | undefined;
+  Stream?: number | undefined;
+  Gnss?: number | undefined;
 }
 export type ApplicationConfigType = "SemtechGeolocation" | (string & {});
 export interface ApplicationConfig {
-  FPort?: number;
-  Type?: ApplicationConfigType;
-  DestinationName?: string;
+  FPort?: number | undefined;
+  Type?: ApplicationConfigType | undefined;
+  DestinationName?: string | undefined;
 }
 export type Applications = ApplicationConfig[];
 export interface FPorts {
-  Fuota?: number;
-  Multicast?: number;
-  ClockSync?: number;
-  Positioning?: Positioning;
-  Applications?: ApplicationConfig[];
+  Fuota?: number | undefined;
+  Multicast?: number | undefined;
+  ClockSync?: number | undefined;
+  Positioning?: Positioning | undefined;
+  Applications?: ApplicationConfig[] | undefined;
 }
 export interface LoRaWANDevice {
-  DevEui?: string;
-  DeviceProfileId?: string;
-  ServiceProfileId?: string;
-  OtaaV1_1?: OtaaV1_1;
-  OtaaV1_0_x?: OtaaV1_0_x;
-  AbpV1_1?: AbpV1_1;
-  AbpV1_0_x?: AbpV1_0_x;
-  FPorts?: FPorts;
+  DevEui?: string | undefined;
+  DeviceProfileId?: string | undefined;
+  ServiceProfileId?: string | undefined;
+  OtaaV1_1?: OtaaV1_1 | undefined;
+  OtaaV1_0_x?: OtaaV1_0_x | undefined;
+  AbpV1_1?: AbpV1_1 | undefined;
+  AbpV1_0_x?: AbpV1_0_x | undefined;
+  FPorts?: FPorts | undefined;
 }
 export type PositioningConfigStatus = "Enabled" | "Disabled" | (string & {});
 export interface SidewalkPositioning {
-  DestinationName?: string;
+  DestinationName?: string | undefined;
 }
 export type SidewalkManufacturingSn = string;
 export interface SidewalkCreateWirelessDevice {
-  DeviceProfileId?: string;
-  Positioning?: SidewalkPositioning;
-  SidewalkManufacturingSn?: string;
+  DeviceProfileId?: string | undefined;
+  Positioning?: SidewalkPositioning | undefined;
+  SidewalkManufacturingSn?: string | undefined;
 }
 export interface CreateWirelessDeviceRequest {
   Type: WirelessDeviceType;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   DestinationName: string;
-  ClientRequestToken?: string;
-  LoRaWAN?: LoRaWANDevice;
-  Tags?: Tag[];
-  Positioning?: PositioningConfigStatus;
-  Sidewalk?: SidewalkCreateWirelessDevice;
+  ClientRequestToken?: string | undefined;
+  LoRaWAN?: LoRaWANDevice | undefined;
+  Tags?: Tag[] | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
+  Sidewalk?: SidewalkCreateWirelessDevice | undefined;
 }
 export type WirelessDeviceArn = string;
 export interface CreateWirelessDeviceResponse {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type WirelessGatewayName = string;
 export type GatewayEui = string;
@@ -537,30 +537,30 @@ export type BeaconingDataRate = number;
 export type BeaconingFrequency = number;
 export type BeaconingFrequencies = number[];
 export interface Beaconing {
-  DataRate?: number;
-  Frequencies?: number[];
+  DataRate?: number | undefined;
+  Frequencies?: number[] | undefined;
 }
 export type GatewayMaxEirp = number;
 export interface LoRaWANGateway {
-  GatewayEui?: string;
-  RfRegion?: string;
-  JoinEuiFilters?: string[][];
-  NetIdFilters?: string[];
-  SubBands?: number[];
-  Beaconing?: Beaconing;
-  MaxEirp?: number;
+  GatewayEui?: string | undefined;
+  RfRegion?: string | undefined;
+  JoinEuiFilters?: string[][] | undefined;
+  NetIdFilters?: string[] | undefined;
+  SubBands?: number[] | undefined;
+  Beaconing?: Beaconing | undefined;
+  MaxEirp?: number | undefined;
 }
 export interface CreateWirelessGatewayRequest {
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
   LoRaWAN: LoRaWANGateway;
-  Tags?: Tag[];
-  ClientRequestToken?: string;
+  Tags?: Tag[] | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type WirelessGatewayArn = string;
 export interface CreateWirelessGatewayResponse {
-  Arn?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
 }
 export type WirelessGatewayTaskDefinitionId = string;
 export interface CreateWirelessGatewayTaskRequest {
@@ -576,8 +576,8 @@ export type WirelessGatewayTaskStatus =
   | "FAILED"
   | (string & {});
 export interface CreateWirelessGatewayTaskResponse {
-  WirelessGatewayTaskDefinitionId?: string;
-  Status?: WirelessGatewayTaskStatus;
+  WirelessGatewayTaskDefinitionId?: string | undefined;
+  Status?: WirelessGatewayTaskStatus | undefined;
 }
 export type AutoCreateTasks = boolean;
 export type WirelessGatewayTaskName = string;
@@ -588,32 +588,32 @@ export type PackageVersion = string;
 export type Model = string;
 export type Station = string;
 export interface LoRaWANGatewayVersion {
-  PackageVersion?: string;
-  Model?: string;
-  Station?: string;
+  PackageVersion?: string | undefined;
+  Model?: string | undefined;
+  Station?: string | undefined;
 }
 export interface LoRaWANUpdateGatewayTaskCreate {
-  UpdateSignature?: string;
-  SigKeyCrc?: number;
-  CurrentVersion?: LoRaWANGatewayVersion;
-  UpdateVersion?: LoRaWANGatewayVersion;
+  UpdateSignature?: string | undefined;
+  SigKeyCrc?: number | undefined;
+  CurrentVersion?: LoRaWANGatewayVersion | undefined;
+  UpdateVersion?: LoRaWANGatewayVersion | undefined;
 }
 export interface UpdateWirelessGatewayTaskCreate {
-  UpdateDataSource?: string;
-  UpdateDataRole?: string;
-  LoRaWAN?: LoRaWANUpdateGatewayTaskCreate;
+  UpdateDataSource?: string | undefined;
+  UpdateDataRole?: string | undefined;
+  LoRaWAN?: LoRaWANUpdateGatewayTaskCreate | undefined;
 }
 export interface CreateWirelessGatewayTaskDefinitionRequest {
   AutoCreateTasks: boolean;
-  Name?: string;
-  Update?: UpdateWirelessGatewayTaskCreate;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
+  Name?: string | undefined;
+  Update?: UpdateWirelessGatewayTaskCreate | undefined;
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type WirelessGatewayTaskDefinitionArn = string;
 export interface CreateWirelessGatewayTaskDefinitionResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface DeleteDestinationRequest {
   Name: string;
@@ -639,7 +639,7 @@ export type MessageId = string;
 export interface DeleteQueuedMessagesRequest {
   Id: string;
   MessageId: string;
-  WirelessDeviceType?: WirelessDeviceType;
+  WirelessDeviceType?: WirelessDeviceType | undefined;
 }
 export interface DeleteQueuedMessagesResponse {}
 export interface DeleteServiceProfileRequest {
@@ -670,7 +670,7 @@ export interface DeleteWirelessGatewayTaskDefinitionResponse {}
 export type Identifier = string;
 export interface DeregisterWirelessDeviceRequest {
   Identifier: string;
-  WirelessDeviceType?: WirelessDeviceType;
+  WirelessDeviceType?: WirelessDeviceType | undefined;
 }
 export interface DeregisterWirelessDeviceResponse {}
 export type PartnerAccountId = string;
@@ -711,12 +711,12 @@ export interface GetDestinationRequest {
   Name: string;
 }
 export interface GetDestinationResponse {
-  Arn?: string;
-  Name?: string;
-  Expression?: string;
-  ExpressionType?: ExpressionType;
-  Description?: string;
-  RoleArn?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Expression?: string | undefined;
+  ExpressionType?: ExpressionType | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface GetDeviceProfileRequest {
   Id: string;
@@ -730,56 +730,56 @@ export type ApId = string;
 export type DeviceTypeId = string;
 export interface DakCertificateMetadata {
   CertificateId: string;
-  MaxAllowedSignature?: number;
-  FactorySupport?: boolean;
-  ApId?: string;
-  DeviceTypeId?: string;
+  MaxAllowedSignature?: number | undefined;
+  FactorySupport?: boolean | undefined;
+  ApId?: string | undefined;
+  DeviceTypeId?: string | undefined;
 }
 export type DakCertificateMetadataList = DakCertificateMetadata[];
 export interface SidewalkGetDeviceProfile {
-  ApplicationServerPublicKey?: string | redacted.Redacted<string>;
-  QualificationStatus?: boolean;
-  DakCertificateMetadata?: DakCertificateMetadata[];
+  ApplicationServerPublicKey?: string | redacted.Redacted<string> | undefined;
+  QualificationStatus?: boolean | undefined;
+  DakCertificateMetadata?: DakCertificateMetadata[] | undefined;
 }
 export interface GetDeviceProfileResponse {
-  Arn?: string;
-  Name?: string;
-  Id?: string;
-  LoRaWAN?: LoRaWANDeviceProfile;
-  Sidewalk?: SidewalkGetDeviceProfile;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  LoRaWAN?: LoRaWANDeviceProfile | undefined;
+  Sidewalk?: SidewalkGetDeviceProfile | undefined;
 }
 export interface GetEventConfigurationByResourceTypesRequest {}
 export type EventNotificationTopicStatus = "Enabled" | "Disabled" | (string & {});
 export interface SidewalkResourceTypeEventConfiguration {
-  WirelessDeviceEventTopic?: EventNotificationTopicStatus;
+  WirelessDeviceEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface DeviceRegistrationStateResourceTypeEventConfiguration {
-  Sidewalk?: SidewalkResourceTypeEventConfiguration;
+  Sidewalk?: SidewalkResourceTypeEventConfiguration | undefined;
 }
 export interface ProximityResourceTypeEventConfiguration {
-  Sidewalk?: SidewalkResourceTypeEventConfiguration;
+  Sidewalk?: SidewalkResourceTypeEventConfiguration | undefined;
 }
 export interface LoRaWANJoinResourceTypeEventConfiguration {
-  WirelessDeviceEventTopic?: EventNotificationTopicStatus;
+  WirelessDeviceEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface JoinResourceTypeEventConfiguration {
-  LoRaWAN?: LoRaWANJoinResourceTypeEventConfiguration;
+  LoRaWAN?: LoRaWANJoinResourceTypeEventConfiguration | undefined;
 }
 export interface LoRaWANConnectionStatusResourceTypeEventConfiguration {
-  WirelessGatewayEventTopic?: EventNotificationTopicStatus;
+  WirelessGatewayEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface ConnectionStatusResourceTypeEventConfiguration {
-  LoRaWAN?: LoRaWANConnectionStatusResourceTypeEventConfiguration;
+  LoRaWAN?: LoRaWANConnectionStatusResourceTypeEventConfiguration | undefined;
 }
 export interface MessageDeliveryStatusResourceTypeEventConfiguration {
-  Sidewalk?: SidewalkResourceTypeEventConfiguration;
+  Sidewalk?: SidewalkResourceTypeEventConfiguration | undefined;
 }
 export interface GetEventConfigurationByResourceTypesResponse {
-  DeviceRegistrationState?: DeviceRegistrationStateResourceTypeEventConfiguration;
-  Proximity?: ProximityResourceTypeEventConfiguration;
-  Join?: JoinResourceTypeEventConfiguration;
-  ConnectionStatus?: ConnectionStatusResourceTypeEventConfiguration;
-  MessageDeliveryStatus?: MessageDeliveryStatusResourceTypeEventConfiguration;
+  DeviceRegistrationState?: DeviceRegistrationStateResourceTypeEventConfiguration | undefined;
+  Proximity?: ProximityResourceTypeEventConfiguration | undefined;
+  Join?: JoinResourceTypeEventConfiguration | undefined;
+  ConnectionStatus?: ConnectionStatusResourceTypeEventConfiguration | undefined;
+  MessageDeliveryStatus?: MessageDeliveryStatusResourceTypeEventConfiguration | undefined;
 }
 export interface GetFuotaTaskRequest {
   Id: string;
@@ -793,24 +793,24 @@ export type FuotaTaskStatus =
   | (string & {});
 export type StartTime = Date;
 export interface LoRaWANFuotaTaskGetInfo {
-  RfRegion?: string;
-  StartTime?: Date;
+  RfRegion?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export type CreatedAt = Date;
 export interface GetFuotaTaskResponse {
-  Arn?: string;
-  Id?: string;
-  Status?: FuotaTaskStatus;
-  Name?: string;
-  Description?: string;
-  LoRaWAN?: LoRaWANFuotaTaskGetInfo;
-  FirmwareUpdateImage?: string;
-  FirmwareUpdateRole?: string;
-  CreatedAt?: Date;
-  RedundancyPercent?: number;
-  FragmentSizeBytes?: number;
-  FragmentIntervalMS?: number;
-  Descriptor?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Status?: FuotaTaskStatus | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LoRaWAN?: LoRaWANFuotaTaskGetInfo | undefined;
+  FirmwareUpdateImage?: string | undefined;
+  FirmwareUpdateRole?: string | undefined;
+  CreatedAt?: Date | undefined;
+  RedundancyPercent?: number | undefined;
+  FragmentSizeBytes?: number | undefined;
+  FragmentIntervalMS?: number | undefined;
+  Descriptor?: string | undefined;
 }
 export interface GetLogLevelsByResourceTypesRequest {}
 export type WirelessGatewayType = "LoRaWAN" | (string & {});
@@ -823,7 +823,7 @@ export type WirelessGatewayEventLogOptionList = WirelessGatewayEventLogOption[];
 export interface WirelessGatewayLogOption {
   Type: WirelessGatewayType;
   LogLevel: LogLevel;
-  Events?: WirelessGatewayEventLogOption[];
+  Events?: WirelessGatewayEventLogOption[] | undefined;
 }
 export type WirelessGatewayLogOptionList = WirelessGatewayLogOption[];
 export type WirelessDeviceEvent =
@@ -841,7 +841,7 @@ export type WirelessDeviceEventLogOptionList = WirelessDeviceEventLogOption[];
 export interface WirelessDeviceLogOption {
   Type: WirelessDeviceType;
   LogLevel: LogLevel;
-  Events?: WirelessDeviceEventLogOption[];
+  Events?: WirelessDeviceEventLogOption[] | undefined;
 }
 export type WirelessDeviceLogOptionList = WirelessDeviceLogOption[];
 export type FuotaTaskType = "LoRaWAN" | (string & {});
@@ -854,22 +854,22 @@ export type FuotaTaskEventLogOptionList = FuotaTaskEventLogOption[];
 export interface FuotaTaskLogOption {
   Type: FuotaTaskType;
   LogLevel: LogLevel;
-  Events?: FuotaTaskEventLogOption[];
+  Events?: FuotaTaskEventLogOption[] | undefined;
 }
 export type FuotaTaskLogOptionList = FuotaTaskLogOption[];
 export interface GetLogLevelsByResourceTypesResponse {
-  DefaultLogLevel?: LogLevel;
-  WirelessGatewayLogOptions?: WirelessGatewayLogOption[];
-  WirelessDeviceLogOptions?: WirelessDeviceLogOption[];
-  FuotaTaskLogOptions?: FuotaTaskLogOption[];
+  DefaultLogLevel?: LogLevel | undefined;
+  WirelessGatewayLogOptions?: WirelessGatewayLogOption[] | undefined;
+  WirelessDeviceLogOptions?: WirelessDeviceLogOption[] | undefined;
+  FuotaTaskLogOptions?: FuotaTaskLogOption[] | undefined;
 }
 export interface GetMetricConfigurationRequest {}
 export type SummaryMetricConfigurationStatus = "Enabled" | "Disabled" | (string & {});
 export interface SummaryMetricConfiguration {
-  Status?: SummaryMetricConfigurationStatus;
+  Status?: SummaryMetricConfigurationStatus | undefined;
 }
 export interface GetMetricConfigurationResponse {
-  SummaryMetric?: SummaryMetricConfiguration;
+  SummaryMetric?: SummaryMetricConfiguration | undefined;
 }
 export type MetricQueryId = string;
 export type MetricName =
@@ -909,24 +909,24 @@ export type MetricName =
 export type DimensionName = "DeviceId" | "GatewayId" | (string & {});
 export type DimensionValue = string;
 export interface Dimension {
-  name?: DimensionName;
-  value?: string;
+  name?: DimensionName | undefined;
+  value?: string | undefined;
 }
 export type Dimensions = Dimension[];
 export type AggregationPeriod = "OneHour" | "OneDay" | "OneWeek" | (string & {});
 export type MetricQueryStartTimestamp = Date;
 export type MetricQueryEndTimestamp = Date;
 export interface SummaryMetricQuery {
-  QueryId?: string;
-  MetricName?: MetricName;
-  Dimensions?: Dimension[];
-  AggregationPeriod?: AggregationPeriod;
-  StartTimestamp?: Date;
-  EndTimestamp?: Date;
+  QueryId?: string | undefined;
+  MetricName?: MetricName | undefined;
+  Dimensions?: Dimension[] | undefined;
+  AggregationPeriod?: AggregationPeriod | undefined;
+  StartTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
 }
 export type SummaryMetricQueries = SummaryMetricQuery[];
 export interface GetMetricsRequest {
-  SummaryMetricQueries?: SummaryMetricQuery[];
+  SummaryMetricQueries?: SummaryMetricQuery[] | undefined;
 }
 export type MetricQueryStatus = "Succeeded" | "Failed" | (string & {});
 export type MetricQueryError = string;
@@ -939,31 +939,31 @@ export type Avg = number;
 export type Std = number;
 export type P90 = number;
 export interface MetricQueryValue {
-  Min?: number;
-  Max?: number;
-  Sum?: number;
-  Avg?: number;
-  Std?: number;
-  P90?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
+  Sum?: number | undefined;
+  Avg?: number | undefined;
+  Std?: number | undefined;
+  P90?: number | undefined;
 }
 export type MetricQueryValues = MetricQueryValue[];
 export type MetricUnit = string;
 export interface SummaryMetricQueryResult {
-  QueryId?: string;
-  QueryStatus?: MetricQueryStatus;
-  Error?: string;
-  MetricName?: MetricName;
-  Dimensions?: Dimension[];
-  AggregationPeriod?: AggregationPeriod;
-  StartTimestamp?: Date;
-  EndTimestamp?: Date;
-  Timestamps?: Date[];
-  Values?: MetricQueryValue[];
-  Unit?: string;
+  QueryId?: string | undefined;
+  QueryStatus?: MetricQueryStatus | undefined;
+  Error?: string | undefined;
+  MetricName?: MetricName | undefined;
+  Dimensions?: Dimension[] | undefined;
+  AggregationPeriod?: AggregationPeriod | undefined;
+  StartTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
+  Timestamps?: Date[] | undefined;
+  Values?: MetricQueryValue[] | undefined;
+  Unit?: string | undefined;
 }
 export type SummaryMetricQueryResults = SummaryMetricQueryResult[];
 export interface GetMetricsResponse {
-  SummaryMetricQueryResults?: SummaryMetricQueryResult[];
+  SummaryMetricQueryResults?: SummaryMetricQueryResult[] | undefined;
 }
 export interface GetMulticastGroupRequest {
   Id: string;
@@ -972,21 +972,21 @@ export type MulticastGroupStatus = string;
 export type NumberOfDevicesRequested = number;
 export type NumberOfDevicesInGroup = number;
 export interface LoRaWANMulticastGet {
-  RfRegion?: SupportedRfRegion;
-  DlClass?: DlClass;
-  NumberOfDevicesRequested?: number;
-  NumberOfDevicesInGroup?: number;
-  ParticipatingGateways?: ParticipatingGatewaysMulticast;
-  DefaultSessionParameters?: DefaultSessionParametersMulticast;
+  RfRegion?: SupportedRfRegion | undefined;
+  DlClass?: DlClass | undefined;
+  NumberOfDevicesRequested?: number | undefined;
+  NumberOfDevicesInGroup?: number | undefined;
+  ParticipatingGateways?: ParticipatingGatewaysMulticast | undefined;
+  DefaultSessionParameters?: DefaultSessionParametersMulticast | undefined;
 }
 export interface GetMulticastGroupResponse {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Status?: string;
-  LoRaWAN?: LoRaWANMulticastGet;
-  CreatedAt?: Date;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: string | undefined;
+  LoRaWAN?: LoRaWANMulticastGet | undefined;
+  CreatedAt?: Date | undefined;
 }
 export interface GetMulticastGroupSessionRequest {
   Id: string;
@@ -994,26 +994,26 @@ export interface GetMulticastGroupSessionRequest {
 export type SessionStartTimeTimestamp = Date;
 export type SessionTimeout = number;
 export interface LoRaWANMulticastSession {
-  DlDr?: number;
-  DlFreq?: number;
-  SessionStartTime?: Date;
-  SessionTimeout?: number;
-  PingSlotPeriod?: number;
+  DlDr?: number | undefined;
+  DlFreq?: number | undefined;
+  SessionStartTime?: Date | undefined;
+  SessionTimeout?: number | undefined;
+  PingSlotPeriod?: number | undefined;
 }
 export interface GetMulticastGroupSessionResponse {
-  LoRaWAN?: LoRaWANMulticastSession;
+  LoRaWAN?: LoRaWANMulticastSession | undefined;
 }
 export interface GetNetworkAnalyzerConfigurationRequest {
   ConfigurationName: string;
 }
 export interface GetNetworkAnalyzerConfigurationResponse {
-  TraceContent?: TraceContent;
-  WirelessDevices?: string[];
-  WirelessGateways?: string[];
-  Description?: string;
-  Arn?: string;
-  Name?: string;
-  MulticastGroups?: string[];
+  TraceContent?: TraceContent | undefined;
+  WirelessDevices?: string[] | undefined;
+  WirelessGateways?: string[] | undefined;
+  Description?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  MulticastGroups?: string[] | undefined;
 }
 export interface GetPartnerAccountRequest {
   PartnerAccountId: string;
@@ -1021,14 +1021,14 @@ export interface GetPartnerAccountRequest {
 }
 export type Fingerprint = string | redacted.Redacted<string>;
 export interface SidewalkAccountInfoWithFingerprint {
-  AmazonId?: string;
-  Fingerprint?: string | redacted.Redacted<string>;
-  Arn?: string;
+  AmazonId?: string | undefined;
+  Fingerprint?: string | redacted.Redacted<string> | undefined;
+  Arn?: string | undefined;
 }
 export type AccountLinked = boolean;
 export interface GetPartnerAccountResponse {
-  Sidewalk?: SidewalkAccountInfoWithFingerprint;
-  AccountLinked?: boolean;
+  Sidewalk?: SidewalkAccountInfoWithFingerprint | undefined;
+  AccountLinked?: boolean | undefined;
 }
 export type PositionResourceIdentifier = string;
 export type PositionResourceType = "WirelessDevice" | "WirelessGateway" | (string & {});
@@ -1041,20 +1041,20 @@ export type PositionCoordinate = number[];
 export type HorizontalAccuracy = number;
 export type VerticalAccuracy = number;
 export interface Accuracy {
-  HorizontalAccuracy?: number;
-  VerticalAccuracy?: number;
+  HorizontalAccuracy?: number | undefined;
+  VerticalAccuracy?: number | undefined;
 }
 export type PositionSolverType = "GNSS" | (string & {});
 export type PositionSolverProvider = "Semtech" | (string & {});
 export type PositionSolverVersion = string;
 export type ISODateTimeString = string;
 export interface GetPositionResponse {
-  Position?: number[];
-  Accuracy?: Accuracy;
-  SolverType?: PositionSolverType;
-  SolverProvider?: PositionSolverProvider;
-  SolverVersion?: string;
-  Timestamp?: string;
+  Position?: number[] | undefined;
+  Accuracy?: Accuracy | undefined;
+  SolverType?: PositionSolverType | undefined;
+  SolverProvider?: PositionSolverProvider | undefined;
+  SolverVersion?: string | undefined;
+  Timestamp?: string | undefined;
 }
 export interface GetPositionConfigurationRequest {
   ResourceIdentifier: string;
@@ -1063,17 +1063,17 @@ export interface GetPositionConfigurationRequest {
 export type PositionConfigurationStatus = "Enabled" | "Disabled" | (string & {});
 export type PositionConfigurationFec = "ROSE" | "NONE" | (string & {});
 export interface SemtechGnssDetail {
-  Provider?: PositionSolverProvider;
-  Type?: PositionSolverType;
-  Status?: PositionConfigurationStatus;
-  Fec?: PositionConfigurationFec;
+  Provider?: PositionSolverProvider | undefined;
+  Type?: PositionSolverType | undefined;
+  Status?: PositionConfigurationStatus | undefined;
+  Fec?: PositionConfigurationFec | undefined;
 }
 export interface PositionSolverDetails {
-  SemtechGnss?: SemtechGnssDetail;
+  SemtechGnss?: SemtechGnssDetail | undefined;
 }
 export interface GetPositionConfigurationResponse {
-  Solvers?: PositionSolverDetails;
-  Destination?: string;
+  Solvers?: PositionSolverDetails | undefined;
+  Destination?: string | undefined;
 }
 export type MacAddress = string;
 export type RSS = number;
@@ -1101,8 +1101,8 @@ export interface GlobalIdentity {
 export interface GsmNmrObj {
   Bsic: number;
   Bcch: number;
-  RxLevel?: number;
-  GlobalIdentity?: GlobalIdentity;
+  RxLevel?: number | undefined;
+  GlobalIdentity?: GlobalIdentity | undefined;
 }
 export type GsmNmrList = GsmNmrObj[];
 export interface GsmObj {
@@ -1110,10 +1110,10 @@ export interface GsmObj {
   Mnc: number;
   Lac: number;
   GeranCid: number;
-  GsmLocalId?: GsmLocalId;
-  GsmTimingAdvance?: number;
-  RxLevel?: number;
-  GsmNmr?: GsmNmrObj[];
+  GsmLocalId?: GsmLocalId | undefined;
+  GsmTimingAdvance?: number | undefined;
+  RxLevel?: number | undefined;
+  GsmNmr?: GsmNmrObj[] | undefined;
 }
 export type GsmList = GsmObj[];
 export type UtranCid = number;
@@ -1129,19 +1129,19 @@ export interface WcdmaNmrObj {
   Uarfcndl: number;
   Psc: number;
   UtranCid: number;
-  Rscp?: number;
-  PathLoss?: number;
+  Rscp?: number | undefined;
+  PathLoss?: number | undefined;
 }
 export type WcdmaNmrList = WcdmaNmrObj[];
 export interface WcdmaObj {
   Mcc: number;
   Mnc: number;
-  Lac?: number;
+  Lac?: number | undefined;
   UtranCid: number;
-  WcdmaLocalId?: WcdmaLocalId;
-  Rscp?: number;
-  PathLoss?: number;
-  WcdmaNmr?: WcdmaNmrObj[];
+  WcdmaLocalId?: WcdmaLocalId | undefined;
+  Rscp?: number | undefined;
+  PathLoss?: number | undefined;
+  WcdmaNmr?: WcdmaNmrObj[] | undefined;
 }
 export type WcdmaList = WcdmaObj[];
 export type UARFCN = number;
@@ -1154,21 +1154,21 @@ export type TdscdmaTimingAdvance = number;
 export interface TdscdmaNmrObj {
   Uarfcn: number;
   CellParams: number;
-  UtranCid?: number;
-  Rscp?: number;
-  PathLoss?: number;
+  UtranCid?: number | undefined;
+  Rscp?: number | undefined;
+  PathLoss?: number | undefined;
 }
 export type TdscdmaNmrList = TdscdmaNmrObj[];
 export interface TdscdmaObj {
   Mcc: number;
   Mnc: number;
-  Lac?: number;
+  Lac?: number | undefined;
   UtranCid: number;
-  TdscdmaLocalId?: TdscdmaLocalId;
-  TdscdmaTimingAdvance?: number;
-  Rscp?: number;
-  PathLoss?: number;
-  TdscdmaNmr?: TdscdmaNmrObj[];
+  TdscdmaLocalId?: TdscdmaLocalId | undefined;
+  TdscdmaTimingAdvance?: number | undefined;
+  Rscp?: number | undefined;
+  PathLoss?: number | undefined;
+  TdscdmaNmr?: TdscdmaNmrObj[] | undefined;
 }
 export type TdscdmaList = TdscdmaObj[];
 export type EutranCid = number;
@@ -1186,22 +1186,22 @@ export type NRCapable = boolean;
 export interface LteNmrObj {
   Pci: number;
   Earfcn: number;
-  EutranCid?: number;
-  Rsrp?: number;
-  Rsrq?: number;
+  EutranCid?: number | undefined;
+  Rsrp?: number | undefined;
+  Rsrq?: number | undefined;
 }
 export type LteNmrList = LteNmrObj[];
 export interface LteObj {
   Mcc: number;
   Mnc: number;
   EutranCid: number;
-  Tac?: number;
-  LteLocalId?: LteLocalId;
-  LteTimingAdvance?: number;
-  Rsrp?: number;
-  Rsrq?: number;
-  NrCapable?: boolean;
-  LteNmr?: LteNmrObj[];
+  Tac?: number | undefined;
+  LteLocalId?: LteLocalId | undefined;
+  LteTimingAdvance?: number | undefined;
+  Rsrp?: number | undefined;
+  Rsrq?: number | undefined;
+  NrCapable?: boolean | undefined;
+  LteNmr?: LteNmrObj[] | undefined;
 }
 export type LteList = LteObj[];
 export type SystemId = number;
@@ -1220,28 +1220,28 @@ export type BaseLng = number;
 export interface CdmaNmrObj {
   PnOffset: number;
   CdmaChannel: number;
-  PilotPower?: number;
-  BaseStationId?: number;
+  PilotPower?: number | undefined;
+  BaseStationId?: number | undefined;
 }
 export type CdmaNmrList = CdmaNmrObj[];
 export interface CdmaObj {
   SystemId: number;
   NetworkId: number;
   BaseStationId: number;
-  RegistrationZone?: number;
-  CdmaLocalId?: CdmaLocalId;
-  PilotPower?: number;
-  BaseLat?: number;
-  BaseLng?: number;
-  CdmaNmr?: CdmaNmrObj[];
+  RegistrationZone?: number | undefined;
+  CdmaLocalId?: CdmaLocalId | undefined;
+  PilotPower?: number | undefined;
+  BaseLat?: number | undefined;
+  BaseLng?: number | undefined;
+  CdmaNmr?: CdmaNmrObj[] | undefined;
 }
 export type CdmaList = CdmaObj[];
 export interface CellTowers {
-  Gsm?: GsmObj[];
-  Wcdma?: WcdmaObj[];
-  Tdscdma?: TdscdmaObj[];
-  Lte?: LteObj[];
-  Cdma?: CdmaObj[];
+  Gsm?: GsmObj[] | undefined;
+  Wcdma?: WcdmaObj[] | undefined;
+  Tdscdma?: TdscdmaObj[] | undefined;
+  Lte?: LteObj[] | undefined;
+  Cdma?: CdmaObj[] | undefined;
 }
 export type IPAddress = string;
 export interface Ip {
@@ -1255,43 +1255,43 @@ export type AssistPosition = number[];
 export type Use2DSolver = boolean;
 export interface Gnss {
   Payload: string;
-  CaptureTime?: number;
-  CaptureTimeAccuracy?: number;
-  AssistPosition?: number[];
-  AssistAltitude?: number;
-  Use2DSolver?: boolean;
+  CaptureTime?: number | undefined;
+  CaptureTimeAccuracy?: number | undefined;
+  AssistPosition?: number[] | undefined;
+  AssistAltitude?: number | undefined;
+  Use2DSolver?: boolean | undefined;
 }
 export interface GnssCapture {
   Payload: string;
-  CaptureTime?: number;
+  CaptureTime?: number | undefined;
 }
 export type GnssCaptures = GnssCapture[];
 export interface GnssMultiFrame {
   Captures: GnssCapture[];
-  CaptureTimeAccuracy?: number;
-  AssistPosition?: number[];
-  AssistAltitude?: number;
-  Use2DSolver?: boolean;
+  CaptureTimeAccuracy?: number | undefined;
+  AssistPosition?: number[] | undefined;
+  AssistAltitude?: number | undefined;
+  Use2DSolver?: boolean | undefined;
 }
 export type CreationDate = Date;
 export type ConfidencePercent = number;
 export interface WiFiCellular {
-  ConfidencePercent?: number;
+  ConfidencePercent?: number | undefined;
 }
 export interface AdvancedConfiguration {
-  WiFiCellular?: WiFiCellular;
+  WiFiCellular?: WiFiCellular | undefined;
 }
 export interface GetPositionEstimateRequest {
-  WiFiAccessPoints?: WiFiAccessPoint[];
-  CellTowers?: CellTowers;
-  Ip?: Ip;
-  Gnss?: Gnss;
-  GnssMultiFrame?: GnssMultiFrame;
-  Timestamp?: Date;
-  AdvancedConfiguration?: AdvancedConfiguration;
+  WiFiAccessPoints?: WiFiAccessPoint[] | undefined;
+  CellTowers?: CellTowers | undefined;
+  Ip?: Ip | undefined;
+  Gnss?: Gnss | undefined;
+  GnssMultiFrame?: GnssMultiFrame | undefined;
+  Timestamp?: Date | undefined;
+  AdvancedConfiguration?: AdvancedConfiguration | undefined;
 }
 export interface GetPositionEstimateResponse {
-  GeoJsonPayload?: T.StreamingOutputBody;
+  GeoJsonPayload?: T.StreamingOutputBody | undefined;
 }
 export type IdentifierType =
   | "PartnerAccountId"
@@ -1304,43 +1304,43 @@ export type EventNotificationPartnerType = "Sidewalk" | (string & {});
 export interface GetResourceEventConfigurationRequest {
   Identifier: string;
   IdentifierType: IdentifierType;
-  PartnerType?: EventNotificationPartnerType;
+  PartnerType?: EventNotificationPartnerType | undefined;
 }
 export interface SidewalkEventNotificationConfigurations {
-  AmazonIdEventTopic?: EventNotificationTopicStatus;
+  AmazonIdEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface DeviceRegistrationStateEventConfiguration {
-  Sidewalk?: SidewalkEventNotificationConfigurations;
-  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
+  Sidewalk?: SidewalkEventNotificationConfigurations | undefined;
+  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface ProximityEventConfiguration {
-  Sidewalk?: SidewalkEventNotificationConfigurations;
-  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
+  Sidewalk?: SidewalkEventNotificationConfigurations | undefined;
+  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface LoRaWANJoinEventNotificationConfigurations {
-  DevEuiEventTopic?: EventNotificationTopicStatus;
+  DevEuiEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface JoinEventConfiguration {
-  LoRaWAN?: LoRaWANJoinEventNotificationConfigurations;
-  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
+  LoRaWAN?: LoRaWANJoinEventNotificationConfigurations | undefined;
+  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface LoRaWANConnectionStatusEventNotificationConfigurations {
-  GatewayEuiEventTopic?: EventNotificationTopicStatus;
+  GatewayEuiEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface ConnectionStatusEventConfiguration {
-  LoRaWAN?: LoRaWANConnectionStatusEventNotificationConfigurations;
-  WirelessGatewayIdEventTopic?: EventNotificationTopicStatus;
+  LoRaWAN?: LoRaWANConnectionStatusEventNotificationConfigurations | undefined;
+  WirelessGatewayIdEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface MessageDeliveryStatusEventConfiguration {
-  Sidewalk?: SidewalkEventNotificationConfigurations;
-  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
+  Sidewalk?: SidewalkEventNotificationConfigurations | undefined;
+  WirelessDeviceIdEventTopic?: EventNotificationTopicStatus | undefined;
 }
 export interface GetResourceEventConfigurationResponse {
-  DeviceRegistrationState?: DeviceRegistrationStateEventConfiguration;
-  Proximity?: ProximityEventConfiguration;
-  Join?: JoinEventConfiguration;
-  ConnectionStatus?: ConnectionStatusEventConfiguration;
-  MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration;
+  DeviceRegistrationState?: DeviceRegistrationStateEventConfiguration | undefined;
+  Proximity?: ProximityEventConfiguration | undefined;
+  Join?: JoinEventConfiguration | undefined;
+  ConnectionStatus?: ConnectionStatusEventConfiguration | undefined;
+  MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration | undefined;
 }
 export type ResourceIdentifier = string;
 export type ResourceType = string;
@@ -1349,25 +1349,25 @@ export interface GetResourceLogLevelRequest {
   ResourceType: string;
 }
 export interface GetResourceLogLevelResponse {
-  LogLevel?: LogLevel;
+  LogLevel?: LogLevel | undefined;
 }
 export interface GetResourcePositionRequest {
   ResourceIdentifier: string;
   ResourceType: PositionResourceType;
 }
 export interface GetResourcePositionResponse {
-  GeoJsonPayload?: T.StreamingOutputBody;
+  GeoJsonPayload?: T.StreamingOutputBody | undefined;
 }
 export type WirelessGatewayServiceType = "CUPS" | "LNS" | (string & {});
 export interface GetServiceEndpointRequest {
-  ServiceType?: WirelessGatewayServiceType;
+  ServiceType?: WirelessGatewayServiceType | undefined;
 }
 export type EndPoint = string;
 export type CertificatePEM = string;
 export interface GetServiceEndpointResponse {
-  ServiceType?: WirelessGatewayServiceType;
-  ServiceEndpoint?: string;
-  ServerTrust?: string;
+  ServiceType?: WirelessGatewayServiceType | undefined;
+  ServiceEndpoint?: string | undefined;
+  ServerTrust?: string | undefined;
 }
 export interface GetServiceProfileRequest {
   Id: string;
@@ -1389,35 +1389,35 @@ export type NwkGeoLoc = boolean;
 export type TargetPer = number;
 export type MinGwDiversity = number;
 export interface LoRaWANGetServiceProfileInfo {
-  UlRate?: number;
-  UlBucketSize?: number;
-  UlRatePolicy?: string;
-  DlRate?: number;
-  DlBucketSize?: number;
-  DlRatePolicy?: string;
-  AddGwMetadata?: boolean;
-  DevStatusReqFreq?: number;
-  ReportDevStatusBattery?: boolean;
-  ReportDevStatusMargin?: boolean;
-  DrMin?: number;
-  DrMax?: number;
-  ChannelMask?: string;
-  PrAllowed?: boolean;
-  HrAllowed?: boolean;
-  RaAllowed?: boolean;
-  NwkGeoLoc?: boolean;
-  TargetPer?: number;
-  MinGwDiversity?: number;
-  TxPowerIndexMin?: number;
-  TxPowerIndexMax?: number;
-  NbTransMin?: number;
-  NbTransMax?: number;
+  UlRate?: number | undefined;
+  UlBucketSize?: number | undefined;
+  UlRatePolicy?: string | undefined;
+  DlRate?: number | undefined;
+  DlBucketSize?: number | undefined;
+  DlRatePolicy?: string | undefined;
+  AddGwMetadata?: boolean | undefined;
+  DevStatusReqFreq?: number | undefined;
+  ReportDevStatusBattery?: boolean | undefined;
+  ReportDevStatusMargin?: boolean | undefined;
+  DrMin?: number | undefined;
+  DrMax?: number | undefined;
+  ChannelMask?: string | undefined;
+  PrAllowed?: boolean | undefined;
+  HrAllowed?: boolean | undefined;
+  RaAllowed?: boolean | undefined;
+  NwkGeoLoc?: boolean | undefined;
+  TargetPer?: number | undefined;
+  MinGwDiversity?: number | undefined;
+  TxPowerIndexMin?: number | undefined;
+  TxPowerIndexMax?: number | undefined;
+  NbTransMin?: number | undefined;
+  NbTransMax?: number | undefined;
 }
 export interface GetServiceProfileResponse {
-  Arn?: string;
-  Name?: string;
-  Id?: string;
-  LoRaWAN?: LoRaWANGetServiceProfileInfo;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  LoRaWAN?: LoRaWANGetServiceProfileInfo | undefined;
 }
 export type WirelessDeviceIdType =
   | "WirelessDeviceId"
@@ -1446,28 +1446,28 @@ export type WirelessDeviceSidewalkStatus =
   | "UNKNOWN"
   | (string & {});
 export interface SidewalkDevice {
-  AmazonId?: string;
-  SidewalkId?: string;
-  SidewalkManufacturingSn?: string;
-  DeviceCertificates?: CertificateList[];
-  PrivateKeys?: CertificateList[];
-  DeviceProfileId?: string;
-  CertificateId?: string;
-  Status?: WirelessDeviceSidewalkStatus;
-  Positioning?: SidewalkPositioning;
+  AmazonId?: string | undefined;
+  SidewalkId?: string | undefined;
+  SidewalkManufacturingSn?: string | undefined;
+  DeviceCertificates?: CertificateList[] | undefined;
+  PrivateKeys?: CertificateList[] | undefined;
+  DeviceProfileId?: string | undefined;
+  CertificateId?: string | undefined;
+  Status?: WirelessDeviceSidewalkStatus | undefined;
+  Positioning?: SidewalkPositioning | undefined;
 }
 export interface GetWirelessDeviceResponse {
-  Type?: WirelessDeviceType;
-  Name?: string;
-  Description?: string;
-  DestinationName?: string;
-  Id?: string;
-  Arn?: string;
-  ThingName?: string;
-  ThingArn?: string;
-  LoRaWAN?: LoRaWANDevice;
-  Sidewalk?: SidewalkDevice;
-  Positioning?: PositioningConfigStatus;
+  Type?: WirelessDeviceType | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DestinationName?: string | undefined;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  ThingName?: string | undefined;
+  ThingArn?: string | undefined;
+  LoRaWAN?: LoRaWANDevice | undefined;
+  Sidewalk?: SidewalkDevice | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
 }
 export interface GetWirelessDeviceImportTaskRequest {
   Id: string;
@@ -1477,9 +1477,9 @@ export type DeviceCreationFile = string;
 export type DeviceCreationFileList = string[];
 export type Role = string;
 export interface SidewalkGetStartImportInfo {
-  DeviceCreationFileList?: string[];
-  Role?: string;
-  Positioning?: SidewalkPositioning;
+  DeviceCreationFileList?: string[] | undefined;
+  Role?: string | undefined;
+  Positioning?: SidewalkPositioning | undefined;
 }
 export type CreationTime = Date;
 export type ImportTaskStatus =
@@ -1493,48 +1493,48 @@ export type ImportTaskStatus =
 export type StatusReason = string;
 export type ImportedWirelessDeviceCount = number;
 export interface GetWirelessDeviceImportTaskResponse {
-  Id?: string;
-  Arn?: string;
-  DestinationName?: string;
-  Positioning?: PositioningConfigStatus;
-  Sidewalk?: SidewalkGetStartImportInfo;
-  CreationTime?: Date;
-  Status?: ImportTaskStatus;
-  StatusReason?: string;
-  InitializedImportedDeviceCount?: number;
-  PendingImportedDeviceCount?: number;
-  OnboardedImportedDeviceCount?: number;
-  FailedImportedDeviceCount?: number;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  DestinationName?: string | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
+  Sidewalk?: SidewalkGetStartImportInfo | undefined;
+  CreationTime?: Date | undefined;
+  Status?: ImportTaskStatus | undefined;
+  StatusReason?: string | undefined;
+  InitializedImportedDeviceCount?: number | undefined;
+  PendingImportedDeviceCount?: number | undefined;
+  OnboardedImportedDeviceCount?: number | undefined;
+  FailedImportedDeviceCount?: number | undefined;
 }
 export interface GetWirelessDeviceStatisticsRequest {
   WirelessDeviceId: string;
 }
 export interface LoRaWANGatewayMetadata {
-  GatewayEui?: string;
-  Snr?: number;
-  Rssi?: number;
+  GatewayEui?: string | undefined;
+  Snr?: number | undefined;
+  Rssi?: number | undefined;
 }
 export type LoRaWANGatewayMetadataList = LoRaWANGatewayMetadata[];
 export type ProviderNetId = string;
 export type Id = string;
 export type DlAllowed = boolean;
 export interface LoRaWANPublicGatewayMetadata {
-  ProviderNetId?: string;
-  Id?: string;
-  Rssi?: number;
-  Snr?: number;
-  RfRegion?: string;
-  DlAllowed?: boolean;
+  ProviderNetId?: string | undefined;
+  Id?: string | undefined;
+  Rssi?: number | undefined;
+  Snr?: number | undefined;
+  RfRegion?: string | undefined;
+  DlAllowed?: boolean | undefined;
 }
 export type LoRaWANPublicGatewayMetadataList = LoRaWANPublicGatewayMetadata[];
 export interface LoRaWANDeviceMetadata {
-  DevEui?: string;
-  FPort?: number;
-  DataRate?: number;
-  Frequency?: number;
-  Timestamp?: string;
-  Gateways?: LoRaWANGatewayMetadata[];
-  PublicGateways?: LoRaWANPublicGatewayMetadata[];
+  DevEui?: string | undefined;
+  FPort?: number | undefined;
+  DataRate?: number | undefined;
+  Frequency?: number | undefined;
+  Timestamp?: string | undefined;
+  Gateways?: LoRaWANGatewayMetadata[] | undefined;
+  PublicGateways?: LoRaWANPublicGatewayMetadata[] | undefined;
 }
 export type BatteryLevel = "normal" | "low" | "critical" | (string & {});
 export type Event = "discovered" | "lost" | "ack" | "nack" | "passthrough" | (string & {});
@@ -1545,16 +1545,16 @@ export type DeviceState =
   | "RegisteredUnreachable"
   | (string & {});
 export interface SidewalkDeviceMetadata {
-  Rssi?: number;
-  BatteryLevel?: BatteryLevel;
-  Event?: Event;
-  DeviceState?: DeviceState;
+  Rssi?: number | undefined;
+  BatteryLevel?: BatteryLevel | undefined;
+  Event?: Event | undefined;
+  DeviceState?: DeviceState | undefined;
 }
 export interface GetWirelessDeviceStatisticsResponse {
-  WirelessDeviceId?: string;
-  LastUplinkReceivedAt?: string;
-  LoRaWAN?: LoRaWANDeviceMetadata;
-  Sidewalk?: SidewalkDeviceMetadata;
+  WirelessDeviceId?: string | undefined;
+  LastUplinkReceivedAt?: string | undefined;
+  LoRaWAN?: LoRaWANDeviceMetadata | undefined;
+  Sidewalk?: SidewalkDeviceMetadata | undefined;
 }
 export type WirelessGatewayIdType =
   | "GatewayEui"
@@ -1566,121 +1566,121 @@ export interface GetWirelessGatewayRequest {
   IdentifierType: WirelessGatewayIdType;
 }
 export interface GetWirelessGatewayResponse {
-  Name?: string;
-  Id?: string;
-  Description?: string;
-  LoRaWAN?: LoRaWANGateway;
-  Arn?: string;
-  ThingName?: string;
-  ThingArn?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Description?: string | undefined;
+  LoRaWAN?: LoRaWANGateway | undefined;
+  Arn?: string | undefined;
+  ThingName?: string | undefined;
+  ThingArn?: string | undefined;
 }
 export interface GetWirelessGatewayCertificateRequest {
   Id: string;
 }
 export interface GetWirelessGatewayCertificateResponse {
-  IotCertificateId?: string;
-  LoRaWANNetworkServerCertificateId?: string;
+  IotCertificateId?: string | undefined;
+  LoRaWANNetworkServerCertificateId?: string | undefined;
 }
 export interface GetWirelessGatewayFirmwareInformationRequest {
   Id: string;
 }
 export interface LoRaWANGatewayCurrentVersion {
-  CurrentVersion?: LoRaWANGatewayVersion;
+  CurrentVersion?: LoRaWANGatewayVersion | undefined;
 }
 export interface GetWirelessGatewayFirmwareInformationResponse {
-  LoRaWAN?: LoRaWANGatewayCurrentVersion;
+  LoRaWAN?: LoRaWANGatewayCurrentVersion | undefined;
 }
 export interface GetWirelessGatewayStatisticsRequest {
   WirelessGatewayId: string;
 }
 export type ConnectionStatus = "Connected" | "Disconnected" | (string & {});
 export interface GetWirelessGatewayStatisticsResponse {
-  WirelessGatewayId?: string;
-  LastUplinkReceivedAt?: string;
-  ConnectionStatus?: ConnectionStatus;
+  WirelessGatewayId?: string | undefined;
+  LastUplinkReceivedAt?: string | undefined;
+  ConnectionStatus?: ConnectionStatus | undefined;
 }
 export interface GetWirelessGatewayTaskRequest {
   Id: string;
 }
 export interface GetWirelessGatewayTaskResponse {
-  WirelessGatewayId?: string;
-  WirelessGatewayTaskDefinitionId?: string;
-  LastUplinkReceivedAt?: string;
-  TaskCreatedAt?: string;
-  Status?: WirelessGatewayTaskStatus;
+  WirelessGatewayId?: string | undefined;
+  WirelessGatewayTaskDefinitionId?: string | undefined;
+  LastUplinkReceivedAt?: string | undefined;
+  TaskCreatedAt?: string | undefined;
+  Status?: WirelessGatewayTaskStatus | undefined;
 }
 export interface GetWirelessGatewayTaskDefinitionRequest {
   Id: string;
 }
 export interface GetWirelessGatewayTaskDefinitionResponse {
-  AutoCreateTasks?: boolean;
-  Name?: string;
-  Update?: UpdateWirelessGatewayTaskCreate;
-  Arn?: string;
+  AutoCreateTasks?: boolean | undefined;
+  Name?: string | undefined;
+  Update?: UpdateWirelessGatewayTaskCreate | undefined;
+  Arn?: string | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListDestinationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Destinations {
-  Arn?: string;
-  Name?: string;
-  ExpressionType?: ExpressionType;
-  Expression?: string;
-  Description?: string;
-  RoleArn?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ExpressionType?: ExpressionType | undefined;
+  Expression?: string | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export type DestinationList = Destinations[];
 export interface ListDestinationsResponse {
-  NextToken?: string;
-  DestinationList?: Destinations[];
+  NextToken?: string | undefined;
+  DestinationList?: Destinations[] | undefined;
 }
 export type DeviceProfileType = "Sidewalk" | "LoRaWAN" | (string & {});
 export interface ListDeviceProfilesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  DeviceProfileType?: DeviceProfileType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  DeviceProfileType?: DeviceProfileType | undefined;
 }
 export interface DeviceProfile {
-  Arn?: string;
-  Name?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
 }
 export type DeviceProfileList = DeviceProfile[];
 export interface ListDeviceProfilesResponse {
-  NextToken?: string;
-  DeviceProfileList?: DeviceProfile[];
+  NextToken?: string | undefined;
+  DeviceProfileList?: DeviceProfile[] | undefined;
 }
 export type OnboardStatus = "INITIALIZED" | "PENDING" | "ONBOARDED" | "FAILED" | (string & {});
 export interface ListDevicesForWirelessDeviceImportTaskRequest {
   Id: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Status?: OnboardStatus;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Status?: OnboardStatus | undefined;
 }
 export interface SidewalkListDevicesForImportInfo {
-  Positioning?: SidewalkPositioning;
+  Positioning?: SidewalkPositioning | undefined;
 }
 export type OnboardStatusReason = string;
 export type LastUpdateTime = Date;
 export interface ImportedSidewalkDevice {
-  SidewalkManufacturingSn?: string;
-  OnboardingStatus?: OnboardStatus;
-  OnboardingStatusReason?: string;
-  LastUpdateTime?: Date;
+  SidewalkManufacturingSn?: string | undefined;
+  OnboardingStatus?: OnboardStatus | undefined;
+  OnboardingStatusReason?: string | undefined;
+  LastUpdateTime?: Date | undefined;
 }
 export interface ImportedWirelessDevice {
-  Sidewalk?: ImportedSidewalkDevice;
+  Sidewalk?: ImportedSidewalkDevice | undefined;
 }
 export type ImportedWirelessDeviceList = ImportedWirelessDevice[];
 export interface ListDevicesForWirelessDeviceImportTaskResponse {
-  NextToken?: string;
-  DestinationName?: string;
-  Positioning?: PositioningConfigStatus;
-  Sidewalk?: SidewalkListDevicesForImportInfo;
-  ImportedWirelessDeviceList?: ImportedWirelessDevice[];
+  NextToken?: string | undefined;
+  DestinationName?: string | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
+  Sidewalk?: SidewalkListDevicesForImportInfo | undefined;
+  ImportedWirelessDeviceList?: ImportedWirelessDevice[] | undefined;
 }
 export type EventNotificationResourceType =
   | "SidewalkAccount"
@@ -1689,111 +1689,111 @@ export type EventNotificationResourceType =
   | (string & {});
 export interface ListEventConfigurationsRequest {
   ResourceType: EventNotificationResourceType;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface EventNotificationItemConfigurations {
-  DeviceRegistrationState?: DeviceRegistrationStateEventConfiguration;
-  Proximity?: ProximityEventConfiguration;
-  Join?: JoinEventConfiguration;
-  ConnectionStatus?: ConnectionStatusEventConfiguration;
-  MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration;
+  DeviceRegistrationState?: DeviceRegistrationStateEventConfiguration | undefined;
+  Proximity?: ProximityEventConfiguration | undefined;
+  Join?: JoinEventConfiguration | undefined;
+  ConnectionStatus?: ConnectionStatusEventConfiguration | undefined;
+  MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration | undefined;
 }
 export interface EventConfigurationItem {
-  Identifier?: string;
-  IdentifierType?: IdentifierType;
-  PartnerType?: EventNotificationPartnerType;
-  Events?: EventNotificationItemConfigurations;
+  Identifier?: string | undefined;
+  IdentifierType?: IdentifierType | undefined;
+  PartnerType?: EventNotificationPartnerType | undefined;
+  Events?: EventNotificationItemConfigurations | undefined;
 }
 export type EventConfigurationsList = EventConfigurationItem[];
 export interface ListEventConfigurationsResponse {
-  NextToken?: string;
-  EventConfigurationsList?: EventConfigurationItem[];
+  NextToken?: string | undefined;
+  EventConfigurationsList?: EventConfigurationItem[] | undefined;
 }
 export interface ListFuotaTasksRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FuotaTask {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type FuotaTaskList = FuotaTask[];
 export interface ListFuotaTasksResponse {
-  NextToken?: string;
-  FuotaTaskList?: FuotaTask[];
+  NextToken?: string | undefined;
+  FuotaTaskList?: FuotaTask[] | undefined;
 }
 export interface ListMulticastGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MulticastGroup {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type MulticastGroupList = MulticastGroup[];
 export interface ListMulticastGroupsResponse {
-  NextToken?: string;
-  MulticastGroupList?: MulticastGroup[];
+  NextToken?: string | undefined;
+  MulticastGroupList?: MulticastGroup[] | undefined;
 }
 export interface ListMulticastGroupsByFuotaTaskRequest {
   Id: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface MulticastGroupByFuotaTask {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type MulticastGroupListByFuotaTask = MulticastGroupByFuotaTask[];
 export interface ListMulticastGroupsByFuotaTaskResponse {
-  NextToken?: string;
-  MulticastGroupList?: MulticastGroupByFuotaTask[];
+  NextToken?: string | undefined;
+  MulticastGroupList?: MulticastGroupByFuotaTask[] | undefined;
 }
 export interface ListNetworkAnalyzerConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface NetworkAnalyzerConfigurations {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export type NetworkAnalyzerConfigurationList = NetworkAnalyzerConfigurations[];
 export interface ListNetworkAnalyzerConfigurationsResponse {
-  NextToken?: string;
-  NetworkAnalyzerConfigurationList?: NetworkAnalyzerConfigurations[];
+  NextToken?: string | undefined;
+  NetworkAnalyzerConfigurationList?: NetworkAnalyzerConfigurations[] | undefined;
 }
 export interface ListPartnerAccountsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type SidewalkAccountList = SidewalkAccountInfoWithFingerprint[];
 export interface ListPartnerAccountsResponse {
-  NextToken?: string;
-  Sidewalk?: SidewalkAccountInfoWithFingerprint[];
+  NextToken?: string | undefined;
+  Sidewalk?: SidewalkAccountInfoWithFingerprint[] | undefined;
 }
 export interface ListPositionConfigurationsRequest {
-  ResourceType?: PositionResourceType;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceType?: PositionResourceType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface PositionConfigurationItem {
-  ResourceIdentifier?: string;
-  ResourceType?: PositionResourceType;
-  Solvers?: PositionSolverDetails;
-  Destination?: string;
+  ResourceIdentifier?: string | undefined;
+  ResourceType?: PositionResourceType | undefined;
+  Solvers?: PositionSolverDetails | undefined;
+  Destination?: string | undefined;
 }
 export type PositionConfigurationList = PositionConfigurationItem[];
 export interface ListPositionConfigurationsResponse {
-  PositionConfigurationList?: PositionConfigurationItem[];
-  NextToken?: string;
+  PositionConfigurationList?: PositionConfigurationItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListQueuedMessagesRequest {
   Id: string;
-  NextToken?: string;
-  MaxResults?: number;
-  WirelessDeviceType?: WirelessDeviceType;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WirelessDeviceType?: WirelessDeviceType | undefined;
 }
 export type TransmitMode = number;
 export type DownlinkMode = "SEQUENTIAL" | "CONCURRENT" | "USING_UPLINK_GATEWAY" | (string & {});
@@ -1810,85 +1810,85 @@ export interface ParticipatingGateways {
   TransmissionInterval: number;
 }
 export interface LoRaWANSendDataToDevice {
-  FPort?: number;
-  ParticipatingGateways?: ParticipatingGateways;
+  FPort?: number | undefined;
+  ParticipatingGateways?: ParticipatingGateways | undefined;
 }
 export interface DownlinkQueueMessage {
-  MessageId?: string;
-  TransmitMode?: number;
-  ReceivedAt?: string;
-  LoRaWAN?: LoRaWANSendDataToDevice;
+  MessageId?: string | undefined;
+  TransmitMode?: number | undefined;
+  ReceivedAt?: string | undefined;
+  LoRaWAN?: LoRaWANSendDataToDevice | undefined;
 }
 export type DownlinkQueueMessagesList = DownlinkQueueMessage[];
 export interface ListQueuedMessagesResponse {
-  NextToken?: string;
-  DownlinkQueueMessagesList?: DownlinkQueueMessage[];
+  NextToken?: string | undefined;
+  DownlinkQueueMessagesList?: DownlinkQueueMessage[] | undefined;
 }
 export interface ListServiceProfilesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ServiceProfile {
-  Arn?: string;
-  Name?: string;
-  Id?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Id?: string | undefined;
 }
 export type ServiceProfileList = ServiceProfile[];
 export interface ListServiceProfilesResponse {
-  NextToken?: string;
-  ServiceProfileList?: ServiceProfile[];
+  NextToken?: string | undefined;
+  ServiceProfileList?: ServiceProfile[] | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListWirelessDeviceImportTasksRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface WirelessDeviceImportTask {
-  Id?: string;
-  Arn?: string;
-  DestinationName?: string;
-  Positioning?: PositioningConfigStatus;
-  Sidewalk?: SidewalkGetStartImportInfo;
-  CreationTime?: Date;
-  Status?: ImportTaskStatus;
-  StatusReason?: string;
-  InitializedImportedDeviceCount?: number;
-  PendingImportedDeviceCount?: number;
-  OnboardedImportedDeviceCount?: number;
-  FailedImportedDeviceCount?: number;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  DestinationName?: string | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
+  Sidewalk?: SidewalkGetStartImportInfo | undefined;
+  CreationTime?: Date | undefined;
+  Status?: ImportTaskStatus | undefined;
+  StatusReason?: string | undefined;
+  InitializedImportedDeviceCount?: number | undefined;
+  PendingImportedDeviceCount?: number | undefined;
+  OnboardedImportedDeviceCount?: number | undefined;
+  FailedImportedDeviceCount?: number | undefined;
 }
 export type WirelessDeviceImportTaskList = WirelessDeviceImportTask[];
 export interface ListWirelessDeviceImportTasksResponse {
-  NextToken?: string;
-  WirelessDeviceImportTaskList?: WirelessDeviceImportTask[];
+  NextToken?: string | undefined;
+  WirelessDeviceImportTaskList?: WirelessDeviceImportTask[] | undefined;
 }
 export interface ListWirelessDevicesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  DestinationName?: string;
-  DeviceProfileId?: string;
-  ServiceProfileId?: string;
-  WirelessDeviceType?: WirelessDeviceType;
-  FuotaTaskId?: string;
-  MulticastGroupId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  DestinationName?: string | undefined;
+  DeviceProfileId?: string | undefined;
+  ServiceProfileId?: string | undefined;
+  WirelessDeviceType?: WirelessDeviceType | undefined;
+  FuotaTaskId?: string | undefined;
+  MulticastGroupId?: string | undefined;
 }
 export interface LoRaWANListDevice {
-  DevEui?: string;
+  DevEui?: string | undefined;
 }
 export interface SidewalkListDevice {
-  AmazonId?: string;
-  SidewalkId?: string;
-  SidewalkManufacturingSn?: string;
-  DeviceCertificates?: CertificateList[];
-  DeviceProfileId?: string;
-  Status?: WirelessDeviceSidewalkStatus;
-  Positioning?: SidewalkPositioning;
+  AmazonId?: string | undefined;
+  SidewalkId?: string | undefined;
+  SidewalkManufacturingSn?: string | undefined;
+  DeviceCertificates?: CertificateList[] | undefined;
+  DeviceProfileId?: string | undefined;
+  Status?: WirelessDeviceSidewalkStatus | undefined;
+  Positioning?: SidewalkPositioning | undefined;
 }
 export type FuotaDeviceStatus =
   | "Initial"
@@ -1907,73 +1907,73 @@ export type FuotaDeviceStatus =
 export type MulticastDeviceStatus = string;
 export type McGroupId = number;
 export interface WirelessDeviceStatistics {
-  Arn?: string;
-  Id?: string;
-  Type?: WirelessDeviceType;
-  Name?: string;
-  DestinationName?: string;
-  LastUplinkReceivedAt?: string;
-  LoRaWAN?: LoRaWANListDevice;
-  Sidewalk?: SidewalkListDevice;
-  FuotaDeviceStatus?: FuotaDeviceStatus;
-  MulticastDeviceStatus?: string;
-  McGroupId?: number;
-  Positioning?: PositioningConfigStatus;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Type?: WirelessDeviceType | undefined;
+  Name?: string | undefined;
+  DestinationName?: string | undefined;
+  LastUplinkReceivedAt?: string | undefined;
+  LoRaWAN?: LoRaWANListDevice | undefined;
+  Sidewalk?: SidewalkListDevice | undefined;
+  FuotaDeviceStatus?: FuotaDeviceStatus | undefined;
+  MulticastDeviceStatus?: string | undefined;
+  McGroupId?: number | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
 }
 export type WirelessDeviceStatisticsList = WirelessDeviceStatistics[];
 export interface ListWirelessDevicesResponse {
-  NextToken?: string;
-  WirelessDeviceList?: WirelessDeviceStatistics[];
+  NextToken?: string | undefined;
+  WirelessDeviceList?: WirelessDeviceStatistics[] | undefined;
 }
 export interface ListWirelessGatewaysRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface WirelessGatewayStatistics {
-  Arn?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  LoRaWAN?: LoRaWANGateway;
-  LastUplinkReceivedAt?: string;
+  Arn?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LoRaWAN?: LoRaWANGateway | undefined;
+  LastUplinkReceivedAt?: string | undefined;
 }
 export type WirelessGatewayStatisticsList = WirelessGatewayStatistics[];
 export interface ListWirelessGatewaysResponse {
-  NextToken?: string;
-  WirelessGatewayList?: WirelessGatewayStatistics[];
+  NextToken?: string | undefined;
+  WirelessGatewayList?: WirelessGatewayStatistics[] | undefined;
 }
 export type WirelessGatewayTaskDefinitionType = "UPDATE" | (string & {});
 export interface ListWirelessGatewayTaskDefinitionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  TaskDefinitionType?: WirelessGatewayTaskDefinitionType;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  TaskDefinitionType?: WirelessGatewayTaskDefinitionType | undefined;
 }
 export interface LoRaWANUpdateGatewayTaskEntry {
-  CurrentVersion?: LoRaWANGatewayVersion;
-  UpdateVersion?: LoRaWANGatewayVersion;
+  CurrentVersion?: LoRaWANGatewayVersion | undefined;
+  UpdateVersion?: LoRaWANGatewayVersion | undefined;
 }
 export interface UpdateWirelessGatewayTaskEntry {
-  Id?: string;
-  LoRaWAN?: LoRaWANUpdateGatewayTaskEntry;
-  Arn?: string;
+  Id?: string | undefined;
+  LoRaWAN?: LoRaWANUpdateGatewayTaskEntry | undefined;
+  Arn?: string | undefined;
 }
 export type WirelessGatewayTaskDefinitionList = UpdateWirelessGatewayTaskEntry[];
 export interface ListWirelessGatewayTaskDefinitionsResponse {
-  NextToken?: string;
-  TaskDefinitions?: UpdateWirelessGatewayTaskEntry[];
+  NextToken?: string | undefined;
+  TaskDefinitions?: UpdateWirelessGatewayTaskEntry[] | undefined;
 }
 export interface SemtechGnssConfiguration {
   Status: PositionConfigurationStatus;
   Fec: PositionConfigurationFec;
 }
 export interface PositionSolverConfigurations {
-  SemtechGnss?: SemtechGnssConfiguration;
+  SemtechGnss?: SemtechGnssConfiguration | undefined;
 }
 export interface PutPositionConfigurationRequest {
   ResourceIdentifier: string;
   ResourceType: PositionResourceType;
-  Solvers?: PositionSolverConfigurations;
-  Destination?: string;
+  Solvers?: PositionSolverConfigurations | undefined;
+  Destination?: string | undefined;
 }
 export interface PutPositionConfigurationResponse {}
 export interface PutResourceLogLevelRequest {
@@ -1991,10 +1991,10 @@ export interface ResetResourceLogLevelRequest {
 export interface ResetResourceLogLevelResponse {}
 export type PayloadData = string;
 export interface LoRaWANMulticastMetadata {
-  FPort?: number;
+  FPort?: number | undefined;
 }
 export interface MulticastWirelessMetadata {
-  LoRaWAN?: LoRaWANMulticastMetadata;
+  LoRaWAN?: LoRaWANMulticastMetadata | undefined;
 }
 export interface SendDataToMulticastGroupRequest {
   Id: string;
@@ -2003,7 +2003,7 @@ export interface SendDataToMulticastGroupRequest {
 }
 export type MulticastGroupMessageId = string;
 export interface SendDataToMulticastGroupResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export type Seq = number;
 export type MessageType =
@@ -2014,42 +2014,42 @@ export type MessageType =
   | (string & {});
 export type AckModeRetryDurationSecs = number;
 export interface SidewalkSendDataToDevice {
-  Seq?: number;
-  MessageType?: MessageType;
-  AckModeRetryDurationSecs?: number;
+  Seq?: number | undefined;
+  MessageType?: MessageType | undefined;
+  AckModeRetryDurationSecs?: number | undefined;
 }
 export interface WirelessMetadata {
-  LoRaWAN?: LoRaWANSendDataToDevice;
-  Sidewalk?: SidewalkSendDataToDevice;
+  LoRaWAN?: LoRaWANSendDataToDevice | undefined;
+  Sidewalk?: SidewalkSendDataToDevice | undefined;
 }
 export interface SendDataToWirelessDeviceRequest {
   Id: string;
   TransmitMode: number;
   PayloadData: string;
-  WirelessMetadata?: WirelessMetadata;
+  WirelessMetadata?: WirelessMetadata | undefined;
 }
 export interface SendDataToWirelessDeviceResponse {
-  MessageId?: string;
+  MessageId?: string | undefined;
 }
 export type QueryString = string;
 export interface StartBulkAssociateWirelessDeviceWithMulticastGroupRequest {
   Id: string;
-  QueryString?: string;
-  Tags?: Tag[];
+  QueryString?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {}
 export interface StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest {
   Id: string;
-  QueryString?: string;
-  Tags?: Tag[];
+  QueryString?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {}
 export interface LoRaWANStartFuotaTask {
-  StartTime?: Date;
+  StartTime?: Date | undefined;
 }
 export interface StartFuotaTaskRequest {
   Id: string;
-  LoRaWAN?: LoRaWANStartFuotaTask;
+  LoRaWAN?: LoRaWANStartFuotaTask | undefined;
 }
 export interface StartFuotaTaskResponse {}
 export interface StartMulticastGroupSessionRequest {
@@ -2059,36 +2059,36 @@ export interface StartMulticastGroupSessionRequest {
 export interface StartMulticastGroupSessionResponse {}
 export type DeviceName = string;
 export interface SidewalkSingleStartImportInfo {
-  SidewalkManufacturingSn?: string;
-  Positioning?: SidewalkPositioning;
+  SidewalkManufacturingSn?: string | undefined;
+  Positioning?: SidewalkPositioning | undefined;
 }
 export interface StartSingleWirelessDeviceImportTaskRequest {
   DestinationName: string;
-  ClientRequestToken?: string;
-  DeviceName?: string;
-  Tags?: Tag[];
-  Positioning?: PositioningConfigStatus;
+  ClientRequestToken?: string | undefined;
+  DeviceName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
   Sidewalk: SidewalkSingleStartImportInfo;
 }
 export interface StartSingleWirelessDeviceImportTaskResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface SidewalkStartImportInfo {
-  DeviceCreationFile?: string;
-  Role?: string;
-  Positioning?: SidewalkPositioning;
+  DeviceCreationFile?: string | undefined;
+  Role?: string | undefined;
+  Positioning?: SidewalkPositioning | undefined;
 }
 export interface StartWirelessDeviceImportTaskRequest {
   DestinationName: string;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
-  Positioning?: PositioningConfigStatus;
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
   Sidewalk: SidewalkStartImportInfo;
 }
 export interface StartWirelessDeviceImportTaskResponse {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -2100,7 +2100,7 @@ export interface TestWirelessDeviceRequest {
 }
 export type Result = string;
 export interface TestWirelessDeviceResponse {
-  Result?: string;
+  Result?: string | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -2110,65 +2110,65 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDestinationRequest {
   Name: string;
-  ExpressionType?: ExpressionType;
-  Expression?: string;
-  Description?: string;
-  RoleArn?: string;
+  ExpressionType?: ExpressionType | undefined;
+  Expression?: string | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface UpdateDestinationResponse {}
 export interface UpdateEventConfigurationByResourceTypesRequest {
-  DeviceRegistrationState?: DeviceRegistrationStateResourceTypeEventConfiguration;
-  Proximity?: ProximityResourceTypeEventConfiguration;
-  Join?: JoinResourceTypeEventConfiguration;
-  ConnectionStatus?: ConnectionStatusResourceTypeEventConfiguration;
-  MessageDeliveryStatus?: MessageDeliveryStatusResourceTypeEventConfiguration;
+  DeviceRegistrationState?: DeviceRegistrationStateResourceTypeEventConfiguration | undefined;
+  Proximity?: ProximityResourceTypeEventConfiguration | undefined;
+  Join?: JoinResourceTypeEventConfiguration | undefined;
+  ConnectionStatus?: ConnectionStatusResourceTypeEventConfiguration | undefined;
+  MessageDeliveryStatus?: MessageDeliveryStatusResourceTypeEventConfiguration | undefined;
 }
 export interface UpdateEventConfigurationByResourceTypesResponse {}
 export interface UpdateFuotaTaskRequest {
   Id: string;
-  Name?: string;
-  Description?: string;
-  LoRaWAN?: LoRaWANFuotaTask;
-  FirmwareUpdateImage?: string;
-  FirmwareUpdateRole?: string;
-  RedundancyPercent?: number;
-  FragmentSizeBytes?: number;
-  FragmentIntervalMS?: number;
-  Descriptor?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LoRaWAN?: LoRaWANFuotaTask | undefined;
+  FirmwareUpdateImage?: string | undefined;
+  FirmwareUpdateRole?: string | undefined;
+  RedundancyPercent?: number | undefined;
+  FragmentSizeBytes?: number | undefined;
+  FragmentIntervalMS?: number | undefined;
+  Descriptor?: string | undefined;
 }
 export interface UpdateFuotaTaskResponse {}
 export interface UpdateLogLevelsByResourceTypesRequest {
-  DefaultLogLevel?: LogLevel;
-  FuotaTaskLogOptions?: FuotaTaskLogOption[];
-  WirelessDeviceLogOptions?: WirelessDeviceLogOption[];
-  WirelessGatewayLogOptions?: WirelessGatewayLogOption[];
+  DefaultLogLevel?: LogLevel | undefined;
+  FuotaTaskLogOptions?: FuotaTaskLogOption[] | undefined;
+  WirelessDeviceLogOptions?: WirelessDeviceLogOption[] | undefined;
+  WirelessGatewayLogOptions?: WirelessGatewayLogOption[] | undefined;
 }
 export interface UpdateLogLevelsByResourceTypesResponse {}
 export interface UpdateMetricConfigurationRequest {
-  SummaryMetric?: SummaryMetricConfiguration;
+  SummaryMetric?: SummaryMetricConfiguration | undefined;
 }
 export interface UpdateMetricConfigurationResponse {}
 export interface UpdateMulticastGroupRequest {
   Id: string;
-  Name?: string;
-  Description?: string;
-  LoRaWAN?: LoRaWANMulticast;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LoRaWAN?: LoRaWANMulticast | undefined;
 }
 export interface UpdateMulticastGroupResponse {}
 export interface UpdateNetworkAnalyzerConfigurationRequest {
   ConfigurationName: string;
-  TraceContent?: TraceContent;
-  WirelessDevicesToAdd?: string[];
-  WirelessDevicesToRemove?: string[];
-  WirelessGatewaysToAdd?: string[];
-  WirelessGatewaysToRemove?: string[];
-  Description?: string;
-  MulticastGroupsToAdd?: string[];
-  MulticastGroupsToRemove?: string[];
+  TraceContent?: TraceContent | undefined;
+  WirelessDevicesToAdd?: string[] | undefined;
+  WirelessDevicesToRemove?: string[] | undefined;
+  WirelessGatewaysToAdd?: string[] | undefined;
+  WirelessGatewaysToRemove?: string[] | undefined;
+  Description?: string | undefined;
+  MulticastGroupsToAdd?: string[] | undefined;
+  MulticastGroupsToRemove?: string[] | undefined;
 }
 export interface UpdateNetworkAnalyzerConfigurationResponse {}
 export interface SidewalkUpdateAccount {
-  AppServerPrivateKey?: string | redacted.Redacted<string>;
+  AppServerPrivateKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePartnerAccountRequest {
   Sidewalk: SidewalkUpdateAccount;
@@ -2185,52 +2185,52 @@ export interface UpdatePositionResponse {}
 export interface UpdateResourceEventConfigurationRequest {
   Identifier: string;
   IdentifierType: IdentifierType;
-  PartnerType?: EventNotificationPartnerType;
-  DeviceRegistrationState?: DeviceRegistrationStateEventConfiguration;
-  Proximity?: ProximityEventConfiguration;
-  Join?: JoinEventConfiguration;
-  ConnectionStatus?: ConnectionStatusEventConfiguration;
-  MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration;
+  PartnerType?: EventNotificationPartnerType | undefined;
+  DeviceRegistrationState?: DeviceRegistrationStateEventConfiguration | undefined;
+  Proximity?: ProximityEventConfiguration | undefined;
+  Join?: JoinEventConfiguration | undefined;
+  ConnectionStatus?: ConnectionStatusEventConfiguration | undefined;
+  MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration | undefined;
 }
 export interface UpdateResourceEventConfigurationResponse {}
 export interface UpdateResourcePositionRequest {
   ResourceIdentifier: string;
   ResourceType: PositionResourceType;
-  GeoJsonPayload?: T.StreamingInputBody;
+  GeoJsonPayload?: T.StreamingInputBody | undefined;
 }
 export interface UpdateResourcePositionResponse {}
 export interface UpdateAbpV1_1 {
-  FCntStart?: number;
+  FCntStart?: number | undefined;
 }
 export interface UpdateAbpV1_0_x {
-  FCntStart?: number;
+  FCntStart?: number | undefined;
 }
 export interface UpdateFPorts {
-  Positioning?: Positioning;
-  Applications?: ApplicationConfig[];
+  Positioning?: Positioning | undefined;
+  Applications?: ApplicationConfig[] | undefined;
 }
 export interface LoRaWANUpdateDevice {
-  DeviceProfileId?: string;
-  ServiceProfileId?: string;
-  AbpV1_1?: UpdateAbpV1_1;
-  AbpV1_0_x?: UpdateAbpV1_0_x;
-  FPorts?: UpdateFPorts;
+  DeviceProfileId?: string | undefined;
+  ServiceProfileId?: string | undefined;
+  AbpV1_1?: UpdateAbpV1_1 | undefined;
+  AbpV1_0_x?: UpdateAbpV1_0_x | undefined;
+  FPorts?: UpdateFPorts | undefined;
 }
 export interface SidewalkUpdateWirelessDevice {
-  Positioning?: SidewalkPositioning;
+  Positioning?: SidewalkPositioning | undefined;
 }
 export interface UpdateWirelessDeviceRequest {
   Id: string;
-  DestinationName?: string;
-  Name?: string;
-  Description?: string;
-  LoRaWAN?: LoRaWANUpdateDevice;
-  Positioning?: PositioningConfigStatus;
-  Sidewalk?: SidewalkUpdateWirelessDevice;
+  DestinationName?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  LoRaWAN?: LoRaWANUpdateDevice | undefined;
+  Positioning?: PositioningConfigStatus | undefined;
+  Sidewalk?: SidewalkUpdateWirelessDevice | undefined;
 }
 export interface UpdateWirelessDeviceResponse {}
 export interface SidewalkUpdateImportInfo {
-  DeviceCreationFile?: string;
+  DeviceCreationFile?: string | undefined;
 }
 export interface UpdateWirelessDeviceImportTaskRequest {
   Id: string;
@@ -2239,11 +2239,11 @@ export interface UpdateWirelessDeviceImportTaskRequest {
 export interface UpdateWirelessDeviceImportTaskResponse {}
 export interface UpdateWirelessGatewayRequest {
   Id: string;
-  Name?: string;
-  Description?: string;
-  JoinEuiFilters?: string[][];
-  NetIdFilters?: string[];
-  MaxEirp?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  JoinEuiFilters?: string[][] | undefined;
+  NetIdFilters?: string[] | undefined;
+  MaxEirp?: number | undefined;
 }
 export interface UpdateWirelessGatewayResponse {}
 export type Message = string;

@@ -83,14 +83,19 @@ const indexOf = (bytes: Uint8Array, pattern: readonly number[], from = 0): numbe
 const CRLF = [13, 10] as const;
 const CRLFCRLF = [13, 10, 13, 10] as const;
 
-const parseHeaderLines = (lines: ReadonlyArray<string>, into: Record<string, string>) => {
+const parseHeaderLines = (lines: ReadonlyArray<string>): Record<string, string> => {
+  // A map, so a header named like something every object has (`constructor`,
+  // `__proto__`) is a header like any other.
+  const joined = new Map<string, string>();
   for (const line of lines) {
     const colon = line.indexOf(":");
     if (colon <= 0) continue;
     const key = line.slice(0, colon).trim().toLowerCase();
     const value = line.slice(colon + 1).trim();
-    into[key] = into[key] === undefined ? value : `${into[key]}, ${value}`;
+    const previous = joined.get(key);
+    joined.set(key, previous === undefined ? value : `${previous}, ${value}`);
   }
+  return Object.fromEntries(joined);
 };
 
 class ProtocolViolation extends Error {}
@@ -130,9 +135,11 @@ const chunkedDecoder = (): BodyDecoder => {
   let buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
   let state: "size" | "data" | "trailers" | "done" = "size";
   let left = 0;
-  const trailers: Record<string, string> = {};
+  let trailers: Record<string, string> = {};
   return {
-    trailers,
+    get trailers() {
+      return trailers;
+    },
     feed(input) {
       buf = concat(buf, input);
       const data: Uint8Array[] = [];
@@ -168,7 +175,7 @@ const chunkedDecoder = (): BodyDecoder => {
           }
           const end = indexOf(buf, CRLFCRLF);
           if (end < 0) break;
-          parseHeaderLines(decoder.decode(buf.subarray(0, end)).split("\r\n"), trailers);
+          trailers = parseHeaderLines(decoder.decode(buf.subarray(0, end)).split("\r\n"));
           state = "done";
           break;
         } else break;
@@ -231,8 +238,7 @@ const send = async (
   const [statusLine = "", ...lines] = decoder.decode(buf.subarray(0, end)).split("\r\n");
   const status = Number(statusLine.split(" ")[1] ?? 0);
   if (!isResponseStatus(status)) throw new ProtocolViolation(`invalid HTTP status ${status}`);
-  const headers: Record<string, string> = {};
-  parseHeaderLines(lines, headers);
+  const headers = parseHeaderLines(lines);
   const framing = decoderFor(headers);
 
   let resolveTrailers!: (t: Trailers) => void;

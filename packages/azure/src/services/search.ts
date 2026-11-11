@@ -47,11 +47,11 @@ export type UnavailableNameReason = "Invalid" | "AlreadyExists";
 /** Output of check name availability API. */
 export interface CheckNameAvailabilityOutput {
   /** A value indicating whether the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the name is not available. 'Invalid' indicates the name provided does not match the naming requirements (incorrect length, unsupported characters, etc.). 'AlreadyExists' indicates that the name is already in use and is therefore unavailable. */
-  reason?: UnavailableNameReason;
+  reason?: UnavailableNameReason | undefined;
   /** A message that explains why the name is invalid and provides resource naming requirements. Available only if 'Invalid' is returned in the 'reason' property. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CreateQueryKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -66,9 +66,9 @@ export interface CreateQueryKeyRequest {
 /** Describes an API key for a given Azure AI Search service that conveys read-only permissions on the docs collection of an index. */
 export interface QueryKey {
   /** The name of the query API key. Query names are optional, but assigning a name can help you remember how it's used. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the query API key. */
-  key?: string;
+  key?: string | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -87,22 +87,22 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The private endpoint resource from Microsoft.Network provider. */
 export interface PrivateEndpointConnectionPropertiesPrivateEndpoint {
   /** The resource ID of the private endpoint resource from Microsoft.Network provider. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Status of the the private link service connection. Valid values are Pending, Approved, Rejected, or Disconnected. */
 export type PrivateLinkServiceConnectionStatus =
@@ -113,11 +113,11 @@ export type PrivateLinkServiceConnectionStatus =
 /** Describes the current state of an existing Azure Private Link service connection to the private endpoint. */
 export interface PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState {
   /** Status of the the private link service connection. Valid values are Pending, Approved, Rejected, or Disconnected. */
-  status?: PrivateLinkServiceConnectionStatus | (string & {});
+  status?: PrivateLinkServiceConnectionStatus | (string & {}) | undefined;
   /** The description for the private link service connection state. */
-  description?: string;
+  description?: string | undefined;
   /** A description of any extra actions that may be required. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled. */
 export type PrivateLinkServiceConnectionProvisioningState =
@@ -130,25 +130,27 @@ export type PrivateLinkServiceConnectionProvisioningState =
 /** Describes the properties of an existing private endpoint connection to the search service. */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint resource from Microsoft.Network provider. */
-  privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
+  privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint | undefined;
   /** Describes the current state of an existing Azure Private Link service connection to the private endpoint. */
-  privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?:
+    | PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState
+    | undefined;
   /** The group ID of the Azure resource for which the private link service is for. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The provisioning state of the private link service connection. Valid values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled. */
-  provisioningState?: PrivateLinkServiceConnectionProvisioningState | (string & {});
+  provisioningState?: PrivateLinkServiceConnectionProvisioningState | (string & {}) | undefined;
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of an existing private endpoint connection to the Azure AI Search service. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface DeleteQueryKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -182,9 +184,9 @@ export interface DeleteSharedPrivateLinkResourceRequest {
 }
 export interface DeleteSharedPrivateLinkResourceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAdminKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -197,9 +199,9 @@ export interface GetAdminKeyRequest {
 /** Response containing the primary and secondary admin API keys for a given Azure AI Search service. */
 export interface AdminKeyResult {
   /** The primary admin API key of the search service. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary admin API key of the search service. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -237,18 +239,18 @@ export type AccessRulePropertiesAddressPrefixesList = Array<string>;
 /** Subscription identifiers */
 export interface AccessRulePropertiesSubscriptionsItem {
   /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
-  id?: string;
+  id?: string | undefined;
 }
 /** Subscriptions for inbound rules */
 export type AccessRulePropertiesSubscriptionsList = Array<AccessRulePropertiesSubscriptionsItem>;
 /** Information about a network security perimeter (NSP) */
 export interface NetworkSecurityPerimeter {
   /** Fully qualified Azure resource ID of the NSP resource */
-  id?: string;
+  id?: string | undefined;
   /** Universal unique ID (UUID) of the network security perimeter */
-  perimeterGuid?: string;
+  perimeterGuid?: string | undefined;
   /** Location of the network security perimeter */
-  location?: string;
+  location?: string | undefined;
 }
 /** Network security perimeters for inbound rules */
 export type AccessRulePropertiesNetworkSecurityPerimetersList = Array<NetworkSecurityPerimeter>;
@@ -260,46 +262,46 @@ export type AccessRulePropertiesEmailAddressesList = Array<string>;
 export type AccessRulePropertiesPhoneNumbersList = Array<string>;
 /** Properties of Access Rule */
 export interface AccessRuleProperties {
-  direction?: AccessRuleDirection;
+  direction?: AccessRuleDirection | undefined;
   /** Address prefixes in the CIDR format for inbound rules */
-  addressPrefixes?: AccessRulePropertiesAddressPrefixesList;
+  addressPrefixes?: AccessRulePropertiesAddressPrefixesList | undefined;
   /** Subscriptions for inbound rules */
-  subscriptions?: AccessRulePropertiesSubscriptionsList;
+  subscriptions?: AccessRulePropertiesSubscriptionsList | undefined;
   /** Network security perimeters for inbound rules */
-  networkSecurityPerimeters?: AccessRulePropertiesNetworkSecurityPerimetersList;
+  networkSecurityPerimeters?: AccessRulePropertiesNetworkSecurityPerimetersList | undefined;
   /** Fully qualified domain names (FQDN) for outbound rules */
-  fullyQualifiedDomainNames?: AccessRulePropertiesFullyQualifiedDomainNamesList;
+  fullyQualifiedDomainNames?: AccessRulePropertiesFullyQualifiedDomainNamesList | undefined;
   /** Email addresses for outbound rules */
-  emailAddresses?: AccessRulePropertiesEmailAddressesList;
+  emailAddresses?: AccessRulePropertiesEmailAddressesList | undefined;
   /** Phone numbers for outbound rules */
-  phoneNumbers?: AccessRulePropertiesPhoneNumbersList;
+  phoneNumbers?: AccessRulePropertiesPhoneNumbersList | undefined;
 }
 /** Access rule in a network security perimeter configuration profile */
 export interface AccessRule {
   /** Name of the access rule */
-  name?: string;
-  properties?: AccessRuleProperties;
+  name?: string | undefined;
+  properties?: AccessRuleProperties | undefined;
 }
 /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
 export type ProvisioningIssuePropertiesSuggestedAccessRulesList = Array<AccessRule>;
 /** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
 export interface ProvisioningIssueProperties {
   /** Type of issue */
-  issueType?: ProvisioningIssuePropertiesIssueType;
+  issueType?: ProvisioningIssuePropertiesIssueType | undefined;
   /** Severity of the issue. */
-  severity?: ProvisioningIssuePropertiesSeverity;
+  severity?: ProvisioningIssuePropertiesSeverity | undefined;
   /** Description of the issue */
-  description?: string;
+  description?: string | undefined;
   /** Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue. */
-  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList;
+  suggestedResourceIds?: ProvisioningIssuePropertiesSuggestedResourceIdsList | undefined;
   /** Access rules that can be added to the network security profile (NSP) to remediate the issue. */
-  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList;
+  suggestedAccessRules?: ProvisioningIssuePropertiesSuggestedAccessRulesList | undefined;
 }
 /** Describes a provisioning issue for a network security perimeter configuration */
 export interface ProvisioningIssue {
   /** Name of the issue */
-  name?: string;
-  properties?: ProvisioningIssueProperties;
+  name?: string | undefined;
+  properties?: ProvisioningIssueProperties | undefined;
 }
 /** List of provisioning issues, if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -309,8 +311,8 @@ export type ResourceAssociationAccessMode = "Enforced" | "Learning" | "Audit";
 /** Information about resource association */
 export interface ResourceAssociation {
   /** Name of the resource association */
-  name?: string;
-  accessMode?: ResourceAssociationAccessMode;
+  name?: string | undefined;
+  accessMode?: ResourceAssociationAccessMode | undefined;
 }
 /** List of Access Rules */
 export type NetworkSecurityProfileAccessRulesList = Array<AccessRule>;
@@ -319,35 +321,37 @@ export type NetworkSecurityProfileEnabledLogCategoriesList = Array<string>;
 /** Network security perimeter configuration profile */
 export interface NetworkSecurityProfile {
   /** Name of the profile */
-  name?: string;
+  name?: string | undefined;
   /** Current access rules version */
-  accessRulesVersion?: number;
+  accessRulesVersion?: number | undefined;
   /** List of Access Rules */
-  accessRules?: NetworkSecurityProfileAccessRulesList;
+  accessRules?: NetworkSecurityProfileAccessRulesList | undefined;
   /** Current diagnostic settings version */
-  diagnosticSettingsVersion?: number;
+  diagnosticSettingsVersion?: number | undefined;
   /** List of log categories that are enabled */
-  enabledLogCategories?: NetworkSecurityProfileEnabledLogCategoriesList;
+  enabledLogCategories?: NetworkSecurityProfileEnabledLogCategoriesList | undefined;
 }
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
-  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState | undefined;
   /** List of provisioning issues, if any */
-  provisioningIssues?: NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList;
-  networkSecurityPerimeter?: NetworkSecurityPerimeter;
-  resourceAssociation?: ResourceAssociation;
-  profile?: NetworkSecurityProfile;
+  provisioningIssues?:
+    | NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList
+    | undefined;
+  networkSecurityPerimeter?: NetworkSecurityPerimeter | undefined;
+  resourceAssociation?: ResourceAssociation | undefined;
+  profile?: NetworkSecurityProfile | undefined;
 }
 export interface GetNetworkSecurityPerimeterConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -361,15 +365,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of an existing private endpoint connection to the Azure AI Search service. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -404,7 +408,7 @@ export type ProvisioningState = "succeeded" | "provisioning" | "failed";
 /** The IP restriction rule of the Azure AI Search service. */
 export interface IpRule {
   /** Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in CIDR format (eg., 123.1.2.3/24) to be allowed. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint. At the meantime, all other public IP networks are blocked by the firewall. These restriction rules are applied only when the 'publicNetworkAccess' of the search service is 'enabled'; otherwise, traffic over public interface is not allowed even with any public IP rules, and private endpoint connections would be the exclusive access method. */
 export type NetworkRuleSetIpRulesList = Array<IpRule>;
@@ -413,9 +417,9 @@ export type SearchBypass = "None" | "AzureServices";
 /** Network specific rules that determine how the Azure AI Search service may be reached. */
 export interface NetworkRuleSet {
   /** A list of IP restriction rules that defines the inbound network(s) with allowing access to the search service endpoint. At the meantime, all other public IP networks are blocked by the firewall. These restriction rules are applied only when the 'publicNetworkAccess' of the search service is 'enabled'; otherwise, traffic over public interface is not allowed even with any public IP rules, and private endpoint connections would be the exclusive access method. */
-  ipRules?: NetworkRuleSetIpRulesList;
+  ipRules?: NetworkRuleSetIpRulesList | undefined;
   /** Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section. */
-  bypass?: SearchBypass | (string & {});
+  bypass?: SearchBypass | (string & {}) | undefined;
 }
 /** A specific data exfiltration scenario that is disabled for the service. */
 export type SearchDataExfiltrationProtection = "BlockAll";
@@ -429,38 +433,40 @@ export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
 /** Describes a policy that determines how resources within the search service are to be encrypted with customer managed keys. */
 export interface EncryptionWithCmk {
   /** Describes how a search service should enforce compliance if it finds objects that aren't encrypted with the customer-managed key. */
-  enforcement?: SearchEncryptionWithCmk | (string & {});
+  enforcement?: SearchEncryptionWithCmk | (string & {}) | undefined;
   /** Returns the status of search service compliance with respect to non-CMK-encrypted objects. If a service has more than one unencrypted object, and enforcement is enabled, the service is marked as noncompliant. */
-  encryptionComplianceStatus?: SearchEncryptionComplianceStatus | (string & {});
+  encryptionComplianceStatus?: SearchEncryptionComplianceStatus | (string & {}) | undefined;
 }
 /** Describes what response the data plane API of a search service would send for requests that failed authentication. */
 export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
 /** Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication. */
 export interface DataPlaneAadOrApiKeyAuthOption {
   /** Describes what response the data plane API of a search service would send for requests that failed authentication. */
-  aadAuthFailureMode?: AadAuthFailureMode | (string & {});
+  aadAuthFailureMode?: AadAuthFailureMode | (string & {}) | undefined;
 }
 /** Defines the options for how the search service authenticates a data plane request. This cannot be set if 'disableLocalAuth' is set to true. */
 export interface DataPlaneAuthOptions {
   /** Indicates that only the API key can be used for authentication. */
-  apiKeyOnly?: unknown;
+  apiKeyOnly?: unknown | undefined;
   /** Indicates that either the API key or an access token from a Microsoft Entra ID tenant can be used for authentication. */
-  aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption;
+  aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption | undefined;
 }
 /** Specifies the availability and billing plan for semantic search on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
 export type SearchSemanticSearch = "disabled" | "free" | "standard";
+/** Specifies the billing plan for agentic retrieval on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
+export type KnowledgeRetrieval = "free" | "standard";
 /** Describes an existing private endpoint connection to the Azure AI Search service. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of an existing private endpoint connection to the Azure AI Search service. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The list of private endpoint connections to the Azure AI Search service. */
 export type SearchServicePropertiesPrivateEndpointConnectionsList =
@@ -477,30 +483,30 @@ export type SharedPrivateLinkResourceProvisioningState =
 /** Describes the properties of an existing shared private link resource managed by the Azure AI Search service. */
 export interface SharedPrivateLinkResourceProperties {
   /** The resource ID of the resource the shared private link resource is for. */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** The group ID from the provider of resource the shared private link resource is for. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The message for requesting approval of the shared private link resource. */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
   /** Optional. Can be used to specify the Azure Resource Manager location of the resource for which a shared private link is being created. This is only required for those resources whose DNS configuration are regional (such as Azure Kubernetes Service). */
-  resourceRegion?: string;
+  resourceRegion?: string | undefined;
   /** Status of the shared private link resource. Valid values are Pending, Approved, Rejected or Disconnected. */
-  status?: SharedPrivateLinkResourceStatus | (string & {});
+  status?: SharedPrivateLinkResourceStatus | (string & {}) | undefined;
   /** The provisioning state of the shared private link resource. Valid values are Updating, Deleting, Failed, Succeeded or Incomplete. */
-  provisioningState?: SharedPrivateLinkResourceProvisioningState | (string & {});
+  provisioningState?: SharedPrivateLinkResourceProvisioningState | (string & {}) | undefined;
 }
 /** Describes a shared private link resource managed by the Azure AI Search service. */
 export interface SharedPrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of a shared private link resource managed by the Azure AI Search service. */
-  properties?: SharedPrivateLinkResourceProperties;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 /** The list of shared private link resources managed by the Azure AI Search service. */
 export type SearchServicePropertiesSharedPrivateLinkResourcesList =
@@ -510,45 +516,47 @@ export type UpgradeAvailable = "notAvailable" | "available";
 /** Properties of the search service. */
 export interface SearchServiceProperties {
   /** The number of replicas in the dedicated search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
-  replicaCount?: number;
+  replicaCount?: number | undefined;
   /** The number of partitions in the dedicated search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
   /** The endpoint of the Azure AI Search service. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'Default' or 'HighDensity'. For all other SKUs, this value must be 'Default'. */
-  hostingMode?: SearchServicePropertiesHostingMode;
+  hostingMode?: SearchServicePropertiesHostingMode | undefined;
   /** Configure this property to support the search service using either the Default Compute or Azure Confidential Compute. */
-  computeType?: ComputeType;
+  computeType?: ComputeType | undefined;
   /** This value can be set to 'Enabled' to avoid breaking changes on existing customer resources and templates. If set to 'Disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
-  publicNetworkAccess?: SearchServicePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: SearchServicePropertiesPublicNetworkAccess | undefined;
   /** The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure AI Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned. */
-  status?: SearchServiceStatus;
+  status?: SearchServiceStatus | undefined;
   /** The details of the search service status. */
-  statusDetails?: string;
+  statusDetails?: string | undefined;
   /** The state of the last provisioning operation performed on the search service. Provisioning is an intermediate state that occurs while service capacity is being established. After capacity is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by using the Get Search Service operation to see when an operation is completed. If you are using the free service, this value tends to come back as 'Succeeded' directly in the call to Create search service. This is because the free service uses capacity that is already set up. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Network specific rules that determine how the Azure AI Search service may be reached. */
-  networkRuleSet?: NetworkRuleSet;
+  networkRuleSet?: NetworkRuleSet | undefined;
   /** A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. */
-  dataExfiltrationProtections?: SearchServicePropertiesDataExfiltrationProtectionsList;
+  dataExfiltrationProtections?: SearchServicePropertiesDataExfiltrationProtectionsList | undefined;
   /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
-  encryptionWithCmk?: EncryptionWithCmk;
+  encryptionWithCmk?: EncryptionWithCmk | undefined;
   /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
-  disableLocalAuth?: boolean | null;
+  disableLocalAuth?: boolean | null | undefined;
   /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
-  authOptions?: DataPlaneAuthOptions;
+  authOptions?: DataPlaneAuthOptions | undefined;
   /** Specifies the availability and billing plan for semantic search on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
-  semanticSearch?: SearchSemanticSearch | null;
+  semanticSearch?: SearchSemanticSearch | null | undefined;
+  /** Specifies the billing plan for agentic retrieval on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
+  knowledgeRetrieval?: KnowledgeRetrieval | null | undefined;
   /** The list of private endpoint connections to the Azure AI Search service. */
-  privateEndpointConnections?: SearchServicePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: SearchServicePropertiesPrivateEndpointConnectionsList | undefined;
   /** The list of shared private link resources managed by the Azure AI Search service. */
-  sharedPrivateLinkResources?: SearchServicePropertiesSharedPrivateLinkResourcesList;
+  sharedPrivateLinkResources?: SearchServicePropertiesSharedPrivateLinkResourcesList | undefined;
   /** A system generated property representing the service's etag that can be for optimistic concurrency control during updates. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Indicates if the search service has an upgrade available. */
-  upgradeAvailable?: UpgradeAvailable;
+  upgradeAvailable?: UpgradeAvailable | undefined;
   /** The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time. */
-  serviceUpgradedAt?: string;
+  serviceUpgradedAt?: string | undefined;
 }
 /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
 export type SkuName =
@@ -558,11 +566,12 @@ export type SkuName =
   | "standard2"
   | "standard3"
   | "storage_optimized_l1"
-  | "storage_optimized_l2";
+  | "storage_optimized_l2"
+  | "serverless";
 /** Defines the SKU of a search service, which determines billing rate and capacity limits. */
 export interface Sku {
   /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions. 'serverless': Serverless tier with auto-scaling capabilities. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
 }
 /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an identity created by the system and a set of user assigned identities. The type 'None' will remove all identities from the service. */
 export type IdentityType =
@@ -573,9 +582,9 @@ export type IdentityType =
 /** User assigned identity properties */
 export interface IdentityUserAssignedIdentitiesValue {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -584,33 +593,33 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
 export interface Identity {
   /** The principal ID of the system-assigned identity of the search service. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system-assigned identity of the search service. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an identity created by the system and a set of user assigned identities. The type 'None' will remove all identities from the service. */
   type: IdentityType;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the search service. */
-  properties?: SearchServiceProperties;
+  properties?: SearchServiceProperties | undefined;
   /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -624,15 +633,15 @@ export interface GetSharedPrivateLinkResourceRequest {
 }
 export interface GetSharedPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of a shared private link resource managed by the Azure AI Search service. */
-  properties?: SharedPrivateLinkResourceProperties;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface ListNetworkSecurityPerimeterConfigurationByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -645,14 +654,14 @@ export interface ListNetworkSecurityPerimeterConfigurationByServiceRequest {
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfigurationListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: NetworkSecurityPerimeterConfigurationProperties;
+  systemData?: SystemData | undefined;
+  properties?: NetworkSecurityPerimeterConfigurationProperties | undefined;
 }
 /** The NetworkSecurityPerimeterConfiguration items on this page */
 export type NetworkSecurityPerimeterConfigurationListResultValueList =
@@ -662,19 +671,19 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   /** The NetworkSecurityPerimeterConfiguration items on this page */
   value: NetworkSecurityPerimeterConfigurationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationListResultValueItemDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationListResultValueItemOrigin = "user" | "system" | "user,system";
@@ -683,24 +692,24 @@ export type OperationListResultValueItemActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface OperationListResultValueItem {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationListResultValueItemDisplay;
+  display?: OperationListResultValueItemDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationListResultValueItemOrigin;
+  origin?: OperationListResultValueItemOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationListResultValueItemActionType;
+  actionType?: OperationListResultValueItemActionType | undefined;
 }
 /** The list of operations by Azure AI Search, some supported by the resource provider and others by data plane APIs. */
 export type OperationListResultValueList = Array<OperationListResultValueItem>;
 /** The result of the request to list REST API operations. It contains a list of operations and a URL to get the next set of results. */
 export interface OperationListResult {
   /** The list of operations by Azure AI Search, some supported by the resource provider and others by data plane APIs. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The URL to get the next set of operation list results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -715,9 +724,9 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** Response containing a list of private endpoint connections. */
 export interface PrivateEndpointConnectionListResult {
   /** The list of private endpoint connections. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceSupportedRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -734,18 +743,18 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Describes the properties of a resource type that has been onboarded to private link service, supported by Azure AI Search. */
 export interface ShareablePrivateLinkResourceProperties {
   /** The resource provider type for the resource that has been onboarded to private link service, supported by Azure AI Search. */
-  type?: string;
+  type?: string | undefined;
   /** The resource provider group id for the resource that has been onboarded to private link service, supported by Azure AI Search. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The description of the resource type that has been onboarded to private link service, supported by Azure AI Search. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Describes an resource type that has been onboarded to private link service, supported by Azure AI Search. */
 export interface ShareablePrivateLinkResourceType {
   /** The name of the resource type that has been onboarded to private link service, supported by Azure AI Search. */
-  name?: string;
+  name?: string | undefined;
   /** Describes the properties of a resource type that has been onboarded to private link service, supported by Azure AI Search. */
-  properties?: ShareablePrivateLinkResourceProperties;
+  properties?: ShareablePrivateLinkResourceProperties | undefined;
 }
 /** The list of resources that are onboarded to private link service, that are supported by Azure AI Search. */
 export type PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList =
@@ -753,35 +762,37 @@ export type PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList =
 /** Describes the properties of a supported private link resource for the Azure AI Search service. For a given API version, this represents the 'supported' groupIds when creating a shared private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The group ID of the private link resource. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The list of required members of the private link resource. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The list of required DNS zone names of the private link resource. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
   /** The list of resources that are onboarded to private link service, that are supported by Azure AI Search. */
-  shareablePrivateLinkResourceTypes?: PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList;
+  shareablePrivateLinkResourceTypes?:
+    | PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList
+    | undefined;
 }
 /** Describes a supported private link resource for the Azure AI Search service. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of a supported private link resource for the Azure AI Search service. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The list of supported Private Link Resources. */
 export type PrivateLinkResourcesResultValueList = Array<PrivateLinkResource>;
 /** Response containing a list of supported Private Link Resources. */
 export interface PrivateLinkResourcesResult {
   /** The list of supported Private Link Resources. */
-  value?: PrivateLinkResourcesResultValueList;
+  value?: PrivateLinkResourcesResultValueList | undefined;
   /** The URL to get the next set of private link resources, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -794,32 +805,32 @@ export type SearchServiceTagsMap = { [key: string]: string | undefined };
 /** Describes an Azure AI Search service and its current state. */
 export interface SearchService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SearchServiceTagsMap;
+  tags?: SearchServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the search service. */
-  properties?: SearchServiceProperties;
+  properties?: SearchServiceProperties | undefined;
   /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The list of search services. */
 export type SearchServiceListResultValueList = Array<SearchService>;
 /** Response containing a list of Azure AI Search services. */
 export interface SearchServiceListResult {
   /** The list of search services. */
-  value?: SearchServiceListResultValueList;
+  value?: SearchServiceListResultValueList | undefined;
   /** Request URL that can be used to query next page of search services. Returned when the total number of requested search services exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -838,9 +849,9 @@ export type SharedPrivateLinkResourceListResultValueList = Array<SharedPrivateLi
 /** Response containing a list of shared private link resources. */
 export interface SharedPrivateLinkResourceListResult {
   /** The list of shared private link resources. */
-  value?: SharedPrivateLinkResourceListResultValueList;
+  value?: SharedPrivateLinkResourceListResultValueList | undefined;
   /** The URL to get the next set of shared private link resources, if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsageBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -851,31 +862,31 @@ export interface ListUsageBySubscriptionRequest {
 /** The SKU name information, including its identifier and localized display name. */
 export interface QuotaUsageResultName {
   /** The SKU name supported by Azure AI Search. */
-  value?: string;
+  value?: string | undefined;
   /** The localized string value for the SKU name. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Describes the quota usage for a particular SKU. */
 export interface QuotaUsageResult {
   /** The resource ID of the quota usage SKU endpoint for Microsoft.Search provider. */
-  id?: string;
+  id?: string | undefined;
   /** The unit of measurement for the search SKU. */
-  unit?: string;
+  unit?: string | undefined;
   /** The currently used up value for the particular search SKU. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The quota limit for the particular search SKU. */
-  limit?: number;
+  limit?: number | undefined;
   /** The SKU name information of the current search service. */
-  name?: QuotaUsageResultName;
+  name?: QuotaUsageResultName | undefined;
 }
 /** The quota usages for the SKUs supported by Azure AI Search. */
 export type QuotaUsagesListResultValueList = Array<QuotaUsageResult>;
 /** Response containing the quota usage information for all the supported SKUs of Azure AI Search. */
 export interface QuotaUsagesListResult {
   /** The quota usages for the SKUs supported by Azure AI Search. */
-  value?: QuotaUsagesListResultValueList;
+  value?: QuotaUsagesListResultValueList | undefined;
   /** Request URL that can be used to query next page of quota usages. Returned when the total number of requested quota usages exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface NetworkSecurityPerimeterConfigurationsReconcileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -889,7 +900,7 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileRequest {
 }
 export interface NetworkSecurityPerimeterConfigurationsReconcileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface QueryKeysListBySearchServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -904,9 +915,9 @@ export type ListQueryKeysResultValueList = Array<QueryKey>;
 /** Response containing the query API keys for a given Azure AI Search service. */
 export interface ListQueryKeysResult {
   /** The query keys for the Azure AI Search service. */
-  value?: ListQueryKeysResultValueList;
+  value?: ListQueryKeysResultValueList | undefined;
   /** Request URL that can be used to query next page of query keys. Returned when the total number of requested query keys exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type RegenerateAdminKeyRequestKeyKind = "primary" | "secondary";
 export interface RegenerateAdminKeyRequest {
@@ -935,31 +946,35 @@ export type SearchServicePropertiesInputDataExfiltrationProtectionsList = Array<
 /** Properties of the search service. */
 export interface SearchServicePropertiesInput {
   /** The number of replicas in the dedicated search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
-  replicaCount?: number;
+  replicaCount?: number | undefined;
   /** The number of partitions in the dedicated search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
   /** The endpoint of the Azure AI Search service. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'Default' or 'HighDensity'. For all other SKUs, this value must be 'Default'. */
-  hostingMode?: SearchServicePropertiesInputHostingMode | (string & {});
+  hostingMode?: SearchServicePropertiesInputHostingMode | (string & {}) | undefined;
   /** Configure this property to support the search service using either the Default Compute or Azure Confidential Compute. */
-  computeType?: ComputeType | (string & {});
+  computeType?: ComputeType | (string & {}) | undefined;
   /** This value can be set to 'Enabled' to avoid breaking changes on existing customer resources and templates. If set to 'Disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
-  publicNetworkAccess?: SearchServicePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: SearchServicePropertiesInputPublicNetworkAccess | (string & {}) | undefined;
   /** Network specific rules that determine how the Azure AI Search service may be reached. */
-  networkRuleSet?: NetworkRuleSet;
+  networkRuleSet?: NetworkRuleSet | undefined;
   /** A list of data exfiltration scenarios that are explicitly disallowed for the search service. Currently, the only supported value is 'All' to disable all possible data export scenarios with more fine grained controls planned for the future. */
-  dataExfiltrationProtections?: SearchServicePropertiesInputDataExfiltrationProtectionsList;
+  dataExfiltrationProtections?:
+    | SearchServicePropertiesInputDataExfiltrationProtectionsList
+    | undefined;
   /** Specifies any policy regarding encryption of resources (such as indexes) using customer manager keys within a search service. */
-  encryptionWithCmk?: EncryptionWithCmk;
+  encryptionWithCmk?: EncryptionWithCmk | undefined;
   /** When set to true, calls to the search service will not be permitted to utilize API keys for authentication. This cannot be set to true if 'dataPlaneAuthOptions' are defined. */
-  disableLocalAuth?: boolean | null;
+  disableLocalAuth?: boolean | null | undefined;
   /** Defines the options for how the data plane API of a search service authenticates requests. This cannot be set if 'disableLocalAuth' is set to true. */
-  authOptions?: DataPlaneAuthOptions;
+  authOptions?: DataPlaneAuthOptions | undefined;
   /** Specifies the availability and billing plan for semantic search on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
-  semanticSearch?: SearchSemanticSearch | (string & {}) | null;
+  semanticSearch?: SearchSemanticSearch | (string & {}) | null | undefined;
+  /** Specifies the billing plan for agentic retrieval on the Azure AI Search service. This configuration is only available for certain pricing tiers in certain regions. */
+  knowledgeRetrieval?: KnowledgeRetrieval | (string & {}) | null | undefined;
   /** Indicates if the search service has an upgrade available. */
-  upgradeAvailable?: UpgradeAvailable | (string & {});
+  upgradeAvailable?: UpgradeAvailable | (string & {}) | undefined;
 }
 /** User assigned identity properties */
 export interface IdentityInputUserAssignedIdentitiesValue {}
@@ -972,7 +987,7 @@ export interface IdentityInput {
   /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an identity created by the system and a set of user assigned identities. The type 'None' will remove all identities from the service. */
   type: IdentityType | (string & {});
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface ServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -982,41 +997,41 @@ export interface ServicesCreateOrUpdateRequest {
   /** The name of the Azure AI Search service associated with the specified resource group. */
   searchServiceName: string;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the search service. */
-  properties?: SearchServicePropertiesInput;
+  properties?: SearchServicePropertiesInput | undefined;
   /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the search service. */
-  properties?: SearchServiceProperties;
+  properties?: SearchServiceProperties | undefined;
   /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ServicesUpgradeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1030,27 +1045,27 @@ export interface ServicesUpgradeRequest {
 export type ServicesUpgradeResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesUpgradeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServicesUpgradeResponseTagsMap;
+  tags?: ServicesUpgradeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the search service. */
-  properties?: SearchServiceProperties;
+  properties?: SearchServiceProperties | undefined;
   /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface SharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1062,21 +1077,21 @@ export interface SharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The name of the shared private link resource managed by the Azure AI Search service within the specified resource group. */
   sharedPrivateLinkResourceName: string;
   /** Describes the properties of a shared private link resource managed by the Azure AI Search service. */
-  properties?: SharedPrivateLinkResourceProperties;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface SharedPrivateLinkResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of a shared private link resource managed by the Azure AI Search service. */
-  properties?: SharedPrivateLinkResourceProperties;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface UpdatePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1088,19 +1103,19 @@ export interface UpdatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection to the Azure AI Search service with the specified resource group. */
   privateEndpointConnectionName: string;
   /** Describes the properties of an existing private endpoint connection to the Azure AI Search service. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface UpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of an existing private endpoint connection to the Azure AI Search service. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Tags to help categorize the resource in the Azure portal. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -1112,37 +1127,37 @@ export interface UpdateServiceRequest {
   /** The name of the Azure AI Search service associated with the specified resource group. */
   searchServiceName: string;
   /** Properties of the search service. */
-  properties?: SearchServicePropertiesInput;
+  properties?: SearchServicePropertiesInput | undefined;
   /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The geographic location of the resource. This must be one of the supported and registered Azure geo regions (for example, West US, East US, Southeast Asia, and so forth). This property is required when creating a new resource. */
-  location?: string;
+  location?: string | undefined;
   /** Tags to help categorize the resource in the Azure portal. */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
   /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the search service. */
-  properties?: SearchServiceProperties;
+  properties?: SearchServiceProperties | undefined;
   /** The SKU of the search service, which determines price tier and capacity limits. This property is required when creating a new search service. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface UsageBySubscriptionSkuRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1654,7 +1669,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/checkNameAvailability",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckServiceNameAvailabilityRequest" });
@@ -1682,7 +1697,7 @@ function __c1(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/createQueryKey/{name}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateQueryKeyRequest" });
@@ -1713,7 +1728,7 @@ function __c3(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetSharedPrivateLinkResourceRequest" });
@@ -1732,7 +1747,7 @@ function __c4(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListNetworkSecurityPerimeterConfigurationByServiceRequest" });
@@ -1756,7 +1771,7 @@ function __c5(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.Search/operations",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1803,7 +1818,7 @@ function __c6(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByServiceRequest" });
@@ -1829,7 +1844,7 @@ function __c7(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceSupportedRequest" });
@@ -1892,7 +1907,7 @@ function __c8(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListServiceByResourceGroupRequest" });
@@ -1922,7 +1937,7 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/searchServices",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListServiceBySubscriptionRequest" });
@@ -1941,7 +1956,7 @@ function __c11(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListSharedPrivateLinkResourceByServiceRequest" });
@@ -1966,7 +1981,7 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListUsageBySubscriptionRequest" });
@@ -2016,7 +2031,7 @@ function __c14(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations/{nspConfigName}/reconcile",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "NetworkSecurityPerimeterConfigurationsReconcileRequest" });
@@ -2042,7 +2057,7 @@ function __c15(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -2119,7 +2134,7 @@ function __c19(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "QueryKeysListBySearchServiceRequest" });
@@ -2148,7 +2163,7 @@ function __c20(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/regenerateAdminKey/{keyKind}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RegenerateAdminKeyRequest" });
@@ -2172,7 +2187,7 @@ function __c21(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ServicesCreateOrUpdateRequest" });
@@ -2215,6 +2230,7 @@ function __c23(j: number): any {
           disableLocalAuth: S.optional(S.NullOr(S.Boolean)),
           authOptions: S.optional(__S(711, __c44, 7)),
           semanticSearch: S.optional(S.NullOr(S.String)),
+          knowledgeRetrieval: S.optional(S.NullOr(S.String)),
           upgradeAvailable: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchServicePropertiesInput" });
@@ -2242,7 +2258,7 @@ function __c24(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/upgrade",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ServicesUpgradeRequest" });
@@ -2263,7 +2279,7 @@ function __c25(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "SharedPrivateLinkResourcesCreateOrUpdateRequest" });
@@ -2295,7 +2311,7 @@ function __c26(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
@@ -2319,7 +2335,7 @@ function __c27(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateServiceRequest" });
@@ -2338,7 +2354,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages/{skuName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UsageBySubscriptionSkuRequest" });
@@ -2358,7 +2374,7 @@ function __c29(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/deleteQueryKey/{key}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteQueryKeyRequest" });
@@ -2383,7 +2399,7 @@ function __c31(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteServiceRequest" });
@@ -2403,7 +2419,7 @@ function __c32(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSharedPrivateLinkResourceRequest" });
@@ -2429,7 +2445,7 @@ function __c33(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listAdminKeys",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetAdminKeyRequest" });
@@ -2460,7 +2476,7 @@ function __c35(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/networkSecurityPerimeterConfigurations/{nspConfigName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetNetworkSecurityPerimeterConfigurationRequest" });
@@ -2579,7 +2595,7 @@ function __c38(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -2598,7 +2614,7 @@ function __c39(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetServiceRequest" });
@@ -2704,6 +2720,7 @@ function __c44(j: number): any {
           disableLocalAuth: S.optional(S.NullOr(S.Boolean)),
           authOptions: S.optional(__S(711, __c44, 7)),
           semanticSearch: S.optional(S.NullOr(S.String)),
+          knowledgeRetrieval: S.optional(S.NullOr(S.String)),
           privateEndpointConnections: S.optional(__S(672, __c42, 0)),
           sharedPrivateLinkResources: S.optional(__S(688, __c43, 0)),
           eTag: S.optional(S.String),

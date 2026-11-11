@@ -315,11 +315,11 @@ export interface CancelMembershipRequest {
   /** Membership ID (`mem_` tag). */
   id: string;
   /** `true` stops auto-renewal and keeps access until the current billing period ends. Omit or `false` revokes access immediately. */
-  cancel_at_period_end?: boolean;
+  cancel_at_period_end?: boolean | undefined;
   /** Free-form note recording why the membership was canceled. */
-  reason?: string;
+  reason?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface StorefrontAccount {
   /** Account ID, prefixed `biz_`. */
@@ -392,7 +392,7 @@ export interface ExtendMembershipRequest {
   /** Number of free days to add (1-1095). */
   days: number;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetMembershipRequest {
   /** Membership ID (`mem_` tag), or a software license key. */
@@ -400,13 +400,13 @@ export interface GetMembershipRequest {
 }
 export interface InviteMembershipRequest {
   /** Recipient email address. Mutually exclusive with `user_id`. */
-  email?: string;
+  email?: string | undefined;
   /** Free plan whose membership the recipient is invited to, prefixed `plan_`. */
   plan_id: string;
   /** Recipient user ID, prefixed `user_`. Mutually exclusive with `email`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface InviteMembershipResponse {
   invitation_sent: boolean;
@@ -424,31 +424,31 @@ export type ListMembershipsRequestOrder = "created_at";
 export type ListMembershipsRequestDirection = "asc" | "desc";
 export interface ListMembershipsRequest {
   /** Narrow to one account (`biz_` tag). With read access to the account this lists all of its memberships; without, only the caller's own memberships in it. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Narrow to one user's memberships (`user_` tag, or `me` for the caller). A user outside the caller's visible set returns an empty list. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter by billing state. `canceling` matches active memberships set to cancel at period end; `paused` matches memberships with payment collection paused. */
-  status?: ListMembershipsRequestStatus | (string & {});
+  status?: ListMembershipsRequestStatus | (string & {}) | undefined;
   /** Filter to memberships of this product (`prod_` tag). Repeat as product_ids[] for several. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** Filter to memberships of this plan (`plan_` tag). Repeat as plan_ids[] for several. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** Only memberships created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only memberships created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Sort field. */
-  order?: ListMembershipsRequestOrder | (string & {});
+  order?: ListMembershipsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListMembershipsRequestDirection | (string & {});
+  direction?: ListMembershipsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListMembershipsResponseDataList = Array<Membership>;
 export interface ListMembershipsResponsePageInfo {
@@ -465,35 +465,35 @@ export interface PauseMembershipRequest {
   /** Membership ID (`mem_` tag). */
   id: string;
   /** ISO 8601 time to automatically resume payment collection. Must be in the future; only supported for memberships billed by Whop. */
-  until?: string;
+  until?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ReactivateMembershipRequest {
   /** Membership ID (`mem_` tag). */
   id: string;
   /** Days of access from now (1-1095), which sets `current_period_end`. Omit to keep the original `current_period_end`; required once it has passed. Ignored for lifetime memberships. */
-  days?: number;
+  days?: number | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ResumeMembershipRequest {
   /** Membership ID (`mem_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ResyncAccessMembershipRequest {
   /** Membership ID (`mem_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TransferMembershipRequest {
   /** Membership ID (`mem_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TransferMembershipResponse {
   /** One-use URL the destination account opens to claim the membership. */
@@ -507,11 +507,11 @@ export interface UpdateMembershipRequest {
   /** Membership ID (`mem_` tag), or a software license key. */
   id: string;
   /** `true` cancels at the end of the current billing period (the customer keeps access until then); `false` reverses a pending cancellation. */
-  cancel_at_period_end?: boolean;
+  cancel_at_period_end?: boolean | undefined;
   /** Key-value pairs to merge into the membership's metadata. Pass an empty object to clear it. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The ID of a payment method the customer has saved with your account. Future renewals charge it, and an open past-due payment is retried on it right away. Requires the `member:payment_methods:manage` permission. */
-  payment_method_id?: string;
+  payment_method_id?: string | undefined;
 }
 export type AddFreeDaysMembershipError =
   | BadRequest

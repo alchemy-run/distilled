@@ -63,15 +63,15 @@ export interface Job {
   /** The ID of the resource this job operates on (sandboxId, snapshotRef, etc.) */
   resourceId: string;
   /** Job-specific JSON-encoded payload data (operational metadata) */
-  payload?: string;
+  payload?: string | undefined;
   /** OpenTelemetry trace context for distributed tracing (W3C Trace Context format) */
-  traceContext?: JobTraceContextMap;
+  traceContext?: JobTraceContextMap | undefined;
   /** Error message if the job failed */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The creation timestamp of the job */
   createdAt: string;
   /** The last update timestamp of the job */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetJobRegistryMtlsCredentialsRequest {
   /** ID of the job */
@@ -85,17 +85,17 @@ export interface RegistryMtlsCredentialsDto {
   /** PEM-encoded unencrypted client private key */
   privateKeyPem: string;
   /** PEM-encoded registry CA bundle */
-  caBundlePem?: string;
+  caBundlePem?: string | undefined;
 }
 export interface ListJobsRequest {
   /** Page number of the results */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of jobs to return (default: 100, max: 500) */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter jobs by status */
-  status?: JobStatus | (string & {});
+  status?: JobStatus | (string & {}) | undefined;
   /** Number of jobs to skip for pagination (default: 0) */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedJobsItemsList = Array<Job>;
 export interface PaginatedJobs {
@@ -106,9 +106,9 @@ export interface PaginatedJobs {
 }
 export interface PollJobsRequest {
   /** Timeout in seconds for long polling (default: 30, max: 60) */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Maximum number of jobs to return (default: 10, max: 100) */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** List of jobs */
 export type PollJobsResponseJobsList = Array<Job>;
@@ -122,9 +122,9 @@ export interface UpdateJobStatusRequest {
   /** The new status of the job */
   status: JobStatus | (string & {});
   /** Error message if the job failed */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Result metadata for the job */
-  resultMetadata?: string;
+  resultMetadata?: string | undefined;
 }
 export type GetJobError = DaytonaOpError;
 /** Get job details */

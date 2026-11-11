@@ -18,6 +18,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SlackProtocol -- hand-written.
@@ -72,7 +73,8 @@ export type SlackOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Slack operation. */
 export type SlackOpContext = Credentials | HttpClient.HttpClient;

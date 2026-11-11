@@ -136,10 +136,10 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type ClientToken = string;
 export interface DeleteConnectionRecordingPreferencesRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface GetConnectionRecordingPreferencesRequest {}
 export type AccountId = string;
@@ -157,16 +157,16 @@ export interface ConnectionRecordingPreferences {
   KMSKeyArn: string;
 }
 export interface GetConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
-  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+  ClientToken?: string | undefined;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences | undefined;
 }
 export interface UpdateConnectionRecordingPreferencesRequest {
   ConnectionRecordingPreferences: ConnectionRecordingPreferences;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
-  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+  ClientToken?: string | undefined;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteConnectionRecordingPreferencesError =

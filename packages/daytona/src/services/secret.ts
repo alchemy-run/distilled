@@ -49,15 +49,15 @@ export class SecretNotFound
 export type CreateSecretRequestHostsList = Array<string>;
 export interface CreateSecretRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Secret name (alphanumeric, hyphens, underscores) */
   name: string;
   /** Secret value */
   value: string | Redacted.Redacted<string>;
   /** Optional description of the secret */
-  description?: string;
+  description?: string | undefined;
   /** Allowed hosts this secret may be sent to */
-  hosts?: CreateSecretRequestHostsList;
+  hosts?: CreateSecretRequestHostsList | undefined;
 }
 /** Allowed hosts this secret may be sent to */
 export type SecretHostsList = Array<string>;
@@ -67,7 +67,7 @@ export interface Secret2 {
   /** Secret name */
   name: string;
   /** Optional description of the secret */
-  description?: string;
+  description?: string | undefined;
   /** Creation timestamp */
   createdAt: string;
   /** Opaque placeholder token injected as env var value in sandboxes */
@@ -81,30 +81,30 @@ export interface DeleteSecretRequest {
   /** ID of the secret */
   secretId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteSecretResponse {}
 export interface GetSecretRequest {
   /** ID of the secret */
   secretId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListSecretsPaginatedRequestSort = "name" | "createdAt" | "updatedAt";
 export type ListSecretsPaginatedRequestOrder = "asc" | "desc";
 export interface ListSecretsPaginatedRequest {
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of results per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by partial name match */
-  name?: string;
+  name?: string | undefined;
   /** Field to sort by */
-  sort?: ListSecretsPaginatedRequestSort | (string & {});
+  sort?: ListSecretsPaginatedRequestSort | (string & {}) | undefined;
   /** Direction to sort by */
-  order?: ListSecretsPaginatedRequestOrder | (string & {});
+  order?: ListSecretsPaginatedRequestOrder | (string & {}) | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** List of results for the current page */
 export type ListSecretsResponseItemsList = Array<Secret2>;
@@ -122,13 +122,13 @@ export interface UpdateSecretRequest {
   /** ID of the secret */
   secretId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** New secret value */
-  value?: string | Redacted.Redacted<string>;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** Optional description of the secret */
-  description?: string;
+  description?: string | undefined;
   /** Allowed hosts this secret may be sent to */
-  hosts?: UpdateSecretRequestHostsList;
+  hosts?: UpdateSecretRequestHostsList | undefined;
 }
 export type CreateSecretError = SecretAlreadyExists | DaytonaOpError;
 /** Create secret */

@@ -168,7 +168,7 @@ describe("dot-segment labels", () => {
     for (const id of [".", ".."]) {
       const error = Effect.runSync(Effect.flip(request(id)));
       expect(error).toBeInstanceOf(InvalidInput);
-      expect(error.member).toBe("id");
+      expect((error as InvalidInput).member).toBe("id");
     }
   });
 

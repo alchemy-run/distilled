@@ -43,6 +43,15 @@ export class NamespaceNotFound
     [{ status: 404, headers: { "x-rivet-error": "namespace.not_found" } }],
   ) {}
 
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  ) {}
+
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -82,9 +91,9 @@ export interface CreateAuthTokenRequest {
   /** Name of the namespace the token is scoped to. It must exist. */
   namespace: string;
   /** Token lifetime in seconds, from 1 to the deployment's maximum. Defaults to the deployment's configured duration. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Opaque identifier of the end user, at most 256 UTF-8 bytes. Only used for correlation. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Access the token carries within its namespace. */
   grants: CreateAuthTokenRequestGrantsList;
 }
@@ -114,6 +123,7 @@ export interface AuthTokenInspectResponse {
 export type CreateAuthTokenError =
   | NamespaceNotFound
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Issues a namespace-scoped JWT. Requires the admin token, even when the deployment allows unauthenticated requests. */
@@ -125,14 +135,24 @@ export const createAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateAuthTokenRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<AuthTokenCreateResponse>,
-  errors: [NamespaceNotFound, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  errors: [
+    NamespaceNotFound,
+    StorageOverloaded,
+    StorageCommandCapacity,
+    CommandDeadlineElapsed,
+    UnknownRivetError,
+  ],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAuthToken",
 }));
 
-export type InspectAuthTokenError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
+export type InspectAuthTokenError =
+  | StorageOverloaded
+  | StorageCommandCapacity
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Returns the namespace, subject, grants and lifetime of the JWT that authenticates the request. */
 export const inspectAuthToken: API.OperationMethod<
   InspectAuthTokenRequest,
@@ -142,7 +162,7 @@ export const inspectAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<InspectAuthTokenRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<AuthTokenInspectResponse>,
-  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

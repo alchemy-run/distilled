@@ -210,18 +210,18 @@ export interface Tag {
 export type TagList = Tag[];
 export interface CreateHttpNamespaceRequest {
   Name: string;
-  CreatorRequestId?: string;
-  Description?: string;
-  Tags?: Tag[];
+  CreatorRequestId?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type OperationId = string;
 export interface CreateHttpNamespaceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type NamespaceNamePrivate = string;
 export type RecordTTL = number;
 export interface SOA {
-  TTL?: number;
+  TTL?: number | undefined;
 }
 export interface PrivateDnsPropertiesMutable {
   SOA: SOA;
@@ -231,14 +231,14 @@ export interface PrivateDnsNamespaceProperties {
 }
 export interface CreatePrivateDnsNamespaceRequest {
   Name: string;
-  CreatorRequestId?: string;
-  Description?: string;
+  CreatorRequestId?: string | undefined;
+  Description?: string | undefined;
   Vpc: string;
-  Tags?: Tag[];
-  Properties?: PrivateDnsNamespaceProperties;
+  Tags?: Tag[] | undefined;
+  Properties?: PrivateDnsNamespaceProperties | undefined;
 }
 export interface CreatePrivateDnsNamespaceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type NamespaceNamePublic = string;
 export interface PublicDnsPropertiesMutable {
@@ -249,13 +249,13 @@ export interface PublicDnsNamespaceProperties {
 }
 export interface CreatePublicDnsNamespaceRequest {
   Name: string;
-  CreatorRequestId?: string;
-  Description?: string;
-  Tags?: Tag[];
-  Properties?: PublicDnsNamespaceProperties;
+  CreatorRequestId?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
+  Properties?: PublicDnsNamespaceProperties | undefined;
 }
 export interface CreatePublicDnsNamespaceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type ServiceName = string;
 export type Arn = string;
@@ -267,60 +267,60 @@ export interface DnsRecord {
 }
 export type DnsRecordList = DnsRecord[];
 export interface DnsConfig {
-  NamespaceId?: string;
-  RoutingPolicy?: RoutingPolicy;
-  DnsRecords?: DnsRecord[];
+  NamespaceId?: string | undefined;
+  RoutingPolicy?: RoutingPolicy | undefined;
+  DnsRecords?: DnsRecord[] | undefined;
 }
 export type HealthCheckType = "HTTP" | "HTTPS" | "TCP" | (string & {});
 export type ResourcePath = string;
 export type FailureThreshold = number;
 export interface HealthCheckConfig {
   Type: HealthCheckType;
-  ResourcePath?: string;
-  FailureThreshold?: number;
+  ResourcePath?: string | undefined;
+  FailureThreshold?: number | undefined;
 }
 export interface HealthCheckCustomConfig {
-  FailureThreshold?: number;
+  FailureThreshold?: number | undefined;
 }
 export type ServiceTypeOption = "HTTP" | (string & {});
 export interface CreateServiceRequest {
   Name: string;
-  NamespaceId?: string;
-  CreatorRequestId?: string;
-  Description?: string;
-  DnsConfig?: DnsConfig;
-  HealthCheckConfig?: HealthCheckConfig;
-  HealthCheckCustomConfig?: HealthCheckCustomConfig;
-  Tags?: Tag[];
-  Type?: ServiceTypeOption;
+  NamespaceId?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  Description?: string | undefined;
+  DnsConfig?: DnsConfig | undefined;
+  HealthCheckConfig?: HealthCheckConfig | undefined;
+  HealthCheckCustomConfig?: HealthCheckCustomConfig | undefined;
+  Tags?: Tag[] | undefined;
+  Type?: ServiceTypeOption | undefined;
 }
 export type AWSAccountId = string;
 export type ResourceCount = number;
 export type ServiceType = "HTTP" | "DNS_HTTP" | "DNS" | (string & {});
 export interface Service {
-  Id?: string;
-  Arn?: string;
-  ResourceOwner?: string;
-  Name?: string;
-  NamespaceId?: string;
-  Description?: string;
-  InstanceCount?: number;
-  DnsConfig?: DnsConfig;
-  Type?: ServiceType;
-  HealthCheckConfig?: HealthCheckConfig;
-  HealthCheckCustomConfig?: HealthCheckCustomConfig;
-  CreateDate?: Date;
-  CreatorRequestId?: string;
-  CreatedByAccount?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  ResourceOwner?: string | undefined;
+  Name?: string | undefined;
+  NamespaceId?: string | undefined;
+  Description?: string | undefined;
+  InstanceCount?: number | undefined;
+  DnsConfig?: DnsConfig | undefined;
+  Type?: ServiceType | undefined;
+  HealthCheckConfig?: HealthCheckConfig | undefined;
+  HealthCheckCustomConfig?: HealthCheckCustomConfig | undefined;
+  CreateDate?: Date | undefined;
+  CreatorRequestId?: string | undefined;
+  CreatedByAccount?: string | undefined;
 }
 export interface CreateServiceResponse {
-  Service?: Service;
+  Service?: Service | undefined;
 }
 export interface DeleteNamespaceRequest {
   Id: string;
 }
 export interface DeleteNamespaceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface DeleteServiceRequest {
   Id: string;
@@ -338,7 +338,7 @@ export interface DeregisterInstanceRequest {
   InstanceId: string;
 }
 export interface DeregisterInstanceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type NamespaceName = string;
 export type DiscoverMaxResults = number;
@@ -354,33 +354,33 @@ export type HealthStatusFilter =
 export interface DiscoverInstancesRequest {
   NamespaceName: string;
   ServiceName: string;
-  MaxResults?: number;
-  QueryParameters?: { [key: string]: string | undefined };
-  OptionalParameters?: { [key: string]: string | undefined };
-  HealthStatus?: HealthStatusFilter;
-  OwnerAccount?: string;
+  MaxResults?: number | undefined;
+  QueryParameters?: { [key: string]: string | undefined } | undefined;
+  OptionalParameters?: { [key: string]: string | undefined } | undefined;
+  HealthStatus?: HealthStatusFilter | undefined;
+  OwnerAccount?: string | undefined;
 }
 export type HealthStatus = "HEALTHY" | "UNHEALTHY" | "UNKNOWN" | (string & {});
 export interface HttpInstanceSummary {
-  InstanceId?: string;
-  NamespaceName?: string;
-  ServiceName?: string;
-  HealthStatus?: HealthStatus;
-  Attributes?: { [key: string]: string | undefined };
+  InstanceId?: string | undefined;
+  NamespaceName?: string | undefined;
+  ServiceName?: string | undefined;
+  HealthStatus?: HealthStatus | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type HttpInstanceSummaryList = HttpInstanceSummary[];
 export type Revision = number;
 export interface DiscoverInstancesResponse {
-  Instances?: HttpInstanceSummary[];
-  InstancesRevision?: number;
+  Instances?: HttpInstanceSummary[] | undefined;
+  InstancesRevision?: number | undefined;
 }
 export interface DiscoverInstancesRevisionRequest {
   NamespaceName: string;
   ServiceName: string;
-  OwnerAccount?: string;
+  OwnerAccount?: string | undefined;
 }
 export interface DiscoverInstancesRevisionResponse {
-  InstancesRevision?: number;
+  InstancesRevision?: number | undefined;
 }
 export interface GetInstanceRequest {
   ServiceId: string;
@@ -388,61 +388,61 @@ export interface GetInstanceRequest {
 }
 export interface Instance {
   Id: string;
-  CreatorRequestId?: string;
-  Attributes?: { [key: string]: string | undefined };
-  CreatedByAccount?: string;
+  CreatorRequestId?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  CreatedByAccount?: string | undefined;
 }
 export interface GetInstanceResponse {
-  ResourceOwner?: string;
-  Instance?: Instance;
+  ResourceOwner?: string | undefined;
+  Instance?: Instance | undefined;
 }
 export type InstanceIdList = string[];
 export type MaxResults = number;
 export type NextToken = string;
 export interface GetInstancesHealthStatusRequest {
   ServiceId: string;
-  Instances?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  Instances?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type InstanceHealthStatusMap = { [key: string]: HealthStatus | undefined };
 export interface GetInstancesHealthStatusResponse {
-  Status?: { [key: string]: HealthStatus | undefined };
-  NextToken?: string;
+  Status?: { [key: string]: HealthStatus | undefined } | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetNamespaceRequest {
   Id: string;
 }
 export type NamespaceType = "DNS_PUBLIC" | "DNS_PRIVATE" | "HTTP" | (string & {});
 export interface DnsProperties {
-  HostedZoneId?: string;
-  SOA?: SOA;
+  HostedZoneId?: string | undefined;
+  SOA?: SOA | undefined;
 }
 export interface HttpProperties {
-  HttpName?: string;
+  HttpName?: string | undefined;
 }
 export interface NamespaceProperties {
-  DnsProperties?: DnsProperties;
-  HttpProperties?: HttpProperties;
+  DnsProperties?: DnsProperties | undefined;
+  HttpProperties?: HttpProperties | undefined;
 }
 export interface Namespace {
-  Id?: string;
-  Arn?: string;
-  ResourceOwner?: string;
-  Name?: string;
-  Type?: NamespaceType;
-  Description?: string;
-  ServiceCount?: number;
-  Properties?: NamespaceProperties;
-  CreateDate?: Date;
-  CreatorRequestId?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  ResourceOwner?: string | undefined;
+  Name?: string | undefined;
+  Type?: NamespaceType | undefined;
+  Description?: string | undefined;
+  ServiceCount?: number | undefined;
+  Properties?: NamespaceProperties | undefined;
+  CreateDate?: Date | undefined;
+  CreatorRequestId?: string | undefined;
 }
 export interface GetNamespaceResponse {
-  Namespace?: Namespace;
+  Namespace?: Namespace | undefined;
 }
 export interface GetOperationRequest {
   OperationId: string;
-  OwnerAccount?: string;
+  OwnerAccount?: string | undefined;
 }
 export type OperationType =
   | "CREATE_NAMESPACE"
@@ -456,26 +456,26 @@ export type OperationStatus = "SUBMITTED" | "PENDING" | "SUCCESS" | "FAIL" | (st
 export type Message = string;
 export type Code = string;
 export type OperationTargetType = "NAMESPACE" | "SERVICE" | "INSTANCE" | (string & {});
-export type OperationTargetsMap = { [key in OperationTargetType]?: string };
+export type OperationTargetsMap = { [key in OperationTargetType]?: string | undefined };
 export interface Operation {
-  Id?: string;
-  OwnerAccount?: string;
-  Type?: OperationType;
-  Status?: OperationStatus;
-  ErrorMessage?: string;
-  ErrorCode?: string;
-  CreateDate?: Date;
-  UpdateDate?: Date;
-  Targets?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  OwnerAccount?: string | undefined;
+  Type?: OperationType | undefined;
+  Status?: OperationStatus | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: string | undefined;
+  CreateDate?: Date | undefined;
+  UpdateDate?: Date | undefined;
+  Targets?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOperationResponse {
-  Operation?: Operation;
+  Operation?: Operation | undefined;
 }
 export interface GetServiceRequest {
   Id: string;
 }
 export interface GetServiceResponse {
-  Service?: Service;
+  Service?: Service | undefined;
 }
 export interface GetServiceAttributesRequest {
   ServiceId: string;
@@ -483,28 +483,28 @@ export interface GetServiceAttributesRequest {
 export type ServiceAttributeValue = string;
 export type ServiceAttributesMap = { [key: string]: string | undefined };
 export interface ServiceAttributes {
-  ServiceArn?: string;
-  ResourceOwner?: string;
-  Attributes?: { [key: string]: string | undefined };
+  ServiceArn?: string | undefined;
+  ResourceOwner?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetServiceAttributesResponse {
-  ServiceAttributes?: ServiceAttributes;
+  ServiceAttributes?: ServiceAttributes | undefined;
 }
 export interface ListInstancesRequest {
   ServiceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface InstanceSummary {
-  Id?: string;
-  Attributes?: { [key: string]: string | undefined };
-  CreatedByAccount?: string;
+  Id?: string | undefined;
+  Attributes?: { [key: string]: string | undefined } | undefined;
+  CreatedByAccount?: string | undefined;
 }
 export type InstanceSummaryList = InstanceSummary[];
 export interface ListInstancesResponse {
-  ResourceOwner?: string;
-  Instances?: InstanceSummary[];
-  NextToken?: string;
+  ResourceOwner?: string | undefined;
+  Instances?: InstanceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type NamespaceFilterName = "TYPE" | "NAME" | "HTTP_NAME" | "RESOURCE_OWNER" | (string & {});
 export type FilterValue = string;
@@ -513,29 +513,29 @@ export type FilterCondition = "EQ" | "IN" | "BETWEEN" | "BEGINS_WITH" | (string 
 export interface NamespaceFilter {
   Name: NamespaceFilterName;
   Values: string[];
-  Condition?: FilterCondition;
+  Condition?: FilterCondition | undefined;
 }
 export type NamespaceFilters = NamespaceFilter[];
 export interface ListNamespacesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: NamespaceFilter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: NamespaceFilter[] | undefined;
 }
 export interface NamespaceSummary {
-  Id?: string;
-  Arn?: string;
-  ResourceOwner?: string;
-  Name?: string;
-  Type?: NamespaceType;
-  Description?: string;
-  ServiceCount?: number;
-  Properties?: NamespaceProperties;
-  CreateDate?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  ResourceOwner?: string | undefined;
+  Name?: string | undefined;
+  Type?: NamespaceType | undefined;
+  Description?: string | undefined;
+  ServiceCount?: number | undefined;
+  Properties?: NamespaceProperties | undefined;
+  CreateDate?: Date | undefined;
 }
 export type NamespaceSummariesList = NamespaceSummary[];
 export interface ListNamespacesResponse {
-  Namespaces?: NamespaceSummary[];
-  NextToken?: string;
+  Namespaces?: NamespaceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OperationFilterName =
   | "NAMESPACE_ID"
@@ -547,70 +547,70 @@ export type OperationFilterName =
 export interface OperationFilter {
   Name: OperationFilterName;
   Values: string[];
-  Condition?: FilterCondition;
+  Condition?: FilterCondition | undefined;
 }
 export type OperationFilters = OperationFilter[];
 export interface ListOperationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: OperationFilter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: OperationFilter[] | undefined;
 }
 export interface OperationSummary {
-  Id?: string;
-  Status?: OperationStatus;
+  Id?: string | undefined;
+  Status?: OperationStatus | undefined;
 }
 export type OperationSummaryList = OperationSummary[];
 export interface ListOperationsResponse {
-  Operations?: OperationSummary[];
-  NextToken?: string;
+  Operations?: OperationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceFilterName = "NAMESPACE_ID" | "RESOURCE_OWNER" | (string & {});
 export interface ServiceFilter {
   Name: ServiceFilterName;
   Values: string[];
-  Condition?: FilterCondition;
+  Condition?: FilterCondition | undefined;
 }
 export type ServiceFilters = ServiceFilter[];
 export interface ListServicesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: ServiceFilter[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: ServiceFilter[] | undefined;
 }
 export interface ServiceSummary {
-  Id?: string;
-  Arn?: string;
-  ResourceOwner?: string;
-  Name?: string;
-  Type?: ServiceType;
-  Description?: string;
-  InstanceCount?: number;
-  DnsConfig?: DnsConfig;
-  HealthCheckConfig?: HealthCheckConfig;
-  HealthCheckCustomConfig?: HealthCheckCustomConfig;
-  CreateDate?: Date;
-  CreatedByAccount?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  ResourceOwner?: string | undefined;
+  Name?: string | undefined;
+  Type?: ServiceType | undefined;
+  Description?: string | undefined;
+  InstanceCount?: number | undefined;
+  DnsConfig?: DnsConfig | undefined;
+  HealthCheckConfig?: HealthCheckConfig | undefined;
+  HealthCheckCustomConfig?: HealthCheckCustomConfig | undefined;
+  CreateDate?: Date | undefined;
+  CreatedByAccount?: string | undefined;
 }
 export type ServiceSummariesList = ServiceSummary[];
 export interface ListServicesResponse {
-  Services?: ServiceSummary[];
-  NextToken?: string;
+  Services?: ServiceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type InstanceId = string;
 export interface RegisterInstanceRequest {
   ServiceId: string;
   InstanceId: string;
-  CreatorRequestId?: string;
+  CreatorRequestId?: string | undefined;
   Attributes: { [key: string]: string | undefined };
 }
 export interface RegisterInstanceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -628,11 +628,11 @@ export interface HttpNamespaceChange {
 }
 export interface UpdateHttpNamespaceRequest {
   Id: string;
-  UpdaterRequestId?: string;
+  UpdaterRequestId?: string | undefined;
   Namespace: HttpNamespaceChange;
 }
 export interface UpdateHttpNamespaceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type CustomHealthStatus = "HEALTHY" | "UNHEALTHY" | (string & {});
 export interface UpdateInstanceCustomHealthStatusRequest {
@@ -651,16 +651,16 @@ export interface PrivateDnsNamespacePropertiesChange {
   DnsProperties: PrivateDnsPropertiesMutableChange;
 }
 export interface PrivateDnsNamespaceChange {
-  Description?: string;
-  Properties?: PrivateDnsNamespacePropertiesChange;
+  Description?: string | undefined;
+  Properties?: PrivateDnsNamespacePropertiesChange | undefined;
 }
 export interface UpdatePrivateDnsNamespaceRequest {
   Id: string;
-  UpdaterRequestId?: string;
+  UpdaterRequestId?: string | undefined;
   Namespace: PrivateDnsNamespaceChange;
 }
 export interface UpdatePrivateDnsNamespaceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface PublicDnsPropertiesMutableChange {
   SOA: SOAChange;
@@ -669,31 +669,31 @@ export interface PublicDnsNamespacePropertiesChange {
   DnsProperties: PublicDnsPropertiesMutableChange;
 }
 export interface PublicDnsNamespaceChange {
-  Description?: string;
-  Properties?: PublicDnsNamespacePropertiesChange;
+  Description?: string | undefined;
+  Properties?: PublicDnsNamespacePropertiesChange | undefined;
 }
 export interface UpdatePublicDnsNamespaceRequest {
   Id: string;
-  UpdaterRequestId?: string;
+  UpdaterRequestId?: string | undefined;
   Namespace: PublicDnsNamespaceChange;
 }
 export interface UpdatePublicDnsNamespaceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface DnsConfigChange {
   DnsRecords: DnsRecord[];
 }
 export interface ServiceChange {
-  Description?: string;
-  DnsConfig?: DnsConfigChange;
-  HealthCheckConfig?: HealthCheckConfig;
+  Description?: string | undefined;
+  DnsConfig?: DnsConfigChange | undefined;
+  HealthCheckConfig?: HealthCheckConfig | undefined;
 }
 export interface UpdateServiceRequest {
   Id: string;
   Service: ServiceChange;
 }
 export interface UpdateServiceResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface UpdateServiceAttributesRequest {
   ServiceId: string;

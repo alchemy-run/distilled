@@ -127,29 +127,29 @@ export type ServiceList = string[];
 export type Region = string;
 export type RegionsList = string[];
 export interface GetAccountCustomizationsOutput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListServicesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListServicesOutput {
-  nextToken?: string;
-  services?: string[];
+  nextToken?: string | undefined;
+  services?: string[] | undefined;
 }
 export interface UpdateAccountCustomizationsInput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export interface UpdateAccountCustomizationsOutput {
-  accountColor?: AccountColor;
-  visibleServices?: string[];
-  visibleRegions?: string[];
+  accountColor?: AccountColor | undefined;
+  visibleServices?: string[] | undefined;
+  visibleRegions?: string[] | undefined;
 }
 export interface ValidationExceptionField {
   path: string;

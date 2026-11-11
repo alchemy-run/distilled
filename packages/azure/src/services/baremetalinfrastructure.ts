@@ -49,33 +49,33 @@ export type StoragePropertiesProvisioningState =
 /** Describes the billing related details of the AzureBareMetalStorageInstance. */
 export interface StorageBillingProperties {
   /** the billing mode for the storage instance */
-  billingMode?: string;
+  billingMode?: string | undefined;
   /** the SKU type that is provisioned */
-  azureBareMetalStorageInstanceSize?: string;
+  azureBareMetalStorageInstanceSize?: string | undefined;
 }
 /** described the storage properties of the azure baremetalstorage instance */
 export interface StorageProperties {
   /** State of provisioning of the AzureBareMetalStorageInstance */
-  provisioningState?: StoragePropertiesProvisioningState | (string & {});
+  provisioningState?: StoragePropertiesProvisioningState | (string & {}) | undefined;
   /** the offering type for which the resource is getting provisioned */
-  offeringType?: string;
+  offeringType?: string | undefined;
   /** the storage protocol for which the resource is getting provisioned */
-  storageType?: string;
+  storageType?: string | undefined;
   /** the kind of storage instance */
-  generation?: string;
+  generation?: string | undefined;
   /** the hardware type of the storage instance */
-  hardwareType?: string;
+  hardwareType?: string | undefined;
   /** the workload for which the resource is getting provisioned */
-  workloadType?: string;
+  workloadType?: string | undefined;
   /** the billing related information for the resource */
-  storageBillingProperties?: StorageBillingProperties;
+  storageBillingProperties?: StorageBillingProperties | undefined;
 }
 /** Describes the properties of an AzureBareMetalStorageInstance. */
 export interface AzureBareMetalStorageInstanceProperties {
   /** Specifies the AzureBareMetaStorageInstance unique ID. */
-  azureBareMetalStorageInstanceUniqueIdentifier?: string;
+  azureBareMetalStorageInstanceUniqueIdentifier?: string | undefined;
   /** Specifies the storage properties for the AzureBareMetalStorage instance. */
-  storageProperties?: StorageProperties;
+  storageProperties?: StorageProperties | undefined;
 }
 export interface CreateAzureBareMetalStorageInstanceRequest {
   /** The ID of the target subscription. */
@@ -85,11 +85,11 @@ export interface CreateAzureBareMetalStorageInstanceRequest {
   /** Name of the AzureBareMetalStorage on Azure instance. */
   azureBareMetalStorageInstanceName: string;
   /** Resource tags. */
-  tags?: CreateAzureBareMetalStorageInstanceRequestTagsMap;
+  tags?: CreateAzureBareMetalStorageInstanceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetalStorageInstance properties */
-  properties?: AzureBareMetalStorageInstanceProperties;
+  properties?: AzureBareMetalStorageInstanceProperties | undefined;
 }
 /** Resource tags. */
 export type CreateAzureBareMetalStorageInstanceResponseTagsMap = {
@@ -110,33 +110,35 @@ export type CreateAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreateAzureBareMetalStorageInstanceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreateAzureBareMetalStorageInstanceResponseSystemDataCreatedByType;
+  createdByType?: CreateAzureBareMetalStorageInstanceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | CreateAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateAzureBareMetalStorageInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CreateAzureBareMetalStorageInstanceResponseTagsMap;
+  tags?: CreateAzureBareMetalStorageInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetalStorageInstance properties */
-  properties?: AzureBareMetalStorageInstanceProperties;
+  properties?: AzureBareMetalStorageInstanceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateAzureBareMetalStorageInstanceResponseSystemData;
+  systemData?: CreateAzureBareMetalStorageInstanceResponseSystemData | undefined;
 }
 export interface DeleteAzureBareMetalStorageInstanceRequest {
   /** The ID of the target subscription. */
@@ -207,52 +209,52 @@ export type HardwareProfileAzureBareMetalInstanceSize =
 /** Specifies the hardware settings for the AzureBareMetal instance. */
 export interface HardwareProfile {
   /** Name of the hardware type (vendor and/or their product name) */
-  hardwareType?: HardwareProfileHardwareType;
+  hardwareType?: HardwareProfileHardwareType | undefined;
   /** Specifies the AzureBareMetal instance SKU. */
-  azureBareMetalInstanceSize?: HardwareProfileAzureBareMetalInstanceSize;
+  azureBareMetalInstanceSize?: HardwareProfileAzureBareMetalInstanceSize | undefined;
 }
 /** Specifies the disk information fo the AzureBareMetal instance */
 export interface Disk {
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the size of an empty data disk in gigabytes. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
-  lun?: number;
+  lun?: number | undefined;
 }
 /** Specifies information about the operating system disk used by baremetal instance. */
 export type StorageProfileOsDisksList = Array<Disk>;
 /** Specifies the storage settings for the AzureBareMetal instance disks. */
 export interface StorageProfile {
   /** IP Address to connect to storage. */
-  nfsIpAddress?: string;
+  nfsIpAddress?: string | undefined;
   /** Specifies information about the operating system disk used by baremetal instance. */
-  osDisks?: StorageProfileOsDisksList;
+  osDisks?: StorageProfileOsDisksList | undefined;
 }
 /** Specifies the operating system settings for the AzureBareMetal instance. */
 export interface OSProfile {
   /** Specifies the host OS name of the AzureBareMetal instance. */
-  computerName?: string;
+  computerName?: string | undefined;
   /** This property allows you to specify the type of the OS. */
-  osType?: string;
+  osType?: string | undefined;
   /** Specifies version of operating system. */
-  version?: string;
+  version?: string | undefined;
   /** Specifies the SSH public key used to access the operating system. */
-  sshPublicKey?: string;
+  sshPublicKey?: string | undefined;
 }
 /** Specifies the IP address of the network interface. */
 export interface IpAddress {
   /** Specifies the IP address of the network interface. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 /** Specifies the network interfaces for the AzureBareMetal instance. */
 export type NetworkProfileNetworkInterfacesList = Array<IpAddress>;
 /** Specifies the network settings for the AzureBareMetal instance disks. */
 export interface NetworkProfile {
   /** Specifies the network interfaces for the AzureBareMetal instance. */
-  networkInterfaces?: NetworkProfileNetworkInterfacesList;
+  networkInterfaces?: NetworkProfileNetworkInterfacesList | undefined;
   /** Specifies the circuit id for connecting to express route. */
-  circuitId?: string;
+  circuitId?: string | undefined;
 }
 /** Resource power state */
 export type AzureBareMetalInstancePropertiesPowerState =
@@ -274,25 +276,25 @@ export type AzureBareMetalInstancePropertiesProvisioningState =
 /** Describes the properties of an AzureBareMetal instance. */
 export interface AzureBareMetalInstanceProperties {
   /** Specifies the hardware settings for the AzureBareMetal instance. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** Specifies the storage settings for the AzureBareMetal instance disks. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Specifies the operating system settings for the AzureBareMetal instance. */
-  osProfile?: OSProfile;
+  osProfile?: OSProfile | undefined;
   /** Specifies the network settings for the AzureBareMetal instance. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Specifies the AzureBareMetal instance unique ID. */
-  azureBareMetalInstanceId?: string;
+  azureBareMetalInstanceId?: string | undefined;
   /** Resource power state */
-  powerState?: AzureBareMetalInstancePropertiesPowerState;
+  powerState?: AzureBareMetalInstancePropertiesPowerState | undefined;
   /** Resource proximity placement group */
-  proximityPlacementGroup?: string;
+  proximityPlacementGroup?: string | undefined;
   /** Hardware revision of an AzureBareMetal instance */
-  hwRevision?: string;
+  hwRevision?: string | undefined;
   /** ARM ID of another AzureBareMetalInstance that will share a network with this AzureBareMetalInstance */
-  partnerNodeId?: string;
+  partnerNodeId?: string | undefined;
   /** State of provisioning of the AzureBareMetalInstance */
-  provisioningState?: AzureBareMetalInstancePropertiesProvisioningState;
+  provisioningState?: AzureBareMetalInstancePropertiesProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetAzureBareMetalInstanceResponseSystemDataCreatedByType =
@@ -309,33 +311,33 @@ export type GetAzureBareMetalInstanceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetAzureBareMetalInstanceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetAzureBareMetalInstanceResponseSystemDataCreatedByType;
+  createdByType?: GetAzureBareMetalInstanceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetAzureBareMetalInstanceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetAzureBareMetalInstanceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetAzureBareMetalInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetAzureBareMetalInstanceResponseTagsMap;
+  tags?: GetAzureBareMetalInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetal instance properties */
-  properties?: AzureBareMetalInstanceProperties;
+  properties?: AzureBareMetalInstanceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetAzureBareMetalInstanceResponseSystemData;
+  systemData?: GetAzureBareMetalInstanceResponseSystemData | undefined;
 }
 export interface GetAzureBareMetalStorageInstanceRequest {
   /** The ID of the target subscription. */
@@ -362,33 +364,35 @@ export type GetAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByType
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetAzureBareMetalStorageInstanceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetAzureBareMetalStorageInstanceResponseSystemDataCreatedByType;
+  createdByType?: GetAzureBareMetalStorageInstanceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetAzureBareMetalStorageInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetAzureBareMetalStorageInstanceResponseTagsMap;
+  tags?: GetAzureBareMetalStorageInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetalStorageInstance properties */
-  properties?: AzureBareMetalStorageInstanceProperties;
+  properties?: AzureBareMetalStorageInstanceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetAzureBareMetalStorageInstanceResponseSystemData;
+  systemData?: GetAzureBareMetalStorageInstanceResponseSystemData | undefined;
 }
 export interface ListAzureBareMetalInstanceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -413,43 +417,43 @@ export type AzureBareMetalInstanceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AzureBareMetalInstanceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AzureBareMetalInstanceSystemDataCreatedByType;
+  createdByType?: AzureBareMetalInstanceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AzureBareMetalInstanceSystemDataLastModifiedByType;
+  lastModifiedByType?: AzureBareMetalInstanceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** AzureBareMetal instance info on Azure (ARM properties and AzureBareMetal properties) */
 export interface AzureBareMetalInstance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: AzureBareMetalInstanceTagsMap;
+  tags?: AzureBareMetalInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetal instance properties */
-  properties?: AzureBareMetalInstanceProperties;
+  properties?: AzureBareMetalInstanceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AzureBareMetalInstanceSystemData;
+  systemData?: AzureBareMetalInstanceSystemData | undefined;
 }
 /** The list of Azure BareMetal instances. */
 export type AzureBareMetalInstancesListResultValueList = Array<AzureBareMetalInstance>;
 /** The response from the List AzureBareMetal Instances operation. */
 export interface AzureBareMetalInstancesListResult {
   /** The list of Azure BareMetal instances. */
-  value?: AzureBareMetalInstancesListResultValueList;
+  value?: AzureBareMetalInstancesListResultValueList | undefined;
   /** The URL to get the next set of AzureBareMetal instances. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAzureBareMetalInstanceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -478,34 +482,34 @@ export type AzureBareMetalStorageInstanceSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface AzureBareMetalStorageInstanceSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: AzureBareMetalStorageInstanceSystemDataCreatedByType;
+  createdByType?: AzureBareMetalStorageInstanceSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: AzureBareMetalStorageInstanceSystemDataLastModifiedByType;
+  lastModifiedByType?: AzureBareMetalStorageInstanceSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** AzureBareMetalStorageInstance info on Azure (ARM properties and AzureBareMetalStorage properties) */
 export interface AzureBareMetalStorageInstance {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: AzureBareMetalStorageInstanceTagsMap;
+  tags?: AzureBareMetalStorageInstanceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetalStorageInstance properties */
-  properties?: AzureBareMetalStorageInstanceProperties;
+  properties?: AzureBareMetalStorageInstanceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: AzureBareMetalStorageInstanceSystemData;
+  systemData?: AzureBareMetalStorageInstanceSystemData | undefined;
 }
 /** The list of AzureBareMetalStorage instances. */
 export type AzureBareMetalStorageInstancesListResultValueList =
@@ -513,9 +517,9 @@ export type AzureBareMetalStorageInstancesListResultValueList =
 /** The response from the Get AzureBareMetalStorageInstances operation. */
 export interface AzureBareMetalStorageInstancesListResult {
   /** The list of AzureBareMetalStorage instances. */
-  value?: AzureBareMetalStorageInstancesListResultValueList;
+  value?: AzureBareMetalStorageInstancesListResultValueList | undefined;
   /** The URL to get the next set of AzureBareMetalStorage instances. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAzureBareMetalStorageInstanceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -525,29 +529,29 @@ export interface ListOperationsRequest {}
 /** Detailed BareMetal operation information */
 export interface Display {
   /** The localized friendly form of the resource provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly form of the resource type related to this action/operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** The localized friendly name for the operation as shown to the user. */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly description for the operation as shown to the user. */
-  description?: string;
+  description?: string | undefined;
 }
 /** AzureBareMetal operation information */
 export interface Operation {
   /** The name of the operation being performed on this particular object. This name should match the action name that appears in RBAC / the event service. */
-  name?: string;
+  name?: string | undefined;
   /** Displayed AzureBareMetal operation information */
-  display?: Display;
+  display?: Display | undefined;
   /** indicates whether an operation is a data action or not. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** List of AzureBareMetal operations */
 export type OperationListValueList = Array<Operation>;
 /** List of AzureBareMetal operations */
 export interface OperationList {
   /** List of AzureBareMetal operations */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
 }
 /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
 export type UpdateAzureBareMetalInstanceRequestTagsMap = { [key: string]: string | undefined };
@@ -559,7 +563,7 @@ export interface UpdateAzureBareMetalInstanceRequest {
   /** Name of the Azure BareMetal on Azure instance. */
   azureBareMetalInstanceName: string;
   /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
-  tags?: UpdateAzureBareMetalInstanceRequestTagsMap;
+  tags?: UpdateAzureBareMetalInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureBareMetalInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -578,33 +582,33 @@ export type UpdateAzureBareMetalInstanceResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateAzureBareMetalInstanceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateAzureBareMetalInstanceResponseSystemDataCreatedByType;
+  createdByType?: UpdateAzureBareMetalInstanceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateAzureBareMetalInstanceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateAzureBareMetalInstanceResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateAzureBareMetalInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateAzureBareMetalInstanceResponseTagsMap;
+  tags?: UpdateAzureBareMetalInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetal instance properties */
-  properties?: AzureBareMetalInstanceProperties;
+  properties?: AzureBareMetalInstanceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateAzureBareMetalInstanceResponseSystemData;
+  systemData?: UpdateAzureBareMetalInstanceResponseSystemData | undefined;
 }
 /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
 export type UpdateAzureBareMetalStorageInstanceRequestTagsMap = {
@@ -618,7 +622,7 @@ export interface UpdateAzureBareMetalStorageInstanceRequest {
   /** Name of the AzureBareMetalStorage on Azure instance. */
   azureBareMetalStorageInstanceName: string;
   /** Tags field of the AzureBareMetal/AzureBareMetaStorage instance. */
-  tags?: UpdateAzureBareMetalStorageInstanceRequestTagsMap;
+  tags?: UpdateAzureBareMetalStorageInstanceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateAzureBareMetalStorageInstanceResponseTagsMap = {
@@ -639,33 +643,35 @@ export type UpdateAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateAzureBareMetalStorageInstanceResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateAzureBareMetalStorageInstanceResponseSystemDataCreatedByType;
+  createdByType?: UpdateAzureBareMetalStorageInstanceResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateAzureBareMetalStorageInstanceResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateAzureBareMetalStorageInstanceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateAzureBareMetalStorageInstanceResponseTagsMap;
+  tags?: UpdateAzureBareMetalStorageInstanceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AzureBareMetalStorageInstance properties */
-  properties?: AzureBareMetalStorageInstanceProperties;
+  properties?: AzureBareMetalStorageInstanceProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateAzureBareMetalStorageInstanceResponseSystemData;
+  systemData?: UpdateAzureBareMetalStorageInstanceResponseSystemData | undefined;
 }
 export type CreateAzureBareMetalStorageInstanceError = AzureOpError;
 /** Create an azure baremetal storage resource. */

@@ -159,11 +159,11 @@ export interface AssociateDefaultViewInput {
   ViewArn: string;
 }
 export interface AssociateDefaultViewOutput {
-  ViewArn?: string;
+  ViewArn?: string | undefined;
 }
 export type ViewArnList = string[];
 export interface BatchGetViewInput {
-  ViewArns?: string[];
+  ViewArns?: string[] | undefined;
 }
 export type ViewName = string;
 export interface IncludedProperty {
@@ -174,13 +174,13 @@ export interface SearchFilter {
   FilterString: string;
 }
 export interface View {
-  ViewArn?: string;
-  ViewName?: string;
-  Owner?: string;
-  LastUpdatedAt?: Date;
-  Scope?: string;
-  IncludedProperties?: IncludedProperty[];
-  Filters?: SearchFilter;
+  ViewArn?: string | undefined;
+  ViewName?: string | undefined;
+  Owner?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Scope?: string | undefined;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Filters?: SearchFilter | undefined;
 }
 export type ViewList = View[];
 export interface BatchGetViewError_ {
@@ -189,51 +189,51 @@ export interface BatchGetViewError_ {
 }
 export type BatchGetViewErrors = BatchGetViewError_[];
 export interface BatchGetViewOutput {
-  Views?: View[];
-  Errors?: BatchGetViewError_[];
+  Views?: View[] | undefined;
+  Errors?: BatchGetViewError_[] | undefined;
 }
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateIndexInput {
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IndexState = string;
 export interface CreateIndexOutput {
-  Arn?: string;
-  State?: string;
-  CreatedAt?: Date;
+  Arn?: string | undefined;
+  State?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type RegionList = string[];
 export interface CreateResourceExplorerSetupInput {
   RegionList: string[];
-  AggregatorRegions?: string[];
+  AggregatorRegions?: string[] | undefined;
   ViewName: string;
 }
 export interface CreateResourceExplorerSetupOutput {
   TaskId: string;
 }
 export interface CreateViewInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ViewName: string;
-  IncludedProperties?: IncludedProperty[];
-  Scope?: string;
-  Filters?: SearchFilter;
-  Tags?: { [key: string]: string | undefined };
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Scope?: string | undefined;
+  Filters?: SearchFilter | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateViewOutput {
-  View?: View;
+  View?: View | undefined;
 }
 export interface DeleteIndexInput {
   Arn: string;
 }
 export interface DeleteIndexOutput {
-  Arn?: string;
-  State?: string;
-  LastUpdatedAt?: Date;
+  Arn?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export interface DeleteResourceExplorerSetupInput {
-  RegionList?: string[];
-  DeleteInAllRegions?: boolean;
+  RegionList?: string[] | undefined;
+  DeleteInAllRegions?: boolean | undefined;
 }
 export interface DeleteResourceExplorerSetupOutput {
   TaskId: string;
@@ -242,7 +242,7 @@ export interface DeleteViewInput {
   ViewArn: string;
 }
 export interface DeleteViewOutput {
-  ViewArn?: string;
+  ViewArn?: string | undefined;
 }
 export interface DisassociateDefaultViewRequest {}
 export interface DisassociateDefaultViewResponse {}
@@ -250,84 +250,84 @@ export interface GetAccountLevelServiceConfigurationRequest {}
 export type AWSServiceAccessStatus = string;
 export interface OrgConfiguration {
   AWSServiceAccessStatus: string;
-  ServiceLinkedRole?: string;
+  ServiceLinkedRole?: string | undefined;
 }
 export interface GetAccountLevelServiceConfigurationOutput {
-  OrgConfiguration?: OrgConfiguration;
+  OrgConfiguration?: OrgConfiguration | undefined;
 }
 export interface GetDefaultViewRequest {}
 export interface GetDefaultViewOutput {
-  ViewArn?: string;
+  ViewArn?: string | undefined;
 }
 export interface GetIndexRequest {}
 export type IndexType = string;
 export interface GetIndexOutput {
-  Arn?: string;
-  Type?: string;
-  State?: string;
-  ReplicatingFrom?: string[];
-  ReplicatingTo?: string[];
-  CreatedAt?: Date;
-  LastUpdatedAt?: Date;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  State?: string | undefined;
+  ReplicatingFrom?: string[] | undefined;
+  ReplicatingTo?: string[] | undefined;
+  CreatedAt?: Date | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetManagedViewInput {
   ManagedViewArn: string;
 }
 export interface ManagedView {
-  ManagedViewArn?: string;
-  ManagedViewName?: string;
-  TrustedService?: string;
-  LastUpdatedAt?: Date;
-  Owner?: string;
-  Scope?: string;
-  IncludedProperties?: IncludedProperty[];
-  Filters?: SearchFilter;
-  ResourcePolicy?: string;
-  Version?: string;
+  ManagedViewArn?: string | undefined;
+  ManagedViewName?: string | undefined;
+  TrustedService?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
+  Owner?: string | undefined;
+  Scope?: string | undefined;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Filters?: SearchFilter | undefined;
+  ResourcePolicy?: string | undefined;
+  Version?: string | undefined;
 }
 export interface GetManagedViewOutput {
-  ManagedView?: ManagedView;
+  ManagedView?: ManagedView | undefined;
 }
 export interface GetResourceExplorerSetupInput {
   TaskId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OperationStatus = string;
 export interface Index {
-  Region?: string;
-  Arn?: string;
-  Type?: string;
+  Region?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export interface ErrorDetails {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface IndexStatus {
-  Status?: string;
-  Index?: Index;
-  ErrorDetails?: ErrorDetails;
+  Status?: string | undefined;
+  Index?: Index | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface ViewStatus {
-  Status?: string;
-  View?: View;
-  ErrorDetails?: ErrorDetails;
+  Status?: string | undefined;
+  View?: View | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export interface RegionStatus {
-  Region?: string;
-  Index?: IndexStatus;
-  View?: ViewStatus;
+  Region?: string | undefined;
+  Index?: IndexStatus | undefined;
+  View?: ViewStatus | undefined;
 }
 export type RegionStatusList = RegionStatus[];
 export interface GetResourceExplorerSetupOutput {
-  Regions?: RegionStatus[];
-  NextToken?: string;
+  Regions?: RegionStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetServiceIndexRequest {}
 export interface GetServiceIndexOutput {
-  Arn?: string;
-  Type?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export interface GetServiceViewInput {
   ServiceViewArn: string;
@@ -335,18 +335,18 @@ export interface GetServiceViewInput {
 export type ServiceViewName = string;
 export type RecorderType = string;
 export interface ServiceLinkedRecorderInfo {
-  ServicePrincipal?: string;
-  RecorderName?: string;
-  RecorderType?: string;
+  ServicePrincipal?: string | undefined;
+  RecorderName?: string | undefined;
+  RecorderType?: string | undefined;
 }
 export interface ServiceView {
   ServiceViewArn: string;
-  ServiceViewName?: string;
-  Filters?: SearchFilter;
-  IncludedProperties?: IncludedProperty[];
-  StreamingAccessForService?: string;
-  ScopeType?: string;
-  ServiceLinkedRecorder?: ServiceLinkedRecorderInfo;
+  ServiceViewName?: string | undefined;
+  Filters?: SearchFilter | undefined;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  StreamingAccessForService?: string | undefined;
+  ScopeType?: string | undefined;
+  ServiceLinkedRecorder?: ServiceLinkedRecorderInfo | undefined;
 }
 export interface GetServiceViewOutput {
   View: ServiceView;
@@ -355,97 +355,97 @@ export interface GetViewInput {
   ViewArn: string;
 }
 export interface GetViewOutput {
-  View?: View;
-  Tags?: { [key: string]: string | undefined };
+  View?: View | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListIndexesInput {
-  Type?: string;
-  Regions?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  Type?: string | undefined;
+  Regions?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type IndexList = Index[];
 export interface ListIndexesOutput {
-  Indexes?: Index[];
-  NextToken?: string;
+  Indexes?: Index[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountId = string;
 export type AccountIdList = string[];
 export interface ListIndexesForMembersInput {
   AccountIdList: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface MemberIndex {
-  AccountId?: string;
-  Region?: string;
-  Arn?: string;
-  Type?: string;
+  AccountId?: string | undefined;
+  Region?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export type MemberIndexList = MemberIndex[];
 export interface ListIndexesForMembersOutput {
-  Indexes?: MemberIndex[];
-  NextToken?: string;
+  Indexes?: MemberIndex[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListManagedViewsInput {
-  MaxResults?: number;
-  NextToken?: string;
-  ServicePrincipal?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ServicePrincipal?: string | undefined;
 }
 export type ManagedViewArnList = string[];
 export interface ListManagedViewsOutput {
-  NextToken?: string;
-  ManagedViews?: string[];
+  NextToken?: string | undefined;
+  ManagedViews?: string[] | undefined;
 }
 export interface ListResourcesInput {
-  Filters?: SearchFilter;
-  MaxResults?: number;
-  ViewArn?: string;
-  NextToken?: string;
+  Filters?: SearchFilter | undefined;
+  MaxResults?: number | undefined;
+  ViewArn?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceProperty {
-  Name?: string;
-  LastReportedAt?: Date;
-  Data?: any;
+  Name?: string | undefined;
+  LastReportedAt?: Date | undefined;
+  Data?: any | undefined;
 }
 export type ResourcePropertyList = ResourceProperty[];
 export interface Resource {
-  Arn?: string;
-  OwningAccountId?: string;
-  Region?: string;
-  ResourceType?: string;
-  Service?: string;
-  CfnResourceType?: string;
-  LastReportedAt?: Date;
-  Properties?: ResourceProperty[];
+  Arn?: string | undefined;
+  OwningAccountId?: string | undefined;
+  Region?: string | undefined;
+  ResourceType?: string | undefined;
+  Service?: string | undefined;
+  CfnResourceType?: string | undefined;
+  LastReportedAt?: Date | undefined;
+  Properties?: ResourceProperty[] | undefined;
 }
 export type ResourceList = Resource[];
 export interface ListResourcesOutput {
-  Resources?: Resource[];
-  NextToken?: string;
-  ViewArn?: string;
+  Resources?: Resource[] | undefined;
+  NextToken?: string | undefined;
+  ViewArn?: string | undefined;
 }
 export interface ListServiceIndexesInput {
-  Regions?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  Regions?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServiceIndexesOutput {
-  Indexes?: Index[];
-  NextToken?: string;
+  Indexes?: Index[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServiceViewsInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ServiceViewArnList = string[];
 export interface ListServiceViewsOutput {
-  NextToken?: string;
-  ServiceViews?: string[];
+  NextToken?: string | undefined;
+  ServiceViews?: string[] | undefined;
 }
 export interface ListStreamingAccessForServicesInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface StreamingAccessDetails {
   ServicePrincipal: string;
@@ -454,57 +454,57 @@ export interface StreamingAccessDetails {
 export type StreamingAccessDetailsList = StreamingAccessDetails[];
 export interface ListStreamingAccessForServicesOutput {
   StreamingAccessForServices: StreamingAccessDetails[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListSupportedResourceTypesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CFNResourceTypeList = string[];
 export interface SupportedResourceType {
-  Service?: string;
-  ResourceType?: string;
-  CFNResourceTypes?: string[];
+  Service?: string | undefined;
+  ResourceType?: string | undefined;
+  CFNResourceTypes?: string[] | undefined;
 }
 export type ResourceTypeList = SupportedResourceType[];
 export interface ListSupportedResourceTypesOutput {
-  ResourceTypes?: SupportedResourceType[];
-  NextToken?: string;
+  ResourceTypes?: SupportedResourceType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListViewsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListViewsOutput {
-  Views?: string[];
-  NextToken?: string;
+  Views?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type QueryString = string | redacted.Redacted<string>;
 export interface SearchInput {
   QueryString: string | redacted.Redacted<string>;
-  MaxResults?: number;
-  ViewArn?: string;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  ViewArn?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ResourceCount {
-  TotalResources?: number;
-  Complete?: boolean;
+  TotalResources?: number | undefined;
+  Complete?: boolean | undefined;
 }
 export interface SearchOutput {
-  Resources?: Resource[];
-  NextToken?: string;
-  ViewArn?: string;
-  Count?: ResourceCount;
+  Resources?: Resource[] | undefined;
+  NextToken?: string | undefined;
+  ViewArn?: string | undefined;
+  Count?: ResourceCount | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceOutput {}
 export type StringList = string[];
@@ -518,18 +518,18 @@ export interface UpdateIndexTypeInput {
   Type: string;
 }
 export interface UpdateIndexTypeOutput {
-  Arn?: string;
-  Type?: string;
-  State?: string;
-  LastUpdatedAt?: Date;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  State?: string | undefined;
+  LastUpdatedAt?: Date | undefined;
 }
 export interface UpdateViewInput {
   ViewArn: string;
-  IncludedProperties?: IncludedProperty[];
-  Filters?: SearchFilter;
+  IncludedProperties?: IncludedProperty[] | undefined;
+  Filters?: SearchFilter | undefined;
 }
 export interface UpdateViewOutput {
-  View?: View;
+  View?: View | undefined;
 }
 export interface ValidationExceptionField {
   Name: string;

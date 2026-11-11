@@ -87,7 +87,7 @@ export interface DeleteAccountsProductInputsRequest {
   /** Required. The name of the product input to delete. Format: `accounts/{account}/productInputs/{productInput}` The {productInput} segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the {productInput} segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{productInput}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{productInput}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/productInputs/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{productInput}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{productInput}` segment is used to differentiate between the two formats. */
   name: string;
   /** Required. The primary or supplemental data source from which the product input should be deleted. Format: `accounts/{account}/dataSources/{datasource}`. For example, `accounts/123456/dataSources/104628`. */
-  dataSource?: string;
+  dataSource?: string | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -95,65 +95,158 @@ export interface GetAccountsProductsRequest {
   /** Required. The name of the product. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format is `channel~content_language~feed_label~offer_id`, for example: `accounts/123/products/online~en~US~sku123`. */
   name: string;
 }
+/** The dimension of the product. */
+export interface ProductDimension {
+  /** Required. The dimension value represented as a number. The value can have a maximum precision of four decimal places. */
+  value?: number | undefined;
+  /** Required. The dimension units. Acceptable values are: * "`in`" * "`cm`" */
+  unit?: string | undefined;
+}
+export type StringList = Array<string>;
 /** The price represented as a number and currency. */
 export interface Price {
   /** The price represented as a number in micros (1 million micros is an equivalent to one's currency standard unit, for example, 1 USD = 1000000 micros). */
-  amountMicros?: string;
+  amountMicros?: string | undefined;
   /** The currency of the price using three-letter acronyms according to [ISO 4217](http://en.wikipedia.org/wiki/ISO_4217). */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
 }
-/** Information regarding Automated Discounts. */
-export interface AutomatedDiscounts {
-  /** The price prior to the application of consecutive price reductions. Absent if the information about the prior price of the product is not available. */
-  priorPriceProgressive?: Price;
-  /** The current sale price for products with a price optimized using Google Automated Discounts (GAD). Absent if the information about the GAD_price of the product is not available. */
-  gadPrice?: Price;
-  /** The price prior to the application of the first price reduction. Absent if the information about the prior price of the product is not available. */
-  priorPrice?: Price;
+/** Conditions to be met for a product to have free shipping. */
+export interface FreeShippingThreshold {
+  /** The [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the country to which an item will ship. */
+  country?: string | undefined;
+  /** The minimum product price for the shipping cost to become free. Represented as a number. */
+  priceThreshold?: Price | undefined;
 }
-/** The dimension of the product. */
-export interface ProductDimension {
-  /** Required. The dimension units. Acceptable values are: * "`in`" * "`cm`" */
-  unit?: string;
-  /** Required. The dimension value represented as a number. The value can have a maximum precision of four decimal places. */
-  value?: number;
+export type FreeShippingThresholdList = Array<FreeShippingThreshold>;
+/** The Tax of the product. */
+export interface Tax {
+  /** The country within which the item is taxed, specified as a [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml). */
+  country?: string | undefined;
+  /** Set to true if tax is charged on shipping. */
+  taxShip?: boolean | undefined;
+  /** The numeric ID of a location that the tax rate applies to as defined in the [AdWords API](https://developers.google.com/adwords/api/docs/appendix/geotargeting). */
+  locationId?: string | undefined;
+  /** The postal code range that the tax rate applies to, represented by a ZIP code, a ZIP code prefix using * wildcard, a range between two ZIP codes or two ZIP code prefixes of equal length. Examples: 94114, 94*, 94002-95460, 94*-95*. */
+  postalCode?: string | undefined;
+  /** The geographic region to which the tax rate applies. */
+  region?: string | undefined;
+  /** The percentage of tax rate that applies to the item price. */
+  rate?: number | undefined;
 }
-export type StringList = Array<string>;
+export type TaxList = Array<Tax>;
+/** Structured title, for algorithmically (AI)-generated titles. */
+export interface ProductStructuredTitle {
+  /** The digital source type, for example "trained_algorithmic_media". Following [IPTC](https://cv.iptc.org/newscodes/digitalsourcetype). Maximum length is 40 characters. */
+  digitalSourceType?: string | undefined;
+  /** The title text Maximum length is 150 characters */
+  content?: string | undefined;
+}
+export type ProductSustainabilityIncentiveTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "EV_TAX_CREDIT"
+  | "EV_PRICE_DISCOUNT";
+/** Information regarding sustainability-related incentive programs such as rebates or tax relief. */
+export interface ProductSustainabilityIncentive {
+  /** The fixed amount of the incentive. */
+  amount?: Price | undefined;
+  /** The percentage of the sale price that the incentive is applied to. */
+  percentage?: number | undefined;
+  /** Sustainability incentive program. */
+  type?: ProductSustainabilityIncentiveTypeEnum | (string & {}) | undefined;
+}
+export type ProductSustainabilityIncentiveList = Array<ProductSustainabilityIncentive>;
+/** The UnitPricingMeasure of the product. */
+export interface UnitPricingMeasure {
+  /** The unit of the measure. */
+  unit?: string | undefined;
+  /** The measure of an item. */
+  value?: number | undefined;
+}
+/** The weight of the product. */
+export interface ProductWeight {
+  /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
+  value?: number | undefined;
+  /** Required. The weight unit. Acceptable values are: * "`g`" * "`kg`" * "`oz`" * "`lb`" */
+  unit?: string | undefined;
+}
+/** Product [certification](https://support.google.com/merchants/answer/13528839), initially introduced for EU energy efficiency labeling compliance using the EU EPREL database. */
+export interface Certification {
+  /** The certification authority, for example "European_Commission". Maximum length is 2000 characters. */
+  certificationAuthority?: string | undefined;
+  /** The name of the certification, for example "EPREL". Maximum length is 2000 characters. */
+  certificationName?: string | undefined;
+  /** The certification code. Maximum length is 2000 characters. */
+  certificationCode?: string | undefined;
+  /** Optional. URL to the certification label (eg. `https://www.example.com/label`), for example, the energy efficiency label required by UK's DESNZ or EU's EPREL. Maximum length is 2000 characters. For more information, see [Certification](https://support.google.com/merchants/answer/13528839). */
+  certificationLabelLink?: string | undefined;
+  /** Optional. URL to the certification document (eg. `https://www.example.com/document`), for example, the product data sheet or fiche required by UK's DESNZ or EU's EPREL. Maximum length is 2000 characters. For more information, see [Certification](https://support.google.com/merchants/answer/13528839). */
+  certificationDocumentLink?: string | undefined;
+  /** The certification value (also known as class, level or grade), for example "A+", "C", "gold". Maximum length is 2000 characters. */
+  certificationValue?: string | undefined;
+}
+export type CertificationList = Array<Certification>;
 export type DoubleList = Array<number>;
 /** Product property for the Cloud Retail API. For example, properties for a TV product could be "Screen-Resolution" or "Screen-Size". */
 export interface CloudExportAdditionalProperties {
-  /** Float values of the given property. For example for a TV product 1.2345. Maximum repeatedness of this value is 400. Values are stored in an arbitrary but consistent order. */
-  floatValue?: DoubleList;
   /** Text value of the given property. For example, "8K(UHD)" could be a text value for a TV product. Maximum repeatedness of this value is 400. Values are stored in an arbitrary but consistent order. Maximum string size is 256 characters. */
-  textValue?: StringList;
-  /** Minimum float value of the given property. For example for a TV product 1.00. */
-  minValue?: number;
-  /** Integer values of the given property. For example, 1080 for a TV product's Screen Resolution. Maximum repeatedness of this value is 400. Values are stored in an arbitrary but consistent order. */
-  intValue?: StringList;
-  /** Unit of the given property. For example, "Pixels" for a TV product. Maximum string size is 256B. */
-  unitCode?: string;
+  textValue?: StringList | undefined;
   /** Boolean value of the given property. For example for a TV product, "True" or "False" if the screen is UHD. */
-  boolValue?: boolean;
-  /** Maximum float value of the given property. For example for a TV product 100.00. */
-  maxValue?: number;
+  boolValue?: boolean | undefined;
+  /** Minimum float value of the given property. For example for a TV product 1.00. */
+  minValue?: number | undefined;
   /** Name of the given property. For example, "Screen-Resolution" for a TV product. Maximum string size is 256 characters. */
-  propertyName?: string;
+  propertyName?: string | undefined;
+  /** Float values of the given property. For example for a TV product 1.2345. Maximum repeatedness of this value is 400. Values are stored in an arbitrary but consistent order. */
+  floatValue?: DoubleList | undefined;
+  /** Maximum float value of the given property. For example for a TV product 100.00. */
+  maxValue?: number | undefined;
+  /** Integer values of the given property. For example, 1080 for a TV product's Screen Resolution. Maximum repeatedness of this value is 400. Values are stored in an arbitrary but consistent order. */
+  intValue?: StringList | undefined;
+  /** Unit of the given property. For example, "Pixels" for a TV product. Maximum string size is 256B. */
+  unitCode?: string | undefined;
 }
 export type CloudExportAdditionalPropertiesList = Array<CloudExportAdditionalProperties>;
-/** The ShippingWeight of the product. */
-export interface ShippingWeight {
-  /** The weight of the product used to calculate the shipping cost of the item. */
-  value?: number;
+/** The ShippingDimension of the product. */
+export interface ShippingDimension {
   /** The unit of value. */
-  unit?: string;
+  unit?: string | undefined;
+  /** The dimension of the product used to calculate the shipping cost of the item. */
+  value?: number | undefined;
 }
-/** The UnitPricingMeasure of the product. */
-export interface UnitPricingMeasure {
-  /** The measure of an item. */
-  value?: number;
-  /** The unit of the measure. */
-  unit?: string;
+/** The Shipping of the product. */
+export interface Shipping {
+  /** A free-form description of the service class or delivery speed. */
+  service?: string | undefined;
+  /** The handling cutoff time until which an order has to be placed to be processed in the same day. This is a string in format of HHMM (e.g. `1530`) for 3:30 PM. If not configured, the cutoff time will be defaulted to 8AM PST and `handling_cutoff_timezone` will be ignored. */
+  handlingCutoffTime?: string | undefined;
+  /** The numeric ID of a location that the shipping rate applies to as defined in the [AdWords API](https://developers.google.com/adwords/api/docs/appendix/geotargeting). */
+  locationId?: string | undefined;
+  /** The [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the country to which an item will ship. */
+  country?: string | undefined;
+  /** The geographic region to which a shipping rate applies. See [region](https://support.google.com/merchants/answer/6324484) for more information. */
+  region?: string | undefined;
+  /** Optional. The label of the [loyalty program](https://support.google.com/merchants/answer/6324484). Must match one of the program labels set in loyalty_programs. When set (in combination with [loyalty_tier_label](https://support.google.com/merchants/answer/6324484)), this shipping option is only applicable to loyalty program members of the specified tier. */
+  loyaltyProgramLabel?: string | undefined;
+  /** Fixed shipping price, represented as a number. */
+  price?: Price | undefined;
+  /** Minimum handling time (inclusive) between when the order is received and shipped in business days. 0 means that the order is shipped on the same day as it is received if it happens before the cut-off time. minHandlingTime can only be present together with maxHandlingTime; but it is not required if maxHandlingTime is present. */
+  minHandlingTime?: string | undefined;
+  /** [Timezone identifier](https://developers.google.com/adwords/api/docs/appendix/codes-formats#timezone-ids) For example `Europe/Zurich`. This field only applies if `handling_cutoff_time` is set. If `handling_cutoff_time` is set but this field is not set, the shipping destination timezone will be used. If both fields are not set, the handling cutoff time will default to 8AM PST. */
+  handlingCutoffTimezone?: string | undefined;
+  /** Maximum transit time (inclusive) between when the order has shipped and when it is delivered in business days. 0 means that the order is delivered on the same day as it ships. Both maxHandlingTime and maxTransitTime are required if providing shipping speeds. minTransitTime is optional if maxTransitTime is present. */
+  maxTransitTime?: string | undefined;
+  /** Maximum handling time (inclusive) between when the order is received and shipped in business days. 0 means that the order is shipped on the same day as it is received if it happens before the cut-off time. Both maxHandlingTime and maxTransitTime are required if providing shipping speeds. minHandlingTime is optional if maxHandlingTime is present. */
+  maxHandlingTime?: string | undefined;
+  /** Minimum transit time (inclusive) between when the order has shipped and when it is delivered in business days. 0 means that the order is delivered on the same day as it ships. minTransitTime can only be present together with maxTransitTime; but it is not required if maxTransitTime is present. */
+  minTransitTime?: string | undefined;
+  /** The postal code range that the shipping rate applies to, represented by a postal code, a postal code prefix followed by a * wildcard, a range between two postal codes or two postal code prefixes of equal length. */
+  postalCode?: string | undefined;
+  /** Optional. The label of the [loyalty tier](https://support.google.com/merchants/answer/6324484) within the loyalty program. Must match one of the tiers set in the loyalty_programs. When set (in combination with [loyalty_program_label](https://support.google.com/merchants/answer/6324484)), this shipping option is only applicable to loyalty program members of the specified tier. */
+  loyaltyTierLabel?: string | undefined;
+  /** The location where the shipping is applicable, represented by a location group name. */
+  locationGroupName?: string | undefined;
 }
+export type ShippingList = Array<Shipping>;
 export type SubscriptionCostPeriodEnum =
   | "SUBSCRIPTION_PERIOD_UNSPECIFIED"
   | "MONTH"
@@ -162,433 +255,290 @@ export type SubscriptionCostPeriodEnum =
 /** The SubscriptionCost of the product. */
 export interface SubscriptionCost {
   /** The type of subscription period. Supported values are: * "`month`" * "`year`" * "`week`" */
-  period?: SubscriptionCostPeriodEnum | (string & {});
+  period?: SubscriptionCostPeriodEnum | (string & {}) | undefined;
   /** The number of subscription periods the buyer has to pay. */
-  periodLength?: string;
+  periodLength?: string | undefined;
   /** The amount the buyer has to pay per subscription period. */
-  amount?: Price;
+  amount?: Price | undefined;
 }
-/** The Shipping of the product. */
-export interface Shipping {
-  /** Optional. The label of the [loyalty program](https://support.google.com/merchants/answer/6324484). Must match one of the program labels set in loyalty_programs. When set (in combination with [loyalty_tier_label](https://support.google.com/merchants/answer/6324484)), this shipping option is only applicable to loyalty program members of the specified tier. */
-  loyaltyProgramLabel?: string;
-  /** The geographic region to which a shipping rate applies. See [region](https://support.google.com/merchants/answer/6324484) for more information. */
-  region?: string;
-  /** Fixed shipping price, represented as a number. */
-  price?: Price;
-  /** [Timezone identifier](https://developers.google.com/adwords/api/docs/appendix/codes-formats#timezone-ids) For example `Europe/Zurich`. This field only applies if `handling_cutoff_time` is set. If `handling_cutoff_time` is set but this field is not set, the shipping destination timezone will be used. If both fields are not set, the handling cutoff time will default to 8AM PST. */
-  handlingCutoffTimezone?: string;
-  /** The postal code range that the shipping rate applies to, represented by a postal code, a postal code prefix followed by a * wildcard, a range between two postal codes or two postal code prefixes of equal length. */
-  postalCode?: string;
-  /** Minimum transit time (inclusive) between when the order has shipped and when it is delivered in business days. 0 means that the order is delivered on the same day as it ships. minTransitTime can only be present together with maxTransitTime; but it is not required if maxTransitTime is present. */
-  minTransitTime?: string;
-  /** Optional. The label of the [loyalty tier](https://support.google.com/merchants/answer/6324484) within the loyalty program. Must match one of the tiers set in the loyalty_programs. When set (in combination with [loyalty_program_label](https://support.google.com/merchants/answer/6324484)), this shipping option is only applicable to loyalty program members of the specified tier. */
-  loyaltyTierLabel?: string;
-  /** The location where the shipping is applicable, represented by a location group name. */
-  locationGroupName?: string;
-  /** The handling cutoff time until which an order has to be placed to be processed in the same day. This is a string in format of HHMM (e.g. `1530`) for 3:30 PM. If not configured, the cutoff time will be defaulted to 8AM PST and `handling_cutoff_timezone` will be ignored. */
-  handlingCutoffTime?: string;
-  /** Minimum handling time (inclusive) between when the order is received and shipped in business days. 0 means that the order is shipped on the same day as it is received if it happens before the cut-off time. minHandlingTime can only be present together with maxHandlingTime; but it is not required if maxHandlingTime is present. */
-  minHandlingTime?: string;
-  /** The numeric ID of a location that the shipping rate applies to as defined in the [AdWords API](https://developers.google.com/adwords/api/docs/appendix/geotargeting). */
-  locationId?: string;
-  /** A free-form description of the service class or delivery speed. */
-  service?: string;
-  /** Maximum transit time (inclusive) between when the order has shipped and when it is delivered in business days. 0 means that the order is delivered on the same day as it ships. Both maxHandlingTime and maxTransitTime are required if providing shipping speeds. minTransitTime is optional if maxTransitTime is present. */
-  maxTransitTime?: string;
-  /** Maximum handling time (inclusive) between when the order is received and shipped in business days. 0 means that the order is shipped on the same day as it is received if it happens before the cut-off time. Both maxHandlingTime and maxTransitTime are required if providing shipping speeds. minHandlingTime is optional if maxHandlingTime is present. */
-  maxHandlingTime?: string;
-  /** The [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the country to which an item will ship. */
-  country?: string;
-}
-export type ShippingList = Array<Shipping>;
 /** Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive). The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time. */
 export interface Interval {
-  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
-  startTime?: string;
   /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
-  endTime?: string;
-}
-/** The UnitPricingBaseMeasure of the product. */
-export interface UnitPricingBaseMeasure {
-  /** The unit of the denominator. */
-  unit?: string;
-  /** The denominator of the unit price. */
-  value?: string;
-}
-export type ProductSustainabilityIncentiveTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "EV_TAX_CREDIT"
-  | "EV_PRICE_DISCOUNT";
-/** Information regarding sustainability-related incentive programs such as rebates or tax relief. */
-export interface ProductSustainabilityIncentive {
-  /** The percentage of the sale price that the incentive is applied to. */
-  percentage?: number;
-  /** Sustainability incentive program. */
-  type?: ProductSustainabilityIncentiveTypeEnum | (string & {});
-  /** The fixed amount of the incentive. */
-  amount?: Price;
-}
-export type ProductSustainabilityIncentiveList = Array<ProductSustainabilityIncentive>;
-/** Structured description, for algorithmically (AI)-generated descriptions. */
-export interface ProductStructuredDescription {
-  /** The digital source type, for example "trained_algorithmic_media". Following [IPTC](https://cv.iptc.org/newscodes/digitalsourcetype). Maximum length is 40 characters. */
-  digitalSourceType?: string;
-  /** The description text Maximum length is 5000 characters */
-  content?: string;
-}
-/** A message that represents installment. */
-export interface Installment {
-  /** The up-front down payment amount the buyer has to pay. */
-  downpayment?: Price;
-  /** The amount the buyer has to pay per month. */
-  amount?: Price;
-  /** The number of installments the buyer has to pay. */
-  months?: string;
-  /** Type of installment payments. Supported values are: * "`finance`" * "`lease`" */
-  creditType?: string;
-}
-/** The product details. */
-export interface ProductDetail {
-  /** The value of the product detail. */
-  attributeValue?: string;
-  /** The name of the product detail. */
-  attributeName?: string;
-  /** The section header used to group a set of product details. */
-  sectionName?: string;
-}
-export type ProductDetailList = Array<ProductDetail>;
-/** The weight of the product. */
-export interface ProductWeight {
-  /** Required. The weight unit. Acceptable values are: * "`g`" * "`kg`" * "`oz`" * "`lb`" */
-  unit?: string;
-  /** Required. The weight represented as a number. The weight can have a maximum precision of four decimal places. */
-  value?: number;
+  endTime?: string | undefined;
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  startTime?: string | undefined;
 }
 /** A message that represents loyalty program. For more information on loyalty programs, see [Overview of loyalty programs](/merchant/api/guides/loyalty/loyalty-programs). */
 export interface LoyaltyProgram {
-  /** The label of the shipping benefit. If the field has value, this offer has loyalty shipping benefit. If the field value isn't provided, the item is not eligible for loyalty shipping for the given loyalty tier. */
-  shippingLabel?: string;
-  /** A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
-  memberPriceEffectiveDate?: Interval;
-  /** The amount of loyalty points earned on a purchase. */
-  loyaltyPoints?: string;
   /** The label of the tier within the loyalty program. Must match one of the labels within the program. */
-  tierLabel?: string;
-  /** The label of the loyalty program. This is an internal label that uniquely identifies the relationship between a business entity and a loyalty program entity. The label must be provided so that the system can associate the assets below (for example, price and points) with a business. The corresponding program must be linked to the Merchant Center account. */
-  programLabel?: string;
-  /** The cashback that can be used for future purchases. */
-  cashbackForFutureUse?: Price;
+  tierLabel?: string | undefined;
   /** The price for members of the given tier, that is, the instant discount price. Must be smaller or equal to the regular price. */
-  price?: Price;
+  price?: Price | undefined;
+  /** The cashback that can be used for future purchases. */
+  cashbackForFutureUse?: Price | undefined;
+  /** The amount of loyalty points earned on a purchase. */
+  loyaltyPoints?: string | undefined;
+  /** A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
+  memberPriceEffectiveDate?: Interval | undefined;
+  /** The label of the loyalty program. This is an internal label that uniquely identifies the relationship between a business entity and a loyalty program entity. The label must be provided so that the system can associate the assets below (for example, price and points) with a business. The corresponding program must be linked to the Merchant Center account. */
+  programLabel?: string | undefined;
+  /** The label of the shipping benefit. If the field has value, this offer has loyalty shipping benefit. If the field value isn't provided, the item is not eligible for loyalty shipping for the given loyalty tier. */
+  shippingLabel?: string | undefined;
 }
 export type LoyaltyProgramList = Array<LoyaltyProgram>;
 /** A message that represents loyalty points. */
 export interface LoyaltyPoints {
-  /** Name of loyalty points program. It is recommended to limit the name to 12 full-width characters or 24 Roman characters. */
-  name?: string;
   /** The retailer's loyalty points in absolute value. */
-  pointsValue?: string;
+  pointsValue?: string | undefined;
+  /** Name of loyalty points program. It is recommended to limit the name to 12 full-width characters or 24 Roman characters. */
+  name?: string | undefined;
   /** The ratio of a point when converted to currency. Google assumes currency based on Merchant Center settings. If ratio is left out, it defaults to 1.0. */
-  ratio?: number;
+  ratio?: number | undefined;
 }
-/** The ShippingDimension of the product. */
-export interface ShippingDimension {
-  /** The unit of value. */
-  unit?: string;
-  /** The dimension of the product used to calculate the shipping cost of the item. */
-  value?: number;
+/** The UnitPricingBaseMeasure of the product. */
+export interface UnitPricingBaseMeasure {
+  /** The denominator of the unit price. */
+  value?: string | undefined;
+  /** The unit of the denominator. */
+  unit?: string | undefined;
 }
-/** Product [certification](https://support.google.com/merchants/answer/13528839), initially introduced for EU energy efficiency labeling compliance using the EU EPREL database. */
-export interface Certification {
-  /** The certification authority, for example "European_Commission". Maximum length is 2000 characters. */
-  certificationAuthority?: string;
-  /** The certification value (also known as class, level or grade), for example "A+", "C", "gold". Maximum length is 2000 characters. */
-  certificationValue?: string;
-  /** Optional. URL to the certification document (eg. `https://www.example.com/document`), for example, the product data sheet or fiche required by UK's DESNZ or EU's EPREL. Maximum length is 2000 characters. For more information, see [Certification](https://support.google.com/merchants/answer/13528839). */
-  certificationDocumentLink?: string;
-  /** The certification code. Maximum length is 2000 characters. */
-  certificationCode?: string;
-  /** Optional. URL to the certification label (eg. `https://www.example.com/label`), for example, the energy efficiency label required by UK's DESNZ or EU's EPREL. Maximum length is 2000 characters. For more information, see [Certification](https://support.google.com/merchants/answer/13528839). */
-  certificationLabelLink?: string;
-  /** The name of the certification, for example "EPREL". Maximum length is 2000 characters. */
-  certificationName?: string;
+/** The product details. */
+export interface ProductDetail {
+  /** The name of the product detail. */
+  attributeName?: string | undefined;
+  /** The value of the product detail. */
+  attributeValue?: string | undefined;
+  /** The section header used to group a set of product details. */
+  sectionName?: string | undefined;
 }
-export type CertificationList = Array<Certification>;
-/** The Tax of the product. */
-export interface Tax {
-  /** The numeric ID of a location that the tax rate applies to as defined in the [AdWords API](https://developers.google.com/adwords/api/docs/appendix/geotargeting). */
-  locationId?: string;
-  /** The postal code range that the tax rate applies to, represented by a ZIP code, a ZIP code prefix using * wildcard, a range between two ZIP codes or two ZIP code prefixes of equal length. Examples: 94114, 94*, 94002-95460, 94*-95*. */
-  postalCode?: string;
-  /** Set to true if tax is charged on shipping. */
-  taxShip?: boolean;
-  /** The country within which the item is taxed, specified as a [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml). */
-  country?: string;
-  /** The percentage of tax rate that applies to the item price. */
-  rate?: number;
-  /** The geographic region to which the tax rate applies. */
-  region?: string;
-}
-export type TaxList = Array<Tax>;
-/** Structured title, for algorithmically (AI)-generated titles. */
-export interface ProductStructuredTitle {
-  /** The title text Maximum length is 150 characters */
-  content?: string;
+export type ProductDetailList = Array<ProductDetail>;
+/** Structured description, for algorithmically (AI)-generated descriptions. */
+export interface ProductStructuredDescription {
+  /** The description text Maximum length is 5000 characters */
+  content?: string | undefined;
   /** The digital source type, for example "trained_algorithmic_media". Following [IPTC](https://cv.iptc.org/newscodes/digitalsourcetype). Maximum length is 40 characters. */
-  digitalSourceType?: string;
+  digitalSourceType?: string | undefined;
 }
-/** Conditions to be met for a product to have free shipping. */
-export interface FreeShippingThreshold {
-  /** The minimum product price for the shipping cost to become free. Represented as a number. */
-  priceThreshold?: Price;
-  /** The [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the country to which an item will ship. */
-  country?: string;
+/** A message that represents installment. */
+export interface Installment {
+  /** The number of installments the buyer has to pay. */
+  months?: string | undefined;
+  /** The amount the buyer has to pay per month. */
+  amount?: Price | undefined;
+  /** The up-front down payment amount the buyer has to pay. */
+  downpayment?: Price | undefined;
+  /** Type of installment payments. Supported values are: * "`finance`" * "`lease`" */
+  creditType?: string | undefined;
 }
-export type FreeShippingThresholdList = Array<FreeShippingThreshold>;
+/** The ShippingWeight of the product. */
+export interface ShippingWeight {
+  /** The unit of value. */
+  unit?: string | undefined;
+  /** The weight of the product used to calculate the shipping cost of the item. */
+  value?: number | undefined;
+}
 /** Attributes. */
 export interface Attributes {
   /** The width of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productWidth?: ProductDimension;
-  /** Target [age group](https://support.google.com/merchants/answer/6324463) of the item. */
-  ageGroup?: string;
-  /** Additional URLs of images of the item. */
-  additionalImageLinks?: StringList;
-  /** Extra fields to export to the Cloud Retail program. */
-  cloudExportAdditionalProperties?: CloudExportAdditionalPropertiesList;
-  /** Weight of the item for shipping. */
-  shippingWeight?: ShippingWeight;
-  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
-  minEnergyEfficiencyClass?: string;
-  /** [Brand](https://support.google.com/merchants/answer/6324351) of the item. For example, "Google". */
-  brand?: string;
-  /** Date on which the item should expire, as specified upon insertion, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. The actual expiration date is exposed in `productstatuses` as [googleExpirationDate](https://support.google.com/merchants/answer/6324499) and might be earlier if `expirationDate` is too far in the future. */
-  expirationDate?: string;
-  /** Size of the item. Only one value is allowed. For variants with different sizes, insert a separate product for each size with the same `itemGroupId` value, see [Size](https://support.google.com/merchants/answer/6324492). */
-  size?: string;
-  /** The measure and dimension of an item. */
-  unitPricingMeasure?: UnitPricingMeasure;
-  /** Allows advertisers to override the item URL when the product is shown within the context of Product ads. */
-  adsRedirect?: string;
-  /** Number of periods (weeks, months or years) and amount of payment per period for an item with an associated subscription contract. */
-  subscriptionCost?: SubscriptionCost;
-  /** Shipping rules. */
-  shipping?: ShippingList;
-  /** Destinations also known as [Marketing methods](https://support.google.com/merchants/answer/15130232) selections. The list of destinations to exclude for this target (corresponds to unchecked check boxes in Merchant Center). For more information, see [Excluded destination](https://support.google.com/merchants/answer/6324486). Note: We recommend setting destinations on datasources level for most use cases. Use this field within products to only setup exceptions. */
-  excludedDestinations?: StringList;
-  /** A safeguard in the [automated discounts] (https://support.google.com/merchants/answer/10295759) and ["dynamic promotions"](https://support.google.com/merchants/answer/13949249) projects, ensuring that discounts on business offers do not fall below this value, thereby preserving the offer's value and profitability. */
-  autoPricingMinPrice?: Price;
-  /** The [material](https://support.google.com/merchants/answer/6324410) of which the item is made. For example, "Leather" or "Cotton". */
-  material?: string;
-  /** Bullet points describing the most relevant [product highlights](https://support.google.com/merchants/answer/9216100). */
-  productHighlights?: StringList;
-  /** The quantity of the product that is available for selling on Google. Supported only for online products. */
-  sellOnGoogleQuantity?: string;
-  /** URL for the canonical version of your item's landing page. */
-  canonicalLink?: string;
-  /** [Color](https://support.google.com/merchants/answer/6324487) of the item. For example, "red". */
-  color?: string;
-  /** Categories of the item (formatted as in [product data specification](https://support.google.com/merchants/answer/7052112#product_category)). */
-  productTypes?: StringList;
-  /** Maximal product handling time (in business days). */
-  maxHandlingTime?: string;
-  /** A list of Global Trade Item Numbers ([GTIN](https://support.google.com/merchants/answer/6324461)) of the item. You can provide up to 10 GTINs. */
-  gtins?: StringList;
-  /** Shared identifier for all variants of the same product. */
-  itemGroupId?: string;
-  /** The transit time label of the product, used to group product in account-level transit time tables. */
-  transitTimeLabel?: string;
-  /** Date range during which the item is on sale, see [product data specification](https://support.google.com/merchants/answer/7052112#price_and_availability). */
-  salePriceEffectiveDate?: Interval;
-  /** The preference of the denominator of the unit price. */
-  unitPricingBaseMeasure?: UnitPricingBaseMeasure;
-  /** Target [gender](https://support.google.com/merchants/answer/6324479) of the item. For example, "male" or "female". */
-  gender?: string;
-  /** Maximum retail price (MRP) of the item. Applicable to India only. */
-  maximumRetailPrice?: Price;
-  /** Manufacturer Part Number ([MPN](https://support.google.com/merchants/answer/6324482)) of the item. */
-  mpn?: string;
-  /** The [tax category](https://support.google.com/merchants/answer/7569847) of the product. */
-  taxCategory?: string;
-  /** The date time when an offer becomes visible in search results across Google's YouTube surfaces, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. See [Disclosure date](https://support.google.com/merchants/answer/13034208) for more information. */
-  disclosureDate?: string;
-  /** Used to group items in an arbitrary way. Only for CPA, discouraged otherwise. For more information, see [Display ads attribute](https://support.google.com/merchants/answer/6069387). */
-  adsGrouping?: string;
-  /** The number of identical products in a business-defined multipack. */
-  multipack?: string;
-  /** URL directly to your item's landing page for dynamic remarketing campaigns. */
-  displayAdsLink?: string;
-  /** [Custom label 2](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
-  customLabel2?: string;
-  /** Advertised sale price of the item. */
-  salePrice?: Price;
-  /** URL of the 3D image of the item. See the [Help Center article](https://support.google.com/merchants/answer/13674896) for more information. */
-  virtualModelLink?: string;
-  /** Minimal product handling time (in business days). */
-  minHandlingTime?: string;
-  /** [Custom label 3](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
-  customLabel3?: string;
+  productWidth?: ProductDimension | undefined;
   /** [Link template](https://support.google.com/merchants/answer/13871172) for business hosted local storefront. */
-  linkTemplate?: string;
-  /** The list of sustainability incentive programs. */
-  sustainabilityIncentives?: ProductSustainabilityIncentiveList;
-  /** Structured description, for algorithmically (AI)-generated descriptions. */
-  structuredDescription?: ProductStructuredDescription;
-  /** [Link template](https://support.google.com/merchants/answer/13870216) for business hosted local storefront optimized for mobile devices. */
-  mobileLinkTemplate?: string;
-  /** The item's [pattern](https://support.google.com/merchants/answer/6324483). For example, polka dots. */
-  pattern?: string;
-  /** Number and amount of installments to pay for an item. */
-  installment?: Installment;
-  /** Publication of this item will be temporarily [paused](https://support.google.com/merchants/answer/11909930). */
-  pause?: string;
-  /** Set this value to false when the item does not have unique product identifiers appropriate to its category, such as GTIN, MPN, and brand. Defaults to true, if not provided. */
-  identifierExists?: boolean;
-  /** Technical specification or additional product details. */
-  productDetails?: ProductDetailList;
+  linkTemplate?: string | undefined;
+  /** The date time when an offer becomes visible in search results across Google's YouTube surfaces, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. See [Disclosure date](https://support.google.com/merchants/answer/13034208) for more information. */
+  disclosureDate?: string | undefined;
   /** The energy efficiency class as defined in EU directive 2010/30/EU. */
-  energyEfficiencyClass?: string;
-  /** The weight of the product in the units provided. The value must be between 0 (exclusive) and 2000 (inclusive). */
-  productWeight?: ProductWeight;
-  /** Title of the item. */
-  title?: string;
+  minEnergyEfficiencyClass?: string | undefined;
+  /** Destinations also known as [Marketing methods](https://support.google.com/merchants/answer/15130232) selections. The list of destinations to exclude for this target (corresponds to unchecked check boxes in Merchant Center). For more information, see [Excluded destination](https://support.google.com/merchants/answer/6324486). Note: We recommend setting destinations on datasources level for most use cases. Use this field within products to only setup exceptions. */
+  excludedDestinations?: StringList | undefined;
   /** Set to true if the item is targeted towards adults. */
-  adult?: boolean;
-  /** An identifier for an item for dynamic remarketing campaigns. */
-  displayAdsId?: string;
-  /** The unique ID of a promotion. */
-  promotionIds?: StringList;
-  /** A list of loyalty program information that is used to surface loyalty benefits (for example, better pricing, points, etc) to the user of this item. */
-  loyaltyPrograms?: LoyaltyProgramList;
-  /** [Custom label 4](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
-  customLabel4?: string;
-  /** Loyalty points that users receive after purchasing the item. Japan only. */
-  loyaltyPoints?: LoyaltyPoints;
-  /** Description of the item. */
-  description?: string;
-  /** Whether the item is a business-defined sub-API. A [sub-API] (https://support.google.com/merchants/answer/6324449) is a custom grouping of different products sold by a business for a single price. */
-  isBundle?: boolean;
-  /** Advertiser-specified recommendations. For more information, see [Display ads attribute specification](https://support.google.com/merchants/answer/6069387). */
-  displayAdsSimilarIds?: StringList;
-  /** The cut of the item. It can be used to represent combined size types for apparel items. Maximum two of size types can be provided, see [Size type](https://support.google.com/merchants/answer/6324497). For example, "petite", "plus size". */
-  sizeTypes?: StringList;
-  /** Width of the item for shipping. */
-  shippingWidth?: ShippingDimension;
-  /** System in which the size is specified. Recommended for apparel items. For example, "US", "UK", "DE". For more information, see [Size system](https://support.google.com/merchants/answer/6324502). */
-  sizeSystem?: string;
-  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
-  maxEnergyEfficiencyClass?: string;
-  /** URL for the mobile-optimized version of your item's landing page. */
-  mobileLink?: string;
-  /** Global Trade Item Numbers ([GTIN](https://support.google.com/merchants/answer/6324461)) of the item. You can provide up to 10 GTINs. Deprecated: Use `gtins` instead. */
-  gtin?: StringList;
-  /** Product Certifications, for example for energy efficiency labeling of products recorded in the [EU EPREL](https://eprel.ec.europa.eu/screen/home) database. For more information, see [Certification](https://support.google.com/merchants/answer/13528839). */
-  certifications?: CertificationList;
-  /** [Condition](https://support.google.com/merchants/answer/6324469) or state of the item. For example, "new" or "used". */
-  condition?: string;
-  /** Height of the item for shipping. */
-  shippingHeight?: ShippingDimension;
-  /** The shipping label of the product, used to group product in account-level shipping rules. */
-  shippingLabel?: string;
-  /** Google's category of the item (see [Google product taxonomy](https://support.google.com/merchants/answer/1705911)). When querying products, this field will contain the user provided value. There is currently no way to get back the auto assigned google product categories through the API. */
-  googleProductCategory?: string;
-  /** Additional URLs of lifestyle images of the item, used to explicitly identify images that showcase your item in a real-world context. See the [Help Center article](https://support.google.com/merchants/answer/9103186) for more information. */
-  lifestyleImageLinks?: StringList;
-  /** URL directly linking to your item's page on your online store. */
-  link?: string;
-  /** The day a pre-ordered product becomes available for delivery, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  availabilityDate?: string;
-  /** [Custom label 0](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
-  customLabel0?: string;
+  adult?: boolean | undefined;
   /** Price of the item. */
-  price?: Price;
-  /** Tax information. */
-  taxes?: TaxList;
-  /** Structured title, for algorithmically (AI)-generated titles. */
-  structuredTitle?: ProductStructuredTitle;
-  /** [Availability](https://support.google.com/merchants/answer/6324448) status of the item. For example, "in_stock" or "out_of_stock". */
-  availability?: string;
-  /** Required for multi-seller accounts. Use this attribute if you're a marketplace uploading products for various sellers to your multi-seller account. */
-  externalSellerId?: string;
-  /** List of country codes [(ISO 3166-1 alpha-2)](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) to exclude the offer from Shopping Ads destination. Countries from this list are removed from countries configured in data source settings. */
-  shoppingAdsExcludedCountries?: StringList;
-  /** The length of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productLength?: ProductDimension;
-  /** Title of an item for dynamic remarketing campaigns. */
-  displayAdsTitle?: string;
-  /** Conditions to be met for a product to have free shipping. */
-  freeShippingThreshold?: FreeShippingThresholdList;
-  /** Cost of goods sold. Used for gross profit reporting. */
-  costOfGoodsSold?: Price;
+  price?: Price | undefined;
+  /** URL for the canonical version of your item's landing page. */
+  canonicalLink?: string | undefined;
   /** Item store pickup timeline. For more information, see [Pickup SLA](https://support.google.com/merchants/answer/14635400). */
-  pickupSla?: string;
+  pickupSla?: string | undefined;
+  /** [Condition](https://support.google.com/merchants/answer/6324469) or state of the item. For example, "new" or "used". */
+  condition?: string | undefined;
+  /** Conditions to be met for a product to have free shipping. */
+  freeShippingThreshold?: FreeShippingThresholdList | undefined;
+  /** Tax information. */
+  taxes?: TaxList | undefined;
+  /** Structured title, for algorithmically (AI)-generated titles. */
+  structuredTitle?: ProductStructuredTitle | undefined;
+  /** Title of an item for dynamic remarketing campaigns. */
+  displayAdsTitle?: string | undefined;
+  /** Title of the item. */
+  title?: string | undefined;
+  /** The transit time label of the product, used to group product in account-level transit time tables. */
+  transitTimeLabel?: string | undefined;
+  /** Advertised sale price of the item. */
+  salePrice?: Price | undefined;
+  /** The list of sustainability incentive programs. */
+  sustainabilityIncentives?: ProductSustainabilityIncentiveList | undefined;
+  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
+  energyEfficiencyClass?: string | undefined;
   /** The [pickup](https://support.google.com/merchants/answer/14634021) option for the item. */
-  pickupMethod?: string;
-  /** Offer margin for dynamic remarketing campaigns. For more information, see [Display ads attribute](https://support.google.com/merchants/answer/6069387). */
-  displayAdsValue?: number;
+  pickupMethod?: string | undefined;
+  /** A list of Global Trade Item Numbers ([GTIN](https://support.google.com/merchants/answer/6324461)) of the item. You can provide up to 10 GTINs. */
+  gtins?: StringList | undefined;
+  /** Manufacturer Part Number ([MPN](https://support.google.com/merchants/answer/6324482)) of the item. */
+  mpn?: string | undefined;
   /** URL of an image of the item. */
-  imageLink?: string;
-  /** Length of the item for shipping. */
-  shippingLength?: ShippingDimension;
+  imageLink?: string | undefined;
+  /** The [tax category](https://support.google.com/merchants/answer/7569847) of the product. */
+  taxCategory?: string | undefined;
+  /** URL directly to your item's landing page for dynamic remarketing campaigns. */
+  displayAdsLink?: string | undefined;
+  /** Target [age group](https://support.google.com/merchants/answer/6324463) of the item. */
+  ageGroup?: string | undefined;
+  /** Whether the item is a business-defined sub-API. A [sub-API] (https://support.google.com/merchants/answer/6324449) is a custom grouping of different products sold by a business for a single price. */
+  isBundle?: boolean | undefined;
+  /** The measure and dimension of an item. */
+  unitPricingMeasure?: UnitPricingMeasure | undefined;
+  /** [Color](https://support.google.com/merchants/answer/6324487) of the item. For example, "red". */
+  color?: string | undefined;
+  /** [Availability](https://support.google.com/merchants/answer/6324448) status of the item. For example, "in_stock" or "out_of_stock". */
+  availability?: string | undefined;
+  /** System in which the size is specified. Recommended for apparel items. For example, "US", "UK", "DE". For more information, see [Size system](https://support.google.com/merchants/answer/6324502). */
+  sizeSystem?: string | undefined;
+  /** The item's [pattern](https://support.google.com/merchants/answer/6324483). For example, polka dots. */
+  pattern?: string | undefined;
+  /** Size of the item. Only one value is allowed. For variants with different sizes, insert a separate product for each size with the same `itemGroupId` value, see [Size](https://support.google.com/merchants/answer/6324492). */
+  size?: string | undefined;
+  /** Date on which the item should expire, as specified upon insertion, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. The actual expiration date is exposed in `productstatuses` as [googleExpirationDate](https://support.google.com/merchants/answer/6324499) and might be earlier if `expirationDate` is too far in the future. */
+  expirationDate?: string | undefined;
+  /** The quantity of the product that is available for selling on Google. Supported only for online products. */
+  sellOnGoogleQuantity?: string | undefined;
+  /** Publication of this item will be temporarily [paused](https://support.google.com/merchants/answer/11909930). */
+  pause?: string | undefined;
   /** The height of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
-  productHeight?: ProductDimension;
-  /** Destinations also known as [Marketing methods](https://support.google.com/merchants/answer/15130232) selections. The list of destinations to include for this target (corresponds to checked check boxes in Merchant Center). Default destinations are always included unless provided in `excludedDestinations`. For more information, see [Included destination](https://support.google.com/merchants/answer/7501026). Note: We recommend setting destinations on datasources level for most use cases. Use this field within products to only setup exceptions. */
-  includedDestinations?: StringList;
+  productHeight?: ProductDimension | undefined;
+  /** The weight of the product in the units provided. The value must be between 0 (exclusive) and 2000 (inclusive). */
+  productWeight?: ProductWeight | undefined;
+  /** Product Certifications, for example for energy efficiency labeling of products recorded in the [EU EPREL](https://eprel.ec.europa.eu/screen/home) database. For more information, see [Certification](https://support.google.com/merchants/answer/13528839). */
+  certifications?: CertificationList | undefined;
+  /** List of country codes [(ISO 3166-1 alpha-2)](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) to exclude the offer from Shopping Ads destination. Countries from this list are removed from countries configured in data source settings. */
+  shoppingAdsExcludedCountries?: StringList | undefined;
+  /** Extra fields to export to the Cloud Retail program. */
+  cloudExportAdditionalProperties?: CloudExportAdditionalPropertiesList | undefined;
+  /** The unique ID of a promotion. */
+  promotionIds?: StringList | undefined;
+  /** Height of the item for shipping. */
+  shippingHeight?: ShippingDimension | undefined;
+  /** Width of the item for shipping. */
+  shippingWidth?: ShippingDimension | undefined;
+  /** Shipping rules. */
+  shipping?: ShippingList | undefined;
   /** [Custom label 1](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
-  customLabel1?: string;
+  customLabel1?: string | undefined;
+  /** Used to group items in an arbitrary way. Only for CPA, discouraged otherwise. For more information, see [Display ads attribute](https://support.google.com/merchants/answer/6069387). */
+  adsGrouping?: string | undefined;
+  /** Shared identifier for all variants of the same product. */
+  itemGroupId?: string | undefined;
+  /** A safeguard in the [automated discounts] (https://support.google.com/merchants/answer/10295759) and ["dynamic promotions"](https://support.google.com/merchants/answer/13949249) projects, ensuring that discounts on business offers do not fall below this value, thereby preserving the offer's value and profitability. */
+  autoPricingMinPrice?: Price | undefined;
+  /** Google's category of the item (see [Google product taxonomy](https://support.google.com/merchants/answer/1705911)). When querying products, this field will contain the user provided value. There is currently no way to get back the auto assigned google product categories through the API. */
+  googleProductCategory?: string | undefined;
+  /** The energy efficiency class as defined in EU directive 2010/30/EU. */
+  maxEnergyEfficiencyClass?: string | undefined;
+  /** [Custom label 2](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
+  customLabel2?: string | undefined;
+  /** Number of periods (weeks, months or years) and amount of payment per period for an item with an associated subscription contract. */
+  subscriptionCost?: SubscriptionCost | undefined;
+  /** Offer margin for dynamic remarketing campaigns. For more information, see [Display ads attribute](https://support.google.com/merchants/answer/6069387). */
+  displayAdsValue?: number | undefined;
+  /** URL directly linking to your item's page on your online store. */
+  link?: string | undefined;
+  /** A list of loyalty program information that is used to surface loyalty benefits (for example, better pricing, points, etc) to the user of this item. */
+  loyaltyPrograms?: LoyaltyProgramList | undefined;
+  /** Maximal product handling time (in business days). */
+  maxHandlingTime?: string | undefined;
+  /** Cost of goods sold. Used for gross profit reporting. */
+  costOfGoodsSold?: Price | undefined;
+  /** Loyalty points that users receive after purchasing the item. Japan only. */
+  loyaltyPoints?: LoyaltyPoints | undefined;
+  /** The cut of the item. It can be used to represent combined size types for apparel items. Maximum two of size types can be provided, see [Size type](https://support.google.com/merchants/answer/6324497). For example, "petite", "plus size". */
+  sizeTypes?: StringList | undefined;
+  /** URL for the mobile-optimized version of your item's landing page. */
+  mobileLink?: string | undefined;
+  /** The day a pre-ordered product becomes available for delivery, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
+  availabilityDate?: string | undefined;
+  /** Minimal product handling time (in business days). */
+  minHandlingTime?: string | undefined;
+  /** Date range during which the item is on sale, see [product data specification](https://support.google.com/merchants/answer/7052112#price_and_availability). */
+  salePriceEffectiveDate?: Interval | undefined;
+  /** Maximum retail price (MRP) of the item. Applicable to India only. */
+  maximumRetailPrice?: Price | undefined;
+  /** Allows advertisers to override the item URL when the product is shown within the context of Product ads. */
+  adsRedirect?: string | undefined;
+  /** Length of the item for shipping. */
+  shippingLength?: ShippingDimension | undefined;
+  /** [Custom label 0](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
+  customLabel0?: string | undefined;
+  /** Required for multi-seller accounts. Use this attribute if you're a marketplace uploading products for various sellers to your multi-seller account. */
+  externalSellerId?: string | undefined;
+  /** The preference of the denominator of the unit price. */
+  unitPricingBaseMeasure?: UnitPricingBaseMeasure | undefined;
+  /** [Custom label 4](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
+  customLabel4?: string | undefined;
+  /** Technical specification or additional product details. */
+  productDetails?: ProductDetailList | undefined;
+  /** [Brand](https://support.google.com/merchants/answer/6324351) of the item. For example, "Google". */
+  brand?: string | undefined;
+  /** The length of the product in the units provided. The value must be between 0 (exclusive) and 3000 (inclusive). */
+  productLength?: ProductDimension | undefined;
+  /** The shipping label of the product, used to group product in account-level shipping rules. */
+  shippingLabel?: string | undefined;
+  /** Destinations also known as [Marketing methods](https://support.google.com/merchants/answer/15130232) selections. The list of destinations to include for this target (corresponds to checked check boxes in Merchant Center). Default destinations are always included unless provided in `excludedDestinations`. For more information, see [Included destination](https://support.google.com/merchants/answer/7501026). Note: We recommend setting destinations on datasources level for most use cases. Use this field within products to only setup exceptions. */
+  includedDestinations?: StringList | undefined;
+  /** Bullet points describing the most relevant [product highlights](https://support.google.com/merchants/answer/9216100). */
+  productHighlights?: StringList | undefined;
+  /** Structured description, for algorithmically (AI)-generated descriptions. */
+  structuredDescription?: ProductStructuredDescription | undefined;
+  /** Set this value to false when the item does not have unique product identifiers appropriate to its category, such as GTIN, MPN, and brand. Defaults to true, if not provided. */
+  identifierExists?: boolean | undefined;
+  /** Description of the item. */
+  description?: string | undefined;
+  /** Global Trade Item Numbers ([GTIN](https://support.google.com/merchants/answer/6324461)) of the item. You can provide up to 10 GTINs. Deprecated: Use `gtins` instead. */
+  gtin?: StringList | undefined;
+  /** [Link template](https://support.google.com/merchants/answer/13870216) for business hosted local storefront optimized for mobile devices. */
+  mobileLinkTemplate?: string | undefined;
+  /** URL of the 3D image of the item. See the [Help Center article](https://support.google.com/merchants/answer/13674896) for more information. */
+  virtualModelLink?: string | undefined;
+  /** Number and amount of installments to pay for an item. */
+  installment?: Installment | undefined;
+  /** Categories of the item (formatted as in [product data specification](https://support.google.com/merchants/answer/7052112#product_category)). */
+  productTypes?: StringList | undefined;
   /** Similar to ads_grouping, but only works on CPC. */
-  adsLabels?: StringList;
+  adsLabels?: StringList | undefined;
+  /** Additional URLs of lifestyle images of the item, used to explicitly identify images that showcase your item in a real-world context. See the [Help Center article](https://support.google.com/merchants/answer/9103186) for more information. */
+  lifestyleImageLinks?: StringList | undefined;
+  /** The number of identical products in a business-defined multipack. */
+  multipack?: string | undefined;
+  /** [Custom label 3](https://support.google.com/merchants/answer/6324473) for custom grouping of items in a Shopping campaign. */
+  customLabel3?: string | undefined;
+  /** The [material](https://support.google.com/merchants/answer/6324410) of which the item is made. For example, "Leather" or "Cotton". */
+  material?: string | undefined;
+  /** An identifier for an item for dynamic remarketing campaigns. */
+  displayAdsId?: string | undefined;
+  /** Weight of the item for shipping. */
+  shippingWeight?: ShippingWeight | undefined;
+  /** Advertiser-specified recommendations. For more information, see [Display ads attribute specification](https://support.google.com/merchants/answer/6069387). */
+  displayAdsSimilarIds?: StringList | undefined;
+  /** Additional URLs of images of the item. */
+  additionalImageLinks?: StringList | undefined;
+  /** Target [gender](https://support.google.com/merchants/answer/6324479) of the item. For example, "male" or "female". */
+  gender?: string | undefined;
 }
-export type ProductChannelEnum = "CHANNEL_ENUM_UNSPECIFIED" | "ONLINE" | "LOCAL";
-export type ItemLevelIssueSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "NOT_IMPACTED"
-  | "DEMOTED"
-  | "DISAPPROVED";
-export type ItemLevelIssueReportingContextEnum =
-  | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
-  | "SHOPPING_ADS"
-  | "DISCOVERY_ADS"
-  | "DEMAND_GEN_ADS"
-  | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
-  | "VIDEO_ADS"
-  | "DISPLAY_ADS"
-  | "LOCAL_INVENTORY_ADS"
-  | "VEHICLE_INVENTORY_ADS"
-  | "FREE_LISTINGS"
-  | "FREE_LISTINGS_UCP_CHECKOUT"
-  | "FREE_LOCAL_LISTINGS"
-  | "FREE_LOCAL_VEHICLE_LISTINGS"
-  | "YOUTUBE_AFFILIATE"
-  | "YOUTUBE_SHOPPING"
-  | "CLOUD_RETAIL"
-  | "LOCAL_CLOUD_RETAIL"
-  | "PRODUCT_REVIEWS"
-  | "MERCHANT_REVIEWS"
-  | "YOUTUBE_CHECKOUT"
-  | "RENTAL_ADS";
-/** The ItemLevelIssue of the product status. */
-export interface ItemLevelIssue {
-  /** A short issue description in English. */
-  description?: string;
-  /** How this issue affects serving of the offer. */
-  severity?: ItemLevelIssueSeverityEnum;
-  /** List of country codes (ISO 3166-1 alpha-2) where issue applies to the offer. */
-  applicableCountries?: StringList;
-  /** A detailed issue description in English. */
-  detail?: string;
-  /** The URL of a web page to help with resolving this issue. */
-  documentation?: string;
-  /** The reporting context the issue applies to. */
-  reportingContext?: ItemLevelIssueReportingContextEnum;
-  /** Whether the issue can be resolved by the business. */
-  resolution?: string;
-  /** The attribute's name, if the issue is caused by a single attribute. */
-  attribute?: string;
-  /** The error code of the issue. */
-  code?: string;
+/** Information regarding Automated Discounts. */
+export interface AutomatedDiscounts {
+  /** The price prior to the application of the first price reduction. Absent if the information about the prior price of the product is not available. */
+  priorPrice?: Price | undefined;
+  /** The current sale price for products with a price optimized using Google Automated Discounts (GAD). Absent if the information about the GAD_price of the product is not available. */
+  gadPrice?: Price | undefined;
+  /** The price prior to the application of consecutive price reductions. Absent if the information about the prior price of the product is not available. */
+  priorPriceProgressive?: Price | undefined;
 }
-export type ItemLevelIssueList = Array<ItemLevelIssue>;
 export type DestinationStatusReportingContextEnum =
   | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
   | "SHOPPING_ADS"
@@ -613,127 +563,177 @@ export type DestinationStatusReportingContextEnum =
   | "RENTAL_ADS";
 /** The destination status of the product status. Equivalent to `StatusPerReportingContext` in Reports API. */
 export interface DestinationStatus {
-  /** The name of the reporting context. */
-  reportingContext?: DestinationStatusReportingContextEnum;
-  /** List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved. */
-  disapprovedCountries?: StringList;
-  /** List of country codes (ISO 3166-1 alpha-2) where the offer is approved. */
-  approvedCountries?: StringList;
   /** List of country codes (ISO 3166-1 alpha-2) where the offer is pending approval. */
-  pendingCountries?: StringList;
+  pendingCountries?: StringList | undefined;
+  /** List of country codes (ISO 3166-1 alpha-2) where the offer is approved. */
+  approvedCountries?: StringList | undefined;
+  /** The name of the reporting context. */
+  reportingContext?: DestinationStatusReportingContextEnum | undefined;
+  /** List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved. */
+  disapprovedCountries?: StringList | undefined;
 }
 export type DestinationStatusList = Array<DestinationStatus>;
+export type ItemLevelIssueReportingContextEnum =
+  | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+  | "SHOPPING_ADS"
+  | "DISCOVERY_ADS"
+  | "DEMAND_GEN_ADS"
+  | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+  | "VIDEO_ADS"
+  | "DISPLAY_ADS"
+  | "LOCAL_INVENTORY_ADS"
+  | "VEHICLE_INVENTORY_ADS"
+  | "FREE_LISTINGS"
+  | "FREE_LISTINGS_UCP_CHECKOUT"
+  | "FREE_LOCAL_LISTINGS"
+  | "FREE_LOCAL_VEHICLE_LISTINGS"
+  | "YOUTUBE_AFFILIATE"
+  | "YOUTUBE_SHOPPING"
+  | "CLOUD_RETAIL"
+  | "LOCAL_CLOUD_RETAIL"
+  | "PRODUCT_REVIEWS"
+  | "MERCHANT_REVIEWS"
+  | "YOUTUBE_CHECKOUT"
+  | "RENTAL_ADS";
+export type ItemLevelIssueSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "NOT_IMPACTED"
+  | "DEMOTED"
+  | "DISAPPROVED";
+/** The ItemLevelIssue of the product status. */
+export interface ItemLevelIssue {
+  /** The attribute's name, if the issue is caused by a single attribute. */
+  attribute?: string | undefined;
+  /** The reporting context the issue applies to. */
+  reportingContext?: ItemLevelIssueReportingContextEnum | undefined;
+  /** A detailed issue description in English. */
+  detail?: string | undefined;
+  /** The URL of a web page to help with resolving this issue. */
+  documentation?: string | undefined;
+  /** Whether the issue can be resolved by the business. */
+  resolution?: string | undefined;
+  /** List of country codes (ISO 3166-1 alpha-2) where issue applies to the offer. */
+  applicableCountries?: StringList | undefined;
+  /** A short issue description in English. */
+  description?: string | undefined;
+  /** The error code of the issue. */
+  code?: string | undefined;
+  /** How this issue affects serving of the offer. */
+  severity?: ItemLevelIssueSeverityEnum | undefined;
+}
+export type ItemLevelIssueList = Array<ItemLevelIssue>;
 /** The status of a product, data validation issues, that is, information about a product computed asynchronously. */
 export interface ProductStatus {
-  /** Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  creationDate?: string;
-  /** A list of all issues associated with the product. */
-  itemLevelIssues?: ItemLevelIssueList;
   /** Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  lastUpdateDate?: string;
+  lastUpdateDate?: string | undefined;
   /** The intended destinations for the product. */
-  destinationStatuses?: DestinationStatusList;
+  destinationStatuses?: DestinationStatusList | undefined;
+  /** A list of all issues associated with the product. */
+  itemLevelIssues?: ItemLevelIssueList | undefined;
+  /** Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
+  creationDate?: string | undefined;
   /** Date on which the item expires, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  googleExpirationDate?: string;
+  googleExpirationDate?: string | undefined;
 }
 /** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
 export interface CustomAttribute {
-  /** The name of the attribute. */
-  name?: string;
   /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
-  groupValues?: CustomAttributeList;
+  groupValues?: CustomAttributeList | undefined;
+  /** The name of the attribute. */
+  name?: string | undefined;
   /** The value of the attribute. If `value` is not empty, `group_values` must be empty. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CustomAttributeList = Array<CustomAttribute>;
+export type ProductChannelEnum = "CHANNEL_ENUM_UNSPECIFIED" | "ONLINE" | "LOCAL";
 /** The processed product, built from multiple product inputs after applying rules and supplemental data sources. This processed product matches what is shown in your Merchant Center account. Each product is built from exactly one primary data source product input, and multiple supplemental data source inputs. After inserting, updating, or deleting a product input, it may take several minutes before the updated processed product can be retrieved. All fields in the processed product and its sub-messages match the name of their corresponding attribute in the [Product data specification](https://support.google.com/merchants/answer/7052112) with some exceptions. */
 export interface Product {
-  /** Output only. The automated discounts information for the product. */
-  automatedDiscounts?: AutomatedDiscounts;
   /** Output only. A list of product attributes. */
-  attributes?: Attributes;
-  /** Output only. The [channel](https://support.google.com/merchants/answer/7361332) of the product. */
-  channel?: ProductChannelEnum;
-  /** Output only. The status of a product, data validation issues, that is, information about a product computed asynchronously. */
-  productStatus?: ProductStatus;
-  /** Output only. The feed label lets you categorize and identify your products. The maximum allowed characters is 20 and the supported characters are`A-Z`, `0-9`, hyphen and underscore. The feed label must not include any spaces. For more information, see [Using feed labels](//support.google.com/merchants/answer/14994087) */
-  feedLabel?: string;
-  /** Output only. The **unpadded base64url encoded name** of the product. Format: `accounts/{account}/products/{product}` where the last section `product` is the unpadded base64url encoding of the `content_language~feed_label~offer_id` name. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw` for the decoded product name `accounts/123/products/en~US~sku/123`. This field can be used directly as input to the API methods that require the product name to be encoded if it contains special characters, for example [`GetProduct`](https://developers.google.com/merchant/api/reference/rest/products_v1beta/accounts.products/get). */
-  base64EncodedName?: string;
-  /** Output only. A list of custom (merchant-provided) attributes. It can also be used to submit any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google. */
-  customAttributes?: CustomAttributeList;
+  attributes?: Attributes | undefined;
   /** Output only. The primary data source of the product. */
-  dataSource?: string;
-  /** Output only. Represents the existing version (freshness) of the product, which can be used to preserve the right order when multiple updates are done at the same time. If set, the insertion is prevented when version number is lower than the current version number of the existing product. Re-insertion (for example, product refresh after 30 days) can be performed with the current `version_number`. Only supported for insertions into primary data sources. If the operation is prevented, the aborted exception will be thrown. */
-  versionNumber?: string;
-  /** The name of the product. Format: `accounts/{account}/products/{product}` where the last section `product` consists of: `content_language~feed_label~offer_id` example for product name is `accounts/123/products/en~US~sku123`. A legacy local product name would be `accounts/123/products/local~en~US~sku123`. Note: For calls to the v1beta version, the `product` section consists of: `channel~content_language~feed_label~offer_id`, for example: `accounts/123/products/online~en~US~sku123`. */
-  name?: string;
-  /** Output only. Your unique identifier for the product. This is the same for the product input and processed product. Leading and trailing whitespaces are stripped and multiple whitespaces are replaced by a single whitespace upon submission. See the [product data specification](https://support.google.com/merchants/answer/188494#id) for details. */
-  offerId?: string;
-  /** Output only. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the product. */
-  contentLanguage?: string;
+  dataSource?: string | undefined;
   /** Output only. Determines whether the product is [archived](https://support.google.com/merchants/answer/11909930). To archive or restore your product, visit Merchant Center products page. Learn also more about [offer visibility](https://support.google.com/merchants/answer/12488713). */
-  archived?: boolean;
+  archived?: boolean | undefined;
+  /** Output only. Your unique identifier for the product. This is the same for the product input and processed product. Leading and trailing whitespaces are stripped and multiple whitespaces are replaced by a single whitespace upon submission. See the [product data specification](https://support.google.com/merchants/answer/188494#id) for details. */
+  offerId?: string | undefined;
+  /** Output only. The feed label lets you categorize and identify your products. The maximum allowed characters is 20 and the supported characters are`A-Z`, `0-9`, hyphen and underscore. The feed label must not include any spaces. For more information, see [Using feed labels](//support.google.com/merchants/answer/14994087) */
+  feedLabel?: string | undefined;
+  /** Output only. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the product. */
+  contentLanguage?: string | undefined;
+  /** The name of the product. Format: `accounts/{account}/products/{product}` where the last section `product` consists of: `content_language~feed_label~offer_id` example for product name is `accounts/123/products/en~US~sku123`. A legacy local product name would be `accounts/123/products/local~en~US~sku123`. Note: For calls to the v1beta version, the `product` section consists of: `channel~content_language~feed_label~offer_id`, for example: `accounts/123/products/online~en~US~sku123`. */
+  name?: string | undefined;
+  /** Output only. The automated discounts information for the product. */
+  automatedDiscounts?: AutomatedDiscounts | undefined;
+  /** Output only. The status of a product, data validation issues, that is, information about a product computed asynchronously. */
+  productStatus?: ProductStatus | undefined;
+  /** Output only. The **unpadded base64url encoded name** of the product. Format: `accounts/{account}/products/{product}` where the last section `product` is the unpadded base64url encoding of the `content_language~feed_label~offer_id` name. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw` for the decoded product name `accounts/123/products/en~US~sku/123`. This field can be used directly as input to the API methods that require the product name to be encoded if it contains special characters, for example [`GetProduct`](https://developers.google.com/merchant/api/reference/rest/products_v1beta/accounts.products/get). */
+  base64EncodedName?: string | undefined;
+  /** Output only. A list of custom (merchant-provided) attributes. It can also be used to submit any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as additional attributes used for Buy on Google. */
+  customAttributes?: CustomAttributeList | undefined;
+  /** Output only. The [channel](https://support.google.com/merchants/answer/7361332) of the product. */
+  channel?: ProductChannelEnum | undefined;
+  /** Output only. Represents the existing version (freshness) of the product, which can be used to preserve the right order when multiple updates are done at the same time. If set, the insertion is prevented when version number is lower than the current version number of the existing product. Re-insertion (for example, product refresh after 30 days) can be performed with the current `version_number`. Only supported for insertions into primary data sources. If the operation is prevented, the aborted exception will be thrown. */
+  versionNumber?: string | undefined;
 }
 export type ProductInputChannelEnum = "CHANNEL_ENUM_UNSPECIFIED" | "ONLINE" | "LOCAL";
 /** This resource represents input data you submit for a product, not the processed product that you see in Merchant Center, in Shopping ads, or across Google surfaces. Product inputs, rules and supplemental data source data are combined to create the processed Product. For more information, see [Manage products](/merchant/api/guides/products/overview). Required product input attributes to pass data validation checks are primarily defined in the [Products Data Specification](https://support.google.com/merchants/answer/188494). The following attributes are required: feedLabel, contentLanguage and offerId. After inserting, updating, or deleting a product input, it may take several minutes before the processed product can be retrieved. All fields in the product input and its sub-messages match the English name of their corresponding attribute in the [Products Data Specification](https://support.google.com/merchants/answer/188494) with [some exceptions](https://support.google.com/merchants/answer/7052112). The following reference documentation lists the field names in the **camelCase** casing style while the Products Data Specification lists the names in the **snake_case** casing style. */
 export interface ProductInput {
-  /** Optional. A list of product attributes. */
-  attributes?: Attributes;
-  /** Required. Immutable. The feed label that lets you categorize and identify your products. The maximum allowed characters are 20, and the supported characters are `A-Z`, `0-9`, hyphen, and underscore. The feed label must not include any spaces. For more information, see [Using feed labels](//support.google.com/merchants/answer/14994087). */
-  feedLabel?: string;
-  /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set per product, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
-  customAttributes?: CustomAttributeList;
-  /** Output only. The **unpadded base64url encoded name** of the product input. Format: `accounts/{account}/productInputs/{productinput}` where the last section `productinput` is the unpadded base64url encoding of the `content_language~feed_label~offer_id` name. Example: `accounts/123/productInputs/ZW5-VVN-c2t1LzEyMw` for the decoded product input name `accounts/123/productInputs/en~US~sku/123`. This field can be used directly as input to the API methods that require the product input name to be encoded if it contains special characters, for example [`GetProductInput`](https://developers.google.com/merchant/api/reference/rest/products_v1beta/accounts.productInputs/get). */
-  base64EncodedName?: string;
-  /** Required. Immutable. Your unique identifier for the product. This is the same for the product input and processed product. Leading and trailing whitespaces are stripped and multiple whitespaces are replaced by a single whitespace upon submission. See the [products data specification](https://support.google.com/merchants/answer/188494#id) for details. */
-  offerId?: string;
-  /** Output only. The name of the processed product. Format: `accounts/{account}/products/{product}` */
-  product?: string;
   /** Output only. The **unpadded base64url encoded name** of the processed product. Format: `accounts/{account}/products/{product}` where the last section `product` is the unpadded base64url encoding of the `content_language~feed_label~offer_id` name. Example: `accounts/123/products/ZW5-VVN-c2t1LzEyMw` for the decoded product name `accounts/123/products/en~US~sku/123`. This field can be used directly as input to the API methods that require the product name to be encoded if it contains special characters, for example [`GetProduct`](https://developers.google.com/merchant/api/reference/rest/products_v1beta/accounts.products/get). */
-  base64EncodedProduct?: string;
+  base64EncodedProduct?: string | undefined;
+  /** Optional. A list of product attributes. */
+  attributes?: Attributes | undefined;
   /** Required. Immutable. The two-letter [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1) language code for the product. */
-  contentLanguage?: string;
+  contentLanguage?: string | undefined;
   /** Optional. Immutable. Represents the existing version (freshness) of the product, which can be used to preserve the right order when multiple updates are done at the same time. If set, the insertion is prevented when version number is lower than the current version number of the existing product. Re-insertion (for example, product refresh after 30 days) can be performed with the current `version_number`. Only supported for insertions into primary data sources. Do not set this field for updates. Do not set this field for insertions into supplemental data sources. If the operation is prevented, the aborted exception will be thrown. */
-  versionNumber?: string;
+  versionNumber?: string | undefined;
+  /** Required. Immutable. The feed label that lets you categorize and identify your products. The maximum allowed characters are 20, and the supported characters are `A-Z`, `0-9`, hyphen, and underscore. The feed label must not include any spaces. For more information, see [Using feed labels](//support.google.com/merchants/answer/14994087). */
+  feedLabel?: string | undefined;
+  /** Required. Immutable. Your unique identifier for the product. This is the same for the product input and processed product. Leading and trailing whitespaces are stripped and multiple whitespaces are replaced by a single whitespace upon submission. See the [products data specification](https://support.google.com/merchants/answer/188494#id) for details. */
+  offerId?: string | undefined;
+  /** Output only. The name of the processed product. Format: `accounts/{account}/products/{product}` */
+  product?: string | undefined;
   /** Immutable. The [channel](https://support.google.com/merchants/answer/7361332) of the product. */
-  channel?: ProductInputChannelEnum | (string & {});
+  channel?: ProductInputChannelEnum | (string & {}) | undefined;
+  /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set per product, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
+  customAttributes?: CustomAttributeList | undefined;
   /** Identifier. The name of the product. Format: `accounts/{account}/productInputs/{productinput}` The {productinput} segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the {productinput} segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{productinput}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{productinput}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/productInputs/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{productinput}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{productinput}` segment is used to differentiate between the two formats. */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. The **unpadded base64url encoded name** of the product input. Format: `accounts/{account}/productInputs/{productinput}` where the last section `productinput` is the unpadded base64url encoding of the `content_language~feed_label~offer_id` name. Example: `accounts/123/productInputs/ZW5-VVN-c2t1LzEyMw` for the decoded product input name `accounts/123/productInputs/en~US~sku/123`. This field can be used directly as input to the API methods that require the product input name to be encoded if it contains special characters, for example [`GetProductInput`](https://developers.google.com/merchant/api/reference/rest/products_v1beta/accounts.productInputs/get). */
+  base64EncodedName?: string | undefined;
 }
 export interface InsertAccountsProductInputsRequest {
   /** Required. The account where this product will be inserted. Format: `accounts/{account}` */
   parent: string;
   /** Required. The primary or supplemental product data source name. If the product already exists and data source provided is different, then the product will be moved to a new data source. For more information, see [Create a primary data source](/merchant/api/guides/data-sources/api-sources#create-primary-data-source). Only API data sources are supported. Format: `accounts/{account}/dataSources/{datasource}`. For example, `accounts/123456/dataSources/104628`. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Request body */
-  body?: ProductInput;
+  body?: ProductInput | undefined;
 }
 export interface ListAccountsProductsRequest {
   /** Required. The account to list processed products for. Format: `accounts/{account}` */
   parent: string;
-  /** The maximum number of products to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified, the default page size of 25 products will be returned. */
-  pageSize?: number;
   /** A page token, received from a previous `ListProducts` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProducts` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The maximum number of products to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified, the default page size of 25 products will be returned. */
+  pageSize?: number | undefined;
 }
 export type ProductList = Array<Product>;
 /** Response message for the ListProducts method. */
 export interface ListProductsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The processed products from the specified account. These are your processed products after applying rules and supplemental data sources. */
-  products?: ProductList;
+  products?: ProductList | undefined;
 }
 export interface PatchAccountsProductInputsRequest {
   /** Optional. The list of product attributes to be updated. If the update mask is omitted, then it is treated as implied field mask equivalent to all fields that are populated (have a non-empty value). Attributes specified in the update mask without a value specified in the body will be deleted from the product. Update mask can only be specified for top level fields in attributes and custom attributes. To specify the update mask for custom attributes you need to add the `custom_attribute.` prefix. Providing special "*" value for full product replacement is not supported. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The name of the product. Format: `accounts/{account}/productInputs/{productinput}` The {productinput} segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the {productinput} segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{productinput}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{productinput}` segment must be the unpadded base64url encoding of this string, which is `ZW5-VVN-c2t1LzEyMw`. The full resource name for the product would be `accounts/123/productInputs/ZW5-VVN-c2t1LzEyMw`. 2. **Plain Format**: The `{productinput}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{productinput}` segment is used to differentiate between the two formats. */
   name: string;
   /** Required. The primary or supplemental product data source where `data_source` name identifies the product input to be updated. Only API data sources are supported. Format: `accounts/{account}/dataSources/{datasource}`. For example, `accounts/123456/dataSources/104628`. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Request body */
-  body?: ProductInput;
+  body?: ProductInput | undefined;
 }
 export type DeleteAccountsProductInputsError =
   | NotFound
@@ -878,292 +878,292 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          value: S.optional(S.Number),
+          unit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProductDimension" });
+    case 1:
+      return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           amountMicros: S.optional(S.String),
           currencyCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Price" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          unit: S.optional(S.String),
-          value: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ProductDimension" });
-    case 2:
-      return S.Array(S.String);
     case 3:
-      return S.Array(S.Number);
+      return S.suspend(() =>
+        S.Struct({
+          country: S.optional(S.String),
+          priceThreshold: S.optional(__S(66, __c2, 2)),
+        }),
+      ).annotate({ identifier: "FreeShippingThreshold" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          floatValue: S.optional(__S(67, __c2, 3)),
-          textValue: S.optional(__S(66, __c2, 2)),
-          minValue: S.optional(S.Number),
-          intValue: S.optional(__S(66, __c2, 2)),
-          unitCode: S.optional(S.String),
-          boolValue: S.optional(S.Boolean),
-          maxValue: S.optional(S.Number),
-          propertyName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloudExportAdditionalProperties" });
+      return S.Array(__S(67, __c2, 3));
     case 5:
-      return S.Array(__S(68, __c2, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.Number),
-          unit: S.optional(S.String),
+          country: S.optional(S.String),
+          taxShip: S.optional(S.Boolean),
+          locationId: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          region: S.optional(S.String),
+          rate: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ShippingWeight" });
+      ).annotate({ identifier: "Tax" });
+    case 6:
+      return S.Array(__S(69, __c2, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          period: S.optional(S.String),
-          periodLength: S.optional(S.String),
-          amount: S.optional(__S(64, __c2, 0)),
+          digitalSourceType: S.optional(S.String),
+          content: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SubscriptionCost" });
+      ).annotate({ identifier: "ProductStructuredTitle" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          loyaltyProgramLabel: S.optional(S.String),
-          region: S.optional(S.String),
-          price: S.optional(__S(64, __c2, 0)),
-          handlingCutoffTimezone: S.optional(S.String),
-          postalCode: S.optional(S.String),
-          minTransitTime: S.optional(S.String),
-          loyaltyTierLabel: S.optional(S.String),
-          locationGroupName: S.optional(S.String),
-          handlingCutoffTime: S.optional(S.String),
-          minHandlingTime: S.optional(S.String),
-          locationId: S.optional(S.String),
-          service: S.optional(S.String),
-          maxTransitTime: S.optional(S.String),
-          maxHandlingTime: S.optional(S.String),
-          country: S.optional(S.String),
+          amount: S.optional(__S(66, __c2, 2)),
+          percentage: S.optional(S.Number),
+          type: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Shipping" });
+      ).annotate({ identifier: "ProductSustainabilityIncentive" });
     case 9:
       return S.Array(__S(72, __c2, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
+          unit: S.optional(S.String),
+          value: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Interval" });
+      ).annotate({ identifier: "UnitPricingMeasure" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          unit: S.optional(S.String),
-          value: S.optional(S.String),
+          certificationAuthority: S.optional(S.String),
+          certificationName: S.optional(S.String),
+          certificationCode: S.optional(S.String),
+          certificationLabelLink: S.optional(S.String),
+          certificationDocumentLink: S.optional(S.String),
+          certificationValue: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UnitPricingBaseMeasure" });
+      ).annotate({ identifier: "Certification" });
     case 12:
-      return S.suspend(() =>
-        S.Struct({
-          percentage: S.optional(S.Number),
-          type: S.optional(S.String),
-          amount: S.optional(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "ProductSustainabilityIncentive" });
+      return S.Array(__S(75, __c2, 11));
     case 13:
-      return S.Array(__S(76, __c2, 12));
+      return S.Array(S.Number);
     case 14:
       return S.suspend(() =>
         S.Struct({
-          digitalSourceType: S.optional(S.String),
-          content: S.optional(S.String),
+          textValue: S.optional(__S(65, __c2, 1)),
+          boolValue: S.optional(S.Boolean),
+          minValue: S.optional(S.Number),
+          propertyName: S.optional(S.String),
+          floatValue: S.optional(__S(77, __c2, 13)),
+          maxValue: S.optional(S.Number),
+          intValue: S.optional(__S(65, __c2, 1)),
+          unitCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ProductStructuredDescription" });
+      ).annotate({ identifier: "CloudExportAdditionalProperties" });
     case 15:
-      return S.suspend(() =>
-        S.Struct({
-          downpayment: S.optional(__S(64, __c2, 0)),
-          amount: S.optional(__S(64, __c2, 0)),
-          months: S.optional(S.String),
-          creditType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Installment" });
+      return S.Array(__S(78, __c2, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          attributeValue: S.optional(S.String),
-          attributeName: S.optional(S.String),
-          sectionName: S.optional(S.String),
+          service: S.optional(S.String),
+          handlingCutoffTime: S.optional(S.String),
+          locationId: S.optional(S.String),
+          country: S.optional(S.String),
+          region: S.optional(S.String),
+          loyaltyProgramLabel: S.optional(S.String),
+          price: S.optional(__S(66, __c2, 2)),
+          minHandlingTime: S.optional(S.String),
+          handlingCutoffTimezone: S.optional(S.String),
+          maxTransitTime: S.optional(S.String),
+          maxHandlingTime: S.optional(S.String),
+          minTransitTime: S.optional(S.String),
+          postalCode: S.optional(S.String),
+          loyaltyTierLabel: S.optional(S.String),
+          locationGroupName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ProductDetail" });
+      ).annotate({ identifier: "Shipping" });
     case 17:
       return S.Array(__S(80, __c2, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
-          shippingLabel: S.optional(S.String),
-          memberPriceEffectiveDate: S.optional(__S(74, __c2, 10)),
-          loyaltyPoints: S.optional(S.String),
-          tierLabel: S.optional(S.String),
-          programLabel: S.optional(S.String),
-          cashbackForFutureUse: S.optional(__S(64, __c2, 0)),
-          price: S.optional(__S(64, __c2, 0)),
+          period: S.optional(S.String),
+          periodLength: S.optional(S.String),
+          amount: S.optional(__S(66, __c2, 2)),
         }),
-      ).annotate({ identifier: "LoyaltyProgram" });
+      ).annotate({ identifier: "SubscriptionCost" });
     case 19:
-      return S.Array(__S(82, __c2, 18));
+      return S.suspend(() =>
+        S.Struct({
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Interval" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          tierLabel: S.optional(S.String),
+          price: S.optional(__S(66, __c2, 2)),
+          cashbackForFutureUse: S.optional(__S(66, __c2, 2)),
+          loyaltyPoints: S.optional(S.String),
+          memberPriceEffectiveDate: S.optional(__S(83, __c2, 19)),
+          programLabel: S.optional(S.String),
+          shippingLabel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LoyaltyProgram" });
+    case 21:
+      return S.Array(__S(84, __c2, 20));
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
           pointsValue: S.optional(S.String),
+          name: S.optional(S.String),
           ratio: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LoyaltyPoints" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          certificationAuthority: S.optional(S.String),
-          certificationValue: S.optional(S.String),
-          certificationDocumentLink: S.optional(S.String),
-          certificationCode: S.optional(S.String),
-          certificationLabelLink: S.optional(S.String),
-          certificationName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Certification" });
-    case 22:
-      return S.Array(__S(85, __c2, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          locationId: S.optional(S.String),
-          postalCode: S.optional(S.String),
-          taxShip: S.optional(S.Boolean),
-          country: S.optional(S.String),
-          rate: S.optional(S.Number),
-          region: S.optional(S.String),
+          value: S.optional(S.String),
+          unit: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Tax" });
+      ).annotate({ identifier: "UnitPricingBaseMeasure" });
     case 24:
-      return S.Array(__S(87, __c2, 23));
+      return S.suspend(() =>
+        S.Struct({
+          attributeName: S.optional(S.String),
+          attributeValue: S.optional(S.String),
+          sectionName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProductDetail" });
     case 25:
+      return S.Array(__S(88, __c2, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           content: S.optional(S.String),
           digitalSourceType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ProductStructuredTitle" });
-    case 26:
+      ).annotate({ identifier: "ProductStructuredDescription" });
+    case 27:
       return S.suspend(() =>
         S.Struct({
-          priceThreshold: S.optional(__S(64, __c2, 0)),
-          country: S.optional(S.String),
+          months: S.optional(S.String),
+          amount: S.optional(__S(66, __c2, 2)),
+          downpayment: S.optional(__S(66, __c2, 2)),
+          creditType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "FreeShippingThreshold" });
-    case 27:
-      return S.Array(__S(90, __c2, 26));
+      ).annotate({ identifier: "Installment" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          productWidth: S.optional(__S(65, __c2, 1)),
-          ageGroup: S.optional(S.String),
-          additionalImageLinks: S.optional(__S(66, __c2, 2)),
-          cloudExportAdditionalProperties: S.optional(__S(69, __c2, 5)),
-          shippingWeight: S.optional(__S(70, __c2, 6)),
-          minEnergyEfficiencyClass: S.optional(S.String),
-          brand: S.optional(S.String),
-          expirationDate: S.optional(S.String),
-          size: S.optional(S.String),
-          unitPricingMeasure: S.optional(__S(70, __c2, 6)),
-          adsRedirect: S.optional(S.String),
-          subscriptionCost: S.optional(__S(71, __c2, 7)),
-          shipping: S.optional(__S(73, __c2, 9)),
-          excludedDestinations: S.optional(__S(66, __c2, 2)),
-          autoPricingMinPrice: S.optional(__S(64, __c2, 0)),
-          material: S.optional(S.String),
-          productHighlights: S.optional(__S(66, __c2, 2)),
-          sellOnGoogleQuantity: S.optional(S.String),
-          canonicalLink: S.optional(S.String),
-          color: S.optional(S.String),
-          productTypes: S.optional(__S(66, __c2, 2)),
-          maxHandlingTime: S.optional(S.String),
-          gtins: S.optional(__S(66, __c2, 2)),
-          itemGroupId: S.optional(S.String),
-          transitTimeLabel: S.optional(S.String),
-          salePriceEffectiveDate: S.optional(__S(74, __c2, 10)),
-          unitPricingBaseMeasure: S.optional(__S(75, __c2, 11)),
-          gender: S.optional(S.String),
-          maximumRetailPrice: S.optional(__S(64, __c2, 0)),
-          mpn: S.optional(S.String),
-          taxCategory: S.optional(S.String),
-          disclosureDate: S.optional(S.String),
-          adsGrouping: S.optional(S.String),
-          multipack: S.optional(S.String),
-          displayAdsLink: S.optional(S.String),
-          customLabel2: S.optional(S.String),
-          salePrice: S.optional(__S(64, __c2, 0)),
-          virtualModelLink: S.optional(S.String),
-          minHandlingTime: S.optional(S.String),
-          customLabel3: S.optional(S.String),
+          productWidth: S.optional(__S(64, __c2, 0)),
           linkTemplate: S.optional(S.String),
-          sustainabilityIncentives: S.optional(__S(77, __c2, 13)),
-          structuredDescription: S.optional(__S(78, __c2, 14)),
-          mobileLinkTemplate: S.optional(S.String),
-          pattern: S.optional(S.String),
-          installment: S.optional(__S(79, __c2, 15)),
-          pause: S.optional(S.String),
-          identifierExists: S.optional(S.Boolean),
-          productDetails: S.optional(__S(81, __c2, 17)),
-          energyEfficiencyClass: S.optional(S.String),
-          productWeight: S.optional(__S(65, __c2, 1)),
-          title: S.optional(S.String),
+          disclosureDate: S.optional(S.String),
+          minEnergyEfficiencyClass: S.optional(S.String),
+          excludedDestinations: S.optional(__S(65, __c2, 1)),
           adult: S.optional(S.Boolean),
-          displayAdsId: S.optional(S.String),
-          promotionIds: S.optional(__S(66, __c2, 2)),
-          loyaltyPrograms: S.optional(__S(83, __c2, 19)),
-          customLabel4: S.optional(S.String),
-          loyaltyPoints: S.optional(__S(84, __c2, 20)),
-          description: S.optional(S.String),
-          isBundle: S.optional(S.Boolean),
-          displayAdsSimilarIds: S.optional(__S(66, __c2, 2)),
-          sizeTypes: S.optional(__S(66, __c2, 2)),
-          shippingWidth: S.optional(__S(65, __c2, 1)),
-          sizeSystem: S.optional(S.String),
-          maxEnergyEfficiencyClass: S.optional(S.String),
-          mobileLink: S.optional(S.String),
-          gtin: S.optional(__S(66, __c2, 2)),
-          certifications: S.optional(__S(86, __c2, 22)),
-          condition: S.optional(S.String),
-          shippingHeight: S.optional(__S(65, __c2, 1)),
-          shippingLabel: S.optional(S.String),
-          googleProductCategory: S.optional(S.String),
-          lifestyleImageLinks: S.optional(__S(66, __c2, 2)),
-          link: S.optional(S.String),
-          availabilityDate: S.optional(S.String),
-          customLabel0: S.optional(S.String),
-          price: S.optional(__S(64, __c2, 0)),
-          taxes: S.optional(__S(88, __c2, 24)),
-          structuredTitle: S.optional(__S(89, __c2, 25)),
-          availability: S.optional(S.String),
-          externalSellerId: S.optional(S.String),
-          shoppingAdsExcludedCountries: S.optional(__S(66, __c2, 2)),
-          productLength: S.optional(__S(65, __c2, 1)),
-          displayAdsTitle: S.optional(S.String),
-          freeShippingThreshold: S.optional(__S(91, __c2, 27)),
-          costOfGoodsSold: S.optional(__S(64, __c2, 0)),
+          price: S.optional(__S(66, __c2, 2)),
+          canonicalLink: S.optional(S.String),
           pickupSla: S.optional(S.String),
+          condition: S.optional(S.String),
+          freeShippingThreshold: S.optional(__S(68, __c2, 4)),
+          taxes: S.optional(__S(70, __c2, 6)),
+          structuredTitle: S.optional(__S(71, __c2, 7)),
+          displayAdsTitle: S.optional(S.String),
+          title: S.optional(S.String),
+          transitTimeLabel: S.optional(S.String),
+          salePrice: S.optional(__S(66, __c2, 2)),
+          sustainabilityIncentives: S.optional(__S(73, __c2, 9)),
+          energyEfficiencyClass: S.optional(S.String),
           pickupMethod: S.optional(S.String),
-          displayAdsValue: S.optional(S.Number),
+          gtins: S.optional(__S(65, __c2, 1)),
+          mpn: S.optional(S.String),
           imageLink: S.optional(S.String),
-          shippingLength: S.optional(__S(65, __c2, 1)),
-          productHeight: S.optional(__S(65, __c2, 1)),
-          includedDestinations: S.optional(__S(66, __c2, 2)),
+          taxCategory: S.optional(S.String),
+          displayAdsLink: S.optional(S.String),
+          ageGroup: S.optional(S.String),
+          isBundle: S.optional(S.Boolean),
+          unitPricingMeasure: S.optional(__S(74, __c2, 10)),
+          color: S.optional(S.String),
+          availability: S.optional(S.String),
+          sizeSystem: S.optional(S.String),
+          pattern: S.optional(S.String),
+          size: S.optional(S.String),
+          expirationDate: S.optional(S.String),
+          sellOnGoogleQuantity: S.optional(S.String),
+          pause: S.optional(S.String),
+          productHeight: S.optional(__S(64, __c2, 0)),
+          productWeight: S.optional(__S(64, __c2, 0)),
+          certifications: S.optional(__S(76, __c2, 12)),
+          shoppingAdsExcludedCountries: S.optional(__S(65, __c2, 1)),
+          cloudExportAdditionalProperties: S.optional(__S(79, __c2, 15)),
+          promotionIds: S.optional(__S(65, __c2, 1)),
+          shippingHeight: S.optional(__S(74, __c2, 10)),
+          shippingWidth: S.optional(__S(74, __c2, 10)),
+          shipping: S.optional(__S(81, __c2, 17)),
           customLabel1: S.optional(S.String),
-          adsLabels: S.optional(__S(66, __c2, 2)),
+          adsGrouping: S.optional(S.String),
+          itemGroupId: S.optional(S.String),
+          autoPricingMinPrice: S.optional(__S(66, __c2, 2)),
+          googleProductCategory: S.optional(S.String),
+          maxEnergyEfficiencyClass: S.optional(S.String),
+          customLabel2: S.optional(S.String),
+          subscriptionCost: S.optional(__S(82, __c2, 18)),
+          displayAdsValue: S.optional(S.Number),
+          link: S.optional(S.String),
+          loyaltyPrograms: S.optional(__S(85, __c2, 21)),
+          maxHandlingTime: S.optional(S.String),
+          costOfGoodsSold: S.optional(__S(66, __c2, 2)),
+          loyaltyPoints: S.optional(__S(86, __c2, 22)),
+          sizeTypes: S.optional(__S(65, __c2, 1)),
+          mobileLink: S.optional(S.String),
+          availabilityDate: S.optional(S.String),
+          minHandlingTime: S.optional(S.String),
+          salePriceEffectiveDate: S.optional(__S(83, __c2, 19)),
+          maximumRetailPrice: S.optional(__S(66, __c2, 2)),
+          adsRedirect: S.optional(S.String),
+          shippingLength: S.optional(__S(74, __c2, 10)),
+          customLabel0: S.optional(S.String),
+          externalSellerId: S.optional(S.String),
+          unitPricingBaseMeasure: S.optional(__S(87, __c2, 23)),
+          customLabel4: S.optional(S.String),
+          productDetails: S.optional(__S(89, __c2, 25)),
+          brand: S.optional(S.String),
+          productLength: S.optional(__S(64, __c2, 0)),
+          shippingLabel: S.optional(S.String),
+          includedDestinations: S.optional(__S(65, __c2, 1)),
+          productHighlights: S.optional(__S(65, __c2, 1)),
+          structuredDescription: S.optional(__S(90, __c2, 26)),
+          identifierExists: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          gtin: S.optional(__S(65, __c2, 1)),
+          mobileLinkTemplate: S.optional(S.String),
+          virtualModelLink: S.optional(S.String),
+          installment: S.optional(__S(91, __c2, 27)),
+          productTypes: S.optional(__S(65, __c2, 1)),
+          adsLabels: S.optional(__S(65, __c2, 1)),
+          lifestyleImageLinks: S.optional(__S(65, __c2, 1)),
+          multipack: S.optional(S.String),
+          customLabel3: S.optional(S.String),
+          material: S.optional(S.String),
+          displayAdsId: S.optional(S.String),
+          shippingWeight: S.optional(__S(74, __c2, 10)),
+          displayAdsSimilarIds: S.optional(__S(65, __c2, 1)),
+          additionalImageLinks: S.optional(__S(65, __c2, 1)),
+          gender: S.optional(S.String),
         }),
       ).annotate({ identifier: "Attributes" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           groupValues: S.optional(S.suspend(() => __S(94, __c2, 30))),
+          name: S.optional(S.String),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomAttribute" });
@@ -1176,64 +1176,64 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          priorPriceProgressive: S.optional(__S(64, __c2, 0)),
-          gadPrice: S.optional(__S(64, __c2, 0)),
-          priorPrice: S.optional(__S(64, __c2, 0)),
+          priorPrice: S.optional(__S(66, __c2, 2)),
+          gadPrice: S.optional(__S(66, __c2, 2)),
+          priorPriceProgressive: S.optional(__S(66, __c2, 2)),
         }),
       ).annotate({ identifier: "AutomatedDiscounts" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          severity: S.optional(S.String),
-          applicableCountries: S.optional(__S(66, __c2, 2)),
-          detail: S.optional(S.String),
-          documentation: S.optional(S.String),
+          pendingCountries: S.optional(__S(65, __c2, 1)),
+          approvedCountries: S.optional(__S(65, __c2, 1)),
           reportingContext: S.optional(S.String),
-          resolution: S.optional(S.String),
-          attribute: S.optional(S.String),
-          code: S.optional(S.String),
+          disapprovedCountries: S.optional(__S(65, __c2, 1)),
         }),
-      ).annotate({ identifier: "ItemLevelIssue" });
+      ).annotate({ identifier: "DestinationStatus" });
     case 2:
       return S.Array(__S(97, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
+          attribute: S.optional(S.String),
           reportingContext: S.optional(S.String),
-          disapprovedCountries: S.optional(__S(66, __c2, 2)),
-          approvedCountries: S.optional(__S(66, __c2, 2)),
-          pendingCountries: S.optional(__S(66, __c2, 2)),
+          detail: S.optional(S.String),
+          documentation: S.optional(S.String),
+          resolution: S.optional(S.String),
+          applicableCountries: S.optional(__S(65, __c2, 1)),
+          description: S.optional(S.String),
+          code: S.optional(S.String),
+          severity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DestinationStatus" });
+      ).annotate({ identifier: "ItemLevelIssue" });
     case 4:
       return S.Array(__S(99, __c3, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          creationDate: S.optional(S.String),
-          itemLevelIssues: S.optional(__S(98, __c3, 2)),
           lastUpdateDate: S.optional(S.String),
-          destinationStatuses: S.optional(__S(100, __c3, 4)),
+          destinationStatuses: S.optional(__S(98, __c3, 2)),
+          itemLevelIssues: S.optional(__S(100, __c3, 4)),
+          creationDate: S.optional(S.String),
           googleExpirationDate: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductStatus" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          automatedDiscounts: S.optional(__S(96, __c3, 0)),
           attributes: S.optional(__S(92, __c2, 28)),
-          channel: S.optional(S.String),
-          productStatus: S.optional(__S(101, __c3, 5)),
+          dataSource: S.optional(S.String),
+          archived: S.optional(S.Boolean),
+          offerId: S.optional(S.String),
           feedLabel: S.optional(S.String),
+          contentLanguage: S.optional(S.String),
+          name: S.optional(S.String),
+          automatedDiscounts: S.optional(__S(96, __c3, 0)),
+          productStatus: S.optional(__S(101, __c3, 5)),
           base64EncodedName: S.optional(S.String),
           customAttributes: S.optional(__S(94, __c2, 30)),
-          dataSource: S.optional(S.String),
+          channel: S.optional(S.String),
           versionNumber: S.optional(S.String),
-          name: S.optional(S.String),
-          offerId: S.optional(S.String),
-          contentLanguage: S.optional(S.String),
-          archived: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Product" });
   }
@@ -1261,17 +1261,17 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(92, __c2, 28)),
-          feedLabel: S.optional(S.String),
-          customAttributes: S.optional(__S(94, __c2, 30)),
-          base64EncodedName: S.optional(S.String),
-          offerId: S.optional(S.String),
-          product: S.optional(S.String),
           base64EncodedProduct: S.optional(S.String),
+          attributes: S.optional(__S(92, __c2, 28)),
           contentLanguage: S.optional(S.String),
           versionNumber: S.optional(S.String),
+          feedLabel: S.optional(S.String),
+          offerId: S.optional(S.String),
+          product: S.optional(S.String),
           channel: S.optional(S.String),
+          customAttributes: S.optional(__S(94, __c2, 30)),
           name: S.optional(S.String),
+          base64EncodedName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductInput" });
   }
@@ -1282,8 +1282,8 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

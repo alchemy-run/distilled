@@ -50,13 +50,13 @@ export type CreateRunnerRequestTagsList = Array<string>;
 export type CreateRunnerSandboxClass = "container" | "linux-vm" | "windows";
 export interface CreateRunnerRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   regionId: string;
   name: string;
   /** Tags to associate with the runner */
-  tags?: CreateRunnerRequestTagsList;
+  tags?: CreateRunnerRequestTagsList | undefined;
   /** The sandbox class supported by the runner. Defaults to container when omitted or null. */
-  sandboxClass?: CreateRunnerSandboxClass | (string & {}) | null;
+  sandboxClass?: CreateRunnerSandboxClass | (string & {}) | null | undefined;
 }
 export interface CreateRunnerResponse {
   /** The ID of the runner */
@@ -68,9 +68,9 @@ export interface DeleteRunnerRequest {
   /** Runner ID */
   id: string;
   /** Delete the runner without waiting for sandboxes already marked for destruction. Requires the runner to have stopped reporting as ready. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteRunnerResponse {}
 export interface GetInfoForAuthenticatedRunnerRequest {}
@@ -87,11 +87,11 @@ export interface RunnerFull {
   /** The ID of the runner */
   id: string;
   /** The domain of the runner */
-  domain?: string;
+  domain?: string | undefined;
   /** The API URL of the runner */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** The proxy URL of the runner */
-  proxyUrl?: string;
+  proxyUrl?: string | undefined;
   /** The CPU capacity of the runner */
   cpu: number;
   /** The memory capacity of the runner in GiB */
@@ -99,29 +99,29 @@ export interface RunnerFull {
   /** The disk capacity of the runner in GiB */
   disk: number;
   /** The GPU capacity of the runner */
-  gpu?: number;
+  gpu?: number | undefined;
   /** The type of GPU */
-  gpuType?: string;
+  gpuType?: string | undefined;
   /** The sandbox class supported by this runner */
-  sandboxClass?: SandboxClass;
+  sandboxClass?: SandboxClass | undefined;
   /** Current CPU usage percentage */
-  currentCpuUsagePercentage?: number;
+  currentCpuUsagePercentage?: number | undefined;
   /** Current RAM usage percentage */
-  currentMemoryUsagePercentage?: number;
+  currentMemoryUsagePercentage?: number | undefined;
   /** Current disk usage percentage */
-  currentDiskUsagePercentage?: number;
+  currentDiskUsagePercentage?: number | undefined;
   /** Current allocated CPU */
-  currentAllocatedCpu?: number;
+  currentAllocatedCpu?: number | undefined;
   /** Current allocated memory in GiB */
-  currentAllocatedMemoryGiB?: number;
+  currentAllocatedMemoryGiB?: number | undefined;
   /** Current allocated disk in GiB */
-  currentAllocatedDiskGiB?: number;
+  currentAllocatedDiskGiB?: number | undefined;
   /** Current snapshot count */
-  currentSnapshotCount?: number;
+  currentSnapshotCount?: number | undefined;
   /** Current number of started sandboxes */
-  currentStartedSandboxes?: number;
+  currentStartedSandboxes?: number | undefined;
   /** Runner availability score */
-  availabilityScore?: number;
+  availabilityScore?: number | undefined;
   /** The region of the runner */
   region: string;
   /** The name of the runner */
@@ -129,7 +129,7 @@ export interface RunnerFull {
   /** The state of the runner */
   state: RunnerState;
   /** The last time the runner was checked */
-  lastChecked?: string;
+  lastChecked?: string | undefined;
   /** Whether the runner is unschedulable */
   unschedulable: boolean;
   /** Tags associated with the runner */
@@ -145,19 +145,19 @@ export interface RunnerFull {
   /** The class of the runner. Deprecated and always returns "container" for backward compatibility - use sandboxClass instead. */
   runnerClass: RunnerClass;
   /** The app version of the runner */
-  appVersion?: string;
+  appVersion?: string | undefined;
   /** Deprecated runner class property */
-  class?: string;
+  class?: string | undefined;
   /** The API key for the runner */
   apiKey: string | Redacted.Redacted<string>;
   /** The region type of the runner */
-  regionType?: RegionType;
+  regionType?: RegionType | undefined;
 }
 export interface GetRunnerRequest {
   /** Runner ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 /** Tags associated with the runner */
 export type RunnerTagsList = Array<string>;
@@ -165,11 +165,11 @@ export interface Runner {
   /** The ID of the runner */
   id: string;
   /** The domain of the runner */
-  domain?: string;
+  domain?: string | undefined;
   /** The API URL of the runner */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** The proxy URL of the runner */
-  proxyUrl?: string;
+  proxyUrl?: string | undefined;
   /** The CPU capacity of the runner */
   cpu: number;
   /** The memory capacity of the runner in GiB */
@@ -177,29 +177,29 @@ export interface Runner {
   /** The disk capacity of the runner in GiB */
   disk: number;
   /** The GPU capacity of the runner */
-  gpu?: number;
+  gpu?: number | undefined;
   /** The type of GPU */
-  gpuType?: string;
+  gpuType?: string | undefined;
   /** The sandbox class supported by this runner */
-  sandboxClass?: SandboxClass;
+  sandboxClass?: SandboxClass | undefined;
   /** Current CPU usage percentage */
-  currentCpuUsagePercentage?: number;
+  currentCpuUsagePercentage?: number | undefined;
   /** Current RAM usage percentage */
-  currentMemoryUsagePercentage?: number;
+  currentMemoryUsagePercentage?: number | undefined;
   /** Current disk usage percentage */
-  currentDiskUsagePercentage?: number;
+  currentDiskUsagePercentage?: number | undefined;
   /** Current allocated CPU */
-  currentAllocatedCpu?: number;
+  currentAllocatedCpu?: number | undefined;
   /** Current allocated memory in GiB */
-  currentAllocatedMemoryGiB?: number;
+  currentAllocatedMemoryGiB?: number | undefined;
   /** Current allocated disk in GiB */
-  currentAllocatedDiskGiB?: number;
+  currentAllocatedDiskGiB?: number | undefined;
   /** Current snapshot count */
-  currentSnapshotCount?: number;
+  currentSnapshotCount?: number | undefined;
   /** Current number of started sandboxes */
-  currentStartedSandboxes?: number;
+  currentStartedSandboxes?: number | undefined;
   /** Runner availability score */
-  availabilityScore?: number;
+  availabilityScore?: number | undefined;
   /** The region of the runner */
   region: string;
   /** The name of the runner */
@@ -207,7 +207,7 @@ export interface Runner {
   /** The state of the runner */
   state: RunnerState;
   /** The last time the runner was checked */
-  lastChecked?: string;
+  lastChecked?: string | undefined;
   /** Whether the runner is unschedulable */
   unschedulable: boolean;
   /** Tags associated with the runner */
@@ -223,11 +223,11 @@ export interface Runner {
   /** The class of the runner. Deprecated and always returns "container" for backward compatibility - use sandboxClass instead. */
   runnerClass: RunnerClass;
   /** The app version of the runner */
-  appVersion?: string;
+  appVersion?: string | undefined;
   /** Deprecated runner class property */
-  class?: string;
+  class?: string | undefined;
   /** Whether the runner is draining. */
-  draining?: boolean;
+  draining?: boolean | undefined;
 }
 export interface GetRunnerBySandboxIdRequest {
   sandboxId: string;
@@ -246,7 +246,7 @@ export interface RunnerSnapshotDto {
   /** Runner ID */
   runnerId: string;
   /** Runner domain */
-  runnerDomain?: string;
+  runnerDomain?: string | undefined;
 }
 export type GetRunnersBySnapshotRefResponseBodyList = Array<RunnerSnapshotDto>;
 export type GetRunnersBySnapshotRefResponse = GetRunnersBySnapshotRefResponseBodyList;
@@ -256,9 +256,9 @@ export type GetSnapshotRefsForAuthenticatedRunnerResponse =
   GetSnapshotRefsForAuthenticatedRunnerResponseBodyList;
 export interface ListRunnersRequest {
   /** Filter runners by region ID */
-  regionId?: string;
+  regionId?: string | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListRunnersResponseBodyList = Array<Runner>;
 export type ListRunnersResponse = ListRunnersResponseBodyList;
@@ -288,9 +288,9 @@ export interface RunnerHealthMetrics {
   /** Total disk space in GiB on the runner */
   diskGiB: number;
   /** Total number of GPUs on the runner */
-  gpu?: number;
+  gpu?: number | undefined;
   /** GPU model name */
-  gpuType?: string;
+  gpuType?: string | undefined;
 }
 export interface RunnerServiceHealth {
   /** Name of the service being checked */
@@ -298,21 +298,21 @@ export interface RunnerServiceHealth {
   /** Whether the service is healthy */
   healthy: boolean;
   /** Error reason if the service is unhealthy */
-  errorReason?: string;
+  errorReason?: string | undefined;
 }
 /** Health status of individual services on the runner */
 export type RunnerHealthcheckRequestServiceHealthList = Array<RunnerServiceHealth>;
 export interface RunnerHealthcheckRequest {
   /** Runner metrics */
-  metrics?: RunnerHealthMetrics;
+  metrics?: RunnerHealthMetrics | undefined;
   /** Health status of individual services on the runner */
-  serviceHealth?: RunnerHealthcheckRequestServiceHealthList;
+  serviceHealth?: RunnerHealthcheckRequestServiceHealthList | undefined;
   /** Runner domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Runner proxy URL */
-  proxyUrl?: string;
+  proxyUrl?: string | undefined;
   /** Runner API URL */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** Runner app version */
   appVersion: string;
 }
@@ -321,7 +321,7 @@ export interface UpdateRunnerDrainingRequest {
   /** Runner ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Whether the runner is draining: no new sandboxes, existing ones move off. */
   draining: boolean;
 }
@@ -329,7 +329,7 @@ export interface UpdateRunnerSchedulingRequest {
   /** Runner ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** Whether the scheduler stops placing new sandboxes on the runner. */
   unschedulable: boolean;
 }

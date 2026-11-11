@@ -1,0 +1,41 @@
+{
+  "description": "Type Fly's transient storage-host capacity error (\"The storage host could not finish the command (command_capacity); its outcome may be unknown.\") on volume and Machine creation, so callers can recover instead of failing on a bare BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#StorageHostCapacity",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "message": {
+                "includes": "(command_capacity)"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#VolumesCreate/errors/-",
+      "value": {
+        "target": "com.flyio.machines#StorageHostCapacity"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachinesCreate/errors/-",
+      "value": {
+        "target": "com.flyio.machines#StorageHostCapacity"
+      }
+    }
+  ]
+}

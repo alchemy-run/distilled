@@ -54,11 +54,11 @@ export type ProjectsV2FieldSingleSelectOptionColor =
   | "YELLOW";
 export interface ProjectsV2FieldSingleSelectOption {
   /** The display name of the option. */
-  name?: string;
+  name?: string | undefined;
   /** The color associated with the option. */
-  color?: ProjectsV2FieldSingleSelectOptionColor | (string & {});
+  color?: ProjectsV2FieldSingleSelectOptionColor | (string & {}) | undefined;
   /** The description of the option. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The options available for single select fields. At least one option must be provided when creating a single select field. */
 export type AddFieldForOrgRequestBodyCase2SingleSelectOptionsList =
@@ -91,7 +91,7 @@ export interface ProjectsV2FieldIterationConfiguration {
   /** The default duration for iterations in days. Individual iterations can override this value. */
   duration: number;
   /** Zero or more iterations for the field. */
-  iterations?: ProjectsV2FieldIterationConfigurationIterationsList;
+  iterations?: ProjectsV2FieldIterationConfigurationIterationsList | undefined;
 }
 export interface AddFieldForOrgRequestBodyCase3 {
   /** The name of the field. */
@@ -168,19 +168,19 @@ export type ProjectsV2FieldConfigurationIterationsList = Array<ProjectsV2Iterati
 /** Configuration for iteration fields. */
 export interface ProjectsV2FieldConfiguration {
   /** The day of the week when the iteration starts. */
-  start_day?: number;
+  start_day?: number | undefined;
   /** The duration of the iteration in days. */
-  duration?: number;
-  iterations?: ProjectsV2FieldConfigurationIterationsList;
+  duration?: number | undefined;
+  iterations?: ProjectsV2FieldConfigurationIterationsList | undefined;
 }
 /** A field inside a projects v2 project */
 export interface ProjectsV2Field {
   /** The unique identifier of the field. */
   id: number;
   /** The ID of the issue field. */
-  issue_field_id?: number;
+  issue_field_id?: number | undefined;
   /** The node ID of the field. */
-  node_id?: string;
+  node_id?: string | undefined;
   /** The API URL of the project that contains the field. */
   project_url: string;
   /** The name of the field. */
@@ -188,9 +188,9 @@ export interface ProjectsV2Field {
   /** The field's data type. */
   data_type: ProjectsV2FieldDataType;
   /** The options available for single select fields. */
-  options?: ProjectsV2FieldOptionsList;
+  options?: ProjectsV2FieldOptionsList | undefined;
   /** Configuration for iteration fields. */
-  configuration?: ProjectsV2FieldConfiguration;
+  configuration?: ProjectsV2FieldConfiguration | undefined;
   /** The time when the field was created. */
   created_at: string;
   /** The time when the field was last updated. */
@@ -247,20 +247,20 @@ export interface AddItemForOrgRequest {
   /** The type of item to add to the project. Must be either Issue or PullRequest. */
   type: AddItemForOrgRequestType | (string & {});
   /** The unique identifier of the issue or pull request to add to the project. */
-  id?: number;
+  id?: number | undefined;
   /** The repository owner login. */
-  owner?: string;
+  owner?: string | undefined;
   /** The repository name. */
-  repo?: string;
+  repo?: string | undefined;
   /** The issue or pull request number. */
-  number?: number;
+  number?: number | undefined;
 }
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -279,21 +279,21 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
 export interface IssueLabelsItemCase1 {
-  id?: number;
-  node_id?: string;
-  url?: string;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
-  default?: boolean;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  url?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
+  default?: boolean | undefined;
   /** The user who archived the label, or `null` if it has not been archived. */
-  archived_by?: NullableSimpleUser | null;
+  archived_by?: NullableSimpleUser | null | undefined;
 }
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
 /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
@@ -324,7 +324,7 @@ export interface NullableMilestone {
   due_on: string | null;
 }
 export interface IssuePullRequest {
-  merged_at?: string | null;
+  merged_at?: string | null | undefined;
   diff_url: string | null;
   html_url: string | null;
   patch_url: string | null;
@@ -351,13 +351,13 @@ export interface IssueType {
   /** The description of the issue type. */
   description: string | null;
   /** The color of the issue type. */
-  color?: IssueTypeColor | null;
+  color?: IssueTypeColor | null | undefined;
   /** The time the issue type created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the issue type last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The enabled state of the issue type. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 /** License Simple */
 export interface NullableLicenseSimple {
@@ -366,14 +366,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -388,8 +388,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -401,7 +401,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -461,8 +461,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -473,63 +473,64 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -544,11 +545,11 @@ export interface Enterprise {
 export type NullableIntegrationOwner = NullableSimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface NullableIntegrationPermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -558,9 +559,9 @@ export interface NullableIntegration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: NullableIntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -574,7 +575,7 @@ export interface NullableIntegration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: NullableIntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -621,19 +622,19 @@ export interface NullableIssueComment {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: NullableSimpleUser | null;
   created_at: string;
   updated_at: string;
   issue_url: string;
-  author_association?: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  author_association?: AuthorAssociation | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
 }
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -662,16 +663,16 @@ export interface IssueFieldValue {
   /** Unique identifier for the issue field. */
   issue_field_id: number;
   /** The human-readable name of the issue field. */
-  issue_field_name?: string;
+  issue_field_name?: string | undefined;
   node_id: string;
   /** The data type of the issue field */
   data_type: IssueFieldValueDataType;
   /** The value of the issue field */
   value: IssueFieldValueValue | null;
   /** Details about the selected option (only present for single_select fields) */
-  single_select_option?: IssueFieldValueSingleSelectOption | null;
+  single_select_option?: IssueFieldValueSingleSelectOption | null | undefined;
   /** Details about the selected options */
-  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null;
+  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null | undefined;
 }
 export type IssueIssueFieldValuesList = Array<IssueFieldValue>;
 /** Issues are a great way to keep track of tasks, enhancements, and bugs for your projects. */
@@ -690,40 +691,40 @@ export interface Issue {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: IssueStateReason | null;
+  state_reason?: IssueStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: IssueLabelsList;
   assignee: NullableSimpleUser | null;
-  assignees?: IssueAssigneesList;
+  assignees?: IssueAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: NullableSimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: NullableSimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: IssueIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: IssueIssueFieldValuesList | undefined;
 }
 export interface PullRequestSimpleLabelsItem {
   id: number;
@@ -767,20 +768,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -789,10 +790,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -800,11 +801,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export type PullRequestSimpleRequestedTeamsList = Array<Team>;
@@ -852,13 +853,13 @@ export interface PullRequestStackBase {
 export interface PullRequestStack {
   base: PullRequestStackBase;
   /** The total number of pull requests in the stack. */
-  size?: number;
+  size?: number | undefined;
   /** The one-based position of this pull request within the stack, where 1 is the bottom of the stack. */
-  position?: number;
+  position?: number | undefined;
   /** The ID of the stack that this pull request belongs to. */
-  id?: number;
+  id?: number | undefined;
   /** The number of the stack that this pull request belongs to. */
-  number?: number;
+  number?: number | undefined;
 }
 /** Pull Request Simple */
 export interface PullRequestSimple {
@@ -882,24 +883,24 @@ export interface PullRequestSimple {
   body: string | null;
   labels: PullRequestSimpleLabelsList;
   milestone: NullableMilestone | null;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   created_at: string;
   updated_at: string;
   closed_at: string | null;
   merged_at: string | null;
   merge_commit_sha: string | null;
   assignee: NullableSimpleUser | null;
-  assignees?: PullRequestSimpleAssigneesList;
-  requested_reviewers?: PullRequestSimpleRequestedReviewersList;
-  requested_teams?: PullRequestSimpleRequestedTeamsList;
+  assignees?: PullRequestSimpleAssigneesList | undefined;
+  requested_reviewers?: PullRequestSimpleRequestedReviewersList | undefined;
+  requested_teams?: PullRequestSimpleRequestedTeamsList | undefined;
   head: PullRequestSimpleHead;
   base: PullRequestSimpleHead;
   _links: PullRequestSimpleLinks;
   author_association: AuthorAssociation;
   auto_merge: AutoMerge | null;
-  stack?: PullRequestStack | null;
+  stack?: PullRequestStack | null | undefined;
   /** Indicates whether or not the pull request is a draft. */
-  draft?: boolean;
+  draft?: boolean | undefined;
 }
 /** A draft issue in a project */
 export interface ProjectsV2DraftIssue {
@@ -910,7 +911,7 @@ export interface ProjectsV2DraftIssue {
   /** The title of the draft issue */
   title: string;
   /** The body content of the draft issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** The time the draft issue was created */
   created_at: string;
@@ -926,11 +927,11 @@ export interface ProjectsV2ItemSimple {
   /** The unique identifier of the project item. */
   id: number;
   /** The node ID of the project item. */
-  node_id?: string;
+  node_id?: string | undefined;
   /** The content represented by the item. */
-  content?: ProjectsV2ItemSimpleContent;
+  content?: ProjectsV2ItemSimpleContent | undefined;
   content_type: ProjectsV2ItemContentType;
-  creator?: NullableSimpleUser;
+  creator?: NullableSimpleUser | undefined;
   /** The time when the item was created. */
   created_at: string;
   /** The time when the item was last updated. */
@@ -938,9 +939,9 @@ export interface ProjectsV2ItemSimple {
   /** The time when the item was archived. */
   archived_at: string | null;
   /** The URL of the project this item belongs to. */
-  project_url?: string;
+  project_url?: string | undefined;
   /** The URL of the item in the project. */
-  item_url?: string;
+  item_url?: string | undefined;
 }
 /** The type of item to add to the project. Must be either Issue or PullRequest. */
 export type AddItemForUserRequestType = "Issue" | "PullRequest";
@@ -952,13 +953,13 @@ export interface AddItemForUserRequest {
   /** The type of item to add to the project. Must be either Issue or PullRequest. */
   type: AddItemForUserRequestType | (string & {});
   /** The unique identifier of the issue or pull request to add to the project. */
-  id?: number;
+  id?: number | undefined;
   /** The repository owner login. */
-  owner?: string;
+  owner?: string | undefined;
   /** The repository name. */
-  repo?: string;
+  repo?: string | undefined;
   /** The issue or pull request number. */
-  number?: number;
+  number?: number | undefined;
 }
 export interface CreateDraftItemForAuthenticatedUserRequest {
   /** The unique identifier of the user. */
@@ -968,7 +969,7 @@ export interface CreateDraftItemForAuthenticatedUserRequest {
   /** The title of the draft issue item to create in the project. */
   title: string;
   /** The body content of the draft issue item to create in the project. */
-  body?: string;
+  body?: string | undefined;
 }
 export interface CreateDraftItemForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -978,7 +979,7 @@ export interface CreateDraftItemForOrgRequest {
   /** The title of the draft issue item to create in the project. */
   title: string;
   /** The body content of the draft issue item to create in the project. */
-  body?: string;
+  body?: string | undefined;
 }
 /** The layout of the view. */
 export type CreateViewForOrgRequestLayout = "table" | "board" | "roadmap";
@@ -1002,15 +1003,15 @@ export interface CreateViewForOrgRequest {
   /** The layout of the view. */
   layout: CreateViewForOrgRequestLayout | (string & {});
   /** The filter query for the view. See [Filtering projects](https://docs.github.com/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects) for more information. */
-  filter?: string;
+  filter?: string | undefined;
   /** `visible_fields` is not applicable to `roadmap` layout views. For `table` and `board` layouts, this represents the field IDs that should be visible in the view. If not provided, the default visible fields will be used. */
-  visible_fields?: CreateViewForOrgRequestVisibleFieldsList;
+  visible_fields?: CreateViewForOrgRequestVisibleFieldsList | undefined;
   /** Sorting configuration for the view. Each element is a two-element array of `[field_id, direction]` where `direction` is `"asc"` or `"desc"`. Supports multiple sort criteria applied in order. */
-  sort_by?: CreateViewForOrgRequestSortByList;
+  sort_by?: CreateViewForOrgRequestSortByList | undefined;
   /** The field IDs to group items by (horizontal grouping). Supports a single field. The field must support grouping; fields such as `Title`, `Reviewers`, `Linked pull requests`, `Sub-issues progress`, `Tracked by`, and `Tracks` cannot be grouped on. */
-  group_by?: CreateViewForOrgRequestGroupByList;
+  group_by?: CreateViewForOrgRequestGroupByList | undefined;
   /** The field IDs to use as columns in `board` layout (vertical grouping). Supports a single field. The field must support grouping; fields such as `Title`, `Reviewers`, `Linked pull requests`, `Sub-issues progress`, `Tracked by`, and `Tracks` cannot be grouped on. */
-  vertical_group_by?: CreateViewForOrgRequestVerticalGroupByList;
+  vertical_group_by?: CreateViewForOrgRequestVerticalGroupByList | undefined;
 }
 /** The layout of the view. */
 export type ProjectsV2ViewLayout = "table" | "board" | "roadmap";
@@ -1046,7 +1047,7 @@ export interface ProjectsV2View {
   /** The time when the view was last updated. */
   updated_at: string;
   /** The filter query for the view. */
-  filter?: string | null;
+  filter?: string | null | undefined;
   /** The list of field IDs that are visible in the view. */
   visible_fields: ProjectsV2ViewVisibleFieldsList;
   /** The sorting configuration for the view. Each element is a tuple of [field_id, direction] where direction is "asc" or "desc". */
@@ -1078,15 +1079,15 @@ export interface CreateViewForUserRequest {
   /** The layout of the view. */
   layout: CreateViewForUserRequestLayout | (string & {});
   /** The filter query for the view. See [Filtering projects](https://docs.github.com/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects) for more information. */
-  filter?: string;
+  filter?: string | undefined;
   /** `visible_fields` is not applicable to `roadmap` layout views. For `table` and `board` layouts, this represents the field IDs that should be visible in the view. If not provided, the default visible fields will be used. */
-  visible_fields?: CreateViewForUserRequestVisibleFieldsList;
+  visible_fields?: CreateViewForUserRequestVisibleFieldsList | undefined;
   /** Sorting configuration for the view. Each element is a two-element array of `[field_id, direction]` where `direction` is `"asc"` or `"desc"`. Supports multiple sort criteria applied in order. */
-  sort_by?: CreateViewForUserRequestSortByList;
+  sort_by?: CreateViewForUserRequestSortByList | undefined;
   /** The field IDs to group items by (horizontal grouping). Supports a single field. The field must support grouping; fields such as `Title`, `Reviewers`, `Linked pull requests`, `Sub-issues progress`, `Tracked by`, and `Tracks` cannot be grouped on. */
-  group_by?: CreateViewForUserRequestGroupByList;
+  group_by?: CreateViewForUserRequestGroupByList | undefined;
   /** The field IDs to use as columns in `board` layout (vertical grouping). Supports a single field. The field must support grouping; fields such as `Title`, `Reviewers`, `Linked pull requests`, `Sub-issues progress`, `Tracked by`, and `Tracks` cannot be grouped on. */
-  vertical_group_by?: CreateViewForUserRequestVerticalGroupByList;
+  vertical_group_by?: CreateViewForUserRequestVerticalGroupByList | undefined;
 }
 export interface DeleteItemForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1144,20 +1145,20 @@ export interface NullableProjectsV2StatusUpdate {
   /** The node ID of the status update. */
   node_id: string;
   /** The node ID of the project that this status update belongs to. */
-  project_node_id?: string;
-  creator?: NullableSimpleUser;
+  project_node_id?: string | undefined;
+  creator?: NullableSimpleUser | undefined;
   /** The time when the status update was created. */
   created_at: string;
   /** The time when the status update was last updated. */
   updated_at: string;
   /** The current status. */
-  status?: NullableProjectsV2StatusUpdateStatus | null;
+  status?: NullableProjectsV2StatusUpdateStatus | null | undefined;
   /** The start date of the period covered by the update. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The target date associated with the update. */
-  target_date?: string;
+  target_date?: string | undefined;
   /** Body of the status update */
-  body?: string | null;
+  body?: string | null | undefined;
 }
 /** A projects v2 project */
 export interface ProjectsV2 {
@@ -1187,10 +1188,10 @@ export interface ProjectsV2 {
   deleted_at: string | null;
   deleted_by: NullableSimpleUser | null;
   /** The current state of the project. */
-  state?: ProjectsV2State;
-  latest_status_update?: NullableProjectsV2StatusUpdate | null;
+  state?: ProjectsV2State | undefined;
+  latest_status_update?: NullableProjectsV2StatusUpdate | null | undefined;
   /** Whether this project is a template */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
 }
 export interface GetForUserRequest {
   /** The handle for the GitHub user account. */
@@ -1208,7 +1209,7 @@ export interface GetOrgItemRequest {
   /** The unique identifier of the project item. */
   item_id: number;
   /** Limit results to specific fields, by their IDs. If not specified, the title field will be returned. Example: fields[]=123&fields[]=456&fields[]=789 or fields=123,456,789 */
-  fields?: GetOrgItemRequestFields;
+  fields?: GetOrgItemRequestFields | undefined;
 }
 /** The content of the item, which varies by content type. */
 export type ProjectsV2ItemWithContentContentMap = { [key: string]: unknown | undefined };
@@ -1220,13 +1221,13 @@ export interface ProjectsV2ItemWithContent {
   /** The unique identifier of the project item. */
   id: number;
   /** The node ID of the project item. */
-  node_id?: string;
+  node_id?: string | undefined;
   /** The API URL of the project that contains this item. */
-  project_url?: string;
+  project_url?: string | undefined;
   content_type: ProjectsV2ItemContentType;
   /** The content of the item, which varies by content type. */
-  content?: ProjectsV2ItemWithContentContentMap | null;
-  creator?: NullableSimpleUser;
+  content?: ProjectsV2ItemWithContentContentMap | null | undefined;
+  creator?: NullableSimpleUser | undefined;
   /** The time when the item was created. */
   created_at: string;
   /** The time when the item was last updated. */
@@ -1234,9 +1235,9 @@ export interface ProjectsV2ItemWithContent {
   /** The time when the item was archived. */
   archived_at: string | null;
   /** The API URL of this item. */
-  item_url?: string | null;
+  item_url?: string | null | undefined;
   /** The fields and values associated with this item. */
-  fields?: ProjectsV2ItemWithContentFieldsList;
+  fields?: ProjectsV2ItemWithContentFieldsList | undefined;
 }
 export type GetUserItemRequestFieldsCase1List = Array<string>;
 export type GetUserItemRequestFields = string | GetUserItemRequestFieldsCase1List;
@@ -1248,7 +1249,7 @@ export interface GetUserItemRequest {
   /** The unique identifier of the project item. */
   item_id: number;
   /** Limit results to specific fields, by their IDs. If not specified, the title field will be returned. Example: fields[]=123&fields[]=456&fields[]=789 or fields=123,456,789 */
-  fields?: GetUserItemRequestFields;
+  fields?: GetUserItemRequestFields | undefined;
 }
 export interface ListFieldsForOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -1256,11 +1257,11 @@ export interface ListFieldsForOrgRequest {
   /** The project's number. */
   project_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListFieldsForOrgResponseBodyList = Array<ProjectsV2Field>;
 export type ListFieldsForOrgResponse = ListFieldsForOrgResponseBodyList;
@@ -1270,11 +1271,11 @@ export interface ListFieldsForUserRequest {
   /** The project's number. */
   project_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListFieldsForUserResponseBodyList = Array<ProjectsV2Field>;
 export type ListFieldsForUserResponse = ListFieldsForUserResponseBodyList;
@@ -1282,13 +1283,13 @@ export interface ListForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Limit results to projects of the specified type. */
-  q?: string;
+  q?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListForOrgResponseBodyList = Array<ProjectsV2>;
 export type ListForOrgResponse = ListForOrgResponseBodyList;
@@ -1296,13 +1297,13 @@ export interface ListForUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** Limit results to projects of the specified type. */
-  q?: string;
+  q?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListForUserResponseBodyList = Array<ProjectsV2>;
 export type ListForUserResponse = ListForUserResponseBodyList;
@@ -1314,15 +1315,15 @@ export interface ListItemsForOrgRequest {
   /** The project's number. */
   project_number: number;
   /** Search query to filter items, see [Filtering projects](https://docs.github.com/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects) for more information. */
-  q?: string;
+  q?: string | undefined;
   /** Limit results to specific fields, by their IDs. If not specified, the title field will be returned. Example: `fields[]=123&fields[]=456&fields[]=789` or `fields=123,456,789` */
-  fields?: ListItemsForOrgRequestFields;
+  fields?: ListItemsForOrgRequestFields | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListItemsForOrgResponseBodyList = Array<ProjectsV2ItemWithContent>;
 export type ListItemsForOrgResponse = ListItemsForOrgResponseBodyList;
@@ -1334,15 +1335,15 @@ export interface ListItemsForUserRequest {
   /** The project's number. */
   project_number: number;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Search query to filter items, see [Filtering projects](https://docs.github.com/issues/planning-and-tracking-with-projects/customizing-views-in-your-project/filtering-projects) for more information. */
-  q?: string;
+  q?: string | undefined;
   /** Limit results to specific fields, by their IDs. If not specified, the title field will be returned. Example: `fields[]=123&fields[]=456&fields[]=789` or `fields=123,456,789` */
-  fields?: ListItemsForUserRequestFields;
+  fields?: ListItemsForUserRequestFields | undefined;
 }
 export type ListItemsForUserResponseBodyList = Array<ProjectsV2ItemWithContent>;
 export type ListItemsForUserResponse = ListItemsForUserResponseBodyList;
@@ -1356,13 +1357,13 @@ export interface ListViewItemsForOrgRequest {
   /** The number that identifies the project view. */
   view_number: number;
   /** Limit results to specific fields, by their IDs. If not specified, the title field will be returned. Example: `fields[]=123&fields[]=456&fields[]=789` or `fields=123,456,789` */
-  fields?: ListViewItemsForOrgRequestFields;
+  fields?: ListViewItemsForOrgRequestFields | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListViewItemsForOrgResponseBodyList = Array<ProjectsV2ItemWithContent>;
 export type ListViewItemsForOrgResponse = ListViewItemsForOrgResponseBodyList;
@@ -1376,13 +1377,13 @@ export interface ListViewItemsForUserRequest {
   /** The number that identifies the project view. */
   view_number: number;
   /** Limit results to specific fields, by their IDs. If not specified, the title field will be returned. Example: `fields[]=123&fields[]=456&fields[]=789` or `fields=123,456,789` */
-  fields?: ListViewItemsForUserRequestFields;
+  fields?: ListViewItemsForUserRequestFields | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ListViewItemsForUserResponseBodyList = Array<ProjectsV2ItemWithContent>;
 export type ListViewItemsForUserResponse = ListViewItemsForUserResponseBodyList;

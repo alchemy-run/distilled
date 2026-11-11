@@ -42,21 +42,21 @@ export interface GetResponseRulesItem {
   /** Whether Precursor shows an interstitial when it takes action on a request. */
   showInterstitial: boolean;
   /** The read-only identifier that Cloudflare assigns to the rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** An informative description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the rule is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type GetResponseRulesList = Array<GetResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetResponse {
   /** Controls Precursor detection for the zone. `off` disables detection, `monitor` records detections without affecting bot scores, and `arm` allows detections to affect bot scores. */
-  mode?: GetResponseMode | null;
+  mode?: GetResponseMode | null | undefined;
   /** The ordered list of Precursor rules for the zone. */
-  rules?: GetResponseRulesList | null;
+  rules?: GetResponseRulesList | null | undefined;
   /** Whether Precursor shows an interstitial when it takes action on a request. */
-  showInterstitial?: boolean | null;
+  showInterstitial?: boolean | null | undefined;
 }
 export type UpdateRequestCloudflareVersion = "1.0";
 export type UpdateRequestMode = "off" | "monitor" | "arm";
@@ -66,11 +66,11 @@ export interface UpdateRequestRulesItem {
   /** Whether Precursor shows an interstitial when it takes action on a request. */
   showInterstitial: boolean;
   /** The read-only identifier that Cloudflare assigns to the rule. */
-  id?: string;
+  id?: string | undefined;
   /** An informative description of the rule. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the rule is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type UpdateRequestRulesList = Array<UpdateRequestRulesItem>;
 export interface UpdateRequest {
@@ -78,11 +78,11 @@ export interface UpdateRequest {
   zoneId: string;
   cloudflareVersion: UpdateRequestCloudflareVersion | (string & {});
   /** Controls Precursor detection for the zone. `off` disables detection, `monitor` records detections without affecting bot scores, and `arm` allows detections to affect bot scores. */
-  mode?: UpdateRequestMode | (string & {});
+  mode?: UpdateRequestMode | (string & {}) | undefined;
   /** The ordered list of Precursor rules for the zone. */
-  rules?: UpdateRequestRulesList;
+  rules?: UpdateRequestRulesList | undefined;
   /** Whether Precursor shows an interstitial when it takes action on a request. */
-  showInterstitial?: boolean;
+  showInterstitial?: boolean | undefined;
 }
 export type UpdateResponseMode = "off" | "monitor" | "arm";
 export type UpdateResponseRulesItem = GetResponseRulesItem;
@@ -90,11 +90,11 @@ export type UpdateResponseRulesList = Array<GetResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateResponse {
   /** Controls Precursor detection for the zone. `off` disables detection, `monitor` records detections without affecting bot scores, and `arm` allows detections to affect bot scores. */
-  mode?: UpdateResponseMode | null;
+  mode?: UpdateResponseMode | null | undefined;
   /** The ordered list of Precursor rules for the zone. */
-  rules?: UpdateResponseRulesList | null;
+  rules?: UpdateResponseRulesList | null | undefined;
   /** Whether Precursor shows an interstitial when it takes action on a request. */
-  showInterstitial?: boolean | null;
+  showInterstitial?: boolean | null | undefined;
 }
 export type GetError = CloudflareOpError;
 /** Retrieve a zone's Precursor configuration: the detection `mode`, whether to `show_interstitial`, and the ordered list of `rules`. */

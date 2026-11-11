@@ -89,205 +89,105 @@ export interface CancelProjectsLocationsOsPolicyAssignmentsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type StringMap = { [key: string]: string | undefined };
-/** Message representing label set. * A label is a key value pair set for a VM. * A LabelSet is a set of labels. * Labels within a LabelSet are ANDed. In other words, a LabelSet is applicable for a VM only if it matches all the labels in the LabelSet. * Example: A LabelSet with 2 labels: `env=prod` and `type=webserver` will only be applicable for those VMs with both labels present. */
-export interface OSPolicyAssignmentLabelSet {
-  /** Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected. */
-  labels?: StringMap;
-}
-export type OSPolicyAssignmentLabelSetList = Array<OSPolicyAssignmentLabelSet>;
-/** VM inventory details. */
-export interface OSPolicyAssignmentInstanceFilterInventory {
-  /** The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of `7`, specify the following value for this field `7.*` An empty string matches all OS versions. */
-  osVersion?: string;
-  /** Required. The OS short name */
-  osShortName?: string;
-}
-export type OSPolicyAssignmentInstanceFilterInventoryList =
-  Array<OSPolicyAssignmentInstanceFilterInventory>;
-export type StringList = Array<string>;
-/** Filters to select target VMs for an assignment. If more than one filter criteria is specified below, a VM will be selected if and only if it satisfies all of them. */
-export interface OSPolicyAssignmentInstanceFilter {
-  /** List of label sets used for VM inclusion. If the list has more than one `LabelSet`, the VM is included if any of the label sets are applicable for the VM. */
-  inclusionLabels?: OSPolicyAssignmentLabelSetList;
-  /** List of inventories to select VMs. A VM is selected if its inventory data matches at least one of the following inventories. */
-  inventories?: OSPolicyAssignmentInstanceFilterInventoryList;
-  /** List of label sets used for VM exclusion. If the list has more than one label set, the VM is excluded if any of the label sets are applicable for the VM. */
-  exclusionLabels?: OSPolicyAssignmentLabelSetList;
-  /** Deprecated. Use the `inventories` field instead. A VM is selected if it's OS short name matches with any of the values provided in this list. */
-  osShortNames?: StringList;
-  /** Target all VMs in the project. If true, no other criteria is permitted. */
-  all?: boolean;
-}
-export type OSPolicyModeEnum = "MODE_UNSPECIFIED" | "VALIDATION" | "ENFORCEMENT";
 /** Filtering criteria to select VMs based on inventory details. */
 export interface OSPolicyInventoryFilter {
   /** Required. The OS short name */
-  osShortName?: string;
+  osShortName?: string | undefined;
   /** The OS version Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of `7`, specify the following value for this field `7.*` An empty string matches all OS versions. */
-  osVersion?: string;
+  osVersion?: string | undefined;
 }
 export type OSPolicyInventoryFilterList = Array<OSPolicyInventoryFilter>;
-/** Represents a Goo package repository. These are added to a repo file that is managed at `C:/ProgramData/GooGet/repos/google_osconfig.repo`. */
-export interface OSPolicyResourceRepositoryResourceGooRepository {
-  /** Required. The name of the repository. */
-  name?: string;
-  /** Required. The url of the repository. */
-  url?: string;
-}
-/** Represents a single yum package repository. These are added to a repo file that is managed at `/etc/yum.repos.d/google_osconfig.repo`. */
-export interface OSPolicyResourceRepositoryResourceYumRepository {
-  /** The display name of the repository. */
-  displayName?: string;
-  /** Required. A one word, unique name for this repository. This is the `repo id` in the yum config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for resource conflicts. */
-  id?: string;
-  /** Required. The location of the repository directory. */
-  baseUrl?: string;
-  /** URIs of GPG keys. */
-  gpgKeys?: StringList;
-}
-/** Represents a single zypper package repository. These are added to a repo file that is managed at `/etc/zypp/repos.d/google_osconfig.repo`. */
-export interface OSPolicyResourceRepositoryResourceZypperRepository {
-  /** Required. A one word, unique name for this repository. This is the `repo id` in the zypper config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts. */
-  id?: string;
-  /** Required. The location of the repository directory. */
-  baseUrl?: string;
-  /** URIs of GPG keys. */
-  gpgKeys?: StringList;
-  /** The display name of the repository. */
-  displayName?: string;
-}
+export type StringList = Array<string>;
 export type OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum =
   | "ARCHIVE_TYPE_UNSPECIFIED"
   | "DEB"
   | "DEB_SRC";
 /** Represents a single apt package repository. These will be added to a repo file that will be managed at `/etc/apt/sources.list.d/google_osconfig.list`. */
 export interface OSPolicyResourceRepositoryResourceAptRepository {
-  /** Required. Distribution of this repository. */
-  distribution?: string;
-  /** Required. Type of archive files in this repository. */
-  archiveType?: OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum | (string & {});
-  /** URI of the key file for this repository. The agent maintains a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg`. */
-  gpgKey?: string;
   /** Required. URI for this repository. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. List of components for this repository. Must contain at least one item. */
-  components?: StringList;
+  components?: StringList | undefined;
+  /** Required. Distribution of this repository. */
+  distribution?: string | undefined;
+  /** URI of the key file for this repository. The agent maintains a keyring at `/etc/apt/trusted.gpg.d/osconfig_agent_managed.gpg`. */
+  gpgKey?: string | undefined;
+  /** Required. Type of archive files in this repository. */
+  archiveType?:
+    | OSPolicyResourceRepositoryResourceAptRepositoryArchiveTypeEnum
+    | (string & {})
+    | undefined;
+}
+/** Represents a single yum package repository. These are added to a repo file that is managed at `/etc/yum.repos.d/google_osconfig.repo`. */
+export interface OSPolicyResourceRepositoryResourceYumRepository {
+  /** The display name of the repository. */
+  displayName?: string | undefined;
+  /** Required. A one word, unique name for this repository. This is the `repo id` in the yum config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for resource conflicts. */
+  id?: string | undefined;
+  /** Required. The location of the repository directory. */
+  baseUrl?: string | undefined;
+  /** URIs of GPG keys. */
+  gpgKeys?: StringList | undefined;
+}
+/** Represents a single zypper package repository. These are added to a repo file that is managed at `/etc/zypp/repos.d/google_osconfig.repo`. */
+export interface OSPolicyResourceRepositoryResourceZypperRepository {
+  /** Required. A one word, unique name for this repository. This is the `repo id` in the zypper config file and also the `display_name` if `display_name` is omitted. This id is also used as the unique identifier when checking for GuestPolicy conflicts. */
+  id?: string | undefined;
+  /** URIs of GPG keys. */
+  gpgKeys?: StringList | undefined;
+  /** The display name of the repository. */
+  displayName?: string | undefined;
+  /** Required. The location of the repository directory. */
+  baseUrl?: string | undefined;
+}
+/** Represents a Goo package repository. These are added to a repo file that is managed at `C:/ProgramData/GooGet/repos/google_osconfig.repo`. */
+export interface OSPolicyResourceRepositoryResourceGooRepository {
+  /** Required. The name of the repository. */
+  name?: string | undefined;
+  /** Required. The url of the repository. */
+  url?: string | undefined;
 }
 /** A resource that manages a package repository. */
 export interface OSPolicyResourceRepositoryResource {
-  /** A Goo Repository. */
-  goo?: OSPolicyResourceRepositoryResourceGooRepository;
-  /** A Yum Repository. */
-  yum?: OSPolicyResourceRepositoryResourceYumRepository;
-  /** A Zypper Repository. */
-  zypper?: OSPolicyResourceRepositoryResourceZypperRepository;
   /** An Apt Repository. */
-  apt?: OSPolicyResourceRepositoryResourceAptRepository;
-}
-/** A package managed by APT. - install: `apt-get update && apt-get -y install [name]` - remove: `apt-get -y remove [name]` */
-export interface OSPolicyResourcePackageResourceAPT {
-  /** Required. Package name. */
-  name?: string;
+  apt?: OSPolicyResourceRepositoryResourceAptRepository | undefined;
+  /** A Yum Repository. */
+  yum?: OSPolicyResourceRepositoryResourceYumRepository | undefined;
+  /** A Zypper Repository. */
+  zypper?: OSPolicyResourceRepositoryResourceZypperRepository | undefined;
+  /** A Goo Repository. */
+  goo?: OSPolicyResourceRepositoryResourceGooRepository | undefined;
 }
 /** Specifies a file available as a Cloud Storage Object. */
 export interface OSPolicyResourceFileGcs {
-  /** Generation number of the Cloud Storage object. */
-  generation?: string;
   /** Required. Bucket of the Cloud Storage object. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Required. Name of the Cloud Storage object. */
-  object?: string;
+  object?: string | undefined;
+  /** Generation number of the Cloud Storage object. */
+  generation?: string | undefined;
 }
 /** Specifies a file available via some URI. */
 export interface OSPolicyResourceFileRemote {
   /** SHA256 checksum of the remote file. */
-  sha256Checksum?: string;
+  sha256Checksum?: string | undefined;
   /** Required. URI from which to fetch the object. It should contain both the protocol and path following the format `{protocol}://{location}`. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** A remote or local file. */
 export interface OSPolicyResourceFile {
-  /** Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified. */
-  allowInsecure?: boolean;
   /** A Cloud Storage object. */
-  gcs?: OSPolicyResourceFileGcs;
+  gcs?: OSPolicyResourceFileGcs | undefined;
   /** A generic remote file. */
-  remote?: OSPolicyResourceFileRemote;
+  remote?: OSPolicyResourceFileRemote | undefined;
+  /** Defaults to false. When false, files are subject to validations based on the file type: Remote: A checksum must be specified. Cloud Storage: An object generation number must be specified. */
+  allowInsecure?: boolean | undefined;
   /** A local path within the VM to use. */
-  localPath?: string;
-}
-/** An RPM package file. RPM packages only support INSTALLED state. */
-export interface OSPolicyResourcePackageResourceRPM {
-  /** Required. An rpm package. */
-  source?: OSPolicyResourceFile;
-  /** Whether dependencies should also be installed. - install when false: `rpm --upgrade --replacepkgs package.rpm` - install when true: `yum -y install package.rpm` or `zypper -y install package.rpm` */
-  pullDeps?: boolean;
-}
-/** A package managed by Zypper. - install: `zypper -y install package` - remove: `zypper -y rm package` */
-export type OSPolicyResourcePackageResourceZypper = OSPolicyResourcePackageResourceAPT;
-/** A package managed by GooGet. - install: `googet -noconfirm install package` - remove: `googet -noconfirm remove package` */
-export type OSPolicyResourcePackageResourceGooGet = OSPolicyResourcePackageResourceAPT;
-/** A deb package file. dpkg packages only support INSTALLED state. */
-export interface OSPolicyResourcePackageResourceDeb {
-  /** Required. A deb package. */
-  source?: OSPolicyResourceFile;
-  /** Whether dependencies should also be installed. - install when false: `dpkg -i package` - install when true: `apt-get update && apt-get -y install package.deb` */
-  pullDeps?: boolean;
-}
-/** A package managed by YUM. - install: `yum -y install package` - remove: `yum -y remove package` */
-export type OSPolicyResourcePackageResourceYUM = OSPolicyResourcePackageResourceAPT;
-/** An MSI package. MSI packages only support INSTALLED state. */
-export interface OSPolicyResourcePackageResourceMSI {
-  /** Required. The MSI package. */
-  source?: OSPolicyResourceFile;
-  /** Additional properties to use during installation. This should be in the format of Property=Setting. Appended to the defaults of `ACTION=INSTALL REBOOT=ReallySuppress`. */
-  properties?: StringList;
-}
-export type OSPolicyResourcePackageResourceDesiredStateEnum =
-  | "DESIRED_STATE_UNSPECIFIED"
-  | "INSTALLED"
-  | "REMOVED";
-/** A resource that manages a system package. */
-export interface OSPolicyResourcePackageResource {
-  /** A package managed by Apt. */
-  apt?: OSPolicyResourcePackageResourceAPT;
-  /** An rpm package file. */
-  rpm?: OSPolicyResourcePackageResourceRPM;
-  /** A package managed by Zypper. */
-  zypper?: OSPolicyResourcePackageResourceAPT;
-  /** A package managed by GooGet. */
-  googet?: OSPolicyResourcePackageResourceAPT;
-  /** A deb package file. */
-  deb?: OSPolicyResourcePackageResourceDeb;
-  /** A package managed by YUM. */
-  yum?: OSPolicyResourcePackageResourceAPT;
-  /** An MSI package. */
-  msi?: OSPolicyResourcePackageResourceMSI;
-  /** Required. The desired state the agent should maintain for this package. */
-  desiredState?: OSPolicyResourcePackageResourceDesiredStateEnum | (string & {});
-}
-export type OSPolicyResourceFileResourceStateEnum =
-  | "DESIRED_STATE_UNSPECIFIED"
-  | "PRESENT"
-  | "ABSENT"
-  | "CONTENTS_MATCH";
-/** A resource that manages the state of a file. */
-export interface OSPolicyResourceFileResource {
-  /** Required. Desired state of the file. */
-  state?: OSPolicyResourceFileResourceStateEnum | (string & {});
-  /** A remote or local source. */
-  file?: OSPolicyResourceFile;
-  /** Required. The absolute path of the file within the VM. */
-  path?: string;
-  /** A file with this content. The size of the content is limited to 32KiB. */
-  content?: string;
-  /** Consists of three octal digits which represent, in order, the permissions of the owner, group, and other users for the file (similarly to the numeric mode used in the linux chmod utility). Each digit represents a three bit number with the 4 bit corresponding to the read permissions, the 2 bit corresponds to the write bit, and the one bit corresponds to the execute permission. Default behavior is 755. Below are some examples of permissions and their associated values: read, write, and execute: 7 read and execute: 5 read and write: 6 read only: 4 */
-  permissions?: string;
+  localPath?: string | undefined;
 }
 export type OSPolicyResourceExecResourceExecInterpreterEnum =
   | "INTERPRETER_UNSPECIFIED"
@@ -296,69 +196,166 @@ export type OSPolicyResourceExecResourceExecInterpreterEnum =
   | "POWERSHELL";
 /** A file or script to execute. */
 export interface OSPolicyResourceExecResourceExec {
-  /** Required. The script interpreter to use. */
-  interpreter?: OSPolicyResourceExecResourceExecInterpreterEnum | (string & {});
-  /** An inline script. The size of the script is limited to 32KiB. */
-  script?: string;
-  /** Optional arguments to pass to the source during execution. */
-  args?: StringList;
-  /** Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 100K bytes. */
-  outputFilePath?: string;
   /** A remote or local file. */
-  file?: OSPolicyResourceFile;
+  file?: OSPolicyResourceFile | undefined;
+  /** Required. The script interpreter to use. */
+  interpreter?: OSPolicyResourceExecResourceExecInterpreterEnum | (string & {}) | undefined;
+  /** Only recorded for enforce Exec. Path to an output file (that is created by this Exec) whose content will be recorded in OSPolicyResourceCompliance after a successful run. Absence or failure to read this file will result in this ExecResource being non-compliant. Output file size is limited to 100K bytes. */
+  outputFilePath?: string | undefined;
+  /** Optional arguments to pass to the source during execution. */
+  args?: StringList | undefined;
+  /** An inline script. The size of the script is limited to 32KiB. */
+  script?: string | undefined;
 }
 /** A resource that allows executing scripts on the VM. The `ExecResource` has 2 stages: `validate` and `enforce` and both stages accept a script as an argument to execute. When the `ExecResource` is applied by the agent, it first executes the script in the `validate` stage. The `validate` stage can signal that the `ExecResource` is already in the desired state by returning an exit code of `100`. If the `ExecResource` is not in the desired state, it should return an exit code of `101`. Any other exit code returned by this stage is considered an error. If the `ExecResource` is not in the desired state based on the exit code from the `validate` stage, the agent proceeds to execute the script from the `enforce` stage. If the `ExecResource` is already in the desired state, the `enforce` stage will not be run. Similar to `validate` stage, the `enforce` stage should return an exit code of `100` to indicate that the resource in now in its desired state. Any other exit code is considered an error. NOTE: An exit code of `100` was chosen over `0` (and `101` vs `1`) to have an explicit indicator of `in desired state`, `not in desired state` and errors. Because, for example, Powershell will always return an exit code of `0` unless an `exit` statement is provided in the script. So, for reasons of consistency and being explicit, exit codes `100` and `101` were chosen. */
 export interface OSPolicyResourceExecResource {
   /** What to run to bring this resource into the desired state. An exit code of 100 indicates "success", any other exit code indicates a failure running enforce. */
-  enforce?: OSPolicyResourceExecResourceExec;
+  enforce?: OSPolicyResourceExecResourceExec | undefined;
   /** Required. What to run to validate this resource is in the desired state. An exit code of 100 indicates "in desired state", and exit code of 101 indicates "not in desired state". Any other exit code indicates a failure running validate. */
-  validate?: OSPolicyResourceExecResourceExec;
+  validate?: OSPolicyResourceExecResourceExec | undefined;
+}
+export type OSPolicyResourceFileResourceStateEnum =
+  | "DESIRED_STATE_UNSPECIFIED"
+  | "PRESENT"
+  | "ABSENT"
+  | "CONTENTS_MATCH";
+/** A resource that manages the state of a file. */
+export interface OSPolicyResourceFileResource {
+  /** A remote or local source. */
+  file?: OSPolicyResourceFile | undefined;
+  /** Required. The absolute path of the file within the VM. */
+  path?: string | undefined;
+  /** Required. Desired state of the file. */
+  state?: OSPolicyResourceFileResourceStateEnum | (string & {}) | undefined;
+  /** Consists of three octal digits which represent, in order, the permissions of the owner, group, and other users for the file (similarly to the numeric mode used in the linux chmod utility). Each digit represents a three bit number with the 4 bit corresponding to the read permissions, the 2 bit corresponds to the write bit, and the one bit corresponds to the execute permission. Default behavior is 755. Below are some examples of permissions and their associated values: read, write, and execute: 7 read and execute: 5 read and write: 6 read only: 4 */
+  permissions?: string | undefined;
+  /** A file with this content. The size of the content is limited to 32KiB. */
+  content?: string | undefined;
+}
+/** A deb package file. dpkg packages only support INSTALLED state. */
+export interface OSPolicyResourcePackageResourceDeb {
+  /** Required. A deb package. */
+  source?: OSPolicyResourceFile | undefined;
+  /** Whether dependencies should also be installed. - install when false: `dpkg -i package` - install when true: `apt-get update && apt-get -y install package.deb` */
+  pullDeps?: boolean | undefined;
+}
+/** A package managed by YUM. - install: `yum -y install package` - remove: `yum -y remove package` */
+export interface OSPolicyResourcePackageResourceYUM {
+  /** Required. Package name. */
+  name?: string | undefined;
+}
+export type OSPolicyResourcePackageResourceDesiredStateEnum =
+  | "DESIRED_STATE_UNSPECIFIED"
+  | "INSTALLED"
+  | "REMOVED";
+/** A package managed by APT. - install: `apt-get update && apt-get -y install [name]` - remove: `apt-get -y remove [name]` */
+export type OSPolicyResourcePackageResourceAPT = OSPolicyResourcePackageResourceYUM;
+/** An MSI package. MSI packages only support INSTALLED state. */
+export interface OSPolicyResourcePackageResourceMSI {
+  /** Additional properties to use during installation. This should be in the format of Property=Setting. Appended to the defaults of `ACTION=INSTALL REBOOT=ReallySuppress`. */
+  properties?: StringList | undefined;
+  /** Required. The MSI package. */
+  source?: OSPolicyResourceFile | undefined;
+}
+/** A package managed by Zypper. - install: `zypper -y install package` - remove: `zypper -y rm package` */
+export type OSPolicyResourcePackageResourceZypper = OSPolicyResourcePackageResourceYUM;
+/** A package managed by GooGet. - install: `googet -noconfirm install package` - remove: `googet -noconfirm remove package` */
+export type OSPolicyResourcePackageResourceGooGet = OSPolicyResourcePackageResourceYUM;
+/** An RPM package file. RPM packages only support INSTALLED state. */
+export interface OSPolicyResourcePackageResourceRPM {
+  /** Whether dependencies should also be installed. - install when false: `rpm --upgrade --replacepkgs package.rpm` - install when true: `yum -y install package.rpm` or `zypper -y install package.rpm` */
+  pullDeps?: boolean | undefined;
+  /** Required. An rpm package. */
+  source?: OSPolicyResourceFile | undefined;
+}
+/** A resource that manages a system package. */
+export interface OSPolicyResourcePackageResource {
+  /** A deb package file. */
+  deb?: OSPolicyResourcePackageResourceDeb | undefined;
+  /** A package managed by YUM. */
+  yum?: OSPolicyResourcePackageResourceYUM | undefined;
+  /** Required. The desired state the agent should maintain for this package. */
+  desiredState?: OSPolicyResourcePackageResourceDesiredStateEnum | (string & {}) | undefined;
+  /** A package managed by Apt. */
+  apt?: OSPolicyResourcePackageResourceYUM | undefined;
+  /** An MSI package. */
+  msi?: OSPolicyResourcePackageResourceMSI | undefined;
+  /** A package managed by Zypper. */
+  zypper?: OSPolicyResourcePackageResourceYUM | undefined;
+  /** A package managed by GooGet. */
+  googet?: OSPolicyResourcePackageResourceYUM | undefined;
+  /** An rpm package file. */
+  rpm?: OSPolicyResourcePackageResourceRPM | undefined;
 }
 /** An OS policy resource is used to define the desired state configuration and provides a specific functionality like installing/removing packages, executing a script etc. The system ensures that resources are always in their desired state by taking necessary actions if they have drifted from their desired state. */
 export interface OSPolicyResource {
   /** Package repository resource */
-  repository?: OSPolicyResourceRepositoryResource;
-  /** Required. The id of the resource with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the OS policy. */
-  id?: string;
-  /** Package resource */
-  pkg?: OSPolicyResourcePackageResource;
-  /** File resource */
-  file?: OSPolicyResourceFileResource;
+  repository?: OSPolicyResourceRepositoryResource | undefined;
   /** Exec resource */
-  exec?: OSPolicyResourceExecResource;
+  exec?: OSPolicyResourceExecResource | undefined;
+  /** File resource */
+  file?: OSPolicyResourceFileResource | undefined;
+  /** Required. The id of the resource with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the OS policy. */
+  id?: string | undefined;
+  /** Package resource */
+  pkg?: OSPolicyResourcePackageResource | undefined;
 }
 export type OSPolicyResourceList = Array<OSPolicyResource>;
 /** Filtering criteria to select VMs based on OS details. */
 export interface OSPolicyOSFilter {
-  /** This value should match the version emitted by the OS inventory agent. Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of `7`, specify the following value for this field `7.*` */
-  osVersion?: string;
   /** This should match OS short name emitted by the OS inventory agent. An empty value matches any OS. */
-  osShortName?: string;
+  osShortName?: string | undefined;
+  /** This value should match the version emitted by the OS inventory agent. Prefix matches are supported if asterisk(*) is provided as the last character. For example, to match all versions with a major version of `7`, specify the following value for this field `7.*` */
+  osVersion?: string | undefined;
 }
 /** Resource groups provide a mechanism to group OS policy resources. Resource groups enable OS policy authors to create a single OS policy to be applied to VMs running different operating Systems. When the OS policy is applied to a target VM, the appropriate resource group within the OS policy is selected based on the `OSFilter` specified within the resource group. */
 export interface OSPolicyResourceGroup {
   /** List of inventory filters for the resource group. The resources in this resource group are applied to the target VM if it satisfies at least one of the following inventory filters. For example, to apply this resource group to VMs running either `RHEL` or `CentOS` operating systems, specify 2 items for the list with following values: inventory_filters[0].os_short_name='rhel' and inventory_filters[1].os_short_name='centos' If the list is empty, this resource group will be applied to the target VM unconditionally. */
-  inventoryFilters?: OSPolicyInventoryFilterList;
+  inventoryFilters?: OSPolicyInventoryFilterList | undefined;
   /** Required. List of resources configured for this resource group. The resources are executed in the exact order specified here. */
-  resources?: OSPolicyResourceList;
+  resources?: OSPolicyResourceList | undefined;
   /** Deprecated. Use the `inventory_filters` field instead. Used to specify the OS filter for a resource group */
-  osFilter?: OSPolicyOSFilter;
+  osFilter?: OSPolicyOSFilter | undefined;
 }
 export type OSPolicyResourceGroupList = Array<OSPolicyResourceGroup>;
+export type OSPolicyModeEnum = "MODE_UNSPECIFIED" | "VALIDATION" | "ENFORCEMENT";
 /** An OS policy defines the desired state configuration for a VM. */
 export interface OSPolicy {
-  /** Required. Policy mode */
-  mode?: OSPolicyModeEnum | (string & {});
   /** Required. List of resource groups for the policy. For a particular VM, resource groups are evaluated in the order specified and the first resource group that is applicable is selected and the rest are ignored. If none of the resource groups are applicable for a VM, the VM is considered to be non-compliant w.r.t this policy. This behavior can be toggled by the flag `allow_no_resource_group_match` */
-  resourceGroups?: OSPolicyResourceGroupList;
-  /** Policy description. Length of the description is limited to 1024 characters. */
-  description?: string;
+  resourceGroups?: OSPolicyResourceGroupList | undefined;
+  /** Required. Policy mode */
+  mode?: OSPolicyModeEnum | (string & {}) | undefined;
   /** This flag determines the OS policy compliance status when none of the resource groups within the policy are applicable for a VM. Set this value to `true` if the policy needs to be reported as compliant even if the policy has nothing to validate or enforce. */
-  allowNoResourceGroupMatch?: boolean;
+  allowNoResourceGroupMatch?: boolean | undefined;
   /** Required. The id of the OS policy with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the assignment. */
-  id?: string;
+  id?: string | undefined;
+  /** Policy description. Length of the description is limited to 1024 characters. */
+  description?: string | undefined;
 }
 export type OSPolicyList = Array<OSPolicy>;
+export type StringMap = { [key: string]: string | undefined };
+/** Message representing label set. * A label is a key value pair set for a VM. * A LabelSet is a set of labels. * Labels within a LabelSet are ANDed. In other words, a LabelSet is applicable for a VM only if it matches all the labels in the LabelSet. * Example: A LabelSet with 2 labels: `env=prod` and `type=webserver` will only be applicable for those VMs with both labels present. */
+export interface OSPolicyAssignmentLabelSet {
+  /** Labels are identified by key/value pairs in this map. A VM should contain all the key/value pairs specified in this map to be selected. */
+  labels?: StringMap | undefined;
+}
+export type OSPolicyAssignmentLabelSetList = Array<OSPolicyAssignmentLabelSet>;
+/** VM inventory details. */
+export type OSPolicyAssignmentInstanceFilterInventory = OSPolicyInventoryFilter;
+export type OSPolicyAssignmentInstanceFilterInventoryList = Array<OSPolicyInventoryFilter>;
+/** Filters to select target VMs for an assignment. If more than one filter criteria is specified below, a VM will be selected if and only if it satisfies all of them. */
+export interface OSPolicyAssignmentInstanceFilter {
+  /** Deprecated. Use the `inventories` field instead. A VM is selected if it's OS short name matches with any of the values provided in this list. */
+  osShortNames?: StringList | undefined;
+  /** List of label sets used for VM inclusion. If the list has more than one `LabelSet`, the VM is included if any of the label sets are applicable for the VM. */
+  inclusionLabels?: OSPolicyAssignmentLabelSetList | undefined;
+  /** List of label sets used for VM exclusion. If the list has more than one label set, the VM is excluded if any of the label sets are applicable for the VM. */
+  exclusionLabels?: OSPolicyAssignmentLabelSetList | undefined;
+  /** Target all VMs in the project. If true, no other criteria is permitted. */
+  all?: boolean | undefined;
+  /** List of inventories to select VMs. A VM is selected if its inventory data matches at least one of the following inventories. */
+  inventories?: OSPolicyAssignmentInstanceFilterInventoryList | undefined;
+}
 export type OSPolicyAssignmentRolloutStateEnum =
   | "ROLLOUT_STATE_UNSPECIFIED"
   | "IN_PROGRESS"
@@ -368,89 +365,100 @@ export type OSPolicyAssignmentRolloutStateEnum =
 /** Message encapsulating a value that can be either absolute ("fixed") or relative ("percent") to a value. */
 export interface FixedOrPercent {
   /** Specifies the relative value defined as a percentage, which will be multiplied by a reference value. */
-  percent?: number;
+  percent?: number | undefined;
   /** Specifies a fixed value. */
-  fixed?: number;
+  fixed?: number | undefined;
 }
 /** Message to configure the rollout at the zonal level for the OS policy assignment. */
 export interface OSPolicyAssignmentRollout {
   /** Required. This determines the minimum duration of time to wait after the configuration changes are applied through the current rollout. A VM continues to count towards the `disruption_budget` at least until this duration of time has passed after configuration changes are applied. */
-  minWaitDuration?: string;
+  minWaitDuration?: string | undefined;
   /** Required. The maximum number (or percentage) of VMs per zone to disrupt at any given moment. */
-  disruptionBudget?: FixedOrPercent;
+  disruptionBudget?: FixedOrPercent | undefined;
 }
 /** OS policy assignment is an API resource that is used to apply a set of OS policies to a dynamically targeted group of Compute Engine VM instances. An OS policy is used to define the desired state configuration for a Compute Engine VM instance through a set of configuration resources that provide capabilities such as installing or removing software packages, or executing a script. For more information, see [OS policy and OS policy assignment](https://cloud.google.com/compute/docs/os-configuration-management/working-with-os-policies). */
 export interface OSPolicyAssignment {
-  /** Required. Filter to select VMs. */
-  instanceFilter?: OSPolicyAssignmentInstanceFilter;
-  /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
-  reconciling?: boolean;
-  /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
-  name?: string;
-  /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
-  baseline?: boolean;
   /** Required. List of OS policies to be applied to the VMs. */
-  osPolicies?: OSPolicyList;
-  /** OS policy assignment description. Length of the description is limited to 1024 characters. */
-  description?: string;
-  /** Output only. OS policy assignment rollout state */
-  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {});
-  /** Output only. Server generated unique id for the OS policy assignment resource. */
-  uid?: string;
-  /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
-  rollout?: OSPolicyAssignmentRollout;
-  /** Output only. Indicates that this revision deletes the OS policy assignment. */
-  deleted?: boolean;
+  osPolicies?: OSPolicyList | undefined;
   /** Output only. The assignment revision ID A new revision is committed whenever a rollout is triggered for a OS policy assignment */
-  revisionId?: string;
-  /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string;
+  revisionId?: string | undefined;
+  /** Required. Filter to select VMs. */
+  instanceFilter?: OSPolicyAssignmentInstanceFilter | undefined;
+  /** Output only. Indicates that this revision deletes the OS policy assignment. */
+  deleted?: boolean | undefined;
   /** The etag for this OS policy assignment. If this is provided on update, it must match the server's etag. */
-  etag?: string;
+  etag?: string | undefined;
+  /** Output only. OS policy assignment rollout state */
+  rolloutState?: OSPolicyAssignmentRolloutStateEnum | (string & {}) | undefined;
+  /** OS policy assignment description. Length of the description is limited to 1024 characters. */
+  description?: string | undefined;
+  /** Output only. Server generated unique id for the OS policy assignment resource. */
+  uid?: string | undefined;
+  /** Output only. Indicates that reconciliation is in progress for the revision. This value is `true` when the `rollout_state` is one of: * IN_PROGRESS * CANCELLING */
+  reconciling?: boolean | undefined;
+  /** Output only. Indicates that this revision has been successfully rolled out in this zone and new VMs will be assigned OS policies from this revision. For a given OS policy assignment, there is only one revision with a value of `true` for this field. */
+  baseline?: boolean | undefined;
+  /** Output only. The timestamp that the revision was created. */
+  revisionCreateTime?: string | undefined;
+  /** Required. Rollout to deploy the OS policy assignment. A rollout is triggered in the following situations: 1) OSPolicyAssignment is created. 2) OSPolicyAssignment is updated and the update contains changes to one of the following fields: - instance_filter - os_policies 3) OSPolicyAssignment is deleted. */
+  rollout?: OSPolicyAssignmentRollout | undefined;
+  /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsOsPolicyAssignmentsRequest {
+  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
+  requestId?: string | undefined;
   /** Required. The parent resource name in the form: projects/{project}/locations/{location} */
   parent: string;
-  /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string;
   /** Required. The logical name of the OS policy assignment in the project with the following restrictions: * Must contain only lowercase letters, numbers, and hyphens. * Must start with a letter. * Must be between 1-63 characters. * Must end with a number or a letter. * Must be unique within the project. */
-  osPolicyAssignmentId?: string;
+  osPolicyAssignmentId?: string | undefined;
   /** Request body */
-  body?: OSPolicyAssignment;
+  body?: OSPolicyAssignment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
 export interface DeleteProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The name of the OS policy assignment to be deleted */
   name: string;
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface GetProjectsLocationsInstanceOSPoliciesCompliancesRequest {
   /** Required. API resource name for instance OS policies compliance resource. Format: `projects/{project}/locations/{location}/instanceOSPoliciesCompliances/{instance}` For `{project}`, either Compute Engine project-number or project-id can be provided. For `{instance}`, either Compute Engine VM instance-id or instance-name can be provided. */
   name: string;
+}
+export type InstanceOSPoliciesComplianceOSPolicyComplianceStateEnum =
+  | "OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED"
+  | "COMPLIANT"
+  | "NON_COMPLIANT"
+  | "UNKNOWN"
+  | "NO_OS_POLICIES_APPLICABLE";
+/** ExecResource specific output. */
+export interface OSPolicyResourceComplianceExecResourceOutput {
+  /** Output from Enforcement phase output file (if run). Output size is limited to 100K bytes. */
+  enforcementOutput?: string | undefined;
 }
 export type OSPolicyResourceComplianceStateEnum =
   | "OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED"
@@ -458,56 +466,45 @@ export type OSPolicyResourceComplianceStateEnum =
   | "NON_COMPLIANT"
   | "UNKNOWN"
   | "NO_OS_POLICIES_APPLICABLE";
+export type OSPolicyResourceConfigStepOutcomeEnum = "OUTCOME_UNSPECIFIED" | "SUCCEEDED" | "FAILED";
 export type OSPolicyResourceConfigStepTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "VALIDATION"
   | "DESIRED_STATE_CHECK"
   | "DESIRED_STATE_ENFORCEMENT"
   | "DESIRED_STATE_CHECK_POST_ENFORCEMENT";
-export type OSPolicyResourceConfigStepOutcomeEnum = "OUTCOME_UNSPECIFIED" | "SUCCEEDED" | "FAILED";
 /** Step performed by the OS Config agent for configuring an `OSPolicyResource` to its desired state. */
 export interface OSPolicyResourceConfigStep {
-  /** An error message recorded during the execution of this step. Only populated when outcome is FAILED. */
-  errorMessage?: string;
-  /** Configuration step type. */
-  type?: OSPolicyResourceConfigStepTypeEnum;
   /** Outcome of the configuration step. */
-  outcome?: OSPolicyResourceConfigStepOutcomeEnum;
+  outcome?: OSPolicyResourceConfigStepOutcomeEnum | undefined;
+  /** Configuration step type. */
+  type?: OSPolicyResourceConfigStepTypeEnum | undefined;
+  /** An error message recorded during the execution of this step. Only populated when outcome is FAILED. */
+  errorMessage?: string | undefined;
 }
 export type OSPolicyResourceConfigStepList = Array<OSPolicyResourceConfigStep>;
-/** ExecResource specific output. */
-export interface OSPolicyResourceComplianceExecResourceOutput {
-  /** Output from Enforcement phase output file (if run). Output size is limited to 100K bytes. */
-  enforcementOutput?: string;
-}
 /** Compliance data for an OS policy resource. */
 export interface OSPolicyResourceCompliance {
-  /** The id of the OS policy resource. */
-  osPolicyResourceId?: string;
-  /** Compliance state of the OS policy resource. */
-  state?: OSPolicyResourceComplianceStateEnum;
-  /** Ordered list of configuration steps taken by the agent for the OS policy resource. */
-  configSteps?: OSPolicyResourceConfigStepList;
   /** ExecResource specific output. */
-  execResourceOutput?: OSPolicyResourceComplianceExecResourceOutput;
+  execResourceOutput?: OSPolicyResourceComplianceExecResourceOutput | undefined;
+  /** Compliance state of the OS policy resource. */
+  state?: OSPolicyResourceComplianceStateEnum | undefined;
+  /** Ordered list of configuration steps taken by the agent for the OS policy resource. */
+  configSteps?: OSPolicyResourceConfigStepList | undefined;
+  /** The id of the OS policy resource. */
+  osPolicyResourceId?: string | undefined;
 }
 export type OSPolicyResourceComplianceList = Array<OSPolicyResourceCompliance>;
-export type InstanceOSPoliciesComplianceOSPolicyComplianceStateEnum =
-  | "OS_POLICY_COMPLIANCE_STATE_UNSPECIFIED"
-  | "COMPLIANT"
-  | "NON_COMPLIANT"
-  | "UNKNOWN"
-  | "NO_OS_POLICIES_APPLICABLE";
 /** Compliance data for an OS policy */
 export interface InstanceOSPoliciesComplianceOSPolicyCompliance {
-  /** Compliance data for each `OSPolicyResource` that is applied to the VM. */
-  osPolicyResourceCompliances?: OSPolicyResourceComplianceList;
-  /** Reference to the `OSPolicyAssignment` API resource that the `OSPolicy` belongs to. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}` */
-  osPolicyAssignment?: string;
-  /** The OS policy id */
-  osPolicyId?: string;
   /** Compliance state of the OS policy. */
-  state?: InstanceOSPoliciesComplianceOSPolicyComplianceStateEnum;
+  state?: InstanceOSPoliciesComplianceOSPolicyComplianceStateEnum | undefined;
+  /** Compliance data for each `OSPolicyResource` that is applied to the VM. */
+  osPolicyResourceCompliances?: OSPolicyResourceComplianceList | undefined;
+  /** Reference to the `OSPolicyAssignment` API resource that the `OSPolicy` belongs to. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}` */
+  osPolicyAssignment?: string | undefined;
+  /** The OS policy id */
+  osPolicyId?: string | undefined;
 }
 export type InstanceOSPoliciesComplianceOSPolicyComplianceList =
   Array<InstanceOSPoliciesComplianceOSPolicyCompliance>;
@@ -519,196 +516,192 @@ export type InstanceOSPoliciesComplianceStateEnum =
   | "NO_OS_POLICIES_APPLICABLE";
 /** This API resource represents the OS policies compliance data for a Compute Engine virtual machine (VM) instance at a given point in time. A Compute Engine VM can have multiple OS policy assignments, and each assignment can have multiple OS policies. As a result, multiple OS policies could be applied to a single VM. You can use this API resource to determine both the compliance state of your VM as well as the compliance state of an individual OS policy. For more information, see [View compliance](https://cloud.google.com/compute/docs/os-configuration-management/view-compliance). */
 export interface InstanceOSPoliciesCompliance {
-  /** Output only. The reason for the `detailed_state` of the VM (if any). */
-  detailedStateReason?: string;
-  /** Output only. The Compute Engine VM instance name. */
-  instance?: string;
   /** Output only. Compliance data for each `OSPolicy` that is applied to the VM. */
-  osPolicyCompliances?: InstanceOSPoliciesComplianceOSPolicyComplianceList;
-  /** Output only. Unique identifier for the last compliance run. This id will be logged by the OS config agent during a compliance run and can be used for debugging and tracing purpose. */
-  lastComplianceRunId?: string;
-  /** Output only. Timestamp of the last compliance check for the VM. */
-  lastComplianceCheckTime?: string;
-  /** Output only. Compliance state of the VM. */
-  state?: InstanceOSPoliciesComplianceStateEnum;
-  /** Output only. The `InstanceOSPoliciesCompliance` API resource name. Format: `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}` */
-  name?: string;
+  osPolicyCompliances?: InstanceOSPoliciesComplianceOSPolicyComplianceList | undefined;
   /** Output only. Detailed compliance state of the VM. This field is populated only when compliance state is `UNKNOWN`. It may contain one of the following values: * `no-compliance-data`: Compliance data is not available for this VM. * `no-agent-detected`: OS Config agent is not detected for this VM. * `config-not-supported-by-agent`: The version of the OS Config agent running on this VM does not support configuration management. * `inactive`: VM is not running. * `internal-service-errors`: There were internal service errors encountered while enforcing compliance. * `agent-errors`: OS config agent encountered errors while enforcing compliance. */
-  detailedState?: string;
+  detailedState?: string | undefined;
+  /** Output only. Unique identifier for the last compliance run. This id will be logged by the OS config agent during a compliance run and can be used for debugging and tracing purpose. */
+  lastComplianceRunId?: string | undefined;
+  /** Output only. Compliance state of the VM. */
+  state?: InstanceOSPoliciesComplianceStateEnum | undefined;
+  /** Output only. Timestamp of the last compliance check for the VM. */
+  lastComplianceCheckTime?: string | undefined;
+  /** Output only. The reason for the `detailed_state` of the VM (if any). */
+  detailedStateReason?: string | undefined;
+  /** Output only. The `InstanceOSPoliciesCompliance` API resource name. Format: `projects/{project_number}/locations/{location}/instanceOSPoliciesCompliances/{instance_id}` */
+  name?: string | undefined;
+  /** Output only. The Compute Engine VM instance name. */
+  instance?: string | undefined;
 }
 export type GetProjectsLocationsInstancesInventoriesViewEnum =
   | "INVENTORY_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
 export interface GetProjectsLocationsInstancesInventoriesRequest {
-  /** Inventory view indicating what information should be included in the inventory resource. If unspecified, the default view is BASIC. */
-  view?: GetProjectsLocationsInstancesInventoriesViewEnum | (string & {});
   /** Required. API resource name for inventory resource. Format: `projects/{project}/locations/{location}/instances/{instance}/inventory` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance}`, either Compute Engine `instance-id` or `instance-name` can be provided. */
   name: string;
+  /** Optional. Inventory view indicating what information should be included in the inventory resource. If unspecified, the default view is BASIC. */
+  view?: GetProjectsLocationsInstancesInventoriesViewEnum | (string & {}) | undefined;
 }
 /** Operating system information for the VM. */
 export interface InventoryOsInfo {
-  /** The operating system short name. For example, 'windows' or 'debian'. */
-  shortName?: string;
   /** The system architecture of the operating system. */
-  architecture?: string;
+  architecture?: string | undefined;
+  /** The operating system short name. For example, 'windows' or 'debian'. */
+  shortName?: string | undefined;
   /** The operating system long name. For example 'Debian GNU/Linux 9' or 'Microsoft Window Server 2019 Datacenter'. */
-  longName?: string;
-  /** The kernel version of the operating system. */
-  kernelVersion?: string;
-  /** The VM hostname. */
-  hostname?: string;
-  /** The version of the operating system. */
-  version?: string;
-  /** The kernel release of the operating system. */
-  kernelRelease?: string;
+  longName?: string | undefined;
   /** The current version of the OS Config agent running on the VM. */
-  osconfigAgentVersion?: string;
+  osconfigAgentVersion?: string | undefined;
+  /** The kernel release of the operating system. */
+  kernelRelease?: string | undefined;
+  /** The version of the operating system. */
+  version?: string | undefined;
+  /** The VM hostname. */
+  hostname?: string | undefined;
+  /** The kernel version of the operating system. */
+  kernelVersion?: string | undefined;
 }
-export type InventoryItemOriginTypeEnum = "ORIGIN_TYPE_UNSPECIFIED" | "INVENTORY_REPORT";
 /** Information related to the a standard versioned package. This includes package info for APT, Yum, Zypper, and Googet package managers. */
 export interface InventoryVersionedPackage {
   /** The version of the package. */
-  version?: string;
-  /** The name of the package. */
-  packageName?: string;
+  version?: string | undefined;
   /** The system architecture this package is intended for. */
-  architecture?: string;
+  architecture?: string | undefined;
+  /** The name of the package. */
+  packageName?: string | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Osconfig_Date {
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  month?: number | undefined;
 }
 /** Contains information about a Windows application that is retrieved from the Windows Registry. For more information about these fields, see: https://docs.microsoft.com/en-us/windows/win32/msi/uninstall-registry-key */
 export interface InventoryWindowsApplication {
   /** The version of the product or application in string format. */
-  displayVersion?: string;
-  /** The name of the application or product. */
-  displayName?: string;
-  /** The name of the manufacturer for the product or application. */
-  publisher?: string;
+  displayVersion?: string | undefined;
   /** The last time this product received service. The value of this property is replaced each time a patch is applied or removed from the product or the command-line option is used to repair the product. */
-  installDate?: Osconfig_Date;
+  installDate?: Osconfig_Date | undefined;
+  /** The name of the application or product. */
+  displayName?: string | undefined;
+  /** The name of the manufacturer for the product or application. */
+  publisher?: string | undefined;
   /** The internet address for technical support. */
-  helpLink?: string;
+  helpLink?: string | undefined;
+}
+/** Information related to a Quick Fix Engineering package. Fields are taken from Windows QuickFixEngineering Interface and match the source names: https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering */
+export interface InventoryWindowsQuickFixEngineeringPackage {
+  /** Date that the QFE update was installed. Mapped from installed_on field. */
+  installTime?: string | undefined;
+  /** A textual description of the QFE update. */
+  description?: string | undefined;
+  /** Unique identifier associated with a particular QFE update. */
+  hotFixId?: string | undefined;
+  /** A short textual description of the QFE update. */
+  caption?: string | undefined;
 }
 /** Categories specified by the Windows Update. */
 export interface InventoryWindowsUpdatePackageWindowsUpdateCategory {
   /** The name of the windows update category. */
-  name?: string;
+  name?: string | undefined;
   /** The identifier of the windows update category. */
-  id?: string;
+  id?: string | undefined;
 }
 export type InventoryWindowsUpdatePackageWindowsUpdateCategoryList =
   Array<InventoryWindowsUpdatePackageWindowsUpdateCategory>;
 /** Details related to a Windows Update package. Field data and names are taken from Windows Update API IUpdate Interface: https://docs.microsoft.com/en-us/windows/win32/api/_wua/ Descriptive fields like title, and description are localized based on the locale of the VM being updated. */
 export interface InventoryWindowsUpdatePackage {
-  /** The localized title of the update package. */
-  title?: string;
   /** The categories that are associated with this update package. */
-  categories?: InventoryWindowsUpdatePackageWindowsUpdateCategoryList;
-  /** A collection of URLs that provide more information about the update package. */
-  moreInfoUrls?: StringList;
-  /** The localized description of the update package. */
-  description?: string;
+  categories?: InventoryWindowsUpdatePackageWindowsUpdateCategoryList | undefined;
+  /** The localized title of the update package. */
+  title?: string | undefined;
   /** A collection of Microsoft Knowledge Base article IDs that are associated with the update package. */
-  kbArticleIds?: StringList;
-  /** A hyperlink to the language-specific support information for the update. */
-  supportUrl?: string;
-  /** Gets the identifier of an update package. Stays the same across revisions. */
-  updateId?: string;
-  /** The last published date of the update, in (UTC) date and time. */
-  lastDeploymentChangeTime?: string;
+  kbArticleIds?: StringList | undefined;
+  /** A collection of URLs that provide more information about the update package. */
+  moreInfoUrls?: StringList | undefined;
   /** The revision number of this update package. */
-  revisionNumber?: number;
-}
-/** Information related to a Quick Fix Engineering package. Fields are taken from Windows QuickFixEngineering Interface and match the source names: https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering */
-export interface InventoryWindowsQuickFixEngineeringPackage {
-  /** Date that the QFE update was installed. Mapped from installed_on field. */
-  installTime?: string;
-  /** Unique identifier associated with a particular QFE update. */
-  hotFixId?: string;
-  /** A short textual description of the QFE update. */
-  caption?: string;
-  /** A textual description of the QFE update. */
-  description?: string;
+  revisionNumber?: number | undefined;
+  /** A hyperlink to the language-specific support information for the update. */
+  supportUrl?: string | undefined;
+  /** The last published date of the update, in (UTC) date and time. */
+  lastDeploymentChangeTime?: string | undefined;
+  /** Gets the identifier of an update package. Stays the same across revisions. */
+  updateId?: string | undefined;
+  /** The localized description of the update package. */
+  description?: string | undefined;
 }
 /** Details related to a Zypper Patch. */
 export interface InventoryZypperPatch {
-  /** The severity specified for this patch */
-  severity?: string;
-  /** The name of the patch. */
-  patchName?: string;
-  /** Any summary information provided about this patch. */
-  summary?: string;
   /** The category of the patch. */
-  category?: string;
+  category?: string | undefined;
+  /** The severity specified for this patch */
+  severity?: string | undefined;
+  /** Any summary information provided about this patch. */
+  summary?: string | undefined;
+  /** The name of the patch. */
+  patchName?: string | undefined;
 }
 /** Software package information of the operating system. */
 export interface InventorySoftwarePackage {
   /** Details of a Googet package. For details about the googet package manager, see https://github.com/google/googet. */
-  googetPackage?: InventoryVersionedPackage;
-  /** Details of a COS package. */
-  cosPackage?: InventoryVersionedPackage;
+  googetPackage?: InventoryVersionedPackage | undefined;
   /** Details of Windows Application. */
-  windowsApplication?: InventoryWindowsApplication;
+  windowsApplication?: InventoryWindowsApplication | undefined;
   /** Details of an APT package. For details about the apt package manager, see https://wiki.debian.org/Apt. */
-  aptPackage?: InventoryVersionedPackage;
-  /** Details of a Windows Update package. See https://docs.microsoft.com/en-us/windows/win32/api/_wua/ for information about Windows Update. */
-  wuaPackage?: InventoryWindowsUpdatePackage;
-  /** Details of a Zypper package. For details about the Zypper package manager, see https://en.opensuse.org/SDB:Zypper_manual. */
-  zypperPackage?: InventoryVersionedPackage;
-  /** Yum package info. For details about the yum package manager, see https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum. */
-  yumPackage?: InventoryVersionedPackage;
+  aptPackage?: InventoryVersionedPackage | undefined;
+  /** Details of a COS package. */
+  cosPackage?: InventoryVersionedPackage | undefined;
   /** Details of a Windows Quick Fix engineering package. See https://docs.microsoft.com/en-us/windows/win32/cimwin32prov/win32-quickfixengineering for info in Windows Quick Fix Engineering. */
-  qfePackage?: InventoryWindowsQuickFixEngineeringPackage;
+  qfePackage?: InventoryWindowsQuickFixEngineeringPackage | undefined;
+  /** Details of a Windows Update package. See https://docs.microsoft.com/en-us/windows/win32/api/_wua/ for information about Windows Update. */
+  wuaPackage?: InventoryWindowsUpdatePackage | undefined;
   /** Details of a Zypper patch. For details about the Zypper package manager, see https://en.opensuse.org/SDB:Zypper_manual. */
-  zypperPatch?: InventoryZypperPatch;
+  zypperPatch?: InventoryZypperPatch | undefined;
+  /** Yum package info. For details about the yum package manager, see https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/deployment_guide/ch-yum. */
+  yumPackage?: InventoryVersionedPackage | undefined;
+  /** Details of a Zypper package. For details about the Zypper package manager, see https://en.opensuse.org/SDB:Zypper_manual. */
+  zypperPackage?: InventoryVersionedPackage | undefined;
 }
+export type InventoryItemOriginTypeEnum = "ORIGIN_TYPE_UNSPECIFIED" | "INVENTORY_REPORT";
 export type InventoryItemTypeEnum = "TYPE_UNSPECIFIED" | "INSTALLED_PACKAGE" | "AVAILABLE_PACKAGE";
 /** A single piece of inventory on a VM. */
 export interface InventoryItem {
-  /** The origin of this inventory item. */
-  originType?: InventoryItemOriginTypeEnum;
-  /** Software package available to be installed on the VM instance. */
-  availablePackage?: InventorySoftwarePackage;
-  /** When this inventory item was first detected. */
-  createTime?: string;
   /** Software package present on the VM instance. */
-  installedPackage?: InventorySoftwarePackage;
-  /** The specific type of inventory, correlating to its specific details. */
-  type?: InventoryItemTypeEnum;
-  /** When this inventory item was last modified. */
-  updateTime?: string;
+  installedPackage?: InventorySoftwarePackage | undefined;
   /** Identifier for this item, unique across items for this VM. */
-  id?: string;
+  id?: string | undefined;
+  /** The origin of this inventory item. */
+  originType?: InventoryItemOriginTypeEnum | undefined;
+  /** When this inventory item was first detected. */
+  createTime?: string | undefined;
+  /** The specific type of inventory, correlating to its specific details. */
+  type?: InventoryItemTypeEnum | undefined;
+  /** Software package available to be installed on the VM instance. */
+  availablePackage?: InventorySoftwarePackage | undefined;
+  /** When this inventory item was last modified. */
+  updateTime?: string | undefined;
 }
 export type InventoryItemMap = { [key: string]: InventoryItem | undefined };
 /** This API resource represents the available inventory data for a Compute Engine virtual machine (VM) instance at a given point in time. You can use this API resource to determine the inventory data of your VM. For more information, see [Information provided by OS inventory management](https://cloud.google.com/compute/docs/instances/os-inventory-management#data-collected). */
 export interface Inventory {
   /** Output only. Base level operating system information for the VM. */
-  osInfo?: InventoryOsInfo;
-  /** Output only. Timestamp of the last reported inventory for the VM. */
-  updateTime?: string;
-  /** Output only. The `Inventory` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory` */
-  name?: string;
+  osInfo?: InventoryOsInfo | undefined;
   /** Output only. Inventory items related to the VM keyed by an opaque unique identifier for each inventory item. The identifier is unique to each distinct and addressable inventory item and will change, when there is a new package version. */
-  items?: InventoryItemMap;
+  items?: InventoryItemMap | undefined;
+  /** Output only. Timestamp of the last reported inventory for the VM. */
+  updateTime?: string | undefined;
+  /** Output only. The `Inventory` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/inventory` */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest {
   /** Required. API resource name for OS policy assignment report. Format: `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance_id}`, either Compute Engine `instance-id` or `instance-name` can be provided. For `{assignment_id}`, the OSPolicyAssignment id must be provided. */
   name: string;
 }
 export type OSPolicyAssignmentReportOSPolicyComplianceComplianceStateEnum =
-  | "UNKNOWN"
-  | "COMPLIANT"
-  | "NON_COMPLIANT";
-export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceComplianceStateEnum =
   | "UNKNOWN"
   | "COMPLIANT"
   | "NON_COMPLIANT";
@@ -721,59 +714,73 @@ export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance
 /** Step performed by the OS Config agent for configuring an `OSPolicy` resource to its desired state. */
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep {
   /** Configuration step type. */
-  type?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepTypeEnum;
+  type?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepTypeEnum
+    | undefined;
   /** An error message recorded during the execution of this step. Only populated if errors were encountered during this step execution. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepList =
   Array<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep>;
+export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceComplianceStateEnum =
+  | "UNKNOWN"
+  | "COMPLIANT"
+  | "NON_COMPLIANT";
 /** ExecResource specific output. */
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput {
   /** Output from enforcement phase output file (if run). Output size is limited to 100K bytes. */
-  enforcementOutput?: string;
+  enforcementOutput?: string | undefined;
 }
 /** Compliance data for an OS policy resource. */
 export interface OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance {
-  /** The compliance state of the resource. */
-  complianceState?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceComplianceStateEnum;
-  /** A reason for the resource to be in the given compliance state. This field is always populated when `compliance_state` is `UNKNOWN`. The following values are supported when `compliance_state == UNKNOWN` * `execution-errors`: Errors were encountered by the agent while executing the resource and the compliance state couldn't be determined. * `execution-skipped-by-agent`: Resource execution was skipped by the agent because errors were encountered while executing prior resources in the OS policy. * `os-policy-execution-attempt-failed`: The execution of the OS policy containing this resource failed and the compliance state couldn't be determined. * `os-policy-execution-pending`: OS policy that owns this resource was assigned to the given VM, but was not executed yet. */
-  complianceStateReason?: string;
   /** The ID of the OS policy resource. */
-  osPolicyResourceId?: string;
+  osPolicyResourceId?: string | undefined;
   /** Ordered list of configuration completed by the agent for the OS policy resource. */
-  configSteps?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepList;
+  configSteps?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStepList
+    | undefined;
+  /** A reason for the resource to be in the given compliance state. This field is always populated when `compliance_state` is `UNKNOWN`. The following values are supported when `compliance_state == UNKNOWN` * `execution-errors`: Errors were encountered by the agent while executing the resource and the compliance state couldn't be determined. * `execution-skipped-by-agent`: Resource execution was skipped by the agent because errors were encountered while executing prior resources in the OS policy. * `os-policy-execution-attempt-failed`: The execution of the OS policy containing this resource failed and the compliance state couldn't be determined. * `os-policy-execution-pending`: OS policy that owns this resource was assigned to the given VM, but was not executed yet. */
+  complianceStateReason?: string | undefined;
+  /** The compliance state of the resource. */
+  complianceState?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceComplianceStateEnum
+    | undefined;
   /** ExecResource specific output. */
-  execResourceOutput?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput;
+  execResourceOutput?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput
+    | undefined;
 }
 export type OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceList =
   Array<OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance>;
 /** Compliance data for an OS policy */
 export interface OSPolicyAssignmentReportOSPolicyCompliance {
   /** The compliance state of the OS policy. */
-  complianceState?: OSPolicyAssignmentReportOSPolicyComplianceComplianceStateEnum;
-  /** The OS policy id */
-  osPolicyId?: string;
+  complianceState?: OSPolicyAssignmentReportOSPolicyComplianceComplianceStateEnum | undefined;
   /** Compliance data for each resource within the policy that is applied to the VM. */
-  osPolicyResourceCompliances?: OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceList;
+  osPolicyResourceCompliances?:
+    | OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceList
+    | undefined;
+  /** The OS policy id */
+  osPolicyId?: string | undefined;
   /** The reason for the OS policy to be in an unknown compliance state. This field is always populated when `compliance_state` is `UNKNOWN`. If populated, the field can contain one of the following values: * `vm-not-running`: The VM was not running. * `os-policies-not-supported-by-agent`: The version of the OS Config agent running on the VM does not support running OS policies. * `no-agent-detected`: The OS Config agent is not detected for the VM. * `resource-execution-errors`: The OS Config agent encountered errors while executing one or more resources in the policy. See `os_policy_resource_compliances` for details. * `task-timeout`: The task sent to the agent to apply the policy timed out. * `unexpected-agent-state`: The OS Config agent did not report the final status of the task that attempted to apply the policy. Instead, the agent unexpectedly started working on a different task. This mostly happens when the agent or VM unexpectedly restarts while applying OS policies. * `internal-service-errors`: Internal service errors were encountered while attempting to apply the policy. * `os-policy-execution-pending`: OS policy was assigned to the given VM, but was not executed yet. Typically this is a transient condition that will go away after the next policy execution cycle. */
-  complianceStateReason?: string;
+  complianceStateReason?: string | undefined;
 }
 export type OSPolicyAssignmentReportOSPolicyComplianceList =
   Array<OSPolicyAssignmentReportOSPolicyCompliance>;
 /** A report of the OS policy assignment status for a given instance. */
 export interface OSPolicyAssignmentReport {
   /** Reference to the `OSPolicyAssignment` API resource that the `OSPolicy` belongs to. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}` */
-  osPolicyAssignment?: string;
-  /** Unique identifier of the last attempted run to apply the OS policies associated with this assignment on the VM. This ID is logged by the OS Config agent while applying the OS policies associated with this assignment on the VM. NOTE: If the service is unable to successfully connect to the agent for this run, then this id will not be available in the agent logs. */
-  lastRunId?: string;
-  /** The Compute Engine VM instance name. */
-  instance?: string;
-  /** The `OSPolicyAssignmentReport` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report` */
-  name?: string;
+  osPolicyAssignment?: string | undefined;
   /** Timestamp for when the report was last generated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
+  /** Unique identifier of the last attempted run to apply the OS policies associated with this assignment on the VM. This ID is logged by the OS Config agent while applying the OS policies associated with this assignment on the VM. NOTE: If the service is unable to successfully connect to the agent for this run, then this id will not be available in the agent logs. */
+  lastRunId?: string | undefined;
+  /** The Compute Engine VM instance name. */
+  instance?: string | undefined;
+  /** The `OSPolicyAssignmentReport` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report` */
+  name?: string | undefined;
   /** Compliance data for each `OSPolicy` that is applied to the VM. */
-  osPolicyCompliances?: OSPolicyAssignmentReportOSPolicyComplianceList;
+  osPolicyCompliances?: OSPolicyAssignmentReportOSPolicyComplianceList | undefined;
 }
 export interface GetProjectsLocationsInstancesVulnerabilityReportsRequest {
   /** Required. API resource name for vulnerability resource. Format: `projects/{project}/locations/{location}/instances/{instance}/vulnerabilityReport` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance}`, either Compute Engine `instance-id` or `instance-name` can be provided. */
@@ -790,39 +797,49 @@ export type VulnerabilityReportHighestUpgradableCveSeverityEnum =
 /** OS inventory item that is affected by a vulnerability or fixed as a result of a vulnerability. */
 export interface VulnerabilityReportVulnerabilityItem {
   /** The recommended [CPE URI](https://cpe.mitre.org/specification/) update that contains a fix for this vulnerability. */
-  fixedCpeUri?: string;
-  /** Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. If there is no available fix, the field is empty. The `inventory_item` value specifies the latest `SoftwarePackage` available to the VM that fixes the vulnerability. */
-  availableInventoryItemId?: string;
+  fixedCpeUri?: string | undefined;
   /** The upstream OS patch, packages or KB that fixes the vulnerability. */
-  upstreamFix?: string;
+  upstreamFix?: string | undefined;
+  /** Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. If there is no available fix, the field is empty. The `inventory_item` value specifies the latest `SoftwarePackage` available to the VM that fixes the vulnerability. */
+  availableInventoryItemId?: string | undefined;
   /** Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM. This field displays the inventory items affected by this vulnerability. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. For some operating systems, this field might be empty. */
-  installedInventoryItemId?: string;
+  installedInventoryItemId?: string | undefined;
 }
 export type VulnerabilityReportVulnerabilityItemList = Array<VulnerabilityReportVulnerabilityItem>;
 /** A reference for this vulnerability. */
 export interface VulnerabilityReportVulnerabilityDetailsReference {
-  /** The source of the reference e.g. NVD. */
-  source?: string;
   /** The url of the reference. */
-  url?: string;
+  url?: string | undefined;
+  /** The source of the reference e.g. NVD. */
+  source?: string | undefined;
 }
 export type VulnerabilityReportVulnerabilityDetailsReferenceList =
   Array<VulnerabilityReportVulnerabilityDetailsReference>;
 export type CVSSv3ScopeEnum = "SCOPE_UNSPECIFIED" | "SCOPE_UNCHANGED" | "SCOPE_CHANGED";
-export type CVSSv3AttackComplexityEnum =
-  | "ATTACK_COMPLEXITY_UNSPECIFIED"
-  | "ATTACK_COMPLEXITY_LOW"
-  | "ATTACK_COMPLEXITY_HIGH";
 export type CVSSv3UserInteractionEnum =
   | "USER_INTERACTION_UNSPECIFIED"
   | "USER_INTERACTION_NONE"
   | "USER_INTERACTION_REQUIRED";
+export type CVSSv3IntegrityImpactEnum =
+  | "IMPACT_UNSPECIFIED"
+  | "IMPACT_HIGH"
+  | "IMPACT_LOW"
+  | "IMPACT_NONE";
+export type CVSSv3PrivilegesRequiredEnum =
+  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
+  | "PRIVILEGES_REQUIRED_NONE"
+  | "PRIVILEGES_REQUIRED_LOW"
+  | "PRIVILEGES_REQUIRED_HIGH";
 export type CVSSv3AttackVectorEnum =
   | "ATTACK_VECTOR_UNSPECIFIED"
   | "ATTACK_VECTOR_NETWORK"
   | "ATTACK_VECTOR_ADJACENT"
   | "ATTACK_VECTOR_LOCAL"
   | "ATTACK_VECTOR_PHYSICAL";
+export type CVSSv3AttackComplexityEnum =
+  | "ATTACK_COMPLEXITY_UNSPECIFIED"
+  | "ATTACK_COMPLEXITY_LOW"
+  | "ATTACK_COMPLEXITY_HIGH";
 export type CVSSv3ConfidentialityImpactEnum =
   | "IMPACT_UNSPECIFIED"
   | "IMPACT_HIGH"
@@ -833,82 +850,72 @@ export type CVSSv3AvailabilityImpactEnum =
   | "IMPACT_HIGH"
   | "IMPACT_LOW"
   | "IMPACT_NONE";
-export type CVSSv3PrivilegesRequiredEnum =
-  | "PRIVILEGES_REQUIRED_UNSPECIFIED"
-  | "PRIVILEGES_REQUIRED_NONE"
-  | "PRIVILEGES_REQUIRED_LOW"
-  | "PRIVILEGES_REQUIRED_HIGH";
-export type CVSSv3IntegrityImpactEnum =
-  | "IMPACT_UNSPECIFIED"
-  | "IMPACT_HIGH"
-  | "IMPACT_LOW"
-  | "IMPACT_NONE";
 /** Common Vulnerability Scoring System version 3. For details, see https://www.first.org/cvss/specification-document */
 export interface CVSSv3 {
   /** The Scope metric captures whether a vulnerability in one vulnerable component impacts resources in components beyond its security scope. */
-  scope?: CVSSv3ScopeEnum;
-  /** This metric describes the conditions beyond the attacker's control that must exist in order to exploit the vulnerability. */
-  attackComplexity?: CVSSv3AttackComplexityEnum;
-  /** This metric captures the requirement for a human user, other than the attacker, to participate in the successful compromise of the vulnerable component. */
-  userInteraction?: CVSSv3UserInteractionEnum;
-  /** The Impact sub-score equation is derived from the Base Impact metrics. */
-  impactScore?: number;
-  /** This metric reflects the context by which vulnerability exploitation is possible. */
-  attackVector?: CVSSv3AttackVectorEnum;
-  /** This metric measures the impact to the confidentiality of the information resources managed by a software component due to a successfully exploited vulnerability. */
-  confidentialityImpact?: CVSSv3ConfidentialityImpactEnum;
-  /** This metric measures the impact to the availability of the impacted component resulting from a successfully exploited vulnerability. */
-  availabilityImpact?: CVSSv3AvailabilityImpactEnum;
-  /** The Exploitability sub-score equation is derived from the Base Exploitability metrics. https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics */
-  exploitabilityScore?: number;
+  scope?: CVSSv3ScopeEnum | undefined;
   /** The base score is a function of the base metric scores. https://www.first.org/cvss/specification-document#Base-Metrics */
-  baseScore?: number;
-  /** This metric describes the level of privileges an attacker must possess before successfully exploiting the vulnerability. */
-  privilegesRequired?: CVSSv3PrivilegesRequiredEnum;
+  baseScore?: number | undefined;
+  /** This metric captures the requirement for a human user, other than the attacker, to participate in the successful compromise of the vulnerable component. */
+  userInteraction?: CVSSv3UserInteractionEnum | undefined;
   /** This metric measures the impact to integrity of a successfully exploited vulnerability. */
-  integrityImpact?: CVSSv3IntegrityImpactEnum;
+  integrityImpact?: CVSSv3IntegrityImpactEnum | undefined;
+  /** This metric describes the level of privileges an attacker must possess before successfully exploiting the vulnerability. */
+  privilegesRequired?: CVSSv3PrivilegesRequiredEnum | undefined;
+  /** The Exploitability sub-score equation is derived from the Base Exploitability metrics. https://www.first.org/cvss/specification-document#2-1-Exploitability-Metrics */
+  exploitabilityScore?: number | undefined;
+  /** This metric reflects the context by which vulnerability exploitation is possible. */
+  attackVector?: CVSSv3AttackVectorEnum | undefined;
+  /** This metric describes the conditions beyond the attacker's control that must exist in order to exploit the vulnerability. */
+  attackComplexity?: CVSSv3AttackComplexityEnum | undefined;
+  /** The Impact sub-score equation is derived from the Base Impact metrics. */
+  impactScore?: number | undefined;
+  /** This metric measures the impact to the confidentiality of the information resources managed by a software component due to a successfully exploited vulnerability. */
+  confidentialityImpact?: CVSSv3ConfidentialityImpactEnum | undefined;
+  /** This metric measures the impact to the availability of the impacted component resulting from a successfully exploited vulnerability. */
+  availabilityImpact?: CVSSv3AvailabilityImpactEnum | undefined;
 }
 /** Contains metadata information for the vulnerability. This information is collected from the upstream feed of the operating system. */
 export interface VulnerabilityReportVulnerabilityDetails {
-  /** Assigned severity/impact ranking from the distro. */
-  severity?: string;
   /** The CVE of the vulnerability. CVE cannot be empty and the combination of should be unique across vulnerabilities for a VM. */
-  cve?: string;
-  /** The note or description describing the vulnerability from the distro. */
-  description?: string;
-  /** Corresponds to the references attached to the `VulnerabilityDetails`. */
-  references?: VulnerabilityReportVulnerabilityDetailsReferenceList;
+  cve?: string | undefined;
+  /** Assigned severity/impact ranking from the distro. */
+  severity?: string | undefined;
   /** The CVSS V2 score of this vulnerability. CVSS V2 score is on a scale of 0 - 10 where 0 indicates low severity and 10 indicates high severity. */
-  cvssV2Score?: number;
+  cvssV2Score?: number | undefined;
+  /** The note or description describing the vulnerability from the distro. */
+  description?: string | undefined;
+  /** Corresponds to the references attached to the `VulnerabilityDetails`. */
+  references?: VulnerabilityReportVulnerabilityDetailsReferenceList | undefined;
   /** The full description of the CVSSv3 for this vulnerability from NVD. */
-  cvssV3?: CVSSv3;
+  cvssV3?: CVSSv3 | undefined;
 }
 /** A vulnerability affecting the VM instance. */
 export interface VulnerabilityReportVulnerability {
   /** List of items affected by the vulnerability. */
-  items?: VulnerabilityReportVulnerabilityItemList;
-  /** Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM. This field displays the inventory items affected by this vulnerability. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. For some distros, this field may be empty. */
-  installedInventoryItemIds?: StringList;
+  items?: VulnerabilityReportVulnerabilityItemList | undefined;
   /** The timestamp for when the vulnerability was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The timestamp for when the vulnerability was first detected. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Contains metadata as per the upstream feed of the operating system and NVD. */
-  details?: VulnerabilityReportVulnerabilityDetails;
+  details?: VulnerabilityReportVulnerabilityDetails | undefined;
   /** Corresponds to the `AVAILABLE_PACKAGE` inventory item on the VM. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. If there is no available fix, the field is empty. The `inventory_item` value specifies the latest `SoftwarePackage` available to the VM that fixes the vulnerability. */
-  availableInventoryItemIds?: StringList;
+  availableInventoryItemIds?: StringList | undefined;
+  /** Corresponds to the `INSTALLED_PACKAGE` inventory item on the VM. This field displays the inventory items affected by this vulnerability. If the vulnerability report was not updated after the VM inventory update, these values might not display in VM inventory. For some distros, this field may be empty. */
+  installedInventoryItemIds?: StringList | undefined;
 }
 export type VulnerabilityReportVulnerabilityList = Array<VulnerabilityReportVulnerability>;
 /** This API resource represents the vulnerability report for a specified Compute Engine virtual machine (VM) instance at a given point in time. For more information, see [Vulnerability reports](https://cloud.google.com/compute/docs/instances/os-inventory-management#vulnerability-reports). */
 export interface VulnerabilityReport {
-  /** Output only. Highest level of severity among all the upgradable vulnerabilities with CVEs attached. */
-  highestUpgradableCveSeverity?: VulnerabilityReportHighestUpgradableCveSeverityEnum;
   /** Output only. The `vulnerabilityReport` API resource name. Format: `projects/{project_number}/locations/{location}/instances/{instance_id}/vulnerabilityReport` */
-  name?: string;
+  name?: string | undefined;
+  /** Output only. Highest level of severity among all the upgradable vulnerabilities with CVEs attached. */
+  highestUpgradableCveSeverity?: VulnerabilityReportHighestUpgradableCveSeverityEnum | undefined;
   /** Output only. List of vulnerabilities affecting the VM. */
-  vulnerabilities?: VulnerabilityReportVulnerabilityList;
+  vulnerabilities?: VulnerabilityReportVulnerabilityList | undefined;
   /** Output only. The timestamp for when the last vulnerability report was generated for the VM. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface GetProjectsLocationsOsPolicyAssignmentsRequest {
   /** Required. The resource name of OS policy assignment. Format: `projects/{project}/locations/{location}/osPolicyAssignments/{os_policy_assignment}@{revisionId}` */
@@ -919,22 +926,22 @@ export interface GetProjectsLocationsOsPolicyAssignmentsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsInstanceOSPoliciesCompliancesRequest {
-  /** If provided, this field specifies the criteria that must be met by a `InstanceOSPoliciesCompliance` API resource to be included in the response. */
-  filter?: string;
-  /** The maximum number of results to return. */
-  pageSize?: number;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}` For `{project}`, either Compute Engine project-number or project-id can be provided. */
   parent: string;
   /** A pagination token returned from a previous call to `ListInstanceOSPoliciesCompliances` that indicates where this listing should continue from. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** The maximum number of results to return. */
+  pageSize?: number | undefined;
+  /** If provided, this field specifies the criteria that must be met by a `InstanceOSPoliciesCompliance` API resource to be included in the response. */
+  filter?: string | undefined;
 }
 export type InstanceOSPoliciesComplianceList = Array<InstanceOSPoliciesCompliance>;
 /** A response message for listing OS policies compliance data for all Compute Engine VMs in the given location. */
 export interface ListInstanceOSPoliciesCompliancesResponse {
   /** List of instance OS policies compliance objects. */
-  instanceOsPoliciesCompliances?: InstanceOSPoliciesComplianceList;
+  instanceOsPoliciesCompliances?: InstanceOSPoliciesComplianceList | undefined;
   /** The pagination token to retrieve the next page of instance OS policies compliance objects. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsInstancesInventoriesViewEnum =
   | "INVENTORY_VIEW_UNSPECIFIED"
@@ -943,101 +950,101 @@ export type ListProjectsLocationsInstancesInventoriesViewEnum =
 export interface ListProjectsLocationsInstancesInventoriesRequest {
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/instances/-` For `{project}`, either `project-number` or `project-id` can be provided. */
   parent: string;
-  /** Inventory view indicating what information should be included in the inventory resource. If unspecified, the default view is BASIC. */
-  view?: ListProjectsLocationsInstancesInventoriesViewEnum | (string & {});
-  /** If provided, this field specifies the criteria that must be met by a `Inventory` API resource to be included in the response. */
-  filter?: string;
-  /** A pagination token returned from a previous call to `ListInventories` that indicates where this listing should continue from. */
-  pageToken?: string;
-  /** The maximum number of results to return. */
-  pageSize?: number;
+  /** Optional. A pagination token returned from a previous call to `ListInventories` that indicates where this listing should continue from. */
+  pageToken?: string | undefined;
+  /** Optional. The maximum number of results to return. */
+  pageSize?: number | undefined;
+  /** Optional. Inventory view indicating what information should be included in the inventory resource. If unspecified, the default view is BASIC. */
+  view?: ListProjectsLocationsInstancesInventoriesViewEnum | (string & {}) | undefined;
+  /** Optional. If provided, this field specifies the criteria that must be met by a `Inventory` API resource to be included in the response. */
+  filter?: string | undefined;
 }
 export type InventoryList = Array<Inventory>;
 /** A response message for listing inventory data for all VMs in a specified location. */
 export interface ListInventoriesResponse {
   /** The pagination token to retrieve the next page of inventory objects. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of inventory objects. */
-  inventories?: InventoryList;
+  inventories?: InventoryList | undefined;
 }
 export interface ListProjectsLocationsInstancesOsPolicyAssignmentsReportsRequest {
+  /** A pagination token returned from a previous call to the `ListOSPolicyAssignmentReports` method that indicates where this listing should continue from. */
+  pageToken?: string | undefined;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports` For `{project}`, either `project-number` or `project-id` can be provided. For `{instance}`, either `instance-name`, `instance-id`, or `-` can be provided. If '-' is provided, the response will include OSPolicyAssignmentReports for all instances in the project/location. For `{assignment}`, either `assignment-id` or `-` can be provided. If '-' is provided, the response will include OSPolicyAssignmentReports for all OSPolicyAssignments in the project/location. Either {instance} or {assignment} must be `-`. For example: `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports` returns all reports for the instance `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports` returns all the reports for the given assignment across all instances. `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports` returns all the reports for all assignments across all instances. */
   parent: string;
-  /** A pagination token returned from a previous call to the `ListOSPolicyAssignmentReports` method that indicates where this listing should continue from. */
-  pageToken?: string;
   /** The maximum number of results to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** If provided, this field specifies the criteria that must be met by the `OSPolicyAssignmentReport` API resource that is included in the response. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OSPolicyAssignmentReportList = Array<OSPolicyAssignmentReport>;
 /** A response message for listing OS Policy assignment reports including the page of results and page token. */
 export interface ListOSPolicyAssignmentReportsResponse {
   /** List of OS policy assignment reports. */
-  osPolicyAssignmentReports?: OSPolicyAssignmentReportList;
+  osPolicyAssignmentReports?: OSPolicyAssignmentReportList | undefined;
   /** The pagination token to retrieve the next page of OS policy assignment report objects. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesVulnerabilityReportsRequest {
+  /** This field supports filtering by the severity level for the vulnerability. For a list of severity levels, see [Severity levels for vulnerabilities](https://cloud.google.com/container-analysis/docs/container-scanning-overview#severity_levels_for_vulnerabilities). The filter field follows the rules described in the [AIP-160](https://google.aip.dev/160) guidelines as follows: + **Filter for a specific severity type**: you can list reports that contain vulnerabilities that are classified as medium by specifying `vulnerabilities.details.severity:MEDIUM`. + **Filter for a range of severities** : you can list reports that have vulnerabilities that are classified as critical or high by specifying `vulnerabilities.details.severity:HIGH OR vulnerabilities.details.severity:CRITICAL` */
+  filter?: string | undefined;
+  /** A pagination token returned from a previous call to `ListVulnerabilityReports` that indicates where this listing should continue from. */
+  pageToken?: string | undefined;
   /** Required. The parent resource name. Format: `projects/{project}/locations/{location}/instances/-` For `{project}`, either `project-number` or `project-id` can be provided. */
   parent: string;
-  /** A pagination token returned from a previous call to `ListVulnerabilityReports` that indicates where this listing should continue from. */
-  pageToken?: string;
   /** The maximum number of results to return. */
-  pageSize?: number;
-  /** This field supports filtering by the severity level for the vulnerability. For a list of severity levels, see [Severity levels for vulnerabilities](https://cloud.google.com/container-analysis/docs/container-scanning-overview#severity_levels_for_vulnerabilities). The filter field follows the rules described in the [AIP-160](https://google.aip.dev/160) guidelines as follows: + **Filter for a specific severity type**: you can list reports that contain vulnerabilities that are classified as medium by specifying `vulnerabilities.details.severity:MEDIUM`. + **Filter for a range of severities** : you can list reports that have vulnerabilities that are classified as critical or high by specifying `vulnerabilities.details.severity:HIGH OR vulnerabilities.details.severity:CRITICAL` */
-  filter?: string;
+  pageSize?: number | undefined;
 }
 export type VulnerabilityReportList = Array<VulnerabilityReport>;
 /** A response message for listing vulnerability reports for all VM instances in the specified location. */
 export interface ListVulnerabilityReportsResponse {
-  /** List of vulnerabilityReport objects. */
-  vulnerabilityReports?: VulnerabilityReportList;
   /** The pagination token to retrieve the next page of vulnerabilityReports object. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
+  /** List of vulnerabilityReport objects. */
+  vulnerabilityReports?: VulnerabilityReportList | undefined;
 }
 export interface ListProjectsLocationsOsPolicyAssignmentsRequest {
-  /** The maximum number of assignments to return. */
-  pageSize?: number;
-  /** A pagination token returned from a previous call to `ListOSPolicyAssignments` that indicates where this listing should continue from. */
-  pageToken?: string;
   /** Required. The parent resource name. */
   parent: string;
+  /** A pagination token returned from a previous call to `ListOSPolicyAssignments` that indicates where this listing should continue from. */
+  pageToken?: string | undefined;
+  /** The maximum number of assignments to return. */
+  pageSize?: number | undefined;
 }
 export type OSPolicyAssignmentList = Array<OSPolicyAssignment>;
 /** A response message for listing all assignments under given parent. */
 export interface ListOSPolicyAssignmentsResponse {
   /** The pagination token to retrieve the next page of OS policy assignments. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of assignments */
-  osPolicyAssignments?: OSPolicyAssignmentList;
+  osPolicyAssignments?: OSPolicyAssignmentList | undefined;
 }
 export interface ListRevisionsProjectsLocationsOsPolicyAssignmentsRequest {
-  /** A pagination token returned from a previous call to `ListOSPolicyAssignmentRevisions` that indicates where this listing should continue from. */
-  pageToken?: string;
+  /** The maximum number of revisions to return. */
+  pageSize?: number | undefined;
   /** Required. The name of the OS policy assignment to list revisions for. */
   name: string;
-  /** The maximum number of revisions to return. */
-  pageSize?: number;
+  /** A pagination token returned from a previous call to `ListOSPolicyAssignmentRevisions` that indicates where this listing should continue from. */
+  pageToken?: string | undefined;
 }
 /** A response message for listing all revisions for a OS policy assignment. */
 export interface ListOSPolicyAssignmentRevisionsResponse {
   /** The OS policy assignment revisions */
-  osPolicyAssignments?: OSPolicyAssignmentList;
+  osPolicyAssignments?: OSPolicyAssignmentList | undefined;
   /** The pagination token to retrieve the next page of OS policy assignment revisions. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsOsPolicyAssignmentsRequest {
   /** Optional. A unique identifier for this request. Restricted to 36 ASCII characters. A random UUID is recommended. This request is only idempotent if a `request_id` is provided. */
-  requestId?: string;
-  /** Optional. If set to true, and the OS policy assignment is not found, a new OS policy assignment will be created. In this situation, `update_mask` is ignored. */
-  allowMissing?: boolean;
+  requestId?: string | undefined;
   /** Optional. Field mask that controls which fields of the assignment should be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Resource name. Format: `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id}` This field is ignored when you create an OS policy assignment. */
   name: string;
+  /** Optional. If set to true, and the OS policy assignment is not found, a new OS policy assignment will be created. In this situation, `update_mask` is ignored. */
+  allowMissing?: boolean | undefined;
   /** Request body */
-  body?: OSPolicyAssignment;
+  body?: OSPolicyAssignment | undefined;
 }
 export type CancelProjectsLocationsOsPolicyAssignmentsOperationsError =
   | NotFound
@@ -1207,7 +1214,7 @@ export const getProjectsLocationsOsPolicyAssignments: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetProjectsLocationsOsPolicyAssignmentsRequest>,
-  output: __S(479, __c14, 31) as any as S.Schema<OSPolicyAssignment>,
+  output: __S(478, __c14, 30) as any as S.Schema<OSPolicyAssignment>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1426,8 +1433,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fixedCpeUri: S.optional(S.String),
-          availableInventoryItemId: S.optional(S.String),
           upstreamFix: S.optional(S.String),
+          availableInventoryItemId: S.optional(S.String),
           installedInventoryItemId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerabilityReportVulnerabilityItem" });
@@ -1436,8 +1443,8 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(S.String),
           url: S.optional(S.String),
+          source: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerabilityReportVulnerabilityDetailsReference" });
     case 3:
@@ -1446,26 +1453,26 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scope: S.optional(S.String),
-          attackComplexity: S.optional(S.String),
+          baseScore: S.optional(S.Number),
           userInteraction: S.optional(S.String),
-          impactScore: S.optional(S.Number),
+          integrityImpact: S.optional(S.String),
+          privilegesRequired: S.optional(S.String),
+          exploitabilityScore: S.optional(S.Number),
           attackVector: S.optional(S.String),
+          attackComplexity: S.optional(S.String),
+          impactScore: S.optional(S.Number),
           confidentialityImpact: S.optional(S.String),
           availabilityImpact: S.optional(S.String),
-          exploitabilityScore: S.optional(S.Number),
-          baseScore: S.optional(S.Number),
-          privilegesRequired: S.optional(S.String),
-          integrityImpact: S.optional(S.String),
         }),
       ).annotate({ identifier: "CVSSv3" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.String),
           cve: S.optional(S.String),
+          severity: S.optional(S.String),
+          cvssV2Score: S.optional(S.Number),
           description: S.optional(S.String),
           references: S.optional(__S(35, __c1, 3)),
-          cvssV2Score: S.optional(S.Number),
           cvssV3: S.optional(__S(36, __c1, 4)),
         }),
       ).annotate({ identifier: "VulnerabilityReportVulnerabilityDetails" });
@@ -1473,11 +1480,11 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           items: S.optional(__S(33, __c1, 1)),
-          installedInventoryItemIds: S.optional(__S(512, __c16, 0)),
           updateTime: S.optional(S.String),
           createTime: S.optional(S.String),
           details: S.optional(__S(37, __c1, 5)),
           availableInventoryItemIds: S.optional(__S(512, __c16, 0)),
+          installedInventoryItemIds: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "VulnerabilityReportVulnerability" });
     case 7:
@@ -1485,8 +1492,8 @@ function __c1(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          highestUpgradableCveSeverity: S.optional(S.String),
           name: S.optional(S.String),
+          highestUpgradableCveSeverity: S.optional(S.String),
           vulnerabilities: S.optional(__S(39, __c1, 7)),
           updateTime: S.optional(S.String),
         }),
@@ -1530,10 +1537,10 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1559,10 +1566,10 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1587,8 +1594,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1615,10 +1622,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1632,8 +1639,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vulnerabilityReports: S.optional(__S(225, __c7, 1)),
           nextPageToken: S.optional(S.String),
+          vulnerabilityReports: S.optional(__S(225, __c7, 1)),
         }),
       ).annotate({ identifier: "ListVulnerabilityReportsResponse" });
   }
@@ -1643,9 +1650,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1666,7 +1673,7 @@ function __c8(j: number): any {
 function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(479, __c14, 31));
+      return S.Array(__S(478, __c14, 30));
   }
 }
 function __c10(j: number): any {
@@ -1674,9 +1681,9 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1700,10 +1707,10 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           requestId: S.optional(S.String.pipe(T.Query())),
-          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
           updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(479, __c14, 31).pipe(T.HttpBody())),
+          allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.optional(__S(478, __c14, 30).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1738,10 +1745,10 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           requestId: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           osPolicyAssignmentId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(479, __c14, 31).pipe(T.HttpBody())),
+          body: S.optional(__S(478, __c14, 30).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1755,51 +1762,25 @@ function __c13(j: number): any {
 function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          labels: S.optional(__S(448, __c14, 0)),
-        }),
-      ).annotate({ identifier: "OSPolicyAssignmentLabelSet" });
-    case 2:
-      return S.Array(__S(449, __c14, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          osVersion: S.optional(S.String),
-          osShortName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OSPolicyAssignmentInstanceFilterInventory" });
-    case 4:
-      return S.Array(__S(451, __c14, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          inclusionLabels: S.optional(__S(450, __c14, 2)),
-          inventories: S.optional(__S(452, __c14, 4)),
-          exclusionLabels: S.optional(__S(450, __c14, 2)),
-          osShortNames: S.optional(__S(512, __c16, 0)),
-          all: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "OSPolicyAssignmentInstanceFilter" });
-    case 6:
       return S.suspend(() =>
         S.Struct({
           osShortName: S.optional(S.String),
           osVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyInventoryFilter" });
-    case 7:
-      return S.Array(__S(454, __c14, 6));
-    case 8:
+    case 1:
+      return S.Array(__S(448, __c14, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          url: S.optional(S.String),
+          uri: S.optional(S.String),
+          components: S.optional(__S(512, __c16, 0)),
+          distribution: S.optional(S.String),
+          gpgKey: S.optional(S.String),
+          archiveType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OSPolicyResourceRepositoryResourceGooRepository" });
-    case 9:
+      ).annotate({ identifier: "OSPolicyResourceRepositoryResourceAptRepository" });
+    case 3:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
@@ -1808,182 +1789,206 @@ function __c14(j: number): any {
           gpgKeys: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResourceYumRepository" });
-    case 10:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          baseUrl: S.optional(S.String),
           gpgKeys: S.optional(__S(512, __c16, 0)),
           displayName: S.optional(S.String),
+          baseUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceRepositoryResourceZypperRepository" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          distribution: S.optional(S.String),
-          archiveType: S.optional(S.String),
-          gpgKey: S.optional(S.String),
-          uri: S.optional(S.String),
-          components: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "OSPolicyResourceRepositoryResourceAptRepository" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          goo: S.optional(__S(456, __c14, 8)),
-          yum: S.optional(__S(457, __c14, 9)),
-          zypper: S.optional(__S(458, __c14, 10)),
-          apt: S.optional(__S(459, __c14, 11)),
-        }),
-      ).annotate({ identifier: "OSPolicyResourceRepositoryResource" });
-    case 13:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
+          url: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OSPolicyResourcePackageResourceAPT" });
-    case 14:
+      ).annotate({ identifier: "OSPolicyResourceRepositoryResourceGooRepository" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          generation: S.optional(S.String),
+          apt: S.optional(__S(450, __c14, 2)),
+          yum: S.optional(__S(451, __c14, 3)),
+          zypper: S.optional(__S(452, __c14, 4)),
+          goo: S.optional(__S(453, __c14, 5)),
+        }),
+      ).annotate({ identifier: "OSPolicyResourceRepositoryResource" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           bucket: S.optional(S.String),
           object: S.optional(S.String),
+          generation: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceFileGcs" });
-    case 15:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           sha256Checksum: S.optional(S.String),
           uri: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceFileRemote" });
-    case 16:
+    case 9:
       return S.suspend(() =>
         S.Struct({
+          gcs: S.optional(__S(455, __c14, 7)),
+          remote: S.optional(__S(456, __c14, 8)),
           allowInsecure: S.optional(S.Boolean),
-          gcs: S.optional(__S(462, __c14, 14)),
-          remote: S.optional(__S(463, __c14, 15)),
           localPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceFile" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.optional(__S(457, __c14, 9)),
+          interpreter: S.optional(S.String),
+          outputFilePath: S.optional(S.String),
+          args: S.optional(__S(512, __c16, 0)),
+          script: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OSPolicyResourceExecResourceExec" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          enforce: S.optional(__S(458, __c14, 10)),
+          validate: S.optional(__S(458, __c14, 10)),
+        }),
+      ).annotate({ identifier: "OSPolicyResourceExecResource" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.optional(__S(457, __c14, 9)),
+          path: S.optional(S.String),
+          state: S.optional(S.String),
+          permissions: S.optional(S.String),
+          content: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OSPolicyResourceFileResource" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          source: S.optional(__S(457, __c14, 9)),
+          pullDeps: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "OSPolicyResourcePackageResourceDeb" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OSPolicyResourcePackageResourceYUM" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(512, __c16, 0)),
+          source: S.optional(__S(457, __c14, 9)),
+        }),
+      ).annotate({ identifier: "OSPolicyResourcePackageResourceMSI" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          pullDeps: S.optional(S.Boolean),
+          source: S.optional(__S(457, __c14, 9)),
+        }),
+      ).annotate({ identifier: "OSPolicyResourcePackageResourceRPM" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(464, __c14, 16)),
-          pullDeps: S.optional(S.Boolean),
+          deb: S.optional(__S(461, __c14, 13)),
+          yum: S.optional(__S(462, __c14, 14)),
+          desiredState: S.optional(S.String),
+          apt: S.optional(__S(462, __c14, 14)),
+          msi: S.optional(__S(463, __c14, 15)),
+          zypper: S.optional(__S(462, __c14, 14)),
+          googet: S.optional(__S(462, __c14, 14)),
+          rpm: S.optional(__S(464, __c14, 16)),
         }),
-      ).annotate({ identifier: "OSPolicyResourcePackageResourceRPM" });
+      ).annotate({ identifier: "OSPolicyResourcePackageResource" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(464, __c14, 16)),
-          properties: S.optional(__S(512, __c16, 0)),
+          repository: S.optional(__S(454, __c14, 6)),
+          exec: S.optional(__S(459, __c14, 11)),
+          file: S.optional(__S(460, __c14, 12)),
+          id: S.optional(S.String),
+          pkg: S.optional(__S(465, __c14, 17)),
         }),
-      ).annotate({ identifier: "OSPolicyResourcePackageResourceMSI" });
+      ).annotate({ identifier: "OSPolicyResource" });
     case 19:
-      return S.suspend(() =>
-        S.Struct({
-          apt: S.optional(__S(461, __c14, 13)),
-          rpm: S.optional(__S(465, __c14, 17)),
-          zypper: S.optional(__S(461, __c14, 13)),
-          googet: S.optional(__S(461, __c14, 13)),
-          deb: S.optional(__S(465, __c14, 17)),
-          yum: S.optional(__S(461, __c14, 13)),
-          msi: S.optional(__S(466, __c14, 18)),
-          desiredState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OSPolicyResourcePackageResource" });
+      return S.Array(__S(466, __c14, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          file: S.optional(__S(464, __c14, 16)),
-          path: S.optional(S.String),
-          content: S.optional(S.String),
-          permissions: S.optional(S.String),
+          inventoryFilters: S.optional(__S(449, __c14, 1)),
+          resources: S.optional(__S(467, __c14, 19)),
+          osFilter: S.optional(__S(448, __c14, 0)),
         }),
-      ).annotate({ identifier: "OSPolicyResourceFileResource" });
+      ).annotate({ identifier: "OSPolicyResourceGroup" });
     case 21:
-      return S.suspend(() =>
-        S.Struct({
-          interpreter: S.optional(S.String),
-          script: S.optional(S.String),
-          args: S.optional(__S(512, __c16, 0)),
-          outputFilePath: S.optional(S.String),
-          file: S.optional(__S(464, __c14, 16)),
-        }),
-      ).annotate({ identifier: "OSPolicyResourceExecResourceExec" });
+      return S.Array(__S(468, __c14, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          enforce: S.optional(__S(469, __c14, 21)),
-          validate: S.optional(__S(469, __c14, 21)),
-        }),
-      ).annotate({ identifier: "OSPolicyResourceExecResource" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          repository: S.optional(__S(460, __c14, 12)),
+          resourceGroups: S.optional(__S(469, __c14, 21)),
+          mode: S.optional(S.String),
+          allowNoResourceGroupMatch: S.optional(S.Boolean),
           id: S.optional(S.String),
-          pkg: S.optional(__S(467, __c14, 19)),
-          file: S.optional(__S(468, __c14, 20)),
-          exec: S.optional(__S(470, __c14, 22)),
+          description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OSPolicyResource" });
+      ).annotate({ identifier: "OSPolicy" });
+    case 23:
+      return S.Array(__S(470, __c14, 22));
     case 24:
-      return S.Array(__S(471, __c14, 23));
+      return S.Record(S.String, S.String);
     case 25:
       return S.suspend(() =>
         S.Struct({
-          inventoryFilters: S.optional(__S(455, __c14, 7)),
-          resources: S.optional(__S(472, __c14, 24)),
-          osFilter: S.optional(__S(451, __c14, 3)),
+          labels: S.optional(__S(472, __c14, 24)),
         }),
-      ).annotate({ identifier: "OSPolicyResourceGroup" });
+      ).annotate({ identifier: "OSPolicyAssignmentLabelSet" });
     case 26:
       return S.Array(__S(473, __c14, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          mode: S.optional(S.String),
-          resourceGroups: S.optional(__S(474, __c14, 26)),
-          description: S.optional(S.String),
-          allowNoResourceGroupMatch: S.optional(S.Boolean),
-          id: S.optional(S.String),
+          osShortNames: S.optional(__S(512, __c16, 0)),
+          inclusionLabels: S.optional(__S(474, __c14, 26)),
+          exclusionLabels: S.optional(__S(474, __c14, 26)),
+          all: S.optional(S.Boolean),
+          inventories: S.optional(__S(449, __c14, 1)),
         }),
-      ).annotate({ identifier: "OSPolicy" });
+      ).annotate({ identifier: "OSPolicyAssignmentInstanceFilter" });
     case 28:
-      return S.Array(__S(475, __c14, 27));
-    case 29:
       return S.suspend(() =>
         S.Struct({
           percent: S.optional(S.Number),
           fixed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "FixedOrPercent" });
-    case 30:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           minWaitDuration: S.optional(S.String),
-          disruptionBudget: S.optional(__S(477, __c14, 29)),
+          disruptionBudget: S.optional(__S(476, __c14, 28)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentRollout" });
-    case 31:
+    case 30:
       return S.suspend(() =>
         S.Struct({
-          instanceFilter: S.optional(__S(453, __c14, 5)),
-          reconciling: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          baseline: S.optional(S.Boolean),
-          osPolicies: S.optional(__S(476, __c14, 28)),
-          description: S.optional(S.String),
-          rolloutState: S.optional(S.String),
-          uid: S.optional(S.String),
-          rollout: S.optional(__S(478, __c14, 30)),
-          deleted: S.optional(S.Boolean),
+          osPolicies: S.optional(__S(471, __c14, 23)),
           revisionId: S.optional(S.String),
-          revisionCreateTime: S.optional(S.String),
+          instanceFilter: S.optional(__S(475, __c14, 27)),
+          deleted: S.optional(S.Boolean),
           etag: S.optional(S.String),
+          rolloutState: S.optional(S.String),
+          description: S.optional(S.String),
+          uid: S.optional(S.String),
+          reconciling: S.optional(S.Boolean),
+          baseline: S.optional(S.Boolean),
+          revisionCreateTime: S.optional(S.String),
+          rollout: S.optional(__S(477, __c14, 29)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyAssignment" });
   }
@@ -1997,19 +2002,19 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(481, __c15, 1)),
-          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          error: S.optional(__S(482, __c15, 2)),
           done: S.optional(S.Boolean),
+          error: S.optional(__S(482, __c15, 2)),
           metadata: S.optional(__S(480, __c15, 0)),
           response: S.optional(__S(480, __c15, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2058,9 +2063,9 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errorMessage: S.optional(S.String),
-          type: S.optional(S.String),
           outcome: S.optional(S.String),
+          type: S.optional(S.String),
+          errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceConfigStep" });
     case 1:
@@ -2068,10 +2073,10 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          osPolicyResourceId: S.optional(S.String),
+          execResourceOutput: S.optional(__S(640, __c20, 0)),
           state: S.optional(S.String),
           configSteps: S.optional(__S(609, __c19, 1)),
-          execResourceOutput: S.optional(__S(640, __c20, 0)),
+          osPolicyResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyResourceCompliance" });
     case 3:
@@ -2079,10 +2084,10 @@ function __c19(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          state: S.optional(S.String),
           osPolicyResourceCompliances: S.optional(__S(611, __c19, 3)),
           osPolicyAssignment: S.optional(S.String),
           osPolicyId: S.optional(S.String),
-          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceOSPoliciesComplianceOSPolicyCompliance" });
     case 5:
@@ -2090,14 +2095,14 @@ function __c19(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          detailedStateReason: S.optional(S.String),
-          instance: S.optional(S.String),
           osPolicyCompliances: S.optional(__S(613, __c19, 5)),
-          lastComplianceRunId: S.optional(S.String),
-          lastComplianceCheckTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
           detailedState: S.optional(S.String),
+          lastComplianceRunId: S.optional(S.String),
+          state: S.optional(S.String),
+          lastComplianceCheckTime: S.optional(S.String),
+          detailedStateReason: S.optional(S.String),
+          name: S.optional(S.String),
+          instance: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceOSPoliciesCompliance" });
   }
@@ -2117,8 +2122,8 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2134,107 +2139,107 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shortName: S.optional(S.String),
           architecture: S.optional(S.String),
+          shortName: S.optional(S.String),
           longName: S.optional(S.String),
-          kernelVersion: S.optional(S.String),
-          hostname: S.optional(S.String),
-          version: S.optional(S.String),
-          kernelRelease: S.optional(S.String),
           osconfigAgentVersion: S.optional(S.String),
+          kernelRelease: S.optional(S.String),
+          version: S.optional(S.String),
+          hostname: S.optional(S.String),
+          kernelVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryOsInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          packageName: S.optional(S.String),
           architecture: S.optional(S.String),
+          packageName: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryVersionedPackage" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          day: S.optional(S.Number),
           year: S.optional(S.Number),
           month: S.optional(S.Number),
-          day: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Osconfig_Date" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           displayVersion: S.optional(S.String),
+          installDate: S.optional(__S(706, __c22, 2)),
           displayName: S.optional(S.String),
           publisher: S.optional(S.String),
-          installDate: S.optional(__S(706, __c22, 2)),
           helpLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryWindowsApplication" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          installTime: S.optional(S.String),
+          description: S.optional(S.String),
+          hotFixId: S.optional(S.String),
+          caption: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InventoryWindowsQuickFixEngineeringPackage" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryWindowsUpdatePackageWindowsUpdateCategory" });
-    case 5:
-      return S.Array(__S(708, __c22, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(S.String),
-          categories: S.optional(__S(709, __c22, 5)),
-          moreInfoUrls: S.optional(__S(512, __c16, 0)),
-          description: S.optional(S.String),
-          kbArticleIds: S.optional(__S(512, __c16, 0)),
-          supportUrl: S.optional(S.String),
-          updateId: S.optional(S.String),
-          lastDeploymentChangeTime: S.optional(S.String),
-          revisionNumber: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "InventoryWindowsUpdatePackage" });
+      return S.Array(__S(709, __c22, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          installTime: S.optional(S.String),
-          hotFixId: S.optional(S.String),
-          caption: S.optional(S.String),
+          categories: S.optional(__S(710, __c22, 6)),
+          title: S.optional(S.String),
+          kbArticleIds: S.optional(__S(512, __c16, 0)),
+          moreInfoUrls: S.optional(__S(512, __c16, 0)),
+          revisionNumber: S.optional(S.Number),
+          supportUrl: S.optional(S.String),
+          lastDeploymentChangeTime: S.optional(S.String),
+          updateId: S.optional(S.String),
           description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InventoryWindowsQuickFixEngineeringPackage" });
+      ).annotate({ identifier: "InventoryWindowsUpdatePackage" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          severity: S.optional(S.String),
-          patchName: S.optional(S.String),
-          summary: S.optional(S.String),
           category: S.optional(S.String),
+          severity: S.optional(S.String),
+          summary: S.optional(S.String),
+          patchName: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryZypperPatch" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           googetPackage: S.optional(__S(705, __c22, 1)),
-          cosPackage: S.optional(__S(705, __c22, 1)),
           windowsApplication: S.optional(__S(707, __c22, 3)),
           aptPackage: S.optional(__S(705, __c22, 1)),
-          wuaPackage: S.optional(__S(710, __c22, 6)),
-          zypperPackage: S.optional(__S(705, __c22, 1)),
-          yumPackage: S.optional(__S(705, __c22, 1)),
-          qfePackage: S.optional(__S(711, __c22, 7)),
+          cosPackage: S.optional(__S(705, __c22, 1)),
+          qfePackage: S.optional(__S(708, __c22, 4)),
+          wuaPackage: S.optional(__S(711, __c22, 7)),
           zypperPatch: S.optional(__S(712, __c22, 8)),
+          yumPackage: S.optional(__S(705, __c22, 1)),
+          zypperPackage: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "InventorySoftwarePackage" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          originType: S.optional(S.String),
-          availablePackage: S.optional(__S(713, __c22, 9)),
-          createTime: S.optional(S.String),
           installedPackage: S.optional(__S(713, __c22, 9)),
-          type: S.optional(S.String),
-          updateTime: S.optional(S.String),
           id: S.optional(S.String),
+          originType: S.optional(S.String),
+          createTime: S.optional(S.String),
+          type: S.optional(S.String),
+          availablePackage: S.optional(__S(713, __c22, 9)),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "InventoryItem" });
     case 11:
@@ -2243,9 +2248,9 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           osInfo: S.optional(__S(704, __c22, 0)),
+          items: S.optional(__S(715, __c22, 11)),
           updateTime: S.optional(S.String),
           name: S.optional(S.String),
-          items: S.optional(__S(715, __c22, 11)),
         }),
       ).annotate({ identifier: "Inventory" });
   }
@@ -2283,10 +2288,10 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          complianceState: S.optional(S.String),
-          complianceStateReason: S.optional(S.String),
           osPolicyResourceId: S.optional(S.String),
           configSteps: S.optional(__S(769, __c24, 1)),
+          complianceStateReason: S.optional(S.String),
+          complianceState: S.optional(S.String),
           execResourceOutput: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({
@@ -2298,8 +2303,8 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           complianceState: S.optional(S.String),
-          osPolicyId: S.optional(S.String),
           osPolicyResourceCompliances: S.optional(__S(771, __c24, 3)),
+          osPolicyId: S.optional(S.String),
           complianceStateReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentReportOSPolicyCompliance" });
@@ -2309,10 +2314,10 @@ function __c24(j: number): any {
       return S.suspend(() =>
         S.Struct({
           osPolicyAssignment: S.optional(S.String),
+          updateTime: S.optional(S.String),
           lastRunId: S.optional(S.String),
           instance: S.optional(S.String),
           name: S.optional(S.String),
-          updateTime: S.optional(S.String),
           osPolicyCompliances: S.optional(__S(773, __c24, 5)),
         }),
       ).annotate({ identifier: "OSPolicyAssignmentReport" });
