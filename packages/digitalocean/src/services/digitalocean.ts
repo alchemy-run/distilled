@@ -6556,7 +6556,7 @@ export type SessionStatus =
 export type DefinitionsSessionWarningsList = Array<string>;
 /** Session is the user-facing record of a environment session + sandbox pair. */
 export interface DefinitionsSession {
-  session_id?: string | undefined;
+  session_id: string;
   /** User-assignable display name, unique per team among non-terminal sessions. Usable in place of session_id by clients (doctl / Console resolve it to the id via the ListSessions ?name= filter; the {session_id} path stays UUID-only). Supplied via the environment-spec metadata.name, or auto-generated ("session-<agent-type>-<date-time>") when omitted. */
   name?: string | undefined;
   /** Lineage: id of the session this one was forked from. Omitted/empty for root (non-fork) sessions. */
@@ -8913,7 +8913,16 @@ export interface CreateMonitoringSinkRequest {
   /** List of resources identified by their URNs. */
   resources?: CreateMonitoringSinkRequestResourcesList | undefined;
 }
-export interface CreateMonitoringSinkResponse {}
+/** List of resources identified by their URNs. */
+export type SinksResponseResourcesList = Array<SinkResource>;
+export interface SinkCreated {
+  /** The sink's id. */
+  uuid: string;
+  /** The destination the sink forwards to. */
+  destination_uuid?: string | undefined;
+  /** Resources whose logs the sink forwards. */
+  resources?: SinksResponseResourcesList | undefined;
+}
 /** List of VPC IDs that should be able to access the share. */
 export type CreateNfsRequestVpcIdsList = Array<string>;
 export interface CreateNfsRequest {
@@ -16066,12 +16075,12 @@ export interface Destination {
   type?: DestinationType | undefined;
   config: OpensearchConfig;
 }
-/** List of resources identified by their URNs. */
-export type SinksResponseResourcesList = Array<SinkResource>;
 export interface SinksResponse {
   destination?: Destination | undefined;
   /** List of resources identified by their URNs. */
   resources?: SinksResponseResourcesList | undefined;
+  /** The sink's id. */
+  id: string;
 }
 export interface GetMonitoringSinkResponse {
   sink: SinksResponse;
@@ -27399,12 +27408,12 @@ export type CreateMonitoringSinkError = NotFound | DigitalOceanOpError;
 /** Create Sink To create a new sink, send a POST request to `/v2/monitoring/sinks`. Forwards logs from the resources identified in `resources` to the specified pre-existing destination. */
 export const createMonitoringSink: API.OperationMethod<
   CreateMonitoringSinkRequest,
-  CreateMonitoringSinkResponse,
+  SinkCreated,
   CreateMonitoringSinkError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<CreateMonitoringSinkRequest>,
-  output: __S(2464, __c77, 0) as any as S.Schema<CreateMonitoringSinkResponse>,
+  output: __S(1793, __c56, 1) as any as S.Schema<SinkCreated>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -43499,6 +43508,14 @@ function __c56(j: number): any {
           resources: S.optional(__S(1825, __c57, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/monitoring/sinks", code: 200 })),
       ).annotate({ identifier: "CreateMonitoringSinkRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          uuid: S.String,
+          destination_uuid: S.optional(S.String),
+          resources: S.optional(__S(1825, __c57, 1)),
+        }),
+      ).annotate({ identifier: "SinkCreated" });
   }
 }
 function __c57(j: number): any {
@@ -54660,6 +54677,7 @@ function __c625(j: number): any {
         S.Struct({
           destination: S.optional(__S(20001, __c625, 1)),
           resources: S.optional(__S(1825, __c57, 1)),
+          id: S.String,
         }),
       ).annotate({ identifier: "SinksResponse" });
   }
@@ -67434,7 +67452,7 @@ function __c1221(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          session_id: S.optional(S.String),
+          session_id: S.String,
           name: S.optional(S.String),
           parent_session_id: S.optional(S.String),
           fork_id: S.optional(S.String),

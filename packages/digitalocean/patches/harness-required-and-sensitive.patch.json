@@ -71,6 +71,13 @@
       "op": "add",
       "path": "/shapes/com.digitalocean.api#SlackOutputWrite/members/webhook_url/traits/smithy.api#sensitive",
       "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#DefinitionsSession/members/session_id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
     }
   ]
 }
