@@ -112,6 +112,8 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "porkbun" },
   { package: "posthog" },
   { package: "prisma", mirror: "prisma-postgres" },
+  // Only the structure of Proxmox's schema; the fetch script drops its documentation text.
+  { package: "proxmox" },
   // Questrade publishes no API description: the mirror transcribes its
   // documentation pages.
   { package: "questrade" },
