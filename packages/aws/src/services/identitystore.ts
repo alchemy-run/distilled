@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -155,8 +156,8 @@ export type GroupDisplayName = string | redacted.Redacted<string>;
 export type SensitiveStringType = string | redacted.Redacted<string>;
 export interface CreateGroupRequest {
   IdentityStoreId: string;
-  DisplayName?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourceId = string;
 export type ResourceArn = string;
@@ -180,47 +181,47 @@ export interface CreateGroupMembershipResponse {
 }
 export type UserName = string | redacted.Redacted<string>;
 export interface Name {
-  Formatted?: string | redacted.Redacted<string>;
-  FamilyName?: string | redacted.Redacted<string>;
-  GivenName?: string | redacted.Redacted<string>;
-  MiddleName?: string | redacted.Redacted<string>;
-  HonorificPrefix?: string | redacted.Redacted<string>;
-  HonorificSuffix?: string | redacted.Redacted<string>;
+  Formatted?: string | redacted.Redacted<string> | undefined;
+  FamilyName?: string | redacted.Redacted<string> | undefined;
+  GivenName?: string | redacted.Redacted<string> | undefined;
+  MiddleName?: string | redacted.Redacted<string> | undefined;
+  HonorificPrefix?: string | redacted.Redacted<string> | undefined;
+  HonorificSuffix?: string | redacted.Redacted<string> | undefined;
 }
 export interface Email {
-  Value?: string | redacted.Redacted<string>;
-  Type?: string | redacted.Redacted<string>;
-  Primary?: boolean;
+  Value?: string | redacted.Redacted<string> | undefined;
+  Type?: string | redacted.Redacted<string> | undefined;
+  Primary?: boolean | undefined;
 }
 export type Emails = Email[];
 export interface Address {
-  StreetAddress?: string | redacted.Redacted<string>;
-  Locality?: string | redacted.Redacted<string>;
-  Region?: string | redacted.Redacted<string>;
-  PostalCode?: string | redacted.Redacted<string>;
-  Country?: string | redacted.Redacted<string>;
-  Formatted?: string | redacted.Redacted<string>;
-  Type?: string | redacted.Redacted<string>;
-  Primary?: boolean;
+  StreetAddress?: string | redacted.Redacted<string> | undefined;
+  Locality?: string | redacted.Redacted<string> | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Formatted?: string | redacted.Redacted<string> | undefined;
+  Type?: string | redacted.Redacted<string> | undefined;
+  Primary?: boolean | undefined;
 }
 export type Addresses = Address[];
 export interface PhoneNumber {
-  Value?: string | redacted.Redacted<string>;
-  Type?: string | redacted.Redacted<string>;
-  Primary?: boolean;
+  Value?: string | redacted.Redacted<string> | undefined;
+  Type?: string | redacted.Redacted<string> | undefined;
+  Primary?: boolean | undefined;
 }
 export type PhoneNumbers = PhoneNumber[];
 export interface Photo {
   Value: string | redacted.Redacted<string>;
-  Type?: string | redacted.Redacted<string>;
-  Display?: string | redacted.Redacted<string>;
-  Primary?: boolean;
+  Type?: string | redacted.Redacted<string> | undefined;
+  Display?: string | redacted.Redacted<string> | undefined;
+  Primary?: boolean | undefined;
 }
 export type Photos = Photo[];
 export interface Role {
-  Value?: string | redacted.Redacted<string>;
-  Type?: string | redacted.Redacted<string>;
-  Primary?: boolean;
+  Value?: string | redacted.Redacted<string> | undefined;
+  Type?: string | redacted.Redacted<string> | undefined;
+  Primary?: boolean | undefined;
 }
 export type Roles = Role[];
 export type ExtensionName = string;
@@ -228,24 +229,24 @@ export type AttributeValue = unknown;
 export type Extensions = { [key: string]: any | undefined };
 export interface CreateUserRequest {
   IdentityStoreId: string;
-  UserName?: string | redacted.Redacted<string>;
-  Name?: Name;
-  DisplayName?: string | redacted.Redacted<string>;
-  NickName?: string | redacted.Redacted<string>;
-  ProfileUrl?: string | redacted.Redacted<string>;
-  Emails?: Email[];
-  Addresses?: Address[];
-  PhoneNumbers?: PhoneNumber[];
-  UserType?: string | redacted.Redacted<string>;
-  Title?: string | redacted.Redacted<string>;
-  PreferredLanguage?: string | redacted.Redacted<string>;
-  Locale?: string | redacted.Redacted<string>;
-  Timezone?: string | redacted.Redacted<string>;
-  Photos?: Photo[];
-  Website?: string | redacted.Redacted<string>;
-  Birthdate?: string | redacted.Redacted<string>;
-  Roles?: Role[];
-  Extensions?: { [key: string]: any | undefined };
+  UserName?: string | redacted.Redacted<string> | undefined;
+  Name?: Name | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  NickName?: string | redacted.Redacted<string> | undefined;
+  ProfileUrl?: string | redacted.Redacted<string> | undefined;
+  Emails?: Email[] | undefined;
+  Addresses?: Address[] | undefined;
+  PhoneNumbers?: PhoneNumber[] | undefined;
+  UserType?: string | redacted.Redacted<string> | undefined;
+  Title?: string | redacted.Redacted<string> | undefined;
+  PreferredLanguage?: string | redacted.Redacted<string> | undefined;
+  Locale?: string | redacted.Redacted<string> | undefined;
+  Timezone?: string | redacted.Redacted<string> | undefined;
+  Photos?: Photo[] | undefined;
+  Website?: string | redacted.Redacted<string> | undefined;
+  Birthdate?: string | redacted.Redacted<string> | undefined;
+  Roles?: Role[] | undefined;
+  Extensions?: { [key: string]: any | undefined } | undefined;
 }
 export interface CreateUserResponse {
   IdentityStoreId: string;
@@ -256,7 +257,7 @@ export interface CreateUserResponse {
 export interface DeleteGroupRequest {
   IdentityStoreId: string;
   GroupId: string;
-  Revision?: string;
+  Revision?: string | undefined;
 }
 export interface DeleteGroupResponse {}
 export interface DeleteGroupMembershipRequest {
@@ -267,7 +268,7 @@ export interface DeleteGroupMembershipResponse {}
 export interface DeleteUserRequest {
   IdentityStoreId: string;
   UserId: string;
-  Revision?: string;
+  Revision?: string | undefined;
 }
 export interface DeleteUserResponse {}
 export interface DescribeGroupRequest {
@@ -287,13 +288,13 @@ export interface DescribeGroupResponse {
   GroupId: string;
   GroupArn: string;
   Revision: string;
-  DisplayName?: string | redacted.Redacted<string>;
-  ExternalIds?: ExternalId[];
-  Description?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  CreatedBy?: string;
-  UpdatedBy?: string;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  ExternalIds?: ExternalId[] | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
+  UpdatedBy?: string | undefined;
 }
 export interface DescribeGroupMembershipRequest {
   IdentityStoreId: string;
@@ -305,10 +306,10 @@ export interface DescribeGroupMembershipResponse {
   MembershipArn: string;
   GroupId: string;
   MemberId: MemberId;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  CreatedBy?: string;
-  UpdatedBy?: string;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
+  UpdatedBy?: string | undefined;
 }
 export interface DescribeIdentityStoreRequest {
   IdentityStoreId: string;
@@ -320,20 +321,20 @@ export type IpCidrType = string;
 export type IpCidrList = string[];
 export interface NetworkConfigurationDetails {
   VpceAccessRequired: boolean;
-  ApiRestrictSourceVpcs?: string[];
-  ApiAllowSourceIps?: string[];
-  ScimAllowSourceIps?: string[];
+  ApiRestrictSourceVpcs?: string[] | undefined;
+  ApiAllowSourceIps?: string[] | undefined;
+  ScimAllowSourceIps?: string[] | undefined;
 }
 export interface DescribeIdentityStoreResponse {
   IdentityStoreId: string;
   IdentityStoreArn: string;
-  NetworkConfiguration?: NetworkConfigurationDetails;
+  NetworkConfiguration?: NetworkConfigurationDetails | undefined;
 }
 export type ExtensionNames = string[];
 export interface DescribeUserRequest {
   IdentityStoreId: string;
   UserId: string;
-  Extensions?: string[];
+  Extensions?: string[] | undefined;
 }
 export type UserStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface DescribeUserResponse {
@@ -341,30 +342,30 @@ export interface DescribeUserResponse {
   UserId: string;
   UserArn: string;
   Revision: string;
-  UserName?: string | redacted.Redacted<string>;
-  ExternalIds?: ExternalId[];
-  Name?: Name;
-  DisplayName?: string | redacted.Redacted<string>;
-  NickName?: string | redacted.Redacted<string>;
-  ProfileUrl?: string | redacted.Redacted<string>;
-  Emails?: Email[];
-  Addresses?: Address[];
-  PhoneNumbers?: PhoneNumber[];
-  UserType?: string | redacted.Redacted<string>;
-  Title?: string | redacted.Redacted<string>;
-  PreferredLanguage?: string | redacted.Redacted<string>;
-  Locale?: string | redacted.Redacted<string>;
-  Timezone?: string | redacted.Redacted<string>;
-  UserStatus?: UserStatus;
-  Photos?: Photo[];
-  Website?: string | redacted.Redacted<string>;
-  Birthdate?: string | redacted.Redacted<string>;
-  Roles?: Role[];
-  CreatedAt?: Date;
-  CreatedBy?: string;
-  UpdatedAt?: Date;
-  UpdatedBy?: string;
-  Extensions?: { [key: string]: any | undefined };
+  UserName?: string | redacted.Redacted<string> | undefined;
+  ExternalIds?: ExternalId[] | undefined;
+  Name?: Name | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  NickName?: string | redacted.Redacted<string> | undefined;
+  ProfileUrl?: string | redacted.Redacted<string> | undefined;
+  Emails?: Email[] | undefined;
+  Addresses?: Address[] | undefined;
+  PhoneNumbers?: PhoneNumber[] | undefined;
+  UserType?: string | redacted.Redacted<string> | undefined;
+  Title?: string | redacted.Redacted<string> | undefined;
+  PreferredLanguage?: string | redacted.Redacted<string> | undefined;
+  Locale?: string | redacted.Redacted<string> | undefined;
+  Timezone?: string | redacted.Redacted<string> | undefined;
+  UserStatus?: UserStatus | undefined;
+  Photos?: Photo[] | undefined;
+  Website?: string | redacted.Redacted<string> | undefined;
+  Birthdate?: string | redacted.Redacted<string> | undefined;
+  Roles?: Role[] | undefined;
+  CreatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  UpdatedBy?: string | undefined;
+  Extensions?: { [key: string]: any | undefined } | undefined;
 }
 export type AttributePath = string;
 export interface UniqueAttribute {
@@ -372,8 +373,8 @@ export interface UniqueAttribute {
   AttributeValue: any;
 }
 export type AlternateIdentifier =
-  | { ExternalId: ExternalId; UniqueAttribute?: never }
-  | { ExternalId?: never; UniqueAttribute: UniqueAttribute };
+  | { ExternalId: ExternalId; UniqueAttribute?: undefined }
+  | { ExternalId?: undefined; UniqueAttribute: UniqueAttribute };
 export interface GetGroupIdRequest {
   IdentityStoreId: string;
   AlternateIdentifier: AlternateIdentifier;
@@ -409,9 +410,9 @@ export interface IsMemberInGroupsRequest {
   GroupIds: string[];
 }
 export interface GroupMembershipExistenceResult {
-  GroupId?: string;
-  MemberId?: MemberId;
-  MembershipExists?: boolean;
+  GroupId?: string | undefined;
+  MemberId?: MemberId | undefined;
+  MembershipExists?: boolean | undefined;
 }
 export type GroupMembershipExistenceResults = GroupMembershipExistenceResult[];
 export interface IsMemberInGroupsResponse {
@@ -422,34 +423,34 @@ export type NextToken = string;
 export interface ListGroupMembershipsRequest {
   IdentityStoreId: string;
   GroupId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GroupMembership {
   IdentityStoreId: string;
   MembershipId: string;
   MembershipArn: string;
-  GroupId?: string;
-  MemberId?: MemberId;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  CreatedBy?: string;
-  UpdatedBy?: string;
+  GroupId?: string | undefined;
+  MemberId?: MemberId | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
+  UpdatedBy?: string | undefined;
 }
 export type GroupMemberships = GroupMembership[];
 export interface ListGroupMembershipsResponse {
   GroupMemberships: GroupMembership[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGroupMembershipsForMemberRequest {
   IdentityStoreId: string;
   MemberId: MemberId;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupMembershipsForMemberResponse {
   GroupMemberships: GroupMembership[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface Filter {
   AttributePath: string;
@@ -458,31 +459,31 @@ export interface Filter {
 export type Filters = Filter[];
 export interface ListGroupsRequest {
   IdentityStoreId: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface Group {
   IdentityStoreId: string;
   GroupId: string;
   GroupArn: string;
   Revision: string;
-  DisplayName?: string | redacted.Redacted<string>;
-  ExternalIds?: ExternalId[];
-  Description?: string | redacted.Redacted<string>;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  CreatedBy?: string;
-  UpdatedBy?: string;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  ExternalIds?: ExternalId[] | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
+  UpdatedBy?: string | undefined;
 }
 export type Groups = Group[];
 export interface ListGroupsResponse {
   Groups: Group[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListIdentityStoresRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface IdentityStore {
   IdentityStoreId: string;
@@ -491,60 +492,60 @@ export interface IdentityStore {
 export type IdentityStores = IdentityStore[];
 export interface ListIdentityStoresResponse {
   IdentityStores: IdentityStore[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListUsersRequest {
   IdentityStoreId: string;
-  Extensions?: string[];
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  Extensions?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export interface User {
   IdentityStoreId: string;
   UserId: string;
   UserArn: string;
   Revision: string;
-  UserName?: string | redacted.Redacted<string>;
-  ExternalIds?: ExternalId[];
-  Name?: Name;
-  DisplayName?: string | redacted.Redacted<string>;
-  NickName?: string | redacted.Redacted<string>;
-  ProfileUrl?: string | redacted.Redacted<string>;
-  Emails?: Email[];
-  Addresses?: Address[];
-  PhoneNumbers?: PhoneNumber[];
-  UserType?: string | redacted.Redacted<string>;
-  Title?: string | redacted.Redacted<string>;
-  PreferredLanguage?: string | redacted.Redacted<string>;
-  Locale?: string | redacted.Redacted<string>;
-  Timezone?: string | redacted.Redacted<string>;
-  UserStatus?: UserStatus;
-  Photos?: Photo[];
-  Website?: string | redacted.Redacted<string>;
-  Birthdate?: string | redacted.Redacted<string>;
-  Roles?: Role[];
-  CreatedAt?: Date;
-  CreatedBy?: string;
-  UpdatedAt?: Date;
-  UpdatedBy?: string;
-  Extensions?: { [key: string]: any | undefined };
+  UserName?: string | redacted.Redacted<string> | undefined;
+  ExternalIds?: ExternalId[] | undefined;
+  Name?: Name | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  NickName?: string | redacted.Redacted<string> | undefined;
+  ProfileUrl?: string | redacted.Redacted<string> | undefined;
+  Emails?: Email[] | undefined;
+  Addresses?: Address[] | undefined;
+  PhoneNumbers?: PhoneNumber[] | undefined;
+  UserType?: string | redacted.Redacted<string> | undefined;
+  Title?: string | redacted.Redacted<string> | undefined;
+  PreferredLanguage?: string | redacted.Redacted<string> | undefined;
+  Locale?: string | redacted.Redacted<string> | undefined;
+  Timezone?: string | redacted.Redacted<string> | undefined;
+  UserStatus?: UserStatus | undefined;
+  Photos?: Photo[] | undefined;
+  Website?: string | redacted.Redacted<string> | undefined;
+  Birthdate?: string | redacted.Redacted<string> | undefined;
+  Roles?: Role[] | undefined;
+  CreatedAt?: Date | undefined;
+  CreatedBy?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  UpdatedBy?: string | undefined;
+  Extensions?: { [key: string]: any | undefined } | undefined;
 }
 export type Users = User[];
 export interface ListUsersResponse {
   Users: User[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface AttributeOperation {
   AttributePath: string;
-  AttributeValue?: any;
+  AttributeValue?: any | undefined;
 }
 export type AttributeOperations = AttributeOperation[];
 export interface UpdateGroupRequest {
   IdentityStoreId: string;
   GroupId: string;
   Operations: AttributeOperation[];
-  Revision?: string;
+  Revision?: string | undefined;
 }
 export interface UpdateGroupResponse {
   IdentityStoreId: string;
@@ -554,13 +555,13 @@ export interface UpdateGroupResponse {
 }
 export interface NetworkConfiguration {
   VpceAccessRequired: boolean;
-  ApiRestrictSourceVpcs?: string[];
-  ApiAllowSourceIps?: string[];
-  ScimAllowSourceIps?: string[];
+  ApiRestrictSourceVpcs?: string[] | undefined;
+  ApiAllowSourceIps?: string[] | undefined;
+  ScimAllowSourceIps?: string[] | undefined;
 }
 export interface UpdateIdentityStoreRequest {
   IdentityStoreId: string;
-  NetworkConfiguration?: NetworkConfiguration;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
 }
 export interface UpdateIdentityStoreResponse {
   IdentityStoreId: string;
@@ -570,7 +571,7 @@ export interface UpdateUserRequest {
   IdentityStoreId: string;
   UserId: string;
   Operations: AttributeOperation[];
-  Revision?: string;
+  Revision?: string | undefined;
 }
 export interface UpdateUserResponse {
   IdentityStoreId: string;
@@ -608,7 +609,7 @@ export type CreateGroupError =
  * Creates a group within the specified identity store.
  */
 export const createGroup: API.OperationMethod<
-  CreateGroupRequest,
+  CreateGroupRequest & RegionInput,
   CreateGroupResponse,
   CreateGroupError,
   Credentials | HttpClient.HttpClient
@@ -638,7 +639,7 @@ export type CreateGroupMembershipError =
  * Creates a relationship between a member and a group. The following identifiers must be specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
  */
 export const createGroupMembership: API.OperationMethod<
-  CreateGroupMembershipRequest,
+  CreateGroupMembershipRequest & RegionInput,
   CreateGroupMembershipResponse,
   CreateGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -668,7 +669,7 @@ export type CreateUserError =
  * Creates a user within the specified identity store.
  */
 export const createUser: API.OperationMethod<
-  CreateUserRequest,
+  CreateUserRequest & RegionInput,
   CreateUserResponse,
   CreateUserError,
   Credentials | HttpClient.HttpClient
@@ -697,7 +698,7 @@ export type DeleteGroupError =
  * Delete a group within an identity store given `GroupId`.
  */
 export const deleteGroup: API.OperationMethod<
-  DeleteGroupRequest,
+  DeleteGroupRequest & RegionInput,
   DeleteGroupResponse,
   DeleteGroupError,
   Credentials | HttpClient.HttpClient
@@ -721,7 +722,7 @@ export type DeleteGroupMembershipError =
  * Delete a membership within a group given `MembershipId`.
  */
 export const deleteGroupMembership: API.OperationMethod<
-  DeleteGroupMembershipRequest,
+  DeleteGroupMembershipRequest & RegionInput,
   DeleteGroupMembershipResponse,
   DeleteGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -745,7 +746,7 @@ export type DeleteUserError =
  * Deletes a user within an identity store given `UserId`.
  */
 export const deleteUser: API.OperationMethod<
-  DeleteUserRequest,
+  DeleteUserRequest & RegionInput,
   DeleteUserResponse,
   DeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -767,7 +768,7 @@ export type DescribeGroupError = ResourceNotFoundException | ValidationException
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const describeGroup: API.OperationMethod<
-  DescribeGroupRequest,
+  DescribeGroupRequest & RegionInput,
   DescribeGroupResponse,
   DescribeGroupError,
   Credentials | HttpClient.HttpClient
@@ -792,7 +793,7 @@ export type DescribeGroupMembershipError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const describeGroupMembership: API.OperationMethod<
-  DescribeGroupMembershipRequest,
+  DescribeGroupMembershipRequest & RegionInput,
   DescribeGroupMembershipResponse,
   DescribeGroupMembershipError,
   Credentials | HttpClient.HttpClient
@@ -815,7 +816,7 @@ export type DescribeIdentityStoreError =
  * Retrieves details about the specified identity store, including its Amazon Resource Name (ARN) and network configuration.
  */
 export const describeIdentityStore: API.OperationMethod<
-  DescribeIdentityStoreRequest,
+  DescribeIdentityStoreRequest & RegionInput,
   DescribeIdentityStoreResponse,
   DescribeIdentityStoreError,
   Credentials | HttpClient.HttpClient
@@ -837,7 +838,7 @@ export type DescribeUserError = ResourceNotFoundException | ValidationException 
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const describeUser: API.OperationMethod<
-  DescribeUserRequest,
+  DescribeUserRequest & RegionInput,
   DescribeUserResponse,
   DescribeUserError,
   Credentials | HttpClient.HttpClient
@@ -859,7 +860,7 @@ export type GetGroupIdError = ResourceNotFoundException | ValidationException | 
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const getGroupId: API.OperationMethod<
-  GetGroupIdRequest,
+  GetGroupIdRequest & RegionInput,
   GetGroupIdResponse,
   GetGroupIdError,
   Credentials | HttpClient.HttpClient
@@ -884,7 +885,7 @@ export type GetGroupMembershipIdError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const getGroupMembershipId: API.OperationMethod<
-  GetGroupMembershipIdRequest,
+  GetGroupMembershipIdRequest & RegionInput,
   GetGroupMembershipIdResponse,
   GetGroupMembershipIdError,
   Credentials | HttpClient.HttpClient
@@ -906,7 +907,7 @@ export type GetUserIdError = ResourceNotFoundException | ValidationException | C
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const getUserId: API.OperationMethod<
-  GetUserIdRequest,
+  GetUserIdRequest & RegionInput,
   GetUserIdResponse,
   GetUserIdError,
   Credentials | HttpClient.HttpClient
@@ -928,7 +929,7 @@ export type IsMemberInGroupsError = ResourceNotFoundException | ValidationExcept
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const isMemberInGroups: API.OperationMethod<
-  IsMemberInGroupsRequest,
+  IsMemberInGroupsRequest & RegionInput,
   IsMemberInGroupsResponse,
   IsMemberInGroupsError,
   Credentials | HttpClient.HttpClient
@@ -953,7 +954,7 @@ export type ListGroupMembershipsError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listGroupMemberships: API.PaginatedOperationMethod<
-  ListGroupMembershipsRequest,
+  ListGroupMembershipsRequest & RegionInput,
   ListGroupMembershipsResponse,
   ListGroupMembershipsError,
   Credentials | HttpClient.HttpClient,
@@ -985,7 +986,7 @@ export type ListGroupMembershipsForMemberError =
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listGroupMembershipsForMember: API.PaginatedOperationMethod<
-  ListGroupMembershipsForMemberRequest,
+  ListGroupMembershipsForMemberRequest & RegionInput,
   ListGroupMembershipsForMemberResponse,
   ListGroupMembershipsForMemberError,
   Credentials | HttpClient.HttpClient,
@@ -1014,7 +1015,7 @@ export type ListGroupsError = ResourceNotFoundException | ValidationException | 
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listGroups: API.PaginatedOperationMethod<
-  ListGroupsRequest,
+  ListGroupsRequest & RegionInput,
   ListGroupsResponse,
   ListGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1043,7 +1044,7 @@ export type ListIdentityStoresError = ValidationException | CommonErrors;
  * This operation returns results in paginated form. Use the `NextToken` parameter to retrieve additional pages of results.
  */
 export const listIdentityStores: API.PaginatedOperationMethod<
-  ListIdentityStoresRequest,
+  ListIdentityStoresRequest & RegionInput,
   ListIdentityStoresResponse,
   ListIdentityStoresError,
   Credentials | HttpClient.HttpClient,
@@ -1072,7 +1073,7 @@ export type ListUsersError = ResourceNotFoundException | ValidationException | C
  * If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the * IAM Identity Center User Guide*.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1104,7 +1105,7 @@ export type UpdateGroupError =
  * Updates the specified group metadata and attributes in the specified identity store.
  */
 export const updateGroup: API.OperationMethod<
-  UpdateGroupRequest,
+  UpdateGroupRequest & RegionInput,
   UpdateGroupResponse,
   UpdateGroupError,
   Credentials | HttpClient.HttpClient
@@ -1133,7 +1134,7 @@ export type UpdateIdentityStoreError =
  * Updates the configuration of the specified identity store, including its network configuration.
  */
 export const updateIdentityStore: API.OperationMethod<
-  UpdateIdentityStoreRequest,
+  UpdateIdentityStoreRequest & RegionInput,
   UpdateIdentityStoreResponse,
   UpdateIdentityStoreError,
   Credentials | HttpClient.HttpClient
@@ -1158,7 +1159,7 @@ export type UpdateUserError =
  * Updates the specified user metadata and attributes in the specified identity store.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient

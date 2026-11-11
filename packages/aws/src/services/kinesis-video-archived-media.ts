@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -157,118 +158,118 @@ export interface ClipFragmentSelector {
   TimestampRange: ClipTimestampRange;
 }
 export interface GetClipInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   ClipFragmentSelector: ClipFragmentSelector;
 }
 export type ContentType = string;
 export interface GetClipOutput {
-  ContentType?: string;
-  Payload?: T.StreamingOutputBody;
+  ContentType?: string | undefined;
+  Payload?: T.StreamingOutputBody | undefined;
 }
 export type DASHPlaybackMode = "LIVE" | "LIVE_REPLAY" | "ON_DEMAND" | (string & {});
 export type DASHDisplayFragmentTimestamp = "ALWAYS" | "NEVER" | (string & {});
 export type DASHDisplayFragmentNumber = "ALWAYS" | "NEVER" | (string & {});
 export type DASHFragmentSelectorType = "PRODUCER_TIMESTAMP" | "SERVER_TIMESTAMP" | (string & {});
 export interface DASHTimestampRange {
-  StartTimestamp?: Date;
-  EndTimestamp?: Date;
+  StartTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
 }
 export interface DASHFragmentSelector {
-  FragmentSelectorType?: DASHFragmentSelectorType;
-  TimestampRange?: DASHTimestampRange;
+  FragmentSelectorType?: DASHFragmentSelectorType | undefined;
+  TimestampRange?: DASHTimestampRange | undefined;
 }
 export type Expires = number;
 export type DASHMaxResults = number;
 export interface GetDASHStreamingSessionURLInput {
-  StreamName?: string;
-  StreamARN?: string;
-  PlaybackMode?: DASHPlaybackMode;
-  DisplayFragmentTimestamp?: DASHDisplayFragmentTimestamp;
-  DisplayFragmentNumber?: DASHDisplayFragmentNumber;
-  DASHFragmentSelector?: DASHFragmentSelector;
-  Expires?: number;
-  MaxManifestFragmentResults?: number;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  PlaybackMode?: DASHPlaybackMode | undefined;
+  DisplayFragmentTimestamp?: DASHDisplayFragmentTimestamp | undefined;
+  DisplayFragmentNumber?: DASHDisplayFragmentNumber | undefined;
+  DASHFragmentSelector?: DASHFragmentSelector | undefined;
+  Expires?: number | undefined;
+  MaxManifestFragmentResults?: number | undefined;
 }
 export type DASHStreamingSessionURL = string;
 export interface GetDASHStreamingSessionURLOutput {
-  DASHStreamingSessionURL?: string;
+  DASHStreamingSessionURL?: string | undefined;
 }
 export type HLSPlaybackMode = "LIVE" | "LIVE_REPLAY" | "ON_DEMAND" | (string & {});
 export type HLSFragmentSelectorType = "PRODUCER_TIMESTAMP" | "SERVER_TIMESTAMP" | (string & {});
 export interface HLSTimestampRange {
-  StartTimestamp?: Date;
-  EndTimestamp?: Date;
+  StartTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
 }
 export interface HLSFragmentSelector {
-  FragmentSelectorType?: HLSFragmentSelectorType;
-  TimestampRange?: HLSTimestampRange;
+  FragmentSelectorType?: HLSFragmentSelectorType | undefined;
+  TimestampRange?: HLSTimestampRange | undefined;
 }
 export type ContainerFormat = "FRAGMENTED_MP4" | "MPEG_TS" | (string & {});
 export type HLSDiscontinuityMode = "ALWAYS" | "NEVER" | "ON_DISCONTINUITY" | (string & {});
 export type HLSDisplayFragmentTimestamp = "ALWAYS" | "NEVER" | (string & {});
 export type HLSMaxResults = number;
 export interface GetHLSStreamingSessionURLInput {
-  StreamName?: string;
-  StreamARN?: string;
-  PlaybackMode?: HLSPlaybackMode;
-  HLSFragmentSelector?: HLSFragmentSelector;
-  ContainerFormat?: ContainerFormat;
-  DiscontinuityMode?: HLSDiscontinuityMode;
-  DisplayFragmentTimestamp?: HLSDisplayFragmentTimestamp;
-  Expires?: number;
-  MaxMediaPlaylistFragmentResults?: number;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  PlaybackMode?: HLSPlaybackMode | undefined;
+  HLSFragmentSelector?: HLSFragmentSelector | undefined;
+  ContainerFormat?: ContainerFormat | undefined;
+  DiscontinuityMode?: HLSDiscontinuityMode | undefined;
+  DisplayFragmentTimestamp?: HLSDisplayFragmentTimestamp | undefined;
+  Expires?: number | undefined;
+  MaxMediaPlaylistFragmentResults?: number | undefined;
 }
 export type HLSStreamingSessionURL = string;
 export interface GetHLSStreamingSessionURLOutput {
-  HLSStreamingSessionURL?: string;
+  HLSStreamingSessionURL?: string | undefined;
 }
 export type ImageSelectorType = "PRODUCER_TIMESTAMP" | "SERVER_TIMESTAMP" | (string & {});
 export type SamplingInterval = number;
 export type Format = "JPEG" | "PNG" | (string & {});
 export type FormatConfigKey = "JPEGQuality" | (string & {});
 export type FormatConfigValue = string;
-export type FormatConfig = { [key in FormatConfigKey]?: string };
+export type FormatConfig = { [key in FormatConfigKey]?: string | undefined };
 export type WidthPixels = number;
 export type HeightPixels = number;
 export type GetImagesMaxResults = number;
 export type NextToken = string;
 export interface GetImagesInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   ImageSelectorType: ImageSelectorType;
   StartTimestamp: Date;
   EndTimestamp: Date;
-  SamplingInterval?: number;
+  SamplingInterval?: number | undefined;
   Format: Format;
-  FormatConfig?: { [key: string]: string | undefined };
-  WidthPixels?: number;
-  HeightPixels?: number;
-  MaxResults?: number;
-  NextToken?: string;
+  FormatConfig?: { [key: string]: string | undefined } | undefined;
+  WidthPixels?: number | undefined;
+  HeightPixels?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ImageError = "NO_MEDIA" | "MEDIA_ERROR" | (string & {});
 export type ImageContent = string;
 export interface Image {
-  TimeStamp?: Date;
-  Error?: ImageError;
-  ImageContent?: string;
+  TimeStamp?: Date | undefined;
+  Error?: ImageError | undefined;
+  ImageContent?: string | undefined;
 }
 export type Images = Image[];
 export interface GetImagesOutput {
-  Images?: Image[];
-  NextToken?: string;
+  Images?: Image[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FragmentNumberString = string;
 export type FragmentNumberList = string[];
 export interface GetMediaForFragmentListInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   Fragments: string[];
 }
 export interface GetMediaForFragmentListOutput {
-  ContentType?: string;
-  Payload?: T.StreamingOutputBody;
+  ContentType?: string | undefined;
+  Payload?: T.StreamingOutputBody | undefined;
 }
 export type ListFragmentsMaxResults = number;
 export type FragmentSelectorType = "PRODUCER_TIMESTAMP" | "SERVER_TIMESTAMP" | (string & {});
@@ -281,23 +282,23 @@ export interface FragmentSelector {
   TimestampRange: TimestampRange;
 }
 export interface ListFragmentsInput {
-  StreamName?: string;
-  StreamARN?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  FragmentSelector?: FragmentSelector;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  FragmentSelector?: FragmentSelector | undefined;
 }
 export interface Fragment {
-  FragmentNumber?: string;
-  FragmentSizeInBytes?: number;
-  ProducerTimestamp?: Date;
-  ServerTimestamp?: Date;
-  FragmentLengthInMilliseconds?: number;
+  FragmentNumber?: string | undefined;
+  FragmentSizeInBytes?: number | undefined;
+  ProducerTimestamp?: Date | undefined;
+  ServerTimestamp?: Date | undefined;
+  FragmentLengthInMilliseconds?: number | undefined;
 }
 export type FragmentList = Fragment[];
 export interface ListFragmentsOutput {
-  Fragments?: Fragment[];
-  NextToken?: string;
+  Fragments?: Fragment[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type GetClipError =
@@ -351,7 +352,7 @@ export type GetClipError =
  * Pricing. Charges for outgoing Amazon Web Services data apply.
  */
 export const getClip: API.OperationMethod<
-  GetClipInput,
+  GetClipInput & RegionInput,
   GetClipOutput,
   GetClipError,
   Credentials | HttpClient.HttpClient
@@ -512,7 +513,7 @@ export type GetDASHStreamingSessionURLError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getDASHStreamingSessionURL: API.OperationMethod<
-  GetDASHStreamingSessionURLInput,
+  GetDASHStreamingSessionURLInput & RegionInput,
   GetDASHStreamingSessionURLOutput,
   GetDASHStreamingSessionURLError,
   Credentials | HttpClient.HttpClient
@@ -712,7 +713,7 @@ export type GetHLSStreamingSessionURLError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getHLSStreamingSessionURL: API.OperationMethod<
-  GetHLSStreamingSessionURLInput,
+  GetHLSStreamingSessionURLInput & RegionInput,
   GetHLSStreamingSessionURLOutput,
   GetHLSStreamingSessionURLError,
   Credentials | HttpClient.HttpClient
@@ -748,7 +749,7 @@ export type GetImagesError =
  * sampling interval, and image format configuration.
  */
 export const getImages: API.PaginatedOperationMethod<
-  GetImagesInput,
+  GetImagesInput & RegionInput,
   GetImagesOutput,
   GetImagesError,
   Credentials | HttpClient.HttpClient,
@@ -813,7 +814,7 @@ export type GetMediaForFragmentListError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const getMediaForFragmentList: API.OperationMethod<
-  GetMediaForFragmentListInput,
+  GetMediaForFragmentListInput & RegionInput,
   GetMediaForFragmentListOutput,
   GetMediaForFragmentListError,
   Credentials | HttpClient.HttpClient
@@ -872,7 +873,7 @@ export type ListFragmentsError =
  * the bottom of this topic, as well as Common Errors.
  */
 export const listFragments: API.PaginatedOperationMethod<
-  ListFragmentsInput,
+  ListFragmentsInput & RegionInput,
   ListFragmentsOutput,
   ListFragmentsError,
   Credentials | HttpClient.HttpClient,

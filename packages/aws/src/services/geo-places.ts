@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -232,10 +233,10 @@ export type AutocompleteFilterPlaceType =
   | (string & {});
 export type AutocompleteFilterPlaceTypeList = AutocompleteFilterPlaceType[];
 export interface AutocompleteFilter {
-  BoundingBox?: number[];
-  Circle?: FilterCircle;
-  IncludeCountries?: (string | redacted.Redacted<string>)[];
-  IncludePlaceTypes?: AutocompleteFilterPlaceType[];
+  BoundingBox?: number[] | undefined;
+  Circle?: FilterCircle | undefined;
+  IncludeCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  IncludePlaceTypes?: AutocompleteFilterPlaceType[] | undefined;
 }
 export type PostalCodeMode =
   | "MergeAllSpannedLocalities"
@@ -249,15 +250,15 @@ export type AutocompleteIntendedUse = "SingleUse" | (string & {});
 export type ApiKey = string | redacted.Redacted<string>;
 export interface AutocompleteRequest {
   QueryText: string | redacted.Redacted<string>;
-  MaxResults?: number;
-  BiasPosition?: number[];
-  Filter?: AutocompleteFilter;
-  PostalCodeMode?: PostalCodeMode;
-  AdditionalFeatures?: AutocompleteAdditionalFeature[];
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: AutocompleteIntendedUse;
-  Key?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  BiasPosition?: number[] | undefined;
+  Filter?: AutocompleteFilter | undefined;
+  PostalCodeMode?: PostalCodeMode | undefined;
+  AdditionalFeatures?: AutocompleteAdditionalFeature[] | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  IntendedUse?: AutocompleteIntendedUse | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export type PlaceType =
   | "Country"
@@ -280,18 +281,18 @@ export type PlaceType =
 export type CountryCode2 = string | redacted.Redacted<string>;
 export type CountryCode3 = string | redacted.Redacted<string>;
 export interface Country {
-  Code2?: string | redacted.Redacted<string>;
-  Code3?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
+  Code2?: string | redacted.Redacted<string> | undefined;
+  Code3?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export interface Region {
-  Code?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
+  Code?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 const Region = /*@__PURE__*/ __L.at(__c4, 3) as any as S.Schema<Region>;
 export interface SubRegion {
-  Code?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
+  Code?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 const SubRegion = Region as any as S.Schema<SubRegion>;
 export type IntersectionStreet = string;
@@ -299,104 +300,104 @@ export type IntersectionStreetList = string[];
 export type TypePlacement = "BeforeBaseName" | "AfterBaseName" | (string & {});
 export type TypeSeparator = string;
 export interface StreetComponents {
-  BaseName?: string | redacted.Redacted<string>;
-  Type?: string | redacted.Redacted<string>;
-  TypePlacement?: TypePlacement;
-  TypeSeparator?: string;
-  Prefix?: string | redacted.Redacted<string>;
-  Suffix?: string | redacted.Redacted<string>;
-  Direction?: string | redacted.Redacted<string>;
-  Language?: string;
+  BaseName?: string | redacted.Redacted<string> | undefined;
+  Type?: string | redacted.Redacted<string> | undefined;
+  TypePlacement?: TypePlacement | undefined;
+  TypeSeparator?: string | undefined;
+  Prefix?: string | redacted.Redacted<string> | undefined;
+  Suffix?: string | redacted.Redacted<string> | undefined;
+  Direction?: string | redacted.Redacted<string> | undefined;
+  Language?: string | undefined;
 }
 export type StreetComponentsList = StreetComponents[];
 export interface SecondaryAddressComponent {
   Number: string | redacted.Redacted<string>;
-  Designator?: string | redacted.Redacted<string>;
+  Designator?: string | redacted.Redacted<string> | undefined;
 }
 export type SecondaryAddressComponentList = SecondaryAddressComponent[];
 export interface Address {
-  Label?: string | redacted.Redacted<string>;
-  Country?: Country;
-  Region?: Region;
-  SubRegion?: SubRegion;
-  Locality?: string | redacted.Redacted<string>;
-  District?: string | redacted.Redacted<string>;
-  SubDistrict?: string | redacted.Redacted<string>;
-  PostalCode?: string | redacted.Redacted<string>;
-  Block?: string | redacted.Redacted<string>;
-  SubBlock?: string | redacted.Redacted<string>;
-  Intersection?: string[];
-  Street?: string | redacted.Redacted<string>;
-  StreetComponents?: StreetComponents[];
-  AddressNumber?: string | redacted.Redacted<string>;
-  Building?: string | redacted.Redacted<string>;
-  SecondaryAddressComponents?: SecondaryAddressComponent[];
+  Label?: string | redacted.Redacted<string> | undefined;
+  Country?: Country | undefined;
+  Region?: Region | undefined;
+  SubRegion?: SubRegion | undefined;
+  Locality?: string | redacted.Redacted<string> | undefined;
+  District?: string | redacted.Redacted<string> | undefined;
+  SubDistrict?: string | redacted.Redacted<string> | undefined;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
+  Block?: string | redacted.Redacted<string> | undefined;
+  SubBlock?: string | redacted.Redacted<string> | undefined;
+  Intersection?: string[] | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  StreetComponents?: StreetComponents[] | undefined;
+  AddressNumber?: string | redacted.Redacted<string> | undefined;
+  Building?: string | redacted.Redacted<string> | undefined;
+  SecondaryAddressComponents?: SecondaryAddressComponent[] | undefined;
 }
 export interface Highlight {
-  StartIndex?: number;
-  EndIndex?: number;
-  Value?: string | redacted.Redacted<string>;
+  StartIndex?: number | undefined;
+  EndIndex?: number | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
 }
 export type HighlightList = Highlight[];
 export interface CountryHighlights {
-  Code?: Highlight[];
-  Name?: Highlight[];
+  Code?: Highlight[] | undefined;
+  Name?: Highlight[] | undefined;
 }
 export interface RegionHighlights {
-  Code?: Highlight[];
-  Name?: Highlight[];
+  Code?: Highlight[] | undefined;
+  Name?: Highlight[] | undefined;
 }
 export interface SubRegionHighlights {
-  Code?: Highlight[];
-  Name?: Highlight[];
+  Code?: Highlight[] | undefined;
+  Name?: Highlight[] | undefined;
 }
 export type IntersectionHighlightsList = Highlight[][];
 export interface AutocompleteAddressHighlights {
-  Label?: Highlight[];
-  Country?: CountryHighlights;
-  Region?: RegionHighlights;
-  SubRegion?: SubRegionHighlights;
-  Locality?: Highlight[];
-  District?: Highlight[];
-  SubDistrict?: Highlight[];
-  Street?: Highlight[];
-  Block?: Highlight[];
-  SubBlock?: Highlight[];
-  Intersection?: Highlight[][];
-  PostalCode?: Highlight[];
-  AddressNumber?: Highlight[];
-  Building?: Highlight[];
+  Label?: Highlight[] | undefined;
+  Country?: CountryHighlights | undefined;
+  Region?: RegionHighlights | undefined;
+  SubRegion?: SubRegionHighlights | undefined;
+  Locality?: Highlight[] | undefined;
+  District?: Highlight[] | undefined;
+  SubDistrict?: Highlight[] | undefined;
+  Street?: Highlight[] | undefined;
+  Block?: Highlight[] | undefined;
+  SubBlock?: Highlight[] | undefined;
+  Intersection?: Highlight[][] | undefined;
+  PostalCode?: Highlight[] | undefined;
+  AddressNumber?: Highlight[] | undefined;
+  Building?: Highlight[] | undefined;
 }
 export interface AutocompleteHighlights {
-  Title?: Highlight[];
-  Address?: AutocompleteAddressHighlights;
+  Title?: Highlight[] | undefined;
+  Address?: AutocompleteAddressHighlights | undefined;
 }
 export type SensitiveBoolean = boolean;
 export interface AutocompleteResultItem {
   PlaceId: string | redacted.Redacted<string>;
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
-  Address?: Address;
-  Distance?: number;
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  Highlights?: AutocompleteHighlights;
-  EstimatedPointAddress?: boolean;
+  Address?: Address | undefined;
+  Distance?: number | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  Highlights?: AutocompleteHighlights | undefined;
+  EstimatedPointAddress?: boolean | undefined;
 }
 export type AutocompleteResultItemList = AutocompleteResultItem[];
 export interface AutocompleteResponse {
   PricingBucket: string;
-  ResultItems?: AutocompleteResultItem[];
+  ResultItems?: AutocompleteResultItem[] | undefined;
 }
 export interface GeocodeQueryComponents {
-  Country?: string | redacted.Redacted<string>;
-  Region?: string | redacted.Redacted<string>;
-  SubRegion?: string | redacted.Redacted<string>;
-  Locality?: string | redacted.Redacted<string>;
-  District?: string | redacted.Redacted<string>;
-  Street?: string | redacted.Redacted<string>;
-  AddressNumber?: string | redacted.Redacted<string>;
-  PostalCode?: string | redacted.Redacted<string>;
+  Country?: string | redacted.Redacted<string> | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
+  SubRegion?: string | redacted.Redacted<string> | undefined;
+  Locality?: string | redacted.Redacted<string> | undefined;
+  District?: string | redacted.Redacted<string> | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  AddressNumber?: string | redacted.Redacted<string> | undefined;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
 }
 export type GeocodeFilterPlaceType =
   | "Locality"
@@ -412,8 +413,8 @@ export type GeocodeFilterPlaceType =
   | (string & {});
 export type GeocodeFilterPlaceTypeList = GeocodeFilterPlaceType[];
 export interface GeocodeFilter {
-  IncludeCountries?: (string | redacted.Redacted<string>)[];
-  IncludePlaceTypes?: GeocodeFilterPlaceType[];
+  IncludeCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  IncludePlaceTypes?: GeocodeFilterPlaceType[] | undefined;
 }
 export type GeocodeAdditionalFeature =
   | "TimeZone"
@@ -432,25 +433,25 @@ export type AddressTranslationComponent =
 export type AddressTranslationComponentList = AddressTranslationComponent[];
 export type GeocodeAddressNamesMode = "Matched" | "Administrative" | (string & {});
 export interface GeocodeRequest {
-  QueryText?: string | redacted.Redacted<string>;
-  QueryComponents?: GeocodeQueryComponents;
-  MaxResults?: number;
-  BiasPosition?: number[];
-  Filter?: GeocodeFilter;
-  AdditionalFeatures?: GeocodeAdditionalFeature[];
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: GeocodeIntendedUse;
-  Key?: string | redacted.Redacted<string>;
-  PostalCodeMode?: PostalCodeMode;
-  AddressTranslations?: AddressTranslationComponent[];
-  AddressNamesMode?: GeocodeAddressNamesMode;
+  QueryText?: string | redacted.Redacted<string> | undefined;
+  QueryComponents?: GeocodeQueryComponents | undefined;
+  MaxResults?: number | undefined;
+  BiasPosition?: number[] | undefined;
+  Filter?: GeocodeFilter | undefined;
+  AdditionalFeatures?: GeocodeAdditionalFeature[] | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  IntendedUse?: GeocodeIntendedUse | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
+  PostalCodeMode?: PostalCodeMode | undefined;
+  AddressTranslations?: AddressTranslationComponent[] | undefined;
+  AddressNamesMode?: GeocodeAddressNamesMode | undefined;
 }
 export type PostalAuthority = "Usps" | (string & {});
 export type PostalCodeType = "UspsZip" | "UspsZipPlus4" | (string & {});
 export type ZipClassificationCode = "Military" | "PostOfficeBoxes" | "Unique" | (string & {});
 export interface UspsZip {
-  ZipClassificationCode?: ZipClassificationCode;
+  ZipClassificationCode?: ZipClassificationCode | undefined;
 }
 export type RecordTypeCode =
   | "Firm"
@@ -461,27 +462,27 @@ export type RecordTypeCode =
   | "Street"
   | (string & {});
 export interface UspsZipPlus4 {
-  RecordTypeCode?: RecordTypeCode;
+  RecordTypeCode?: RecordTypeCode | undefined;
 }
 export interface PostalCodeDetails {
-  PostalCode?: string | redacted.Redacted<string>;
-  PostalAuthority?: PostalAuthority;
-  PostalCodeType?: PostalCodeType;
-  UspsZip?: UspsZip;
-  UspsZipPlus4?: UspsZipPlus4;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
+  PostalAuthority?: PostalAuthority | undefined;
+  PostalCodeType?: PostalCodeType | undefined;
+  UspsZip?: UspsZip | undefined;
+  UspsZipPlus4?: UspsZipPlus4 | undefined;
 }
 export type PostalCodeDetailsList = PostalCodeDetails[];
 export interface Category {
   Id: string | redacted.Redacted<string>;
   Name: string | redacted.Redacted<string>;
-  LocalizedName?: string | redacted.Redacted<string>;
-  Primary?: boolean;
+  LocalizedName?: string | redacted.Redacted<string> | undefined;
+  Primary?: boolean | undefined;
 }
 export type CategoryList = Category[];
 export interface FoodType {
   LocalizedName: string | redacted.Redacted<string>;
-  Id?: string | redacted.Redacted<string>;
-  Primary?: boolean;
+  Id?: string | redacted.Redacted<string> | undefined;
+  Primary?: boolean | undefined;
 }
 export type FoodTypeList = FoodType[];
 export type AccessPointType =
@@ -494,52 +495,52 @@ export type AccessPointType =
   | "Taxi"
   | (string & {});
 export interface AccessPoint {
-  Position?: number[];
-  Type?: AccessPointType;
-  Primary?: boolean;
-  Label?: string | redacted.Redacted<string>;
+  Position?: number[] | undefined;
+  Type?: AccessPointType | undefined;
+  Primary?: boolean | undefined;
+  Label?: string | redacted.Redacted<string> | undefined;
 }
 export type AccessPointList = AccessPoint[];
 export type DurationSeconds = number;
 export interface TimeZone {
   Name: string | redacted.Redacted<string>;
-  Offset?: string | redacted.Redacted<string>;
-  OffsetSeconds?: number;
+  Offset?: string | redacted.Redacted<string> | undefined;
+  OffsetSeconds?: number | undefined;
 }
 export type MatchScore = number;
 export type MatchScoreList = number[];
 export interface SecondaryAddressComponentMatchScore {
-  Number?: number;
+  Number?: number | undefined;
 }
 export type SecondaryAddressComponentMatchScoreList = SecondaryAddressComponentMatchScore[];
 export interface AddressComponentMatchScores {
-  Country?: number;
-  Region?: number;
-  SubRegion?: number;
-  Locality?: number;
-  District?: number;
-  SubDistrict?: number;
-  PostalCode?: number;
-  Block?: number;
-  SubBlock?: number;
-  Intersection?: number[];
-  AddressNumber?: number;
-  Building?: number;
-  SecondaryAddressComponents?: SecondaryAddressComponentMatchScore[];
+  Country?: number | undefined;
+  Region?: number | undefined;
+  SubRegion?: number | undefined;
+  Locality?: number | undefined;
+  District?: number | undefined;
+  SubDistrict?: number | undefined;
+  PostalCode?: number | undefined;
+  Block?: number | undefined;
+  SubBlock?: number | undefined;
+  Intersection?: number[] | undefined;
+  AddressNumber?: number | undefined;
+  Building?: number | undefined;
+  SecondaryAddressComponents?: SecondaryAddressComponentMatchScore[] | undefined;
 }
 export interface ComponentMatchScores {
-  Title?: number;
-  Address?: AddressComponentMatchScores;
+  Title?: number | undefined;
+  Address?: AddressComponentMatchScores | undefined;
 }
 export interface MatchScoreDetails {
-  Overall?: number;
-  Components?: ComponentMatchScores;
+  Overall?: number | undefined;
+  Components?: ComponentMatchScores | undefined;
 }
 export interface ParsedQueryComponent {
-  StartIndex?: number;
-  EndIndex?: number;
-  Value?: string | redacted.Redacted<string>;
-  QueryComponent?: string | redacted.Redacted<string>;
+  StartIndex?: number | undefined;
+  EndIndex?: number | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
+  QueryComponent?: string | redacted.Redacted<string> | undefined;
 }
 export type ParsedQueryComponentList = ParsedQueryComponent[];
 export interface ParsedQuerySecondaryAddressComponent {
@@ -551,43 +552,43 @@ export interface ParsedQuerySecondaryAddressComponent {
 }
 export type ParsedQuerySecondaryAddressComponentList = ParsedQuerySecondaryAddressComponent[];
 export interface GeocodeParsedQueryAddressComponents {
-  Country?: ParsedQueryComponent[];
-  Region?: ParsedQueryComponent[];
-  SubRegion?: ParsedQueryComponent[];
-  Locality?: ParsedQueryComponent[];
-  District?: ParsedQueryComponent[];
-  SubDistrict?: ParsedQueryComponent[];
-  PostalCode?: ParsedQueryComponent[];
-  Block?: ParsedQueryComponent[];
-  SubBlock?: ParsedQueryComponent[];
-  Street?: ParsedQueryComponent[];
-  AddressNumber?: ParsedQueryComponent[];
-  Building?: ParsedQueryComponent[];
-  SecondaryAddressComponents?: ParsedQuerySecondaryAddressComponent[];
-  OtherComponents?: ParsedQueryComponent[];
+  Country?: ParsedQueryComponent[] | undefined;
+  Region?: ParsedQueryComponent[] | undefined;
+  SubRegion?: ParsedQueryComponent[] | undefined;
+  Locality?: ParsedQueryComponent[] | undefined;
+  District?: ParsedQueryComponent[] | undefined;
+  SubDistrict?: ParsedQueryComponent[] | undefined;
+  PostalCode?: ParsedQueryComponent[] | undefined;
+  Block?: ParsedQueryComponent[] | undefined;
+  SubBlock?: ParsedQueryComponent[] | undefined;
+  Street?: ParsedQueryComponent[] | undefined;
+  AddressNumber?: ParsedQueryComponent[] | undefined;
+  Building?: ParsedQueryComponent[] | undefined;
+  SecondaryAddressComponents?: ParsedQuerySecondaryAddressComponent[] | undefined;
+  OtherComponents?: ParsedQueryComponent[] | undefined;
 }
 export interface GeocodeParsedQuery {
-  Title?: ParsedQueryComponent[];
-  Address?: GeocodeParsedQueryAddressComponents;
+  Title?: ParsedQueryComponent[] | undefined;
+  Address?: GeocodeParsedQueryAddressComponents | undefined;
 }
 export interface Intersection {
   PlaceId: string | redacted.Redacted<string>;
   Title: string | redacted.Redacted<string>;
-  Address?: Address;
-  Position?: number[];
-  Distance?: number;
-  RouteDistance?: number;
-  MapView?: number[];
-  AccessPoints?: AccessPoint[];
+  Address?: Address | undefined;
+  Position?: number[] | undefined;
+  Distance?: number | undefined;
+  RouteDistance?: number | undefined;
+  MapView?: number[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
 }
 export type IntersectionList = Intersection[];
 export interface RelatedPlace {
   PlaceId: string | redacted.Redacted<string>;
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
-  Address?: Address;
-  Position?: number[];
-  AccessPoints?: AccessPoint[];
+  Address?: Address | undefined;
+  Position?: number[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
 }
 export type RelatedPlaceList = RelatedPlace[];
 export type TranslationNameType =
@@ -600,51 +601,51 @@ export type TranslationNameType =
   | (string & {});
 export interface TranslationName {
   Value: string | redacted.Redacted<string>;
-  Language?: string;
+  Language?: string | undefined;
   Type: TranslationNameType;
-  Primary?: boolean;
-  Transliterated?: boolean;
+  Primary?: boolean | undefined;
+  Transliterated?: boolean | undefined;
 }
 export type TranslationNameList = TranslationName[];
 export type AdminNamesPreference = "Alternative" | "Primary" | (string & {});
 export interface AdminNames {
   Names: TranslationName[];
-  Preference?: AdminNamesPreference;
+  Preference?: AdminNamesPreference | undefined;
 }
 export type AdminNamesList = AdminNames[];
 export interface TranslationDetails {
-  Locality?: AdminNames[];
-  Region?: AdminNames[];
-  District?: AdminNames[];
-  SubRegion?: AdminNames[];
+  Locality?: AdminNames[] | undefined;
+  Region?: AdminNames[] | undefined;
+  District?: AdminNames[] | undefined;
+  SubRegion?: AdminNames[] | undefined;
 }
 export interface GeocodeResultItem {
   PlaceId: string | redacted.Redacted<string>;
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
-  Address?: Address;
-  AddressNumberCorrected?: boolean;
-  PostalCodeDetails?: PostalCodeDetails[];
-  Position?: number[];
-  Distance?: number;
-  MapView?: number[];
-  Categories?: Category[];
-  FoodTypes?: FoodType[];
-  AccessPoints?: AccessPoint[];
-  TimeZone?: TimeZone;
-  PoliticalView?: string | redacted.Redacted<string>;
-  MatchScores?: MatchScoreDetails;
-  ParsedQuery?: GeocodeParsedQuery;
-  Intersections?: Intersection[];
-  MainAddress?: RelatedPlace;
-  SecondaryAddresses?: RelatedPlace[];
-  Translations?: TranslationDetails;
-  EstimatedPointAddress?: boolean;
+  Address?: Address | undefined;
+  AddressNumberCorrected?: boolean | undefined;
+  PostalCodeDetails?: PostalCodeDetails[] | undefined;
+  Position?: number[] | undefined;
+  Distance?: number | undefined;
+  MapView?: number[] | undefined;
+  Categories?: Category[] | undefined;
+  FoodTypes?: FoodType[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
+  TimeZone?: TimeZone | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  MatchScores?: MatchScoreDetails | undefined;
+  ParsedQuery?: GeocodeParsedQuery | undefined;
+  Intersections?: Intersection[] | undefined;
+  MainAddress?: RelatedPlace | undefined;
+  SecondaryAddresses?: RelatedPlace[] | undefined;
+  Translations?: TranslationDetails | undefined;
+  EstimatedPointAddress?: boolean | undefined;
 }
 export type GeocodeResultItemList = GeocodeResultItem[];
 export interface GeocodeResponse {
   PricingBucket: string;
-  ResultItems?: GeocodeResultItem[];
+  ResultItems?: GeocodeResultItem[] | undefined;
 }
 export type GetPlaceAdditionalFeature =
   | "TimeZone"
@@ -659,77 +660,77 @@ export type GetPlaceIntendedUse = "SingleUse" | "Storage" | (string & {});
 export type GetPlaceAddressNamesMode = "Administrative" | (string & {});
 export interface GetPlaceRequest {
   PlaceId: string | redacted.Redacted<string>;
-  AdditionalFeatures?: GetPlaceAdditionalFeature[];
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: GetPlaceIntendedUse;
-  Key?: string | redacted.Redacted<string>;
-  AddressNamesMode?: GetPlaceAddressNamesMode;
+  AdditionalFeatures?: GetPlaceAdditionalFeature[] | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  IntendedUse?: GetPlaceIntendedUse | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
+  AddressNamesMode?: GetPlaceAddressNamesMode | undefined;
 }
 export interface BusinessChain {
-  Name?: string | redacted.Redacted<string>;
-  Id?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Id?: string | redacted.Redacted<string> | undefined;
 }
 export type BusinessChainList = BusinessChain[];
 export interface ContactDetails {
-  Label?: string | redacted.Redacted<string>;
-  Value?: string | redacted.Redacted<string>;
-  Categories?: Category[];
+  Label?: string | redacted.Redacted<string> | undefined;
+  Value?: string | redacted.Redacted<string> | undefined;
+  Categories?: Category[] | undefined;
 }
 export type ContactDetailsList = ContactDetails[];
 export interface Contacts {
-  Phones?: ContactDetails[];
-  Faxes?: ContactDetails[];
-  Websites?: ContactDetails[];
-  Emails?: ContactDetails[];
+  Phones?: ContactDetails[] | undefined;
+  Faxes?: ContactDetails[] | undefined;
+  Websites?: ContactDetails[] | undefined;
+  Emails?: ContactDetails[] | undefined;
 }
 export type OpeningHoursDisplay = string | redacted.Redacted<string>;
 export type OpeningHoursDisplayList = (string | redacted.Redacted<string>)[];
 export interface OpeningHoursComponents {
-  OpenTime?: string | redacted.Redacted<string>;
-  OpenDuration?: string | redacted.Redacted<string>;
-  Recurrence?: string | redacted.Redacted<string>;
+  OpenTime?: string | redacted.Redacted<string> | undefined;
+  OpenDuration?: string | redacted.Redacted<string> | undefined;
+  Recurrence?: string | redacted.Redacted<string> | undefined;
 }
 export type OpeningHoursComponentsList = OpeningHoursComponents[];
 export interface OpeningHours {
-  Display?: (string | redacted.Redacted<string>)[];
-  OpenNow?: boolean;
-  Components?: OpeningHoursComponents[];
-  Categories?: Category[];
+  Display?: (string | redacted.Redacted<string>)[] | undefined;
+  OpenNow?: boolean | undefined;
+  Components?: OpeningHoursComponents[] | undefined;
+  Categories?: Category[] | undefined;
 }
 export type OpeningHoursList = OpeningHours[];
 export interface AccessRestriction {
-  Restricted?: boolean;
-  Categories?: Category[];
+  Restricted?: boolean | undefined;
+  Categories?: Category[] | undefined;
 }
 export type AccessRestrictionList = AccessRestriction[];
 export interface PhonemeTranscription {
-  Value?: string | redacted.Redacted<string>;
-  Language?: string;
-  Preferred?: boolean;
+  Value?: string | redacted.Redacted<string> | undefined;
+  Language?: string | undefined;
+  Preferred?: boolean | undefined;
 }
 export type PhonemeTranscriptionList = PhonemeTranscription[];
 export interface AddressComponentPhonemes {
-  Country?: PhonemeTranscription[];
-  Region?: PhonemeTranscription[];
-  SubRegion?: PhonemeTranscription[];
-  Locality?: PhonemeTranscription[];
-  District?: PhonemeTranscription[];
-  SubDistrict?: PhonemeTranscription[];
-  Block?: PhonemeTranscription[];
-  SubBlock?: PhonemeTranscription[];
-  Street?: PhonemeTranscription[];
+  Country?: PhonemeTranscription[] | undefined;
+  Region?: PhonemeTranscription[] | undefined;
+  SubRegion?: PhonemeTranscription[] | undefined;
+  Locality?: PhonemeTranscription[] | undefined;
+  District?: PhonemeTranscription[] | undefined;
+  SubDistrict?: PhonemeTranscription[] | undefined;
+  Block?: PhonemeTranscription[] | undefined;
+  SubBlock?: PhonemeTranscription[] | undefined;
+  Street?: PhonemeTranscription[] | undefined;
 }
 export interface PhonemeDetails {
-  Title?: PhonemeTranscription[];
-  Address?: AddressComponentPhonemes;
+  Title?: PhonemeTranscription[] | undefined;
+  Address?: AddressComponentPhonemes | undefined;
 }
 export type PlaceAttribute = "DriveThrough" | (string & {});
 export type PlaceAttributeList = PlaceAttribute[];
 export interface CrossReference {
   Source: string | redacted.Redacted<string>;
   SourcePlaceId: string | redacted.Redacted<string>;
-  SourceCategories?: Category[];
+  SourceCategories?: Category[] | undefined;
 }
 export type CrossReferenceList = CrossReference[];
 export interface GetPlaceResponse {
@@ -737,26 +738,26 @@ export interface GetPlaceResponse {
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
   PricingBucket: string;
-  Address?: Address;
-  AddressNumberCorrected?: boolean;
-  PostalCodeDetails?: PostalCodeDetails[];
-  Position?: number[];
-  MapView?: number[];
-  Categories?: Category[];
-  FoodTypes?: FoodType[];
-  BusinessChains?: BusinessChain[];
-  Contacts?: Contacts;
-  OpeningHours?: OpeningHours[];
-  AccessPoints?: AccessPoint[];
-  AccessRestrictions?: AccessRestriction[];
-  TimeZone?: TimeZone;
-  PoliticalView?: string | redacted.Redacted<string>;
-  Phonemes?: PhonemeDetails;
-  MainAddress?: RelatedPlace;
-  SecondaryAddresses?: RelatedPlace[];
-  PlaceAttributes?: PlaceAttribute[];
-  EstimatedPointAddress?: boolean;
-  CrossReferences?: CrossReference[];
+  Address?: Address | undefined;
+  AddressNumberCorrected?: boolean | undefined;
+  PostalCodeDetails?: PostalCodeDetails[] | undefined;
+  Position?: number[] | undefined;
+  MapView?: number[] | undefined;
+  Categories?: Category[] | undefined;
+  FoodTypes?: FoodType[] | undefined;
+  BusinessChains?: BusinessChain[] | undefined;
+  Contacts?: Contacts | undefined;
+  OpeningHours?: OpeningHours[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
+  AccessRestrictions?: AccessRestriction[] | undefined;
+  TimeZone?: TimeZone | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  Phonemes?: PhonemeDetails | undefined;
+  MainAddress?: RelatedPlace | undefined;
+  SecondaryAddresses?: RelatedPlace[] | undefined;
+  PlaceAttributes?: PlaceAttribute[] | undefined;
+  EstimatedPointAddress?: boolean | undefined;
+  CrossReferences?: CrossReference[] | undefined;
 }
 export type ReverseGeocodeFilterPlaceType =
   | "Locality"
@@ -769,7 +770,7 @@ export type ReverseGeocodeFilterPlaceType =
   | (string & {});
 export type ReverseGeocodeFilterPlaceTypeList = ReverseGeocodeFilterPlaceType[];
 export interface ReverseGeocodeFilter {
-  IncludePlaceTypes?: ReverseGeocodeFilterPlaceType[];
+  IncludePlaceTypes?: ReverseGeocodeFilterPlaceType[] | undefined;
 }
 export type ReverseGeocodeAdditionalFeature =
   | "TimeZone"
@@ -782,53 +783,53 @@ export type Heading = number;
 export type ReverseGeocodeAddressNamesMode = "Administrative" | (string & {});
 export interface ReverseGeocodeRequest {
   QueryPosition: number[];
-  QueryRadius?: number;
-  MaxResults?: number;
-  Filter?: ReverseGeocodeFilter;
-  AdditionalFeatures?: ReverseGeocodeAdditionalFeature[];
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: ReverseGeocodeIntendedUse;
-  Key?: string | redacted.Redacted<string>;
-  Heading?: number;
-  AddressNamesMode?: ReverseGeocodeAddressNamesMode;
+  QueryRadius?: number | undefined;
+  MaxResults?: number | undefined;
+  Filter?: ReverseGeocodeFilter | undefined;
+  AdditionalFeatures?: ReverseGeocodeAdditionalFeature[] | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  IntendedUse?: ReverseGeocodeIntendedUse | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
+  Heading?: number | undefined;
+  AddressNamesMode?: ReverseGeocodeAddressNamesMode | undefined;
 }
 export interface ReverseGeocodeResultItem {
   PlaceId: string | redacted.Redacted<string>;
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
-  Address?: Address;
-  AddressNumberCorrected?: boolean;
-  PostalCodeDetails?: PostalCodeDetails[];
-  Position?: number[];
-  Distance?: number;
-  MapView?: number[];
-  Categories?: Category[];
-  FoodTypes?: FoodType[];
-  AccessPoints?: AccessPoint[];
-  TimeZone?: TimeZone;
-  PoliticalView?: string | redacted.Redacted<string>;
-  Intersections?: Intersection[];
-  MainAddress?: RelatedPlace;
-  EstimatedPointAddress?: boolean;
+  Address?: Address | undefined;
+  AddressNumberCorrected?: boolean | undefined;
+  PostalCodeDetails?: PostalCodeDetails[] | undefined;
+  Position?: number[] | undefined;
+  Distance?: number | undefined;
+  MapView?: number[] | undefined;
+  Categories?: Category[] | undefined;
+  FoodTypes?: FoodType[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
+  TimeZone?: TimeZone | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  Intersections?: Intersection[] | undefined;
+  MainAddress?: RelatedPlace | undefined;
+  EstimatedPointAddress?: boolean | undefined;
 }
 export type ReverseGeocodeResultItemList = ReverseGeocodeResultItem[];
 export interface ReverseGeocodeResponse {
   PricingBucket: string;
-  ResultItems?: ReverseGeocodeResultItem[];
+  ResultItems?: ReverseGeocodeResultItem[] | undefined;
 }
 export type FilterCategoryList = (string | redacted.Redacted<string>)[];
 export type FilterBusinessChainList = (string | redacted.Redacted<string>)[];
 export type FilterFoodTypeList = (string | redacted.Redacted<string>)[];
 export interface SearchNearbyFilter {
-  BoundingBox?: number[];
-  IncludeCountries?: (string | redacted.Redacted<string>)[];
-  IncludeCategories?: (string | redacted.Redacted<string>)[];
-  ExcludeCategories?: (string | redacted.Redacted<string>)[];
-  IncludeBusinessChains?: (string | redacted.Redacted<string>)[];
-  ExcludeBusinessChains?: (string | redacted.Redacted<string>)[];
-  IncludeFoodTypes?: (string | redacted.Redacted<string>)[];
-  ExcludeFoodTypes?: (string | redacted.Redacted<string>)[];
+  BoundingBox?: number[] | undefined;
+  IncludeCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  IncludeCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  ExcludeCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  IncludeBusinessChains?: (string | redacted.Redacted<string>)[] | undefined;
+  ExcludeBusinessChains?: (string | redacted.Redacted<string>)[] | undefined;
+  IncludeFoodTypes?: (string | redacted.Redacted<string>)[] | undefined;
+  ExcludeFoodTypes?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type SearchNearbyAdditionalFeature =
   | "TimeZone"
@@ -842,48 +843,48 @@ export type SearchNearbyIntendedUse = "SingleUse" | "Storage" | (string & {});
 export type Token = string;
 export interface SearchNearbyRequest {
   QueryPosition: number[];
-  QueryRadius?: number;
-  MaxResults?: number;
-  Filter?: SearchNearbyFilter;
-  AdditionalFeatures?: SearchNearbyAdditionalFeature[];
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: SearchNearbyIntendedUse;
-  NextToken?: string;
-  Key?: string | redacted.Redacted<string>;
+  QueryRadius?: number | undefined;
+  MaxResults?: number | undefined;
+  Filter?: SearchNearbyFilter | undefined;
+  AdditionalFeatures?: SearchNearbyAdditionalFeature[] | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  IntendedUse?: SearchNearbyIntendedUse | undefined;
+  NextToken?: string | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchNearbyResultItem {
   PlaceId: string | redacted.Redacted<string>;
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
-  Address?: Address;
-  AddressNumberCorrected?: boolean;
-  Position?: number[];
-  Distance?: number;
-  MapView?: number[];
-  Categories?: Category[];
-  FoodTypes?: FoodType[];
-  BusinessChains?: BusinessChain[];
-  Contacts?: Contacts;
-  OpeningHours?: OpeningHours[];
-  AccessPoints?: AccessPoint[];
-  AccessRestrictions?: AccessRestriction[];
-  TimeZone?: TimeZone;
-  PoliticalView?: string | redacted.Redacted<string>;
-  Phonemes?: PhonemeDetails;
-  PlaceAttributes?: PlaceAttribute[];
-  CrossReferences?: CrossReference[];
+  Address?: Address | undefined;
+  AddressNumberCorrected?: boolean | undefined;
+  Position?: number[] | undefined;
+  Distance?: number | undefined;
+  MapView?: number[] | undefined;
+  Categories?: Category[] | undefined;
+  FoodTypes?: FoodType[] | undefined;
+  BusinessChains?: BusinessChain[] | undefined;
+  Contacts?: Contacts | undefined;
+  OpeningHours?: OpeningHours[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
+  AccessRestrictions?: AccessRestriction[] | undefined;
+  TimeZone?: TimeZone | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  Phonemes?: PhonemeDetails | undefined;
+  PlaceAttributes?: PlaceAttribute[] | undefined;
+  CrossReferences?: CrossReference[] | undefined;
 }
 export type SearchNearbyResultItemList = SearchNearbyResultItem[];
 export interface SearchNearbyResponse {
   PricingBucket: string;
-  ResultItems?: SearchNearbyResultItem[];
-  NextToken?: string;
+  ResultItems?: SearchNearbyResultItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SearchTextFilter {
-  BoundingBox?: number[];
-  Circle?: FilterCircle;
-  IncludeCountries?: (string | redacted.Redacted<string>)[];
+  BoundingBox?: number[] | undefined;
+  Circle?: FilterCircle | undefined;
+  IncludeCountries?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type SearchTextAdditionalFeature =
   | "TimeZone"
@@ -896,51 +897,51 @@ export type SearchTextAdditionalFeatureList = SearchTextAdditionalFeature[];
 export type SearchTextIntendedUse = "SingleUse" | "Storage" | (string & {});
 export type SearchTextTravelMode = "Car" | "Scooter" | "Truck" | (string & {});
 export interface SearchTextRequest {
-  QueryText?: string | redacted.Redacted<string>;
-  QueryId?: string | redacted.Redacted<string>;
-  MaxResults?: number;
-  BiasPosition?: number[];
-  Filter?: SearchTextFilter;
-  AdditionalFeatures?: SearchTextAdditionalFeature[];
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: SearchTextIntendedUse;
-  NextToken?: string;
-  TravelMode?: SearchTextTravelMode;
-  Key?: string | redacted.Redacted<string>;
+  QueryText?: string | redacted.Redacted<string> | undefined;
+  QueryId?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
+  BiasPosition?: number[] | undefined;
+  Filter?: SearchTextFilter | undefined;
+  AdditionalFeatures?: SearchTextAdditionalFeature[] | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  IntendedUse?: SearchTextIntendedUse | undefined;
+  NextToken?: string | undefined;
+  TravelMode?: SearchTextTravelMode | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchTextResultItem {
   PlaceId: string | redacted.Redacted<string>;
   PlaceType: PlaceType;
   Title: string | redacted.Redacted<string>;
-  Address?: Address;
-  AddressNumberCorrected?: boolean;
-  Position?: number[];
-  Distance?: number;
-  MapView?: number[];
-  Categories?: Category[];
-  FoodTypes?: FoodType[];
-  BusinessChains?: BusinessChain[];
-  Contacts?: Contacts;
-  OpeningHours?: OpeningHours[];
-  AccessPoints?: AccessPoint[];
-  AccessRestrictions?: AccessRestriction[];
-  TimeZone?: TimeZone;
-  PoliticalView?: string | redacted.Redacted<string>;
-  Phonemes?: PhonemeDetails;
-  PlaceAttributes?: PlaceAttribute[];
-  CrossReferences?: CrossReference[];
+  Address?: Address | undefined;
+  AddressNumberCorrected?: boolean | undefined;
+  Position?: number[] | undefined;
+  Distance?: number | undefined;
+  MapView?: number[] | undefined;
+  Categories?: Category[] | undefined;
+  FoodTypes?: FoodType[] | undefined;
+  BusinessChains?: BusinessChain[] | undefined;
+  Contacts?: Contacts | undefined;
+  OpeningHours?: OpeningHours[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
+  AccessRestrictions?: AccessRestriction[] | undefined;
+  TimeZone?: TimeZone | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  Phonemes?: PhonemeDetails | undefined;
+  PlaceAttributes?: PlaceAttribute[] | undefined;
+  CrossReferences?: CrossReference[] | undefined;
 }
 export type SearchTextResultItemList = SearchTextResultItem[];
 export interface SearchTextResponse {
   PricingBucket: string;
-  ResultItems?: SearchTextResultItem[];
-  NextToken?: string;
+  ResultItems?: SearchTextResultItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SuggestFilter {
-  BoundingBox?: number[];
-  Circle?: FilterCircle;
-  IncludeCountries?: (string | redacted.Redacted<string>)[];
+  BoundingBox?: number[] | undefined;
+  Circle?: FilterCircle | undefined;
+  IncludeCountries?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type SuggestAdditionalFeature =
   | "Core"
@@ -954,54 +955,54 @@ export type SuggestIntendedUse = "SingleUse" | (string & {});
 export type SuggestTravelMode = "Car" | "Scooter" | "Truck" | (string & {});
 export interface SuggestRequest {
   QueryText: string | redacted.Redacted<string>;
-  MaxResults?: number;
-  MaxQueryRefinements?: number;
-  BiasPosition?: number[];
-  Filter?: SuggestFilter;
-  AdditionalFeatures?: SuggestAdditionalFeature[];
-  Language?: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  IntendedUse?: SuggestIntendedUse;
-  TravelMode?: SuggestTravelMode;
-  Key?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  MaxQueryRefinements?: number | undefined;
+  BiasPosition?: number[] | undefined;
+  Filter?: SuggestFilter | undefined;
+  AdditionalFeatures?: SuggestAdditionalFeature[] | undefined;
+  Language?: string | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  IntendedUse?: SuggestIntendedUse | undefined;
+  TravelMode?: SuggestTravelMode | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export type SuggestResultItemType = "Place" | "Query" | (string & {});
 export interface SuggestPlaceResult {
-  PlaceId?: string | redacted.Redacted<string>;
-  PlaceType?: PlaceType;
-  Address?: Address;
-  Position?: number[];
-  Distance?: number;
-  MapView?: number[];
-  Categories?: Category[];
-  FoodTypes?: FoodType[];
-  BusinessChains?: BusinessChain[];
-  AccessPoints?: AccessPoint[];
-  AccessRestrictions?: AccessRestriction[];
-  TimeZone?: TimeZone;
-  PoliticalView?: string | redacted.Redacted<string>;
-  Phonemes?: PhonemeDetails;
-  PlaceAttributes?: PlaceAttribute[];
-  CrossReferences?: CrossReference[];
+  PlaceId?: string | redacted.Redacted<string> | undefined;
+  PlaceType?: PlaceType | undefined;
+  Address?: Address | undefined;
+  Position?: number[] | undefined;
+  Distance?: number | undefined;
+  MapView?: number[] | undefined;
+  Categories?: Category[] | undefined;
+  FoodTypes?: FoodType[] | undefined;
+  BusinessChains?: BusinessChain[] | undefined;
+  AccessPoints?: AccessPoint[] | undefined;
+  AccessRestrictions?: AccessRestriction[] | undefined;
+  TimeZone?: TimeZone | undefined;
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  Phonemes?: PhonemeDetails | undefined;
+  PlaceAttributes?: PlaceAttribute[] | undefined;
+  CrossReferences?: CrossReference[] | undefined;
 }
 export type QueryType = "Category" | "BusinessChain" | (string & {});
 export interface SuggestQueryResult {
-  QueryId?: string | redacted.Redacted<string>;
-  QueryType?: QueryType;
+  QueryId?: string | redacted.Redacted<string> | undefined;
+  QueryType?: QueryType | undefined;
 }
 export interface SuggestAddressHighlights {
-  Label?: Highlight[];
+  Label?: Highlight[] | undefined;
 }
 export interface SuggestHighlights {
-  Title?: Highlight[];
-  Address?: SuggestAddressHighlights;
+  Title?: Highlight[] | undefined;
+  Address?: SuggestAddressHighlights | undefined;
 }
 export interface SuggestResultItem {
   Title: string | redacted.Redacted<string>;
   SuggestResultItemType: SuggestResultItemType;
-  Place?: SuggestPlaceResult;
-  Query?: SuggestQueryResult;
-  Highlights?: SuggestHighlights;
+  Place?: SuggestPlaceResult | undefined;
+  Query?: SuggestQueryResult | undefined;
+  Highlights?: SuggestHighlights | undefined;
 }
 export type SuggestResultItemList = SuggestResultItem[];
 export interface QueryRefinement {
@@ -1013,8 +1014,8 @@ export interface QueryRefinement {
 export type QueryRefinementList = QueryRefinement[];
 export interface SuggestResponse {
   PricingBucket: string;
-  ResultItems?: SuggestResultItem[];
-  QueryRefinements?: QueryRefinement[];
+  ResultItems?: SuggestResultItem[] | undefined;
+  QueryRefinements?: QueryRefinement[] | undefined;
 }
 export type ValidationExceptionReason =
   | "UnknownOperation"
@@ -1041,7 +1042,7 @@ export type AutocompleteError =
  * For more information, see Autocomplete in the *Amazon Location Service Developer Guide*.
  */
 export const autocomplete: API.OperationMethod<
-  AutocompleteRequest,
+  AutocompleteRequest & RegionInput,
   AutocompleteResponse,
   AutocompleteError,
   Credentials | HttpClient.HttpClient
@@ -1073,7 +1074,7 @@ export type GeocodeError =
  * For more information, see Geocode in the *Amazon Location Service Developer Guide*.
  */
 export const geocode: API.OperationMethod<
-  GeocodeRequest,
+  GeocodeRequest & RegionInput,
   GeocodeResponse,
   GeocodeError,
   Credentials | HttpClient.HttpClient
@@ -1105,7 +1106,7 @@ export type GetPlaceError =
  * For more information, see GetPlace in the *Amazon Location Service Developer Guide*.
  */
 export const getPlace: API.OperationMethod<
-  GetPlaceRequest,
+  GetPlaceRequest & RegionInput,
   GetPlaceResponse,
   GetPlaceError,
   Credentials | HttpClient.HttpClient
@@ -1137,7 +1138,7 @@ export type ReverseGeocodeError =
  * For more information, see Reverse Geocode in the *Amazon Location Service Developer Guide*.
  */
 export const reverseGeocode: API.OperationMethod<
-  ReverseGeocodeRequest,
+  ReverseGeocodeRequest & RegionInput,
   ReverseGeocodeResponse,
   ReverseGeocodeError,
   Credentials | HttpClient.HttpClient
@@ -1169,7 +1170,7 @@ export type SearchNearbyError =
  * For more information, see Search Nearby in the *Amazon Location Service Developer Guide*.
  */
 export const searchNearby: API.OperationMethod<
-  SearchNearbyRequest,
+  SearchNearbyRequest & RegionInput,
   SearchNearbyResponse,
   SearchNearbyError,
   Credentials | HttpClient.HttpClient
@@ -1201,7 +1202,7 @@ export type SearchTextError =
  * For more information, see Search Text in the *Amazon Location Service Developer Guide*.
  */
 export const searchText: API.OperationMethod<
-  SearchTextRequest,
+  SearchTextRequest & RegionInput,
   SearchTextResponse,
   SearchTextError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type SuggestError =
  * For more information, see Suggest in the *Amazon Location Service Developer Guide*.
  */
 export const suggest: API.OperationMethod<
-  SuggestRequest,
+  SuggestRequest & RegionInput,
   SuggestResponse,
   SuggestError,
   Credentials | HttpClient.HttpClient

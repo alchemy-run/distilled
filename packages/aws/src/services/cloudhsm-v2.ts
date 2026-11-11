@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -143,23 +144,23 @@ export type TagList = Tag[];
 export interface CopyBackupToRegionRequest {
   DestinationRegion: string;
   BackupId: string;
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export type ClusterId = string;
 export interface DestinationBackup {
-  CreateTimestamp?: Date;
-  SourceRegion?: string;
-  SourceBackup?: string;
-  SourceCluster?: string;
+  CreateTimestamp?: Date | undefined;
+  SourceRegion?: string | undefined;
+  SourceBackup?: string | undefined;
+  SourceCluster?: string | undefined;
 }
 export interface CopyBackupToRegionResponse {
-  DestinationBackup?: DestinationBackup;
+  DestinationBackup?: DestinationBackup | undefined;
 }
 export type BackupRetentionType = "DAYS" | (string & {});
 export type BackupRetentionValue = string;
 export interface BackupRetentionPolicy {
-  Type?: BackupRetentionType;
-  Value?: string;
+  Type?: BackupRetentionType | undefined;
+  Value?: string | undefined;
 }
 export type HsmType = string;
 export type BackupArn = string;
@@ -168,13 +169,13 @@ export type SubnetIds = string[];
 export type NetworkType = "IPV4" | "DUALSTACK" | (string & {});
 export type ClusterMode = "FIPS" | "NON_FIPS" | (string & {});
 export interface CreateClusterRequest {
-  BackupRetentionPolicy?: BackupRetentionPolicy;
+  BackupRetentionPolicy?: BackupRetentionPolicy | undefined;
   HsmType: string;
-  SourceBackupId?: string;
+  SourceBackupId?: string | undefined;
   SubnetIds: string[];
-  NetworkType?: NetworkType;
-  TagList?: Tag[];
-  Mode?: ClusterMode;
+  NetworkType?: NetworkType | undefined;
+  TagList?: Tag[] | undefined;
+  Mode?: ClusterMode | undefined;
 }
 export type BackupPolicy = "DEFAULT" | (string & {});
 export type ExternalAz = string;
@@ -190,16 +191,16 @@ export type HsmState =
   | "DELETED"
   | (string & {});
 export interface Hsm {
-  AvailabilityZone?: string;
-  ClusterId?: string;
-  SubnetId?: string;
-  EniId?: string;
-  EniIp?: string;
-  EniIpV6?: string;
+  AvailabilityZone?: string | undefined;
+  ClusterId?: string | undefined;
+  SubnetId?: string | undefined;
+  EniId?: string | undefined;
+  EniIp?: string | undefined;
+  EniIpV6?: string | undefined;
   HsmId: string;
-  HsmType?: string;
-  State?: HsmState;
-  StateMessage?: string;
+  HsmType?: string | undefined;
+  State?: HsmState | undefined;
+  StateMessage?: string | undefined;
 }
 export type Hsms = Hsm[];
 export type PreCoPassword = string;
@@ -222,42 +223,42 @@ export type ExternalSubnetMapping = { [key: string]: string | undefined };
 export type VpcId = string;
 export type Cert = string;
 export interface Certificates {
-  ClusterCsr?: string;
-  HsmCertificate?: string;
-  AwsHardwareCertificate?: string;
-  ManufacturerHardwareCertificate?: string;
-  ClusterCertificate?: string;
+  ClusterCsr?: string | undefined;
+  HsmCertificate?: string | undefined;
+  AwsHardwareCertificate?: string | undefined;
+  ManufacturerHardwareCertificate?: string | undefined;
+  ClusterCertificate?: string | undefined;
 }
 export interface Cluster {
-  BackupPolicy?: BackupPolicy;
-  BackupRetentionPolicy?: BackupRetentionPolicy;
-  ClusterId?: string;
-  CreateTimestamp?: Date;
-  Hsms?: Hsm[];
-  HsmType?: string;
-  HsmTypeRollbackExpiration?: Date;
-  PreCoPassword?: string;
-  SecurityGroup?: string;
-  SourceBackupId?: string;
-  State?: ClusterState;
-  StateMessage?: string;
-  SubnetMapping?: { [key: string]: string | undefined };
-  VpcId?: string;
-  NetworkType?: NetworkType;
-  Certificates?: Certificates;
-  TagList?: Tag[];
-  Mode?: ClusterMode;
+  BackupPolicy?: BackupPolicy | undefined;
+  BackupRetentionPolicy?: BackupRetentionPolicy | undefined;
+  ClusterId?: string | undefined;
+  CreateTimestamp?: Date | undefined;
+  Hsms?: Hsm[] | undefined;
+  HsmType?: string | undefined;
+  HsmTypeRollbackExpiration?: Date | undefined;
+  PreCoPassword?: string | undefined;
+  SecurityGroup?: string | undefined;
+  SourceBackupId?: string | undefined;
+  State?: ClusterState | undefined;
+  StateMessage?: string | undefined;
+  SubnetMapping?: { [key: string]: string | undefined } | undefined;
+  VpcId?: string | undefined;
+  NetworkType?: NetworkType | undefined;
+  Certificates?: Certificates | undefined;
+  TagList?: Tag[] | undefined;
+  Mode?: ClusterMode | undefined;
 }
 export interface CreateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface CreateHsmRequest {
   ClusterId: string;
   AvailabilityZone: string;
-  IpAddress?: string;
+  IpAddress?: string | undefined;
 }
 export interface CreateHsmResponse {
-  Hsm?: Hsm;
+  Hsm?: Hsm | undefined;
 }
 export interface DeleteBackupRequest {
   BackupId: string;
@@ -270,46 +271,46 @@ export type BackupState =
   | (string & {});
 export interface Backup {
   BackupId: string;
-  BackupArn?: string;
-  BackupState?: BackupState;
-  ClusterId?: string;
-  CreateTimestamp?: Date;
-  CopyTimestamp?: Date;
-  NeverExpires?: boolean;
-  SourceRegion?: string;
-  SourceBackup?: string;
-  SourceCluster?: string;
-  DeleteTimestamp?: Date;
-  TagList?: Tag[];
-  HsmType?: string;
-  Mode?: ClusterMode;
+  BackupArn?: string | undefined;
+  BackupState?: BackupState | undefined;
+  ClusterId?: string | undefined;
+  CreateTimestamp?: Date | undefined;
+  CopyTimestamp?: Date | undefined;
+  NeverExpires?: boolean | undefined;
+  SourceRegion?: string | undefined;
+  SourceBackup?: string | undefined;
+  SourceCluster?: string | undefined;
+  DeleteTimestamp?: Date | undefined;
+  TagList?: Tag[] | undefined;
+  HsmType?: string | undefined;
+  Mode?: ClusterMode | undefined;
 }
 export interface DeleteBackupResponse {
-  Backup?: Backup;
+  Backup?: Backup | undefined;
 }
 export interface DeleteClusterRequest {
   ClusterId: string;
 }
 export interface DeleteClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DeleteHsmRequest {
   ClusterId: string;
-  HsmId?: string;
-  EniId?: string;
-  EniIp?: string;
+  HsmId?: string | undefined;
+  EniId?: string | undefined;
+  EniIp?: string | undefined;
 }
 export interface DeleteHsmResponse {
-  HsmId?: string;
+  HsmId?: string | undefined;
 }
 export type CloudHsmArn = string;
 export interface DeleteResourcePolicyRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type ResourcePolicy = string;
 export interface DeleteResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export type NextToken = string;
 export type BackupsMaxSize = number;
@@ -317,33 +318,33 @@ export type Field = string;
 export type Strings = string[];
 export type Filters = { [key: string]: string[] | undefined };
 export interface DescribeBackupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filters?: { [key: string]: string[] | undefined };
-  Shared?: boolean;
-  SortAscending?: boolean;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  Shared?: boolean | undefined;
+  SortAscending?: boolean | undefined;
 }
 export type Backups = Backup[];
 export interface DescribeBackupsResponse {
-  Backups?: Backup[];
-  NextToken?: string;
+  Backups?: Backup[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ClustersMaxSize = number;
 export interface DescribeClustersRequest {
-  Filters?: { [key: string]: string[] | undefined };
-  NextToken?: string;
-  MaxResults?: number;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Clusters = Cluster[];
 export interface DescribeClustersResponse {
-  Clusters?: Cluster[];
-  NextToken?: string;
+  Clusters?: Cluster[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface GetResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export interface InitializeClusterRequest {
   ClusterId: string;
@@ -351,48 +352,48 @@ export interface InitializeClusterRequest {
   TrustAnchor: string;
 }
 export interface InitializeClusterResponse {
-  State?: ClusterState;
-  StateMessage?: string;
+  State?: ClusterState | undefined;
+  StateMessage?: string | undefined;
 }
 export type ResourceId = string;
 export type MaxSize = number;
 export interface ListTagsRequest {
   ResourceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListTagsResponse {
   TagList: Tag[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ModifyBackupAttributesRequest {
   BackupId: string;
   NeverExpires: boolean;
 }
 export interface ModifyBackupAttributesResponse {
-  Backup?: Backup;
+  Backup?: Backup | undefined;
 }
 export interface ModifyClusterRequest {
-  HsmType?: string;
-  BackupRetentionPolicy?: BackupRetentionPolicy;
+  HsmType?: string | undefined;
+  BackupRetentionPolicy?: BackupRetentionPolicy | undefined;
   ClusterId: string;
 }
 export interface ModifyClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface PutResourcePolicyRequest {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  Policy?: string;
+  ResourceArn?: string | undefined;
+  Policy?: string | undefined;
 }
 export interface RestoreBackupRequest {
   BackupId: string;
 }
 export interface RestoreBackupResponse {
-  Backup?: Backup;
+  Backup?: Backup | undefined;
 }
 export interface TagResourceRequest {
   ResourceId: string;
@@ -420,7 +421,7 @@ export type CopyBackupToRegionError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const copyBackupToRegion: API.OperationMethod<
-  CopyBackupToRegionRequest,
+  CopyBackupToRegionRequest & RegionInput,
   CopyBackupToRegionResponse,
   CopyBackupToRegionError,
   Credentials | HttpClient.HttpClient
@@ -457,7 +458,7 @@ export type CreateClusterError =
  * ARN in the value of the SourceBackupId parameter.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -493,7 +494,7 @@ export type CreateHsmError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
  */
 export const createHsm: API.OperationMethod<
-  CreateHsmRequest,
+  CreateHsmRequest & RegionInput,
   CreateHsmResponse,
   CreateHsmError,
   Credentials | HttpClient.HttpClient
@@ -529,7 +530,7 @@ export type DeleteBackupError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const deleteBackup: API.OperationMethod<
-  DeleteBackupRequest,
+  DeleteBackupRequest & RegionInput,
   DeleteBackupResponse,
   DeleteBackupError,
   Credentials | HttpClient.HttpClient
@@ -565,7 +566,7 @@ export type DeleteClusterError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -602,7 +603,7 @@ export type DeleteHsmError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
  */
 export const deleteHsm: API.OperationMethod<
-  DeleteHsmRequest,
+  DeleteHsmRequest & RegionInput,
   DeleteHsmResponse,
   DeleteHsmError,
   Credentials | HttpClient.HttpClient
@@ -638,7 +639,7 @@ export type DeleteResourcePolicyError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -679,7 +680,7 @@ export type DescribeBackupsError =
  * **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
  */
 export const describeBackups: API.PaginatedOperationMethod<
-  DescribeBackupsRequest,
+  DescribeBackupsRequest & RegionInput,
   DescribeBackupsResponse,
   DescribeBackupsError,
   Credentials | HttpClient.HttpClient,
@@ -726,7 +727,7 @@ export type DescribeClustersError =
  * **Cross-account use:** No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
  */
 export const describeClusters: API.PaginatedOperationMethod<
-  DescribeClustersRequest,
+  DescribeClustersRequest & RegionInput,
   DescribeClustersResponse,
   DescribeClustersError,
   Credentials | HttpClient.HttpClient,
@@ -766,7 +767,7 @@ export type GetResourcePolicyError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -803,7 +804,7 @@ export type InitializeClusterError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
 export const initializeCluster: API.OperationMethod<
-  InitializeClusterRequest,
+  InitializeClusterRequest & RegionInput,
   InitializeClusterResponse,
   InitializeClusterError,
   Credentials | HttpClient.HttpClient
@@ -844,7 +845,7 @@ export type ListTagsError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const listTags: API.PaginatedOperationMethod<
-  ListTagsRequest,
+  ListTagsRequest & RegionInput,
   ListTagsResponse,
   ListTagsError,
   Credentials | HttpClient.HttpClient,
@@ -885,7 +886,7 @@ export type ModifyBackupAttributesError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const modifyBackupAttributes: API.OperationMethod<
-  ModifyBackupAttributesRequest,
+  ModifyBackupAttributesRequest & RegionInput,
   ModifyBackupAttributesResponse,
   ModifyBackupAttributesError,
   Credentials | HttpClient.HttpClient
@@ -919,7 +920,7 @@ export type ModifyClusterError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
  */
 export const modifyCluster: API.OperationMethod<
-  ModifyClusterRequest,
+  ModifyClusterRequest & RegionInput,
   ModifyClusterResponse,
   ModifyClusterError,
   Credentials | HttpClient.HttpClient
@@ -967,7 +968,7 @@ export type PutResourcePolicyError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -1003,7 +1004,7 @@ export type RestoreBackupError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
  */
 export const restoreBackup: API.OperationMethod<
-  RestoreBackupRequest,
+  RestoreBackupRequest & RegionInput,
   RestoreBackupResponse,
   RestoreBackupError,
   Credentials | HttpClient.HttpClient
@@ -1039,7 +1040,7 @@ export type TagResourceError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1076,7 +1077,7 @@ export type UntagResourceError =
  * **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

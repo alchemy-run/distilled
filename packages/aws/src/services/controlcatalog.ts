@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -137,19 +138,19 @@ export type RegionCode = string;
 export type DeployableRegions = string[];
 export interface RegionConfiguration {
   Scope: ControlScope;
-  DeployableRegions?: string[];
+  DeployableRegions?: string[] | undefined;
 }
 export type ImplementationType = string;
 export type ImplementationIdentifier = string;
 export interface ImplementationDetails {
   Type: string;
-  Identifier?: string;
+  Identifier?: string | undefined;
 }
 export type ParameterRequirementSummary = "REQUIRED" | "OPTIONAL" | "NONE" | (string & {});
 export type ControlParameterRequirement = "REQUIRED" | "OPTIONAL" | (string & {});
 export interface ControlParameter {
   Name: string;
-  Requirement?: ControlParameterRequirement;
+  Requirement?: ControlParameterRequirement | undefined;
 }
 export type ControlParameters = ControlParameter[];
 export type GovernedResource = string;
@@ -158,43 +159,43 @@ export type GovernedProvider = string;
 export type GovernedProviders = string[];
 export interface GetControlResponse {
   Arn: string;
-  Aliases?: string[];
+  Aliases?: string[] | undefined;
   Name: string;
   Description: string;
   Behavior: ControlBehavior;
-  Severity?: ControlSeverity;
+  Severity?: ControlSeverity | undefined;
   RegionConfiguration: RegionConfiguration;
-  Implementation?: ImplementationDetails;
-  ParameterRequirementSummary?: ParameterRequirementSummary;
-  Parameters?: ControlParameter[];
-  CreateTime?: Date;
-  GovernedResources?: string[];
-  GovernedProviders?: string[];
+  Implementation?: ImplementationDetails | undefined;
+  ParameterRequirementSummary?: ParameterRequirementSummary | undefined;
+  Parameters?: ControlParameter[] | undefined;
+  CreateTime?: Date | undefined;
+  GovernedResources?: string[] | undefined;
+  GovernedProviders?: string[] | undefined;
 }
 export type MaxListCommonControlsResults = number;
 export type PaginationToken = string;
 export type ObjectiveArn = string;
 export interface ObjectiveResourceFilter {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type ObjectiveResourceFilterList = ObjectiveResourceFilter[];
 export interface CommonControlFilter {
-  Objectives?: ObjectiveResourceFilter[];
+  Objectives?: ObjectiveResourceFilter[] | undefined;
 }
 export interface ListCommonControlsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  CommonControlFilter?: CommonControlFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  CommonControlFilter?: CommonControlFilter | undefined;
 }
 export type CommonControlArn = string;
 export type DomainArn = string;
 export interface AssociatedDomainSummary {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface AssociatedObjectiveSummary {
-  Arn?: string;
-  Name?: string;
+  Arn?: string | undefined;
+  Name?: string | undefined;
 }
 export interface CommonControlSummary {
   Arn: string;
@@ -208,7 +209,7 @@ export interface CommonControlSummary {
 export type CommonControlSummaryList = CommonControlSummary[];
 export interface ListCommonControlsResponse {
   CommonControls: CommonControlSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListControlMappingsResults = number;
 export type ControlArnFilterList = string[];
@@ -216,14 +217,14 @@ export type CommonControlArnFilterList = string[];
 export type MappingType = "FRAMEWORK" | "COMMON_CONTROL" | "RELATED_CONTROL" | (string & {});
 export type MappingTypeFilterList = MappingType[];
 export interface ControlMappingFilter {
-  ControlArns?: string[];
-  CommonControlArns?: string[];
-  MappingTypes?: MappingType[];
+  ControlArns?: string[] | undefined;
+  CommonControlArns?: string[] | undefined;
+  MappingTypes?: MappingType[] | undefined;
 }
 export interface ListControlMappingsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: ControlMappingFilter;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: ControlMappingFilter | undefined;
 }
 export type FrameworkName = string;
 export type FrameworkItem = string;
@@ -240,13 +241,21 @@ export type ControlRelationType =
   | "MUTUALLY_EXCLUSIVE"
   | (string & {});
 export interface RelatedControlMappingDetails {
-  ControlArn?: string;
+  ControlArn?: string | undefined;
   RelationType: ControlRelationType;
 }
 export type Mapping =
-  | { Framework: FrameworkMappingDetails; CommonControl?: never; RelatedControl?: never }
-  | { Framework?: never; CommonControl: CommonControlMappingDetails; RelatedControl?: never }
-  | { Framework?: never; CommonControl?: never; RelatedControl: RelatedControlMappingDetails };
+  | { Framework: FrameworkMappingDetails; CommonControl?: undefined; RelatedControl?: undefined }
+  | {
+      Framework?: undefined;
+      CommonControl: CommonControlMappingDetails;
+      RelatedControl?: undefined;
+    }
+  | {
+      Framework?: undefined;
+      CommonControl?: undefined;
+      RelatedControl: RelatedControlMappingDetails;
+    };
 export interface ControlMapping {
   ControlArn: string;
   MappingType: MappingType;
@@ -255,51 +264,51 @@ export interface ControlMapping {
 export type ControlMappings = ControlMapping[];
 export interface ListControlMappingsResponse {
   ControlMappings: ControlMapping[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListControlsResults = number;
 export type ImplementationTypeFilterList = string[];
 export type ImplementationIdentifierFilterList = string[];
 export interface ImplementationFilter {
-  Types?: string[];
-  Identifiers?: string[];
+  Types?: string[] | undefined;
+  Identifiers?: string[] | undefined;
 }
 export type GovernedProviderFilterList = string[];
 export interface ControlFilter {
-  Implementations?: ImplementationFilter;
-  GovernedProviders?: string[];
+  Implementations?: ImplementationFilter | undefined;
+  GovernedProviders?: string[] | undefined;
 }
 export interface ListControlsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: ControlFilter;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: ControlFilter | undefined;
 }
 export interface ImplementationSummary {
   Type: string;
-  Identifier?: string;
+  Identifier?: string | undefined;
 }
 export interface ControlSummary {
   Arn: string;
-  Aliases?: string[];
+  Aliases?: string[] | undefined;
   Name: string;
   Description: string;
-  Behavior?: ControlBehavior;
-  Severity?: ControlSeverity;
-  ParameterRequirementSummary?: ParameterRequirementSummary;
-  Implementation?: ImplementationSummary;
-  CreateTime?: Date;
-  GovernedResources?: string[];
-  GovernedProviders?: string[];
+  Behavior?: ControlBehavior | undefined;
+  Severity?: ControlSeverity | undefined;
+  ParameterRequirementSummary?: ParameterRequirementSummary | undefined;
+  Implementation?: ImplementationSummary | undefined;
+  CreateTime?: Date | undefined;
+  GovernedResources?: string[] | undefined;
+  GovernedProviders?: string[] | undefined;
 }
 export type Controls = ControlSummary[];
 export interface ListControlsResponse {
   Controls: ControlSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListDomainsResults = number;
 export interface ListDomainsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DomainSummary {
   Arn: string;
@@ -311,20 +320,20 @@ export interface DomainSummary {
 export type DomainSummaryList = DomainSummary[];
 export interface ListDomainsResponse {
   Domains: DomainSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxListObjectivesResults = number;
 export interface DomainResourceFilter {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type DomainResourceFilterList = DomainResourceFilter[];
 export interface ObjectiveFilter {
-  Domains?: DomainResourceFilter[];
+  Domains?: DomainResourceFilter[] | undefined;
 }
 export interface ListObjectivesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  ObjectiveFilter?: ObjectiveFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  ObjectiveFilter?: ObjectiveFilter | undefined;
 }
 export interface ObjectiveSummary {
   Arn: string;
@@ -337,7 +346,7 @@ export interface ObjectiveSummary {
 export type ObjectiveSummaryList = ObjectiveSummary[];
 export interface ListObjectivesResponse {
   Objectives: ObjectiveSummary[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type GetControlError =
   | AccessDeniedException
@@ -352,7 +361,7 @@ export type GetControlError =
  * In the API response, controls that have the value `GLOBAL` in the `Scope` field do not show the `DeployableRegions` field, because it does not apply. Controls that have the value `REGIONAL` in the `Scope` field return a value for the `DeployableRegions` field, as shown in the example.
  */
 export const getControl: API.OperationMethod<
-  GetControlRequest,
+  GetControlRequest & RegionInput,
   GetControlResponse,
   GetControlError,
   Credentials | HttpClient.HttpClient
@@ -385,7 +394,7 @@ export type ListCommonControlsError =
  * You can apply an optional filter to see common controls that have a specific objective. If you don't provide a filter, the operation returns all common controls.
  */
 export const listCommonControls: API.PaginatedOperationMethod<
-  ListCommonControlsRequest,
+  ListCommonControlsRequest & RegionInput,
   ListCommonControlsResponse,
   ListCommonControlsError,
   Credentials | HttpClient.HttpClient,
@@ -422,7 +431,7 @@ export type ListControlMappingsError =
  * Returns a paginated list of control mappings from the Control Catalog. Control mappings show relationships between controls and other entities, such as common controls or compliance frameworks.
  */
 export const listControlMappings: API.PaginatedOperationMethod<
-  ListControlMappingsRequest,
+  ListControlMappingsRequest & RegionInput,
   ListControlMappingsResponse,
   ListControlMappingsError,
   Credentials | HttpClient.HttpClient,
@@ -459,7 +468,7 @@ export type ListControlsError =
  * Returns a paginated list of all available controls in the Control Catalog library. Allows you to discover available controls. The list of controls is given as structures of type *controlSummary*. The ARN is returned in the global *controlcatalog* format, as shown in the examples.
  */
 export const listControls: API.PaginatedOperationMethod<
-  ListControlsRequest,
+  ListControlsRequest & RegionInput,
   ListControlsResponse,
   ListControlsError,
   Credentials | HttpClient.HttpClient,
@@ -496,7 +505,7 @@ export type ListDomainsError =
  * Returns a paginated list of domains from the Control Catalog.
  */
 export const listDomains: API.PaginatedOperationMethod<
-  ListDomainsRequest,
+  ListDomainsRequest & RegionInput,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -535,7 +544,7 @@ export type ListObjectivesError =
  * You can apply an optional filter to see the objectives that belong to a specific domain. If you don't provide a filter, the operation returns all objectives.
  */
 export const listObjectives: API.PaginatedOperationMethod<
-  ListObjectivesRequest,
+  ListObjectivesRequest & RegionInput,
   ListObjectivesResponse,
   ListObjectivesError,
   Credentials | HttpClient.HttpClient,

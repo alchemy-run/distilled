@@ -36,7 +36,7 @@ export interface ChangeRequestsApproveCreateRequest {
   /** A UUID string identifying this change request. */
   id: string;
   /** Optional note recorded with the approval vote explaining the decision. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** * `valid` - Valid * `invalid` - Invalid * `stale` - Stale (resource changed) */
 export type ValidationStatusEnum = "valid" | "invalid" | "stale";
@@ -63,47 +63,47 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export type ChangeRequestApprovalsItemMap = { [key: string]: unknown | undefined };
 export type ChangeRequestApprovalsList = Array<ChangeRequestApprovalsItemMap>;
 export interface ChangeRequest {
-  id?: string;
-  action_key?: string;
-  action_version?: number;
-  resource_type?: string;
-  resource_id?: string | null;
-  intent?: unknown;
-  intent_display?: unknown;
-  policy_snapshot?: unknown;
-  validation_status?: ValidationStatusEnum;
-  validation_errors?: unknown;
-  validated_at?: string | null;
-  state?: ChangeRequestStateEnum;
-  created_by?: UserBasic | null;
-  applied_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string | null;
-  expires_at?: string;
-  applied_at?: string | null;
-  apply_error?: string;
-  result_data?: unknown;
-  approvals?: ChangeRequestApprovalsList;
+  id?: string | undefined;
+  action_key?: string | undefined;
+  action_version?: number | undefined;
+  resource_type?: string | undefined;
+  resource_id?: string | null | undefined;
+  intent?: unknown | undefined;
+  intent_display?: unknown | undefined;
+  policy_snapshot?: unknown | undefined;
+  validation_status?: ValidationStatusEnum | undefined;
+  validation_errors?: unknown | undefined;
+  validated_at?: string | null | undefined;
+  state?: ChangeRequestStateEnum | undefined;
+  created_by?: UserBasic | null | undefined;
+  applied_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
+  expires_at?: string | undefined;
+  applied_at?: string | null | undefined;
+  apply_error?: string | undefined;
+  result_data?: unknown | undefined;
+  approvals?: ChangeRequestApprovalsList | undefined;
   /** Check if current user can approve this change request. */
-  can_approve?: boolean;
-  can_cancel?: boolean;
+  can_approve?: boolean | undefined;
+  can_cancel?: boolean | undefined;
   /** Check if current user is the requester. */
-  is_requester?: boolean;
+  is_requester?: boolean | undefined;
   /** Get the current user's approval decision if they have voted. */
-  user_decision?: string | null;
+  user_decision?: string | null | undefined;
 }
 export interface ChangeRequestDecisionResponse {
   /** The change request's resulting state after the vote (e.g. 'pending', 'approved', 'applied', 'rejected'). */
@@ -113,7 +113,7 @@ export interface ChangeRequestDecisionResponse {
   /** The change request after the vote was recorded. */
   change_request: ChangeRequest;
   /** Present only when the vote reached quorum and the change was applied immediately: details of the affected resource (e.g. resource_id, resource_version). */
-  result?: unknown;
+  result?: unknown | undefined;
 }
 export interface ChangeRequestsCancelCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -133,31 +133,31 @@ export type CreateApprovalPolicyRequestBypassRolesList = Array<string>;
 export interface CreateApprovalPolicyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  action_key?: string;
-  conditions?: unknown;
-  approver_config?: unknown;
-  allow_self_approve?: boolean;
-  bypass_org_membership_levels?: unknown;
-  bypass_roles?: CreateApprovalPolicyRequestBypassRolesList;
+  action_key?: string | undefined;
+  conditions?: unknown | undefined;
+  approver_config?: unknown | undefined;
+  allow_self_approve?: boolean | undefined;
+  bypass_org_membership_levels?: unknown | undefined;
+  bypass_roles?: CreateApprovalPolicyRequestBypassRolesList | undefined;
   /** Auto-expire change requests after this duration */
-  expires_after?: string;
-  enabled?: boolean;
+  expires_after?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export type ApprovalPolicyBypassRolesList = Array<string>;
 export interface ApprovalPolicy {
-  id?: string;
-  action_key?: string;
-  conditions?: unknown;
-  approver_config?: unknown;
-  allow_self_approve?: boolean;
-  bypass_org_membership_levels?: unknown;
-  bypass_roles?: ApprovalPolicyBypassRolesList;
+  id?: string | undefined;
+  action_key?: string | undefined;
+  conditions?: unknown | undefined;
+  approver_config?: unknown | undefined;
+  allow_self_approve?: boolean | undefined;
+  bypass_org_membership_levels?: unknown | undefined;
+  bypass_roles?: ApprovalPolicyBypassRolesList | undefined;
   /** Auto-expire change requests after this duration */
-  expires_after?: string;
-  enabled?: boolean;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string | null;
+  expires_after?: string | undefined;
+  enabled?: boolean | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface GetApprovalPolicyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -175,38 +175,38 @@ export interface ListApprovalPoliciesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedApprovalPolicyListResultsList = Array<ApprovalPolicy>;
 export interface PaginatedApprovalPolicyList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedApprovalPolicyListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedApprovalPolicyListResultsList | undefined;
 }
 export type ListChangeRequestsRequestStateList = Array<string>;
 export interface ListChangeRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  action_key?: string;
+  action_key?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
-  requester?: number;
-  resource_id?: string;
-  resource_type?: string;
+  offset?: number | undefined;
+  requester?: number | undefined;
+  resource_id?: string | undefined;
+  resource_type?: string | undefined;
   /** Multiple values may be separated by commas. */
-  state?: ListChangeRequestsRequestStateList;
+  state?: ListChangeRequestsRequestStateList | undefined;
 }
 export type PaginatedChangeRequestListResultsList = Array<ChangeRequest>;
 export interface PaginatedChangeRequestList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedChangeRequestListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedChangeRequestListResultsList | undefined;
 }
 export type UpdateApprovalPoliciesPartialRequestBypassRolesList = Array<string>;
 export interface UpdateApprovalPoliciesPartialRequest {
@@ -214,15 +214,15 @@ export interface UpdateApprovalPoliciesPartialRequest {
   project_id: string;
   /** A UUID string identifying this approval policy. */
   id: string;
-  action_key?: string;
-  conditions?: unknown;
-  approver_config?: unknown;
-  allow_self_approve?: boolean;
-  bypass_org_membership_levels?: unknown;
-  bypass_roles?: UpdateApprovalPoliciesPartialRequestBypassRolesList;
+  action_key?: string | undefined;
+  conditions?: unknown | undefined;
+  approver_config?: unknown | undefined;
+  allow_self_approve?: boolean | undefined;
+  bypass_org_membership_levels?: unknown | undefined;
+  bypass_roles?: UpdateApprovalPoliciesPartialRequestBypassRolesList | undefined;
   /** Auto-expire change requests after this duration */
-  expires_after?: string;
-  enabled?: boolean;
+  expires_after?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export type UpdateApprovalPolicyRequestBypassRolesList = Array<string>;
 export interface UpdateApprovalPolicyRequest {
@@ -230,15 +230,15 @@ export interface UpdateApprovalPolicyRequest {
   project_id: string;
   /** A UUID string identifying this approval policy. */
   id: string;
-  action_key?: string;
-  conditions?: unknown;
-  approver_config?: unknown;
-  allow_self_approve?: boolean;
-  bypass_org_membership_levels?: unknown;
-  bypass_roles?: UpdateApprovalPolicyRequestBypassRolesList;
+  action_key?: string | undefined;
+  conditions?: unknown | undefined;
+  approver_config?: unknown | undefined;
+  allow_self_approve?: boolean | undefined;
+  bypass_org_membership_levels?: unknown | undefined;
+  bypass_roles?: UpdateApprovalPolicyRequestBypassRolesList | undefined;
   /** Auto-expire change requests after this duration */
-  expires_after?: string;
-  enabled?: boolean;
+  expires_after?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export type ApprovalPoliciesDestroyError = PosthogOpError;
 export const approvalPoliciesDestroy: API.OperationMethod<

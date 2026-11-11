@@ -126,6 +126,18 @@ export interface OperationTrait {
   readonly inject?: MessageContext;
   /** Link the span to the trace context of the output's messages. */
   readonly extract?: MessageContext;
+  /**
+   * The span covers the caller's read of this streamed output member, not
+   * just the call up to the response headers (GenAI streaming: Bedrock
+   * `ConverseStream`). `firstChunk`: the attribute that records the seconds
+   * from the span's start to the first item. `events`: attributes read from
+   * the stream's items, by event (union) member, recorded as they pass.
+   */
+  readonly stream?: {
+    readonly member: string;
+    readonly firstChunk?: string;
+    readonly events?: Readonly<Record<string, ReadonlyArray<AttributeRule>>>;
+  };
   /** `rpc.method`, `{service}/{operation}`, e.g. `S3/GetObject`. */
   readonly method: string;
   /** Span kind. Default `client`. */

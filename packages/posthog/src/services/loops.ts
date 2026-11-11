@@ -60,13 +60,13 @@ export type CreateLoopRequestRepositoriesList = Array<LoopRepositoryEntry>;
 export type OverlapPolicyEnum = "skip" | "allow" | "cancel_previous";
 export interface LoopBehaviors {
   /** Whether the agent may push branches and open PRs. False makes this a report-only loop. */
-  create_prs?: boolean;
+  create_prs?: boolean | undefined;
   /** Whether to watch CI on loop-created PRs and report status. */
-  watch_ci?: boolean;
+  watch_ci?: boolean | undefined;
   /** Whether to automatically address review comments on loop-created PRs. */
-  fix_review_comments?: boolean;
+  fix_review_comments?: boolean | undefined;
   /** Ceiling on automatic CI/review-comment fix iterations, capped at 10. */
-  max_fix_iterations?: number;
+  max_fix_iterations?: number | undefined;
 }
 /** MCP Store installation ids (Slack, Linear, etc.) available to this loop's runs. */
 export type LoopConnectorsMcpInstallationIdsList = Array<string>;
@@ -74,9 +74,9 @@ export type LoopConnectorsMcpInstallationIdsList = Array<string>;
 export type PosthogMcpScopesEnum = "read_only" | "full";
 export interface LoopConnectors {
   /** MCP Store installation ids (Slack, Linear, etc.) available to this loop's runs. */
-  mcp_installation_ids?: LoopConnectorsMcpInstallationIdsList;
+  mcp_installation_ids?: LoopConnectorsMcpInstallationIdsList | undefined;
   /** Scope of the PostHog MCP access injected into this loop's runs. * `read_only` - read_only * `full` - full */
-  posthog_mcp_scopes?: PosthogMcpScopesEnum | (string & {});
+  posthog_mcp_scopes?: PosthogMcpScopesEnum | (string & {}) | undefined;
 }
 /** * `run_completed` - run_completed * `run_failed` - run_failed * `pr_created` - pr_created * `pr_merged` - pr_merged * `pr_closed` - pr_closed * `needs_attention` - needs_attention */
 export type EventsEnum =
@@ -92,27 +92,27 @@ export type LoopNotificationChannelEventsList = Array<EventsEnum | (string & {})
 export type LoopNotificationChannelParamsMap = { [key: string]: unknown | undefined };
 export interface LoopNotificationChannel {
   /** Whether this channel is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Event kinds this channel notifies on. One or more of: run_completed, run_failed, pr_created, pr_merged, pr_closed, needs_attention. */
-  events?: LoopNotificationChannelEventsList;
+  events?: LoopNotificationChannelEventsList | undefined;
   /** Channel-specific parameters, e.g. Slack's `integration_id` and `channel`. */
-  params?: LoopNotificationChannelParamsMap;
+  params?: LoopNotificationChannelParamsMap | undefined;
 }
 export interface LoopNotifications {
   /** Push notification settings. */
-  push?: LoopNotificationChannel;
+  push?: LoopNotificationChannel | undefined;
   /** Email notification settings. */
-  email?: LoopNotificationChannel;
+  email?: LoopNotificationChannel | undefined;
   /** Slack notification settings. */
-  slack?: LoopNotificationChannel;
+  slack?: LoopNotificationChannel | undefined;
 }
 export interface LoopContextOutputsWrite {
   /** Whether each run is filed into the context's feed as a card (sets the run's channel). */
-  post_to_feed?: boolean;
+  post_to_feed?: boolean | undefined;
   /** Whether each run reads and republishes the context's context.md to reflect the latest state. */
-  update_context?: boolean;
+  update_context?: boolean | undefined;
   /** Id of a canvas in this context the loop keeps up to date each run, or null to maintain none. */
-  canvas_id?: string | null;
+  canvas_id?: string | null | undefined;
 }
 export interface LoopContextTargetWrite {
   /** Id of the channel (context) this loop is attached to. */
@@ -120,19 +120,19 @@ export interface LoopContextTargetWrite {
   /** Display name of the context, shown in the loop's publish prompt. */
   name: string;
   /** What the loop maintains in this context each run. */
-  outputs?: LoopContextOutputsWrite;
+  outputs?: LoopContextOutputsWrite | undefined;
 }
 /** * `schedule` - schedule * `github` - github * `api` - api */
 export type LoopTriggerTypeEnum = "schedule" | "github" | "api";
 export interface LoopTriggerWrite {
   /** Existing trigger id to update in place. Omit to create a new trigger. */
-  id?: string;
+  id?: string | undefined;
   /** Trigger type: `schedule` (cron or one-time), `github` (repo webhook events), or `api` (POST to `trigger/`). * `schedule` - schedule * `github` - github * `api` - api */
   type: LoopTriggerTypeEnum | (string & {});
   /** Whether this trigger is active. Disabling pauses only this trigger. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Trigger configuration, shape validated per `type`: schedule takes `{cron_expression, timezone}` or `{run_at}` for a one-time run; github takes `{github_integration_id, repository, events, filters}` where `events` is one or more of `issues`, `issue_comment`, `pull_request`, `push` (`event.action` shorthand like `issues.opened` is folded into an `actions` filter, one event per trigger) and `filters` takes `{actions, branches, labels, payload}`. Use `actions` for the event action; `payload` is for anything else in the webhook body, as a list of `{path, equals}` conditions where `path` is a dot-path of object keys and `equals` is a string or list of strings, e.g. `[{"path": "requested_team.slug", "equals": "team-security"}]` to run only when that team is asked to review. All filters must match. API triggers take no config. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 /** Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop. */
 export type CreateLoopRequestTriggersList = Array<LoopTriggerWrite>;
@@ -142,37 +142,37 @@ export interface CreateLoopRequest {
   /** Display name for the loop. */
   name: string;
   /** Free-form description of what this loop does. */
-  description?: string;
+  description?: string | undefined;
   /** On a team loop, claim ownership as part of this update so you can edit identity-bearing config (instructions, model, triggers, ...) that only the owner may change. Ignored on personal loops and on create. */
-  take_ownership?: boolean;
+  take_ownership?: boolean | undefined;
   /** `personal` (owner-only) or `team` (visible and fireable by any team member). * `personal` - personal * `team` - team */
-  visibility?: LoopWriteVisibilityEnum | (string & {});
+  visibility?: LoopWriteVisibilityEnum | (string & {}) | undefined;
   /** The prompt delivered to the agent on every run. */
   instructions: string;
   /** Runtime adapter: 'claude' or 'codex'. * `claude` - claude * `codex` - codex */
   runtime_adapter: RuntimeAdapterEnum | (string & {});
   /** LLM model identifier, validated against `runtime_adapter`'s catalog. Leave blank to let PostHog pick a sensible default at run time. */
-  model?: string;
+  model?: string | undefined;
   /** Reasoning effort, validated against `runtime_adapter`/`model`'s supported set. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null | undefined;
   /** Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops. */
-  repositories?: CreateLoopRequestRepositoriesList;
+  repositories?: CreateLoopRequestRepositoriesList | undefined;
   /** Sandbox environment carrying encrypted env vars and the network allowlist into every run. */
-  sandbox_environment?: string | null;
+  sandbox_environment?: string | null | undefined;
   /** Whether the loop's triggers are active. Pausing disables all triggers. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** What happens when a trigger fires while a run is already active: 'skip', 'allow', or 'cancel_previous'. * `skip` - skip * `allow` - allow * `cancel_previous` - cancel_previous */
-  overlap_policy?: OverlapPolicyEnum | (string & {});
+  overlap_policy?: OverlapPolicyEnum | (string & {}) | undefined;
   /** PR / CI-follow-up behavior configuration. */
-  behaviors?: LoopBehaviors;
+  behaviors?: LoopBehaviors | undefined;
   /** MCP connector configuration for this loop's runs. */
-  connectors?: LoopConnectors;
+  connectors?: LoopConnectors | undefined;
   /** Per-channel notification configuration. */
-  notifications?: LoopNotifications;
+  notifications?: LoopNotifications | undefined;
   /** Context (channel) this loop is attached to, or null to detach. Drives feed placement and the context.md / canvas it keeps up to date. */
-  context_target?: LoopContextTargetWrite | null;
+  context_target?: LoopContextTargetWrite | null | undefined;
   /** Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop. */
-  triggers?: CreateLoopRequestTriggersList;
+  triggers?: CreateLoopRequestTriggersList | undefined;
 }
 export interface LoopRepositoryEntryDTO {
   github_integration_id: number;
@@ -181,22 +181,22 @@ export interface LoopRepositoryEntryDTO {
 /** Repositories this loop operates on. */
 export type LoopDTORepositoriesList = Array<LoopRepositoryEntryDTO>;
 export interface LoopBehaviorsDTO {
-  create_prs?: boolean;
-  watch_ci?: boolean;
-  fix_review_comments?: boolean;
-  max_fix_iterations?: number;
+  create_prs?: boolean | undefined;
+  watch_ci?: boolean | undefined;
+  fix_review_comments?: boolean | undefined;
+  max_fix_iterations?: number | undefined;
 }
 export type LoopConnectorsDTOMcpInstallationIdsList = Array<string>;
 export interface LoopConnectorsDTO {
-  mcp_installation_ids?: LoopConnectorsDTOMcpInstallationIdsList;
-  posthog_mcp_scopes?: string;
+  mcp_installation_ids?: LoopConnectorsDTOMcpInstallationIdsList | undefined;
+  posthog_mcp_scopes?: string | undefined;
 }
 export type LoopNotificationChannelDTOEventsList = Array<string>;
 export type LoopNotificationChannelDTOParamsMap = { [key: string]: unknown | undefined };
 export interface LoopNotificationChannelDTO {
-  enabled?: boolean;
-  events?: LoopNotificationChannelDTOEventsList;
-  params?: LoopNotificationChannelDTOParamsMap;
+  enabled?: boolean | undefined;
+  events?: LoopNotificationChannelDTOEventsList | undefined;
+  params?: LoopNotificationChannelDTOParamsMap | undefined;
 }
 export interface LoopNotificationsDTO {
   push: LoopNotificationChannelDTO;
@@ -204,9 +204,9 @@ export interface LoopNotificationsDTO {
   slack: LoopNotificationChannelDTO;
 }
 export interface LoopContextOutputsDTO {
-  post_to_feed?: boolean;
-  update_context?: boolean;
-  canvas_id?: string | null;
+  post_to_feed?: boolean | undefined;
+  update_context?: boolean | undefined;
+  canvas_id?: string | null | undefined;
 }
 export interface LoopContextTargetDTO {
   /** What the loop maintains in this context each run. */
@@ -264,7 +264,7 @@ export interface LoopDTO {
   /** Per-channel notification configuration. */
   notifications: LoopNotificationsDTO;
   /** Context this loop is attached to, or null when unattached. */
-  context_target?: LoopContextTargetDTO | null;
+  context_target?: LoopContextTargetDTO | null | undefined;
   internal: boolean;
   origin_product: string;
   last_run_at: string | null;
@@ -283,9 +283,9 @@ export interface CreateLoopsPreviewRequest {
   project_id: string;
   id: string;
   /** Trigger type to simulate. Defaults to a synthetic schedule fire. * `schedule` - schedule * `github` - github * `api` - api */
-  trigger_type?: LoopTriggerTypeEnum | (string & {});
+  trigger_type?: LoopTriggerTypeEnum | (string & {}) | undefined;
   /** Sample trigger payload, e.g. a GitHub webhook body or an API trigger body, to render into context. */
-  payload?: unknown;
+  payload?: unknown | undefined;
 }
 export interface LoopPreviewDTO {
   instructions: string;
@@ -335,11 +335,11 @@ export interface GetLoopsRunRequest {
   project_id: string;
   id: string;
   /** Opaque pagination cursor from a previous response's `next_cursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Max results per page (default 50, max 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** Only return runs with this status. Use failed to read errors even when canvas state is unavailable. * `not_started` - Not Started * `queued` - Queued * `in_progress` - In Progress * `completed` - Completed * `failed` - Failed * `cancelled` - Cancelled */
-  status?: GetLoopsRunRequestStatus | (string & {});
+  status?: GetLoopsRunRequestStatus | (string & {}) | undefined;
 }
 export type LoopRunDTOOutputMap = { [key: string]: unknown | undefined };
 /** A single entry in a loop's run history. */
@@ -367,20 +367,20 @@ export interface ListLoopsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedLoopDTOListResultsList = Array<LoopDTO>;
 export interface PaginatedLoopDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedLoopDTOListResultsList;
   /** Hard cap on non-deleted loops per project. Creating a loop beyond this returns a 429 with `error: loop_safety_limit`. Authoritative -- read this rather than assuming a value. */
-  max_loops_per_team?: number;
+  max_loops_per_team?: number | undefined;
   /** Current number of non-deleted, user-facing loops in this project, counted against `max_loops_per_team`. At or above the cap, creation is blocked. */
-  total_loop_count?: number;
+  total_loop_count?: number | undefined;
 }
 export interface LoopsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -393,7 +393,7 @@ export interface LoopsTriggerCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  body?: LoopsTriggerCreateRequestBodyMap;
+  body?: LoopsTriggerCreateRequestBodyMap | undefined;
 }
 /** Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops. */
 export type UpdateLoopsPartialRequestRepositoriesList = Array<LoopRepositoryEntry>;
@@ -404,39 +404,39 @@ export interface UpdateLoopsPartialRequest {
   project_id: string;
   id: string;
   /** Display name for the loop. */
-  name?: string;
+  name?: string | undefined;
   /** Free-form description of what this loop does. */
-  description?: string;
+  description?: string | undefined;
   /** On a team loop, claim ownership as part of this update so you can edit identity-bearing config (instructions, model, triggers, ...) that only the owner may change. Ignored on personal loops and on create. */
-  take_ownership?: boolean;
+  take_ownership?: boolean | undefined;
   /** `personal` (owner-only) or `team` (visible and fireable by any team member). * `personal` - personal * `team` - team */
-  visibility?: LoopWriteVisibilityEnum | (string & {});
+  visibility?: LoopWriteVisibilityEnum | (string & {}) | undefined;
   /** The prompt delivered to the agent on every run. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** Runtime adapter: 'claude' or 'codex'. * `claude` - claude * `codex` - codex */
-  runtime_adapter?: RuntimeAdapterEnum | (string & {});
+  runtime_adapter?: RuntimeAdapterEnum | (string & {}) | undefined;
   /** LLM model identifier, validated against `runtime_adapter`'s catalog. Leave blank to let PostHog pick a sensible default at run time. */
-  model?: string;
+  model?: string | undefined;
   /** Reasoning effort, validated against `runtime_adapter`/`model`'s supported set. * `low` - low * `medium` - medium * `high` - high * `xhigh` - xhigh * `max` - max * `ultracode` - ultracode */
-  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null;
+  reasoning_effort?: ReasoningEffortEnum | (string & {}) | null | undefined;
   /** Repositories this loop operates on, ordered. Capped at 1 until multi-repo execution ships. May be empty for report-only loops. */
-  repositories?: UpdateLoopsPartialRequestRepositoriesList;
+  repositories?: UpdateLoopsPartialRequestRepositoriesList | undefined;
   /** Sandbox environment carrying encrypted env vars and the network allowlist into every run. */
-  sandbox_environment?: string | null;
+  sandbox_environment?: string | null | undefined;
   /** Whether the loop's triggers are active. Pausing disables all triggers. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** What happens when a trigger fires while a run is already active: 'skip', 'allow', or 'cancel_previous'. * `skip` - skip * `allow` - allow * `cancel_previous` - cancel_previous */
-  overlap_policy?: OverlapPolicyEnum | (string & {});
+  overlap_policy?: OverlapPolicyEnum | (string & {}) | undefined;
   /** PR / CI-follow-up behavior configuration. */
-  behaviors?: LoopBehaviors;
+  behaviors?: LoopBehaviors | undefined;
   /** MCP connector configuration for this loop's runs. */
-  connectors?: LoopConnectors;
+  connectors?: LoopConnectors | undefined;
   /** Per-channel notification configuration. */
-  notifications?: LoopNotifications;
+  notifications?: LoopNotifications | undefined;
   /** Context (channel) this loop is attached to, or null to detach. Drives feed placement and the context.md / canvas it keeps up to date. */
-  context_target?: LoopContextTargetWrite | null;
+  context_target?: LoopContextTargetWrite | null | undefined;
   /** Full desired trigger list, id-stable: entries with a matching `id` are updated in place, entries without one are created, and existing triggers absent from this list are deleted. Omit the field entirely to leave triggers untouched. At most 25 triggers per loop. */
-  triggers?: UpdateLoopsPartialRequestTriggersList;
+  triggers?: UpdateLoopsPartialRequestTriggersList | undefined;
 }
 /** * `user` - user * `repo` - repo * `marketplace` - marketplace * `codex` - codex */
 export type SkillSourceEnum = "user" | "repo" | "marketplace" | "codex";

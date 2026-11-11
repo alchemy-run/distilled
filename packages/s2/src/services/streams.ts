@@ -27,7 +27,7 @@ const TELEMETRY = {
 
 export interface DeleteOnEmptyConfig {
   /** Minimum age in seconds before an empty stream can be deleted. Set to 0 (default) to disable delete-on-empty (don't delete automatically). */
-  min_age_secs?: number;
+  min_age_secs?: number | undefined;
 }
 /** Age in seconds for automatic trimming of records older than this threshold. This must be set to a value greater than 0 seconds. */
 export interface RetentionPolicyCase0 {
@@ -42,31 +42,31 @@ export interface RetentionPolicyCase1 {
 export type RetentionPolicy = RetentionPolicyCase0 | RetentionPolicyCase1;
 export type TimestampingMode = "client-prefer" | "client-require" | "arrival";
 export interface TimestampingConfig {
-  mode?: TimestampingMode | (string & {}) | null;
+  mode?: TimestampingMode | (string & {}) | null | undefined;
   /** Allow client-specified timestamps to exceed the arrival time. If this is `false` or not set, client timestamps will be capped at the arrival time. */
-  uncapped?: boolean | null;
+  uncapped?: boolean | null | undefined;
 }
 export interface StreamConfig {
-  delete_on_empty?: DeleteOnEmptyConfig | null;
-  retention_policy?: RetentionPolicy | null;
+  delete_on_empty?: DeleteOnEmptyConfig | null | undefined;
+  retention_policy?: RetentionPolicy | null | undefined;
   /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
-  storage_class?: string | null;
-  timestamping?: TimestampingConfig | null;
+  storage_class?: string | null | undefined;
+  timestamping?: TimestampingConfig | null | undefined;
 }
 export interface CreateStreamRequest {
   /** Client-specified request token for idempotent retries. */
-  s2RequestToken?: string;
-  config?: StreamConfig | null;
+  s2RequestToken?: string | undefined;
+  config?: StreamConfig | null | undefined;
   /** Stream name that is unique to the basin. It can be between 1 and 512 bytes in length, and must not contain NUL bytes. */
   stream: string;
 }
 export type EncryptionAlgorithm = "aegis-256" | "aes-256-gcm";
 export interface StreamInfo {
-  cipher?: EncryptionAlgorithm | null;
+  cipher?: EncryptionAlgorithm | null | undefined;
   /** Creation time in RFC 3339 format. */
   created_at: string;
   /** Deletion time in RFC 3339 format, if the stream is being deleted. */
-  deleted_at?: string | null;
+  deleted_at?: string | null | undefined;
   /** Stream name. */
   name: string;
 }
@@ -78,7 +78,7 @@ export interface DeleteStreamResponse {}
 export interface EnsureStreamRequest {
   /** Stream name. */
   stream: string;
-  body?: StreamConfig | null;
+  body?: StreamConfig | null | undefined;
 }
 export interface GetStreamConfigRequest {
   /** Stream name. */
@@ -86,11 +86,11 @@ export interface GetStreamConfigRequest {
 }
 export interface ListStreamsRequest {
   /** Filter to streams whose names begin with this prefix. It must not contain NUL bytes. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Filter to streams whose names lexicographically start after this string. It must not contain NUL bytes. */
-  start_after?: string;
+  start_after?: string | undefined;
   /** Number of results, up to a maximum of 1000. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Matching streams. */
 export type ListStreamsResponseStreamsList = Array<StreamInfo>;
@@ -102,21 +102,21 @@ export interface ListStreamsResponse {
 }
 export interface DeleteOnEmptyReconfiguration {
   /** Minimum age in seconds before an empty stream can be deleted. Set to 0 to disable delete-on-empty (don't delete automatically). */
-  min_age_secs?: number | null;
+  min_age_secs?: number | null | undefined;
 }
 export interface TimestampingReconfiguration {
-  mode?: TimestampingMode | (string & {}) | null;
+  mode?: TimestampingMode | (string & {}) | null | undefined;
   /** Allow client-specified timestamps to exceed the arrival time. */
-  uncapped?: boolean | null;
+  uncapped?: boolean | null | undefined;
 }
 export interface ReconfigureStreamRequest {
   /** Stream name. */
   stream: string;
-  delete_on_empty?: DeleteOnEmptyReconfiguration | null;
-  retention_policy?: RetentionPolicy | null;
+  delete_on_empty?: DeleteOnEmptyReconfiguration | null | undefined;
+  retention_policy?: RetentionPolicy | null | undefined;
   /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
-  storage_class?: string | null;
-  timestamping?: TimestampingReconfiguration | null;
+  storage_class?: string | null | undefined;
+  timestamping?: TimestampingReconfiguration | null | undefined;
 }
 export type CreateStreamError = S2OpError;
 /** Create a stream. */

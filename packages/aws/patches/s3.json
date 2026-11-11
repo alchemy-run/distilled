@@ -1,4 +1,7 @@
 {
+  "allOperations": {
+    "errors": ["InvalidAccessKeyId"]
+  },
   "errorCategories": {
     "SlowDown": ["ThrottlingError", "RetryableError"],
     "BucketNotEmpty": ["ConflictError"],
@@ -14,7 +17,8 @@
     "InvalidBucketState": ["ConflictError"],
     "IllegalLocationConstraintException": ["BadRequestError"],
     "PreconditionFailed": ["ConflictError"],
-    "ConditionalRequestConflict": ["ConflictError", "RetryableError"]
+    "ConditionalRequestConflict": ["ConflictError", "RetryableError"],
+    "InvalidAccessKeyId": ["AuthError"]
   },
   "structures": {
     "GetObjectTaggingOutput": {

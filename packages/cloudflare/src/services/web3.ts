@@ -82,28 +82,28 @@ export interface CreateHostnameRequest {
   /** Specify the target gateway of the hostname. */
   target: HostnamesCreateRequestTarget | (string & {});
   /** Specify an optional description of the hostname. */
-  description?: string;
+  description?: string | undefined;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string;
+  dnslink?: string | undefined;
 }
 export type HostnamesCreateResponseStatus = "active" | "pending" | "deleting" | "error";
 export type HostnamesCreateResponseTarget = "ethereum" | "ipfs" | "ipfs_universal_path";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateHostnameResponse {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the hostname. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string | null;
-  modifiedOn?: string | null;
+  dnslink?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the hostname that points to the target gateway via CNAME. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Specifies the status of the hostname's activation. */
-  status?: HostnamesCreateResponseStatus | null;
+  status?: HostnamesCreateResponseStatus | null | undefined;
   /** Specify the target gateway of the hostname. */
-  target?: HostnamesCreateResponseTarget | null;
+  target?: HostnamesCreateResponseTarget | null | undefined;
 }
 export type HostnamesIpfsUniversalPathsContentListsEntriesCreateRequestType =
   | "cid"
@@ -118,7 +118,7 @@ export interface CreateHostnameIpfsUniversalPathContentListEntryRequest {
   /** Specify the type of content list entry to block. */
   type: HostnamesIpfsUniversalPathsContentListsEntriesCreateRequestType | (string & {});
   /** Specify an optional description of the content list entry. */
-  description?: string;
+  description?: string | undefined;
 }
 export type HostnamesIpfsUniversalPathsContentListsEntriesCreateResponseType =
   | "cid"
@@ -126,15 +126,15 @@ export type HostnamesIpfsUniversalPathsContentListsEntriesCreateResponseType =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Specify the CID or content path of content to block. */
-  content?: string | null;
-  createdOn?: string | null;
+  content?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the content list entry. */
-  description?: string | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the type of content list entry to block. */
-  type?: HostnamesIpfsUniversalPathsContentListsEntriesCreateResponseType | null;
+  type?: HostnamesIpfsUniversalPathsContentListsEntriesCreateResponseType | null | undefined;
 }
 export interface DeleteHostnameRequest {
   /** Specify the identifier of the hostname. */
@@ -171,19 +171,19 @@ export type HostnamesGetResponseTarget = "ethereum" | "ipfs" | "ipfs_universal_p
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameResponse {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the hostname. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string | null;
-  modifiedOn?: string | null;
+  dnslink?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the hostname that points to the target gateway via CNAME. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Specifies the status of the hostname's activation. */
-  status?: HostnamesGetResponseStatus | null;
+  status?: HostnamesGetResponseStatus | null | undefined;
   /** Specify the target gateway of the hostname. */
-  target?: HostnamesGetResponseTarget | null;
+  target?: HostnamesGetResponseTarget | null | undefined;
 }
 export interface GetHostnameIpfsUniversalPathContentListRequest {
   /** Specify the identifier of the hostname. */
@@ -195,7 +195,7 @@ export type HostnamesIpfsUniversalPathsContentListsGetResponseAction = "block";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameIpfsUniversalPathContentListResponse {
   /** Behavior of the content list. */
-  action?: HostnamesIpfsUniversalPathsContentListsGetResponseAction | null;
+  action?: HostnamesIpfsUniversalPathsContentListsGetResponseAction | null | undefined;
 }
 export interface GetHostnameIpfsUniversalPathContentListEntryRequest {
   /** Specify the identifier of the hostname. */
@@ -209,15 +209,15 @@ export type HostnamesIpfsUniversalPathsContentListsEntriesGetResponseType = "cid
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Specify the CID or content path of content to block. */
-  content?: string | null;
-  createdOn?: string | null;
+  content?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the content list entry. */
-  description?: string | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the type of content list entry to block. */
-  type?: HostnamesIpfsUniversalPathsContentListsEntriesGetResponseType | null;
+  type?: HostnamesIpfsUniversalPathsContentListsEntriesGetResponseType | null | undefined;
 }
 export interface ListHostnameIpfsUniversalPathContentListEntriesRequest {
   /** Specify the identifier of the hostname. */
@@ -230,22 +230,28 @@ export type HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesIte
   | "content_path";
 export interface HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesItem {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Specify the CID or content path of content to block. */
-  content?: string | null;
-  createdOn?: string | null;
+  content?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the content list entry. */
-  description?: string | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the type of content list entry to block. */
-  type?: HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesItemType | null;
+  type?:
+    | HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesItemType
+    | null
+    | undefined;
 }
 export type HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesList =
   Array<HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListHostnameIpfsUniversalPathContentListEntriesResponse {
   /** Provides content list entries. */
-  entries?: HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesList | null;
+  entries?:
+    | HostnamesIpfsUniversalPathsContentListsEntriesListResponseEntriesList
+    | null
+    | undefined;
 }
 export interface ListHostnamesRequest {
   /** Specify the identifier of the hostname. */
@@ -255,26 +261,26 @@ export type HostnamesListResultItemStatus = "active" | "pending" | "deleting" | 
 export type HostnamesListResultItemTarget = "ethereum" | "ipfs" | "ipfs_universal_path";
 export interface HostnamesListResultItem {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the hostname. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string | null;
-  modifiedOn?: string | null;
+  dnslink?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the hostname that points to the target gateway via CNAME. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Specifies the status of the hostname's activation. */
-  status?: HostnamesListResultItemStatus | null;
+  status?: HostnamesListResultItemStatus | null | undefined;
   /** Specify the target gateway of the hostname. */
-  target?: HostnamesListResultItemTarget | null;
+  target?: HostnamesListResultItemTarget | null | undefined;
 }
 export type HostnamesListResultList = Array<HostnamesListResultItem>;
 export interface ListHostnamesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HostnamesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchHostnameRequest {
   /** Specify the identifier of the hostname. */
@@ -282,28 +288,28 @@ export interface PatchHostnameRequest {
   /** Specify the identifier of the hostname. */
   identifier: string;
   /** Specify an optional description of the hostname. */
-  description?: string;
+  description?: string | undefined;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string;
+  dnslink?: string | undefined;
 }
 export type HostnamesEditResponseStatus = "active" | "pending" | "deleting" | "error";
 export type HostnamesEditResponseTarget = "ethereum" | "ipfs" | "ipfs_universal_path";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchHostnameResponse {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the hostname. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string | null;
-  modifiedOn?: string | null;
+  dnslink?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the hostname that points to the target gateway via CNAME. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Specifies the status of the hostname's activation. */
-  status?: HostnamesEditResponseStatus | null;
+  status?: HostnamesEditResponseStatus | null | undefined;
   /** Specify the target gateway of the hostname. */
-  target?: HostnamesEditResponseTarget | null;
+  target?: HostnamesEditResponseTarget | null | undefined;
 }
 export type HostnamesIpfsUniversalPathsContentListsUpdateRequestAction = "block";
 export type HostnamesIpfsUniversalPathsContentListsUpdateRequestEntriesItemType =
@@ -311,15 +317,18 @@ export type HostnamesIpfsUniversalPathsContentListsUpdateRequestEntriesItemType 
   | "content_path";
 export interface HostnamesIpfsUniversalPathsContentListsUpdateRequestEntriesItem {
   /** Specify the identifier of the hostname. */
-  id?: string;
+  id?: string | undefined;
   /** Specify the CID or content path of content to block. */
-  content?: string;
-  createdOn?: string;
+  content?: string | undefined;
+  createdOn?: string | undefined;
   /** Specify an optional description of the content list entry. */
-  description?: string;
-  modifiedOn?: string;
+  description?: string | undefined;
+  modifiedOn?: string | undefined;
   /** Specify the type of content list entry to block. */
-  type?: HostnamesIpfsUniversalPathsContentListsUpdateRequestEntriesItemType | (string & {});
+  type?:
+    | HostnamesIpfsUniversalPathsContentListsUpdateRequestEntriesItemType
+    | (string & {})
+    | undefined;
 }
 export type HostnamesIpfsUniversalPathsContentListsUpdateRequestEntriesList =
   Array<HostnamesIpfsUniversalPathsContentListsUpdateRequestEntriesItem>;
@@ -337,7 +346,7 @@ export type HostnamesIpfsUniversalPathsContentListsUpdateResponseAction = "block
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutHostnameIpfsUniversalPathContentListResponse {
   /** Behavior of the content list. */
-  action?: HostnamesIpfsUniversalPathsContentListsUpdateResponseAction | null;
+  action?: HostnamesIpfsUniversalPathsContentListsUpdateResponseAction | null | undefined;
 }
 export type HostnamesIpfsUniversalPathsContentListsEntriesUpdateRequestType =
   | "cid"
@@ -354,7 +363,7 @@ export interface UpdateHostnameIpfsUniversalPathContentListEntryRequest {
   /** Specify the type of content list entry to block. */
   type: HostnamesIpfsUniversalPathsContentListsEntriesUpdateRequestType | (string & {});
   /** Specify an optional description of the content list entry. */
-  description?: string;
+  description?: string | undefined;
 }
 export type HostnamesIpfsUniversalPathsContentListsEntriesUpdateResponseType =
   | "cid"
@@ -362,15 +371,15 @@ export type HostnamesIpfsUniversalPathsContentListsEntriesUpdateResponseType =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Specify the CID or content path of content to block. */
-  content?: string | null;
-  createdOn?: string | null;
+  content?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Specify an optional description of the content list entry. */
-  description?: string | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
   /** Specify the type of content list entry to block. */
-  type?: HostnamesIpfsUniversalPathsContentListsEntriesUpdateResponseType | null;
+  type?: HostnamesIpfsUniversalPathsContentListsEntriesUpdateResponseType | null | undefined;
 }
 export type CreateHostnameError = Web3HostnameNotEntitled | Forbidden | CloudflareOpError;
 /** Create Web3 Hostname */

@@ -89,46 +89,71 @@ export interface CancelProjectsLocationsWorkflowsExecutionsRequest {
   /** Required. Name of the execution to be cancelled. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name: string;
   /** Request body */
-  body?: CancelExecutionRequest;
+  body?: CancelExecutionRequest | undefined;
 }
 /** Position contains source position information about the stack trace element such as line number, column number and length of the code block in bytes. */
 export interface Position {
   /** The source code column position (of the line) the current instruction was generated from. */
-  column?: string;
+  column?: string | undefined;
   /** The number of bytes of source code making up this stack trace element. */
-  length?: string;
+  length?: string | undefined;
   /** The source code line number the current instruction was generated from. */
-  line?: string;
+  line?: string | undefined;
 }
 /** A single stack element (frame) where an error occurred. */
 export interface StackTraceElement {
-  /** The routine where the error occurred. */
-  routine?: string;
-  /** The source position information of the stack trace element. */
-  position?: Position;
   /** The step the error occurred at. */
-  step?: string;
+  step?: string | undefined;
+  /** The routine where the error occurred. */
+  routine?: string | undefined;
+  /** The source position information of the stack trace element. */
+  position?: Position | undefined;
 }
 export type StackTraceElementList = Array<StackTraceElement>;
 /** A collection of stack elements (frames) where an error occurred. */
 export interface StackTrace {
   /** An array of stack elements. */
-  elements?: StackTraceElementList;
+  elements?: StackTraceElementList | undefined;
 }
 /** Error describes why the execution was abnormally terminated. */
 export interface Workflowexecutions_Error {
-  /** Error message and data returned represented as a JSON string. */
-  payload?: string;
-  /** Human-readable stack trace string. */
-  context?: string;
   /** Stack trace with detailed information of where error was generated. */
-  stackTrace?: StackTrace;
+  stackTrace?: StackTrace | undefined;
+  /** Human-readable stack trace string. */
+  context?: string | undefined;
+  /** Error message and data returned represented as a JSON string. */
+  payload?: string | undefined;
 }
 export type ExecutionCallLogLevelEnum =
   | "CALL_LOG_LEVEL_UNSPECIFIED"
   | "LOG_ALL_CALLS"
   | "LOG_ERRORS_ONLY"
   | "LOG_NONE";
+export type ExecutionExecutionHistoryLevelEnum =
+  | "EXECUTION_HISTORY_LEVEL_UNSPECIFIED"
+  | "EXECUTION_HISTORY_BASIC"
+  | "EXECUTION_HISTORY_DETAILED";
+export type StateErrorTypeEnum = "TYPE_UNSPECIFIED" | "KMS_ERROR";
+/** Describes an error related to the current state of the Execution resource. */
+export interface StateError {
+  /** Provides specifics about the error. */
+  details?: string | undefined;
+  /** The type of this state error. */
+  type?: StateErrorTypeEnum | (string & {}) | undefined;
+}
+/** Represents a step of the workflow this execution is running. */
+export interface Step {
+  /** Name of a routine within the workflow. */
+  routine?: string | undefined;
+  /** Name of a step within the routine. */
+  step?: string | undefined;
+}
+export type StepList = Array<Step>;
+/** Represents the current status of this execution. */
+export interface Status {
+  /** A list of currently executing or last executed step names for the workflow execution currently running. If the workflow has succeeded or failed, this is the last attempted or executed step. Presently, if the current step is inside a subworkflow, the list only includes that step. In the future, the list will contain items for each step in the call stack, starting with the outermost step in the `main` subworkflow, and ending with the most deeply nested step. */
+  currentSteps?: StepList | undefined;
+}
 export type ExecutionStateEnum =
   | "STATE_UNSPECIFIED"
   | "ACTIVE"
@@ -137,72 +162,47 @@ export type ExecutionStateEnum =
   | "CANCELLED"
   | "UNAVAILABLE"
   | "QUEUED";
-export type StateErrorTypeEnum = "TYPE_UNSPECIFIED" | "KMS_ERROR";
-/** Describes an error related to the current state of the Execution resource. */
-export interface StateError {
-  /** The type of this state error. */
-  type?: StateErrorTypeEnum | (string & {});
-  /** Provides specifics about the error. */
-  details?: string;
-}
-/** Represents a step of the workflow this execution is running. */
-export interface Step {
-  /** Name of a routine within the workflow. */
-  routine?: string;
-  /** Name of a step within the routine. */
-  step?: string;
-}
-export type StepList = Array<Step>;
-/** Represents the current status of this execution. */
-export interface Status {
-  /** A list of currently executing or last executed step names for the workflow execution currently running. If the workflow has succeeded or failed, this is the last attempted or executed step. Presently, if the current step is inside a subworkflow, the list only includes that step. In the future, the list will contain items for each step in the call stack, starting with the outermost step in the `main` subworkflow, and ending with the most deeply nested step. */
-  currentSteps?: StepList;
-}
 export type StringMap = { [key: string]: string | undefined };
-export type ExecutionExecutionHistoryLevelEnum =
-  | "EXECUTION_HISTORY_LEVEL_UNSPECIFIED"
-  | "EXECUTION_HISTORY_BASIC"
-  | "EXECUTION_HISTORY_DETAILED";
 /** A running instance of a [Workflow](/workflows/docs/reference/rest/v1/projects.locations.workflows). */
 export interface Execution {
   /** Output only. The error which caused the execution to finish prematurely. The value is only present if the execution's state is `FAILED` or `CANCELLED`. */
-  error?: Workflowexecutions_Error;
-  /** Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
-  name?: string;
+  error?: Workflowexecutions_Error | undefined;
   /** The call logging level associated to this execution. */
-  callLogLevel?: ExecutionCallLogLevelEnum | (string & {});
-  /** Input parameters of the execution represented as a JSON string. The size limit is 32KB. *Note*: If you are using the REST API directly to run your workflow, you must escape any JSON string value of `argument`. Example: `'{"argument":"{\"firstName\":\"FIRST\",\"lastName\":\"LAST\"}"}'` */
-  argument?: string;
-  /** Output only. Current state of the execution. */
-  state?: ExecutionStateEnum | (string & {});
-  /** Output only. Marks the end of execution, successful or not. */
-  endTime?: string;
-  /** Output only. Error regarding the state of the Execution resource. For example, this field will have error details if the execution data is unavailable due to revoked KMS key permissions. */
-  stateError?: StateError;
-  /** Output only. Revision of the workflow this execution is using. */
-  workflowRevisionId?: string;
-  /** Output only. Measures the duration of the execution. */
-  duration?: string;
-  /** Output only. Marks the beginning of execution. Note that this will be the same as `createTime` for executions that start immediately. */
-  startTime?: string;
-  /** Output only. Status tracks the current steps and progress data of this execution. */
-  status?: Status;
-  /** Labels associated with this execution. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, and dashes. Label keys must start with a letter. International characters are allowed. By default, labels are inherited from the workflow but are overridden by any labels associated with the execution. */
-  labels?: StringMap;
+  callLogLevel?: ExecutionCallLogLevelEnum | (string & {}) | undefined;
   /** Optional. Describes the execution history level to apply to this execution. If not specified, the execution history level is determined by its workflow's execution history level. If the levels are different, the executionHistoryLevel overrides the workflow's execution history level for this execution. */
-  executionHistoryLevel?: ExecutionExecutionHistoryLevelEnum | (string & {});
-  /** Output only. Marks the creation of the execution. */
-  createTime?: string;
+  executionHistoryLevel?: ExecutionExecutionHistoryLevelEnum | (string & {}) | undefined;
+  /** Input parameters of the execution represented as a JSON string. The size limit is 32KB. *Note*: If you are using the REST API directly to run your workflow, you must escape any JSON string value of `argument`. Example: `'{"argument":"{\"firstName\":\"FIRST\",\"lastName\":\"LAST\"}"}'` */
+  argument?: string | undefined;
+  /** Output only. Revision of the workflow this execution is using. */
+  workflowRevisionId?: string | undefined;
   /** Output only. Output of the execution represented as a JSON string. The value can only be present if the execution's state is `SUCCEEDED`. */
-  result?: string;
+  result?: string | undefined;
   /** Optional. If set to true, the execution will not be backlogged when the concurrency quota is exhausted. The backlog execution starts when the concurrency quota becomes available. */
-  disableConcurrencyQuotaOverflowBuffering?: boolean;
+  disableConcurrencyQuotaOverflowBuffering?: boolean | undefined;
+  /** Output only. Error regarding the state of the Execution resource. For example, this field will have error details if the execution data is unavailable due to revoked KMS key permissions. */
+  stateError?: StateError | undefined;
+  /** Output only. Status tracks the current steps and progress data of this execution. */
+  status?: Status | undefined;
+  /** Output only. Current state of the execution. */
+  state?: ExecutionStateEnum | (string & {}) | undefined;
+  /** Labels associated with this execution. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, and dashes. Label keys must start with a letter. International characters are allowed. By default, labels are inherited from the workflow but are overridden by any labels associated with the execution. */
+  labels?: StringMap | undefined;
+  /** Output only. Marks the creation of the execution. */
+  createTime?: string | undefined;
+  /** Output only. The resource name of the execution. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
+  name?: string | undefined;
+  /** Output only. Marks the end of execution, successful or not. */
+  endTime?: string | undefined;
+  /** Output only. Marks the beginning of execution. Note that this will be the same as `createTime` for executions that start immediately. */
+  startTime?: string | undefined;
+  /** Output only. Measures the duration of the execution. */
+  duration?: string | undefined;
 }
 export interface CreateProjectsLocationsWorkflowsExecutionsRequest {
   /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} The latest revision of the workflow will be used. */
   parent: string;
   /** Request body */
-  body?: Execution;
+  body?: Execution | undefined;
 }
 /** Request for the DeleteExecutionHistory method. */
 export type DeleteExecutionHistoryRequest = CancelExecutionRequest;
@@ -210,7 +210,7 @@ export interface DeleteExecutionHistoryProjectsLocationsWorkflowsExecutionsReque
   /** Required. Name of the execution for which step entries should be deleted. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name: string;
   /** Request body */
-  body?: CancelExecutionRequest;
+  body?: CancelExecutionRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -221,17 +221,17 @@ export interface ExportDataProjectsLocationsWorkflowsExecutionsRequest {
 /** Response for the ExportData method. */
 export interface ExportDataResponse {
   /** The JSON string with customer data and metadata for an execution with the given name */
-  data?: string;
+  data?: string | undefined;
 }
 export type GetProjectsLocationsWorkflowsExecutionsViewEnum =
   | "EXECUTION_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
 export interface GetProjectsLocationsWorkflowsExecutionsRequest {
+  /** Optional. A view defining which fields should be filled in the returned execution. The API will default to the FULL view. */
+  view?: GetProjectsLocationsWorkflowsExecutionsViewEnum | (string & {}) | undefined;
   /** Required. Name of the execution to be retrieved. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   name: string;
-  /** Optional. A view defining which fields should be filled in the returned execution. The API will default to the FULL view. */
-  view?: GetProjectsLocationsWorkflowsExecutionsViewEnum | (string & {});
 }
 export type GetProjectsLocationsWorkflowsExecutionsStepEntriesViewEnum =
   | "EXECUTION_ENTRY_VIEW_UNSPECIFIED"
@@ -241,7 +241,12 @@ export interface GetProjectsLocationsWorkflowsExecutionsStepEntriesRequest {
   /** Required. The name of the step entry to retrieve. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}/stepEntries/{step_entry} */
   name: string;
   /** Deprecated field. */
-  view?: GetProjectsLocationsWorkflowsExecutionsStepEntriesViewEnum | (string & {});
+  view?: GetProjectsLocationsWorkflowsExecutionsStepEntriesViewEnum | (string & {}) | undefined;
+}
+/** Exception describes why the step entry failed. */
+export interface Exception {
+  /** Error message represented as a JSON string. */
+  payload?: string | undefined;
 }
 export type StepEntryStateEnum =
   | "STATE_UNSPECIFIED"
@@ -249,41 +254,23 @@ export type StepEntryStateEnum =
   | "STATE_SUCCEEDED"
   | "STATE_FAILED"
   | "STATE_CANCELLED";
+export type StringList = Array<string>;
+/** NavigationInfo describes what steps if any come before or after this step, or what steps are parents or children of this step. */
+export interface NavigationInfo {
+  /** The step entry, if any, that can be reached by "stepping out" of the current workflow being executed. */
+  parent?: string | undefined;
+  /** Step entries that can be reached by "stepping into" e.g. a subworkflow call. */
+  children?: StringList | undefined;
+  /** The index of the previous step in the current workflow, if any. */
+  previous?: string | undefined;
+  /** The index of the next step in the current workflow, if any. */
+  next?: string | undefined;
+}
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** VariableData contains the variable data for this step. */
 export interface VariableData {
   /** Variables that are associated with this step. */
-  variables?: DocumentMap;
-}
-export type StringList = Array<string>;
-/** NavigationInfo describes what steps if any come before or after this step, or what steps are parents or children of this step. */
-export interface NavigationInfo {
-  /** The index of the next step in the current workflow, if any. */
-  next?: string;
-  /** Step entries that can be reached by "stepping into" e.g. a subworkflow call. */
-  children?: StringList;
-  /** The step entry, if any, that can be reached by "stepping out" of the current workflow being executed. */
-  parent?: string;
-  /** The index of the previous step in the current workflow, if any. */
-  previous?: string;
-}
-export type StepEntryMetadataProgressTypeEnum =
-  | "PROGRESS_TYPE_UNSPECIFIED"
-  | "PROGRESS_TYPE_FOR"
-  | "PROGRESS_TYPE_SWITCH"
-  | "PROGRESS_TYPE_RETRY"
-  | "PROGRESS_TYPE_PARALLEL_FOR"
-  | "PROGRESS_TYPE_PARALLEL_BRANCH";
-/** StepEntryMetadata contains metadata information about this step. */
-export interface StepEntryMetadata {
-  /** Progress type of this step entry. */
-  progressType?: StepEntryMetadataProgressTypeEnum;
-  /** Progress number represents the current state of the current progress. eg: A step entry represents the 4th iteration in a progress of PROGRESS_TYPE_FOR. Note: This field is only populated when an iteration exists and the starting value is 1. */
-  progressNumber?: string;
-  /** Child thread id that this step entry belongs to. */
-  threadId?: string;
-  /** Expected iteration represents the expected number of iterations in the step's progress. */
-  expectedIteration?: string;
+  variables?: DocumentMap | undefined;
 }
 export type StepEntryStepTypeEnum =
   | "STEP_TYPE_UNSPECIFIED"
@@ -306,150 +293,163 @@ export type StepEntryStepTypeEnum =
   | "STEP_RETURN"
   | "STEP_RAISE"
   | "STEP_GOTO";
-/** Exception describes why the step entry failed. */
-export interface Exception {
-  /** Error message represented as a JSON string. */
-  payload?: string;
+export type StepEntryMetadataProgressTypeEnum =
+  | "PROGRESS_TYPE_UNSPECIFIED"
+  | "PROGRESS_TYPE_FOR"
+  | "PROGRESS_TYPE_SWITCH"
+  | "PROGRESS_TYPE_RETRY"
+  | "PROGRESS_TYPE_PARALLEL_FOR"
+  | "PROGRESS_TYPE_PARALLEL_BRANCH";
+/** StepEntryMetadata contains metadata information about this step. */
+export interface StepEntryMetadata {
+  /** Progress type of this step entry. */
+  progressType?: StepEntryMetadataProgressTypeEnum | undefined;
+  /** Progress number represents the current state of the current progress. eg: A step entry represents the 4th iteration in a progress of PROGRESS_TYPE_FOR. Note: This field is only populated when an iteration exists and the starting value is 1. */
+  progressNumber?: string | undefined;
+  /** Expected iteration represents the expected number of iterations in the step's progress. */
+  expectedIteration?: string | undefined;
+  /** Child thread id that this step entry belongs to. */
+  threadId?: string | undefined;
 }
 /** An StepEntry contains debugging information for a step transition in a workflow execution. */
 export interface StepEntry {
-  /** Output only. The name of the routine this step entry belongs to. A routine name is the subworkflow name defined in the YAML source code. The top level routine name is `main`. */
-  routine?: string;
-  /** Output only. The most recently updated time of the step entry. */
-  updateTime?: string;
-  /** Output only. The state of the step entry. */
-  state?: StepEntryStateEnum;
-  /** Output only. The full resource name of the step entry. Each step entry has a unique entry ID, which is a monotonically increasing counter. Step entry names have the format: `projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}/stepEntries/{step_entry}`. */
-  name?: string;
-  /** Output only. The creation time of the step entry. */
-  createTime?: string;
-  /** Output only. The VariableData associated with this step. */
-  variableData?: VariableData;
-  /** Output only. The NavigationInfo associated with this step. */
-  navigationInfo?: NavigationInfo;
-  /** Output only. The StepEntryMetadata associated with this step. */
-  stepEntryMetadata?: StepEntryMetadata;
-  /** Output only. The type of the step this step entry belongs to. */
-  stepType?: StepEntryStepTypeEnum;
   /** Output only. The exception thrown by the step entry. */
-  exception?: Exception;
-  /** Output only. The name of the step this step entry belongs to. */
-  step?: string;
+  exception?: Exception | undefined;
   /** Output only. The numeric ID of this step entry, used for navigation. */
-  entryId?: string;
+  entryId?: string | undefined;
+  /** Output only. The name of the step this step entry belongs to. */
+  step?: string | undefined;
+  /** Output only. The state of the step entry. */
+  state?: StepEntryStateEnum | undefined;
+  /** Output only. The NavigationInfo associated with this step. */
+  navigationInfo?: NavigationInfo | undefined;
+  /** Output only. The creation time of the step entry. */
+  createTime?: string | undefined;
+  /** Output only. The VariableData associated with this step. */
+  variableData?: VariableData | undefined;
+  /** Output only. The type of the step this step entry belongs to. */
+  stepType?: StepEntryStepTypeEnum | undefined;
+  /** Output only. The most recently updated time of the step entry. */
+  updateTime?: string | undefined;
+  /** Output only. The StepEntryMetadata associated with this step. */
+  stepEntryMetadata?: StepEntryMetadata | undefined;
+  /** Output only. The name of the routine this step entry belongs to. A routine name is the subworkflow name defined in the YAML source code. The top level routine name is `main`. */
+  routine?: string | undefined;
+  /** Output only. The full resource name of the step entry. Each step entry has a unique entry ID, which is a monotonically increasing counter. Step entry names have the format: `projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}/stepEntries/{step_entry}`. */
+  name?: string | undefined;
 }
 export type ListProjectsLocationsWorkflowsExecutionsViewEnum =
   | "EXECUTION_VIEW_UNSPECIFIED"
   | "BASIC"
   | "FULL";
 export interface ListProjectsLocationsWorkflowsExecutionsRequest {
-  /** Maximum number of executions to return per call. Max supported value depends on the selected Execution view: it's 1000 for BASIC and 100 for FULL. The default value used if the field is not specified is 100, regardless of the selected view. Values greater than the max value will be coerced down to it. */
-  pageSize?: number;
-  /** Optional. Comma-separated list of fields that specify the ordering applied to the `[Executions.ListExecutions]` results. By default the ordering is based on descending `createTime`. The following fields are supported for ordering: `executionId`, `state`, `createTime`, `startTime`, `endTime`, `duration`, and `workflowRevisionId`. For details, see AIP-132. */
-  orderBy?: string;
-  /** Optional. A view defining which fields should be filled in the returned executions. The API will default to the BASIC view. */
-  view?: ListProjectsLocationsWorkflowsExecutionsViewEnum | (string & {});
-  /** Optional. Filters applied to the `[Executions.ListExecutions]` results. The following fields are supported for filtering: `executionId`, `state`, `createTime`, `startTime`, `endTime`, `duration`, `workflowRevisionId`, `stepName`, `label`, and `disableConcurrencyQuotaOverflowBuffering`. For details, see AIP-160. For more information, see Filter executions. For example, if you are using the Google APIs Explorer: `state="SUCCEEDED"` or `startTime>"2023-08-01" AND state="FAILED"` */
-  filter?: string;
   /** A page token, received from a previous `ListExecutions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListExecutions` must match the call that provided the page token. Note that pagination is applied to dynamic data. The list of executions returned can change between page requests. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Optional. A view defining which fields should be filled in the returned executions. The API will default to the BASIC view. */
+  view?: ListProjectsLocationsWorkflowsExecutionsViewEnum | (string & {}) | undefined;
+  /** Optional. Filters applied to the `[Executions.ListExecutions]` results. The following fields are supported for filtering: `executionId`, `state`, `createTime`, `startTime`, `endTime`, `duration`, `workflowRevisionId`, `stepName`, `label`, and `disableConcurrencyQuotaOverflowBuffering`. For details, see AIP-160. For more information, see Filter executions. For example, if you are using the Google APIs Explorer: `state="SUCCEEDED"` or `startTime>"2023-08-01" AND state="FAILED"` */
+  filter?: string | undefined;
   /** Required. Name of the workflow for which the executions should be listed. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   parent: string;
+  /** Maximum number of executions to return per call. Max supported value depends on the selected Execution view: it's 1000 for BASIC and 100 for FULL. The default value used if the field is not specified is 100, regardless of the selected view. Values greater than the max value will be coerced down to it. */
+  pageSize?: number | undefined;
+  /** Optional. Comma-separated list of fields that specify the ordering applied to the `[Executions.ListExecutions]` results. By default the ordering is based on descending `createTime`. The following fields are supported for ordering: `executionId`, `state`, `createTime`, `startTime`, `endTime`, `duration`, and `workflowRevisionId`. For details, see AIP-132. */
+  orderBy?: string | undefined;
 }
 export type ExecutionList = Array<Execution>;
 /** Response for the ListExecutions method. */
 export interface ListExecutionsResponse {
   /** The executions which match the request. */
-  executions?: ExecutionList;
+  executions?: ExecutionList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsWorkflowsExecutionsCallbacksRequest {
+  /** A page token, received from a previous `ListCallbacks` call. Provide this to retrieve the subsequent page. Note that pagination is applied to dynamic data. The list of callbacks returned can change between page requests if callbacks are created or deleted. */
+  pageToken?: string | undefined;
+  /** Maximum number of callbacks to return per call. The default value is 100 and is also the maximum value. */
+  pageSize?: number | undefined;
   /** Required. Name of the execution for which the callbacks should be listed. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   parent: string;
-  /** Maximum number of callbacks to return per call. The default value is 100 and is also the maximum value. */
-  pageSize?: number;
-  /** A page token, received from a previous `ListCallbacks` call. Provide this to retrieve the subsequent page. Note that pagination is applied to dynamic data. The list of callbacks returned can change between page requests if callbacks are created or deleted. */
-  pageToken?: string;
 }
 /** An instance of a Callback created by an execution. */
 export interface Callback {
   /** Output only. The resource name of the callback. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution}/callback/{callback} */
-  name?: string;
-  /** Output only. The method accepted by the callback. For example: GET, POST, PUT. */
-  method?: string;
-  /** Output only. The payloads received by the callback that have not been processed by a waiting execution step. */
-  availablePayloads?: StringList;
+  name?: string | undefined;
   /** Output only. Number of execution steps waiting on this callback. */
-  waiters?: string;
+  waiters?: string | undefined;
+  /** Output only. The method accepted by the callback. For example: GET, POST, PUT. */
+  method?: string | undefined;
+  /** Output only. The payloads received by the callback that have not been processed by a waiting execution step. */
+  availablePayloads?: StringList | undefined;
 }
 export type CallbackList = Array<Callback>;
 /** RPC response object for the ListCallbacks method. */
 export interface ListCallbacksResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The callbacks which match the request. */
-  callbacks?: CallbackList;
+  callbacks?: CallbackList | undefined;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsWorkflowsExecutionsStepEntriesViewEnum =
   | "EXECUTION_ENTRY_VIEW_UNSPECIFIED"
   | "EXECUTION_ENTRY_VIEW_BASIC"
   | "EXECUTION_ENTRY_VIEW_DETAILED";
 export interface ListProjectsLocationsWorkflowsExecutionsStepEntriesRequest {
-  /** Optional. The number of step entries to skip. It can be used with or without a pageToken. If used with a pageToken, then it indicates the number of step entries to skip starting from the requested page. */
-  skip?: number;
-  /** Optional. Number of step entries to return per call. The default max is 1000. */
-  pageSize?: number;
-  /** Optional. Comma-separated list of fields that specify the ordering applied to the `[StepEntries.ListStepEntries]` results. By default the ordering is based on ascending `entryId`. The following fields are supported for ordering: `entryId`, `createTime`, `updateTime`, `routine`, `step`, `stepType`, `state`. For details, see AIP-132. */
-  orderBy?: string;
   /** Required. Name of the workflow execution to list entries for. Format: projects/{project}/locations/{location}/workflows/{workflow}/executions/{execution} */
   parent: string;
-  /** Deprecated field. */
-  view?: ListProjectsLocationsWorkflowsExecutionsStepEntriesViewEnum | (string & {});
   /** Optional. A page token, received from a previous `ListStepEntries` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStepEntries` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Optional. The number of step entries to skip. It can be used with or without a pageToken. If used with a pageToken, then it indicates the number of step entries to skip starting from the requested page. */
+  skip?: number | undefined;
+  /** Deprecated field. */
+  view?: ListProjectsLocationsWorkflowsExecutionsStepEntriesViewEnum | (string & {}) | undefined;
+  /** Optional. Number of step entries to return per call. The default max is 1000. */
+  pageSize?: number | undefined;
+  /** Optional. Comma-separated list of fields that specify the ordering applied to the `[StepEntries.ListStepEntries]` results. By default the ordering is based on ascending `entryId`. The following fields are supported for ordering: `entryId`, `createTime`, `updateTime`, `routine`, `step`, `stepType`, `state`. For details, see AIP-132. */
+  orderBy?: string | undefined;
   /** Optional. Filters applied to the `[StepEntries.ListStepEntries]` results. The following fields are supported for filtering: `entryId`, `createTime`, `updateTime`, `routine`, `step`, `stepType`, `parent`, `state`. For details, see AIP-160. For example, if you are using the Google APIs Explorer: `state="SUCCEEDED"` or `createTime>"2023-08-01" AND state="FAILED"` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type StepEntryList = Array<StepEntry>;
 /** Response message for ExecutionHistory.ListStepEntries. */
 export interface ListStepEntriesResponse {
-  /** A token to retrieve next page of results. Pass this value in the ListStepEntriesRequest.page_token field in the subsequent call to `ListStepEntries` method to retrieve the next page of results. */
-  nextPageToken?: string;
   /** The list of entries. */
-  stepEntries?: StepEntryList;
+  stepEntries?: StepEntryList | undefined;
   /** Indicates the total number of StepEntries that matched the request filter. For running executions, this number shows the number of StepEntries that are executed thus far. */
-  totalSize?: number;
+  totalSize?: number | undefined;
+  /** A token to retrieve next page of results. Pass this value in the ListStepEntriesRequest.page_token field in the subsequent call to `ListStepEntries` method to retrieve the next page of results. */
+  nextPageToken?: string | undefined;
 }
-/** A message that is published by publishers and consumed by subscribers. The message must contain either a non-empty data field or at least one attribute. Note that client libraries represent this object differently depending on the language. See the corresponding [client library documentation](https://cloud.google.com/pubsub/docs/reference/libraries) for more information. See [quotas and limits] (https://cloud.google.com/pubsub/quotas) for more information about message limits. */
+/** A message that is published by publishers and consumed by subscribers. The message must contain either a non-empty data field or at least one attribute. Note that client libraries represent this object differently depending on the language. See the corresponding [client library documentation](https://cloud.google.com/pubsub/docs/reference/libraries) for more information. See [quotas and limits]( https://cloud.google.com/pubsub/quotas) for more information about message limits. */
 export interface PubsubMessage {
-  /** Optional. Attributes for this message. If this field is empty, the message must contain non-empty data. This can be used to filter messages on the subscription. */
-  attributes?: StringMap;
   /** The time at which the message was published, populated by the server when it receives the `Publish` call. It must not be populated by the publisher in a `Publish` call. */
-  publishTime?: string;
-  /** Optional. The message data field. If this field is empty, the message must contain at least one attribute. */
-  data?: string;
-  /** ID of this message, assigned by the server when the message is published. Guaranteed to be unique within the topic. This value may be read by a subscriber that receives a `PubsubMessage` via a `Pull` call or a push delivery. It must not be populated by the publisher in a `Publish` call. */
-  messageId?: string;
+  publishTime?: string | undefined;
+  /** Optional. Attributes for this message. If this field is empty, the message must contain non-empty data. This can be used to filter messages on the subscription. */
+  attributes?: StringMap | undefined;
   /** Optional. If non-empty, identifies related messages for which publish order should be respected. If a `Subscription` has `enable_message_ordering` set to `true`, messages published with the same non-empty `ordering_key` value will be delivered to subscribers in the order in which they are received by the Pub/Sub system. All `PubsubMessage`s published in a given `PublishRequest` must specify the same `ordering_key` value. For more information, see [ordering messages](https://cloud.google.com/pubsub/docs/ordering). */
-  orderingKey?: string;
+  orderingKey?: string | undefined;
+  /** Optional. The message data field. If this field is empty, the message must contain at least one attribute. */
+  data?: string | undefined;
+  /** ID of this message, assigned by the server when the message is published. Guaranteed to be unique within the topic. This value may be read by a subscriber that receives a `PubsubMessage` via a `Pull` call or a push delivery. It must not be populated by the publisher in a `Publish` call. */
+  messageId?: string | undefined;
 }
 /** Request for the TriggerPubsubExecution method. */
 export interface TriggerPubsubExecutionRequest {
   /** Required. The message of the Pub/Sub push notification. */
-  message?: PubsubMessage;
+  message?: PubsubMessage | undefined;
   /** The number of attempts that have been made to deliver this message. This is set by Pub/Sub for subscriptions that have the "dead letter" feature enabled, and hence provided here for compatibility, but is ignored by Workflows. */
-  deliveryAttempt?: number;
+  deliveryAttempt?: number | undefined;
   /** Required. The subscription of the Pub/Sub push notification. Format: projects/{project}/subscriptions/{sub} */
-  subscription?: string;
+  subscription?: string | undefined;
   /** Required. LINT: LEGACY_NAMES The query parameter value for __GCP_CloudEventsMode, set by the Eventarc service when configuring triggers. */
-  GCPCloudEventsMode?: string;
+  GCPCloudEventsMode?: string | undefined;
 }
 export interface TriggerPubsubExecutionProjectsLocationsWorkflowsRequest {
   /** Required. Name of the workflow for which an execution should be created. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   workflow: string;
   /** Request body */
-  body?: TriggerPubsubExecutionRequest;
+  body?: TriggerPubsubExecutionRequest | undefined;
 }
 export type CancelProjectsLocationsWorkflowsExecutionsError =
   | NotFound
@@ -686,12 +686,12 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -716,9 +716,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -731,9 +731,9 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
+          waiters: S.optional(S.String),
           method: S.optional(S.String),
           availablePayloads: S.optional(__S(192, __c12, 0)),
-          waiters: S.optional(S.String),
         }),
       ).annotate({ identifier: "Callback" });
     case 2:
@@ -741,8 +741,8 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           callbacks: S.optional(__S(18, __c1, 2)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCallbacksResponse" });
   }
@@ -752,12 +752,12 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           skip: S.optional(S.Number.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          view: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -772,9 +772,9 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           stepEntries: S.optional(__S(33, __c2, 1)),
           totalSize: S.optional(S.Number),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListStepEntriesResponse" });
   }
@@ -784,11 +784,11 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(89, __c5, 9)),
           publishTime: S.optional(S.String),
+          attributes: S.optional(__S(89, __c5, 9)),
+          orderingKey: S.optional(S.String),
           data: S.optional(S.String),
           messageId: S.optional(S.String),
-          orderingKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "PubsubMessage" });
     case 1:
@@ -845,9 +845,9 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          step: S.optional(S.String),
           routine: S.optional(S.String),
           position: S.optional(__S(80, __c5, 0)),
-          step: S.optional(S.String),
         }),
       ).annotate({ identifier: "StackTraceElement" });
     case 2:
@@ -861,16 +861,16 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(S.String),
-          context: S.optional(S.String),
           stackTrace: S.optional(__S(83, __c5, 3)),
+          context: S.optional(S.String),
+          payload: S.optional(S.String),
         }),
       ).annotate({ identifier: "Workflowexecutions_Error" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
           details: S.optional(S.String),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "StateError" });
     case 6:
@@ -894,21 +894,21 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           error: S.optional(__S(84, __c5, 4)),
-          name: S.optional(S.String),
           callLogLevel: S.optional(S.String),
-          argument: S.optional(S.String),
-          state: S.optional(S.String),
-          endTime: S.optional(S.String),
-          stateError: S.optional(__S(85, __c5, 5)),
-          workflowRevisionId: S.optional(S.String),
-          duration: S.optional(S.String),
-          startTime: S.optional(S.String),
-          status: S.optional(__S(88, __c5, 8)),
-          labels: S.optional(__S(89, __c5, 9)),
           executionHistoryLevel: S.optional(S.String),
-          createTime: S.optional(S.String),
+          argument: S.optional(S.String),
+          workflowRevisionId: S.optional(S.String),
           result: S.optional(S.String),
           disableConcurrencyQuotaOverflowBuffering: S.optional(S.Boolean),
+          stateError: S.optional(__S(85, __c5, 5)),
+          status: S.optional(__S(88, __c5, 8)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(89, __c5, 9)),
+          createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
+          duration: S.optional(S.String),
         }),
       ).annotate({ identifier: "Execution" });
   }
@@ -982,8 +982,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1020,52 +1020,52 @@ function __c12(j: number): any {
 function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          variables: S.optional(__S(208, __c13, 0)),
-        }),
-      ).annotate({ identifier: "VariableData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          next: S.optional(S.String),
-          children: S.optional(__S(192, __c12, 0)),
-          parent: S.optional(S.String),
-          previous: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NavigationInfo" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          progressType: S.optional(S.String),
-          progressNumber: S.optional(S.String),
-          threadId: S.optional(S.String),
-          expectedIteration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StepEntryMetadata" });
-    case 4:
       return S.suspend(() =>
         S.Struct({
           payload: S.optional(S.String),
         }),
       ).annotate({ identifier: "Exception" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          parent: S.optional(S.String),
+          children: S.optional(__S(192, __c12, 0)),
+          previous: S.optional(S.String),
+          next: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NavigationInfo" });
+    case 2:
+      return S.Record(S.String, S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          variables: S.optional(__S(210, __c13, 2)),
+        }),
+      ).annotate({ identifier: "VariableData" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          progressType: S.optional(S.String),
+          progressNumber: S.optional(S.String),
+          expectedIteration: S.optional(S.String),
+          threadId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StepEntryMetadata" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          routine: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
-          variableData: S.optional(__S(209, __c13, 1)),
-          navigationInfo: S.optional(__S(210, __c13, 2)),
-          stepEntryMetadata: S.optional(__S(211, __c13, 3)),
-          stepType: S.optional(S.String),
-          exception: S.optional(__S(212, __c13, 4)),
-          step: S.optional(S.String),
+          exception: S.optional(__S(208, __c13, 0)),
           entryId: S.optional(S.String),
+          step: S.optional(S.String),
+          state: S.optional(S.String),
+          navigationInfo: S.optional(__S(209, __c13, 1)),
+          createTime: S.optional(S.String),
+          variableData: S.optional(__S(211, __c13, 3)),
+          stepType: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          stepEntryMetadata: S.optional(__S(212, __c13, 4)),
+          routine: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "StepEntry" });
   }

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -188,14 +189,14 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateSavingsPlanRequest {
   savingsPlanOfferingId: string;
   commitment: string;
-  upfrontPaymentAmount?: string;
-  purchaseTime?: Date;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  upfrontPaymentAmount?: string | undefined;
+  purchaseTime?: Date | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SavingsPlanId = string;
 export interface CreateSavingsPlanResponse {
-  savingsPlanId?: string;
+  savingsPlanId?: string | undefined;
 }
 export interface DeleteQueuedSavingsPlanRequest {
   savingsPlanId: string;
@@ -213,17 +214,17 @@ export type SavingsPlanRateFilterName =
   | (string & {});
 export type ListOfStrings = string[];
 export interface SavingsPlanRateFilter {
-  name?: SavingsPlanRateFilterName;
-  values?: string[];
+  name?: SavingsPlanRateFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type SavingsPlanRateFilterList = SavingsPlanRateFilter[];
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface DescribeSavingsPlanRatesRequest {
   savingsPlanId: string;
-  filters?: SavingsPlanRateFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: SavingsPlanRateFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type CurrencyCode = "CNY" | "USD" | "EUR" | (string & {});
 export type SavingsPlanRateUnit =
@@ -289,25 +290,25 @@ export type SavingsPlanRatePropertyKey =
   | (string & {});
 export type JsonSafeFilterValueString = string;
 export interface SavingsPlanRateProperty {
-  name?: SavingsPlanRatePropertyKey;
-  value?: string;
+  name?: SavingsPlanRatePropertyKey | undefined;
+  value?: string | undefined;
 }
 export type SavingsPlanRatePropertyList = SavingsPlanRateProperty[];
 export interface SavingsPlanRate {
-  rate?: string;
-  currency?: CurrencyCode;
-  unit?: SavingsPlanRateUnit;
-  productType?: SavingsPlanProductType;
-  serviceCode?: SavingsPlanRateServiceCode;
-  usageType?: string;
-  operation?: string;
-  properties?: SavingsPlanRateProperty[];
+  rate?: string | undefined;
+  currency?: CurrencyCode | undefined;
+  unit?: SavingsPlanRateUnit | undefined;
+  productType?: SavingsPlanProductType | undefined;
+  serviceCode?: SavingsPlanRateServiceCode | undefined;
+  usageType?: string | undefined;
+  operation?: string | undefined;
+  properties?: SavingsPlanRateProperty[] | undefined;
 }
 export type SavingsPlanRateList = SavingsPlanRate[];
 export interface DescribeSavingsPlanRatesResponse {
-  savingsPlanId?: string;
-  searchResults?: SavingsPlanRate[];
-  nextToken?: string;
+  savingsPlanId?: string | undefined;
+  searchResults?: SavingsPlanRate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SavingsPlanArn = string;
 export type SavingsPlanArnList = string[];
@@ -336,17 +337,17 @@ export type SavingsPlansFilterName =
   | "instance-family"
   | (string & {});
 export interface SavingsPlanFilter {
-  name?: SavingsPlansFilterName;
-  values?: string[];
+  name?: SavingsPlansFilterName | undefined;
+  values?: string[] | undefined;
 }
 export type SavingsPlanFilterList = SavingsPlanFilter[];
 export interface DescribeSavingsPlansRequest {
-  savingsPlanArns?: string[];
-  savingsPlanIds?: string[];
-  nextToken?: string;
-  maxResults?: number;
-  states?: SavingsPlanState[];
-  filters?: SavingsPlanFilter[];
+  savingsPlanArns?: string[] | undefined;
+  savingsPlanIds?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  states?: SavingsPlanState[] | undefined;
+  filters?: SavingsPlanFilter[] | undefined;
 }
 export type Region = string;
 export type EC2InstanceFamily = string;
@@ -359,30 +360,30 @@ export type SavingsPlanPaymentOption =
 export type SavingsPlanProductTypeList = SavingsPlanProductType[];
 export type TermDurationInSeconds = number;
 export interface SavingsPlan {
-  offeringId?: string;
-  savingsPlanId?: string;
-  savingsPlanArn?: string;
-  description?: string;
-  start?: string;
-  end?: string;
-  state?: SavingsPlanState;
-  region?: string;
-  ec2InstanceFamily?: string;
-  savingsPlanType?: SavingsPlanType;
-  paymentOption?: SavingsPlanPaymentOption;
-  productTypes?: SavingsPlanProductType[];
-  currency?: CurrencyCode;
-  commitment?: string;
-  upfrontPaymentAmount?: string;
-  recurringPaymentAmount?: string;
-  termDurationInSeconds?: number;
-  tags?: { [key: string]: string | undefined };
-  returnableUntil?: string;
+  offeringId?: string | undefined;
+  savingsPlanId?: string | undefined;
+  savingsPlanArn?: string | undefined;
+  description?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  state?: SavingsPlanState | undefined;
+  region?: string | undefined;
+  ec2InstanceFamily?: string | undefined;
+  savingsPlanType?: SavingsPlanType | undefined;
+  paymentOption?: SavingsPlanPaymentOption | undefined;
+  productTypes?: SavingsPlanProductType[] | undefined;
+  currency?: CurrencyCode | undefined;
+  commitment?: string | undefined;
+  upfrontPaymentAmount?: string | undefined;
+  recurringPaymentAmount?: string | undefined;
+  termDurationInSeconds?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  returnableUntil?: string | undefined;
 }
 export type SavingsPlanList = SavingsPlan[];
 export interface DescribeSavingsPlansResponse {
-  savingsPlans?: SavingsPlan[];
-  nextToken?: string;
+  savingsPlans?: SavingsPlan[] | undefined;
+  nextToken?: string | undefined;
 }
 export type UUID = string;
 export type UUIDs = string[];
@@ -401,53 +402,53 @@ export type SavingsPlanRateFilterAttribute =
   | (string & {});
 export type FilterValuesList = string[];
 export interface SavingsPlanOfferingRateFilterElement {
-  name?: SavingsPlanRateFilterAttribute;
-  values?: string[];
+  name?: SavingsPlanRateFilterAttribute | undefined;
+  values?: string[] | undefined;
 }
 export type SavingsPlanOfferingRateFiltersList = SavingsPlanOfferingRateFilterElement[];
 export type PageSize = number;
 export interface DescribeSavingsPlansOfferingRatesRequest {
-  savingsPlanOfferingIds?: string[];
-  savingsPlanPaymentOptions?: SavingsPlanPaymentOption[];
-  savingsPlanTypes?: SavingsPlanType[];
-  products?: SavingsPlanProductType[];
-  serviceCodes?: SavingsPlanRateServiceCode[];
-  usageTypes?: string[];
-  operations?: string[];
-  filters?: SavingsPlanOfferingRateFilterElement[];
-  nextToken?: string;
-  maxResults?: number;
+  savingsPlanOfferingIds?: string[] | undefined;
+  savingsPlanPaymentOptions?: SavingsPlanPaymentOption[] | undefined;
+  savingsPlanTypes?: SavingsPlanType[] | undefined;
+  products?: SavingsPlanProductType[] | undefined;
+  serviceCodes?: SavingsPlanRateServiceCode[] | undefined;
+  usageTypes?: string[] | undefined;
+  operations?: string[] | undefined;
+  filters?: SavingsPlanOfferingRateFilterElement[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SavingsPlansDuration = number;
 export type SavingsPlanDescription = string;
 export interface ParentSavingsPlanOffering {
-  offeringId?: string;
-  paymentOption?: SavingsPlanPaymentOption;
-  planType?: SavingsPlanType;
-  durationSeconds?: number;
-  currency?: CurrencyCode;
-  planDescription?: string;
+  offeringId?: string | undefined;
+  paymentOption?: SavingsPlanPaymentOption | undefined;
+  planType?: SavingsPlanType | undefined;
+  durationSeconds?: number | undefined;
+  currency?: CurrencyCode | undefined;
+  planDescription?: string | undefined;
 }
 export type SavingsPlanRatePricePerUnit = string;
 export interface SavingsPlanOfferingRateProperty {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type SavingsPlanOfferingRatePropertyList = SavingsPlanOfferingRateProperty[];
 export interface SavingsPlanOfferingRate {
-  savingsPlanOffering?: ParentSavingsPlanOffering;
-  rate?: string;
-  unit?: SavingsPlanRateUnit;
-  productType?: SavingsPlanProductType;
-  serviceCode?: SavingsPlanRateServiceCode;
-  usageType?: string;
-  operation?: string;
-  properties?: SavingsPlanOfferingRateProperty[];
+  savingsPlanOffering?: ParentSavingsPlanOffering | undefined;
+  rate?: string | undefined;
+  unit?: SavingsPlanRateUnit | undefined;
+  productType?: SavingsPlanProductType | undefined;
+  serviceCode?: SavingsPlanRateServiceCode | undefined;
+  usageType?: string | undefined;
+  operation?: string | undefined;
+  properties?: SavingsPlanOfferingRateProperty[] | undefined;
 }
 export type SavingsPlanOfferingRatesList = SavingsPlanOfferingRate[];
 export interface DescribeSavingsPlansOfferingRatesResponse {
-  searchResults?: SavingsPlanOfferingRate[];
-  nextToken?: string;
+  searchResults?: SavingsPlanOfferingRate[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DurationsList = number[];
 export type CurrencyList = CurrencyCode[];
@@ -460,61 +461,61 @@ export type SavingsPlanOperation = string;
 export type SavingsPlanOperationList = string[];
 export type SavingsPlanOfferingFilterAttribute = "region" | "instanceFamily" | (string & {});
 export interface SavingsPlanOfferingFilterElement {
-  name?: SavingsPlanOfferingFilterAttribute;
-  values?: string[];
+  name?: SavingsPlanOfferingFilterAttribute | undefined;
+  values?: string[] | undefined;
 }
 export type SavingsPlanOfferingFiltersList = SavingsPlanOfferingFilterElement[];
 export interface DescribeSavingsPlansOfferingsRequest {
-  offeringIds?: string[];
-  paymentOptions?: SavingsPlanPaymentOption[];
-  productType?: SavingsPlanProductType;
-  planTypes?: SavingsPlanType[];
-  durations?: number[];
-  currencies?: CurrencyCode[];
-  descriptions?: string[];
-  serviceCodes?: string[];
-  usageTypes?: string[];
-  operations?: string[];
-  filters?: SavingsPlanOfferingFilterElement[];
-  nextToken?: string;
-  maxResults?: number;
+  offeringIds?: string[] | undefined;
+  paymentOptions?: SavingsPlanPaymentOption[] | undefined;
+  productType?: SavingsPlanProductType | undefined;
+  planTypes?: SavingsPlanType[] | undefined;
+  durations?: number[] | undefined;
+  currencies?: CurrencyCode[] | undefined;
+  descriptions?: string[] | undefined;
+  serviceCodes?: string[] | undefined;
+  usageTypes?: string[] | undefined;
+  operations?: string[] | undefined;
+  filters?: SavingsPlanOfferingFilterElement[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SavingsPlanOfferingPropertyKey = "region" | "instanceFamily" | (string & {});
 export interface SavingsPlanOfferingProperty {
-  name?: SavingsPlanOfferingPropertyKey;
-  value?: string;
+  name?: SavingsPlanOfferingPropertyKey | undefined;
+  value?: string | undefined;
 }
 export type SavingsPlanOfferingPropertyList = SavingsPlanOfferingProperty[];
 export interface SavingsPlanOffering {
-  offeringId?: string;
-  productTypes?: SavingsPlanProductType[];
-  planType?: SavingsPlanType;
-  description?: string;
-  paymentOption?: SavingsPlanPaymentOption;
-  durationSeconds?: number;
-  currency?: CurrencyCode;
-  serviceCode?: string;
-  usageType?: string;
-  operation?: string;
-  properties?: SavingsPlanOfferingProperty[];
+  offeringId?: string | undefined;
+  productTypes?: SavingsPlanProductType[] | undefined;
+  planType?: SavingsPlanType | undefined;
+  description?: string | undefined;
+  paymentOption?: SavingsPlanPaymentOption | undefined;
+  durationSeconds?: number | undefined;
+  currency?: CurrencyCode | undefined;
+  serviceCode?: string | undefined;
+  usageType?: string | undefined;
+  operation?: string | undefined;
+  properties?: SavingsPlanOfferingProperty[] | undefined;
 }
 export type SavingsPlanOfferingsList = SavingsPlanOffering[];
 export interface DescribeSavingsPlansOfferingsResponse {
-  searchResults?: SavingsPlanOffering[];
-  nextToken?: string;
+  searchResults?: SavingsPlanOffering[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ReturnSavingsPlanRequest {
   savingsPlanId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface ReturnSavingsPlanResponse {
-  savingsPlanId?: string;
+  savingsPlanId?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -537,7 +538,7 @@ export type CreateSavingsPlanError =
  * Creates a Savings Plan.
  */
 export const createSavingsPlan: API.OperationMethod<
-  CreateSavingsPlanRequest,
+  CreateSavingsPlanRequest & RegionInput,
   CreateSavingsPlanResponse,
   CreateSavingsPlanError,
   Credentials | HttpClient.HttpClient
@@ -567,7 +568,7 @@ export type DeleteQueuedSavingsPlanError =
  * Deletes the queued purchase for the specified Savings Plan.
  */
 export const deleteQueuedSavingsPlan: API.OperationMethod<
-  DeleteQueuedSavingsPlanRequest,
+  DeleteQueuedSavingsPlanRequest & RegionInput,
   DeleteQueuedSavingsPlanResponse,
   DeleteQueuedSavingsPlanError,
   Credentials | HttpClient.HttpClient
@@ -596,7 +597,7 @@ export type DescribeSavingsPlanRatesError =
  * Describes the rates for a specific, existing Savings Plan.
  */
 export const describeSavingsPlanRates: API.OperationMethod<
-  DescribeSavingsPlanRatesRequest,
+  DescribeSavingsPlanRatesRequest & RegionInput,
   DescribeSavingsPlanRatesResponse,
   DescribeSavingsPlanRatesError,
   Credentials | HttpClient.HttpClient
@@ -619,7 +620,7 @@ export type DescribeSavingsPlansError =
  * Describes the specified Savings Plans.
  */
 export const describeSavingsPlans: API.OperationMethod<
-  DescribeSavingsPlansRequest,
+  DescribeSavingsPlansRequest & RegionInput,
   DescribeSavingsPlansResponse,
   DescribeSavingsPlansError,
   Credentials | HttpClient.HttpClient
@@ -642,7 +643,7 @@ export type DescribeSavingsPlansOfferingRatesError =
  * Describes the offering rates for Savings Plans you might want to purchase.
  */
 export const describeSavingsPlansOfferingRates: API.OperationMethod<
-  DescribeSavingsPlansOfferingRatesRequest,
+  DescribeSavingsPlansOfferingRatesRequest & RegionInput,
   DescribeSavingsPlansOfferingRatesResponse,
   DescribeSavingsPlansOfferingRatesError,
   Credentials | HttpClient.HttpClient
@@ -665,7 +666,7 @@ export type DescribeSavingsPlansOfferingsError =
  * Describes the offerings for the specified Savings Plans.
  */
 export const describeSavingsPlansOfferings: API.OperationMethod<
-  DescribeSavingsPlansOfferingsRequest,
+  DescribeSavingsPlansOfferingsRequest & RegionInput,
   DescribeSavingsPlansOfferingsResponse,
   DescribeSavingsPlansOfferingsError,
   Credentials | HttpClient.HttpClient
@@ -689,7 +690,7 @@ export type ListTagsForResourceError =
  * Lists the tags for the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -714,7 +715,7 @@ export type ReturnSavingsPlanError =
  * Returns the specified Savings Plan.
  */
 export const returnSavingsPlan: API.OperationMethod<
-  ReturnSavingsPlanRequest,
+  ReturnSavingsPlanRequest & RegionInput,
   ReturnSavingsPlanResponse,
   ReturnSavingsPlanError,
   Credentials | HttpClient.HttpClient
@@ -744,7 +745,7 @@ export type TagResourceError =
  * Adds the specified tags to the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +774,7 @@ export type UntagResourceError =
  * Removes the specified tags from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

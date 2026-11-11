@@ -57,43 +57,43 @@ export interface CreateInsightVariableRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Human-readable name for the SQL variable. */
-  name?: string;
+  name?: string | undefined;
   /** Variable type. Controls how the value is rendered and substituted in HogQL. * `String` - String * `Number` - Number * `Boolean` - Boolean * `List` - List * `Date` - Date */
-  type?: InsightVariableTypeEnum | (string & {});
+  type?: InsightVariableTypeEnum | (string & {}) | undefined;
   /** Default value used when a query references this variable. */
-  default_value?: unknown;
+  default_value?: unknown | undefined;
   /** Allowed values for List variables. Null for other variable types. */
-  values?: unknown;
+  values?: unknown | undefined;
   /** Whether a List variable accepts multiple selected values. */
-  is_multi?: boolean;
+  is_multi?: boolean | undefined;
   /** HogQL query whose first result column supplies the allowed values for a List variable. An optional second column supplies display labels. */
-  values_query?: string | null;
+  values_query?: string | null | undefined;
   /** ID of the external data source connection values_query runs against. Null runs it against PostHog. */
-  values_query_connection_id?: string | null;
+  values_query_connection_id?: string | null | undefined;
 }
 export interface InsightVariable {
   /** UUID of the SQL variable. */
-  id?: string;
+  id?: string | undefined;
   /** Human-readable name for the SQL variable. */
-  name?: string;
+  name?: string | undefined;
   /** Variable type. Controls how the value is rendered and substituted in HogQL. * `String` - String * `Number` - Number * `Boolean` - Boolean * `List` - List * `Date` - Date */
-  type?: InsightVariableTypeEnum;
+  type?: InsightVariableTypeEnum | undefined;
   /** Default value used when a query references this variable. */
-  default_value?: unknown;
+  default_value?: unknown | undefined;
   /** ID of the user who created the SQL variable. */
-  created_by?: number | null;
+  created_by?: number | null | undefined;
   /** Timestamp when the SQL variable was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Generated code-safe name used in HogQL as {variables.code_name}. Derived from name. */
-  code_name?: string | null;
+  code_name?: string | null | undefined;
   /** Allowed values for List variables. Null for other variable types. */
-  values?: unknown;
+  values?: unknown | undefined;
   /** Whether a List variable accepts multiple selected values. */
-  is_multi?: boolean;
+  is_multi?: boolean | undefined;
   /** HogQL query whose first result column supplies the allowed values for a List variable. An optional second column supplies display labels. */
-  values_query?: string | null;
+  values_query?: string | null | undefined;
   /** ID of the external data source connection values_query runs against. Null runs it against PostHog. */
-  values_query_connection_id?: string | null;
+  values_query_connection_id?: string | null | undefined;
 }
 export interface GetInsightVariableRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -112,14 +112,14 @@ export interface ListInsightVariablesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A page number within the paginated result set. */
-  page?: number;
+  page?: number | undefined;
 }
 export type PaginatedInsightVariableListResultsList = Array<InsightVariable>;
 export interface PaginatedInsightVariableList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedInsightVariableListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedInsightVariableListResultsList | undefined;
 }
 export interface UpdateInsightVariableRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -127,19 +127,19 @@ export interface UpdateInsightVariableRequest {
   /** A UUID string identifying this insight variable. */
   id: string;
   /** Human-readable name for the SQL variable. */
-  name?: string;
+  name?: string | undefined;
   /** Variable type. Controls how the value is rendered and substituted in HogQL. * `String` - String * `Number` - Number * `Boolean` - Boolean * `List` - List * `Date` - Date */
-  type?: InsightVariableTypeEnum | (string & {});
+  type?: InsightVariableTypeEnum | (string & {}) | undefined;
   /** Default value used when a query references this variable. */
-  default_value?: unknown;
+  default_value?: unknown | undefined;
   /** Allowed values for List variables. Null for other variable types. */
-  values?: unknown;
+  values?: unknown | undefined;
   /** Whether a List variable accepts multiple selected values. */
-  is_multi?: boolean;
+  is_multi?: boolean | undefined;
   /** HogQL query whose first result column supplies the allowed values for a List variable. An optional second column supplies display labels. */
-  values_query?: string | null;
+  values_query?: string | null | undefined;
   /** ID of the external data source connection values_query runs against. Null runs it against PostHog. */
-  values_query_connection_id?: string | null;
+  values_query_connection_id?: string | null | undefined;
 }
 export interface UpdateInsightVariablesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -147,19 +147,19 @@ export interface UpdateInsightVariablesPartialRequest {
   /** A UUID string identifying this insight variable. */
   id: string;
   /** Human-readable name for the SQL variable. */
-  name?: string;
+  name?: string | undefined;
   /** Variable type. Controls how the value is rendered and substituted in HogQL. * `String` - String * `Number` - Number * `Boolean` - Boolean * `List` - List * `Date` - Date */
-  type?: InsightVariableTypeEnum | (string & {});
+  type?: InsightVariableTypeEnum | (string & {}) | undefined;
   /** Default value used when a query references this variable. */
-  default_value?: unknown;
+  default_value?: unknown | undefined;
   /** Allowed values for List variables. Null for other variable types. */
-  values?: unknown;
+  values?: unknown | undefined;
   /** Whether a List variable accepts multiple selected values. */
-  is_multi?: boolean;
+  is_multi?: boolean | undefined;
   /** HogQL query whose first result column supplies the allowed values for a List variable. An optional second column supplies display labels. */
-  values_query?: string | null;
+  values_query?: string | null | undefined;
   /** ID of the external data source connection values_query runs against. Null runs it against PostHog. */
-  values_query_connection_id?: string | null;
+  values_query_connection_id?: string | null | undefined;
 }
 export type CreateInsightVariableError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createInsightVariable: API.OperationMethod<

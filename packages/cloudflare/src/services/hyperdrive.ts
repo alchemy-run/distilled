@@ -72,6 +72,7 @@ export class HyperdriveOriginUnavailable
     [
       { status: 400, message: { includes: "Failed to connect to upstream database" } },
       { status: 400, message: { includes: "destination_not_found" } },
+      { status: 400, message: { includes: "Failed to connect to the provided database" } },
     ],
   ) {}
 
@@ -116,26 +117,26 @@ export class PrivateHostNotAllowed
 
 export interface ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateDisabled {
   disabled: boolean;
-  maxAge?: number;
-  staleWhileRevalidate?: number;
+  maxAge?: number | undefined;
+  staleWhileRevalidate?: number | undefined;
 }
 export interface ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateEnabled {
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified. */
-  staleWhileRevalidate?: number;
+  staleWhileRevalidate?: number | undefined;
 }
 export type ConfigsCreateRequestCaching =
   | ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateDisabled
   | ConfigsCreateRequestCachingHyperdriveHyperdriveCachingCreateEnabled;
 export interface ConfigsCreateRequestMtls {
   /** Define CA certificate ID obtained after uploading CA cert. */
-  caCertificateId?: string;
+  caCertificateId?: string | undefined;
   /** Define mTLS certificate ID obtained after uploading client cert. */
-  mtlsCertificateId?: string;
+  mtlsCertificateId?: string | undefined;
   /** PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate. */
-  sslmode?: string;
+  sslmode?: string | undefined;
 }
 export interface CreateConfigRequest {
   /** Define configurations using a unique string identifier. */
@@ -143,22 +144,22 @@ export interface CreateConfigRequest {
   /** The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. */
   name: string;
   /** Combines database connection fields with exactly one supported network location. */
-  origin?: unknown;
-  caching?: ConfigsCreateRequestCaching;
+  origin?: unknown | undefined;
+  caching?: ConfigsCreateRequestCaching | undefined;
   /** Selects a PlanetScale database and provisions credentials managed by Cloudflare when creating a Hyperdrive configuration. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard. The selection is returned as read-only metadata and cannot be changed with replace or update operations. */
-  integration?: unknown;
+  integration?: unknown | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateRequestMtls;
+  mtls?: ConfigsCreateRequestMtls | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number;
+  originConnectionLimit?: number | undefined;
 }
 export interface ConfigsCreateResponseCaching {
   /** Defines whether caching is disabled. */
   disabled: boolean;
   /** Defines the maximum duration (in seconds) items persist in the cache. */
-  maxAge?: number | null;
+  maxAge?: number | null | undefined;
   /** Defines the number of seconds the cache may serve a stale response. */
-  staleWhileRevalidate?: number | null;
+  staleWhileRevalidate?: number | null | undefined;
 }
 export type ConfigsCreateResponseOriginPublicDatabaseScheme = "postgres" | "postgresql" | "mysql";
 export interface ConfigsCreateResponseOriginPublicDatabase {
@@ -223,15 +224,15 @@ export interface ConfigsCreateResponseIntegration {
   /** Specifies the URL scheme used to connect to your origin database. */
   scheme: ConfigsCreateResponseIntegrationScheme;
   /** The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL. */
-  customDatabaseName?: string | null;
+  customDatabaseName?: string | null | undefined;
 }
 export interface ConfigsCreateResponseMtls {
   /** Define CA certificate ID obtained after uploading CA cert. */
-  caCertificateId?: string | null;
+  caCertificateId?: string | null | undefined;
   /** Define mTLS certificate ID obtained after uploading client cert. */
-  mtlsCertificateId?: string | null;
+  mtlsCertificateId?: string | null | undefined;
   /** PostgreSQL accepts `require`, `verify-ca`, and `verify-full`. MySQL accepts `REQUIRED`, `VERIFY_CA`, and `VERIFY_IDENTITY`. The verify modes require a CA certificate; the require modes cannot be used with a CA certificate. */
-  sslmode?: string | null;
+  sslmode?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateConfigResponse {
@@ -243,17 +244,17 @@ export interface CreateConfigResponse {
   /** Combines database connection fields with exactly one supported network location. */
   origin: ConfigsCreateResponseOrigin;
   /** Defines the creation time of the Hyperdrive configuration. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Selects a PlanetScale database and provisions credentials managed by Cloudflare when creating a Hyperdrive configuration. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard. The selection is returned as read-only metadata and cannot be changed with replace or update operations. */
-  integration?: ConfigsCreateResponseIntegration | null;
+  integration?: ConfigsCreateResponseIntegration | null | undefined;
   /** Defines the last modified time of the Hyperdrive configuration. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateResponseMtls | null;
+  mtls?: ConfigsCreateResponseMtls | null | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number | null;
+  originConnectionLimit?: number | null | undefined;
   /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
-  restartedOn?: string | null;
+  restartedOn?: string | null | undefined;
 }
 export interface DeleteConfigRequest {
   /** Define configurations using a unique string identifier. */
@@ -332,7 +333,7 @@ export interface ConfigsGetResponseIntegration {
   /** Specifies the URL scheme used to connect to your origin database. */
   scheme: ConfigsGetResponseIntegrationScheme;
   /** The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL. */
-  customDatabaseName?: string | null;
+  customDatabaseName?: string | null | undefined;
 }
 export type ConfigsGetResponseMtls = ConfigsCreateResponseMtls;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -345,25 +346,25 @@ export interface GetConfigResponse {
   /** Combines database connection fields with exactly one supported network location. */
   origin: ConfigsGetResponseOrigin;
   /** Defines the creation time of the Hyperdrive configuration. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Selects a PlanetScale database and provisions credentials managed by Cloudflare when creating a Hyperdrive configuration. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard. The selection is returned as read-only metadata and cannot be changed with replace or update operations. */
-  integration?: ConfigsGetResponseIntegration | null;
+  integration?: ConfigsGetResponseIntegration | null | undefined;
   /** Defines the last modified time of the Hyperdrive configuration. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateResponseMtls | null;
+  mtls?: ConfigsCreateResponseMtls | null | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number | null;
+  originConnectionLimit?: number | null | undefined;
   /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
-  restartedOn?: string | null;
+  restartedOn?: string | null | undefined;
 }
 export interface ListConfigsRequest {
   /** Define configurations using a unique string identifier. */
   accountId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ConfigsListResultItemCaching = ConfigsCreateResponseCaching;
 export type ConfigsListResultItemOriginPublicDatabaseScheme = "postgres" | "postgresql" | "mysql";
@@ -429,7 +430,7 @@ export interface ConfigsListResultItemIntegration {
   /** Specifies the URL scheme used to connect to your origin database. */
   scheme: ConfigsListResultItemIntegrationScheme;
   /** The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL. */
-  customDatabaseName?: string | null;
+  customDatabaseName?: string | null | undefined;
 }
 export type ConfigsListResultItemMtls = ConfigsCreateResponseMtls;
 export interface ConfigsListResultItem {
@@ -441,36 +442,36 @@ export interface ConfigsListResultItem {
   /** Combines database connection fields with exactly one supported network location. */
   origin: ConfigsListResultItemOrigin;
   /** Defines the creation time of the Hyperdrive configuration. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Selects a PlanetScale database and provisions credentials managed by Cloudflare when creating a Hyperdrive configuration. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard. The selection is returned as read-only metadata and cannot be changed with replace or update operations. */
-  integration?: ConfigsListResultItemIntegration | null;
+  integration?: ConfigsListResultItemIntegration | null | undefined;
   /** Defines the last modified time of the Hyperdrive configuration. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateResponseMtls | null;
+  mtls?: ConfigsCreateResponseMtls | null | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number | null;
+  originConnectionLimit?: number | null | undefined;
   /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
-  restartedOn?: string | null;
+  restartedOn?: string | null | undefined;
 }
 export type ConfigsListResultList = Array<ConfigsListResultItem>;
 export interface ListConfigsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ConfigsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ConfigsEditRequestCachingHyperdriveHyperdriveCachingCommon {
   /** Set to true to disable caching of SQL responses. Default is false. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export interface ConfigsEditRequestCachingHyperdriveHyperdriveCachingEnabled {
   /** Set to true to disable caching of SQL responses. Default is false. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Specify the maximum duration (in seconds) items should persist in the cache. Defaults to 60 seconds if not specified. */
-  maxAge?: number;
+  maxAge?: number | undefined;
   /** Specify the number of seconds the cache may serve a stale response. Defaults to 15 seconds if not specified. */
-  staleWhileRevalidate?: number;
+  staleWhileRevalidate?: number | undefined;
 }
 export type ConfigsEditRequestCaching =
   | ConfigsEditRequestCachingHyperdriveHyperdriveCachingCommon
@@ -482,13 +483,13 @@ export type ConfigsEditRequestOriginHyperdriveHyperdriveDatabaseScheme =
   | "mysql";
 export interface ConfigsEditRequestOriginHyperdriveHyperdriveDatabase {
   /** Set the name of your origin database. */
-  database?: string;
+  database?: string | undefined;
   /** Set the password needed to access your origin database. The API never returns this write-only value. */
-  password?: string;
+  password?: string | undefined;
   /** Specifies the URL scheme used to connect to your origin database. */
-  scheme?: ConfigsEditRequestOriginHyperdriveHyperdriveDatabaseScheme | (string & {});
+  scheme?: ConfigsEditRequestOriginHyperdriveHyperdriveDatabaseScheme | (string & {}) | undefined;
   /** Set the user of your origin database. */
-  user?: string;
+  user?: string | undefined;
 }
 export interface ConfigsEditRequestOriginHyperdriveInternetOrigin {
   /** Defines the publicly reachable hostname or IP of your origin database. Private, loopback, and link-local IP addresses are not allowed. */
@@ -518,15 +519,15 @@ export interface PatchConfigRequest {
   accountId: string;
   /** Define configurations using a unique string identifier. */
   hyperdriveId: string;
-  caching?: ConfigsEditRequestCaching;
+  caching?: ConfigsEditRequestCaching | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateRequestMtls;
+  mtls?: ConfigsCreateRequestMtls | undefined;
   /** The name of the Hyperdrive configuration. Used to identify the configuration in the Cloudflare dashboard and API. An empty value leaves the name unchanged. */
-  name?: string;
+  name?: string | undefined;
   /** Connect to a database through a Workers VPC Service. TLS settings (mTLS, sslmode) cannot be configured on the Hyperdrive when using a VPC Service origin; TLS must be managed on the VPC Service itself. */
-  origin?: ConfigsEditRequestOrigin;
+  origin?: ConfigsEditRequestOrigin | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number;
+  originConnectionLimit?: number | undefined;
 }
 export type ConfigsEditResponseCaching = ConfigsCreateResponseCaching;
 export type ConfigsEditResponseOriginPublicDatabaseScheme = "postgres" | "postgresql" | "mysql";
@@ -592,7 +593,7 @@ export interface ConfigsEditResponseIntegration {
   /** Specifies the URL scheme used to connect to your origin database. */
   scheme: ConfigsEditResponseIntegrationScheme;
   /** The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL. */
-  customDatabaseName?: string | null;
+  customDatabaseName?: string | null | undefined;
 }
 export type ConfigsEditResponseMtls = ConfigsCreateResponseMtls;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -605,17 +606,17 @@ export interface PatchConfigResponse {
   /** Combines database connection fields with exactly one supported network location. */
   origin: ConfigsEditResponseOrigin;
   /** Defines the creation time of the Hyperdrive configuration. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Selects a PlanetScale database and provisions credentials managed by Cloudflare when creating a Hyperdrive configuration. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard. The selection is returned as read-only metadata and cannot be changed with replace or update operations. */
-  integration?: ConfigsEditResponseIntegration | null;
+  integration?: ConfigsEditResponseIntegration | null | undefined;
   /** Defines the last modified time of the Hyperdrive configuration. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateResponseMtls | null;
+  mtls?: ConfigsCreateResponseMtls | null | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number | null;
+  originConnectionLimit?: number | null | undefined;
   /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
-  restartedOn?: string | null;
+  restartedOn?: string | null | undefined;
 }
 export interface RestartConfigRequest {
   /** Define configurations using a unique string identifier. */
@@ -693,7 +694,7 @@ export interface RestartConfigResponseIntegration {
   /** Specifies the URL scheme used to connect to your origin database. */
   scheme: RestartConfigResponseIntegrationScheme;
   /** The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL. */
-  customDatabaseName?: string | null;
+  customDatabaseName?: string | null | undefined;
 }
 export type RestartConfigResponseMtls = ConfigsCreateResponseMtls;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -706,17 +707,17 @@ export interface RestartConfigResponse {
   /** Combines database connection fields with exactly one supported network location. */
   origin: RestartConfigResponseOrigin;
   /** Defines the creation time of the Hyperdrive configuration. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Selects a PlanetScale database and provisions credentials managed by Cloudflare when creating a Hyperdrive configuration. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard. The selection is returned as read-only metadata and cannot be changed with replace or update operations. */
-  integration?: RestartConfigResponseIntegration | null;
+  integration?: RestartConfigResponseIntegration | null | undefined;
   /** Defines the last modified time of the Hyperdrive configuration. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateResponseMtls | null;
+  mtls?: ConfigsCreateResponseMtls | null | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number | null;
+  originConnectionLimit?: number | null | undefined;
   /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
-  restartedOn?: string | null;
+  restartedOn?: string | null | undefined;
 }
 export type ConfigsUpdateRequestOriginPublicDatabaseScheme = "postgres" | "postgresql" | "mysql";
 export interface ConfigsUpdateRequestOriginPublicDatabase {
@@ -792,11 +793,11 @@ export interface UpdateConfigRequest {
   name: string;
   /** Combines database connection fields with exactly one supported network location. */
   origin: ConfigsUpdateRequestOrigin;
-  caching?: ConfigsUpdateRequestCaching;
+  caching?: ConfigsUpdateRequestCaching | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateRequestMtls;
+  mtls?: ConfigsCreateRequestMtls | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number;
+  originConnectionLimit?: number | undefined;
 }
 export type ConfigsUpdateResponseCaching = ConfigsCreateResponseCaching;
 export type ConfigsUpdateResponseOriginPublicDatabaseScheme = "postgres" | "postgresql" | "mysql";
@@ -862,7 +863,7 @@ export interface ConfigsUpdateResponseIntegration {
   /** Specifies the URL scheme used to connect to your origin database. */
   scheme: ConfigsUpdateResponseIntegrationScheme;
   /** The database name to use when connecting. Defaults to `postgres` for PostgreSQL and `mysql` for MySQL. */
-  customDatabaseName?: string | null;
+  customDatabaseName?: string | null | undefined;
 }
 export type ConfigsUpdateResponseMtls = ConfigsCreateResponseMtls;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -875,17 +876,17 @@ export interface UpdateConfigResponse {
   /** Combines database connection fields with exactly one supported network location. */
   origin: ConfigsUpdateResponseOrigin;
   /** Defines the creation time of the Hyperdrive configuration. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Selects a PlanetScale database and provisions credentials managed by Cloudflare when creating a Hyperdrive configuration. The Cloudflare account must already be linked to PlanetScale in the Hyperdrive dashboard. The selection is returned as read-only metadata and cannot be changed with replace or update operations. */
-  integration?: ConfigsUpdateResponseIntegration | null;
+  integration?: ConfigsUpdateResponseIntegration | null | undefined;
   /** Defines the last modified time of the Hyperdrive configuration. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** mTLS configuration for the origin connection. Cannot be used with VPC Service origins; TLS must be managed on the VPC Service. */
-  mtls?: ConfigsCreateResponseMtls | null;
+  mtls?: ConfigsCreateResponseMtls | null | undefined;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
-  originConnectionLimit?: number | null;
+  originConnectionLimit?: number | null | undefined;
   /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
-  restartedOn?: string | null;
+  restartedOn?: string | null | undefined;
 }
 export type CreateConfigError =
   | PrivateHostNotAllowed
@@ -901,8 +902,8 @@ export const createConfig: API.OperationMethod<
   CreateConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25, __c3, 1) as any as S.Schema<CreateConfigRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<CreateConfigResponse>,
+  input: __S(33, __c4, 1) as any as S.Schema<CreateConfigRequest>,
+  output: __S(35, __c4, 3) as any as S.Schema<CreateConfigResponse>,
   errors: [
     PrivateHostNotAllowed,
     InvalidHyperdriveConfig,
@@ -931,8 +932,8 @@ export const deleteConfig: API.OperationMethod<
   DeleteConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteConfigRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<DeleteConfigResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteConfigRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<DeleteConfigResponse>,
   errors: [
     PrivateHostNotAllowed,
     HyperdriveConfigNotFound,
@@ -959,8 +960,8 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<GetConfigResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<GetConfigResponse>,
   errors: [
     PrivateHostNotAllowed,
     HyperdriveConfigNotFound,
@@ -984,8 +985,8 @@ export const listConfigs: API.PaginatedOperationMethod<
   ConfigsListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c8, 0) as any as S.Schema<ListConfigsRequest>,
-    output: __S(68, __c8, 4) as any as S.Schema<ListConfigsResponse>,
+    input: __S(0, __c0, 0) as any as S.Schema<ListConfigsRequest>,
+    output: __S(4, __c0, 4) as any as S.Schema<ListConfigsResponse>,
     errors: [
       PrivateHostNotAllowed,
       InvalidObjectIdentifier,
@@ -1021,8 +1022,8 @@ export const patchConfig: API.OperationMethod<
   PatchConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<PatchConfigRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<PatchConfigResponse>,
+  input: __S(10, __c1, 2) as any as S.Schema<PatchConfigRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<PatchConfigResponse>,
   errors: [
     PrivateHostNotAllowed,
     HyperdriveConfigNotFound,
@@ -1046,8 +1047,8 @@ export const restartConfig: API.OperationMethod<
   RestartConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<RestartConfigRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<RestartConfigResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<RestartConfigRequest>,
+  output: __S(18, __c2, 2) as any as S.Schema<RestartConfigResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1069,8 +1070,8 @@ export const updateConfig: API.OperationMethod<
   UpdateConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c2, 2) as any as S.Schema<UpdateConfigRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<UpdateConfigResponse>,
+  input: __S(26, __c3, 2) as any as S.Schema<UpdateConfigRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<UpdateConfigResponse>,
   errors: [
     PrivateHostNotAllowed,
     HyperdriveConfigNotFound,
@@ -1090,6 +1091,56 @@ export const updateConfig: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          page: S.optional(S.Number.pipe(T.Query())),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+        })
+          .pipe(
+            T.Http({ method: "GET", uri: "/accounts/{account_id}/hyperdrive/configs", code: 200 }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListConfigsRequest" });
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["database", "host", "port", "scheme", "user"],
+          ["accessClientId", "accessClientSecret", "database", "host", "scheme", "user"],
+          ["database", "scheme", "serviceId", "user"],
+        ]),
+      );
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          caching: __S(48, __c6, 0),
+          name: S.String,
+          origin: __S(1, __c0, 1),
+          createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+          integration: S.optional(S.NullOr(__S(49, __c6, 1))),
+          modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
+          mtls: S.optional(S.NullOr(__S(50, __c6, 2))),
+          originConnectionLimit: S.optional(
+            S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
+          ),
+          restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
+        }),
+      ).annotate({ identifier: "ConfigsListResultItem" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          result: __S(3, __c0, 3).pipe(T.EnvelopePayload()),
+          resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ListConfigsResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([["disabled"], ["disabled", "maxAge", "staleWhileRevalidate"]]),
       );
@@ -1107,10 +1158,10 @@ function __c0(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           hyperdriveId: S.String.pipe(T.Label("hyperdrive_id")),
-          caching: S.optional(__S(0, __c0, 0)),
-          mtls: S.optional(__S(32, __c4, 0)),
+          caching: S.optional(__S(8, __c1, 0)),
+          mtls: S.optional(__S(40, __c5, 0)),
           name: S.optional(S.String),
-          origin: S.optional(__S(1, __c0, 1)),
+          origin: S.optional(__S(9, __c1, 1)),
           originConnectionLimit: S.optional(S.Number.pipe(T.Body("origin_connection_limit"))),
         })
           .pipe(
@@ -1134,13 +1185,13 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          caching: __S(40, __c5, 0),
+          caching: __S(48, __c6, 0),
           name: S.String,
-          origin: __S(3, __c0, 3),
+          origin: __S(11, __c1, 3),
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          integration: S.optional(S.NullOr(__S(41, __c5, 1))),
+          integration: S.optional(S.NullOr(__S(49, __c6, 1))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          mtls: S.optional(S.NullOr(__S(42, __c5, 2))),
+          mtls: S.optional(S.NullOr(__S(50, __c6, 2))),
           originConnectionLimit: S.optional(
             S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
           ),
@@ -1149,7 +1200,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "PatchConfigResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1186,13 +1237,13 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          caching: __S(40, __c5, 0),
+          caching: __S(48, __c6, 0),
           name: S.String,
-          origin: __S(9, __c1, 1),
+          origin: __S(17, __c2, 1),
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          integration: S.optional(S.NullOr(__S(41, __c5, 1))),
+          integration: S.optional(S.NullOr(__S(49, __c6, 1))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          mtls: S.optional(S.NullOr(__S(42, __c5, 2))),
+          mtls: S.optional(S.NullOr(__S(50, __c6, 2))),
           originConnectionLimit: S.optional(
             S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
           ),
@@ -1201,7 +1252,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "RestartConfigResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -1229,9 +1280,9 @@ function __c2(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           hyperdriveId: S.String.pipe(T.Label("hyperdrive_id")),
           name: S.String,
-          origin: __S(16, __c2, 0),
-          caching: S.optional(__S(17, __c2, 1)),
-          mtls: S.optional(__S(32, __c4, 0)),
+          origin: __S(24, __c3, 0),
+          caching: S.optional(__S(25, __c3, 1)),
+          mtls: S.optional(__S(40, __c5, 0)),
           originConnectionLimit: S.optional(S.Number.pipe(T.Body("origin_connection_limit"))),
         })
           .pipe(
@@ -1255,13 +1306,13 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          caching: __S(40, __c5, 0),
+          caching: __S(48, __c6, 0),
           name: S.String,
-          origin: __S(19, __c2, 3),
+          origin: __S(27, __c3, 3),
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          integration: S.optional(S.NullOr(__S(41, __c5, 1))),
+          integration: S.optional(S.NullOr(__S(49, __c6, 1))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          mtls: S.optional(S.NullOr(__S(42, __c5, 2))),
+          mtls: S.optional(S.NullOr(__S(50, __c6, 2))),
           originConnectionLimit: S.optional(
             S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
           ),
@@ -1270,7 +1321,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UpdateConfigResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -1285,9 +1336,9 @@ function __c3(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           name: S.String,
           origin: S.optional(S.Unknown),
-          caching: S.optional(__S(24, __c3, 0)),
+          caching: S.optional(__S(32, __c4, 0)),
           integration: S.optional(S.Unknown),
-          mtls: S.optional(__S(32, __c4, 0)),
+          mtls: S.optional(__S(40, __c5, 0)),
           originConnectionLimit: S.optional(S.Number.pipe(T.Body("origin_connection_limit"))),
         })
           .pipe(
@@ -1307,13 +1358,13 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          caching: __S(40, __c5, 0),
+          caching: __S(48, __c6, 0),
           name: S.String,
-          origin: __S(26, __c3, 2),
+          origin: __S(34, __c4, 2),
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          integration: S.optional(S.NullOr(__S(41, __c5, 1))),
+          integration: S.optional(S.NullOr(__S(49, __c6, 1))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          mtls: S.optional(S.NullOr(__S(42, __c5, 2))),
+          mtls: S.optional(S.NullOr(__S(50, __c6, 2))),
           originConnectionLimit: S.optional(
             S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
           ),
@@ -1322,7 +1373,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateConfigResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1334,7 +1385,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ConfigsCreateRequestMtls" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1367,7 +1418,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ConfigsCreateResponseMtls" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1390,7 +1441,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteConfigResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1419,69 +1470,19 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          caching: __S(40, __c5, 0),
+          caching: __S(48, __c6, 0),
           name: S.String,
-          origin: __S(57, __c7, 1),
+          origin: __S(65, __c8, 1),
           createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          integration: S.optional(S.NullOr(__S(41, __c5, 1))),
+          integration: S.optional(S.NullOr(__S(49, __c6, 1))),
           modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          mtls: S.optional(S.NullOr(__S(42, __c5, 2))),
+          mtls: S.optional(S.NullOr(__S(50, __c6, 2))),
           originConnectionLimit: S.optional(
             S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
           ),
           restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetConfigResponse" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          page: S.optional(S.Number.pipe(T.Query())),
-          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
-        })
-          .pipe(
-            T.Http({ method: "GET", uri: "/accounts/{account_id}/hyperdrive/configs", code: 200 }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ListConfigsRequest" });
-    case 1:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          ["database", "host", "port", "scheme", "user"],
-          ["accessClientId", "accessClientSecret", "database", "host", "scheme", "user"],
-          ["database", "scheme", "serviceId", "user"],
-        ]),
-      );
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          caching: __S(40, __c5, 0),
-          name: S.String,
-          origin: __S(65, __c8, 1),
-          createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
-          integration: S.optional(S.NullOr(__S(41, __c5, 1))),
-          modifiedOn: S.optional(S.NullOr(S.String).pipe(T.Body("modified_on"))),
-          mtls: S.optional(S.NullOr(__S(42, __c5, 2))),
-          originConnectionLimit: S.optional(
-            S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
-          ),
-          restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
-        }),
-      ).annotate({ identifier: "ConfigsListResultItem" });
-    case 3:
-      return S.Array(__S(66, __c8, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          result: __S(67, __c8, 3).pipe(T.EnvelopePayload()),
-          resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "ListConfigsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

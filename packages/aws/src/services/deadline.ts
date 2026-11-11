@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -124,7 +125,7 @@ export class DeadlineRoleNotAssumable
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(1825, __c57, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(1857, __c58, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -211,7 +212,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(1825, __c57, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(1857, __c58, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -233,7 +234,7 @@ export interface AssociateMemberToFarmRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToFarmResponse {}
 export type FleetId = string;
@@ -244,7 +245,7 @@ export interface AssociateMemberToFleetRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToFleetResponse {}
 export type QueueId = string;
@@ -257,7 +258,7 @@ export interface AssociateMemberToJobRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToJobResponse {}
 export interface AssociateMemberToQueueRequest {
@@ -267,7 +268,7 @@ export interface AssociateMemberToQueueRequest {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
   principalId: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
 }
 export interface AssociateMemberToQueueResponse {}
 export interface AssumeFleetRoleForReadRequest {
@@ -316,7 +317,7 @@ export interface AssumeQueueRoleForWorkerRequest {
   queueId: string;
 }
 export interface AssumeQueueRoleForWorkerResponse {
-  credentials?: AwsCredentials;
+  credentials?: AwsCredentials | undefined;
 }
 export interface BatchGetJobIdentifier {
   farmId: string;
@@ -368,7 +369,7 @@ export type JobTargetTaskRunStatus =
   | "SUSPENDED"
   | "PENDING"
   | (string & {});
-export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number };
+export type TaskRunStatusCounts = { [key in TaskRunStatus]?: number | undefined };
 export type TaskFailureRetryCount = number;
 export type StorageProfileId = string;
 export type MaxFailedTasksCount = number;
@@ -389,170 +390,170 @@ export type IntStringListList = string[][];
 export type JobParameter =
   | {
       int: string;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
+      int?: undefined;
       float: string;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
+      int?: undefined;
+      float?: undefined;
       string: string;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
       path: string;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
       bool: string;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
       rangeExpr: string;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
       stringList: string[];
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
       pathList: string[];
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
       intList: string[];
-      floatList?: never;
-      boolList?: never;
-      intListList?: never;
+      floatList?: undefined;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
       floatList: string[];
-      boolList?: never;
-      intListList?: never;
+      boolList?: undefined;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
       boolList: string[];
-      intListList?: never;
+      intListList?: undefined;
     }
   | {
-      int?: never;
-      float?: never;
-      string?: never;
-      path?: never;
-      bool?: never;
-      rangeExpr?: never;
-      stringList?: never;
-      pathList?: never;
-      intList?: never;
-      floatList?: never;
-      boolList?: never;
+      int?: undefined;
+      float?: undefined;
+      string?: undefined;
+      path?: undefined;
+      bool?: undefined;
+      rangeExpr?: undefined;
+      stringList?: undefined;
+      pathList?: undefined;
+      intList?: undefined;
+      floatList?: undefined;
+      boolList?: undefined;
       intListList: string[][];
     };
 export type JobParameters = { [key: string]: JobParameter | undefined };
@@ -560,18 +561,18 @@ export type FileSystemLocationName = string;
 export type PathFormat = "windows" | "posix" | (string & {});
 export type OutputRelativeDirectoriesList = string[];
 export interface ManifestProperties {
-  fileSystemLocationName?: string;
+  fileSystemLocationName?: string | undefined;
   rootPath: string;
   rootPathFormat: PathFormat;
-  outputRelativeDirectories?: string[];
-  inputManifestPath?: string;
-  inputManifestHash?: string;
+  outputRelativeDirectories?: string[] | undefined;
+  inputManifestPath?: string | undefined;
+  inputManifestHash?: string | undefined;
 }
 export type ManifestPropertiesList = ManifestProperties[];
 export type JobAttachmentsFileSystem = "COPIED" | "VIRTUAL" | (string & {});
 export interface Attachments {
   manifests: ManifestProperties[];
-  fileSystem?: JobAttachmentsFileSystem;
+  fileSystem?: JobAttachmentsFileSystem | undefined;
 }
 export type JobDescription = string | redacted.Redacted<string>;
 export type MaxWorkerCount = number;
@@ -585,22 +586,22 @@ export interface BatchGetJobItem {
   priority: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  storageProfileId?: string;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  parameters?: { [key: string]: JobParameter | undefined };
-  attachments?: Attachments;
-  description?: string | redacted.Redacted<string>;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  storageProfileId?: string | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
+  attachments?: Attachments | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export type BatchGetJobItems = BatchGetJobItem[];
 export type BatchGetJobErrorCode =
@@ -641,26 +642,26 @@ export interface EnvironmentDetailsIdentifiers {
 export type JobEntityIdentifiersUnion =
   | {
       jobDetails: JobDetailsIdentifiers;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsIdentifiers;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsIdentifiers;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsIdentifiers;
     };
 export type JobEntityIdentifiers = JobEntityIdentifiersUnion[];
@@ -686,8 +687,8 @@ export interface WindowsUser {
 }
 export type RunAs = "QUEUE_CONFIGURED_USER" | "WORKER_AGENT_USER" | (string & {});
 export interface JobRunAsUser {
-  posix?: PosixUser;
-  windows?: WindowsUser;
+  posix?: PosixUser | undefined;
+  windows?: WindowsUser | undefined;
   runAs: RunAs;
 }
 export type IamRoleArn = string;
@@ -701,14 +702,14 @@ export interface PathMappingRule {
 export type PathMappingRules = PathMappingRule[];
 export interface JobDetailsEntity {
   jobId: string;
-  jobAttachmentSettings?: JobDetailsJobAttachmentSettings;
-  jobRunAsUser?: JobRunAsUser;
+  jobAttachmentSettings?: JobDetailsJobAttachmentSettings | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
   logGroupName: string;
-  queueRoleArn?: string;
-  parameters?: { [key: string]: JobParameter | undefined };
+  queueRoleArn?: string | undefined;
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
   schemaVersion: string;
-  extensions?: string[];
-  pathMappingRules?: PathMappingRule[];
+  extensions?: string[] | undefined;
+  pathMappingRules?: PathMappingRule[] | undefined;
 }
 export interface JobAttachmentDetailsEntity {
   jobId: string;
@@ -723,40 +724,40 @@ export interface StepDetailsEntity {
   schemaVersion: string;
   template: any;
   dependencies: string[];
-  extensions?: string[];
-  resolvedSymbolTable?: string;
+  extensions?: string[] | undefined;
+  resolvedSymbolTable?: string | undefined;
 }
 export interface EnvironmentDetailsEntity {
   jobId: string;
   environmentId: string;
   schemaVersion: string;
   template: any;
-  extensions?: string[];
-  resolvedSymbolTable?: string;
+  extensions?: string[] | undefined;
+  resolvedSymbolTable?: string | undefined;
 }
 export type JobEntity =
   | {
       jobDetails: JobDetailsEntity;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsEntity;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsEntity;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsEntity;
     };
 export type BatchGetJobEntityList = JobEntity[];
@@ -793,26 +794,26 @@ export interface EnvironmentDetailsError {
 export type GetJobEntityError =
   | {
       jobDetails: JobDetailsError;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
-      environmentDetails?: never;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
+      jobDetails?: undefined;
       jobAttachmentDetails: JobAttachmentDetailsError;
-      stepDetails?: never;
-      environmentDetails?: never;
+      stepDetails?: undefined;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
       stepDetails: StepDetailsError;
-      environmentDetails?: never;
+      environmentDetails?: undefined;
     }
   | {
-      jobDetails?: never;
-      jobAttachmentDetails?: never;
-      stepDetails?: never;
+      jobDetails?: undefined;
+      jobAttachmentDetails?: undefined;
+      stepDetails?: undefined;
       environmentDetails: EnvironmentDetailsError;
     };
 export type BatchGetJobEntityErrors = GetJobEntityError[];
@@ -845,25 +846,25 @@ export type LogParameters = { [key: string]: string | undefined };
 export type LogError = string;
 export interface LogConfiguration {
   logDriver: string;
-  options?: { [key: string]: string | undefined };
-  parameters?: { [key: string]: string | undefined };
-  error?: string;
+  options?: { [key: string]: string | undefined } | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  error?: string | undefined;
 }
 export type IpV4Address = string;
 export type IpV4Addresses = string[];
 export type IpV6Address = string;
 export type IpV6Addresses = string[];
 export interface IpAddresses {
-  ipV4Addresses?: string[];
-  ipV6Addresses?: string[];
+  ipV4Addresses?: string[] | undefined;
+  ipV6Addresses?: string[] | undefined;
 }
 export type HostName = string;
 export type InstanceType = string;
 export interface HostPropertiesResponse {
-  ipAddresses?: IpAddresses;
-  hostName?: string;
-  ec2InstanceArn?: string;
-  ec2InstanceType?: string;
+  ipAddresses?: IpAddresses | undefined;
+  hostName?: string | undefined;
+  ec2InstanceArn?: string | undefined;
+  ec2InstanceType?: string | undefined;
 }
 export interface BatchGetSessionItem {
   farmId: string;
@@ -874,13 +875,13 @@ export interface BatchGetSessionItem {
   workerId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
-  updatedAt?: Date;
-  updatedBy?: string;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   log: LogConfiguration;
-  hostProperties?: HostPropertiesResponse;
-  workerLog?: LogConfiguration;
+  hostProperties?: HostPropertiesResponse | undefined;
+  workerLog?: LogConfiguration | undefined;
 }
 export type BatchGetSessionItems = BatchGetSessionItem[];
 export type BatchGetSessionErrorCode =
@@ -927,8 +928,8 @@ export type SessionActionStatus =
   | (string & {});
 export type SessionActionProgressPercent = number;
 export interface TaskRunManifestPropertiesResponse {
-  outputManifestPath?: string;
-  outputManifestHash?: string;
+  outputManifestPath?: string | undefined;
+  outputManifestHash?: string | undefined;
 }
 export type TaskRunManifestPropertiesListResponse = TaskRunManifestPropertiesResponse[];
 export type ProcessExitCode = number;
@@ -948,43 +949,43 @@ export interface EnvironmentExitSessionActionDefinition {
 }
 export type TaskId = string;
 export type TaskParameterValue =
-  | { int: string; float?: never; string?: never; path?: never; chunkInt?: never }
-  | { int?: never; float: string; string?: never; path?: never; chunkInt?: never }
-  | { int?: never; float?: never; string: string; path?: never; chunkInt?: never }
-  | { int?: never; float?: never; string?: never; path: string; chunkInt?: never }
-  | { int?: never; float?: never; string?: never; path?: never; chunkInt: string };
+  | { int: string; float?: undefined; string?: undefined; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float: string; string?: undefined; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string: string; path?: undefined; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string?: undefined; path: string; chunkInt?: undefined }
+  | { int?: undefined; float?: undefined; string?: undefined; path?: undefined; chunkInt: string };
 export type TaskParameters = { [key: string]: TaskParameterValue | undefined };
 export interface TaskRunSessionActionDefinition {
-  taskId?: string;
+  taskId?: string | undefined;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
 export interface SyncInputJobAttachmentsSessionActionDefinition {
-  stepId?: string;
+  stepId?: string | undefined;
 }
 export type SessionActionDefinition =
   | {
       envEnter: EnvironmentEnterSessionActionDefinition;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: EnvironmentExitSessionActionDefinition;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: TaskRunSessionActionDefinition;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinition;
     };
 export interface BatchGetSessionActionItem {
@@ -993,15 +994,15 @@ export interface BatchGetSessionActionItem {
   jobId: string;
   sessionActionId: string;
   status: SessionActionStatus;
-  startedAt?: Date;
-  endedAt?: Date;
-  workerUpdatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesResponse[];
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  workerUpdatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesResponse[] | undefined;
   sessionId: string;
-  processExitCode?: number;
-  progressMessage?: string | redacted.Redacted<string>;
-  acquiredLimits?: AcquiredLimit[];
+  processExitCode?: number | undefined;
+  progressMessage?: string | redacted.Redacted<string> | undefined;
+  acquiredLimits?: AcquiredLimit[] | undefined;
   definition: SessionActionDefinition;
 }
 export type BatchGetSessionActionItems = BatchGetSessionActionItem[];
@@ -1059,16 +1060,16 @@ export type AttributeCapabilityValue = string;
 export type ListAttributeCapabilityValue = string[];
 export interface StepAttributeCapability {
   name: string;
-  anyOf?: string[];
-  allOf?: string[];
+  anyOf?: string[] | undefined;
+  allOf?: string[] | undefined;
 }
 export type StepAttributeCapabilities = StepAttributeCapability[];
 export type AmountCapabilityName = string;
 export interface StepAmountCapability {
   name: string;
-  min?: number;
-  max?: number;
-  value?: number;
+  min?: number | undefined;
+  max?: number | undefined;
+  value?: number | undefined;
 }
 export type StepAmountCapabilities = StepAmountCapability[];
 export interface StepRequiredCapabilities {
@@ -1082,19 +1083,19 @@ export type TargetRuntimeSeconds = number;
 export type RangeConstraint = "CONTIGUOUS" | "NONCONTIGUOUS" | (string & {});
 export interface StepParameterChunks {
   defaultTaskCount: number;
-  targetRuntimeSeconds?: number;
+  targetRuntimeSeconds?: number | undefined;
   rangeConstraint: RangeConstraint;
 }
 export interface StepParameter {
   name: string;
   type: StepParameterType;
-  chunks?: StepParameterChunks;
+  chunks?: StepParameterChunks | undefined;
 }
 export type StepParameterList = StepParameter[];
 export type CombinationExpression = string;
 export interface ParameterSpace {
   parameters: StepParameter[];
-  combination?: string;
+  combination?: string | undefined;
 }
 export type StepDescription = string | redacted.Redacted<string>;
 export interface BatchGetStepItem {
@@ -1104,21 +1105,21 @@ export interface BatchGetStepItem {
   stepId: string;
   name: string;
   lifecycleStatus: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
+  lifecycleStatusMessage?: string | undefined;
   taskRunStatus: TaskRunStatus;
   taskRunStatusCounts: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
+  taskFailureRetryCount?: number | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  dependencyCounts?: DependencyCounts;
-  requiredCapabilities?: StepRequiredCapabilities;
-  parameterSpace?: ParameterSpace;
-  description?: string | redacted.Redacted<string>;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  dependencyCounts?: DependencyCounts | undefined;
+  requiredCapabilities?: StepRequiredCapabilities | undefined;
+  parameterSpace?: ParameterSpace | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BatchGetStepItems = BatchGetStepItem[];
 export type BatchGetStepErrorCode =
@@ -1170,14 +1171,14 @@ export interface BatchGetTaskItem {
   createdAt: Date;
   createdBy: string;
   runStatus: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export type BatchGetTaskItems = BatchGetTaskItem[];
 export type BatchGetTaskErrorCode =
@@ -1224,13 +1225,13 @@ export interface BatchGetWorkerItem {
   farmId: string;
   fleetId: string;
   workerId: string;
-  hostProperties?: HostPropertiesResponse;
+  hostProperties?: HostPropertiesResponse | undefined;
   status: WorkerStatus;
-  log?: LogConfiguration;
+  log?: LogConfiguration | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type BatchGetWorkerItems = BatchGetWorkerItem[];
 export type BatchGetWorkerErrorCode =
@@ -1257,18 +1258,18 @@ export interface BatchUpdateJobItem {
   farmId: string;
   queueId: string;
   jobId: string;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  priority?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  lifecycleStatus?: UpdateJobLifecycleStatus;
-  maxWorkerCount?: number;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  priority?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  lifecycleStatus?: UpdateJobLifecycleStatus | undefined;
+  maxWorkerCount?: number | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BatchUpdateJobItems = BatchUpdateJobItem[];
 export interface BatchUpdateJobRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   jobs: BatchUpdateJobItem[];
 }
 export type BatchUpdateJobErrorCode =
@@ -1300,7 +1301,7 @@ export interface BatchUpdateTaskItem {
 }
 export type BatchUpdateTaskItems = BatchUpdateTaskItem[];
 export interface BatchUpdateTaskRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   tasks: BatchUpdateTaskItem[];
 }
 export type BatchUpdateTaskErrorCode =
@@ -1351,7 +1352,7 @@ export type ThresholdPercentage = number;
 export interface BudgetActionToAdd {
   type: BudgetActionType;
   thresholdPercentage: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BudgetActionsToAdd = BudgetActionToAdd[];
 export type StartsAt = Date;
@@ -1365,13 +1366,13 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateBudgetRequest {
   farmId: string;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
   usageTrackingResource: UsageTrackingResource;
   approximateDollarLimit: number;
   actions: BudgetActionToAdd[];
   schedule: BudgetSchedule;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BudgetId = string;
 export interface CreateBudgetResponse {
@@ -1380,12 +1381,12 @@ export interface CreateBudgetResponse {
 export type KmsKeyArn = string;
 export type CostScaleFactor = number;
 export interface CreateFarmRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
-  kmsKeyArn?: string;
-  costScaleFactor?: number;
-  tags?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  kmsKeyArn?: string | undefined;
+  costScaleFactor?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFarmResponse {
   farmId: string;
@@ -1393,29 +1394,29 @@ export interface CreateFarmResponse {
 export type MinZeroMaxInteger = number;
 export type AutoScalingMode = "NO_SCALING" | "EVENT_BASED_AUTO_SCALING" | (string & {});
 export interface CustomerManagedAutoScalingConfiguration {
-  standbyWorkerCount?: number;
-  workerIdleDurationSeconds?: number;
-  scaleOutWorkersPerMinute?: number;
+  standbyWorkerCount?: number | undefined;
+  workerIdleDurationSeconds?: number | undefined;
+  scaleOutWorkersPerMinute?: number | undefined;
 }
 export type MinOneMaxTenThousand = number;
 export interface VCpuCountRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type MemoryAmountMiB = number;
 export interface MemoryMiBRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type AcceleratorType = "gpu" | (string & {});
 export type AcceleratorTypes = AcceleratorType[];
 export interface AcceleratorCountRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export interface AcceleratorTotalMemoryMiBRange {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type CustomerManagedFleetOperatingSystemFamily =
   | "WINDOWS"
@@ -1426,7 +1427,7 @@ export type CpuArchitectureType = "x86_64" | "arm64" | (string & {});
 export interface FleetAmountCapability {
   name: string;
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type CustomFleetAmountCapabilities = FleetAmountCapability[];
 export type AttributeCapabilityValuesList = string[];
@@ -1438,13 +1439,13 @@ export type CustomFleetAttributeCapabilities = FleetAttributeCapability[];
 export interface CustomerManagedWorkerCapabilities {
   vCpuCount: VCpuCountRange;
   memoryMiB: MemoryMiBRange;
-  acceleratorTypes?: AcceleratorType[];
-  acceleratorCount?: AcceleratorCountRange;
-  acceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRange;
+  acceleratorTypes?: AcceleratorType[] | undefined;
+  acceleratorCount?: AcceleratorCountRange | undefined;
+  acceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRange | undefined;
   osFamily: CustomerManagedFleetOperatingSystemFamily;
   cpuArchitectureType: CpuArchitectureType;
-  customAmounts?: FleetAmountCapability[];
-  customAttributes?: FleetAttributeCapability[];
+  customAmounts?: FleetAmountCapability[] | undefined;
+  customAttributes?: FleetAttributeCapability[] | undefined;
 }
 export type TagPropagationMode =
   | "NO_PROPAGATION"
@@ -1452,29 +1453,29 @@ export type TagPropagationMode =
   | (string & {});
 export interface CustomerManagedFleetConfiguration {
   mode: AutoScalingMode;
-  autoScalingConfiguration?: CustomerManagedAutoScalingConfiguration;
+  autoScalingConfiguration?: CustomerManagedAutoScalingConfiguration | undefined;
   workerCapabilities: CustomerManagedWorkerCapabilities;
-  storageProfileId?: string;
-  tagPropagationMode?: TagPropagationMode;
+  storageProfileId?: string | undefined;
+  tagPropagationMode?: TagPropagationMode | undefined;
 }
 export type ServiceManagedFleetOperatingSystemFamily = "WINDOWS" | "LINUX" | (string & {});
 export type EbsIops = number;
 export type EbsThroughputMiB = number;
 export interface Ec2EbsVolume {
-  sizeGiB?: number;
-  iops?: number;
-  throughputMiB?: number;
+  sizeGiB?: number | undefined;
+  iops?: number | undefined;
+  throughputMiB?: number | undefined;
 }
 export type AcceleratorName = "t4" | "a10g" | "l4" | "l40s" | "rtx-pro-server-6000" | (string & {});
 export type AcceleratorRuntime = string;
 export interface AcceleratorSelection {
   name: AcceleratorName;
-  runtime?: string;
+  runtime?: string | undefined;
 }
 export type AcceleratorSelections = AcceleratorSelection[];
 export interface AcceleratorCapabilities {
   selections: AcceleratorSelection[];
-  count?: AcceleratorCountRange;
+  count?: AcceleratorCountRange | undefined;
 }
 export type InstanceTypes = string[];
 export type FleetSoftwareAddOnName = "docker" | (string & {});
@@ -1487,13 +1488,13 @@ export interface ServiceManagedEc2InstanceCapabilities {
   memoryMiB: MemoryMiBRange;
   osFamily: ServiceManagedFleetOperatingSystemFamily;
   cpuArchitectureType: CpuArchitectureType;
-  rootEbsVolume?: Ec2EbsVolume;
-  acceleratorCapabilities?: AcceleratorCapabilities;
-  allowedInstanceTypes?: string[];
-  excludedInstanceTypes?: string[];
-  customAmounts?: FleetAmountCapability[];
-  customAttributes?: FleetAttributeCapability[];
-  softwareAddOns?: FleetSoftwareAddOn[];
+  rootEbsVolume?: Ec2EbsVolume | undefined;
+  acceleratorCapabilities?: AcceleratorCapabilities | undefined;
+  allowedInstanceTypes?: string[] | undefined;
+  excludedInstanceTypes?: string[] | undefined;
+  customAmounts?: FleetAmountCapability[] | undefined;
+  customAttributes?: FleetAttributeCapability[] | undefined;
+  softwareAddOns?: FleetSoftwareAddOn[] | undefined;
 }
 export type Ec2MarketType = "on-demand" | "spot" | "wait-and-save" | (string & {});
 export interface ServiceManagedEc2InstanceMarketOptions {
@@ -1502,7 +1503,7 @@ export interface ServiceManagedEc2InstanceMarketOptions {
 export type VpcResourceConfigurationArn = string;
 export type VpcResourceConfigurationArns = string[];
 export interface VpcConfiguration {
-  resourceConfigurationArns?: string[];
+  resourceConfigurationArns?: string[] | undefined;
 }
 export type PersistentVolumeSizeGiB = number;
 export type PersistentVolumeIops = number;
@@ -1510,46 +1511,46 @@ export type PersistentVolumeThroughputMiB = number;
 export type MountPath = string;
 export type PersistentVolumeTtlHours = number;
 export interface PersistentVolumeConfiguration {
-  sizeGiB?: number;
-  iops?: number;
-  throughputMiB?: number;
+  sizeGiB?: number | undefined;
+  iops?: number | undefined;
+  throughputMiB?: number | undefined;
   mountPath: string;
-  lastUsedTtlHours?: number;
+  lastUsedTtlHours?: number | undefined;
 }
 export type ServiceManagedEc2WorkerIdleDurationSeconds = number;
 export interface ServiceManagedEc2AutoScalingConfiguration {
-  standbyWorkerCount?: number;
-  workerIdleDurationSeconds?: number;
-  scaleOutWorkersPerMinute?: number;
+  standbyWorkerCount?: number | undefined;
+  workerIdleDurationSeconds?: number | undefined;
+  scaleOutWorkersPerMinute?: number | undefined;
 }
 export interface ServiceManagedEc2FleetConfiguration {
   instanceCapabilities: ServiceManagedEc2InstanceCapabilities;
   instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions;
-  vpcConfiguration?: VpcConfiguration;
-  storageProfileId?: string;
-  persistentVolumeConfiguration?: PersistentVolumeConfiguration;
-  autoScalingConfiguration?: ServiceManagedEc2AutoScalingConfiguration;
+  vpcConfiguration?: VpcConfiguration | undefined;
+  storageProfileId?: string | undefined;
+  persistentVolumeConfiguration?: PersistentVolumeConfiguration | undefined;
+  autoScalingConfiguration?: ServiceManagedEc2AutoScalingConfiguration | undefined;
 }
 export type FleetConfiguration =
-  | { customerManaged: CustomerManagedFleetConfiguration; serviceManagedEc2?: never }
-  | { customerManaged?: never; serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
+  | { customerManaged: CustomerManagedFleetConfiguration; serviceManagedEc2?: undefined }
+  | { customerManaged?: undefined; serviceManagedEc2: ServiceManagedEc2FleetConfiguration };
 export type HostConfigurationScript = string | redacted.Redacted<string>;
 export type HostConfigurationScriptTimeoutSeconds = number;
 export interface HostConfiguration {
   scriptBody: string | redacted.Redacted<string>;
-  scriptTimeoutSeconds?: number;
+  scriptTimeoutSeconds?: number | undefined;
 }
 export interface CreateFleetRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   roleArn: string;
-  minWorkerCount?: number;
+  minWorkerCount?: number | undefined;
   maxWorkerCount: number;
   configuration: FleetConfiguration;
-  tags?: { [key: string]: string | undefined };
-  hostConfiguration?: HostConfiguration;
+  tags?: { [key: string]: string | undefined } | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
 }
 export interface CreateFleetResponse {
   fleetId: string;
@@ -1559,21 +1560,21 @@ export type CreateJobTargetTaskRunStatus = "READY" | "SUSPENDED" | (string & {})
 export interface CreateJobRequest {
   farmId: string;
   queueId: string;
-  clientToken?: string;
-  template?: string | redacted.Redacted<string>;
-  templateType?: JobTemplateType;
+  clientToken?: string | undefined;
+  template?: string | redacted.Redacted<string> | undefined;
+  templateType?: JobTemplateType | undefined;
   priority: number;
-  parameters?: { [key: string]: JobParameter | undefined };
-  attachments?: Attachments;
-  storageProfileId?: string;
-  targetTaskRunStatus?: CreateJobTargetTaskRunStatus;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
-  nameOverride?: string;
-  descriptionOverride?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
+  attachments?: Attachments | undefined;
+  storageProfileId?: string | undefined;
+  targetTaskRunStatus?: CreateJobTargetTaskRunStatus | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
+  nameOverride?: string | undefined;
+  descriptionOverride?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateJobResponse {
   jobId: string;
@@ -1584,11 +1585,11 @@ export type SubnetIdList = string[];
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
 export interface CreateLicenseEndpointRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type LicenseEndpointId = string;
 export interface CreateLicenseEndpointResponse {
@@ -1598,11 +1599,11 @@ export type AmountRequirementName = string;
 export type MaxCount = number;
 export interface CreateLimitRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
   amountRequirementName: string;
   maxCount: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateLimitResponse {
   limitId: string;
@@ -1610,13 +1611,13 @@ export interface CreateLimitResponse {
 export type IdentityCenterInstanceArn = string;
 export type Subdomain = string;
 export interface CreateMonitorRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
   identityCenterInstanceArn: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
   subdomain: string;
   roleArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MonitorId = string;
 export type IdentityCenterApplicationArn = string;
@@ -1638,7 +1639,7 @@ export type AllowedStorageProfileIds = string[];
 export interface PriorityFifoSchedulingConfiguration {}
 export type SchedulingRenderingTaskBuffer = number;
 export interface PriorityBalancedSchedulingConfiguration {
-  renderingTaskBuffer?: number;
+  renderingTaskBuffer?: number | undefined;
 }
 export type SchedulingPriorityWeight = number;
 export type SchedulingErrorWeight = number;
@@ -1653,43 +1654,43 @@ export type SchedulingMinPriorityOverride = {
   alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast;
 };
 export interface WeightedBalancedSchedulingConfiguration {
-  priorityWeight?: number;
-  errorWeight?: number;
-  submissionTimeWeight?: number;
-  renderingTaskWeight?: number;
-  renderingTaskBuffer?: number;
-  maxPriorityOverride?: SchedulingMaxPriorityOverride;
-  minPriorityOverride?: SchedulingMinPriorityOverride;
+  priorityWeight?: number | undefined;
+  errorWeight?: number | undefined;
+  submissionTimeWeight?: number | undefined;
+  renderingTaskWeight?: number | undefined;
+  renderingTaskBuffer?: number | undefined;
+  maxPriorityOverride?: SchedulingMaxPriorityOverride | undefined;
+  minPriorityOverride?: SchedulingMinPriorityOverride | undefined;
 }
 export type SchedulingConfiguration =
   | {
       priorityFifo: PriorityFifoSchedulingConfiguration;
-      priorityBalanced?: never;
-      weightedBalanced?: never;
+      priorityBalanced?: undefined;
+      weightedBalanced?: undefined;
     }
   | {
-      priorityFifo?: never;
+      priorityFifo?: undefined;
       priorityBalanced: PriorityBalancedSchedulingConfiguration;
-      weightedBalanced?: never;
+      weightedBalanced?: undefined;
     }
   | {
-      priorityFifo?: never;
-      priorityBalanced?: never;
+      priorityFifo?: undefined;
+      priorityBalanced?: undefined;
       weightedBalanced: WeightedBalancedSchedulingConfiguration;
     };
 export interface CreateQueueRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
-  description?: string | redacted.Redacted<string>;
-  defaultBudgetAction?: DefaultQueueBudgetAction;
-  jobAttachmentSettings?: JobAttachmentSettings;
-  roleArn?: string;
-  jobRunAsUser?: JobRunAsUser;
-  requiredFileSystemLocationNames?: string[];
-  allowedStorageProfileIds?: string[];
-  tags?: { [key: string]: string | undefined };
-  schedulingConfiguration?: SchedulingConfiguration;
+  description?: string | redacted.Redacted<string> | undefined;
+  defaultBudgetAction?: DefaultQueueBudgetAction | undefined;
+  jobAttachmentSettings?: JobAttachmentSettings | undefined;
+  roleArn?: string | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
+  requiredFileSystemLocationNames?: string[] | undefined;
+  allowedStorageProfileIds?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  schedulingConfiguration?: SchedulingConfiguration | undefined;
 }
 export interface CreateQueueResponse {
   queueId: string;
@@ -1700,7 +1701,7 @@ export type EnvironmentTemplate = string | redacted.Redacted<string>;
 export interface CreateQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   priority: number;
   templateType: EnvironmentTemplateType;
   template: string | redacted.Redacted<string>;
@@ -1731,24 +1732,24 @@ export interface FileSystemLocation {
 export type FileSystemLocationsList = FileSystemLocation[];
 export interface CreateStorageProfileRequest {
   farmId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   displayName: string;
   osFamily: StorageProfileOperatingSystemFamily;
-  fileSystemLocations?: FileSystemLocation[];
+  fileSystemLocations?: FileSystemLocation[] | undefined;
 }
 export interface CreateStorageProfileResponse {
   storageProfileId: string;
 }
 export interface HostPropertiesRequest {
-  ipAddresses?: IpAddresses;
-  hostName?: string;
+  ipAddresses?: IpAddresses | undefined;
+  hostName?: string | undefined;
 }
 export interface CreateWorkerRequest {
   farmId: string;
   fleetId: string;
-  hostProperties?: HostPropertiesRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  hostProperties?: HostPropertiesRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateWorkerResponse {
   workerId: string;
@@ -1765,7 +1766,7 @@ export interface DeleteFarmResponse {}
 export interface DeleteFleetRequest {
   farmId: string;
   fleetId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteFleetResponse {}
 export interface DeleteLicenseEndpointRequest {
@@ -1863,7 +1864,7 @@ export interface ConsumedUsages {
 export interface ResponseBudgetAction {
   type: BudgetActionType;
   thresholdPercentage: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type ResponseBudgetActionList = ResponseBudgetAction[];
 export interface GetBudgetResponse {
@@ -1875,12 +1876,12 @@ export interface GetBudgetResponse {
   usages: ConsumedUsages;
   createdBy: string;
   createdAt: Date;
-  updatedBy?: string;
-  updatedAt?: Date;
-  description?: string | redacted.Redacted<string>;
+  updatedBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   actions: ResponseBudgetAction[];
   schedule: BudgetSchedule;
-  queueStoppedAt?: Date;
+  queueStoppedAt?: Date | undefined;
 }
 export interface GetFarmRequest {
   farmId: string;
@@ -1888,12 +1889,12 @@ export interface GetFarmRequest {
 export interface GetFarmResponse {
   farmId: string;
   displayName: string;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  description?: string | redacted.Redacted<string>;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
   costScaleFactor: number;
 }
 export interface GetFleetRequest {
@@ -1912,28 +1913,28 @@ export type AutoScalingStatus = "GROWING" | "STEADY" | "SHRINKING" | (string & {
 export type FleetAmountCapabilities = FleetAmountCapability[];
 export type FleetAttributeCapabilities = FleetAttributeCapability[];
 export interface FleetCapabilities {
-  amounts?: FleetAmountCapability[];
-  attributes?: FleetAttributeCapability[];
+  amounts?: FleetAmountCapability[] | undefined;
+  attributes?: FleetAttributeCapability[] | undefined;
 }
 export interface GetFleetResponse {
   fleetId: string;
   farmId: string;
   displayName: string;
   status: FleetStatus;
-  statusMessage?: string;
-  autoScalingStatus?: AutoScalingStatus;
-  targetWorkerCount?: number;
+  statusMessage?: string | undefined;
+  autoScalingStatus?: AutoScalingStatus | undefined;
+  targetWorkerCount?: number | undefined;
   workerCount: number;
   minWorkerCount: number;
   maxWorkerCount: number;
   configuration: FleetConfiguration;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  description?: string | redacted.Redacted<string>;
-  hostConfiguration?: HostConfiguration;
-  capabilities?: FleetCapabilities;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
+  capabilities?: FleetCapabilities | undefined;
   roleArn: string;
 }
 export interface GetJobRequest {
@@ -1949,22 +1950,22 @@ export interface GetJobResponse {
   priority: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  storageProfileId?: string;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  parameters?: { [key: string]: JobParameter | undefined };
-  attachments?: Attachments;
-  description?: string | redacted.Redacted<string>;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  storageProfileId?: string | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  parameters?: { [key: string]: JobParameter | undefined } | undefined;
+  attachments?: Attachments | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export interface GetLicenseEndpointRequest {
   licenseEndpointId: string;
@@ -1981,10 +1982,10 @@ export interface GetLicenseEndpointResponse {
   licenseEndpointId: string;
   status: LicenseEndpointStatus;
   statusMessage: string;
-  vpcId?: string;
-  dnsName?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
+  vpcId?: string | undefined;
+  dnsName?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export interface GetLimitRequest {
   farmId: string;
@@ -1996,12 +1997,12 @@ export interface GetLimitResponse {
   currentCount: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   displayName: string;
   amountRequirementName: string;
   maxCount: number;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMonitorRequest {
   monitorId: string;
@@ -2014,12 +2015,12 @@ export interface GetMonitorResponse {
   url: string;
   roleArn: string;
   identityCenterInstanceArn: string;
-  identityCenterRegion?: string;
+  identityCenterRegion?: string | undefined;
   identityCenterApplicationArn: string;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetMonitorSettingsRequest {
   monitorId: string;
@@ -2045,18 +2046,18 @@ export interface GetQueueResponse {
   displayName: string;
   status: QueueStatus;
   defaultBudgetAction: DefaultQueueBudgetAction;
-  blockedReason?: QueueBlockedReason;
+  blockedReason?: QueueBlockedReason | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  description?: string | redacted.Redacted<string>;
-  jobAttachmentSettings?: JobAttachmentSettings;
-  roleArn?: string;
-  requiredFileSystemLocationNames?: string[];
-  allowedStorageProfileIds?: string[];
-  jobRunAsUser?: JobRunAsUser;
-  schedulingConfiguration?: SchedulingConfiguration;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  jobAttachmentSettings?: JobAttachmentSettings | undefined;
+  roleArn?: string | undefined;
+  requiredFileSystemLocationNames?: string[] | undefined;
+  allowedStorageProfileIds?: string[] | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
+  schedulingConfiguration?: SchedulingConfiguration | undefined;
 }
 export interface GetQueueEnvironmentRequest {
   farmId: string;
@@ -2072,8 +2073,8 @@ export interface GetQueueEnvironmentResponse {
   template: string | redacted.Redacted<string>;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetQueueFleetAssociationRequest {
   farmId: string;
@@ -2092,8 +2093,8 @@ export interface GetQueueFleetAssociationResponse {
   status: QueueFleetAssociationStatus;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetQueueLimitAssociationRequest {
   farmId: string;
@@ -2112,8 +2113,8 @@ export interface GetQueueLimitAssociationResponse {
   status: QueueLimitAssociationStatus;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface GetSessionRequest {
   farmId: string;
@@ -2127,13 +2128,13 @@ export interface GetSessionResponse {
   workerId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
-  updatedAt?: Date;
-  updatedBy?: string;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   log: LogConfiguration;
-  hostProperties?: HostPropertiesResponse;
-  workerLog?: LogConfiguration;
+  hostProperties?: HostPropertiesResponse | undefined;
+  workerLog?: LogConfiguration | undefined;
 }
 export interface GetSessionActionRequest {
   farmId: string;
@@ -2144,15 +2145,15 @@ export interface GetSessionActionRequest {
 export interface GetSessionActionResponse {
   sessionActionId: string;
   status: SessionActionStatus;
-  startedAt?: Date;
-  endedAt?: Date;
-  workerUpdatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesResponse[];
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  workerUpdatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesResponse[] | undefined;
   sessionId: string;
-  processExitCode?: number;
-  progressMessage?: string | redacted.Redacted<string>;
-  acquiredLimits?: AcquiredLimit[];
+  processExitCode?: number | undefined;
+  progressMessage?: string | redacted.Redacted<string> | undefined;
+  acquiredLimits?: AcquiredLimit[] | undefined;
   definition: SessionActionDefinition;
 }
 export type NextToken = string;
@@ -2160,33 +2161,33 @@ export type MaxResults = number;
 export type AggregationId = string;
 export interface GetSessionsStatisticsAggregationRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   aggregationId: string;
 }
 export type UserId = string;
 export type UsageType = "COMPUTE" | "LICENSE" | "PERSISTENT_VOLUME" | (string & {});
 export type LicenseProduct = string;
 export interface Stats {
-  min?: number;
-  max?: number;
-  avg?: number;
-  sum?: number;
+  min?: number | undefined;
+  max?: number | undefined;
+  avg?: number | undefined;
+  sum?: number | undefined;
 }
 export interface Statistics {
-  queueId?: string;
-  fleetId?: string;
-  jobId?: string;
-  jobName?: string;
-  userId?: string;
-  usageType?: UsageType;
-  licenseProduct?: string;
-  instanceType?: string;
+  queueId?: string | undefined;
+  fleetId?: string | undefined;
+  jobId?: string | undefined;
+  jobName?: string | undefined;
+  userId?: string | undefined;
+  usageType?: UsageType | undefined;
+  licenseProduct?: string | undefined;
+  instanceType?: string | undefined;
   count: number;
   costInUsd: Stats;
   runtimeInSeconds: Stats;
-  aggregationStartTime?: Date;
-  aggregationEndTime?: Date;
+  aggregationStartTime?: Date | undefined;
+  aggregationEndTime?: Date | undefined;
 }
 export type StatisticsList = Statistics[];
 export type SessionsStatisticsAggregationStatus =
@@ -2196,10 +2197,10 @@ export type SessionsStatisticsAggregationStatus =
   | "COMPLETED"
   | (string & {});
 export interface GetSessionsStatisticsAggregationResponse {
-  statistics?: Statistics[];
+  statistics?: Statistics[] | undefined;
   status: SessionsStatisticsAggregationStatus;
-  statusMessage?: string;
-  nextToken?: string;
+  statusMessage?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetStepRequest {
   farmId: string;
@@ -2211,21 +2212,21 @@ export interface GetStepResponse {
   stepId: string;
   name: string;
   lifecycleStatus: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
+  lifecycleStatusMessage?: string | undefined;
   taskRunStatus: TaskRunStatus;
   taskRunStatusCounts: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
+  taskFailureRetryCount?: number | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  dependencyCounts?: DependencyCounts;
-  requiredCapabilities?: StepRequiredCapabilities;
-  parameterSpace?: ParameterSpace;
-  description?: string | redacted.Redacted<string>;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  dependencyCounts?: DependencyCounts | undefined;
+  requiredCapabilities?: StepRequiredCapabilities | undefined;
+  parameterSpace?: ParameterSpace | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetStorageProfileRequest {
   farmId: string;
@@ -2237,9 +2238,9 @@ export interface GetStorageProfileResponse {
   osFamily: StorageProfileOperatingSystemFamily;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  fileSystemLocations?: FileSystemLocation[];
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  fileSystemLocations?: FileSystemLocation[] | undefined;
 }
 export interface GetStorageProfileForQueueRequest {
   farmId: string;
@@ -2250,7 +2251,7 @@ export interface GetStorageProfileForQueueResponse {
   storageProfileId: string;
   displayName: string;
   osFamily: StorageProfileOperatingSystemFamily;
-  fileSystemLocations?: FileSystemLocation[];
+  fileSystemLocations?: FileSystemLocation[] | undefined;
 }
 export interface GetTaskRequest {
   farmId: string;
@@ -2264,14 +2265,14 @@ export interface GetTaskResponse {
   createdAt: Date;
   createdBy: string;
   runStatus: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export interface GetVolumeRequest {
   farmId: string;
@@ -2293,14 +2294,14 @@ export interface GetVolumeResponse {
   state: VolumeState;
   sizeGiB: number;
   availabilityZoneId: string;
-  attachedWorkerId?: string;
+  attachedWorkerId?: string | undefined;
   volumeType: EbsVolumeType;
-  iops?: number;
-  throughputMiB?: number;
+  iops?: number | undefined;
+  throughputMiB?: number | undefined;
   createdAt: Date;
-  lastAssignedAt?: Date;
-  lastReleasedAt?: Date;
-  expiresAt?: Date;
+  lastAssignedAt?: Date | undefined;
+  lastReleasedAt?: Date | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface GetWorkerRequest {
   farmId: string;
@@ -2311,17 +2312,17 @@ export interface GetWorkerResponse {
   farmId: string;
   fleetId: string;
   workerId: string;
-  hostProperties?: HostPropertiesResponse;
+  hostProperties?: HostPropertiesResponse | undefined;
   status: WorkerStatus;
-  log?: LogConfiguration;
+  log?: LogConfiguration | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export interface ListAvailableMeteredProductsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type BoundedString = string;
 export type PortNumber = number;
@@ -2334,13 +2335,13 @@ export interface MeteredProductSummary {
 export type MeteredProductSummaryList = MeteredProductSummary[];
 export interface ListAvailableMeteredProductsResponse {
   meteredProducts: MeteredProductSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListBudgetsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  status?: BudgetStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: BudgetStatus | undefined;
 }
 export interface BudgetSummary {
   budgetId: string;
@@ -2351,19 +2352,19 @@ export interface BudgetSummary {
   usages: ConsumedUsages;
   createdBy: string;
   createdAt: Date;
-  updatedBy?: string;
-  updatedAt?: Date;
-  description?: string | redacted.Redacted<string>;
+  updatedBy?: string | undefined;
+  updatedAt?: Date | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type BudgetSummaries = BudgetSummary[];
 export interface ListBudgetsResponse {
   budgets: BudgetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFarmMembersRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FarmMember {
   farmId: string;
@@ -2375,32 +2376,32 @@ export interface FarmMember {
 export type FarmMembers = FarmMember[];
 export interface ListFarmMembersResponse {
   members: FarmMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFarmsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
 }
 export interface FarmSummary {
   farmId: string;
   displayName: string;
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type FarmSummaries = FarmSummary[];
 export interface ListFarmsResponse {
   farms: FarmSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFleetMembersRequest {
   farmId: string;
   fleetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FleetMember {
   farmId: string;
@@ -2413,44 +2414,44 @@ export interface FleetMember {
 export type FleetMembers = FleetMember[];
 export interface ListFleetMembersResponse {
   members: FleetMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFleetsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
-  displayName?: string;
-  status?: FleetStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
+  displayName?: string | undefined;
+  status?: FleetStatus | undefined;
 }
 export interface FleetSummary {
   fleetId: string;
   farmId: string;
   displayName: string;
   status: FleetStatus;
-  statusMessage?: string;
-  autoScalingStatus?: AutoScalingStatus;
-  targetWorkerCount?: number;
+  statusMessage?: string | undefined;
+  autoScalingStatus?: AutoScalingStatus | undefined;
+  targetWorkerCount?: number | undefined;
   workerCount: number;
   minWorkerCount: number;
   maxWorkerCount: number;
   configuration: FleetConfiguration;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type FleetSummaries = FleetSummary[];
 export interface ListFleetsResponse {
   fleets: FleetSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobMembersRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface JobMember {
   farmId: string;
@@ -2464,27 +2465,27 @@ export interface JobMember {
 export type JobMembers = JobMember[];
 export interface ListJobMembersResponse {
   members: JobMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobParameterDefinitionsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type JobParameterDefinition = unknown;
 export type JobParameterDefinitions = any[];
 export interface ListJobParameterDefinitionsResponse {
   jobParameterDefinitions: any[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListJobsRequest {
   farmId: string;
   queueId: string;
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
 }
 export interface JobSummary {
   jobId: string;
@@ -2494,43 +2495,43 @@ export interface JobSummary {
   priority: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export type JobSummaries = JobSummary[];
 export interface ListJobsResponse {
   jobs: JobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListLicenseEndpointsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LicenseEndpointSummary {
-  licenseEndpointId?: string;
-  status?: LicenseEndpointStatus;
-  statusMessage?: string;
-  vpcId?: string;
+  licenseEndpointId?: string | undefined;
+  status?: LicenseEndpointStatus | undefined;
+  statusMessage?: string | undefined;
+  vpcId?: string | undefined;
 }
 export type LicenseEndpointSummaries = LicenseEndpointSummary[];
 export interface ListLicenseEndpointsResponse {
   licenseEndpoints: LicenseEndpointSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListLimitsRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LimitSummary {
   farmId: string;
@@ -2538,8 +2539,8 @@ export interface LimitSummary {
   currentCount: number;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
   displayName: string;
   amountRequirementName: string;
   maxCount: number;
@@ -2547,103 +2548,17 @@ export interface LimitSummary {
 export type LimitSummaries = LimitSummary[];
 export interface ListLimitsResponse {
   limits: LimitSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
-export interface ListMeteredProductsRequest {
-  licenseEndpointId: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export interface ListMeteredProductsResponse {
-  meteredProducts: MeteredProductSummary[];
-  nextToken?: string;
-}
-export interface ListMonitorsRequest {
-  nextToken?: string;
-  maxResults?: number;
-}
-export interface MonitorSummary {
-  monitorId: string;
-  displayName: string;
-  subdomain: string;
-  url: string;
-  roleArn: string;
-  identityCenterInstanceArn: string;
-  identityCenterRegion?: string;
-  identityCenterApplicationArn: string;
-  createdAt: Date;
-  createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-}
-export type MonitorSummaries = MonitorSummary[];
-export interface ListMonitorsResponse {
-  monitors: MonitorSummary[];
-  nextToken?: string;
-}
-export interface ListQueueEnvironmentsRequest {
-  farmId: string;
-  queueId: string;
-  nextToken?: string;
-  maxResults?: number;
-}
-export interface QueueEnvironmentSummary {
-  queueEnvironmentId: string;
-  name: string;
-  priority: number;
-}
-export type QueueEnvironmentSummaries = QueueEnvironmentSummary[];
-export interface ListQueueEnvironmentsResponse {
-  environments: QueueEnvironmentSummary[];
-  nextToken?: string;
-}
-export interface ListQueueFleetAssociationsRequest {
-  farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  queueId?: string;
-  fleetId?: string;
-}
-export interface QueueFleetAssociationSummary {
-  queueId: string;
-  fleetId: string;
-  status: QueueFleetAssociationStatus;
-  createdAt: Date;
-  createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-}
-export type QueueFleetAssociationSummaries = QueueFleetAssociationSummary[];
-export interface ListQueueFleetAssociationsResponse {
-  queueFleetAssociations: QueueFleetAssociationSummary[];
-  nextToken?: string;
-}
-export interface ListQueueLimitAssociationsRequest {
-  farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  queueId?: string;
-  limitId?: string;
-}
-export interface QueueLimitAssociationSummary {
-  queueId: string;
-  limitId: string;
-  status: QueueLimitAssociationStatus;
-  createdAt: Date;
-  createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-}
-export type QueueLimitAssociationSummaries = QueueLimitAssociationSummary[];
-export interface ListQueueLimitAssociationsResponse {
-  queueLimitAssociations: QueueLimitAssociationSummary[];
-  nextToken?: string;
-}
-export interface ListQueueMembersRequest {
-  farmId: string;
-  queueId: string;
-  nextToken?: string;
-  maxResults?: number;
+export type MembershipResourceType = "FARM" | "QUEUE" | "FLEET" | "JOB" | (string & {});
+export type MembershipResourceTypes = MembershipResourceType[];
+export interface ListMembershipsRequest {
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId: string;
+  identityStoreId?: string | undefined;
+  identityCenterRegion?: string | undefined;
+  resourceTypes?: MembershipResourceType[] | undefined;
 }
 export interface QueueMember {
   farmId: string;
@@ -2653,17 +2568,123 @@ export interface QueueMember {
   identityStoreId: string;
   membershipLevel: MembershipLevel;
 }
+export type MembershipSummary =
+  | { farm: FarmMember; queue?: undefined; fleet?: undefined; job?: undefined }
+  | { farm?: undefined; queue: QueueMember; fleet?: undefined; job?: undefined }
+  | { farm?: undefined; queue?: undefined; fleet: FleetMember; job?: undefined }
+  | { farm?: undefined; queue?: undefined; fleet?: undefined; job: JobMember };
+export type MembershipSummaries = MembershipSummary[];
+export interface ListMembershipsResponse {
+  memberships: MembershipSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListMeteredProductsRequest {
+  licenseEndpointId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface ListMeteredProductsResponse {
+  meteredProducts: MeteredProductSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListMonitorsRequest {
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface MonitorSummary {
+  monitorId: string;
+  displayName: string;
+  subdomain: string;
+  url: string;
+  roleArn: string;
+  identityCenterInstanceArn: string;
+  identityCenterRegion?: string | undefined;
+  identityCenterApplicationArn: string;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+}
+export type MonitorSummaries = MonitorSummary[];
+export interface ListMonitorsResponse {
+  monitors: MonitorSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListQueueEnvironmentsRequest {
+  farmId: string;
+  queueId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface QueueEnvironmentSummary {
+  queueEnvironmentId: string;
+  name: string;
+  priority: number;
+}
+export type QueueEnvironmentSummaries = QueueEnvironmentSummary[];
+export interface ListQueueEnvironmentsResponse {
+  environments: QueueEnvironmentSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListQueueFleetAssociationsRequest {
+  farmId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  queueId?: string | undefined;
+  fleetId?: string | undefined;
+}
+export interface QueueFleetAssociationSummary {
+  queueId: string;
+  fleetId: string;
+  status: QueueFleetAssociationStatus;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+}
+export type QueueFleetAssociationSummaries = QueueFleetAssociationSummary[];
+export interface ListQueueFleetAssociationsResponse {
+  queueFleetAssociations: QueueFleetAssociationSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListQueueLimitAssociationsRequest {
+  farmId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  queueId?: string | undefined;
+  limitId?: string | undefined;
+}
+export interface QueueLimitAssociationSummary {
+  queueId: string;
+  limitId: string;
+  status: QueueLimitAssociationStatus;
+  createdAt: Date;
+  createdBy: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+}
+export type QueueLimitAssociationSummaries = QueueLimitAssociationSummary[];
+export interface ListQueueLimitAssociationsResponse {
+  queueLimitAssociations: QueueLimitAssociationSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListQueueMembersRequest {
+  farmId: string;
+  queueId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
 export type QueueMemberList = QueueMember[];
 export interface ListQueueMembersResponse {
   members: QueueMember[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQueuesRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
-  principalId?: string;
-  status?: QueueStatus;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  principalId?: string | undefined;
+  status?: QueueStatus | undefined;
 }
 export interface QueueSummary {
   farmId: string;
@@ -2671,25 +2692,25 @@ export interface QueueSummary {
   displayName: string;
   status: QueueStatus;
   defaultBudgetAction: DefaultQueueBudgetAction;
-  blockedReason?: QueueBlockedReason;
+  blockedReason?: QueueBlockedReason | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type QueueSummaries = QueueSummary[];
 export interface ListQueuesResponse {
   queues: QueueSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionActionsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
-  sessionId?: string;
-  taskId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sessionId?: string | undefined;
+  taskId?: string | undefined;
 }
 export interface EnvironmentEnterSessionActionDefinitionSummary {
   environmentId: string;
@@ -2698,59 +2719,59 @@ export interface EnvironmentExitSessionActionDefinitionSummary {
   environmentId: string;
 }
 export interface TaskRunSessionActionDefinitionSummary {
-  taskId?: string;
+  taskId?: string | undefined;
   stepId: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export interface SyncInputJobAttachmentsSessionActionDefinitionSummary {
-  stepId?: string;
+  stepId?: string | undefined;
 }
 export type SessionActionDefinitionSummary =
   | {
       envEnter: EnvironmentEnterSessionActionDefinitionSummary;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: EnvironmentExitSessionActionDefinitionSummary;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: TaskRunSessionActionDefinitionSummary;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: SyncInputJobAttachmentsSessionActionDefinitionSummary;
     };
 export interface SessionActionSummary {
   sessionActionId: string;
   status: SessionActionStatus;
-  startedAt?: Date;
-  endedAt?: Date;
-  workerUpdatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesResponse[];
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  workerUpdatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesResponse[] | undefined;
   definition: SessionActionDefinitionSummary;
 }
 export type SessionActionSummaries = SessionActionSummary[];
 export interface ListSessionActionsResponse {
   sessionActions: SessionActionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SessionSummary {
   sessionId: string;
@@ -2758,22 +2779,22 @@ export interface SessionSummary {
   workerId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
-  updatedAt?: Date;
-  updatedBy?: string;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type SessionSummaries = SessionSummary[];
 export interface ListSessionsResponse {
   sessions: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSessionsForWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkerSessionSummary {
   sessionId: string;
@@ -2781,21 +2802,21 @@ export interface WorkerSessionSummary {
   jobId: string;
   startedAt: Date;
   lifecycleStatus: SessionLifecycleStatus;
-  endedAt?: Date;
-  targetLifecycleStatus?: SessionLifecycleTargetStatus;
+  endedAt?: Date | undefined;
+  targetLifecycleStatus?: SessionLifecycleTargetStatus | undefined;
 }
 export type ListSessionsForWorkerSummaries = WorkerSessionSummary[];
 export interface ListSessionsForWorkerResponse {
   sessions: WorkerSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStepConsumersRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DependencyConsumerResolutionStatus = "RESOLVED" | "UNRESOLVED" | (string & {});
 export interface StepConsumer {
@@ -2805,15 +2826,15 @@ export interface StepConsumer {
 export type StepConsumers = StepConsumer[];
 export interface ListStepConsumersResponse {
   consumers: StepConsumer[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStepDependenciesRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StepDependency {
   stepId: string;
@@ -2822,41 +2843,41 @@ export interface StepDependency {
 export type StepDependencies = StepDependency[];
 export interface ListStepDependenciesResponse {
   dependencies: StepDependency[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStepsRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StepSummary {
   stepId: string;
   name: string;
   lifecycleStatus: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
+  lifecycleStatusMessage?: string | undefined;
   taskRunStatus: TaskRunStatus;
   taskRunStatusCounts: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
+  taskFailureRetryCount?: number | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  dependencyCounts?: DependencyCounts;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  dependencyCounts?: DependencyCounts | undefined;
 }
 export type StepSummaries = StepSummary[];
 export interface ListStepsResponse {
   steps: StepSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStorageProfilesRequest {
   farmId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StorageProfileSummary {
   storageProfileId: string;
@@ -2866,56 +2887,56 @@ export interface StorageProfileSummary {
 export type StorageProfileSummaries = StorageProfileSummary[];
 export interface ListStorageProfilesResponse {
   storageProfiles: StorageProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStorageProfilesForQueueRequest {
   farmId: string;
   queueId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListStorageProfilesForQueueResponse {
   storageProfiles: StorageProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTasksRequest {
   farmId: string;
   queueId: string;
   jobId: string;
   stepId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TaskSummary {
   taskId: string;
   createdAt: Date;
   createdBy: string;
   runStatus: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
 }
 export type TaskSummaries = TaskSummary[];
 export interface ListTasksResponse {
   tasks: TaskSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListVolumesRequest {
   farmId: string;
   fleetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface VolumeSummary {
   volumeId: string;
@@ -2924,35 +2945,35 @@ export interface VolumeSummary {
   state: VolumeState;
   sizeGiB: number;
   availabilityZoneId: string;
-  attachedWorkerId?: string;
+  attachedWorkerId?: string | undefined;
 }
 export type VolumeSummaries = VolumeSummary[];
 export interface ListVolumesResponse {
   volumes: VolumeSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWorkersRequest {
   farmId: string;
   fleetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkerSummary {
   farmId: string;
   fleetId: string;
   workerId: string;
-  hostProperties?: HostPropertiesResponse;
+  hostProperties?: HostPropertiesResponse | undefined;
   status: WorkerStatus;
-  log?: LogConfiguration;
+  log?: LogConfiguration | undefined;
   createdAt: Date;
   createdBy: string;
-  updatedAt?: Date;
-  updatedBy?: string;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
 }
 export type WorkerSummaries = WorkerSummary[];
 export interface ListWorkersResponse {
   workers: WorkerSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutMeteredProductRequest {
   licenseEndpointId: string;
@@ -2984,7 +3005,7 @@ export type SearchTerm = string;
 export type SearchTermMatchingType = "FUZZY_MATCH" | "CONTAINS" | (string & {});
 export interface SearchTermFilterExpression {
   searchTerm: string;
-  matchType?: SearchTermMatchingType;
+  matchType?: SearchTermMatchingType | undefined;
 }
 export type StringFilter = string;
 export interface StringFilterExpression {
@@ -3001,50 +3022,50 @@ export interface StringListFilterExpression {
 export type SearchFilterExpression =
   | {
       dateTimeFilter: DateTimeFilterExpression;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
+      dateTimeFilter?: undefined;
       parameterFilter: ParameterFilterExpression;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
       searchTermFilter: SearchTermFilterExpression;
-      stringFilter?: never;
-      stringListFilter?: never;
-      groupFilter?: never;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
       stringFilter: StringFilterExpression;
-      stringListFilter?: never;
-      groupFilter?: never;
+      stringListFilter?: undefined;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
       stringListFilter: StringListFilterExpression;
-      groupFilter?: never;
+      groupFilter?: undefined;
     }
   | {
-      dateTimeFilter?: never;
-      parameterFilter?: never;
-      searchTermFilter?: never;
-      stringFilter?: never;
-      stringListFilter?: never;
+      dateTimeFilter?: undefined;
+      parameterFilter?: undefined;
+      searchTermFilter?: undefined;
+      stringFilter?: undefined;
+      stringListFilter?: undefined;
       groupFilter: SearchGroupedFilterExpressions;
     };
 export type SearchFilterExpressions = SearchFilterExpression[];
@@ -3066,142 +3087,142 @@ export interface ParameterSortExpression {
   name: string;
 }
 export type SearchSortExpression =
-  | { userJobsFirst: UserJobsFirst; fieldSort?: never; parameterSort?: never }
-  | { userJobsFirst?: never; fieldSort: FieldSortExpression; parameterSort?: never }
-  | { userJobsFirst?: never; fieldSort?: never; parameterSort: ParameterSortExpression };
+  | { userJobsFirst: UserJobsFirst; fieldSort?: undefined; parameterSort?: undefined }
+  | { userJobsFirst?: undefined; fieldSort: FieldSortExpression; parameterSort?: undefined }
+  | { userJobsFirst?: undefined; fieldSort?: undefined; parameterSort: ParameterSortExpression };
 export type SearchSortExpressions = SearchSortExpression[];
 export type QueueIds = string[];
 export interface SearchJobsRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   queueIds: string[];
 }
 export interface JobSearchSummary {
-  jobId?: string;
-  queueId?: string;
-  name?: string;
-  lifecycleStatus?: JobLifecycleStatus;
-  lifecycleStatusMessage?: string;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  priority?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  createdBy?: string;
-  createdAt?: Date;
-  endedAt?: Date;
-  startedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  jobParameters?: { [key: string]: JobParameter | undefined };
-  maxWorkerCount?: number;
-  sourceJobId?: string;
+  jobId?: string | undefined;
+  queueId?: string | undefined;
+  name?: string | undefined;
+  lifecycleStatus?: JobLifecycleStatus | undefined;
+  lifecycleStatusMessage?: string | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  priority?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  jobParameters?: { [key: string]: JobParameter | undefined } | undefined;
+  maxWorkerCount?: number | undefined;
+  sourceJobId?: string | undefined;
 }
 export type JobSearchSummaries = JobSearchSummary[];
 export type NextItemOffset = number;
 export type TotalResults = number;
 export interface SearchJobsResponse {
   jobs: JobSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export interface SearchStepsRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   queueIds: string[];
-  jobId?: string;
+  jobId?: string | undefined;
 }
 export interface StepSearchSummary {
-  stepId?: string;
-  jobId?: string;
-  queueId?: string;
-  name?: string;
-  lifecycleStatus?: StepLifecycleStatus;
-  lifecycleStatusMessage?: string;
-  taskRunStatus?: TaskRunStatus;
-  targetTaskRunStatus?: StepTargetTaskRunStatus;
-  taskRunStatusCounts?: { [key: string]: number | undefined };
-  taskFailureRetryCount?: number;
-  createdAt?: Date;
-  createdBy?: string;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  parameterSpace?: ParameterSpace;
+  stepId?: string | undefined;
+  jobId?: string | undefined;
+  queueId?: string | undefined;
+  name?: string | undefined;
+  lifecycleStatus?: StepLifecycleStatus | undefined;
+  lifecycleStatusMessage?: string | undefined;
+  taskRunStatus?: TaskRunStatus | undefined;
+  targetTaskRunStatus?: StepTargetTaskRunStatus | undefined;
+  taskRunStatusCounts?: { [key: string]: number | undefined } | undefined;
+  taskFailureRetryCount?: number | undefined;
+  createdAt?: Date | undefined;
+  createdBy?: string | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  parameterSpace?: ParameterSpace | undefined;
 }
 export type StepSearchSummaries = StepSearchSummary[];
 export interface SearchStepsResponse {
   steps: StepSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export interface SearchTasksRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   queueIds: string[];
-  jobId?: string;
+  jobId?: string | undefined;
 }
 export interface TaskSearchSummary {
-  taskId?: string;
-  stepId?: string;
-  jobId?: string;
-  queueId?: string;
-  runStatus?: TaskRunStatus;
-  targetRunStatus?: TaskTargetRunStatus;
-  parameters?: { [key: string]: TaskParameterValue | undefined };
-  failureRetryCount?: number;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  updatedBy?: string;
-  latestSessionActionId?: string;
+  taskId?: string | undefined;
+  stepId?: string | undefined;
+  jobId?: string | undefined;
+  queueId?: string | undefined;
+  runStatus?: TaskRunStatus | undefined;
+  targetRunStatus?: TaskTargetRunStatus | undefined;
+  parameters?: { [key: string]: TaskParameterValue | undefined } | undefined;
+  failureRetryCount?: number | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  latestSessionActionId?: string | undefined;
 }
 export type TaskSearchSummaries = TaskSearchSummary[];
 export interface SearchTasksResponse {
   tasks: TaskSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export type FleetIds = string[];
 export interface SearchWorkersRequest {
   farmId: string;
-  filterExpressions?: SearchGroupedFilterExpressions;
-  sortExpressions?: SearchSortExpression[];
+  filterExpressions?: SearchGroupedFilterExpressions | undefined;
+  sortExpressions?: SearchSortExpression[] | undefined;
   itemOffset: number;
-  pageSize?: number;
+  pageSize?: number | undefined;
   fleetIds: string[];
 }
 export interface WorkerSearchSummary {
-  fleetId?: string;
-  workerId?: string;
-  status?: WorkerStatus;
-  hostProperties?: HostPropertiesResponse;
-  createdBy?: string;
-  createdAt?: Date;
-  updatedBy?: string;
-  updatedAt?: Date;
+  fleetId?: string | undefined;
+  workerId?: string | undefined;
+  status?: WorkerStatus | undefined;
+  hostProperties?: HostPropertiesResponse | undefined;
+  createdBy?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedBy?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type WorkerSearchSummaries = WorkerSearchSummary[];
 export interface SearchWorkersResponse {
   workers: WorkerSearchSummary[];
-  nextItemOffset?: number;
+  nextItemOffset?: number | undefined;
   totalResults: number;
 }
 export type SessionsStatisticsResources =
-  | { queueIds: string[]; fleetIds?: never }
-  | { queueIds?: never; fleetIds: string[] };
+  | { queueIds: string[]; fleetIds?: undefined }
+  | { queueIds?: undefined; fleetIds: string[] };
 export type Timezone = string;
 export type Period = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | (string & {});
 export type UsageGroupByField =
@@ -3221,8 +3242,8 @@ export interface StartSessionsStatisticsAggregationRequest {
   resourceIds: SessionsStatisticsResources;
   startTime: Date;
   endTime: Date;
-  timezone?: string;
-  period?: Period;
+  timezone?: string | undefined;
+  period?: Period | undefined;
   groupBy: UsageGroupByField[];
   statistics: UsageStatistic[];
 }
@@ -3231,7 +3252,7 @@ export interface StartSessionsStatisticsAggregationResponse {
 }
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type StringList = string[];
@@ -3248,64 +3269,64 @@ export type BudgetActionsToRemove = BudgetActionToRemove[];
 export interface UpdateBudgetRequest {
   farmId: string;
   budgetId: string;
-  clientToken?: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  status?: BudgetStatus;
-  approximateDollarLimit?: number;
-  actionsToAdd?: BudgetActionToAdd[];
-  actionsToRemove?: BudgetActionToRemove[];
-  schedule?: BudgetSchedule;
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  status?: BudgetStatus | undefined;
+  approximateDollarLimit?: number | undefined;
+  actionsToAdd?: BudgetActionToAdd[] | undefined;
+  actionsToRemove?: BudgetActionToRemove[] | undefined;
+  schedule?: BudgetSchedule | undefined;
 }
 export interface UpdateBudgetResponse {}
 export interface UpdateFarmRequest {
   farmId: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  costScaleFactor?: number;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  costScaleFactor?: number | undefined;
 }
 export interface UpdateFarmResponse {}
 export interface UpdateFleetRequest {
   farmId: string;
   fleetId: string;
-  clientToken?: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  roleArn?: string;
-  minWorkerCount?: number;
-  maxWorkerCount?: number;
-  configuration?: FleetConfiguration;
-  hostConfiguration?: HostConfiguration;
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  roleArn?: string | undefined;
+  minWorkerCount?: number | undefined;
+  maxWorkerCount?: number | undefined;
+  configuration?: FleetConfiguration | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
 }
 export interface UpdateFleetResponse {}
 export interface UpdateJobRequest {
   farmId: string;
   queueId: string;
   jobId: string;
-  clientToken?: string;
-  targetTaskRunStatus?: JobTargetTaskRunStatus;
-  priority?: number;
-  maxFailedTasksCount?: number;
-  maxRetriesPerTask?: number;
-  lifecycleStatus?: UpdateJobLifecycleStatus;
-  maxWorkerCount?: number;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
+  clientToken?: string | undefined;
+  targetTaskRunStatus?: JobTargetTaskRunStatus | undefined;
+  priority?: number | undefined;
+  maxFailedTasksCount?: number | undefined;
+  maxRetriesPerTask?: number | undefined;
+  lifecycleStatus?: UpdateJobLifecycleStatus | undefined;
+  maxWorkerCount?: number | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateJobResponse {}
 export interface UpdateLimitRequest {
   farmId: string;
   limitId: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  maxCount?: number;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  maxCount?: number | undefined;
 }
 export interface UpdateLimitResponse {}
 export interface UpdateMonitorRequest {
   monitorId: string;
-  subdomain?: string;
-  displayName?: string;
-  roleArn?: string;
+  subdomain?: string | undefined;
+  displayName?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateMonitorResponse {}
 export interface UpdateMonitorSettingsRequest {
@@ -3316,28 +3337,28 @@ export interface UpdateMonitorSettingsResponse {}
 export interface UpdateQueueRequest {
   farmId: string;
   queueId: string;
-  clientToken?: string;
-  displayName?: string;
-  description?: string | redacted.Redacted<string>;
-  defaultBudgetAction?: DefaultQueueBudgetAction;
-  jobAttachmentSettings?: JobAttachmentSettings;
-  roleArn?: string;
-  jobRunAsUser?: JobRunAsUser;
-  requiredFileSystemLocationNamesToAdd?: string[];
-  requiredFileSystemLocationNamesToRemove?: string[];
-  allowedStorageProfileIdsToAdd?: string[];
-  allowedStorageProfileIdsToRemove?: string[];
-  schedulingConfiguration?: SchedulingConfiguration;
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  defaultBudgetAction?: DefaultQueueBudgetAction | undefined;
+  jobAttachmentSettings?: JobAttachmentSettings | undefined;
+  roleArn?: string | undefined;
+  jobRunAsUser?: JobRunAsUser | undefined;
+  requiredFileSystemLocationNamesToAdd?: string[] | undefined;
+  requiredFileSystemLocationNamesToRemove?: string[] | undefined;
+  allowedStorageProfileIdsToAdd?: string[] | undefined;
+  allowedStorageProfileIdsToRemove?: string[] | undefined;
+  schedulingConfiguration?: SchedulingConfiguration | undefined;
 }
 export interface UpdateQueueResponse {}
 export interface UpdateQueueEnvironmentRequest {
   farmId: string;
   queueId: string;
   queueEnvironmentId: string;
-  clientToken?: string;
-  priority?: number;
-  templateType?: EnvironmentTemplateType;
-  template?: string | redacted.Redacted<string>;
+  clientToken?: string | undefined;
+  priority?: number | undefined;
+  templateType?: EnvironmentTemplateType | undefined;
+  template?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateQueueEnvironmentResponse {}
 export type UpdateQueueFleetAssociationStatus =
@@ -3369,7 +3390,7 @@ export interface UpdateSessionRequest {
   queueId: string;
   jobId: string;
   sessionId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   targetLifecycleStatus: SessionLifecycleTargetStatus;
 }
 export interface UpdateSessionResponse {}
@@ -3378,18 +3399,18 @@ export interface UpdateStepRequest {
   queueId: string;
   jobId: string;
   stepId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   targetTaskRunStatus: StepTargetTaskRunStatus;
 }
 export interface UpdateStepResponse {}
 export interface UpdateStorageProfileRequest {
   farmId: string;
   storageProfileId: string;
-  clientToken?: string;
-  displayName?: string;
-  osFamily?: StorageProfileOperatingSystemFamily;
-  fileSystemLocationsToAdd?: FileSystemLocation[];
-  fileSystemLocationsToRemove?: FileSystemLocation[];
+  clientToken?: string | undefined;
+  displayName?: string | undefined;
+  osFamily?: StorageProfileOperatingSystemFamily | undefined;
+  fileSystemLocationsToAdd?: FileSystemLocation[] | undefined;
+  fileSystemLocationsToRemove?: FileSystemLocation[] | undefined;
 }
 export interface UpdateStorageProfileResponse {}
 export interface UpdateTaskRequest {
@@ -3398,7 +3419,7 @@ export interface UpdateTaskRequest {
   jobId: string;
   stepId: string;
   taskId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   targetRunStatus: TaskTargetRunStatus;
 }
 export interface UpdateTaskResponse {}
@@ -3421,13 +3442,13 @@ export interface UpdateWorkerRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  status?: UpdatedWorkerStatus;
-  capabilities?: WorkerCapabilities;
-  hostProperties?: HostPropertiesRequest;
+  status?: UpdatedWorkerStatus | undefined;
+  capabilities?: WorkerCapabilities | undefined;
+  hostProperties?: HostPropertiesRequest | undefined;
 }
 export interface UpdateWorkerResponse {
-  log?: LogConfiguration;
-  hostConfiguration?: HostConfiguration;
+  log?: LogConfiguration | undefined;
+  hostConfiguration?: HostConfiguration | undefined;
 }
 export type CompletedStatus =
   | "SUCCEEDED"
@@ -3437,26 +3458,26 @@ export type CompletedStatus =
   | "NEVER_ATTEMPTED"
   | (string & {});
 export interface TaskRunManifestPropertiesRequest {
-  outputManifestPath?: string;
-  outputManifestHash?: string;
+  outputManifestPath?: string | undefined;
+  outputManifestHash?: string | undefined;
 }
 export type TaskRunManifestPropertiesListRequest = TaskRunManifestPropertiesRequest[];
 export interface UpdatedSessionActionInfo {
-  completedStatus?: CompletedStatus;
-  processExitCode?: number;
-  progressMessage?: string | redacted.Redacted<string>;
-  startedAt?: Date;
-  endedAt?: Date;
-  updatedAt?: Date;
-  progressPercent?: number;
-  manifests?: TaskRunManifestPropertiesRequest[];
+  completedStatus?: CompletedStatus | undefined;
+  processExitCode?: number | undefined;
+  progressMessage?: string | redacted.Redacted<string> | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  progressPercent?: number | undefined;
+  manifests?: TaskRunManifestPropertiesRequest[] | undefined;
 }
 export type UpdatedSessionActions = { [key: string]: UpdatedSessionActionInfo | undefined };
 export interface UpdateWorkerScheduleRequest {
   farmId: string;
   fleetId: string;
   workerId: string;
-  updatedSessionActions?: { [key: string]: UpdatedSessionActionInfo | undefined };
+  updatedSessionActions?: { [key: string]: UpdatedSessionActionInfo | undefined } | undefined;
 }
 export interface AssignedEnvironmentEnterSessionActionDefinition {
   environmentId: string;
@@ -3465,36 +3486,36 @@ export interface AssignedEnvironmentExitSessionActionDefinition {
   environmentId: string;
 }
 export interface AssignedTaskRunSessionActionDefinition {
-  taskId?: string;
+  taskId?: string | undefined;
   stepId: string;
   parameters: { [key: string]: TaskParameterValue | undefined };
 }
 export interface AssignedSyncInputJobAttachmentsSessionActionDefinition {
-  stepId?: string;
+  stepId?: string | undefined;
 }
 export type AssignedSessionActionDefinition =
   | {
       envEnter: AssignedEnvironmentEnterSessionActionDefinition;
-      envExit?: never;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      envExit?: undefined;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
+      envEnter?: undefined;
       envExit: AssignedEnvironmentExitSessionActionDefinition;
-      taskRun?: never;
-      syncInputJobAttachments?: never;
+      taskRun?: undefined;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
       taskRun: AssignedTaskRunSessionActionDefinition;
-      syncInputJobAttachments?: never;
+      syncInputJobAttachments?: undefined;
     }
   | {
-      envEnter?: never;
-      envExit?: never;
-      taskRun?: never;
+      envEnter?: undefined;
+      envExit?: undefined;
+      taskRun?: undefined;
       syncInputJobAttachments: AssignedSyncInputJobAttachmentsSessionActionDefinition;
     };
 export interface AssignedSessionAction {
@@ -3510,7 +3531,7 @@ export interface AssignedSession {
   jobId: string;
   sessionActions: AssignedSessionAction[];
   logConfiguration: LogConfiguration;
-  metadata?: { [key: string]: string | undefined };
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type AssignedSessions = { [key: string]: AssignedSession | undefined };
 export type SessionActionIdList = string[];
@@ -3520,7 +3541,7 @@ export type UpdateWorkerScheduleInterval = number;
 export interface UpdateWorkerScheduleResponse {
   assignedSessions: { [key: string]: AssignedSession | undefined };
   cancelSessionActions: { [key: string]: string[] | undefined };
-  desiredWorkerStatus?: DesiredWorkerStatus;
+  desiredWorkerStatus?: DesiredWorkerStatus | undefined;
   updateIntervalSeconds: number;
 }
 export type ExceptionContext = { [key: string]: string | undefined };
@@ -3559,13 +3580,13 @@ export type AssociateMemberToFarmError =
  * Assigns a farm membership level to a member.
  */
 export const associateMemberToFarm: API.OperationMethod<
-  AssociateMemberToFarmRequest,
+  AssociateMemberToFarmRequest & RegionInput,
   AssociateMemberToFarmResponse,
   AssociateMemberToFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<AssociateMemberToFarmRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<AssociateMemberToFarmResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<AssociateMemberToFarmRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<AssociateMemberToFarmResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -3594,13 +3615,13 @@ export type AssociateMemberToFleetError =
  * Assigns a fleet membership level to a member.
  */
 export const associateMemberToFleet: API.OperationMethod<
-  AssociateMemberToFleetRequest,
+  AssociateMemberToFleetRequest & RegionInput,
   AssociateMemberToFleetResponse,
   AssociateMemberToFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<AssociateMemberToFleetRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<AssociateMemberToFleetResponse>,
+  output: __S(5120, __c160, 0) as any as S.Schema<AssociateMemberToFleetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -3629,13 +3650,13 @@ export type AssociateMemberToJobError =
  * Assigns a job membership level to a member
  */
 export const associateMemberToJob: API.OperationMethod<
-  AssociateMemberToJobRequest,
+  AssociateMemberToJobRequest & RegionInput,
   AssociateMemberToJobResponse,
   AssociateMemberToJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<AssociateMemberToJobRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<AssociateMemberToJobResponse>,
+  output: __S(5120, __c160, 0) as any as S.Schema<AssociateMemberToJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -3664,13 +3685,13 @@ export type AssociateMemberToQueueError =
  * Assigns a queue membership level to a member
  */
 export const associateMemberToQueue: API.OperationMethod<
-  AssociateMemberToQueueRequest,
+  AssociateMemberToQueueRequest & RegionInput,
   AssociateMemberToQueueResponse,
   AssociateMemberToQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<AssociateMemberToQueueRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<AssociateMemberToQueueResponse>,
+  output: __S(5120, __c160, 0) as any as S.Schema<AssociateMemberToQueueResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -3698,7 +3719,7 @@ export type AssumeFleetRoleForReadError =
  * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeFleetRoleForRead: API.OperationMethod<
-  AssumeFleetRoleForReadRequest,
+  AssumeFleetRoleForReadRequest & RegionInput,
   AssumeFleetRoleForReadResponse,
   AssumeFleetRoleForReadError,
   Credentials | HttpClient.HttpClient
@@ -3732,12 +3753,12 @@ export type AssumeFleetRoleForWorkerError =
  * Get credentials from the fleet role for a worker.
  */
 export const assumeFleetRoleForWorker: API.OperationMethod<
-  AssumeFleetRoleForWorkerRequest,
+  AssumeFleetRoleForWorkerRequest & RegionInput,
   AssumeFleetRoleForWorkerResponse,
   AssumeFleetRoleForWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<AssumeFleetRoleForWorkerRequest>,
+  input: __S(1472, __c46, 0) as any as S.Schema<AssumeFleetRoleForWorkerRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<AssumeFleetRoleForWorkerResponse>,
   errors: [
     AccessDeniedException,
@@ -3766,12 +3787,12 @@ export type AssumeQueueRoleForReadError =
  * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
 export const assumeQueueRoleForRead: API.OperationMethod<
-  AssumeQueueRoleForReadRequest,
+  AssumeQueueRoleForReadRequest & RegionInput,
   AssumeQueueRoleForReadResponse,
   AssumeQueueRoleForReadError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<AssumeQueueRoleForReadRequest>,
+  input: __S(1504, __c47, 0) as any as S.Schema<AssumeQueueRoleForReadRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<AssumeQueueRoleForReadResponse>,
   errors: [
     AccessDeniedException,
@@ -3799,12 +3820,12 @@ export type AssumeQueueRoleForUserError =
  * Allows a user to assume a role for a queue.
  */
 export const assumeQueueRoleForUser: API.OperationMethod<
-  AssumeQueueRoleForUserRequest,
+  AssumeQueueRoleForUserRequest & RegionInput,
   AssumeQueueRoleForUserResponse,
   AssumeQueueRoleForUserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<AssumeQueueRoleForUserRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<AssumeQueueRoleForUserRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<AssumeQueueRoleForUserResponse>,
   errors: [
     AccessDeniedException,
@@ -3833,13 +3854,13 @@ export type AssumeQueueRoleForWorkerError =
  * Allows a worker to assume a queue role.
  */
 export const assumeQueueRoleForWorker: API.OperationMethod<
-  AssumeQueueRoleForWorkerRequest,
+  AssumeQueueRoleForWorkerRequest & RegionInput,
   AssumeQueueRoleForWorkerResponse,
   AssumeQueueRoleForWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<AssumeQueueRoleForWorkerRequest>,
-  output: __S(1537, __c48, 1) as any as S.Schema<AssumeQueueRoleForWorkerResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<AssumeQueueRoleForWorkerRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<AssumeQueueRoleForWorkerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3868,13 +3889,13 @@ export type BatchGetJobError =
  * The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetJob: API.OperationMethod<
-  BatchGetJobRequest,
+  BatchGetJobRequest & RegionInput,
   BatchGetJobResponse,
   BatchGetJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1570, __c49, 2) as any as S.Schema<BatchGetJobRequest>,
-  output: __S(1575, __c49, 7) as any as S.Schema<BatchGetJobResponse>,
+  input: __S(1602, __c50, 2) as any as S.Schema<BatchGetJobRequest>,
+  output: __S(1607, __c50, 7) as any as S.Schema<BatchGetJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -3900,13 +3921,13 @@ export type BatchGetJobEntityError =
  * Get batched job details for a worker.
  */
 export const batchGetJobEntity: API.OperationMethod<
-  BatchGetJobEntityRequest,
+  BatchGetJobEntityRequest & RegionInput,
   BatchGetJobEntityResponse,
   BatchGetJobEntityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1732, __c54, 4) as any as S.Schema<BatchGetJobEntityRequest>,
-  output: __S(1746, __c54, 18) as any as S.Schema<BatchGetJobEntityResponse>,
+  input: __S(1764, __c55, 4) as any as S.Schema<BatchGetJobEntityRequest>,
+  output: __S(1778, __c55, 18) as any as S.Schema<BatchGetJobEntityResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -3934,13 +3955,13 @@ export type BatchGetSessionError =
  * The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetSession: API.OperationMethod<
-  BatchGetSessionRequest,
+  BatchGetSessionRequest & RegionInput,
   BatchGetSessionResponse,
   BatchGetSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1858, __c58, 2) as any as S.Schema<BatchGetSessionRequest>,
-  output: __S(1863, __c58, 7) as any as S.Schema<BatchGetSessionResponse>,
+  input: __S(1890, __c59, 2) as any as S.Schema<BatchGetSessionRequest>,
+  output: __S(1895, __c59, 7) as any as S.Schema<BatchGetSessionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -3967,13 +3988,13 @@ export type BatchGetSessionActionError =
  * The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetSessionAction: API.OperationMethod<
-  BatchGetSessionActionRequest,
+  BatchGetSessionActionRequest & RegionInput,
   BatchGetSessionActionResponse,
   BatchGetSessionActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1986, __c62, 2) as any as S.Schema<BatchGetSessionActionRequest>,
-  output: __S(1991, __c62, 7) as any as S.Schema<BatchGetSessionActionResponse>,
+  input: __S(2018, __c63, 2) as any as S.Schema<BatchGetSessionActionRequest>,
+  output: __S(2023, __c63, 7) as any as S.Schema<BatchGetSessionActionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4000,13 +4021,13 @@ export type BatchGetStepError =
  * The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetStep: API.OperationMethod<
-  BatchGetStepRequest,
+  BatchGetStepRequest & RegionInput,
   BatchGetStepResponse,
   BatchGetStepError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2146, __c67, 2) as any as S.Schema<BatchGetStepRequest>,
-  output: __S(2151, __c67, 7) as any as S.Schema<BatchGetStepResponse>,
+  input: __S(2178, __c68, 2) as any as S.Schema<BatchGetStepRequest>,
+  output: __S(2183, __c68, 7) as any as S.Schema<BatchGetStepResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4033,13 +4054,13 @@ export type BatchGetTaskError =
  * The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetTask: API.OperationMethod<
-  BatchGetTaskRequest,
+  BatchGetTaskRequest & RegionInput,
   BatchGetTaskResponse,
   BatchGetTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2274, __c71, 2) as any as S.Schema<BatchGetTaskRequest>,
-  output: __S(2279, __c71, 7) as any as S.Schema<BatchGetTaskResponse>,
+  input: __S(2306, __c72, 2) as any as S.Schema<BatchGetTaskRequest>,
+  output: __S(2311, __c72, 7) as any as S.Schema<BatchGetTaskResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4066,13 +4087,13 @@ export type BatchGetWorkerError =
  * The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchGetWorker: API.OperationMethod<
-  BatchGetWorkerRequest,
+  BatchGetWorkerRequest & RegionInput,
   BatchGetWorkerResponse,
   BatchGetWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2306, __c72, 2) as any as S.Schema<BatchGetWorkerRequest>,
-  output: __S(2309, __c72, 5) as any as S.Schema<BatchGetWorkerResponse>,
+  input: __S(2338, __c73, 2) as any as S.Schema<BatchGetWorkerRequest>,
+  output: __S(2341, __c73, 5) as any as S.Schema<BatchGetWorkerResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4103,13 +4124,13 @@ export type BatchUpdateJobError =
  * An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
 export const batchUpdateJob: API.OperationMethod<
-  BatchUpdateJobRequest,
+  BatchUpdateJobRequest & RegionInput,
   BatchUpdateJobResponse,
   BatchUpdateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2402, __c75, 2) as any as S.Schema<BatchUpdateJobRequest>,
-  output: __S(2405, __c75, 5) as any as S.Schema<BatchUpdateJobResponse>,
+  input: __S(2434, __c76, 2) as any as S.Schema<BatchUpdateJobRequest>,
+  output: __S(2437, __c76, 5) as any as S.Schema<BatchUpdateJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4136,13 +4157,13 @@ export type BatchUpdateTaskError =
  * The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
  */
 export const batchUpdateTask: API.OperationMethod<
-  BatchUpdateTaskRequest,
+  BatchUpdateTaskRequest & RegionInput,
   BatchUpdateTaskResponse,
   BatchUpdateTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2434, __c76, 2) as any as S.Schema<BatchUpdateTaskRequest>,
-  output: __S(2437, __c76, 5) as any as S.Schema<BatchUpdateTaskResponse>,
+  input: __S(2466, __c77, 2) as any as S.Schema<BatchUpdateTaskRequest>,
+  output: __S(2469, __c77, 5) as any as S.Schema<BatchUpdateTaskResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4168,13 +4189,13 @@ export type CopyJobTemplateError =
  * Copies a job template to an Amazon S3 bucket.
  */
 export const copyJobTemplate: API.OperationMethod<
-  CopyJobTemplateRequest,
+  CopyJobTemplateRequest & RegionInput,
   CopyJobTemplateResponse,
   CopyJobTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2465, __c77, 1) as any as S.Schema<CopyJobTemplateRequest>,
-  output: __S(2466, __c77, 2) as any as S.Schema<CopyJobTemplateResponse>,
+  input: __S(2497, __c78, 1) as any as S.Schema<CopyJobTemplateRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<CopyJobTemplateResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4203,13 +4224,13 @@ export type CreateBudgetError =
  * Creates a budget to set spending thresholds for your rendering activity.
  */
 export const createBudget: API.OperationMethod<
-  CreateBudgetRequest,
+  CreateBudgetRequest & RegionInput,
   CreateBudgetResponse,
   CreateBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<CreateBudgetRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<CreateBudgetResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<CreateBudgetRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<CreateBudgetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4239,13 +4260,13 @@ export type CreateFarmError =
  * Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
  */
 export const createFarm: API.OperationMethod<
-  CreateFarmRequest,
+  CreateFarmRequest & RegionInput,
   CreateFarmResponse,
   CreateFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<CreateFarmRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<CreateFarmResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<CreateFarmRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<CreateFarmResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4276,13 +4297,13 @@ export type CreateFleetError =
  * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
  */
 export const createFleet: API.OperationMethod<
-  CreateFleetRequest,
+  CreateFleetRequest & RegionInput,
   CreateFleetResponse,
   CreateFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<CreateFleetRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<CreateFleetResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<CreateFleetRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<CreateFleetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4313,13 +4334,13 @@ export type CreateJobError =
  * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
  */
 export const createJob: API.OperationMethod<
-  CreateJobRequest,
+  CreateJobRequest & RegionInput,
   CreateJobResponse,
   CreateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<CreateJobRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<CreateJobResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<CreateJobRequest>,
+  output: __S(1792, __c56, 0) as any as S.Schema<CreateJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4348,13 +4369,13 @@ export type CreateLicenseEndpointError =
  * Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
  */
 export const createLicenseEndpoint: API.OperationMethod<
-  CreateLicenseEndpointRequest,
+  CreateLicenseEndpointRequest & RegionInput,
   CreateLicenseEndpointResponse,
   CreateLicenseEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<CreateLicenseEndpointRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<CreateLicenseEndpointResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<CreateLicenseEndpointRequest>,
+  output: __S(2849, __c89, 1) as any as S.Schema<CreateLicenseEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4385,13 +4406,13 @@ export type CreateLimitError =
  * You must add the `amountRequirementName` to a step in a job template to declare the limit requirement.
  */
 export const createLimit: API.OperationMethod<
-  CreateLimitRequest,
+  CreateLimitRequest & RegionInput,
   CreateLimitResponse,
   CreateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<CreateLimitRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<CreateLimitResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateLimitRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<CreateLimitResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4420,13 +4441,13 @@ export type CreateMonitorError =
  * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
  */
 export const createMonitor: API.OperationMethod<
-  CreateMonitorRequest,
+  CreateMonitorRequest & RegionInput,
   CreateMonitorResponse,
   CreateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<CreateMonitorRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<CreateMonitorResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateMonitorRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<CreateMonitorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4456,13 +4477,13 @@ export type CreateQueueError =
  * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
  */
 export const createQueue: API.OperationMethod<
-  CreateQueueRequest,
+  CreateQueueRequest & RegionInput,
   CreateQueueResponse,
   CreateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<CreateQueueRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<CreateQueueResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<CreateQueueRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<CreateQueueResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4492,13 +4513,13 @@ export type CreateQueueEnvironmentError =
  * Creates an environment for a queue that defines how jobs in the queue run.
  */
 export const createQueueEnvironment: API.OperationMethod<
-  CreateQueueEnvironmentRequest,
+  CreateQueueEnvironmentRequest & RegionInput,
   CreateQueueEnvironmentResponse,
   CreateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<CreateQueueEnvironmentRequest>,
-  output: __S(2977, __c93, 1) as any as S.Schema<CreateQueueEnvironmentResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<CreateQueueEnvironmentRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<CreateQueueEnvironmentResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4526,13 +4547,13 @@ export type CreateQueueFleetAssociationError =
  * Creates an association between a queue and a fleet.
  */
 export const createQueueFleetAssociation: API.OperationMethod<
-  CreateQueueFleetAssociationRequest,
+  CreateQueueFleetAssociationRequest & RegionInput,
   CreateQueueFleetAssociationResponse,
   CreateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<CreateQueueFleetAssociationRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<CreateQueueFleetAssociationResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<CreateQueueFleetAssociationRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<CreateQueueFleetAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4559,13 +4580,13 @@ export type CreateQueueLimitAssociationError =
  * Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same `amountRequirementName` to the same queue.
  */
 export const createQueueLimitAssociation: API.OperationMethod<
-  CreateQueueLimitAssociationRequest,
+  CreateQueueLimitAssociationRequest & RegionInput,
   CreateQueueLimitAssociationResponse,
   CreateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<CreateQueueLimitAssociationRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<CreateQueueLimitAssociationResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<CreateQueueLimitAssociationRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<CreateQueueLimitAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4594,13 +4615,13 @@ export type CreateStorageProfileError =
  * Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
  */
 export const createStorageProfile: API.OperationMethod<
-  CreateStorageProfileRequest,
+  CreateStorageProfileRequest & RegionInput,
   CreateStorageProfileResponse,
   CreateStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<CreateStorageProfileRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<CreateStorageProfileResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateStorageProfileRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<CreateStorageProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4632,13 +4653,13 @@ export type CreateWorkerError =
  * Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to `CreateWorker` before the field updates, you might exceed your fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you currently have 9 workers, making two quick `CreateWorker` calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
  */
 export const createWorker: API.OperationMethod<
-  CreateWorkerRequest,
+  CreateWorkerRequest & RegionInput,
   CreateWorkerResponse,
   CreateWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<CreateWorkerRequest>,
-  output: __S(3137, __c98, 1) as any as S.Schema<CreateWorkerResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<CreateWorkerRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<CreateWorkerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4667,13 +4688,13 @@ export type DeleteBudgetError =
  * Deletes a budget.
  */
 export const deleteBudget: API.OperationMethod<
-  DeleteBudgetRequest,
+  DeleteBudgetRequest & RegionInput,
   DeleteBudgetResponse,
   DeleteBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DeleteBudgetRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteBudgetResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteBudgetRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteBudgetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4702,13 +4723,13 @@ export type DeleteFarmError =
  * Deletes a farm.
  */
 export const deleteFarm: API.OperationMethod<
-  DeleteFarmRequest,
+  DeleteFarmRequest & RegionInput,
   DeleteFarmResponse,
   DeleteFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<DeleteFarmRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteFarmResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteFarmRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteFarmResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4737,13 +4758,13 @@ export type DeleteFleetError =
  * Deletes a fleet.
  */
 export const deleteFleet: API.OperationMethod<
-  DeleteFleetRequest,
+  DeleteFleetRequest & RegionInput,
   DeleteFleetResponse,
   DeleteFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<DeleteFleetRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteFleetResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteFleetRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteFleetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4772,13 +4793,13 @@ export type DeleteLicenseEndpointError =
  * Deletes a license endpoint.
  */
 export const deleteLicenseEndpoint: API.OperationMethod<
-  DeleteLicenseEndpointRequest,
+  DeleteLicenseEndpointRequest & RegionInput,
   DeleteLicenseEndpointResponse,
   DeleteLicenseEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<DeleteLicenseEndpointRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteLicenseEndpointResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<DeleteLicenseEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteLicenseEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4805,13 +4826,13 @@ export type DeleteLimitError =
  * Removes a limit from the specified farm. Before you delete a limit you must use the `DeleteQueueLimitAssociation` operation to remove the association with any queues.
  */
 export const deleteLimit: API.OperationMethod<
-  DeleteLimitRequest,
+  DeleteLimitRequest & RegionInput,
   DeleteLimitResponse,
   DeleteLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<DeleteLimitRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteLimitResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DeleteLimitRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteLimitResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4837,13 +4858,13 @@ export type DeleteMeteredProductError =
  * Deletes a metered product.
  */
 export const deleteMeteredProduct: API.OperationMethod<
-  DeleteMeteredProductRequest,
+  DeleteMeteredProductRequest & RegionInput,
   DeleteMeteredProductResponse,
   DeleteMeteredProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DeleteMeteredProductRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteMeteredProductResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteMeteredProductRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteMeteredProductResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4871,13 +4892,13 @@ export type DeleteMonitorError =
  * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor.
  */
 export const deleteMonitor: API.OperationMethod<
-  DeleteMonitorRequest,
+  DeleteMonitorRequest & RegionInput,
   DeleteMonitorResponse,
   DeleteMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<DeleteMonitorRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteMonitorResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteMonitorRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteMonitorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4908,13 +4929,13 @@ export type DeleteQueueError =
  * You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
  */
 export const deleteQueue: API.OperationMethod<
-  DeleteQueueRequest,
+  DeleteQueueRequest & RegionInput,
   DeleteQueueResponse,
   DeleteQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<DeleteQueueRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteQueueResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteQueueRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4941,13 +4962,13 @@ export type DeleteQueueEnvironmentError =
  * Deletes a queue environment.
  */
 export const deleteQueueEnvironment: API.OperationMethod<
-  DeleteQueueEnvironmentRequest,
+  DeleteQueueEnvironmentRequest & RegionInput,
   DeleteQueueEnvironmentResponse,
   DeleteQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<DeleteQueueEnvironmentRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteQueueEnvironmentResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteQueueEnvironmentRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteQueueEnvironmentResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -4974,13 +4995,13 @@ export type DeleteQueueFleetAssociationError =
  * Deletes a queue-fleet association.
  */
 export const deleteQueueFleetAssociation: API.OperationMethod<
-  DeleteQueueFleetAssociationRequest,
+  DeleteQueueFleetAssociationRequest & RegionInput,
   DeleteQueueFleetAssociationResponse,
   DeleteQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DeleteQueueFleetAssociationRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteQueueFleetAssociationResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteQueueFleetAssociationRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteQueueFleetAssociationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5009,13 +5030,13 @@ export type DeleteQueueLimitAssociationError =
  * Removes the association between a queue and a limit. You must use the `UpdateQueueLimitAssociation` operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the `GetQueueLimitAssociation` operation to see if the status changed to `STOPPED` before deleting the association.
  */
 export const deleteQueueLimitAssociation: API.OperationMethod<
-  DeleteQueueLimitAssociationRequest,
+  DeleteQueueLimitAssociationRequest & RegionInput,
   DeleteQueueLimitAssociationResponse,
   DeleteQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<DeleteQueueLimitAssociationRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteQueueLimitAssociationResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DeleteQueueLimitAssociationRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteQueueLimitAssociationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5044,13 +5065,13 @@ export type DeleteStorageProfileError =
  * Deletes a storage profile.
  */
 export const deleteStorageProfile: API.OperationMethod<
-  DeleteStorageProfileRequest,
+  DeleteStorageProfileRequest & RegionInput,
   DeleteStorageProfileResponse,
   DeleteStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<DeleteStorageProfileRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteStorageProfileResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<DeleteStorageProfileRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteStorageProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5079,13 +5100,13 @@ export type DeleteVolumeError =
  * Deletes a persistent volume.
  */
 export const deleteVolume: API.OperationMethod<
-  DeleteVolumeRequest,
+  DeleteVolumeRequest & RegionInput,
   DeleteVolumeResponse,
   DeleteVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<DeleteVolumeRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteVolumeResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DeleteVolumeRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteVolumeResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5114,13 +5135,13 @@ export type DeleteWorkerError =
  * Deletes a worker.
  */
 export const deleteWorker: API.OperationMethod<
-  DeleteWorkerRequest,
+  DeleteWorkerRequest & RegionInput,
   DeleteWorkerResponse,
   DeleteWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<DeleteWorkerRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DeleteWorkerResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<DeleteWorkerRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteWorkerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5148,13 +5169,13 @@ export type DisassociateMemberFromFarmError =
  * Disassociates a member from a farm.
  */
 export const disassociateMemberFromFarm: API.OperationMethod<
-  DisassociateMemberFromFarmRequest,
+  DisassociateMemberFromFarmRequest & RegionInput,
   DisassociateMemberFromFarmResponse,
   DisassociateMemberFromFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<DisassociateMemberFromFarmRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DisassociateMemberFromFarmResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DisassociateMemberFromFarmRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DisassociateMemberFromFarmResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5182,13 +5203,13 @@ export type DisassociateMemberFromFleetError =
  * Disassociates a member from a fleet.
  */
 export const disassociateMemberFromFleet: API.OperationMethod<
-  DisassociateMemberFromFleetRequest,
+  DisassociateMemberFromFleetRequest & RegionInput,
   DisassociateMemberFromFleetResponse,
   DisassociateMemberFromFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<DisassociateMemberFromFleetRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DisassociateMemberFromFleetResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DisassociateMemberFromFleetRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DisassociateMemberFromFleetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5216,13 +5237,13 @@ export type DisassociateMemberFromJobError =
  * Disassociates a member from a job.
  */
 export const disassociateMemberFromJob: API.OperationMethod<
-  DisassociateMemberFromJobRequest,
+  DisassociateMemberFromJobRequest & RegionInput,
   DisassociateMemberFromJobResponse,
   DisassociateMemberFromJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<DisassociateMemberFromJobRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DisassociateMemberFromJobResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<DisassociateMemberFromJobRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DisassociateMemberFromJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5250,13 +5271,13 @@ export type DisassociateMemberFromQueueError =
  * Disassociates a member from a queue.
  */
 export const disassociateMemberFromQueue: API.OperationMethod<
-  DisassociateMemberFromQueueRequest,
+  DisassociateMemberFromQueueRequest & RegionInput,
   DisassociateMemberFromQueueResponse,
   DisassociateMemberFromQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<DisassociateMemberFromQueueRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<DisassociateMemberFromQueueResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<DisassociateMemberFromQueueRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DisassociateMemberFromQueueResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5284,13 +5305,13 @@ export type GetBudgetError =
  * Get a budget.
  */
 export const getBudget: API.OperationMethod<
-  GetBudgetRequest,
+  GetBudgetRequest & RegionInput,
   GetBudgetResponse,
   GetBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetBudgetRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<GetBudgetResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetBudgetRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<GetBudgetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5317,13 +5338,13 @@ export type GetFarmError =
  * Get a farm.
  */
 export const getFarm: API.OperationMethod<
-  GetFarmRequest,
+  GetFarmRequest & RegionInput,
   GetFarmResponse,
   GetFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetFarmRequest>,
-  output: __S(3841, __c120, 1) as any as S.Schema<GetFarmResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetFarmRequest>,
+  output: __S(3873, __c121, 1) as any as S.Schema<GetFarmResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5350,13 +5371,13 @@ export type GetFleetError =
  * Get a fleet.
  */
 export const getFleet: API.OperationMethod<
-  GetFleetRequest,
+  GetFleetRequest & RegionInput,
   GetFleetResponse,
   GetFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetFleetRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<GetFleetResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetFleetRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<GetFleetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5383,13 +5404,13 @@ export type GetJobError =
  * Gets a Deadline Cloud job.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(3905, __c122, 1) as any as S.Schema<GetJobResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<GetJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5416,13 +5437,13 @@ export type GetLicenseEndpointError =
  * Gets a licence endpoint.
  */
 export const getLicenseEndpoint: API.OperationMethod<
-  GetLicenseEndpointRequest,
+  GetLicenseEndpointRequest & RegionInput,
   GetLicenseEndpointResponse,
   GetLicenseEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetLicenseEndpointRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<GetLicenseEndpointResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetLicenseEndpointRequest>,
+  output: __S(3969, __c124, 1) as any as S.Schema<GetLicenseEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5449,13 +5470,13 @@ export type GetLimitError =
  * Gets information about a specific limit.
  */
 export const getLimit: API.OperationMethod<
-  GetLimitRequest,
+  GetLimitRequest & RegionInput,
   GetLimitResponse,
   GetLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetLimitRequest>,
-  output: __S(3969, __c124, 1) as any as S.Schema<GetLimitResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetLimitRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<GetLimitResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5482,13 +5503,13 @@ export type GetMonitorError =
  * Gets information about the specified monitor.
  */
 export const getMonitor: API.OperationMethod<
-  GetMonitorRequest,
+  GetMonitorRequest & RegionInput,
   GetMonitorResponse,
   GetMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetMonitorRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GetMonitorResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetMonitorRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<GetMonitorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5515,13 +5536,13 @@ export type GetMonitorSettingsError =
  * Gets the settings for a Deadline Cloud monitor.
  */
 export const getMonitorSettings: API.OperationMethod<
-  GetMonitorSettingsRequest,
+  GetMonitorSettingsRequest & RegionInput,
   GetMonitorSettingsResponse,
   GetMonitorSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetMonitorSettingsRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<GetMonitorSettingsResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetMonitorSettingsRequest>,
+  output: __S(4097, __c128, 1) as any as S.Schema<GetMonitorSettingsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5548,13 +5569,13 @@ export type GetQueueError =
  * Gets a queue.
  */
 export const getQueue: API.OperationMethod<
-  GetQueueRequest,
+  GetQueueRequest & RegionInput,
   GetQueueResponse,
   GetQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetQueueRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<GetQueueResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetQueueRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<GetQueueResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5581,13 +5602,13 @@ export type GetQueueEnvironmentError =
  * Gets a queue environment.
  */
 export const getQueueEnvironment: API.OperationMethod<
-  GetQueueEnvironmentRequest,
+  GetQueueEnvironmentRequest & RegionInput,
   GetQueueEnvironmentResponse,
   GetQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetQueueEnvironmentRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<GetQueueEnvironmentResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetQueueEnvironmentRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<GetQueueEnvironmentResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5614,13 +5635,13 @@ export type GetQueueFleetAssociationError =
  * Gets a queue-fleet association.
  */
 export const getQueueFleetAssociation: API.OperationMethod<
-  GetQueueFleetAssociationRequest,
+  GetQueueFleetAssociationRequest & RegionInput,
   GetQueueFleetAssociationResponse,
   GetQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetQueueFleetAssociationRequest>,
-  output: __S(4192, __c131, 0) as any as S.Schema<GetQueueFleetAssociationResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetQueueFleetAssociationRequest>,
+  output: __S(4224, __c132, 0) as any as S.Schema<GetQueueFleetAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5647,13 +5668,13 @@ export type GetQueueLimitAssociationError =
  * Gets information about a specific association between a queue and a limit.
  */
 export const getQueueLimitAssociation: API.OperationMethod<
-  GetQueueLimitAssociationRequest,
+  GetQueueLimitAssociationRequest & RegionInput,
   GetQueueLimitAssociationResponse,
   GetQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetQueueLimitAssociationRequest>,
-  output: __S(4256, __c133, 0) as any as S.Schema<GetQueueLimitAssociationResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetQueueLimitAssociationRequest>,
+  output: __S(4288, __c134, 0) as any as S.Schema<GetQueueLimitAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5680,13 +5701,13 @@ export type GetSessionError =
  * Gets a session.
  */
 export const getSession: API.OperationMethod<
-  GetSessionRequest,
+  GetSessionRequest & RegionInput,
   GetSessionResponse,
   GetSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(4289, __c134, 1) as any as S.Schema<GetSessionResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<GetSessionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5713,13 +5734,13 @@ export type GetSessionActionError =
  * Gets a session action for the job.
  */
 export const getSessionAction: API.OperationMethod<
-  GetSessionActionRequest,
+  GetSessionActionRequest & RegionInput,
   GetSessionActionResponse,
   GetSessionActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetSessionActionRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<GetSessionActionResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetSessionActionRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetSessionActionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5746,14 +5767,14 @@ export type GetSessionsStatisticsAggregationError =
  * Gets a set of statistics for queues or farms. Before you can call the `GetSessionStatisticsAggregation` operation, you must first call the `StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const getSessionsStatisticsAggregation: API.PaginatedOperationMethod<
-  GetSessionsStatisticsAggregationRequest,
+  GetSessionsStatisticsAggregationRequest & RegionInput,
   GetSessionsStatisticsAggregationResponse,
   GetSessionsStatisticsAggregationError,
   Credentials | HttpClient.HttpClient,
   Statistics
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetSessionsStatisticsAggregationRequest>,
-  output: __S(4356, __c136, 4) as any as S.Schema<GetSessionsStatisticsAggregationResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetSessionsStatisticsAggregationRequest>,
+  output: __S(4388, __c137, 4) as any as S.Schema<GetSessionsStatisticsAggregationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5786,13 +5807,13 @@ export type GetStepError =
  * Gets a step.
  */
 export const getStep: API.OperationMethod<
-  GetStepRequest,
+  GetStepRequest & RegionInput,
   GetStepResponse,
   GetStepError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetStepRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<GetStepResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetStepRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<GetStepResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5819,13 +5840,13 @@ export type GetStorageProfileError =
  * Gets a storage profile.
  */
 export const getStorageProfile: API.OperationMethod<
-  GetStorageProfileRequest,
+  GetStorageProfileRequest & RegionInput,
   GetStorageProfileResponse,
   GetStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetStorageProfileRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<GetStorageProfileResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetStorageProfileRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<GetStorageProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5852,13 +5873,13 @@ export type GetStorageProfileForQueueError =
  * Gets a storage profile for a queue.
  */
 export const getStorageProfileForQueue: API.OperationMethod<
-  GetStorageProfileForQueueRequest,
+  GetStorageProfileForQueueRequest & RegionInput,
   GetStorageProfileForQueueResponse,
   GetStorageProfileForQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetStorageProfileForQueueRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<GetStorageProfileForQueueResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetStorageProfileForQueueRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<GetStorageProfileForQueueResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5885,13 +5906,13 @@ export type GetTaskError =
  * Gets a task.
  */
 export const getTask: API.OperationMethod<
-  GetTaskRequest,
+  GetTaskRequest & RegionInput,
   GetTaskResponse,
   GetTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetTaskRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<GetTaskResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetTaskRequest>,
+  output: __S(4544, __c142, 0) as any as S.Schema<GetTaskResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5918,13 +5939,13 @@ export type GetVolumeError =
  * Gets a persistent volume.
  */
 export const getVolume: API.OperationMethod<
-  GetVolumeRequest,
+  GetVolumeRequest & RegionInput,
   GetVolumeResponse,
   GetVolumeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetVolumeRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<GetVolumeResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetVolumeRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<GetVolumeResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5951,13 +5972,13 @@ export type GetWorkerError =
  * Gets a worker.
  */
 export const getWorker: API.OperationMethod<
-  GetWorkerRequest,
+  GetWorkerRequest & RegionInput,
   GetWorkerResponse,
   GetWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<GetWorkerRequest>,
-  output: __S(2368, __c74, 0) as any as S.Schema<GetWorkerResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetWorkerRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<GetWorkerResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -5981,14 +6002,14 @@ export type ListAvailableMeteredProductsError =
  * A list of the available metered products.
  */
 export const listAvailableMeteredProducts: API.PaginatedOperationMethod<
-  ListAvailableMeteredProductsRequest,
+  ListAvailableMeteredProductsRequest & RegionInput,
   ListAvailableMeteredProductsResponse,
   ListAvailableMeteredProductsError,
   Credentials | HttpClient.HttpClient,
   MeteredProductSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListAvailableMeteredProductsRequest>,
-  output: __S(4642, __c145, 2) as any as S.Schema<ListAvailableMeteredProductsResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListAvailableMeteredProductsRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<ListAvailableMeteredProductsResponse>,
   errors: [InternalServerErrorException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -6015,14 +6036,14 @@ export type ListBudgetsError =
  * A list of budgets in a farm.
  */
 export const listBudgets: API.PaginatedOperationMethod<
-  ListBudgetsRequest,
+  ListBudgetsRequest & RegionInput,
   ListBudgetsResponse,
   ListBudgetsError,
   Credentials | HttpClient.HttpClient,
   BudgetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<ListBudgetsRequest>,
-  output: __S(4675, __c146, 3) as any as S.Schema<ListBudgetsResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<ListBudgetsRequest>,
+  output: __S(4707, __c147, 3) as any as S.Schema<ListBudgetsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6055,14 +6076,14 @@ export type ListFarmMembersError =
  * Lists the members of a farm.
  */
 export const listFarmMembers: API.PaginatedOperationMethod<
-  ListFarmMembersRequest,
+  ListFarmMembersRequest & RegionInput,
   ListFarmMembersResponse,
   ListFarmMembersError,
   Credentials | HttpClient.HttpClient,
   FarmMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ListFarmMembersRequest>,
-  output: __S(4707, __c147, 3) as any as S.Schema<ListFarmMembersResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<ListFarmMembersRequest>,
+  output: __S(4738, __c148, 2) as any as S.Schema<ListFarmMembersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6094,14 +6115,14 @@ export type ListFarmsError =
  * Lists farms.
  */
 export const listFarms: API.PaginatedOperationMethod<
-  ListFarmsRequest,
+  ListFarmsRequest & RegionInput,
   ListFarmsResponse,
   ListFarmsError,
   Credentials | HttpClient.HttpClient,
   FarmSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ListFarmsRequest>,
-  output: __S(4739, __c148, 3) as any as S.Schema<ListFarmsResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<ListFarmsRequest>,
+  output: __S(4803, __c150, 3) as any as S.Schema<ListFarmsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6133,14 +6154,14 @@ export type ListFleetMembersError =
  * Lists fleet members.
  */
 export const listFleetMembers: API.PaginatedOperationMethod<
-  ListFleetMembersRequest,
+  ListFleetMembersRequest & RegionInput,
   ListFleetMembersResponse,
   ListFleetMembersError,
   Credentials | HttpClient.HttpClient,
   FleetMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<ListFleetMembersRequest>,
-  output: __S(4771, __c149, 3) as any as S.Schema<ListFleetMembersResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<ListFleetMembersRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<ListFleetMembersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6173,14 +6194,14 @@ export type ListFleetsError =
  * Lists fleets.
  */
 export const listFleets: API.PaginatedOperationMethod<
-  ListFleetsRequest,
+  ListFleetsRequest & RegionInput,
   ListFleetsResponse,
   ListFleetsError,
   Credentials | HttpClient.HttpClient,
   FleetSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<ListFleetsRequest>,
-  output: __S(4803, __c150, 3) as any as S.Schema<ListFleetsResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<ListFleetsRequest>,
+  output: __S(4899, __c153, 3) as any as S.Schema<ListFleetsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6213,14 +6234,14 @@ export type ListJobMembersError =
  * Lists members on a job.
  */
 export const listJobMembers: API.PaginatedOperationMethod<
-  ListJobMembersRequest,
+  ListJobMembersRequest & RegionInput,
   ListJobMembersResponse,
   ListJobMembersError,
   Credentials | HttpClient.HttpClient,
   JobMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<ListJobMembersRequest>,
-  output: __S(4835, __c151, 3) as any as S.Schema<ListJobMembersResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ListJobMembersRequest>,
+  output: __S(4930, __c154, 2) as any as S.Schema<ListJobMembersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6253,14 +6274,14 @@ export type ListJobParameterDefinitionsError =
  * Lists parameter definitions of a job.
  */
 export const listJobParameterDefinitions: API.PaginatedOperationMethod<
-  ListJobParameterDefinitionsRequest,
+  ListJobParameterDefinitionsRequest & RegionInput,
   ListJobParameterDefinitionsResponse,
   ListJobParameterDefinitionsError,
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ListJobParameterDefinitionsRequest>,
-  output: __S(4866, __c152, 2) as any as S.Schema<ListJobParameterDefinitionsResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<ListJobParameterDefinitionsRequest>,
+  output: __S(4994, __c156, 2) as any as S.Schema<ListJobParameterDefinitionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6293,14 +6314,14 @@ export type ListJobsError =
  * Lists jobs.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
   JobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(4899, __c153, 3) as any as S.Schema<ListJobsResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(5027, __c157, 3) as any as S.Schema<ListJobsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6333,14 +6354,14 @@ export type ListLicenseEndpointsError =
  * Lists license endpoints.
  */
 export const listLicenseEndpoints: API.PaginatedOperationMethod<
-  ListLicenseEndpointsRequest,
+  ListLicenseEndpointsRequest & RegionInput,
   ListLicenseEndpointsResponse,
   ListLicenseEndpointsError,
   Credentials | HttpClient.HttpClient,
   LicenseEndpointSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ListLicenseEndpointsRequest>,
-  output: __S(4931, __c154, 3) as any as S.Schema<ListLicenseEndpointsResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<ListLicenseEndpointsRequest>,
+  output: __S(5059, __c158, 3) as any as S.Schema<ListLicenseEndpointsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6373,14 +6394,14 @@ export type ListLimitsError =
  * Gets a list of limits defined in the specified farm.
  */
 export const listLimits: API.PaginatedOperationMethod<
-  ListLimitsRequest,
+  ListLimitsRequest & RegionInput,
   ListLimitsResponse,
   ListLimitsError,
   Credentials | HttpClient.HttpClient,
   LimitSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ListLimitsRequest>,
-  output: __S(5027, __c157, 3) as any as S.Schema<ListLimitsResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<ListLimitsRequest>,
+  output: __S(5155, __c161, 3) as any as S.Schema<ListLimitsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6402,6 +6423,46 @@ export const listLimits: API.PaginatedOperationMethod<
   span: "ListLimits",
 })) as any;
 
+export type ListMembershipsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the Deadline Cloud resource memberships associated with a specified IAM Identity Center principal, optionally filtered by the requested resource types.
+ */
+export const listMemberships: API.PaginatedOperationMethod<
+  ListMembershipsRequest & RegionInput,
+  ListMembershipsResponse,
+  ListMembershipsError,
+  Credentials | HttpClient.HttpClient,
+  MembershipSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(5184, __c162, 0) as any as S.Schema<ListMembershipsRequest>,
+  output: __S(5187, __c162, 3) as any as S.Schema<ListMembershipsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListMemberships",
+  endpointHostPrefix: "management.",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "memberships",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListMemberships",
+})) as any;
+
 export type ListMeteredProductsError =
   | AccessDeniedException
   | InternalServerErrorException
@@ -6413,14 +6474,14 @@ export type ListMeteredProductsError =
  * Lists metered products.
  */
 export const listMeteredProducts: API.PaginatedOperationMethod<
-  ListMeteredProductsRequest,
+  ListMeteredProductsRequest & RegionInput,
   ListMeteredProductsResponse,
   ListMeteredProductsError,
   Credentials | HttpClient.HttpClient,
   MeteredProductSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ListMeteredProductsRequest>,
-  output: __S(4642, __c145, 2) as any as S.Schema<ListMeteredProductsResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<ListMeteredProductsRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<ListMeteredProductsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6452,14 +6513,14 @@ export type ListMonitorsError =
  * Gets a list of your monitors in Deadline Cloud.
  */
 export const listMonitors: API.PaginatedOperationMethod<
-  ListMonitorsRequest,
+  ListMonitorsRequest & RegionInput,
   ListMonitorsResponse,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient,
   MonitorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<ListMonitorsRequest>,
-  output: __S(5090, __c159, 2) as any as S.Schema<ListMonitorsResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ListMonitorsRequest>,
+  output: __S(5282, __c165, 2) as any as S.Schema<ListMonitorsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6491,14 +6552,14 @@ export type ListQueueEnvironmentsError =
  * Lists queue environments.
  */
 export const listQueueEnvironments: API.PaginatedOperationMethod<
-  ListQueueEnvironmentsRequest,
+  ListQueueEnvironmentsRequest & RegionInput,
   ListQueueEnvironmentsResponse,
   ListQueueEnvironmentsError,
   Credentials | HttpClient.HttpClient,
   QueueEnvironmentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<ListQueueEnvironmentsRequest>,
-  output: __S(5123, __c160, 3) as any as S.Schema<ListQueueEnvironmentsResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<ListQueueEnvironmentsRequest>,
+  output: __S(5315, __c166, 3) as any as S.Schema<ListQueueEnvironmentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6530,14 +6591,14 @@ export type ListQueueFleetAssociationsError =
  * Lists queue-fleet associations.
  */
 export const listQueueFleetAssociations: API.PaginatedOperationMethod<
-  ListQueueFleetAssociationsRequest,
+  ListQueueFleetAssociationsRequest & RegionInput,
   ListQueueFleetAssociationsResponse,
   ListQueueFleetAssociationsError,
   Credentials | HttpClient.HttpClient,
   QueueFleetAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<ListQueueFleetAssociationsRequest>,
-  output: __S(5154, __c161, 2) as any as S.Schema<ListQueueFleetAssociationsResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<ListQueueFleetAssociationsRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<ListQueueFleetAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6568,14 +6629,14 @@ export type ListQueueLimitAssociationsError =
  * Gets a list of the associations between queues and limits defined in a farm.
  */
 export const listQueueLimitAssociations: API.PaginatedOperationMethod<
-  ListQueueLimitAssociationsRequest,
+  ListQueueLimitAssociationsRequest & RegionInput,
   ListQueueLimitAssociationsResponse,
   ListQueueLimitAssociationsError,
   Credentials | HttpClient.HttpClient,
   QueueLimitAssociationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<ListQueueLimitAssociationsRequest>,
-  output: __S(5186, __c162, 2) as any as S.Schema<ListQueueLimitAssociationsResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<ListQueueLimitAssociationsRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<ListQueueLimitAssociationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6607,14 +6668,14 @@ export type ListQueueMembersError =
  * Lists the members in a queue.
  */
 export const listQueueMembers: API.PaginatedOperationMethod<
-  ListQueueMembersRequest,
+  ListQueueMembersRequest & RegionInput,
   ListQueueMembersResponse,
   ListQueueMembersError,
   Credentials | HttpClient.HttpClient,
   QueueMember
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<ListQueueMembersRequest>,
-  output: __S(5219, __c163, 3) as any as S.Schema<ListQueueMembersResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<ListQueueMembersRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<ListQueueMembersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6647,14 +6708,14 @@ export type ListQueuesError =
  * Lists queues.
  */
 export const listQueues: API.PaginatedOperationMethod<
-  ListQueuesRequest,
+  ListQueuesRequest & RegionInput,
   ListQueuesResponse,
   ListQueuesError,
   Credentials | HttpClient.HttpClient,
   QueueSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<ListQueuesRequest>,
-  output: __S(5251, __c164, 3) as any as S.Schema<ListQueuesResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<ListQueuesRequest>,
+  output: __S(5443, __c170, 3) as any as S.Schema<ListQueuesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6687,14 +6748,14 @@ export type ListSessionActionsError =
  * Lists session actions.
  */
 export const listSessionActions: API.PaginatedOperationMethod<
-  ListSessionActionsRequest,
+  ListSessionActionsRequest & RegionInput,
   ListSessionActionsResponse,
   ListSessionActionsError,
   Credentials | HttpClient.HttpClient,
   SessionActionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<ListSessionActionsRequest>,
-  output: __S(5285, __c165, 5) as any as S.Schema<ListSessionActionsResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<ListSessionActionsRequest>,
+  output: __S(5477, __c171, 5) as any as S.Schema<ListSessionActionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6727,14 +6788,14 @@ export type ListSessionsError =
  * Lists sessions.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
   SessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(5315, __c166, 3) as any as S.Schema<ListSessionsResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(67, __c2, 3) as any as S.Schema<ListSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6767,14 +6828,14 @@ export type ListSessionsForWorkerError =
  * Lists sessions for a worker.
  */
 export const listSessionsForWorker: API.PaginatedOperationMethod<
-  ListSessionsForWorkerRequest,
+  ListSessionsForWorkerRequest & RegionInput,
   ListSessionsForWorkerResponse,
   ListSessionsForWorkerError,
   Credentials | HttpClient.HttpClient,
   WorkerSessionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<ListSessionsForWorkerRequest>,
-  output: __S(67, __c2, 3) as any as S.Schema<ListSessionsForWorkerResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListSessionsForWorkerRequest>,
+  output: __S(99, __c3, 3) as any as S.Schema<ListSessionsForWorkerResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6807,14 +6868,14 @@ export type ListStepConsumersError =
  * Lists step consumers.
  */
 export const listStepConsumers: API.PaginatedOperationMethod<
-  ListStepConsumersRequest,
+  ListStepConsumersRequest & RegionInput,
   ListStepConsumersResponse,
   ListStepConsumersError,
   Credentials | HttpClient.HttpClient,
   StepConsumer
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<ListStepConsumersRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<ListStepConsumersResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListStepConsumersRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<ListStepConsumersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6847,14 +6908,14 @@ export type ListStepDependenciesError =
  * Lists the dependencies for a step.
  */
 export const listStepDependencies: API.PaginatedOperationMethod<
-  ListStepDependenciesRequest,
+  ListStepDependenciesRequest & RegionInput,
   ListStepDependenciesResponse,
   ListStepDependenciesError,
   Credentials | HttpClient.HttpClient,
   StepDependency
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<ListStepDependenciesRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<ListStepDependenciesResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListStepDependenciesRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<ListStepDependenciesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6887,14 +6948,14 @@ export type ListStepsError =
  * Lists steps for a job.
  */
 export const listSteps: API.PaginatedOperationMethod<
-  ListStepsRequest,
+  ListStepsRequest & RegionInput,
   ListStepsResponse,
   ListStepsError,
   Credentials | HttpClient.HttpClient,
   StepSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ListStepsRequest>,
-  output: __S(195, __c6, 3) as any as S.Schema<ListStepsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListStepsRequest>,
+  output: __S(227, __c7, 3) as any as S.Schema<ListStepsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6927,14 +6988,14 @@ export type ListStorageProfilesError =
  * Lists storage profiles.
  */
 export const listStorageProfiles: API.PaginatedOperationMethod<
-  ListStorageProfilesRequest,
+  ListStorageProfilesRequest & RegionInput,
   ListStorageProfilesResponse,
   ListStorageProfilesError,
   Credentials | HttpClient.HttpClient,
   StorageProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ListStorageProfilesRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<ListStorageProfilesResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<ListStorageProfilesRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<ListStorageProfilesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -6967,14 +7028,14 @@ export type ListStorageProfilesForQueueError =
  * Lists storage profiles for a queue.
  */
 export const listStorageProfilesForQueue: API.PaginatedOperationMethod<
-  ListStorageProfilesForQueueRequest,
+  ListStorageProfilesForQueueRequest & RegionInput,
   ListStorageProfilesForQueueResponse,
   ListStorageProfilesForQueueError,
   Credentials | HttpClient.HttpClient,
   StorageProfileSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListStorageProfilesForQueueRequest>,
-  output: __S(258, __c8, 2) as any as S.Schema<ListStorageProfilesForQueueResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListStorageProfilesForQueueRequest>,
+  output: __S(290, __c9, 2) as any as S.Schema<ListStorageProfilesForQueueResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7007,13 +7068,13 @@ export type ListTagsForResourceError =
  * Lists tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7040,14 +7101,14 @@ export type ListTasksError =
  * Lists tasks for a job.
  */
 export const listTasks: API.PaginatedOperationMethod<
-  ListTasksRequest,
+  ListTasksRequest & RegionInput,
   ListTasksResponse,
   ListTasksError,
   Credentials | HttpClient.HttpClient,
   TaskSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ListTasksRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<ListTasksResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListTasksRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<ListTasksResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7080,14 +7141,14 @@ export type ListVolumesError =
  * Lists the persistent volumes in a fleet.
  */
 export const listVolumes: API.PaginatedOperationMethod<
-  ListVolumesRequest,
+  ListVolumesRequest & RegionInput,
   ListVolumesResponse,
   ListVolumesError,
   Credentials | HttpClient.HttpClient,
   VolumeSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListVolumesRequest>,
-  output: __S(387, __c12, 3) as any as S.Schema<ListVolumesResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListVolumesRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<ListVolumesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7120,14 +7181,14 @@ export type ListWorkersError =
  * Lists workers.
  */
 export const listWorkers: API.PaginatedOperationMethod<
-  ListWorkersRequest,
+  ListWorkersRequest & RegionInput,
   ListWorkersResponse,
   ListWorkersError,
   Credentials | HttpClient.HttpClient,
   WorkerSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListWorkersRequest>,
-  output: __S(417, __c13, 1) as any as S.Schema<ListWorkersResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListWorkersRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<ListWorkersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7160,13 +7221,13 @@ export type PutMeteredProductError =
  * Adds a metered product.
  */
 export const putMeteredProduct: API.OperationMethod<
-  PutMeteredProductRequest,
+  PutMeteredProductRequest & RegionInput,
   PutMeteredProductResponse,
   PutMeteredProductError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<PutMeteredProductRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<PutMeteredProductResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<PutMeteredProductRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<PutMeteredProductResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7193,13 +7254,13 @@ export type SearchJobsError =
  * Searches for jobs.
  */
 export const searchJobs: API.OperationMethod<
-  SearchJobsRequest,
+  SearchJobsRequest & RegionInput,
   SearchJobsResponse,
   SearchJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<SearchJobsRequest>,
-  output: __S(515, __c16, 3) as any as S.Schema<SearchJobsResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<SearchJobsRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<SearchJobsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7226,13 +7287,13 @@ export type SearchStepsError =
  * Searches for steps.
  */
 export const searchSteps: API.OperationMethod<
-  SearchStepsRequest,
+  SearchStepsRequest & RegionInput,
   SearchStepsResponse,
   SearchStepsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<SearchStepsRequest>,
-  output: __S(579, __c18, 3) as any as S.Schema<SearchStepsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<SearchStepsRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<SearchStepsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7259,13 +7320,13 @@ export type SearchTasksError =
  * Searches for tasks.
  */
 export const searchTasks: API.OperationMethod<
-  SearchTasksRequest,
+  SearchTasksRequest & RegionInput,
   SearchTasksResponse,
   SearchTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<SearchTasksRequest>,
-  output: __S(611, __c19, 3) as any as S.Schema<SearchTasksResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<SearchTasksRequest>,
+  output: __S(643, __c20, 3) as any as S.Schema<SearchTasksResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7292,13 +7353,13 @@ export type SearchWorkersError =
  * Searches for workers.
  */
 export const searchWorkers: API.OperationMethod<
-  SearchWorkersRequest,
+  SearchWorkersRequest & RegionInput,
   SearchWorkersResponse,
   SearchWorkersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<SearchWorkersRequest>,
-  output: __S(643, __c20, 3) as any as S.Schema<SearchWorkersResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<SearchWorkersRequest>,
+  output: __S(675, __c21, 3) as any as S.Schema<SearchWorkersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7325,13 +7386,13 @@ export type StartSessionsStatisticsAggregationError =
  * Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only have one running aggregation for your Deadline Cloud farm. Call the `GetSessionsStatisticsAggregation` operation and check the `status` field to see if an aggregation is running. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
 export const startSessionsStatisticsAggregation: API.OperationMethod<
-  StartSessionsStatisticsAggregationRequest,
+  StartSessionsStatisticsAggregationRequest & RegionInput,
   StartSessionsStatisticsAggregationResponse,
   StartSessionsStatisticsAggregationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(673, __c21, 1) as any as S.Schema<StartSessionsStatisticsAggregationRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<StartSessionsStatisticsAggregationResponse>,
+  input: __S(705, __c22, 1) as any as S.Schema<StartSessionsStatisticsAggregationRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<StartSessionsStatisticsAggregationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7359,13 +7420,13 @@ export type TagResourceError =
  * Tags a resource using the resource's ARN and desired tags.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7394,13 +7455,13 @@ export type UntagResourceError =
  * Removes a tag from a resource using the resource's ARN and tag to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7430,13 +7491,13 @@ export type UpdateBudgetError =
  * Updates a budget that sets spending thresholds for rendering activity.
  */
 export const updateBudget: API.OperationMethod<
-  UpdateBudgetRequest,
+  UpdateBudgetRequest & RegionInput,
   UpdateBudgetResponse,
   UpdateBudgetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(770, __c24, 2) as any as S.Schema<UpdateBudgetRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateBudgetResponse>,
+  input: __S(802, __c25, 2) as any as S.Schema<UpdateBudgetRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateBudgetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7466,13 +7527,13 @@ export type UpdateFarmError =
  * Updates a farm.
  */
 export const updateFarm: API.OperationMethod<
-  UpdateFarmRequest,
+  UpdateFarmRequest & RegionInput,
   UpdateFarmResponse,
   UpdateFarmError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<UpdateFarmRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateFarmResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<UpdateFarmRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateFarmResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7504,13 +7565,13 @@ export type UpdateFleetError =
  * Workers that are running when you call `UpdateFleet` keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set `maxWorkerCount` to 0, use the `ListWorkers` operation to confirm that the fleet has no workers, and then restore `maxWorkerCount`.
  */
 export const updateFleet: API.OperationMethod<
-  UpdateFleetRequest,
+  UpdateFleetRequest & RegionInput,
   UpdateFleetResponse,
   UpdateFleetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<UpdateFleetRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateFleetResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<UpdateFleetRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateFleetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7544,13 +7605,13 @@ export type UpdateJobError =
  * An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
 export const updateJob: API.OperationMethod<
-  UpdateJobRequest,
+  UpdateJobRequest & RegionInput,
   UpdateJobResponse,
   UpdateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<UpdateJobRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateJobResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<UpdateJobRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateJobResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7578,13 +7639,13 @@ export type UpdateLimitError =
  * Updates the properties of the specified limit.
  */
 export const updateLimit: API.OperationMethod<
-  UpdateLimitRequest,
+  UpdateLimitRequest & RegionInput,
   UpdateLimitResponse,
   UpdateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<UpdateLimitRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateLimitResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<UpdateLimitRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateLimitResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7612,13 +7673,13 @@ export type UpdateMonitorError =
  * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call `UpdateMonitor`.
  */
 export const updateMonitor: API.OperationMethod<
-  UpdateMonitorRequest,
+  UpdateMonitorRequest & RegionInput,
   UpdateMonitorResponse,
   UpdateMonitorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<UpdateMonitorRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateMonitorResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<UpdateMonitorRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateMonitorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7646,13 +7707,13 @@ export type UpdateMonitorSettingsError =
  * Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
  */
 export const updateMonitorSettings: API.OperationMethod<
-  UpdateMonitorSettingsRequest,
+  UpdateMonitorSettingsRequest & RegionInput,
   UpdateMonitorSettingsResponse,
   UpdateMonitorSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<UpdateMonitorSettingsRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateMonitorSettingsResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<UpdateMonitorSettingsRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateMonitorSettingsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7680,13 +7741,13 @@ export type UpdateQueueError =
  * Updates a queue.
  */
 export const updateQueue: API.OperationMethod<
-  UpdateQueueRequest,
+  UpdateQueueRequest & RegionInput,
   UpdateQueueResponse,
   UpdateQueueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<UpdateQueueRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateQueueResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<UpdateQueueRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateQueueResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7714,13 +7775,13 @@ export type UpdateQueueEnvironmentError =
  * Updates the queue environment.
  */
 export const updateQueueEnvironment: API.OperationMethod<
-  UpdateQueueEnvironmentRequest,
+  UpdateQueueEnvironmentRequest & RegionInput,
   UpdateQueueEnvironmentResponse,
   UpdateQueueEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<UpdateQueueEnvironmentRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateQueueEnvironmentResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<UpdateQueueEnvironmentRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateQueueEnvironmentResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7747,13 +7808,13 @@ export type UpdateQueueFleetAssociationError =
  * Updates a queue-fleet association.
  */
 export const updateQueueFleetAssociation: API.OperationMethod<
-  UpdateQueueFleetAssociationRequest,
+  UpdateQueueFleetAssociationRequest & RegionInput,
   UpdateQueueFleetAssociationResponse,
   UpdateQueueFleetAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<UpdateQueueFleetAssociationRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateQueueFleetAssociationResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<UpdateQueueFleetAssociationRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateQueueFleetAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7780,13 +7841,13 @@ export type UpdateQueueLimitAssociationError =
  * Updates the status of the queue. If you set the status to one of the `STOP_LIMIT_USAGE*` values, there will be a delay before the status transitions to the `STOPPED` state.
  */
 export const updateQueueLimitAssociation: API.OperationMethod<
-  UpdateQueueLimitAssociationRequest,
+  UpdateQueueLimitAssociationRequest & RegionInput,
   UpdateQueueLimitAssociationResponse,
   UpdateQueueLimitAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<UpdateQueueLimitAssociationRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateQueueLimitAssociationResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<UpdateQueueLimitAssociationRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateQueueLimitAssociationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7814,13 +7875,13 @@ export type UpdateSessionError =
  * Updates a session.
  */
 export const updateSession: API.OperationMethod<
-  UpdateSessionRequest,
+  UpdateSessionRequest & RegionInput,
   UpdateSessionResponse,
   UpdateSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateSessionResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<UpdateSessionRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateSessionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7849,13 +7910,13 @@ export type UpdateStepError =
  * Updates a step.
  */
 export const updateStep: API.OperationMethod<
-  UpdateStepRequest,
+  UpdateStepRequest & RegionInput,
   UpdateStepResponse,
   UpdateStepError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<UpdateStepRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateStepResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<UpdateStepRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateStepResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7884,13 +7945,13 @@ export type UpdateStorageProfileError =
  * Updates a storage profile.
  */
 export const updateStorageProfile: API.OperationMethod<
-  UpdateStorageProfileRequest,
+  UpdateStorageProfileRequest & RegionInput,
   UpdateStorageProfileResponse,
   UpdateStorageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<UpdateStorageProfileRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateStorageProfileResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<UpdateStorageProfileRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateStorageProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -7919,13 +7980,13 @@ export type UpdateTaskError =
  * Updates a task.
  */
 export const updateTask: API.OperationMethod<
-  UpdateTaskRequest,
+  UpdateTaskRequest & RegionInput,
   UpdateTaskResponse,
   UpdateTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<UpdateTaskRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateTaskResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<UpdateTaskRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateTaskResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7954,13 +8015,13 @@ export type UpdateWorkerError =
  * Updates a worker.
  */
 export const updateWorker: API.OperationMethod<
-  UpdateWorkerRequest,
+  UpdateWorkerRequest & RegionInput,
   UpdateWorkerResponse,
   UpdateWorkerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1379, __c43, 3) as any as S.Schema<UpdateWorkerRequest>,
-  output: __S(1380, __c43, 4) as any as S.Schema<UpdateWorkerResponse>,
+  input: __S(1411, __c44, 3) as any as S.Schema<UpdateWorkerRequest>,
+  output: __S(1412, __c44, 4) as any as S.Schema<UpdateWorkerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7989,13 +8050,13 @@ export type UpdateWorkerScheduleError =
  * Updates the schedule for a worker.
  */
 export const updateWorkerSchedule: API.OperationMethod<
-  UpdateWorkerScheduleRequest,
+  UpdateWorkerScheduleRequest & RegionInput,
   UpdateWorkerScheduleResponse,
   UpdateWorkerScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1410, __c44, 2) as any as S.Schema<UpdateWorkerScheduleRequest>,
-  output: __S(1416, __c44, 8) as any as S.Schema<UpdateWorkerScheduleResponse>,
+  input: __S(1442, __c45, 2) as any as S.Schema<UpdateWorkerScheduleRequest>,
+  output: __S(1448, __c45, 8) as any as S.Schema<UpdateWorkerScheduleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8053,6 +8114,52 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
+          queueId: S.String.pipe(T.HttpLabel("queueId")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListSessionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: S.String,
+          fleetId: S.String,
+          workerId: S.String,
+          startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lifecycleStatus: S.String,
+          endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          targetLifecycleStatus: S.optional(S.String),
+          updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          updatedBy: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SessionSummary" });
+    case 2:
+      return S.Array(__S(65, __c2, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ sessions: __S(66, __c2, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListSessionsResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          farmId: S.String.pipe(T.HttpLabel("farmId")),
           fleetId: S.String.pipe(T.HttpLabel("fleetId")),
           workerId: S.String.pipe(T.HttpLabel("workerId")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -8084,14 +8191,14 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "WorkerSessionSummary" });
     case 2:
-      return S.Array(__S(65, __c2, 1));
+      return S.Array(__S(97, __c3, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ sessions: __S(66, __c2, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ sessions: __S(98, __c3, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSessionsForWorkerResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8118,21 +8225,21 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListStepConsumersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ consumers: __S(129, __c4, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ consumers: __S(161, __c5, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListStepConsumersResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ stepId: S.String, status: S.String })).annotate({
         identifier: "StepConsumer",
       });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(160, __c5, 0));
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8159,11 +8266,11 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListStepDependenciesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ dependencies: __S(129, __c4, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ dependencies: __S(161, __c5, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListStepDependenciesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8195,7 +8302,7 @@ function __c6(j: number): any {
           lifecycleStatus: S.String,
           lifecycleStatusMessage: S.optional(S.String),
           taskRunStatus: S.String,
-          taskRunStatusCounts: __S(1696, __c53, 0),
+          taskRunStatusCounts: __S(1728, __c54, 0),
           taskFailureRetryCount: S.optional(S.Number),
           targetTaskRunStatus: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -8204,18 +8311,18 @@ function __c6(j: number): any {
           updatedBy: S.optional(S.String),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          dependencyCounts: S.optional(__S(2208, __c69, 0)),
+          dependencyCounts: S.optional(__S(2240, __c70, 0)),
         }),
       ).annotate({ identifier: "StepSummary" });
     case 2:
-      return S.Array(__S(193, __c6, 1));
+      return S.Array(__S(225, __c7, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ steps: __S(194, __c6, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ steps: __S(226, __c7, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListStepsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8236,21 +8343,21 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListStorageProfilesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ storageProfileId: S.String, displayName: S.String, osFamily: S.String }),
       ).annotate({ identifier: "StorageProfileSummary" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(288, __c9, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ storageProfiles: __S(257, __c8, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ storageProfiles: __S(289, __c9, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListStorageProfilesResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8275,7 +8382,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ListStorageProfilesForQueueRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8296,7 +8403,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8322,14 +8429,14 @@ function __c11(j: number): any {
         ),
       ).annotate({ identifier: "ListTasksRequest" });
     case 1:
-      return S.Array(__S(4512, __c141, 0));
+      return S.Array(__S(4544, __c142, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ tasks: __S(353, __c11, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ tasks: __S(385, __c12, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListTasksResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8362,37 +8469,11 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "VolumeSummary" });
     case 2:
-      return S.Array(__S(385, __c12, 1));
+      return S.Array(__S(417, __c13, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ volumes: __S(386, __c12, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ volumes: __S(418, __c13, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListVolumesResponse" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          farmId: S.String.pipe(T.HttpLabel("farmId")),
-          fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "ListWorkersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ workers: __S(2336, __c73, 0), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListWorkersResponse" });
   }
 }
 function __c14(j: number): any {
@@ -8429,6 +8510,32 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          farmId: S.String.pipe(T.HttpLabel("farmId")),
+          fleetId: S.String.pipe(T.HttpLabel("fleetId")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/workers" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListWorkersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ workers: __S(2368, __c74, 0), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListWorkersResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           licenseEndpointId: S.String.pipe(T.HttpLabel("licenseEndpointId")),
           productId: S.String.pipe(T.HttpLabel("productId")),
         }).pipe(
@@ -8447,17 +8554,17 @@ function __c15(j: number): any {
       ).annotate({ identifier: "PutMeteredProductRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
-          filterExpressions: S.optional(__S(550, __c17, 6)),
-          sortExpressions: S.optional(__S(554, __c17, 10)),
+          filterExpressions: S.optional(__S(582, __c18, 6)),
+          sortExpressions: S.optional(__S(586, __c18, 10)),
           itemOffset: S.Number,
           pageSize: S.optional(S.Number),
-          queueIds: __S(1600, __c50, 0),
+          queueIds: __S(1632, __c51, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/search/jobs" }),
@@ -8479,7 +8586,7 @@ function __c16(j: number): any {
           lifecycleStatusMessage: S.optional(S.String),
           taskRunStatus: S.optional(S.String),
           targetTaskRunStatus: S.optional(S.String),
-          taskRunStatusCounts: S.optional(__S(1696, __c53, 0)),
+          taskRunStatusCounts: S.optional(__S(1728, __c54, 0)),
           taskFailureRetryCount: S.optional(S.Number),
           priority: S.optional(S.Number),
           maxFailedTasksCount: S.optional(S.Number),
@@ -8490,24 +8597,24 @@ function __c16(j: number): any {
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
-          jobParameters: S.optional(__S(1666, __c52, 2)),
+          jobParameters: S.optional(__S(1698, __c53, 2)),
           maxWorkerCount: S.optional(S.Number),
           sourceJobId: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobSearchSummary" });
     case 2:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          jobs: __S(514, __c16, 2),
+          jobs: __S(546, __c17, 2),
           nextItemOffset: S.optional(S.Number),
           totalResults: S.Number,
         }),
       ).annotate({ identifier: "SearchJobsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8527,31 +8634,31 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SearchTermFilterExpression" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ name: S.String, operator: S.String, values: __S(1600, __c50, 0) }),
+        S.Struct({ name: S.String, operator: S.String, values: __S(1632, __c51, 0) }),
       ).annotate({ identifier: "StringListFilterExpression" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ dateTimeFilter: __S(544, __c17, 0) }),
-        /*@__PURE__*/ S.Struct({ parameterFilter: __S(545, __c17, 1) }),
-        /*@__PURE__*/ S.Struct({ searchTermFilter: __S(546, __c17, 2) }),
-        /*@__PURE__*/ S.Struct({ stringFilter: __S(545, __c17, 1) }),
-        /*@__PURE__*/ S.Struct({ stringListFilter: __S(547, __c17, 3) }),
+        /*@__PURE__*/ S.Struct({ dateTimeFilter: __S(576, __c18, 0) }),
+        /*@__PURE__*/ S.Struct({ parameterFilter: __S(577, __c18, 1) }),
+        /*@__PURE__*/ S.Struct({ searchTermFilter: __S(578, __c18, 2) }),
+        /*@__PURE__*/ S.Struct({ stringFilter: __S(577, __c18, 1) }),
+        /*@__PURE__*/ S.Struct({ stringListFilter: __S(579, __c18, 3) }),
         /*@__PURE__*/ S.Struct({
           groupFilter: /*@__PURE__*/ S.suspend((): S.Schema<SearchGroupedFilterExpressions> =>
-            __S(550, __c17, 6),
+            __S(582, __c18, 6),
           ).annotate({ identifier: "SearchGroupedFilterExpressions" }),
         }),
       ]);
     case 5:
       return S.Array(
-        /*@__PURE__*/ S.suspend(() => __S(548, __c17, 4)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(580, __c18, 4)).annotate({
           identifier: "SearchFilterExpression",
         }),
       );
     case 6:
       return S.suspend(() =>
         S.Struct({
-          filters: S.suspend(() => __S(549, __c17, 5)).annotate({
+          filters: S.suspend(() => __S(581, __c18, 5)).annotate({
             identifier: "SearchFilterExpressions",
           }),
           operator: S.String,
@@ -8567,25 +8674,25 @@ function __c17(j: number): any {
       });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ userJobsFirst: __S(551, __c17, 7) }),
-        /*@__PURE__*/ S.Struct({ fieldSort: __S(552, __c17, 8) }),
-        /*@__PURE__*/ S.Struct({ parameterSort: __S(552, __c17, 8) }),
+        /*@__PURE__*/ S.Struct({ userJobsFirst: __S(583, __c18, 7) }),
+        /*@__PURE__*/ S.Struct({ fieldSort: __S(584, __c18, 8) }),
+        /*@__PURE__*/ S.Struct({ parameterSort: __S(584, __c18, 8) }),
       ]);
     case 10:
-      return S.Array(__S(553, __c17, 9));
+      return S.Array(__S(585, __c18, 9));
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
-          filterExpressions: S.optional(__S(550, __c17, 6)),
-          sortExpressions: S.optional(__S(554, __c17, 10)),
+          filterExpressions: S.optional(__S(582, __c18, 6)),
+          sortExpressions: S.optional(__S(586, __c18, 10)),
           itemOffset: S.Number,
           pageSize: S.optional(S.Number),
-          queueIds: __S(1600, __c50, 0),
+          queueIds: __S(1632, __c51, 0),
           jobId: S.optional(S.String),
         }).pipe(
           T.all(
@@ -8609,7 +8716,7 @@ function __c18(j: number): any {
           lifecycleStatusMessage: S.optional(S.String),
           taskRunStatus: S.optional(S.String),
           targetTaskRunStatus: S.optional(S.String),
-          taskRunStatusCounts: S.optional(__S(1696, __c53, 0)),
+          taskRunStatusCounts: S.optional(__S(1728, __c54, 0)),
           taskFailureRetryCount: S.optional(S.Number),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           createdBy: S.optional(S.String),
@@ -8617,32 +8724,32 @@ function __c18(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
-          parameterSpace: S.optional(__S(2243, __c70, 3)),
+          parameterSpace: S.optional(__S(2275, __c71, 3)),
         }),
       ).annotate({ identifier: "StepSearchSummary" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          steps: __S(578, __c18, 2),
+          steps: __S(610, __c19, 2),
           nextItemOffset: S.optional(S.Number),
           totalResults: S.Number,
         }),
       ).annotate({ identifier: "SearchStepsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
-          filterExpressions: S.optional(__S(550, __c17, 6)),
-          sortExpressions: S.optional(__S(554, __c17, 10)),
+          filterExpressions: S.optional(__S(582, __c18, 6)),
+          sortExpressions: S.optional(__S(586, __c18, 10)),
           itemOffset: S.Number,
           pageSize: S.optional(S.Number),
-          queueIds: __S(1600, __c50, 0),
+          queueIds: __S(1632, __c51, 0),
           jobId: S.optional(S.String),
         }).pipe(
           T.all(
@@ -8664,7 +8771,7 @@ function __c19(j: number): any {
           queueId: S.optional(S.String),
           runStatus: S.optional(S.String),
           targetRunStatus: S.optional(S.String),
-          parameters: S.optional(__S(2017, __c63, 1)),
+          parameters: S.optional(__S(2049, __c64, 1)),
           failureRetryCount: S.optional(S.Number),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -8674,28 +8781,28 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "TaskSearchSummary" });
     case 2:
-      return S.Array(__S(609, __c19, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tasks: __S(610, __c19, 2),
+          tasks: __S(642, __c20, 2),
           nextItemOffset: S.optional(S.Number),
           totalResults: S.Number,
         }),
       ).annotate({ identifier: "SearchTasksResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
-          filterExpressions: S.optional(__S(550, __c17, 6)),
-          sortExpressions: S.optional(__S(554, __c17, 10)),
+          filterExpressions: S.optional(__S(582, __c18, 6)),
+          sortExpressions: S.optional(__S(586, __c18, 10)),
           itemOffset: S.Number,
           pageSize: S.optional(S.Number),
-          fleetIds: __S(1600, __c50, 0),
+          fleetIds: __S(1632, __c51, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/search/workers" }),
@@ -8713,7 +8820,7 @@ function __c20(j: number): any {
           fleetId: S.optional(S.String),
           workerId: S.optional(S.String),
           status: S.optional(S.String),
-          hostProperties: S.optional(__S(1920, __c60, 0)),
+          hostProperties: S.optional(__S(1952, __c61, 0)),
           createdBy: S.optional(S.String),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
@@ -8721,35 +8828,35 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "WorkerSearchSummary" });
     case 2:
-      return S.Array(__S(641, __c20, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          workers: __S(642, __c20, 2),
+          workers: __S(674, __c21, 2),
           nextItemOffset: S.optional(S.Number),
           totalResults: S.Number,
         }),
       ).annotate({ identifier: "SearchWorkersResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ queueIds: __S(1600, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ fleetIds: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ queueIds: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ fleetIds: __S(1632, __c51, 0) }),
       ]);
     case 1:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
-          resourceIds: __S(672, __c21, 0),
+          resourceIds: __S(704, __c22, 0),
           startTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           endTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           timezone: S.optional(S.String),
           period: S.optional(S.String),
-          groupBy: __S(2688, __c84, 0),
-          statistics: __S(2688, __c84, 0),
+          groupBy: __S(2784, __c87, 0),
+          statistics: __S(2784, __c87, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -8770,7 +8877,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8790,13 +8897,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(1600, __c50, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(1632, __c51, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/2023-10-12/tags/{resourceArn}" }),
@@ -8810,14 +8917,14 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ type: S.String, thresholdPercentage: S.Number })).annotate({
         identifier: "BudgetActionToRemove",
       });
     case 1:
-      return S.Array(__S(768, __c24, 0));
+      return S.Array(__S(800, __c25, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -8831,9 +8938,9 @@ function __c24(j: number): any {
           description: S.optional(SensitiveString),
           status: S.optional(S.String),
           approximateDollarLimit: S.optional(S.Number),
-          actionsToAdd: S.optional(__S(2529, __c79, 1)),
-          actionsToRemove: S.optional(__S(769, __c24, 1)),
-          schedule: S.optional(__S(2531, __c79, 3)),
+          actionsToAdd: S.optional(__S(2561, __c80, 1)),
+          actionsToRemove: S.optional(__S(801, __c25, 1)),
+          schedule: S.optional(__S(2563, __c80, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/budgets/{budgetId}" }),
@@ -8845,28 +8952,6 @@ function __c24(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateBudgetRequest" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          farmId: S.String.pipe(T.HttpLabel("farmId")),
-          displayName: S.optional(S.String),
-          description: S.optional(SensitiveString),
-          costScaleFactor: S.optional(S.Number),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateFarmRequest" });
   }
 }
 function __c26(j: number): any {
@@ -8903,6 +8988,28 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
+          displayName: S.optional(S.String),
+          description: S.optional(SensitiveString),
+          costScaleFactor: S.optional(S.Number),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateFarmRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          farmId: S.String.pipe(T.HttpLabel("farmId")),
           fleetId: S.String.pipe(T.HttpLabel("fleetId")),
           clientToken: S.optional(S.String).pipe(
             T.HttpHeader("X-Amz-Client-Token"),
@@ -8914,7 +9021,7 @@ function __c27(j: number): any {
           minWorkerCount: S.optional(S.Number),
           maxWorkerCount: S.optional(S.Number),
           configuration: S.optional(__S(2737, __c85, 17)),
-          hostConfiguration: S.optional(__S(2656, __c83, 0)),
+          hostConfiguration: S.optional(__S(2688, __c84, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/fleets/{fleetId}" }),
@@ -8928,7 +9035,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "UpdateFleetRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8964,7 +9071,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "UpdateJobRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8987,7 +9094,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UpdateLimitRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9009,7 +9116,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UpdateMonitorRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9029,7 +9136,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UpdateMonitorSettingsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9043,14 +9150,14 @@ function __c32(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(SensitiveString),
           defaultBudgetAction: S.optional(S.String),
-          jobAttachmentSettings: S.optional(__S(1792, __c56, 0)),
+          jobAttachmentSettings: S.optional(__S(1824, __c57, 0)),
           roleArn: S.optional(S.String),
-          jobRunAsUser: S.optional(__S(1795, __c56, 3)),
-          requiredFileSystemLocationNamesToAdd: S.optional(__S(1600, __c50, 0)),
-          requiredFileSystemLocationNamesToRemove: S.optional(__S(1600, __c50, 0)),
-          allowedStorageProfileIdsToAdd: S.optional(__S(1600, __c50, 0)),
-          allowedStorageProfileIdsToRemove: S.optional(__S(1600, __c50, 0)),
-          schedulingConfiguration: S.optional(__S(2948, __c92, 4)),
+          jobRunAsUser: S.optional(__S(1827, __c57, 3)),
+          requiredFileSystemLocationNamesToAdd: S.optional(__S(1632, __c51, 0)),
+          requiredFileSystemLocationNamesToRemove: S.optional(__S(1632, __c51, 0)),
+          allowedStorageProfileIdsToAdd: S.optional(__S(1632, __c51, 0)),
+          allowedStorageProfileIdsToRemove: S.optional(__S(1632, __c51, 0)),
+          schedulingConfiguration: S.optional(__S(2980, __c93, 4)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/2023-10-12/farms/{farmId}/queues/{queueId}" }),
@@ -9064,7 +9171,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateQueueRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9095,7 +9202,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateQueueEnvironmentRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9120,7 +9227,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateQueueFleetAssociationRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9143,36 +9250,6 @@ function __c35(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateQueueLimitAssociationRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          farmId: S.String.pipe(T.HttpLabel("farmId")),
-          queueId: S.String.pipe(T.HttpLabel("queueId")),
-          jobId: S.String.pipe(T.HttpLabel("jobId")),
-          sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-          clientToken: S.optional(S.String).pipe(
-            T.HttpHeader("X-Amz-Client-Token"),
-            T.IdempotencyToken(),
-          ),
-          targetLifecycleStatus: S.String,
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PATCH",
-              uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions/{sessionId}",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateSessionRequest" });
   }
 }
 function __c37(j: number): any {
@@ -9227,6 +9304,36 @@ function __c40(j: number): any {
           farmId: S.String.pipe(T.HttpLabel("farmId")),
           queueId: S.String.pipe(T.HttpLabel("queueId")),
           jobId: S.String.pipe(T.HttpLabel("jobId")),
+          sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+          clientToken: S.optional(S.String).pipe(
+            T.HttpHeader("X-Amz-Client-Token"),
+            T.IdempotencyToken(),
+          ),
+          targetLifecycleStatus: S.String,
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PATCH",
+              uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions/{sessionId}",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateSessionRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          farmId: S.String.pipe(T.HttpLabel("farmId")),
+          queueId: S.String.pipe(T.HttpLabel("queueId")),
+          jobId: S.String.pipe(T.HttpLabel("jobId")),
           stepId: S.String.pipe(T.HttpLabel("stepId")),
           clientToken: S.optional(S.String).pipe(
             T.HttpHeader("X-Amz-Client-Token"),
@@ -9249,7 +9356,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateStepRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9262,8 +9369,8 @@ function __c41(j: number): any {
           ),
           displayName: S.optional(S.String),
           osFamily: S.optional(S.String),
-          fileSystemLocationsToAdd: S.optional(__S(3105, __c97, 1)),
-          fileSystemLocationsToRemove: S.optional(__S(3105, __c97, 1)),
+          fileSystemLocationsToAdd: S.optional(__S(3137, __c98, 1)),
+          fileSystemLocationsToRemove: S.optional(__S(3137, __c98, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -9280,7 +9387,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateStorageProfileRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9311,17 +9418,17 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UpdateTaskRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, value: S.Number })).annotate({
         identifier: "WorkerAmountCapability",
       });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ amounts: __S(1377, __c43, 1), attributes: __S(2753, __c86, 1) }),
+        S.Struct({ amounts: __S(1409, __c44, 1), attributes: __S(2753, __c86, 1) }),
       ).annotate({ identifier: "WorkerCapabilities" });
     case 3:
       return S.suspend(() =>
@@ -9330,8 +9437,8 @@ function __c43(j: number): any {
           fleetId: S.String.pipe(T.HttpLabel("fleetId")),
           workerId: S.String.pipe(T.HttpLabel("workerId")),
           status: S.optional(S.String),
-          capabilities: S.optional(__S(1378, __c43, 2)),
-          hostProperties: S.optional(__S(3168, __c99, 0)),
+          capabilities: S.optional(__S(1410, __c44, 2)),
+          hostProperties: S.optional(__S(3200, __c100, 0)),
         }).pipe(
           T.all(
             T.Http({
@@ -9349,13 +9456,13 @@ function __c43(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          log: S.optional(__S(1952, __c61, 0)),
-          hostConfiguration: S.optional(__S(2656, __c83, 0)),
+          log: S.optional(__S(1984, __c62, 0)),
+          hostConfiguration: S.optional(__S(2688, __c84, 0)),
         }),
       ).annotate({ identifier: "UpdateWorkerResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9367,18 +9474,18 @@ function __c44(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           progressPercent: S.optional(S.Number),
-          manifests: S.optional(__S(2113, __c66, 1)),
+          manifests: S.optional(__S(2145, __c67, 1)),
         }),
       ).annotate({ identifier: "UpdatedSessionActionInfo" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(1408, __c44, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1440, __c45, 0).pipe(S.optional));
     case 2:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
           fleetId: S.String.pipe(T.HttpLabel("fleetId")),
           workerId: S.String.pipe(T.HttpLabel("workerId")),
-          updatedSessionActions: S.optional(__S(1409, __c44, 1)),
+          updatedSessionActions: S.optional(__S(1441, __c45, 1)),
         }).pipe(
           T.all(
             T.Http({
@@ -9395,36 +9502,36 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateWorkerScheduleRequest" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ sessionActionId: S.String, definition: __S(2081, __c65, 1) }),
+        S.Struct({ sessionActionId: S.String, definition: __S(2113, __c66, 1) }),
       ).annotate({ identifier: "AssignedSessionAction" });
     case 4:
-      return S.Array(__S(1411, __c44, 3));
+      return S.Array(__S(1443, __c45, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           queueId: S.String,
           jobId: S.String,
-          sessionActions: __S(1412, __c44, 4),
-          logConfiguration: __S(1952, __c61, 0),
+          sessionActions: __S(1444, __c45, 4),
+          logConfiguration: __S(1984, __c62, 0),
           metadata: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "AssignedSession" });
     case 6:
-      return S.Record(S.String, /*@__PURE__*/ __S(1413, __c44, 5).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1445, __c45, 5).pipe(S.optional));
     case 7:
-      return S.Record(S.String, /*@__PURE__*/ __S(1600, __c50, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1632, __c51, 0).pipe(S.optional));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          assignedSessions: __S(1414, __c44, 6),
-          cancelSessionActions: __S(1415, __c44, 7),
+          assignedSessions: __S(1446, __c45, 6),
+          cancelSessionActions: __S(1447, __c45, 7),
           desiredWorkerStatus: S.optional(S.String),
           updateIntervalSeconds: S.Number,
         }),
       ).annotate({ identifier: "UpdateWorkerScheduleResponse" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9448,7 +9555,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "AssumeFleetRoleForWorkerRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9471,7 +9578,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "AssumeQueueRoleForReadRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9494,7 +9601,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "AssumeQueueRoleForUserRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9523,17 +9630,17 @@ function __c48(j: number): any {
       });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String }),
       ).annotate({ identifier: "BatchGetJobIdentifier" });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ identifiers: __S(1569, __c49, 1) }).pipe(
+        S.Struct({ identifiers: __S(1601, __c50, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/batch-get-job" }),
             svc,
@@ -9562,20 +9669,20 @@ function __c49(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           taskRunStatus: S.optional(S.String),
           targetTaskRunStatus: S.optional(S.String),
-          taskRunStatusCounts: S.optional(__S(1696, __c53, 0)),
+          taskRunStatusCounts: S.optional(__S(1728, __c54, 0)),
           taskFailureRetryCount: S.optional(S.Number),
           storageProfileId: S.optional(S.String),
           maxFailedTasksCount: S.optional(S.Number),
           maxRetriesPerTask: S.optional(S.Number),
-          parameters: S.optional(__S(1666, __c52, 2)),
-          attachments: S.optional(__S(1634, __c51, 2)),
+          parameters: S.optional(__S(1698, __c53, 2)),
+          attachments: S.optional(__S(1666, __c52, 2)),
           description: S.optional(SensitiveString),
           maxWorkerCount: S.optional(S.Number),
           sourceJobId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchGetJobItem" });
     case 4:
-      return S.Array(__S(1571, __c49, 3));
+      return S.Array(__S(1603, __c50, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9587,20 +9694,20 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetJobError" });
     case 6:
-      return S.Array(__S(1573, __c49, 5));
+      return S.Array(__S(1605, __c50, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ jobs: __S(1572, __c49, 4), errors: __S(1574, __c49, 6) }),
+        S.Struct({ jobs: __S(1604, __c50, 4), errors: __S(1606, __c50, 6) }),
       ).annotate({ identifier: "BatchGetJobResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9608,23 +9715,23 @@ function __c51(j: number): any {
           fileSystemLocationName: S.optional(S.String),
           rootPath: S.String,
           rootPathFormat: S.String,
-          outputRelativeDirectories: S.optional(__S(1600, __c50, 0)),
+          outputRelativeDirectories: S.optional(__S(1632, __c51, 0)),
           inputManifestPath: S.optional(S.String),
           inputManifestHash: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManifestProperties" });
     case 1:
-      return S.Array(__S(1632, __c51, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ manifests: __S(1633, __c51, 1), fileSystem: S.optional(S.String) }),
+        S.Struct({ manifests: __S(1665, __c52, 1), fileSystem: S.optional(S.String) }),
       ).annotate({ identifier: "Attachments" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ int: S.String }),
@@ -9633,24 +9740,24 @@ function __c52(j: number): any {
         /*@__PURE__*/ S.Struct({ path: S.String }),
         /*@__PURE__*/ S.Struct({ bool: S.String }),
         /*@__PURE__*/ S.Struct({ rangeExpr: S.String }),
-        /*@__PURE__*/ S.Struct({ stringList: __S(1600, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ pathList: __S(1600, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ intList: __S(1600, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ floatList: __S(1600, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ boolList: __S(1600, __c50, 0) }),
-        /*@__PURE__*/ S.Struct({ intListList: __S(1664, __c52, 0) }),
+        /*@__PURE__*/ S.Struct({ stringList: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ pathList: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ intList: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ floatList: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ boolList: __S(1632, __c51, 0) }),
+        /*@__PURE__*/ S.Struct({ intListList: __S(1696, __c53, 0) }),
       ]);
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(1665, __c52, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(1697, __c53, 1).pipe(S.optional));
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ jobId: S.String, stepId: S.String })).annotate({
@@ -9662,20 +9769,20 @@ function __c54(j: number): any {
       });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ jobDetails: __S(1760, __c55, 0) }),
-        /*@__PURE__*/ S.Struct({ jobAttachmentDetails: __S(1760, __c55, 0) }),
-        /*@__PURE__*/ S.Struct({ stepDetails: __S(1728, __c54, 0) }),
-        /*@__PURE__*/ S.Struct({ environmentDetails: __S(1729, __c54, 1) }),
+        /*@__PURE__*/ S.Struct({ jobDetails: __S(1792, __c56, 0) }),
+        /*@__PURE__*/ S.Struct({ jobAttachmentDetails: __S(1792, __c56, 0) }),
+        /*@__PURE__*/ S.Struct({ stepDetails: __S(1760, __c55, 0) }),
+        /*@__PURE__*/ S.Struct({ environmentDetails: __S(1761, __c55, 1) }),
       ]);
     case 3:
-      return S.Array(__S(1730, __c54, 2));
+      return S.Array(__S(1762, __c55, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
           fleetId: S.String.pipe(T.HttpLabel("fleetId")),
           workerId: S.String.pipe(T.HttpLabel("workerId")),
-          identifiers: __S(1731, __c54, 3),
+          identifiers: __S(1763, __c55, 3),
         }).pipe(
           T.all(
             T.Http({
@@ -9695,24 +9802,24 @@ function __c54(j: number): any {
         S.Struct({ sourcePathFormat: S.String, sourcePath: S.String, destinationPath: S.String }),
       ).annotate({ identifier: "PathMappingRule" });
     case 6:
-      return S.Array(__S(1733, __c54, 5));
+      return S.Array(__S(1765, __c55, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           jobId: S.String,
-          jobAttachmentSettings: S.optional(__S(1792, __c56, 0)),
-          jobRunAsUser: S.optional(__S(1795, __c56, 3)),
+          jobAttachmentSettings: S.optional(__S(1824, __c57, 0)),
+          jobRunAsUser: S.optional(__S(1827, __c57, 3)),
           logGroupName: S.String,
           queueRoleArn: S.optional(S.String),
-          parameters: S.optional(__S(1666, __c52, 2)),
+          parameters: S.optional(__S(1698, __c53, 2)),
           schemaVersion: S.String,
-          extensions: S.optional(__S(1600, __c50, 0)),
-          pathMappingRules: S.optional(__S(1734, __c54, 6)),
+          extensions: S.optional(__S(1632, __c51, 0)),
+          pathMappingRules: S.optional(__S(1766, __c55, 6)),
         }),
       ).annotate({ identifier: "JobDetailsEntity" });
     case 8:
       return S.suspend(() =>
-        S.Struct({ jobId: S.String, attachments: __S(1634, __c51, 2) }),
+        S.Struct({ jobId: S.String, attachments: __S(1666, __c52, 2) }),
       ).annotate({ identifier: "JobAttachmentDetailsEntity" });
     case 9:
       return S.suspend(() =>
@@ -9721,8 +9828,8 @@ function __c54(j: number): any {
           stepId: S.String,
           schemaVersion: S.String,
           template: S.Any,
-          dependencies: __S(1600, __c50, 0),
-          extensions: S.optional(__S(1600, __c50, 0)),
+          dependencies: __S(1632, __c51, 0),
+          extensions: S.optional(__S(1632, __c51, 0)),
           resolvedSymbolTable: S.optional(S.String),
         }),
       ).annotate({ identifier: "StepDetailsEntity" });
@@ -9733,19 +9840,19 @@ function __c54(j: number): any {
           environmentId: S.String,
           schemaVersion: S.String,
           template: S.Any,
-          extensions: S.optional(__S(1600, __c50, 0)),
+          extensions: S.optional(__S(1632, __c51, 0)),
           resolvedSymbolTable: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentDetailsEntity" });
     case 11:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ jobDetails: __S(1735, __c54, 7) }),
-        /*@__PURE__*/ S.Struct({ jobAttachmentDetails: __S(1736, __c54, 8) }),
-        /*@__PURE__*/ S.Struct({ stepDetails: __S(1737, __c54, 9) }),
-        /*@__PURE__*/ S.Struct({ environmentDetails: __S(1738, __c54, 10) }),
+        /*@__PURE__*/ S.Struct({ jobDetails: __S(1767, __c55, 7) }),
+        /*@__PURE__*/ S.Struct({ jobAttachmentDetails: __S(1768, __c55, 8) }),
+        /*@__PURE__*/ S.Struct({ stepDetails: __S(1769, __c55, 9) }),
+        /*@__PURE__*/ S.Struct({ environmentDetails: __S(1770, __c55, 10) }),
       ]);
     case 12:
-      return S.Array(__S(1739, __c54, 11));
+      return S.Array(__S(1771, __c55, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({ jobId: S.String, code: S.String, message: S.String }),
@@ -9760,20 +9867,20 @@ function __c54(j: number): any {
       ).annotate({ identifier: "EnvironmentDetailsError" });
     case 16:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ jobDetails: __S(1741, __c54, 13) }),
-        /*@__PURE__*/ S.Struct({ jobAttachmentDetails: __S(1741, __c54, 13) }),
-        /*@__PURE__*/ S.Struct({ stepDetails: __S(1742, __c54, 14) }),
-        /*@__PURE__*/ S.Struct({ environmentDetails: __S(1743, __c54, 15) }),
+        /*@__PURE__*/ S.Struct({ jobDetails: __S(1773, __c55, 13) }),
+        /*@__PURE__*/ S.Struct({ jobAttachmentDetails: __S(1773, __c55, 13) }),
+        /*@__PURE__*/ S.Struct({ stepDetails: __S(1774, __c55, 14) }),
+        /*@__PURE__*/ S.Struct({ environmentDetails: __S(1775, __c55, 15) }),
       ]);
     case 17:
-      return S.Array(__S(1744, __c54, 16));
+      return S.Array(__S(1776, __c55, 16));
     case 18:
       return S.suspend(() =>
-        S.Struct({ entities: __S(1740, __c54, 12), errors: __S(1745, __c54, 17) }),
+        S.Struct({ entities: __S(1772, __c55, 12), errors: __S(1777, __c55, 17) }),
       ).annotate({ identifier: "BatchGetJobEntityResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ jobId: S.String })).annotate({
@@ -9781,7 +9888,7 @@ function __c55(j: number): any {
       });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ s3BucketName: S.String, rootPrefix: S.String })).annotate({
@@ -9798,34 +9905,34 @@ function __c56(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          posix: S.optional(__S(1793, __c56, 1)),
-          windows: S.optional(__S(1794, __c56, 2)),
+          posix: S.optional(__S(1825, __c57, 1)),
+          windows: S.optional(__S(1826, __c57, 2)),
           runAs: S.String,
         }),
       ).annotate({ identifier: "JobRunAsUser" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1856, __c58, 0));
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String, sessionId: S.String }),
       ).annotate({ identifier: "BatchGetSessionIdentifier" });
     case 1:
-      return S.Array(__S(1856, __c58, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ identifiers: __S(1857, __c58, 1) }).pipe(
+        S.Struct({ identifiers: __S(1889, __c59, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/batch-get-session" }),
             svc,
@@ -9851,13 +9958,13 @@ function __c58(j: number): any {
           targetLifecycleStatus: S.optional(S.String),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
-          log: __S(1952, __c61, 0),
-          hostProperties: S.optional(__S(1920, __c60, 0)),
-          workerLog: S.optional(__S(1952, __c61, 0)),
+          log: __S(1984, __c62, 0),
+          hostProperties: S.optional(__S(1952, __c61, 0)),
+          workerLog: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "BatchGetSessionItem" });
     case 4:
-      return S.Array(__S(1859, __c58, 3));
+      return S.Array(__S(1891, __c59, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9870,22 +9977,11 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetSessionError" });
     case 6:
-      return S.Array(__S(1861, __c58, 5));
+      return S.Array(__S(1893, __c59, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ sessions: __S(1860, __c58, 4), errors: __S(1862, __c58, 6) }),
+        S.Struct({ sessions: __S(1892, __c59, 4), errors: __S(1894, __c59, 6) }),
       ).annotate({ identifier: "BatchGetSessionResponse" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ipV4Addresses: S.optional(__S(1600, __c50, 0)),
-          ipV6Addresses: S.optional(__S(1600, __c50, 0)),
-        }),
-      ).annotate({ identifier: "IpAddresses" });
   }
 }
 function __c60(j: number): any {
@@ -9893,7 +9989,18 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ipAddresses: S.optional(__S(1888, __c59, 0)),
+          ipV4Addresses: S.optional(__S(1632, __c51, 0)),
+          ipV6Addresses: S.optional(__S(1632, __c51, 0)),
+        }),
+      ).annotate({ identifier: "IpAddresses" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ipAddresses: S.optional(__S(1920, __c60, 0)),
           hostName: S.optional(S.String),
           ec2InstanceArn: S.optional(S.String),
           ec2InstanceType: S.optional(S.String),
@@ -9901,7 +10008,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "HostPropertiesResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9914,7 +10021,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "LogConfiguration" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9926,10 +10033,10 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetSessionActionIdentifier" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2016, __c63, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ identifiers: __S(1985, __c62, 1) }).pipe(
+        S.Struct({ identifiers: __S(2017, __c63, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/batch-get-session-action" }),
             svc,
@@ -9952,16 +10059,16 @@ function __c62(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           workerUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           progressPercent: S.optional(S.Number),
-          manifests: S.optional(__S(2113, __c66, 1)),
+          manifests: S.optional(__S(2145, __c67, 1)),
           sessionId: S.String,
           processExitCode: S.optional(S.Number),
           progressMessage: S.optional(SensitiveString),
-          acquiredLimits: S.optional(__S(2049, __c64, 1)),
-          definition: __S(2081, __c65, 1),
+          acquiredLimits: S.optional(__S(2081, __c65, 1)),
+          definition: __S(2113, __c66, 1),
         }),
       ).annotate({ identifier: "BatchGetSessionActionItem" });
     case 4:
-      return S.Array(__S(1987, __c62, 3));
+      return S.Array(__S(2019, __c63, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9974,14 +10081,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetSessionActionError" });
     case 6:
-      return S.Array(__S(1989, __c62, 5));
+      return S.Array(__S(2021, __c63, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ sessionActions: __S(1988, __c62, 4), errors: __S(1990, __c62, 6) }),
+        S.Struct({ sessionActions: __S(2020, __c63, 4), errors: __S(2022, __c63, 6) }),
       ).annotate({ identifier: "BatchGetSessionActionResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
@@ -9992,39 +10099,39 @@ function __c63(j: number): any {
         /*@__PURE__*/ S.Struct({ chunkInt: S.String }),
       ]);
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(2016, __c63, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2048, __c64, 0).pipe(S.optional));
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ limitId: S.String, count: S.Number })).annotate({
         identifier: "AcquiredLimit",
       });
     case 1:
-      return S.Array(__S(2048, __c64, 0));
+      return S.Array(__S(2080, __c65, 0));
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           taskId: S.optional(S.String),
           stepId: S.String,
-          parameters: __S(2017, __c63, 1),
+          parameters: __S(2049, __c64, 1),
         }),
       ).annotate({ identifier: "TaskRunSessionActionDefinition" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ envEnter: __S(2114, __c66, 2) }),
-        /*@__PURE__*/ S.Struct({ envExit: __S(2114, __c66, 2) }),
-        /*@__PURE__*/ S.Struct({ taskRun: __S(2080, __c65, 0) }),
-        /*@__PURE__*/ S.Struct({ syncInputJobAttachments: __S(2115, __c66, 3) }),
+        /*@__PURE__*/ S.Struct({ envEnter: __S(2146, __c67, 2) }),
+        /*@__PURE__*/ S.Struct({ envExit: __S(2146, __c67, 2) }),
+        /*@__PURE__*/ S.Struct({ taskRun: __S(2112, __c66, 0) }),
+        /*@__PURE__*/ S.Struct({ syncInputJobAttachments: __S(2147, __c67, 3) }),
       ]);
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10034,7 +10141,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "TaskRunManifestPropertiesResponse" });
     case 1:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
       return S.suspend(() => S.Struct({ environmentId: S.String })).annotate({
         identifier: "EnvironmentEnterSessionActionDefinition",
@@ -10045,17 +10152,17 @@ function __c66(j: number): any {
       });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ farmId: S.String, queueId: S.String, jobId: S.String, stepId: S.String }),
       ).annotate({ identifier: "BatchGetStepIdentifier" });
     case 1:
-      return S.Array(__S(2144, __c67, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ identifiers: __S(2145, __c67, 1) }).pipe(
+        S.Struct({ identifiers: __S(2177, __c68, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/batch-get-step" }),
             svc,
@@ -10077,7 +10184,7 @@ function __c67(j: number): any {
           lifecycleStatus: S.String,
           lifecycleStatusMessage: S.optional(S.String),
           taskRunStatus: S.String,
-          taskRunStatusCounts: __S(1696, __c53, 0),
+          taskRunStatusCounts: __S(1728, __c54, 0),
           taskFailureRetryCount: S.optional(S.Number),
           targetTaskRunStatus: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -10086,14 +10193,14 @@ function __c67(j: number): any {
           updatedBy: S.optional(S.String),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          dependencyCounts: S.optional(__S(2208, __c69, 0)),
-          requiredCapabilities: S.optional(__S(2180, __c68, 4)),
-          parameterSpace: S.optional(__S(2243, __c70, 3)),
+          dependencyCounts: S.optional(__S(2240, __c70, 0)),
+          requiredCapabilities: S.optional(__S(2212, __c69, 4)),
+          parameterSpace: S.optional(__S(2275, __c71, 3)),
           description: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "BatchGetStepItem" });
     case 4:
-      return S.Array(__S(2147, __c67, 3));
+      return S.Array(__S(2179, __c68, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10106,25 +10213,25 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetStepError" });
     case 6:
-      return S.Array(__S(2149, __c67, 5));
+      return S.Array(__S(2181, __c68, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ steps: __S(2148, __c67, 4), errors: __S(2150, __c67, 6) }),
+        S.Struct({ steps: __S(2180, __c68, 4), errors: __S(2182, __c68, 6) }),
       ).annotate({ identifier: "BatchGetStepResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          anyOf: S.optional(__S(1600, __c50, 0)),
-          allOf: S.optional(__S(1600, __c50, 0)),
+          anyOf: S.optional(__S(1632, __c51, 0)),
+          allOf: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "StepAttributeCapability" });
     case 1:
-      return S.Array(__S(2176, __c68, 0));
+      return S.Array(__S(2208, __c69, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10135,14 +10242,14 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "StepAmountCapability" });
     case 3:
-      return S.Array(__S(2178, __c68, 2));
+      return S.Array(__S(2210, __c69, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ attributes: __S(2177, __c68, 1), amounts: __S(2179, __c68, 3) }),
+        S.Struct({ attributes: __S(2209, __c69, 1), amounts: __S(2211, __c69, 3) }),
       ).annotate({ identifier: "StepRequiredCapabilities" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10155,7 +10262,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DependencyCounts" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10167,17 +10274,17 @@ function __c70(j: number): any {
       ).annotate({ identifier: "StepParameterChunks" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ name: S.String, type: S.String, chunks: S.optional(__S(2240, __c70, 0)) }),
+        S.Struct({ name: S.String, type: S.String, chunks: S.optional(__S(2272, __c71, 0)) }),
       ).annotate({ identifier: "StepParameter" });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ parameters: __S(2242, __c70, 2), combination: S.optional(S.String) }),
+        S.Struct({ parameters: __S(2274, __c71, 2), combination: S.optional(S.String) }),
       ).annotate({ identifier: "ParameterSpace" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10190,10 +10297,10 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetTaskIdentifier" });
     case 1:
-      return S.Array(__S(2272, __c71, 0));
+      return S.Array(__S(2304, __c72, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ identifiers: __S(2273, __c71, 1) }).pipe(
+        S.Struct({ identifiers: __S(2305, __c72, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/batch-get-task" }),
             svc,
@@ -10222,11 +10329,11 @@ function __c71(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
           latestSessionActionId: S.optional(S.String),
-          parameters: S.optional(__S(2017, __c63, 1)),
+          parameters: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "BatchGetTaskItem" });
     case 4:
-      return S.Array(__S(2275, __c71, 3));
+      return S.Array(__S(2307, __c72, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -10240,24 +10347,24 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetTaskError" });
     case 6:
-      return S.Array(__S(2277, __c71, 5));
+      return S.Array(__S(2309, __c72, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ tasks: __S(2276, __c71, 4), errors: __S(2278, __c71, 6) }),
+        S.Struct({ tasks: __S(2308, __c72, 4), errors: __S(2310, __c72, 6) }),
       ).annotate({ identifier: "BatchGetTaskResponse" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ farmId: S.String, fleetId: S.String, workerId: S.String }),
       ).annotate({ identifier: "BatchGetWorkerIdentifier" });
     case 1:
-      return S.Array(__S(2304, __c72, 0));
+      return S.Array(__S(2336, __c73, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ identifiers: __S(2305, __c72, 1) }).pipe(
+        S.Struct({ identifiers: __S(2337, __c73, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/batch-get-worker" }),
             svc,
@@ -10279,20 +10386,20 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetWorkerError" });
     case 4:
-      return S.Array(__S(2307, __c72, 3));
+      return S.Array(__S(2339, __c73, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ workers: __S(2336, __c73, 0), errors: __S(2308, __c72, 4) }),
+        S.Struct({ workers: __S(2368, __c74, 0), errors: __S(2340, __c73, 4) }),
       ).annotate({ identifier: "BatchGetWorkerResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2400, __c75, 0));
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10300,9 +10407,9 @@ function __c74(j: number): any {
           farmId: S.String,
           fleetId: S.String,
           workerId: S.String,
-          hostProperties: S.optional(__S(1920, __c60, 0)),
+          hostProperties: S.optional(__S(1952, __c61, 0)),
           status: S.String,
-          log: S.optional(__S(1952, __c61, 0)),
+          log: S.optional(__S(1984, __c62, 0)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           createdBy: S.String,
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -10311,7 +10418,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "BatchGetWorkerItem" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10330,7 +10437,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "BatchUpdateJobItem" });
     case 1:
-      return S.Array(__S(2400, __c75, 0));
+      return S.Array(__S(2432, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10338,7 +10445,7 @@ function __c75(j: number): any {
             T.HttpHeader("X-Amz-Client-Token"),
             T.IdempotencyToken(),
           ),
-          jobs: __S(2401, __c75, 1),
+          jobs: __S(2433, __c76, 1),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/2023-10-12/batch-update-job" }),
@@ -10361,14 +10468,14 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "BatchUpdateJobError" });
     case 4:
-      return S.Array(__S(2403, __c75, 3));
+      return S.Array(__S(2435, __c76, 3));
     case 5:
-      return S.suspend(() => S.Struct({ errors: __S(2404, __c75, 4) })).annotate({
+      return S.suspend(() => S.Struct({ errors: __S(2436, __c76, 4) })).annotate({
         identifier: "BatchUpdateJobResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10382,7 +10489,7 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "BatchUpdateTaskItem" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
+      return S.Array(__S(2464, __c77, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10390,7 +10497,7 @@ function __c76(j: number): any {
             T.HttpHeader("X-Amz-Client-Token"),
             T.IdempotencyToken(),
           ),
-          tasks: __S(2433, __c76, 1),
+          tasks: __S(2465, __c77, 1),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/2023-10-12/batch-update-task" }),
@@ -10415,14 +10522,14 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "BatchUpdateTaskError" });
     case 4:
-      return S.Array(__S(2435, __c76, 3));
+      return S.Array(__S(2467, __c77, 3));
     case 5:
-      return S.suspend(() => S.Struct({ errors: __S(2436, __c76, 4) })).annotate({
+      return S.suspend(() => S.Struct({ errors: __S(2468, __c77, 4) })).annotate({
         identifier: "BatchUpdateTaskResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ bucketName: S.String, key: S.String })).annotate({
@@ -10434,7 +10541,7 @@ function __c77(j: number): any {
           farmId: S.String.pipe(T.HttpLabel("farmId")),
           queueId: S.String.pipe(T.HttpLabel("queueId")),
           jobId: S.String.pipe(T.HttpLabel("jobId")),
-          targetS3Location: __S(2464, __c77, 0),
+          targetS3Location: __S(2496, __c78, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -10455,7 +10562,7 @@ function __c77(j: number): any {
       });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10467,10 +10574,10 @@ function __c78(j: number): any {
             T.HttpHeader("X-Amz-Client-Token"),
             T.IdempotencyToken(),
           ),
-          usageTrackingResource: __S(2560, __c80, 0),
+          usageTrackingResource: __S(2592, __c81, 0),
           approximateDollarLimit: S.Number,
-          actions: __S(2529, __c79, 1),
-          schedule: __S(2531, __c79, 3),
+          actions: __S(2561, __c80, 1),
+          schedule: __S(2563, __c80, 3),
           tags: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.all(
@@ -10489,7 +10596,7 @@ function __c78(j: number): any {
       });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10500,7 +10607,7 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "BudgetActionToAdd" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(2560, __c80, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10509,16 +10616,16 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "FixedBudgetSchedule" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ fixed: __S(2530, __c79, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ fixed: __S(2562, __c80, 2) })]);
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ queueId: S.String })]);
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10542,7 +10649,7 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10559,7 +10666,7 @@ function __c82(j: number): any {
           maxWorkerCount: S.Number,
           configuration: __S(2737, __c85, 17),
           tags: S.optional(__S(0, __c0, 0)),
-          hostConfiguration: S.optional(__S(2656, __c83, 0)),
+          hostConfiguration: S.optional(__S(2688, __c84, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/fleets" }),
@@ -10577,18 +10684,12 @@ function __c82(j: number): any {
       });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ scriptBody: SensitiveString, scriptTimeoutSeconds: S.optional(S.Number) }),
       ).annotate({ identifier: "HostConfiguration" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c85(j: number): any {
@@ -10616,7 +10717,7 @@ function __c85(j: number): any {
         S.Struct({
           vCpuCount: __S(2721, __c85, 1),
           memoryMiB: __S(2721, __c85, 1),
-          acceleratorTypes: S.optional(__S(2688, __c84, 0)),
+          acceleratorTypes: S.optional(__S(2784, __c87, 0)),
           acceleratorCount: S.optional(__S(2721, __c85, 1)),
           acceleratorTotalMemoryMiB: S.optional(__S(2721, __c85, 1)),
           osFamily: S.String,
@@ -10668,8 +10769,8 @@ function __c85(j: number): any {
           cpuArchitectureType: S.String,
           rootEbsVolume: S.optional(__S(2726, __c85, 6)),
           acceleratorCapabilities: S.optional(__S(2729, __c85, 9)),
-          allowedInstanceTypes: S.optional(__S(1600, __c50, 0)),
-          excludedInstanceTypes: S.optional(__S(1600, __c50, 0)),
+          allowedInstanceTypes: S.optional(__S(1632, __c51, 0)),
+          excludedInstanceTypes: S.optional(__S(1632, __c51, 0)),
           customAmounts: S.optional(__S(2723, __c85, 3)),
           customAttributes: S.optional(__S(2753, __c86, 1)),
           softwareAddOns: S.optional(__S(2731, __c85, 11)),
@@ -10681,7 +10782,7 @@ function __c85(j: number): any {
       });
     case 14:
       return S.suspend(() =>
-        S.Struct({ resourceConfigurationArns: S.optional(__S(1600, __c50, 0)) }),
+        S.Struct({ resourceConfigurationArns: S.optional(__S(1632, __c51, 0)) }),
       ).annotate({ identifier: "VpcConfiguration" });
     case 15:
       return S.suspend(() =>
@@ -10714,7 +10815,7 @@ function __c85(j: number): any {
 function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ name: S.String, values: __S(1600, __c50, 0) })).annotate({
+      return S.suspend(() => S.Struct({ name: S.String, values: __S(1632, __c51, 0) })).annotate({
         identifier: "FleetAttributeCapability",
       });
     case 1:
@@ -10722,6 +10823,12 @@ function __c86(j: number): any {
   }
 }
 function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10735,8 +10842,8 @@ function __c87(j: number): any {
           template: S.optional(SensitiveString),
           templateType: S.optional(S.String),
           priority: S.Number,
-          parameters: S.optional(__S(1666, __c52, 2)),
-          attachments: S.optional(__S(1634, __c51, 2)),
+          parameters: S.optional(__S(1698, __c53, 2)),
+          attachments: S.optional(__S(1666, __c52, 2)),
           storageProfileId: S.optional(S.String),
           targetTaskRunStatus: S.optional(S.String),
           maxFailedTasksCount: S.optional(S.Number),
@@ -10759,7 +10866,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "CreateJobRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10769,8 +10876,8 @@ function __c88(j: number): any {
             T.IdempotencyToken(),
           ),
           vpcId: S.String,
-          subnetIds: __S(1600, __c50, 0),
-          securityGroupIds: __S(1600, __c50, 0),
+          subnetIds: __S(1632, __c51, 0),
+          securityGroupIds: __S(1632, __c51, 0),
           tags: S.optional(__S(0, __c0, 0)),
         }).pipe(
           T.all(
@@ -10789,7 +10896,7 @@ function __c88(j: number): any {
       });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10820,7 +10927,7 @@ function __c89(j: number): any {
       });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10852,7 +10959,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "CreateMonitorResponse" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10865,13 +10972,13 @@ function __c91(j: number): any {
           displayName: S.String,
           description: S.optional(SensitiveString),
           defaultBudgetAction: S.optional(S.String),
-          jobAttachmentSettings: S.optional(__S(1792, __c56, 0)),
+          jobAttachmentSettings: S.optional(__S(1824, __c57, 0)),
           roleArn: S.optional(S.String),
-          jobRunAsUser: S.optional(__S(1795, __c56, 3)),
-          requiredFileSystemLocationNames: S.optional(__S(1600, __c50, 0)),
-          allowedStorageProfileIds: S.optional(__S(1600, __c50, 0)),
+          jobRunAsUser: S.optional(__S(1827, __c57, 3)),
+          requiredFileSystemLocationNames: S.optional(__S(1632, __c51, 0)),
+          allowedStorageProfileIds: S.optional(__S(1632, __c51, 0)),
           tags: S.optional(__S(0, __c0, 0)),
-          schedulingConfiguration: S.optional(__S(2948, __c92, 4)),
+          schedulingConfiguration: S.optional(__S(2980, __c93, 4)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/queues" }),
@@ -10889,16 +10996,16 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ renderingTaskBuffer: S.optional(S.Number) })).annotate({
         identifier: "PriorityBalancedSchedulingConfiguration",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ alwaysScheduleFirst: __S(4992, __c156, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ alwaysScheduleFirst: __S(5120, __c160, 0) })]);
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ alwaysScheduleLast: __S(4992, __c156, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ alwaysScheduleLast: __S(5120, __c160, 0) })]);
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10907,19 +11014,19 @@ function __c92(j: number): any {
           submissionTimeWeight: S.optional(S.Number),
           renderingTaskWeight: S.optional(S.Number),
           renderingTaskBuffer: S.optional(S.Number),
-          maxPriorityOverride: S.optional(__S(2945, __c92, 1)),
-          minPriorityOverride: S.optional(__S(2946, __c92, 2)),
+          maxPriorityOverride: S.optional(__S(2977, __c93, 1)),
+          minPriorityOverride: S.optional(__S(2978, __c93, 2)),
         }),
       ).annotate({ identifier: "WeightedBalancedSchedulingConfiguration" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ priorityFifo: __S(4992, __c156, 0) }),
-        /*@__PURE__*/ S.Struct({ priorityBalanced: __S(2944, __c92, 0) }),
-        /*@__PURE__*/ S.Struct({ weightedBalanced: __S(2947, __c92, 3) }),
+        /*@__PURE__*/ S.Struct({ priorityFifo: __S(5120, __c160, 0) }),
+        /*@__PURE__*/ S.Struct({ priorityBalanced: __S(2976, __c93, 0) }),
+        /*@__PURE__*/ S.Struct({ weightedBalanced: __S(2979, __c93, 3) }),
       ]);
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10953,7 +11060,7 @@ function __c93(j: number): any {
       });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10974,7 +11081,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "CreateQueueFleetAssociationRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10995,7 +11102,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "CreateQueueLimitAssociationRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11007,7 +11114,7 @@ function __c96(j: number): any {
           ),
           displayName: S.String,
           osFamily: S.String,
-          fileSystemLocations: S.optional(__S(3105, __c97, 1)),
+          fileSystemLocations: S.optional(__S(3137, __c98, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/2023-10-12/farms/{farmId}/storage-profiles" }),
@@ -11025,24 +11132,24 @@ function __c96(j: number): any {
       });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, path: S.String, type: S.String })).annotate(
         { identifier: "FileSystemLocation" },
       );
     case 1:
-      return S.Array(__S(3104, __c97, 0));
+      return S.Array(__S(3136, __c98, 0));
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String.pipe(T.HttpLabel("farmId")),
           fleetId: S.String.pipe(T.HttpLabel("fleetId")),
-          hostProperties: S.optional(__S(3168, __c99, 0)),
+          hostProperties: S.optional(__S(3200, __c100, 0)),
           clientToken: S.optional(S.String).pipe(
             T.HttpHeader("X-Amz-Client-Token"),
             T.IdempotencyToken(),
@@ -11065,15 +11172,15 @@ function __c98(j: number): any {
       });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ipAddresses: S.optional(__S(1888, __c59, 0)), hostName: S.optional(S.String) }),
+        S.Struct({ ipAddresses: S.optional(__S(1920, __c60, 0)), hostName: S.optional(S.String) }),
       ).annotate({ identifier: "HostPropertiesRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11093,7 +11200,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteBudgetRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11110,7 +11217,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DeleteFarmRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11134,7 +11241,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DeleteFleetRequest" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11151,7 +11258,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteLicenseEndpointRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11171,7 +11278,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeleteLimitRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11194,7 +11301,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteMeteredProductRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11211,7 +11318,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "DeleteMonitorRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11231,7 +11338,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "DeleteQueueRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11255,7 +11362,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DeleteQueueEnvironmentRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11279,7 +11386,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "DeleteQueueFleetAssociationRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11303,7 +11410,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DeleteQueueLimitAssociationRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11326,7 +11433,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DeleteStorageProfileRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11350,7 +11457,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "DeleteVolumeRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11374,7 +11481,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "DeleteWorkerRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11394,7 +11501,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "DisassociateMemberFromFarmRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11418,7 +11525,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DisassociateMemberFromFleetRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11443,7 +11550,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DisassociateMemberFromJobRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11467,7 +11574,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "DisassociateMemberFromQueueRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11489,24 +11596,24 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           budgetId: S.String,
-          usageTrackingResource: __S(2560, __c80, 0),
+          usageTrackingResource: __S(2592, __c81, 0),
           status: S.String,
           displayName: S.String,
           approximateDollarLimit: S.Number,
-          usages: __S(3808, __c119, 0),
+          usages: __S(3840, __c120, 0),
           createdBy: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedBy: S.optional(S.String),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(SensitiveString),
-          actions: __S(2529, __c79, 1),
-          schedule: __S(2531, __c79, 3),
+          actions: __S(2561, __c80, 1),
+          schedule: __S(2563, __c80, 3),
           queueStoppedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "GetBudgetResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ approximateDollarUsage: S.Number })).annotate({
@@ -11514,7 +11621,7 @@ function __c119(j: number): any {
       });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11545,7 +11652,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetFarmResponse" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11589,14 +11696,14 @@ function __c121(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
           description: S.optional(SensitiveString),
-          hostConfiguration: S.optional(__S(2656, __c83, 0)),
-          capabilities: S.optional(__S(3873, __c121, 1)),
+          hostConfiguration: S.optional(__S(2688, __c84, 0)),
+          capabilities: S.optional(__S(3905, __c122, 1)),
           roleArn: S.String,
         }),
       ).annotate({ identifier: "GetFleetResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11634,13 +11741,13 @@ function __c122(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           taskRunStatus: S.optional(S.String),
           targetTaskRunStatus: S.optional(S.String),
-          taskRunStatusCounts: S.optional(__S(1696, __c53, 0)),
+          taskRunStatusCounts: S.optional(__S(1728, __c54, 0)),
           taskFailureRetryCount: S.optional(S.Number),
           storageProfileId: S.optional(S.String),
           maxFailedTasksCount: S.optional(S.Number),
           maxRetriesPerTask: S.optional(S.Number),
-          parameters: S.optional(__S(1666, __c52, 2)),
-          attachments: S.optional(__S(1634, __c51, 2)),
+          parameters: S.optional(__S(1698, __c53, 2)),
+          attachments: S.optional(__S(1666, __c52, 2)),
           description: S.optional(SensitiveString),
           maxWorkerCount: S.optional(S.Number),
           sourceJobId: S.optional(S.String),
@@ -11648,7 +11755,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11671,13 +11778,13 @@ function __c123(j: number): any {
           statusMessage: S.String,
           vpcId: S.optional(S.String),
           dnsName: S.optional(S.String),
-          subnetIds: S.optional(__S(1600, __c50, 0)),
-          securityGroupIds: S.optional(__S(1600, __c50, 0)),
+          subnetIds: S.optional(__S(1632, __c51, 0)),
+          securityGroupIds: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "GetLicenseEndpointResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11713,7 +11820,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetLimitResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11730,7 +11837,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetMonitorRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11751,7 +11858,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetMonitorResponse" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11772,7 +11879,7 @@ function __c127(j: number): any {
       });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11804,17 +11911,17 @@ function __c128(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
           description: S.optional(SensitiveString),
-          jobAttachmentSettings: S.optional(__S(1792, __c56, 0)),
+          jobAttachmentSettings: S.optional(__S(1824, __c57, 0)),
           roleArn: S.optional(S.String),
-          requiredFileSystemLocationNames: S.optional(__S(1600, __c50, 0)),
-          allowedStorageProfileIds: S.optional(__S(1600, __c50, 0)),
-          jobRunAsUser: S.optional(__S(1795, __c56, 3)),
-          schedulingConfiguration: S.optional(__S(2948, __c92, 4)),
+          requiredFileSystemLocationNames: S.optional(__S(1632, __c51, 0)),
+          allowedStorageProfileIds: S.optional(__S(1632, __c51, 0)),
+          jobRunAsUser: S.optional(__S(1827, __c57, 3)),
+          schedulingConfiguration: S.optional(__S(2980, __c93, 4)),
         }),
       ).annotate({ identifier: "GetQueueResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11852,7 +11959,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetQueueEnvironmentResponse" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11876,7 +11983,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetQueueFleetAssociationRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11892,7 +11999,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetQueueFleetAssociationResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11916,7 +12023,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetQueueLimitAssociationRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11932,7 +12039,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetQueueLimitAssociationResponse" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11967,14 +12074,14 @@ function __c134(j: number): any {
           targetLifecycleStatus: S.optional(S.String),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
-          log: __S(1952, __c61, 0),
-          hostProperties: S.optional(__S(1920, __c60, 0)),
-          workerLog: S.optional(__S(1952, __c61, 0)),
+          log: __S(1984, __c62, 0),
+          hostProperties: S.optional(__S(1952, __c61, 0)),
+          workerLog: S.optional(__S(1984, __c62, 0)),
         }),
       ).annotate({ identifier: "GetSessionResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12006,17 +12113,17 @@ function __c135(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           workerUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           progressPercent: S.optional(S.Number),
-          manifests: S.optional(__S(2113, __c66, 1)),
+          manifests: S.optional(__S(2145, __c67, 1)),
           sessionId: S.String,
           processExitCode: S.optional(S.Number),
           progressMessage: S.optional(SensitiveString),
-          acquiredLimits: S.optional(__S(2049, __c64, 1)),
-          definition: __S(2081, __c65, 1),
+          acquiredLimits: S.optional(__S(2081, __c65, 1)),
+          definition: __S(2113, __c66, 1),
         }),
       ).annotate({ identifier: "GetSessionActionResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12060,18 +12167,18 @@ function __c136(j: number): any {
           licenseProduct: S.optional(S.String),
           instanceType: S.optional(S.String),
           count: S.Number,
-          costInUsd: __S(4353, __c136, 1),
-          runtimeInSeconds: __S(4353, __c136, 1),
+          costInUsd: __S(4385, __c137, 1),
+          runtimeInSeconds: __S(4385, __c137, 1),
           aggregationStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           aggregationEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "Statistics" });
     case 3:
-      return S.Array(__S(4354, __c136, 2));
+      return S.Array(__S(4386, __c137, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          statistics: S.optional(__S(4355, __c136, 3)),
+          statistics: S.optional(__S(4387, __c137, 3)),
           status: S.String,
           statusMessage: S.optional(S.String),
           nextToken: S.optional(S.String),
@@ -12079,7 +12186,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetSessionsStatisticsAggregationResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12110,7 +12217,7 @@ function __c137(j: number): any {
           lifecycleStatus: S.String,
           lifecycleStatusMessage: S.optional(S.String),
           taskRunStatus: S.String,
-          taskRunStatusCounts: __S(1696, __c53, 0),
+          taskRunStatusCounts: __S(1728, __c54, 0),
           taskFailureRetryCount: S.optional(S.Number),
           targetTaskRunStatus: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -12119,15 +12226,15 @@ function __c137(j: number): any {
           updatedBy: S.optional(S.String),
           startedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          dependencyCounts: S.optional(__S(2208, __c69, 0)),
-          requiredCapabilities: S.optional(__S(2180, __c68, 4)),
-          parameterSpace: S.optional(__S(2243, __c70, 3)),
+          dependencyCounts: S.optional(__S(2240, __c70, 0)),
+          requiredCapabilities: S.optional(__S(2212, __c69, 4)),
+          parameterSpace: S.optional(__S(2275, __c71, 3)),
           description: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "GetStepResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12158,12 +12265,12 @@ function __c138(j: number): any {
           createdBy: S.String,
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
-          fileSystemLocations: S.optional(__S(3105, __c97, 1)),
+          fileSystemLocations: S.optional(__S(3137, __c98, 1)),
         }),
       ).annotate({ identifier: "GetStorageProfileResponse" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12191,12 +12298,12 @@ function __c139(j: number): any {
           storageProfileId: S.String,
           displayName: S.String,
           osFamily: S.String,
-          fileSystemLocations: S.optional(__S(3105, __c97, 1)),
+          fileSystemLocations: S.optional(__S(3137, __c98, 1)),
         }),
       ).annotate({ identifier: "GetStorageProfileForQueueResponse" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12222,7 +12329,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetTaskRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12238,12 +12345,12 @@ function __c141(j: number): any {
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedBy: S.optional(S.String),
           latestSessionActionId: S.optional(S.String),
-          parameters: S.optional(__S(2017, __c63, 1)),
+          parameters: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "GetTaskResponse" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12286,7 +12393,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetVolumeResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12310,7 +12417,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetWorkerRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12330,21 +12437,21 @@ function __c144(j: number): any {
       ).annotate({ identifier: "ListAvailableMeteredProductsRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ productId: S.String, family: S.String, vendor: S.String, port: S.Number }),
       ).annotate({ identifier: "MeteredProductSummary" });
     case 1:
-      return S.Array(__S(4640, __c145, 0));
+      return S.Array(__S(4672, __c146, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ meteredProducts: __S(4641, __c145, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ meteredProducts: __S(4673, __c146, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAvailableMeteredProductsResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12368,11 +12475,11 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.Struct({
           budgetId: S.String,
-          usageTrackingResource: __S(2560, __c80, 0),
+          usageTrackingResource: __S(2592, __c81, 0),
           status: S.String,
           displayName: S.String,
           approximateDollarLimit: S.Number,
-          usages: __S(3808, __c119, 0),
+          usages: __S(3840, __c120, 0),
           createdBy: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedBy: S.optional(S.String),
@@ -12381,14 +12488,14 @@ function __c146(j: number): any {
         }),
       ).annotate({ identifier: "BudgetSummary" });
     case 2:
-      return S.Array(__S(4673, __c146, 1));
+      return S.Array(__S(4705, __c147, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ budgets: __S(4674, __c146, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ budgets: __S(4706, __c147, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBudgetsResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12408,6 +12515,16 @@ function __c147(j: number): any {
         ),
       ).annotate({ identifier: "ListFarmMembersRequest" });
     case 1:
+      return S.Array(__S(4768, __c149, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ members: __S(4737, __c148, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListFarmMembersResponse" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String,
@@ -12417,15 +12534,9 @@ function __c147(j: number): any {
           membershipLevel: S.String,
         }),
       ).annotate({ identifier: "FarmMember" });
-    case 2:
-      return S.Array(__S(4705, __c147, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ members: __S(4706, __c147, 2), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListFarmMembersResponse" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12450,14 +12561,14 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "FarmSummary" });
     case 2:
-      return S.Array(__S(4737, __c148, 1));
+      return S.Array(__S(4801, __c150, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ farms: __S(4738, __c148, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ farms: __S(4802, __c150, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFarmsResponse" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12478,6 +12589,16 @@ function __c149(j: number): any {
         ),
       ).annotate({ identifier: "ListFleetMembersRequest" });
     case 1:
+      return S.Array(__S(4864, __c152, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ members: __S(4833, __c151, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListFleetMembersResponse" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String,
@@ -12488,15 +12609,9 @@ function __c149(j: number): any {
           membershipLevel: S.String,
         }),
       ).annotate({ identifier: "FleetMember" });
-    case 2:
-      return S.Array(__S(4769, __c149, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ members: __S(4770, __c149, 2), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListFleetMembersResponse" });
   }
 }
-function __c150(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12539,14 +12654,14 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "FleetSummary" });
     case 2:
-      return S.Array(__S(4801, __c150, 1));
+      return S.Array(__S(4897, __c153, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ fleets: __S(4802, __c150, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ fleets: __S(4898, __c153, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFleetsResponse" });
   }
 }
-function __c151(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12571,6 +12686,16 @@ function __c151(j: number): any {
         ),
       ).annotate({ identifier: "ListJobMembersRequest" });
     case 1:
+      return S.Array(__S(4960, __c155, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ members: __S(4929, __c154, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListJobMembersResponse" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           farmId: S.String,
@@ -12582,15 +12707,9 @@ function __c151(j: number): any {
           membershipLevel: S.String,
         }),
       ).annotate({ identifier: "JobMember" });
-    case 2:
-      return S.Array(__S(4833, __c151, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ members: __S(4834, __c151, 2), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListJobMembersResponse" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12619,13 +12738,13 @@ function __c152(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jobParameterDefinitions: __S(4865, __c152, 1),
+          jobParameterDefinitions: __S(4993, __c156, 1),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListJobParameterDefinitionsResponse" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12662,7 +12781,7 @@ function __c153(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           taskRunStatus: S.optional(S.String),
           targetTaskRunStatus: S.optional(S.String),
-          taskRunStatusCounts: S.optional(__S(1696, __c53, 0)),
+          taskRunStatusCounts: S.optional(__S(1728, __c54, 0)),
           taskFailureRetryCount: S.optional(S.Number),
           maxFailedTasksCount: S.optional(S.Number),
           maxRetriesPerTask: S.optional(S.Number),
@@ -12671,14 +12790,14 @@ function __c153(j: number): any {
         }),
       ).annotate({ identifier: "JobSummary" });
     case 2:
-      return S.Array(__S(4897, __c153, 1));
+      return S.Array(__S(5025, __c157, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ jobs: __S(4898, __c153, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ jobs: __S(5026, __c157, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListJobsResponse" });
   }
 }
-function __c154(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12706,14 +12825,14 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "LicenseEndpointSummary" });
     case 2:
-      return S.Array(__S(4929, __c154, 1));
+      return S.Array(__S(5057, __c158, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ licenseEndpoints: __S(4930, __c154, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ licenseEndpoints: __S(5058, __c158, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListLicenseEndpointsResponse" });
   }
 }
-function __c155(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12737,7 +12856,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "AssociateMemberToFarmRequest" });
   }
 }
-function __c156(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -12745,7 +12864,7 @@ function __c156(j: number): any {
       });
   }
 }
-function __c157(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12780,14 +12899,66 @@ function __c157(j: number): any {
         }),
       ).annotate({ identifier: "LimitSummary" });
     case 2:
-      return S.Array(__S(5025, __c157, 1));
+      return S.Array(__S(5153, __c161, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ limits: __S(5026, __c157, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ limits: __S(5154, __c161, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListLimitsResponse" });
   }
 }
-function __c158(j: number): any {
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          principalId: S.String.pipe(T.HttpQuery("principalId")),
+          identityStoreId: S.optional(S.String).pipe(T.HttpQuery("identityStoreId")),
+          identityCenterRegion: S.optional(S.String).pipe(T.HttpQuery("identityCenterRegion")),
+          resourceTypes: S.optional(__S(2784, __c87, 0)).pipe(T.HttpQuery("resourceTypes")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/2023-10-12/memberships" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListMembershipsRequest" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ farm: __S(4768, __c149, 0) }),
+        /*@__PURE__*/ S.Struct({ queue: __S(5216, __c163, 0) }),
+        /*@__PURE__*/ S.Struct({ fleet: __S(4864, __c152, 0) }),
+        /*@__PURE__*/ S.Struct({ job: __S(4960, __c155, 0) }),
+      ]);
+    case 2:
+      return S.Array(__S(5185, __c162, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ memberships: __S(5186, __c162, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListMembershipsResponse" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          farmId: S.String,
+          queueId: S.String,
+          principalId: S.String,
+          principalType: S.String,
+          identityStoreId: S.String,
+          membershipLevel: S.String,
+        }),
+      ).annotate({ identifier: "QueueMember" });
+  }
+}
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12811,7 +12982,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "ListMeteredProductsRequest" });
   }
 }
-function __c159(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12830,14 +13001,14 @@ function __c159(j: number): any {
         ),
       ).annotate({ identifier: "ListMonitorsRequest" });
     case 1:
-      return S.Array(__S(4032, __c126, 0));
+      return S.Array(__S(4064, __c127, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ monitors: __S(5089, __c159, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ monitors: __S(5281, __c165, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMonitorsResponse" });
   }
 }
-function __c160(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12865,14 +13036,14 @@ function __c160(j: number): any {
         S.Struct({ queueEnvironmentId: S.String, name: S.String, priority: S.Number }),
       ).annotate({ identifier: "QueueEnvironmentSummary" });
     case 2:
-      return S.Array(__S(5121, __c160, 1));
+      return S.Array(__S(5313, __c166, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ environments: __S(5122, __c160, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ environments: __S(5314, __c166, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListQueueEnvironmentsResponse" });
   }
 }
-function __c161(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12894,14 +13065,14 @@ function __c161(j: number): any {
         ),
       ).annotate({ identifier: "ListQueueFleetAssociationsRequest" });
     case 1:
-      return S.Array(__S(4192, __c131, 0));
+      return S.Array(__S(4224, __c132, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ queueFleetAssociations: __S(5153, __c161, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ queueFleetAssociations: __S(5345, __c167, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListQueueFleetAssociationsResponse" });
   }
 }
-function __c162(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12923,14 +13094,14 @@ function __c162(j: number): any {
         ),
       ).annotate({ identifier: "ListQueueLimitAssociationsRequest" });
     case 1:
-      return S.Array(__S(4256, __c133, 0));
+      return S.Array(__S(4288, __c134, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ queueLimitAssociations: __S(5185, __c162, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ queueLimitAssociations: __S(5377, __c168, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListQueueLimitAssociationsResponse" });
   }
 }
-function __c163(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12951,25 +13122,14 @@ function __c163(j: number): any {
         ),
       ).annotate({ identifier: "ListQueueMembersRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          farmId: S.String,
-          queueId: S.String,
-          principalId: S.String,
-          principalType: S.String,
-          identityStoreId: S.String,
-          membershipLevel: S.String,
-        }),
-      ).annotate({ identifier: "QueueMember" });
+      return S.Array(__S(5216, __c163, 0));
     case 2:
-      return S.Array(__S(5217, __c163, 1));
-    case 3:
       return S.suspend(() =>
-        S.Struct({ members: __S(5218, __c163, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ members: __S(5409, __c169, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListQueueMembersResponse" });
   }
 }
-function __c164(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13006,14 +13166,14 @@ function __c164(j: number): any {
         }),
       ).annotate({ identifier: "QueueSummary" });
     case 2:
-      return S.Array(__S(5249, __c164, 1));
+      return S.Array(__S(5441, __c170, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ queues: __S(5250, __c164, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ queues: __S(5442, __c170, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListQueuesResponse" });
   }
 }
-function __c165(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13044,15 +13204,15 @@ function __c165(j: number): any {
         S.Struct({
           taskId: S.optional(S.String),
           stepId: S.String,
-          parameters: S.optional(__S(2017, __c63, 1)),
+          parameters: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "TaskRunSessionActionDefinitionSummary" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ envEnter: __S(2114, __c66, 2) }),
-        /*@__PURE__*/ S.Struct({ envExit: __S(2114, __c66, 2) }),
-        /*@__PURE__*/ S.Struct({ taskRun: __S(5281, __c165, 1) }),
-        /*@__PURE__*/ S.Struct({ syncInputJobAttachments: __S(2115, __c66, 3) }),
+        /*@__PURE__*/ S.Struct({ envEnter: __S(2146, __c67, 2) }),
+        /*@__PURE__*/ S.Struct({ envExit: __S(2146, __c67, 2) }),
+        /*@__PURE__*/ S.Struct({ taskRun: __S(5473, __c171, 1) }),
+        /*@__PURE__*/ S.Struct({ syncInputJobAttachments: __S(2147, __c67, 3) }),
       ]);
     case 3:
       return S.suspend(() =>
@@ -13063,62 +13223,16 @@ function __c165(j: number): any {
           endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           workerUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           progressPercent: S.optional(S.Number),
-          manifests: S.optional(__S(2113, __c66, 1)),
-          definition: __S(5282, __c165, 2),
+          manifests: S.optional(__S(2145, __c67, 1)),
+          definition: __S(5474, __c171, 2),
         }),
       ).annotate({ identifier: "SessionActionSummary" });
     case 4:
-      return S.Array(__S(5283, __c165, 3));
+      return S.Array(__S(5475, __c171, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ sessionActions: __S(5284, __c165, 4), nextToken: S.optional(S.String) }),
+        S.Struct({ sessionActions: __S(5476, __c171, 4), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSessionActionsResponse" });
-  }
-}
-function __c166(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          farmId: S.String.pipe(T.HttpLabel("farmId")),
-          queueId: S.String.pipe(T.HttpLabel("queueId")),
-          jobId: S.String.pipe(T.HttpLabel("jobId")),
-          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "GET",
-              uri: "/2023-10-12/farms/{farmId}/queues/{queueId}/jobs/{jobId}/sessions",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "ListSessionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sessionId: S.String,
-          fleetId: S.String,
-          workerId: S.String,
-          startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          lifecycleStatus: S.String,
-          endedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          targetLifecycleStatus: S.optional(S.String),
-          updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          updatedBy: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SessionSummary" });
-    case 2:
-      return S.Array(__S(5313, __c166, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({ sessions: __S(5314, __c166, 2), nextToken: S.optional(S.String) }),
-      ).annotate({ identifier: "ListSessionsResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

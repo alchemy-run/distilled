@@ -61,42 +61,42 @@ export interface GetSitesRequest {
   /** Required. The name of the site whose summary to get, e.g. `sites/http%3A%2F%2Fwww.google.com%2F`. Format: `sites/{site}` */
   name: string;
 }
+export type PlatformSummaryBetterAdsStatusEnum = "UNKNOWN" | "PASSING" | "WARNING" | "FAILING";
 export type PlatformSummaryRegionItemEnum = "REGION_UNKNOWN" | "REGION_A" | "REGION_B" | "REGION_C";
 export type PlatformSummaryRegionItemEnumList = Array<PlatformSummaryRegionItemEnum>;
 export type PlatformSummaryFilterStatusEnum = "UNKNOWN" | "ON" | "OFF" | "PAUSED" | "PENDING";
-export type PlatformSummaryBetterAdsStatusEnum = "UNKNOWN" | "PASSING" | "WARNING" | "FAILING";
 /** A site's Ad Experience Report summary on a single platform. */
 export interface PlatformSummary {
-  /** Whether the site is currently under review on this platform. */
-  underReview?: boolean;
-  /** The site's regions on this platform. No longer populated, because there is no longer any semantic difference between sites in different regions. */
-  region?: PlatformSummaryRegionItemEnumList;
-  /** A link to the full Ad Experience Report for the site on this platform.. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
-  reportUrl?: string;
-  /** The site's [enforcement status](https://support.google.com/webtools/answer/7308033) on this platform. */
-  filterStatus?: PlatformSummaryFilterStatusEnum;
-  /** The time at which [enforcement](https://support.google.com/webtools/answer/7308033) against the site began or will begin on this platform. Not set when the filter_status is OFF. */
-  enforcementTime?: string;
   /** The site's Ad Experience Report status on this platform. */
-  betterAdsStatus?: PlatformSummaryBetterAdsStatusEnum;
+  betterAdsStatus?: PlatformSummaryBetterAdsStatusEnum | undefined;
+  /** A link to the full Ad Experience Report for the site on this platform.. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
+  reportUrl?: string | undefined;
   /** The time at which the site's status last changed on this platform. */
-  lastChangeTime?: string;
+  lastChangeTime?: string | undefined;
+  /** The site's regions on this platform. No longer populated, because there is no longer any semantic difference between sites in different regions. */
+  region?: PlatformSummaryRegionItemEnumList | undefined;
+  /** The site's [enforcement status](https://support.google.com/webtools/answer/7308033) on this platform. */
+  filterStatus?: PlatformSummaryFilterStatusEnum | undefined;
+  /** The time at which [enforcement](https://support.google.com/webtools/answer/7308033) against the site began or will begin on this platform. Not set when the filter_status is OFF. */
+  enforcementTime?: string | undefined;
+  /** Whether the site is currently under review on this platform. */
+  underReview?: boolean | undefined;
 }
 /** Response message for GetSiteSummary. */
 export interface SiteSummaryResponse {
-  /** The site's Ad Experience Report summary on mobile. */
-  mobileSummary?: PlatformSummary;
-  /** The site's Ad Experience Report summary on desktop. */
-  desktopSummary?: PlatformSummary;
   /** The name of the reviewed site, e.g. `google.com`. */
-  reviewedSite?: string;
+  reviewedSite?: string | undefined;
+  /** The site's Ad Experience Report summary on mobile. */
+  mobileSummary?: PlatformSummary | undefined;
+  /** The site's Ad Experience Report summary on desktop. */
+  desktopSummary?: PlatformSummary | undefined;
 }
 export interface ListViolatingSitesRequest {}
 export type SiteSummaryResponseList = Array<SiteSummaryResponse>;
 /** Response message for ListViolatingSites. */
 export interface ViolatingSitesResponse {
   /** The list of violating sites. */
-  violatingSites?: SiteSummaryResponseList;
+  violatingSites?: SiteSummaryResponseList | undefined;
 }
 export type GetSitesError = NotFound | Forbidden | GcpOpError;
 /** Gets a site's Ad Experience Report summary. */
@@ -156,21 +156,21 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          underReview: S.optional(S.Boolean),
-          region: S.optional(__S(4, __c1, 0)),
+          betterAdsStatus: S.optional(S.String),
           reportUrl: S.optional(S.String),
+          lastChangeTime: S.optional(S.String),
+          region: S.optional(__S(4, __c1, 0)),
           filterStatus: S.optional(S.String),
           enforcementTime: S.optional(S.String),
-          betterAdsStatus: S.optional(S.String),
-          lastChangeTime: S.optional(S.String),
+          underReview: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PlatformSummary" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          reviewedSite: S.optional(S.String),
           mobileSummary: S.optional(__S(5, __c1, 1)),
           desktopSummary: S.optional(__S(5, __c1, 1)),
-          reviewedSite: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteSummaryResponse" });
   }

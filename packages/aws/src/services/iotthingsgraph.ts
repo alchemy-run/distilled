@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -143,7 +144,7 @@ export type Version = number;
 export interface AssociateEntityToThingRequest {
   thingName: string;
   entityId: string;
-  namespaceVersion?: number;
+  namespaceVersion?: number | undefined;
 }
 export interface AssociateEntityToThingResponse {}
 export type DefinitionLanguage = "GRAPHQL" | (string & {});
@@ -154,17 +155,17 @@ export interface DefinitionDocument {
 }
 export interface CreateFlowTemplateRequest {
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export type Arn = string;
 export interface FlowTemplateSummary {
-  id?: string;
-  arn?: string;
-  revisionNumber?: number;
-  createdAt?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  revisionNumber?: number | undefined;
+  createdAt?: Date | undefined;
 }
 export interface CreateFlowTemplateResponse {
-  summary?: FlowTemplateSummary;
+  summary?: FlowTemplateSummary | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -179,17 +180,17 @@ export type S3BucketName = string;
 export type Enabled = boolean;
 export type RoleArn = string;
 export interface MetricsConfiguration {
-  cloudMetricEnabled?: boolean;
-  metricRuleRoleArn?: string;
+  cloudMetricEnabled?: boolean | undefined;
+  metricRuleRoleArn?: string | undefined;
 }
 export interface CreateSystemInstanceRequest {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
   definition: DefinitionDocument;
   target: DeploymentTarget;
-  greengrassGroupName?: string;
-  s3BucketName?: string;
-  metricsConfiguration?: MetricsConfiguration;
-  flowActionsRoleArn?: string;
+  greengrassGroupName?: string | undefined;
+  s3BucketName?: string | undefined;
+  metricsConfiguration?: MetricsConfiguration | undefined;
+  flowActionsRoleArn?: string | undefined;
 }
 export type SystemInstanceDeploymentStatus =
   | "NOT_DEPLOYED"
@@ -204,31 +205,31 @@ export type SystemInstanceDeploymentStatus =
 export type GreengrassGroupId = string;
 export type GreengrassGroupVersionId = string;
 export interface SystemInstanceSummary {
-  id?: string;
-  arn?: string;
-  status?: SystemInstanceDeploymentStatus;
-  target?: DeploymentTarget;
-  greengrassGroupName?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  greengrassGroupId?: string;
-  greengrassGroupVersionId?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: SystemInstanceDeploymentStatus | undefined;
+  target?: DeploymentTarget | undefined;
+  greengrassGroupName?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  greengrassGroupId?: string | undefined;
+  greengrassGroupVersionId?: string | undefined;
 }
 export interface CreateSystemInstanceResponse {
-  summary?: SystemInstanceSummary;
+  summary?: SystemInstanceSummary | undefined;
 }
 export interface CreateSystemTemplateRequest {
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export interface SystemTemplateSummary {
-  id?: string;
-  arn?: string;
-  revisionNumber?: number;
-  createdAt?: Date;
+  id?: string | undefined;
+  arn?: string | undefined;
+  revisionNumber?: number | undefined;
+  createdAt?: Date | undefined;
 }
 export interface CreateSystemTemplateResponse {
-  summary?: SystemTemplateSummary;
+  summary?: SystemTemplateSummary | undefined;
 }
 export interface DeleteFlowTemplateRequest {
   id: string;
@@ -237,11 +238,11 @@ export interface DeleteFlowTemplateResponse {}
 export interface DeleteNamespaceRequest {}
 export type NamespaceName = string;
 export interface DeleteNamespaceResponse {
-  namespaceArn?: string;
-  namespaceName?: string;
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
 }
 export interface DeleteSystemInstanceRequest {
-  id?: string;
+  id?: string | undefined;
 }
 export interface DeleteSystemInstanceResponse {}
 export interface DeleteSystemTemplateRequest {
@@ -249,12 +250,12 @@ export interface DeleteSystemTemplateRequest {
 }
 export interface DeleteSystemTemplateResponse {}
 export interface DeploySystemInstanceRequest {
-  id?: string;
+  id?: string | undefined;
 }
 export type GreengrassDeploymentId = string;
 export interface DeploySystemInstanceResponse {
   summary: SystemInstanceSummary;
-  greengrassDeploymentId?: string;
+  greengrassDeploymentId?: string | undefined;
 }
 export interface DeprecateFlowTemplateRequest {
   id: string;
@@ -265,14 +266,14 @@ export interface DeprecateSystemTemplateRequest {
 }
 export interface DeprecateSystemTemplateResponse {}
 export interface DescribeNamespaceRequest {
-  namespaceName?: string;
+  namespaceName?: string | undefined;
 }
 export interface DescribeNamespaceResponse {
-  namespaceArn?: string;
-  namespaceName?: string;
-  trackingNamespaceName?: string;
-  trackingNamespaceVersion?: number;
-  namespaceVersion?: number;
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
+  trackingNamespaceName?: string | undefined;
+  trackingNamespaceVersion?: number | undefined;
+  namespaceVersion?: number | undefined;
 }
 export type EntityType =
   | "DEVICE"
@@ -294,94 +295,94 @@ export interface DissociateEntityFromThingResponse {}
 export type Urns = string[];
 export interface GetEntitiesRequest {
   ids: string[];
-  namespaceVersion?: number;
+  namespaceVersion?: number | undefined;
 }
 export interface EntityDescription {
-  id?: string;
-  arn?: string;
-  type?: EntityType;
-  createdAt?: Date;
-  definition?: DefinitionDocument;
+  id?: string | undefined;
+  arn?: string | undefined;
+  type?: EntityType | undefined;
+  createdAt?: Date | undefined;
+  definition?: DefinitionDocument | undefined;
 }
 export type EntityDescriptions = EntityDescription[];
 export interface GetEntitiesResponse {
-  descriptions?: EntityDescription[];
+  descriptions?: EntityDescription[] | undefined;
 }
 export interface GetFlowTemplateRequest {
   id: string;
-  revisionNumber?: number;
+  revisionNumber?: number | undefined;
 }
 export interface FlowTemplateDescription {
-  summary?: FlowTemplateSummary;
-  definition?: DefinitionDocument;
-  validatedNamespaceVersion?: number;
+  summary?: FlowTemplateSummary | undefined;
+  definition?: DefinitionDocument | undefined;
+  validatedNamespaceVersion?: number | undefined;
 }
 export interface GetFlowTemplateResponse {
-  description?: FlowTemplateDescription;
+  description?: FlowTemplateDescription | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface GetFlowTemplateRevisionsRequest {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FlowTemplateSummaries = FlowTemplateSummary[];
 export interface GetFlowTemplateRevisionsResponse {
-  summaries?: FlowTemplateSummary[];
-  nextToken?: string;
+  summaries?: FlowTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface GetNamespaceDeletionStatusRequest {}
 export type NamespaceDeletionStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type NamespaceDeletionStatusErrorCodes = "VALIDATION_FAILED" | (string & {});
 export interface GetNamespaceDeletionStatusResponse {
-  namespaceArn?: string;
-  namespaceName?: string;
-  status?: NamespaceDeletionStatus;
-  errorCode?: NamespaceDeletionStatusErrorCodes;
-  errorMessage?: string;
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
+  status?: NamespaceDeletionStatus | undefined;
+  errorCode?: NamespaceDeletionStatusErrorCodes | undefined;
+  errorMessage?: string | undefined;
 }
 export interface GetSystemInstanceRequest {
   id: string;
 }
 export interface DependencyRevision {
-  id?: string;
-  revisionNumber?: number;
+  id?: string | undefined;
+  revisionNumber?: number | undefined;
 }
 export type DependencyRevisions = DependencyRevision[];
 export interface SystemInstanceDescription {
-  summary?: SystemInstanceSummary;
-  definition?: DefinitionDocument;
-  s3BucketName?: string;
-  metricsConfiguration?: MetricsConfiguration;
-  validatedNamespaceVersion?: number;
-  validatedDependencyRevisions?: DependencyRevision[];
-  flowActionsRoleArn?: string;
+  summary?: SystemInstanceSummary | undefined;
+  definition?: DefinitionDocument | undefined;
+  s3BucketName?: string | undefined;
+  metricsConfiguration?: MetricsConfiguration | undefined;
+  validatedNamespaceVersion?: number | undefined;
+  validatedDependencyRevisions?: DependencyRevision[] | undefined;
+  flowActionsRoleArn?: string | undefined;
 }
 export interface GetSystemInstanceResponse {
-  description?: SystemInstanceDescription;
+  description?: SystemInstanceDescription | undefined;
 }
 export interface GetSystemTemplateRequest {
   id: string;
-  revisionNumber?: number;
+  revisionNumber?: number | undefined;
 }
 export interface SystemTemplateDescription {
-  summary?: SystemTemplateSummary;
-  definition?: DefinitionDocument;
-  validatedNamespaceVersion?: number;
+  summary?: SystemTemplateSummary | undefined;
+  definition?: DefinitionDocument | undefined;
+  validatedNamespaceVersion?: number | undefined;
 }
 export interface GetSystemTemplateResponse {
-  description?: SystemTemplateDescription;
+  description?: SystemTemplateDescription | undefined;
 }
 export interface GetSystemTemplateRevisionsRequest {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SystemTemplateSummaries = SystemTemplateSummary[];
 export interface GetSystemTemplateRevisionsResponse {
-  summaries?: SystemTemplateSummary[];
-  nextToken?: string;
+  summaries?: SystemTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type UploadId = string;
 export interface GetUploadStatusRequest {
@@ -392,17 +393,17 @@ export type StringList = string[];
 export interface GetUploadStatusResponse {
   uploadId: string;
   uploadStatus: UploadStatus;
-  namespaceArn?: string;
-  namespaceName?: string;
-  namespaceVersion?: number;
-  failureReason?: string[];
+  namespaceArn?: string | undefined;
+  namespaceName?: string | undefined;
+  namespaceVersion?: number | undefined;
+  failureReason?: string[] | undefined;
   createdDate: Date;
 }
 export type FlowExecutionId = string;
 export interface ListFlowExecutionMessagesRequest {
   flowExecutionId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FlowExecutionMessageId = string;
 export type FlowExecutionEventType =
@@ -426,25 +427,25 @@ export type FlowExecutionEventType =
   | (string & {});
 export type FlowExecutionMessagePayload = string;
 export interface FlowExecutionMessage {
-  messageId?: string;
-  eventType?: FlowExecutionEventType;
-  timestamp?: Date;
-  payload?: string;
+  messageId?: string | undefined;
+  eventType?: FlowExecutionEventType | undefined;
+  timestamp?: Date | undefined;
+  payload?: string | undefined;
 }
 export type FlowExecutionMessages = FlowExecutionMessage[];
 export interface ListFlowExecutionMessagesResponse {
-  messages?: FlowExecutionMessage[];
-  nextToken?: string;
+  messages?: FlowExecutionMessage[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
-  maxResults?: number;
+  maxResults?: number | undefined;
   resourceArn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
-  nextToken?: string;
+  tags?: Tag[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EntityTypes = EntityType[];
 export type EntityFilterName =
@@ -456,42 +457,42 @@ export type EntityFilterName =
 export type EntityFilterValue = string;
 export type EntityFilterValues = string[];
 export interface EntityFilter {
-  name?: EntityFilterName;
-  value?: string[];
+  name?: EntityFilterName | undefined;
+  value?: string[] | undefined;
 }
 export type EntityFilters = EntityFilter[];
 export interface SearchEntitiesRequest {
   entityTypes: EntityType[];
-  filters?: EntityFilter[];
-  nextToken?: string;
-  maxResults?: number;
-  namespaceVersion?: number;
+  filters?: EntityFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namespaceVersion?: number | undefined;
 }
 export interface SearchEntitiesResponse {
-  descriptions?: EntityDescription[];
-  nextToken?: string;
+  descriptions?: EntityDescription[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface SearchFlowExecutionsRequest {
   systemInstanceId: string;
-  flowExecutionId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  nextToken?: string;
-  maxResults?: number;
+  flowExecutionId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type FlowExecutionStatus = "RUNNING" | "ABORTED" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface FlowExecutionSummary {
-  flowExecutionId?: string;
-  status?: FlowExecutionStatus;
-  systemInstanceId?: string;
-  flowTemplateId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  flowExecutionId?: string | undefined;
+  status?: FlowExecutionStatus | undefined;
+  systemInstanceId?: string | undefined;
+  flowTemplateId?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type FlowExecutionSummaries = FlowExecutionSummary[];
 export interface SearchFlowExecutionsResponse {
-  summaries?: FlowExecutionSummary[];
-  nextToken?: string;
+  summaries?: FlowExecutionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type FlowTemplateFilterName = "DEVICE_MODEL_ID" | (string & {});
 export type FlowTemplateFilterValue = string;
@@ -502,13 +503,13 @@ export interface FlowTemplateFilter {
 }
 export type FlowTemplateFilters = FlowTemplateFilter[];
 export interface SearchFlowTemplatesRequest {
-  filters?: FlowTemplateFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: FlowTemplateFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SearchFlowTemplatesResponse {
-  summaries?: FlowTemplateSummary[];
-  nextToken?: string;
+  summaries?: FlowTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SystemInstanceFilterName =
   | "SYSTEM_TEMPLATE_ID"
@@ -518,19 +519,19 @@ export type SystemInstanceFilterName =
 export type SystemInstanceFilterValue = string;
 export type SystemInstanceFilterValues = string[];
 export interface SystemInstanceFilter {
-  name?: SystemInstanceFilterName;
-  value?: string[];
+  name?: SystemInstanceFilterName | undefined;
+  value?: string[] | undefined;
 }
 export type SystemInstanceFilters = SystemInstanceFilter[];
 export interface SearchSystemInstancesRequest {
-  filters?: SystemInstanceFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: SystemInstanceFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SystemInstanceSummaries = SystemInstanceSummary[];
 export interface SearchSystemInstancesResponse {
-  summaries?: SystemInstanceSummary[];
-  nextToken?: string;
+  summaries?: SystemInstanceSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SystemTemplateFilterName = "FLOW_TEMPLATE_ID" | (string & {});
 export type SystemTemplateFilterValue = string;
@@ -541,29 +542,29 @@ export interface SystemTemplateFilter {
 }
 export type SystemTemplateFilters = SystemTemplateFilter[];
 export interface SearchSystemTemplatesRequest {
-  filters?: SystemTemplateFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: SystemTemplateFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SearchSystemTemplatesResponse {
-  summaries?: SystemTemplateSummary[];
-  nextToken?: string;
+  summaries?: SystemTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface SearchThingsRequest {
   entityId: string;
-  nextToken?: string;
-  maxResults?: number;
-  namespaceVersion?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namespaceVersion?: number | undefined;
 }
 export type ThingArn = string;
 export interface Thing {
-  thingArn?: string;
-  thingName?: string;
+  thingArn?: string | undefined;
+  thingName?: string | undefined;
 }
 export type Things = Thing[];
 export interface SearchThingsResponse {
-  things?: Thing[];
-  nextToken?: string;
+  things?: Thing[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -571,10 +572,10 @@ export interface TagResourceRequest {
 }
 export interface TagResourceResponse {}
 export interface UndeploySystemInstanceRequest {
-  id?: string;
+  id?: string | undefined;
 }
 export interface UndeploySystemInstanceResponse {
-  summary?: SystemInstanceSummary;
+  summary?: SystemInstanceSummary | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -585,25 +586,25 @@ export interface UntagResourceResponse {}
 export interface UpdateFlowTemplateRequest {
   id: string;
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export interface UpdateFlowTemplateResponse {
-  summary?: FlowTemplateSummary;
+  summary?: FlowTemplateSummary | undefined;
 }
 export interface UpdateSystemTemplateRequest {
   id: string;
   definition: DefinitionDocument;
-  compatibleNamespaceVersion?: number;
+  compatibleNamespaceVersion?: number | undefined;
 }
 export interface UpdateSystemTemplateResponse {
-  summary?: SystemTemplateSummary;
+  summary?: SystemTemplateSummary | undefined;
 }
 export type SyncWithPublicNamespace = boolean;
 export type DeprecateExistingEntities = boolean;
 export interface UploadEntityDefinitionsRequest {
-  document?: DefinitionDocument;
-  syncWithPublicNamespace?: boolean;
-  deprecateExistingEntities?: boolean;
+  document?: DefinitionDocument | undefined;
+  syncWithPublicNamespace?: boolean | undefined;
+  deprecateExistingEntities?: boolean | undefined;
 }
 export interface UploadEntityDefinitionsResponse {
   uploadId: string;
@@ -621,7 +622,7 @@ export type AssociateEntityToThingError =
  * A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
  */
 export const associateEntityToThing: API.OperationMethod<
-  AssociateEntityToThingRequest,
+  AssociateEntityToThingRequest & RegionInput,
   AssociateEntityToThingResponse,
   AssociateEntityToThingError,
   Credentials | HttpClient.HttpClient
@@ -654,7 +655,7 @@ export type CreateFlowTemplateError =
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
 export const createFlowTemplate: API.OperationMethod<
-  CreateFlowTemplateRequest,
+  CreateFlowTemplateRequest & RegionInput,
   CreateFlowTemplateResponse,
   CreateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -698,7 +699,7 @@ export type CreateSystemInstanceError =
  * If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
  */
 export const createSystemInstance: API.OperationMethod<
-  CreateSystemInstanceRequest,
+  CreateSystemInstanceRequest & RegionInput,
   CreateSystemInstanceResponse,
   CreateSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +731,7 @@ export type CreateSystemTemplateError =
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
 export const createSystemTemplate: API.OperationMethod<
-  CreateSystemTemplateRequest,
+  CreateSystemTemplateRequest & RegionInput,
   CreateSystemTemplateResponse,
   CreateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -761,7 +762,7 @@ export type DeleteFlowTemplateError =
  * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
  */
 export const deleteFlowTemplate: API.OperationMethod<
-  DeleteFlowTemplateRequest,
+  DeleteFlowTemplateRequest & RegionInput,
   DeleteFlowTemplateResponse,
   DeleteFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -787,7 +788,7 @@ export type DeleteNamespaceError = InternalFailureException | ThrottlingExceptio
  * request parameters.
  */
 export const deleteNamespace: API.OperationMethod<
-  DeleteNamespaceRequest,
+  DeleteNamespaceRequest & RegionInput,
   DeleteNamespaceResponse,
   DeleteNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -815,7 +816,7 @@ export type DeleteSystemInstanceError =
  * Users can create a new system instance that has the same ID as a deleted system instance.
  */
 export const deleteSystemInstance: API.OperationMethod<
-  DeleteSystemInstanceRequest,
+  DeleteSystemInstanceRequest & RegionInput,
   DeleteSystemInstanceResponse,
   DeleteSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -846,7 +847,7 @@ export type DeleteSystemTemplateError =
  * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
  */
 export const deleteSystemTemplate: API.OperationMethod<
-  DeleteSystemTemplateRequest,
+  DeleteSystemTemplateRequest & RegionInput,
   DeleteSystemTemplateResponse,
   DeleteSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -889,7 +890,7 @@ export type DeploySystemInstanceError =
  * For information about the artifacts that get added to your Greengrass core device when you use this API, see AWS IoT Things Graph and AWS IoT Greengrass.
  */
 export const deploySystemInstance: API.OperationMethod<
-  DeploySystemInstanceRequest,
+  DeploySystemInstanceRequest & RegionInput,
   DeploySystemInstanceResponse,
   DeploySystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -920,7 +921,7 @@ export type DeprecateFlowTemplateError =
  * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
  */
 export const deprecateFlowTemplate: API.OperationMethod<
-  DeprecateFlowTemplateRequest,
+  DeprecateFlowTemplateRequest & RegionInput,
   DeprecateFlowTemplateResponse,
   DeprecateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -950,7 +951,7 @@ export type DeprecateSystemTemplateError =
  * Deprecates the specified system.
  */
 export const deprecateSystemTemplate: API.OperationMethod<
-  DeprecateSystemTemplateRequest,
+  DeprecateSystemTemplateRequest & RegionInput,
   DeprecateSystemTemplateResponse,
   DeprecateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -980,7 +981,7 @@ export type DescribeNamespaceError =
  * Gets the latest version of the user's namespace and the public version that it is tracking.
  */
 export const describeNamespace: API.OperationMethod<
-  DescribeNamespaceRequest,
+  DescribeNamespaceRequest & RegionInput,
   DescribeNamespaceResponse,
   DescribeNamespaceError,
   Credentials | HttpClient.HttpClient
@@ -1011,7 +1012,7 @@ export type DissociateEntityFromThingError =
  * one entity of a particular type can be associated with a thing.
  */
 export const dissociateEntityFromThing: API.OperationMethod<
-  DissociateEntityFromThingRequest,
+  DissociateEntityFromThingRequest & RegionInput,
   DissociateEntityFromThingResponse,
   DissociateEntityFromThingError,
   Credentials | HttpClient.HttpClient
@@ -1062,7 +1063,7 @@ export type GetEntitiesError =
  * This action doesn't return definitions for systems, flows, and deployments.
  */
 export const getEntities: API.OperationMethod<
-  GetEntitiesRequest,
+  GetEntitiesRequest & RegionInput,
   GetEntitiesResponse,
   GetEntitiesError,
   Credentials | HttpClient.HttpClient
@@ -1092,7 +1093,7 @@ export type GetFlowTemplateError =
  * Gets the latest version of the `DefinitionDocument` and `FlowTemplateSummary` for the specified workflow.
  */
 export const getFlowTemplate: API.OperationMethod<
-  GetFlowTemplateRequest,
+  GetFlowTemplateRequest & RegionInput,
   GetFlowTemplateResponse,
   GetFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1123,7 +1124,7 @@ export type GetFlowTemplateRevisionsError =
  * this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
  */
 export const getFlowTemplateRevisions: API.PaginatedOperationMethod<
-  GetFlowTemplateRevisionsRequest,
+  GetFlowTemplateRevisionsRequest & RegionInput,
   GetFlowTemplateRevisionsResponse,
   GetFlowTemplateRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1159,7 +1160,7 @@ export type GetNamespaceDeletionStatusError =
  * Gets the status of a namespace deletion task.
  */
 export const getNamespaceDeletionStatus: API.OperationMethod<
-  GetNamespaceDeletionStatusRequest,
+  GetNamespaceDeletionStatusRequest & RegionInput,
   GetNamespaceDeletionStatusResponse,
   GetNamespaceDeletionStatusError,
   Credentials | HttpClient.HttpClient
@@ -1184,7 +1185,7 @@ export type GetSystemInstanceError =
  * Gets a system instance.
  */
 export const getSystemInstance: API.OperationMethod<
-  GetSystemInstanceRequest,
+  GetSystemInstanceRequest & RegionInput,
   GetSystemInstanceResponse,
   GetSystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1214,7 +1215,7 @@ export type GetSystemTemplateError =
  * Gets a system.
  */
 export const getSystemTemplate: API.OperationMethod<
-  GetSystemTemplateRequest,
+  GetSystemTemplateRequest & RegionInput,
   GetSystemTemplateResponse,
   GetSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1245,7 +1246,7 @@ export type GetSystemTemplateRevisionsError =
  * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
  */
 export const getSystemTemplateRevisions: API.PaginatedOperationMethod<
-  GetSystemTemplateRevisionsRequest,
+  GetSystemTemplateRevisionsRequest & RegionInput,
   GetSystemTemplateRevisionsResponse,
   GetSystemTemplateRevisionsError,
   Credentials | HttpClient.HttpClient,
@@ -1282,7 +1283,7 @@ export type GetUploadStatusError =
  * Gets the status of the specified upload.
  */
 export const getUploadStatus: API.OperationMethod<
-  GetUploadStatusRequest,
+  GetUploadStatusRequest & RegionInput,
   GetUploadStatusResponse,
   GetUploadStatusError,
   Credentials | HttpClient.HttpClient
@@ -1312,7 +1313,7 @@ export type ListFlowExecutionMessagesError =
  * Returns a list of objects that contain information about events in a flow execution.
  */
 export const listFlowExecutionMessages: API.PaginatedOperationMethod<
-  ListFlowExecutionMessagesRequest,
+  ListFlowExecutionMessagesRequest & RegionInput,
   ListFlowExecutionMessagesResponse,
   ListFlowExecutionMessagesError,
   Credentials | HttpClient.HttpClient,
@@ -1349,7 +1350,7 @@ export type ListTagsForResourceError =
  * Lists all tags on an AWS IoT Things Graph resource.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1385,7 +1386,7 @@ export type SearchEntitiesError =
  * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
  */
 export const searchEntities: API.PaginatedOperationMethod<
-  SearchEntitiesRequest,
+  SearchEntitiesRequest & RegionInput,
   SearchEntitiesResponse,
   SearchEntitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1417,7 +1418,7 @@ export type SearchFlowExecutionsError =
  * Searches for AWS IoT Things Graph workflow execution instances.
  */
 export const searchFlowExecutions: API.PaginatedOperationMethod<
-  SearchFlowExecutionsRequest,
+  SearchFlowExecutionsRequest & RegionInput,
   SearchFlowExecutionsResponse,
   SearchFlowExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1453,7 +1454,7 @@ export type SearchFlowTemplatesError =
  * Searches for summary information about workflows.
  */
 export const searchFlowTemplates: API.PaginatedOperationMethod<
-  SearchFlowTemplatesRequest,
+  SearchFlowTemplatesRequest & RegionInput,
   SearchFlowTemplatesResponse,
   SearchFlowTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1484,7 +1485,7 @@ export type SearchSystemInstancesError =
  * Searches for system instances in the user's account.
  */
 export const searchSystemInstances: API.PaginatedOperationMethod<
-  SearchSystemInstancesRequest,
+  SearchSystemInstancesRequest & RegionInput,
   SearchSystemInstancesResponse,
   SearchSystemInstancesError,
   Credentials | HttpClient.HttpClient,
@@ -1515,7 +1516,7 @@ export type SearchSystemTemplatesError =
  * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
  */
 export const searchSystemTemplates: API.PaginatedOperationMethod<
-  SearchSystemTemplatesRequest,
+  SearchSystemTemplatesRequest & RegionInput,
   SearchSystemTemplatesResponse,
   SearchSystemTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1552,7 +1553,7 @@ export type SearchThingsError =
  * This action searches for exact matches and doesn't perform partial text matching.
  */
 export const searchThings: API.PaginatedOperationMethod<
-  SearchThingsRequest,
+  SearchThingsRequest & RegionInput,
   SearchThingsResponse,
   SearchThingsError,
   Credentials | HttpClient.HttpClient,
@@ -1589,7 +1590,7 @@ export type TagResourceError =
  * Creates a tag for the specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1620,7 +1621,7 @@ export type UndeploySystemInstanceError =
  * Removes a system instance from its target (Cloud or Greengrass).
  */
 export const undeploySystemInstance: API.OperationMethod<
-  UndeploySystemInstanceRequest,
+  UndeploySystemInstanceRequest & RegionInput,
   UndeploySystemInstanceResponse,
   UndeploySystemInstanceError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type UntagResourceError =
  * Removes a tag from the specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1682,7 +1683,7 @@ export type UpdateFlowTemplateError =
  * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
  */
 export const updateFlowTemplate: API.OperationMethod<
-  UpdateFlowTemplateRequest,
+  UpdateFlowTemplateRequest & RegionInput,
   UpdateFlowTemplateResponse,
   UpdateFlowTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1712,7 +1713,7 @@ export type UpdateSystemTemplateError =
  * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
  */
 export const updateSystemTemplate: API.OperationMethod<
-  UpdateSystemTemplateRequest,
+  UpdateSystemTemplateRequest & RegionInput,
   UpdateSystemTemplateResponse,
   UpdateSystemTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1753,7 +1754,7 @@ export type UploadEntityDefinitionsError =
  * `Mapping`, `Enum`.
  */
 export const uploadEntityDefinitions: API.OperationMethod<
-  UploadEntityDefinitionsRequest,
+  UploadEntityDefinitionsRequest & RegionInput,
   UploadEntityDefinitionsResponse,
   UploadEntityDefinitionsError,
   Credentials | HttpClient.HttpClient

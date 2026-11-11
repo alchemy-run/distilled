@@ -83,29 +83,29 @@ export interface CreateDetectionRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string;
+  password?: string | undefined;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateDetectionResponse {
   /** Defines the unique ID for this custom detection. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export interface CreateLeakedCredentialCheckRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** Determines whether or not Leaked Credential Checks are enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateLeakedCredentialCheckResponse {
   /** Determines whether or not Leaked Credential Checks are enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface DeleteDetectionRequest {
   /** Defines an identifier. */
@@ -123,11 +123,11 @@ export interface GetDetectionRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDetectionResponse {
   /** Defines the unique ID for this custom detection. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export interface GetLeakedCredentialCheckRequest {
   /** Defines an identifier. */
@@ -136,7 +136,7 @@ export interface GetLeakedCredentialCheckRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetLeakedCredentialCheckResponse {
   /** Determines whether or not Leaked Credential Checks are enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface ListDetectionsRequest {
   /** Defines an identifier. */
@@ -144,18 +144,18 @@ export interface ListDetectionsRequest {
 }
 export interface DetectionsListResultItem {
   /** Defines the unique ID for this custom detection. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type DetectionsListResultList = Array<DetectionsListResultItem>;
 export interface ListDetectionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DetectionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface UpdateDetectionRequest {
   /** Defines an identifier. */
@@ -163,18 +163,18 @@ export interface UpdateDetectionRequest {
   /** Defines the unique ID for this custom detection. */
   detectionId: string;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string;
+  password?: string | undefined;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateDetectionResponse {
   /** Defines the unique ID for this custom detection. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type CreateDetectionError =
   | DetectionQuotaExceeded

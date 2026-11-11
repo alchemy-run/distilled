@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -269,22 +270,22 @@ export type Name = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export type KmsKeyId = string;
 export type KmsDataKeyReusePeriodSeconds = number;
 export type EncryptionType = "AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KMS_KEY" | (string & {});
 export interface EncryptionConfiguration {
-  kmsKeyId?: string;
-  kmsDataKeyReusePeriodSeconds?: number;
+  kmsKeyId?: string | undefined;
+  kmsDataKeyReusePeriodSeconds?: number | undefined;
   type: EncryptionType;
 }
 export interface CreateActivityInput {
   name: string;
-  tags?: Tag[];
-  encryptionConfiguration?: EncryptionConfiguration;
+  tags?: Tag[] | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export type Arn = string;
 export interface CreateActivityOutput {
@@ -296,20 +297,20 @@ export type StateMachineType = "STANDARD" | "EXPRESS" | (string & {});
 export type LogLevel = "ALL" | "ERROR" | "FATAL" | "OFF" | (string & {});
 export type IncludeExecutionData = boolean;
 export interface CloudWatchLogsLogGroup {
-  logGroupArn?: string;
+  logGroupArn?: string | undefined;
 }
 export interface LogDestination {
-  cloudWatchLogsLogGroup?: CloudWatchLogsLogGroup;
+  cloudWatchLogsLogGroup?: CloudWatchLogsLogGroup | undefined;
 }
 export type LogDestinationList = LogDestination[];
 export interface LoggingConfiguration {
-  level?: LogLevel;
-  includeExecutionData?: boolean;
-  destinations?: LogDestination[];
+  level?: LogLevel | undefined;
+  includeExecutionData?: boolean | undefined;
+  destinations?: LogDestination[] | undefined;
 }
 export type Enabled = boolean;
 export interface TracingConfiguration {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type Publish = boolean;
 export type VersionDescription = string | redacted.Redacted<string>;
@@ -317,18 +318,18 @@ export interface CreateStateMachineInput {
   name: string;
   definition: string | redacted.Redacted<string>;
   roleArn: string;
-  type?: StateMachineType;
-  loggingConfiguration?: LoggingConfiguration;
-  tags?: Tag[];
-  tracingConfiguration?: TracingConfiguration;
-  publish?: boolean;
-  versionDescription?: string | redacted.Redacted<string>;
-  encryptionConfiguration?: EncryptionConfiguration;
+  type?: StateMachineType | undefined;
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  tags?: Tag[] | undefined;
+  tracingConfiguration?: TracingConfiguration | undefined;
+  publish?: boolean | undefined;
+  versionDescription?: string | redacted.Redacted<string> | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface CreateStateMachineOutput {
   stateMachineArn: string;
   creationDate: Date;
-  stateMachineVersionArn?: string;
+  stateMachineVersionArn?: string | undefined;
 }
 export type AliasDescription = string | redacted.Redacted<string>;
 export type CharacterRestrictedName = string;
@@ -339,7 +340,7 @@ export interface RoutingConfigurationListItem {
 }
 export type RoutingConfigurationList = RoutingConfigurationListItem[];
 export interface CreateStateMachineAliasInput {
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   name: string;
   routingConfiguration: RoutingConfigurationListItem[];
 }
@@ -371,12 +372,12 @@ export interface DescribeActivityOutput {
   activityArn: string;
   name: string;
   creationDate: Date;
-  encryptionConfiguration?: EncryptionConfiguration;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export type IncludedData = "ALL_DATA" | "METADATA_ONLY" | (string & {});
 export interface DescribeExecutionInput {
   executionArn: string;
-  includedData?: IncludedData;
+  includedData?: IncludedData | undefined;
 }
 export type ExecutionStatus =
   | "RUNNING"
@@ -389,7 +390,7 @@ export type ExecutionStatus =
 export type SensitiveData = string | redacted.Redacted<string>;
 export type IncludedDetails = boolean;
 export interface CloudWatchEventsExecutionDataDetails {
-  included?: boolean;
+  included?: boolean | undefined;
 }
 export type TraceHeader = string;
 export type SensitiveError = string | redacted.Redacted<string>;
@@ -403,24 +404,24 @@ export type ExecutionRedriveStatus =
 export interface DescribeExecutionOutput {
   executionArn: string;
   stateMachineArn: string;
-  name?: string;
+  name?: string | undefined;
   status: ExecutionStatus;
   startDate: Date;
-  stopDate?: Date;
-  input?: string | redacted.Redacted<string>;
-  inputDetails?: CloudWatchEventsExecutionDataDetails;
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: CloudWatchEventsExecutionDataDetails;
-  traceHeader?: string;
-  mapRunArn?: string;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
-  stateMachineVersionArn?: string;
-  stateMachineAliasArn?: string;
-  redriveCount?: number;
-  redriveDate?: Date;
-  redriveStatus?: ExecutionRedriveStatus;
-  redriveStatusReason?: string | redacted.Redacted<string>;
+  stopDate?: Date | undefined;
+  input?: string | redacted.Redacted<string> | undefined;
+  inputDetails?: CloudWatchEventsExecutionDataDetails | undefined;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: CloudWatchEventsExecutionDataDetails | undefined;
+  traceHeader?: string | undefined;
+  mapRunArn?: string | undefined;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
+  stateMachineVersionArn?: string | undefined;
+  stateMachineAliasArn?: string | undefined;
+  redriveCount?: number | undefined;
+  redriveDate?: Date | undefined;
+  redriveStatus?: ExecutionRedriveStatus | undefined;
+  redriveStatusReason?: string | redacted.Redacted<string> | undefined;
 }
 export interface DescribeMapRunInput {
   mapRunArn: string;
@@ -440,8 +441,8 @@ export interface MapRunItemCounts {
   aborted: number;
   total: number;
   resultsWritten: number;
-  failuresNotRedrivable?: number;
-  pendingRedrive?: number;
+  failuresNotRedrivable?: number | undefined;
+  pendingRedrive?: number | undefined;
 }
 export interface MapRunExecutionCounts {
   pending: number;
@@ -452,26 +453,26 @@ export interface MapRunExecutionCounts {
   aborted: number;
   total: number;
   resultsWritten: number;
-  failuresNotRedrivable?: number;
-  pendingRedrive?: number;
+  failuresNotRedrivable?: number | undefined;
+  pendingRedrive?: number | undefined;
 }
 export interface DescribeMapRunOutput {
   mapRunArn: string;
   executionArn: string;
   status: MapRunStatus;
   startDate: Date;
-  stopDate?: Date;
+  stopDate?: Date | undefined;
   maxConcurrency: number;
   toleratedFailurePercentage: number;
   toleratedFailureCount: number;
   itemCounts: MapRunItemCounts;
   executionCounts: MapRunExecutionCounts;
-  redriveCount?: number;
-  redriveDate?: Date;
+  redriveCount?: number | undefined;
+  redriveDate?: Date | undefined;
 }
 export interface DescribeStateMachineInput {
   stateMachineArn: string;
-  includedData?: IncludedData;
+  includedData?: IncludedData | undefined;
 }
 export type StateMachineStatus = "ACTIVE" | "DELETING" | (string & {});
 export type MapRunLabel = string;
@@ -485,33 +486,35 @@ export type VariableReferences = {
 export interface DescribeStateMachineOutput {
   stateMachineArn: string;
   name: string;
-  status?: StateMachineStatus;
+  status?: StateMachineStatus | undefined;
   definition: string | redacted.Redacted<string>;
   roleArn: string;
   type: StateMachineType;
   creationDate: Date;
-  loggingConfiguration?: LoggingConfiguration;
-  tracingConfiguration?: TracingConfiguration;
-  label?: string;
-  revisionId?: string;
-  description?: string | redacted.Redacted<string>;
-  encryptionConfiguration?: EncryptionConfiguration;
-  variableReferences?: { [key: string]: (string | redacted.Redacted<string>)[] | undefined };
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  tracingConfiguration?: TracingConfiguration | undefined;
+  label?: string | undefined;
+  revisionId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  variableReferences?:
+    | { [key: string]: (string | redacted.Redacted<string>)[] | undefined }
+    | undefined;
 }
 export interface DescribeStateMachineAliasInput {
   stateMachineAliasArn: string;
 }
 export interface DescribeStateMachineAliasOutput {
-  stateMachineAliasArn?: string;
-  name?: string;
-  description?: string | redacted.Redacted<string>;
-  routingConfiguration?: RoutingConfigurationListItem[];
-  creationDate?: Date;
-  updateDate?: Date;
+  stateMachineAliasArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  routingConfiguration?: RoutingConfigurationListItem[] | undefined;
+  creationDate?: Date | undefined;
+  updateDate?: Date | undefined;
 }
 export interface DescribeStateMachineForExecutionInput {
   executionArn: string;
-  includedData?: IncludedData;
+  includedData?: IncludedData | undefined;
 }
 export interface DescribeStateMachineForExecutionOutput {
   stateMachineArn: string;
@@ -519,23 +522,25 @@ export interface DescribeStateMachineForExecutionOutput {
   definition: string | redacted.Redacted<string>;
   roleArn: string;
   updateDate: Date;
-  loggingConfiguration?: LoggingConfiguration;
-  tracingConfiguration?: TracingConfiguration;
-  mapRunArn?: string;
-  label?: string;
-  revisionId?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  variableReferences?: { [key: string]: (string | redacted.Redacted<string>)[] | undefined };
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  tracingConfiguration?: TracingConfiguration | undefined;
+  mapRunArn?: string | undefined;
+  label?: string | undefined;
+  revisionId?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  variableReferences?:
+    | { [key: string]: (string | redacted.Redacted<string>)[] | undefined }
+    | undefined;
 }
 export interface GetActivityTaskInput {
   activityArn: string;
-  workerName?: string;
+  workerName?: string | undefined;
 }
-export type TaskToken = string;
+export type TaskToken = string | redacted.Redacted<string>;
 export type SensitiveDataJobInput = string | redacted.Redacted<string>;
 export interface GetActivityTaskOutput {
-  taskToken?: string;
-  input?: string | redacted.Redacted<string>;
+  taskToken?: string | redacted.Redacted<string> | undefined;
+  input?: string | redacted.Redacted<string> | undefined;
 }
 export type PageSize = number;
 export type ReverseOrder = boolean;
@@ -543,10 +548,10 @@ export type PageToken = string;
 export type IncludeExecutionDataGetExecutionHistory = boolean;
 export interface GetExecutionHistoryInput {
   executionArn: string;
-  maxResults?: number;
-  reverseOrder?: boolean;
-  nextToken?: string;
-  includeExecutionData?: boolean;
+  maxResults?: number | undefined;
+  reverseOrder?: boolean | undefined;
+  nextToken?: string | undefined;
+  includeExecutionData?: boolean | undefined;
 }
 export type HistoryEventType =
   | "ActivityFailed"
@@ -614,61 +619,61 @@ export type HistoryEventType =
   | (string & {});
 export type EventId = number;
 export interface ActivityFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface ActivityScheduleFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export type Truncated = boolean;
 export interface HistoryEventExecutionDataDetails {
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export type TimeoutInSeconds = number;
 export interface ActivityScheduledEventDetails {
   resource: string;
-  input?: string | redacted.Redacted<string>;
-  inputDetails?: HistoryEventExecutionDataDetails;
-  timeoutInSeconds?: number;
-  heartbeatInSeconds?: number;
+  input?: string | redacted.Redacted<string> | undefined;
+  inputDetails?: HistoryEventExecutionDataDetails | undefined;
+  timeoutInSeconds?: number | undefined;
+  heartbeatInSeconds?: number | undefined;
 }
 export type Identity = string;
 export interface ActivityStartedEventDetails {
-  workerName?: string;
+  workerName?: string | undefined;
 }
 export interface ActivitySucceededEventDetails {
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: HistoryEventExecutionDataDetails;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: HistoryEventExecutionDataDetails | undefined;
 }
 export interface ActivityTimedOutEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface TaskFailedEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export type ConnectorParameters = string | redacted.Redacted<string>;
 export interface TaskCredentials {
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export interface TaskScheduledEventDetails {
   resourceType: string;
   resource: string;
   region: string;
   parameters: string | redacted.Redacted<string>;
-  timeoutInSeconds?: number;
-  heartbeatInSeconds?: number;
-  taskCredentials?: TaskCredentials;
+  timeoutInSeconds?: number | undefined;
+  heartbeatInSeconds?: number | undefined;
+  taskCredentials?: TaskCredentials | undefined;
 }
 export interface TaskStartFailedEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface TaskStartedEventDetails {
   resourceType: string;
@@ -677,174 +682,174 @@ export interface TaskStartedEventDetails {
 export interface TaskSubmitFailedEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface TaskSubmittedEventDetails {
   resourceType: string;
   resource: string;
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: HistoryEventExecutionDataDetails;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: HistoryEventExecutionDataDetails | undefined;
 }
 export interface TaskSucceededEventDetails {
   resourceType: string;
   resource: string;
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: HistoryEventExecutionDataDetails;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: HistoryEventExecutionDataDetails | undefined;
 }
 export interface TaskTimedOutEventDetails {
   resourceType: string;
   resource: string;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface ExecutionFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface ExecutionStartedEventDetails {
-  input?: string | redacted.Redacted<string>;
-  inputDetails?: HistoryEventExecutionDataDetails;
-  roleArn?: string;
-  stateMachineAliasArn?: string;
-  stateMachineVersionArn?: string;
+  input?: string | redacted.Redacted<string> | undefined;
+  inputDetails?: HistoryEventExecutionDataDetails | undefined;
+  roleArn?: string | undefined;
+  stateMachineAliasArn?: string | undefined;
+  stateMachineVersionArn?: string | undefined;
 }
 export interface ExecutionSucceededEventDetails {
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: HistoryEventExecutionDataDetails;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: HistoryEventExecutionDataDetails | undefined;
 }
 export interface ExecutionAbortedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface ExecutionTimedOutEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface ExecutionRedrivenEventDetails {
-  redriveCount?: number;
+  redriveCount?: number | undefined;
 }
 export type UnsignedInteger = number;
 export interface MapStateStartedEventDetails {
-  length?: number;
+  length?: number | undefined;
 }
 export interface MapIterationEventDetails {
-  name?: string;
-  index?: number;
+  name?: string | undefined;
+  index?: number | undefined;
 }
 export interface LambdaFunctionFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface LambdaFunctionScheduleFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface LambdaFunctionScheduledEventDetails {
   resource: string;
-  input?: string | redacted.Redacted<string>;
-  inputDetails?: HistoryEventExecutionDataDetails;
-  timeoutInSeconds?: number;
-  taskCredentials?: TaskCredentials;
+  input?: string | redacted.Redacted<string> | undefined;
+  inputDetails?: HistoryEventExecutionDataDetails | undefined;
+  timeoutInSeconds?: number | undefined;
+  taskCredentials?: TaskCredentials | undefined;
 }
 export interface LambdaFunctionStartFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface LambdaFunctionSucceededEventDetails {
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: HistoryEventExecutionDataDetails;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: HistoryEventExecutionDataDetails | undefined;
 }
 export interface LambdaFunctionTimedOutEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface StateEnteredEventDetails {
   name: string;
-  input?: string | redacted.Redacted<string>;
-  inputDetails?: HistoryEventExecutionDataDetails;
+  input?: string | redacted.Redacted<string> | undefined;
+  inputDetails?: HistoryEventExecutionDataDetails | undefined;
 }
 export type VariableValue = string | redacted.Redacted<string>;
 export type AssignedVariables = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface AssignedVariablesDetails {
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export interface StateExitedEventDetails {
   name: string;
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: HistoryEventExecutionDataDetails;
-  assignedVariables?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  assignedVariablesDetails?: AssignedVariablesDetails;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: HistoryEventExecutionDataDetails | undefined;
+  assignedVariables?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  assignedVariablesDetails?: AssignedVariablesDetails | undefined;
 }
 export interface MapRunStartedEventDetails {
-  mapRunArn?: string;
+  mapRunArn?: string | undefined;
 }
 export interface MapRunFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface MapRunRedrivenEventDetails {
-  mapRunArn?: string;
-  redriveCount?: number;
+  mapRunArn?: string | undefined;
+  redriveCount?: number | undefined;
 }
 export type EvaluationFailureLocation = string | redacted.Redacted<string>;
 export interface EvaluationFailedEventDetails {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
-  location?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
+  location?: string | redacted.Redacted<string> | undefined;
   state: string;
 }
 export interface HistoryEvent {
   timestamp: Date;
   type: HistoryEventType;
   id: number;
-  previousEventId?: number;
-  activityFailedEventDetails?: ActivityFailedEventDetails;
-  activityScheduleFailedEventDetails?: ActivityScheduleFailedEventDetails;
-  activityScheduledEventDetails?: ActivityScheduledEventDetails;
-  activityStartedEventDetails?: ActivityStartedEventDetails;
-  activitySucceededEventDetails?: ActivitySucceededEventDetails;
-  activityTimedOutEventDetails?: ActivityTimedOutEventDetails;
-  taskFailedEventDetails?: TaskFailedEventDetails;
-  taskScheduledEventDetails?: TaskScheduledEventDetails;
-  taskStartFailedEventDetails?: TaskStartFailedEventDetails;
-  taskStartedEventDetails?: TaskStartedEventDetails;
-  taskSubmitFailedEventDetails?: TaskSubmitFailedEventDetails;
-  taskSubmittedEventDetails?: TaskSubmittedEventDetails;
-  taskSucceededEventDetails?: TaskSucceededEventDetails;
-  taskTimedOutEventDetails?: TaskTimedOutEventDetails;
-  executionFailedEventDetails?: ExecutionFailedEventDetails;
-  executionStartedEventDetails?: ExecutionStartedEventDetails;
-  executionSucceededEventDetails?: ExecutionSucceededEventDetails;
-  executionAbortedEventDetails?: ExecutionAbortedEventDetails;
-  executionTimedOutEventDetails?: ExecutionTimedOutEventDetails;
-  executionRedrivenEventDetails?: ExecutionRedrivenEventDetails;
-  mapStateStartedEventDetails?: MapStateStartedEventDetails;
-  mapIterationStartedEventDetails?: MapIterationEventDetails;
-  mapIterationSucceededEventDetails?: MapIterationEventDetails;
-  mapIterationFailedEventDetails?: MapIterationEventDetails;
-  mapIterationAbortedEventDetails?: MapIterationEventDetails;
-  lambdaFunctionFailedEventDetails?: LambdaFunctionFailedEventDetails;
-  lambdaFunctionScheduleFailedEventDetails?: LambdaFunctionScheduleFailedEventDetails;
-  lambdaFunctionScheduledEventDetails?: LambdaFunctionScheduledEventDetails;
-  lambdaFunctionStartFailedEventDetails?: LambdaFunctionStartFailedEventDetails;
-  lambdaFunctionSucceededEventDetails?: LambdaFunctionSucceededEventDetails;
-  lambdaFunctionTimedOutEventDetails?: LambdaFunctionTimedOutEventDetails;
-  stateEnteredEventDetails?: StateEnteredEventDetails;
-  stateExitedEventDetails?: StateExitedEventDetails;
-  mapRunStartedEventDetails?: MapRunStartedEventDetails;
-  mapRunFailedEventDetails?: MapRunFailedEventDetails;
-  mapRunRedrivenEventDetails?: MapRunRedrivenEventDetails;
-  evaluationFailedEventDetails?: EvaluationFailedEventDetails;
+  previousEventId?: number | undefined;
+  activityFailedEventDetails?: ActivityFailedEventDetails | undefined;
+  activityScheduleFailedEventDetails?: ActivityScheduleFailedEventDetails | undefined;
+  activityScheduledEventDetails?: ActivityScheduledEventDetails | undefined;
+  activityStartedEventDetails?: ActivityStartedEventDetails | undefined;
+  activitySucceededEventDetails?: ActivitySucceededEventDetails | undefined;
+  activityTimedOutEventDetails?: ActivityTimedOutEventDetails | undefined;
+  taskFailedEventDetails?: TaskFailedEventDetails | undefined;
+  taskScheduledEventDetails?: TaskScheduledEventDetails | undefined;
+  taskStartFailedEventDetails?: TaskStartFailedEventDetails | undefined;
+  taskStartedEventDetails?: TaskStartedEventDetails | undefined;
+  taskSubmitFailedEventDetails?: TaskSubmitFailedEventDetails | undefined;
+  taskSubmittedEventDetails?: TaskSubmittedEventDetails | undefined;
+  taskSucceededEventDetails?: TaskSucceededEventDetails | undefined;
+  taskTimedOutEventDetails?: TaskTimedOutEventDetails | undefined;
+  executionFailedEventDetails?: ExecutionFailedEventDetails | undefined;
+  executionStartedEventDetails?: ExecutionStartedEventDetails | undefined;
+  executionSucceededEventDetails?: ExecutionSucceededEventDetails | undefined;
+  executionAbortedEventDetails?: ExecutionAbortedEventDetails | undefined;
+  executionTimedOutEventDetails?: ExecutionTimedOutEventDetails | undefined;
+  executionRedrivenEventDetails?: ExecutionRedrivenEventDetails | undefined;
+  mapStateStartedEventDetails?: MapStateStartedEventDetails | undefined;
+  mapIterationStartedEventDetails?: MapIterationEventDetails | undefined;
+  mapIterationSucceededEventDetails?: MapIterationEventDetails | undefined;
+  mapIterationFailedEventDetails?: MapIterationEventDetails | undefined;
+  mapIterationAbortedEventDetails?: MapIterationEventDetails | undefined;
+  lambdaFunctionFailedEventDetails?: LambdaFunctionFailedEventDetails | undefined;
+  lambdaFunctionScheduleFailedEventDetails?: LambdaFunctionScheduleFailedEventDetails | undefined;
+  lambdaFunctionScheduledEventDetails?: LambdaFunctionScheduledEventDetails | undefined;
+  lambdaFunctionStartFailedEventDetails?: LambdaFunctionStartFailedEventDetails | undefined;
+  lambdaFunctionSucceededEventDetails?: LambdaFunctionSucceededEventDetails | undefined;
+  lambdaFunctionTimedOutEventDetails?: LambdaFunctionTimedOutEventDetails | undefined;
+  stateEnteredEventDetails?: StateEnteredEventDetails | undefined;
+  stateExitedEventDetails?: StateExitedEventDetails | undefined;
+  mapRunStartedEventDetails?: MapRunStartedEventDetails | undefined;
+  mapRunFailedEventDetails?: MapRunFailedEventDetails | undefined;
+  mapRunRedrivenEventDetails?: MapRunRedrivenEventDetails | undefined;
+  evaluationFailedEventDetails?: EvaluationFailedEventDetails | undefined;
 }
 export type HistoryEventList = HistoryEvent[];
 export interface GetExecutionHistoryOutput {
   events: HistoryEvent[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListActivitiesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ActivityListItem {
   activityArn: string;
@@ -854,17 +859,17 @@ export interface ActivityListItem {
 export type ActivityList = ActivityListItem[];
 export interface ListActivitiesOutput {
   activities: ActivityListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListExecutionsPageToken = string;
 export type ExecutionRedriveFilter = "REDRIVEN" | "NOT_REDRIVEN" | (string & {});
 export interface ListExecutionsInput {
-  stateMachineArn?: string;
-  statusFilter?: ExecutionStatus;
-  maxResults?: number;
-  nextToken?: string;
-  mapRunArn?: string;
-  redriveFilter?: ExecutionRedriveFilter;
+  stateMachineArn?: string | undefined;
+  statusFilter?: ExecutionStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  mapRunArn?: string | undefined;
+  redriveFilter?: ExecutionRedriveFilter | undefined;
 }
 export interface ExecutionListItem {
   executionArn: string;
@@ -872,40 +877,40 @@ export interface ExecutionListItem {
   name: string;
   status: ExecutionStatus;
   startDate: Date;
-  stopDate?: Date;
-  mapRunArn?: string;
-  itemCount?: number;
-  stateMachineVersionArn?: string;
-  stateMachineAliasArn?: string;
-  redriveCount?: number;
-  redriveDate?: Date;
+  stopDate?: Date | undefined;
+  mapRunArn?: string | undefined;
+  itemCount?: number | undefined;
+  stateMachineVersionArn?: string | undefined;
+  stateMachineAliasArn?: string | undefined;
+  redriveCount?: number | undefined;
+  redriveDate?: Date | undefined;
 }
 export type ExecutionList = ExecutionListItem[];
 export interface ListExecutionsOutput {
   executions: ExecutionListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListMapRunsInput {
   executionArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MapRunListItem {
   executionArn: string;
   mapRunArn: string;
   stateMachineArn: string;
   startDate: Date;
-  stopDate?: Date;
+  stopDate?: Date | undefined;
 }
 export type MapRunList = MapRunListItem[];
 export interface ListMapRunsOutput {
   mapRuns: MapRunListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStateMachineAliasesInput {
   stateMachineArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StateMachineAliasListItem {
   stateMachineAliasArn: string;
@@ -914,11 +919,11 @@ export interface StateMachineAliasListItem {
 export type StateMachineAliasList = StateMachineAliasListItem[];
 export interface ListStateMachineAliasesOutput {
   stateMachineAliases: StateMachineAliasListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStateMachinesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface StateMachineListItem {
   stateMachineArn: string;
@@ -929,12 +934,12 @@ export interface StateMachineListItem {
 export type StateMachineList = StateMachineListItem[];
 export interface ListStateMachinesOutput {
   stateMachines: StateMachineListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListStateMachineVersionsInput {
   stateMachineArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StateMachineVersionListItem {
   stateMachineVersionArn: string;
@@ -943,18 +948,18 @@ export interface StateMachineVersionListItem {
 export type StateMachineVersionList = StateMachineVersionListItem[];
 export interface ListStateMachineVersionsOutput {
   stateMachineVersions: StateMachineVersionListItem[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface PublishStateMachineVersionInput {
   stateMachineArn: string;
-  revisionId?: string;
-  description?: string | redacted.Redacted<string>;
+  revisionId?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface PublishStateMachineVersionOutput {
   creationDate: Date;
@@ -963,31 +968,31 @@ export interface PublishStateMachineVersionOutput {
 export type ClientToken = string;
 export interface RedriveExecutionInput {
   executionArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface RedriveExecutionOutput {
   redriveDate: Date;
 }
 export interface SendTaskFailureInput {
-  taskToken: string;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  taskToken: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface SendTaskFailureOutput {}
 export interface SendTaskHeartbeatInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
 }
 export interface SendTaskHeartbeatOutput {}
 export interface SendTaskSuccessInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
   output: string | redacted.Redacted<string>;
 }
 export interface SendTaskSuccessOutput {}
 export interface StartExecutionInput {
   stateMachineArn: string;
-  name?: string;
-  input?: string | redacted.Redacted<string>;
-  traceHeader?: string;
+  name?: string | undefined;
+  input?: string | redacted.Redacted<string> | undefined;
+  traceHeader?: string | undefined;
 }
 export interface StartExecutionOutput {
   executionArn: string;
@@ -995,38 +1000,38 @@ export interface StartExecutionOutput {
 }
 export interface StartSyncExecutionInput {
   stateMachineArn: string;
-  name?: string;
-  input?: string | redacted.Redacted<string>;
-  traceHeader?: string;
-  includedData?: IncludedData;
+  name?: string | undefined;
+  input?: string | redacted.Redacted<string> | undefined;
+  traceHeader?: string | undefined;
+  includedData?: IncludedData | undefined;
 }
 export type SyncExecutionStatus = "SUCCEEDED" | "FAILED" | "TIMED_OUT" | (string & {});
 export type BilledMemoryUsed = number;
 export type BilledDuration = number;
 export interface BillingDetails {
-  billedMemoryUsedInMB?: number;
-  billedDurationInMilliseconds?: number;
+  billedMemoryUsedInMB?: number | undefined;
+  billedDurationInMilliseconds?: number | undefined;
 }
 export interface StartSyncExecutionOutput {
   executionArn: string;
-  stateMachineArn?: string;
-  name?: string;
+  stateMachineArn?: string | undefined;
+  name?: string | undefined;
   startDate: Date;
   stopDate: Date;
   status: SyncExecutionStatus;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
-  input?: string | redacted.Redacted<string>;
-  inputDetails?: CloudWatchEventsExecutionDataDetails;
-  output?: string | redacted.Redacted<string>;
-  outputDetails?: CloudWatchEventsExecutionDataDetails;
-  traceHeader?: string;
-  billingDetails?: BillingDetails;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
+  input?: string | redacted.Redacted<string> | undefined;
+  inputDetails?: CloudWatchEventsExecutionDataDetails | undefined;
+  output?: string | redacted.Redacted<string> | undefined;
+  outputDetails?: CloudWatchEventsExecutionDataDetails | undefined;
+  traceHeader?: string | undefined;
+  billingDetails?: BillingDetails | undefined;
 }
 export interface StopExecutionInput {
   executionArn: string;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export interface StopExecutionOutput {
   stopDate: Date;
@@ -1040,34 +1045,34 @@ export type InspectionLevel = "INFO" | "DEBUG" | "TRACE" | (string & {});
 export type RevealSecrets = boolean;
 export type TestStateStateName = string | redacted.Redacted<string>;
 export interface MockErrorOutput {
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
 }
 export type MockResponseValidationMode = "STRICT" | "PRESENT" | "NONE" | (string & {});
 export interface MockInput {
-  result?: string | redacted.Redacted<string>;
-  errorOutput?: MockErrorOutput;
-  fieldValidationMode?: MockResponseValidationMode;
+  result?: string | redacted.Redacted<string> | undefined;
+  errorOutput?: MockErrorOutput | undefined;
+  fieldValidationMode?: MockResponseValidationMode | undefined;
 }
 export type RetrierRetryCount = number;
 export type MapIterationFailureCount = number;
 export interface TestStateConfiguration {
-  retrierRetryCount?: number;
-  errorCausedByState?: string | redacted.Redacted<string>;
-  mapIterationFailureCount?: number;
-  mapItemReaderData?: string | redacted.Redacted<string>;
+  retrierRetryCount?: number | undefined;
+  errorCausedByState?: string | redacted.Redacted<string> | undefined;
+  mapIterationFailureCount?: number | undefined;
+  mapItemReaderData?: string | redacted.Redacted<string> | undefined;
 }
 export interface TestStateInput {
   definition: string | redacted.Redacted<string>;
-  roleArn?: string;
-  input?: string | redacted.Redacted<string>;
-  inspectionLevel?: InspectionLevel;
-  revealSecrets?: boolean;
-  variables?: string | redacted.Redacted<string>;
-  stateName?: string | redacted.Redacted<string>;
-  mock?: MockInput;
-  context?: string | redacted.Redacted<string>;
-  stateConfiguration?: TestStateConfiguration;
+  roleArn?: string | undefined;
+  input?: string | redacted.Redacted<string> | undefined;
+  inspectionLevel?: InspectionLevel | undefined;
+  revealSecrets?: boolean | undefined;
+  variables?: string | redacted.Redacted<string> | undefined;
+  stateName?: string | redacted.Redacted<string> | undefined;
+  mock?: MockInput | undefined;
+  context?: string | redacted.Redacted<string> | undefined;
+  stateConfiguration?: TestStateConfiguration | undefined;
 }
 export type HTTPProtocol = string;
 export type HTTPMethod = string;
@@ -1075,50 +1080,50 @@ export type URL = string;
 export type HTTPHeaders = string;
 export type HTTPBody = string;
 export interface InspectionDataRequest {
-  protocol?: string;
-  method?: string;
-  url?: string;
-  headers?: string;
-  body?: string;
+  protocol?: string | undefined;
+  method?: string | undefined;
+  url?: string | undefined;
+  headers?: string | undefined;
+  body?: string | undefined;
 }
 export type HTTPStatusCode = string;
 export type HTTPStatusMessage = string;
 export interface InspectionDataResponse {
-  protocol?: string;
-  statusCode?: string;
-  statusMessage?: string;
-  headers?: string;
-  body?: string;
+  protocol?: string | undefined;
+  statusCode?: string | undefined;
+  statusMessage?: string | undefined;
+  headers?: string | undefined;
+  body?: string | undefined;
 }
 export type ExceptionHandlerIndex = number;
 export type RetryBackoffIntervalSeconds = number;
 export interface InspectionErrorDetails {
-  catchIndex?: number;
-  retryIndex?: number;
-  retryBackoffIntervalSeconds?: number;
+  catchIndex?: number | undefined;
+  retryIndex?: number | undefined;
+  retryBackoffIntervalSeconds?: number | undefined;
 }
 export type InspectionToleratedFailureCount = number;
 export type InspectionToleratedFailurePercentage = number;
 export type InspectionMaxConcurrency = number;
 export interface InspectionData {
-  input?: string | redacted.Redacted<string>;
-  afterArguments?: string | redacted.Redacted<string>;
-  afterInputPath?: string | redacted.Redacted<string>;
-  afterParameters?: string | redacted.Redacted<string>;
-  result?: string | redacted.Redacted<string>;
-  afterResultSelector?: string | redacted.Redacted<string>;
-  afterResultPath?: string | redacted.Redacted<string>;
-  request?: InspectionDataRequest;
-  response?: InspectionDataResponse;
-  variables?: string | redacted.Redacted<string>;
-  errorDetails?: InspectionErrorDetails;
-  afterItemsPath?: string | redacted.Redacted<string>;
-  afterItemSelector?: string | redacted.Redacted<string>;
-  afterItemBatcher?: string | redacted.Redacted<string>;
-  afterItemsPointer?: string | redacted.Redacted<string>;
-  toleratedFailureCount?: number;
-  toleratedFailurePercentage?: number;
-  maxConcurrency?: number;
+  input?: string | redacted.Redacted<string> | undefined;
+  afterArguments?: string | redacted.Redacted<string> | undefined;
+  afterInputPath?: string | redacted.Redacted<string> | undefined;
+  afterParameters?: string | redacted.Redacted<string> | undefined;
+  result?: string | redacted.Redacted<string> | undefined;
+  afterResultSelector?: string | redacted.Redacted<string> | undefined;
+  afterResultPath?: string | redacted.Redacted<string> | undefined;
+  request?: InspectionDataRequest | undefined;
+  response?: InspectionDataResponse | undefined;
+  variables?: string | redacted.Redacted<string> | undefined;
+  errorDetails?: InspectionErrorDetails | undefined;
+  afterItemsPath?: string | redacted.Redacted<string> | undefined;
+  afterItemSelector?: string | redacted.Redacted<string> | undefined;
+  afterItemBatcher?: string | redacted.Redacted<string> | undefined;
+  afterItemsPointer?: string | redacted.Redacted<string> | undefined;
+  toleratedFailureCount?: number | undefined;
+  toleratedFailurePercentage?: number | undefined;
+  maxConcurrency?: number | undefined;
 }
 export type TestExecutionStatus =
   | "SUCCEEDED"
@@ -1127,12 +1132,12 @@ export type TestExecutionStatus =
   | "CAUGHT_ERROR"
   | (string & {});
 export interface TestStateOutput {
-  output?: string | redacted.Redacted<string>;
-  error?: string | redacted.Redacted<string>;
-  cause?: string | redacted.Redacted<string>;
-  inspectionData?: InspectionData;
-  nextState?: string;
-  status?: TestExecutionStatus;
+  output?: string | redacted.Redacted<string> | undefined;
+  error?: string | redacted.Redacted<string> | undefined;
+  cause?: string | redacted.Redacted<string> | undefined;
+  inspectionData?: InspectionData | undefined;
+  nextState?: string | undefined;
+  status?: TestExecutionStatus | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceInput {
@@ -1142,30 +1147,30 @@ export interface UntagResourceInput {
 export interface UntagResourceOutput {}
 export interface UpdateMapRunInput {
   mapRunArn: string;
-  maxConcurrency?: number;
-  toleratedFailurePercentage?: number;
-  toleratedFailureCount?: number;
+  maxConcurrency?: number | undefined;
+  toleratedFailurePercentage?: number | undefined;
+  toleratedFailureCount?: number | undefined;
 }
 export interface UpdateMapRunOutput {}
 export interface UpdateStateMachineInput {
   stateMachineArn: string;
-  definition?: string | redacted.Redacted<string>;
-  roleArn?: string;
-  loggingConfiguration?: LoggingConfiguration;
-  tracingConfiguration?: TracingConfiguration;
-  publish?: boolean;
-  versionDescription?: string | redacted.Redacted<string>;
-  encryptionConfiguration?: EncryptionConfiguration;
+  definition?: string | redacted.Redacted<string> | undefined;
+  roleArn?: string | undefined;
+  loggingConfiguration?: LoggingConfiguration | undefined;
+  tracingConfiguration?: TracingConfiguration | undefined;
+  publish?: boolean | undefined;
+  versionDescription?: string | redacted.Redacted<string> | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface UpdateStateMachineOutput {
   updateDate: Date;
-  revisionId?: string;
-  stateMachineVersionArn?: string;
+  revisionId?: string | undefined;
+  stateMachineVersionArn?: string | undefined;
 }
 export interface UpdateStateMachineAliasInput {
   stateMachineAliasArn: string;
-  description?: string | redacted.Redacted<string>;
-  routingConfiguration?: RoutingConfigurationListItem[];
+  description?: string | redacted.Redacted<string> | undefined;
+  routingConfiguration?: RoutingConfigurationListItem[] | undefined;
 }
 export interface UpdateStateMachineAliasOutput {
   updateDate: Date;
@@ -1174,9 +1179,9 @@ export type ValidateStateMachineDefinitionSeverity = "ERROR" | "WARNING" | (stri
 export type ValidateStateMachineDefinitionMaxResult = number;
 export interface ValidateStateMachineDefinitionInput {
   definition: string | redacted.Redacted<string>;
-  type?: StateMachineType;
-  severity?: ValidateStateMachineDefinitionSeverity;
-  maxResults?: number;
+  type?: StateMachineType | undefined;
+  severity?: ValidateStateMachineDefinitionSeverity | undefined;
+  maxResults?: number | undefined;
 }
 export type ValidateStateMachineDefinitionResultCode = "OK" | "FAIL" | (string & {});
 export type ValidateStateMachineDefinitionCode = string | redacted.Redacted<string>;
@@ -1186,7 +1191,7 @@ export interface ValidateStateMachineDefinitionDiagnostic {
   severity: ValidateStateMachineDefinitionSeverity;
   code: string | redacted.Redacted<string>;
   message: string | redacted.Redacted<string>;
-  location?: string | redacted.Redacted<string>;
+  location?: string | redacted.Redacted<string> | undefined;
 }
 export type ValidateStateMachineDefinitionDiagnosticList =
   ValidateStateMachineDefinitionDiagnostic[];
@@ -1194,7 +1199,7 @@ export type ValidateStateMachineDefinitionTruncated = boolean;
 export interface ValidateStateMachineDefinitionOutput {
   result: ValidateStateMachineDefinitionResultCode;
   diagnostics: ValidateStateMachineDefinitionDiagnostic[];
-  truncated?: boolean;
+  truncated?: boolean | undefined;
 }
 export type ErrorMessage = string;
 export type ValidationExceptionReason =
@@ -1236,7 +1241,7 @@ export type CreateActivityError =
  * even if they are different.
  */
 export const createActivity: API.OperationMethod<
-  CreateActivityInput,
+  CreateActivityInput & RegionInput,
   CreateActivityOutput,
   CreateActivityError,
   Credentials | HttpClient.HttpClient
@@ -1301,7 +1306,7 @@ export type CreateStateMachineError =
  * `tags` will not be updated, even if they are different.
  */
 export const createStateMachine: API.OperationMethod<
-  CreateStateMachineInput,
+  CreateStateMachineInput & RegionInput,
   CreateStateMachineOutput,
   CreateStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -1373,7 +1378,7 @@ export type CreateStateMachineAliasError =
  * - DeleteStateMachineAlias
  */
 export const createStateMachineAlias: API.OperationMethod<
-  CreateStateMachineAliasInput,
+  CreateStateMachineAliasInput & RegionInput,
   CreateStateMachineAliasOutput,
   CreateStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -1401,7 +1406,7 @@ export type DeleteActivityError = InvalidArn | CommonErrors;
  * Deletes an activity.
  */
 export const deleteActivity: API.OperationMethod<
-  DeleteActivityInput,
+  DeleteActivityInput & RegionInput,
   DeleteActivityOutput,
   DeleteActivityError,
   Credentials | HttpClient.HttpClient
@@ -1445,7 +1450,7 @@ export type DeleteStateMachineError = InvalidArn | ValidationException | CommonE
  * API is called.
  */
 export const deleteStateMachine: API.OperationMethod<
-  DeleteStateMachineInput,
+  DeleteStateMachineInput & RegionInput,
   DeleteStateMachineOutput,
   DeleteStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -1487,7 +1492,7 @@ export type DeleteStateMachineAliasError =
  * - UpdateStateMachineAlias
  */
 export const deleteStateMachineAlias: API.OperationMethod<
-  DeleteStateMachineAliasInput,
+  DeleteStateMachineAliasInput & RegionInput,
   DeleteStateMachineAliasOutput,
   DeleteStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -1523,7 +1528,7 @@ export type DeleteStateMachineVersionError =
  * - ListStateMachineVersions
  */
 export const deleteStateMachineVersion: API.OperationMethod<
-  DeleteStateMachineVersionInput,
+  DeleteStateMachineVersionInput & RegionInput,
   DeleteStateMachineVersionOutput,
   DeleteStateMachineVersionError,
   Credentials | HttpClient.HttpClient
@@ -1545,7 +1550,7 @@ export type DescribeActivityError = ActivityDoesNotExist | InvalidArn | CommonEr
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const describeActivity: API.OperationMethod<
-  DescribeActivityInput,
+  DescribeActivityInput & RegionInput,
   DescribeActivityOutput,
   DescribeActivityError,
   Credentials | HttpClient.HttpClient
@@ -1581,7 +1586,7 @@ export type DescribeExecutionError =
  * Executions of an `EXPRESS` state machine aren't supported by `DescribeExecution` unless a Map Run dispatched them.
  */
 export const describeExecution: API.OperationMethod<
-  DescribeExecutionInput,
+  DescribeExecutionInput & RegionInput,
   DescribeExecutionOutput,
   DescribeExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1607,7 +1612,7 @@ export type DescribeMapRunError = InvalidArn | ResourceNotFound | CommonErrors;
  * Provides information about a Map Run's configuration, progress, and results. If you've redriven a Map Run, this API action also returns information about the redrives of that Map Run. For more information, see Examining Map Run in the *Step Functions Developer Guide*.
  */
 export const describeMapRun: API.OperationMethod<
-  DescribeMapRunInput,
+  DescribeMapRunInput & RegionInput,
   DescribeMapRunOutput,
   DescribeMapRunError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1663,7 @@ export type DescribeStateMachineError =
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const describeStateMachine: API.OperationMethod<
-  DescribeStateMachineInput,
+  DescribeStateMachineInput & RegionInput,
   DescribeStateMachineOutput,
   DescribeStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1706,7 @@ export type DescribeStateMachineAliasError =
  * - DeleteStateMachineAlias
  */
 export const describeStateMachineAlias: API.OperationMethod<
-  DescribeStateMachineAliasInput,
+  DescribeStateMachineAliasInput & RegionInput,
   DescribeStateMachineAliasOutput,
   DescribeStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -1734,7 +1739,7 @@ export type DescribeStateMachineForExecutionError =
  * This API action is not supported by `EXPRESS` state machines.
  */
 export const describeStateMachineForExecution: API.OperationMethod<
-  DescribeStateMachineForExecutionInput,
+  DescribeStateMachineForExecutionInput & RegionInput,
   DescribeStateMachineForExecutionOutput,
   DescribeStateMachineForExecutionError,
   Credentials | HttpClient.HttpClient
@@ -1779,7 +1784,7 @@ export type GetActivityTaskError =
  * Latency When Polling for Activity Tasks in the Step Functions Developer Guide.
  */
 export const getActivityTask: API.OperationMethod<
-  GetActivityTaskInput,
+  GetActivityTaskInput & RegionInput,
   GetActivityTaskOutput,
   GetActivityTaskError,
   Credentials | HttpClient.HttpClient
@@ -1823,7 +1828,7 @@ export type GetExecutionHistoryError =
  * This API action is not supported by `EXPRESS` state machines.
  */
 export const getExecutionHistory: API.PaginatedOperationMethod<
-  GetExecutionHistoryInput,
+  GetExecutionHistoryInput & RegionInput,
   GetExecutionHistoryOutput,
   GetExecutionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -1862,7 +1867,7 @@ export type ListActivitiesError = InvalidToken | CommonErrors;
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const listActivities: API.PaginatedOperationMethod<
-  ListActivitiesInput,
+  ListActivitiesInput & RegionInput,
   ListActivitiesOutput,
   ListActivitiesError,
   Credentials | HttpClient.HttpClient,
@@ -1907,7 +1912,7 @@ export type ListExecutionsError =
  * This API action is not supported by `EXPRESS` state machines. However, you may list `EXPRESS` children started by a map run using the `mapRunArn` parameter.
  */
 export const listExecutions: API.PaginatedOperationMethod<
-  ListExecutionsInput,
+  ListExecutionsInput & RegionInput,
   ListExecutionsOutput,
   ListExecutionsError,
   Credentials | HttpClient.HttpClient,
@@ -1944,7 +1949,7 @@ export type ListMapRunsError = ExecutionDoesNotExist | InvalidArn | InvalidToken
  * Lists all Map Runs that were started by a given state machine execution. Use this API action to obtain Map Run ARNs, and then call `DescribeMapRun` to obtain more information, if needed.
  */
 export const listMapRuns: API.PaginatedOperationMethod<
-  ListMapRunsInput,
+  ListMapRunsInput & RegionInput,
   ListMapRunsOutput,
   ListMapRunsError,
   Credentials | HttpClient.HttpClient,
@@ -1992,7 +1997,7 @@ export type ListStateMachineAliasesError =
  * - DeleteStateMachineAlias
  */
 export const listStateMachineAliases: API.OperationMethod<
-  ListStateMachineAliasesInput,
+  ListStateMachineAliasesInput & RegionInput,
   ListStateMachineAliasesOutput,
   ListStateMachineAliasesError,
   Credentials | HttpClient.HttpClient
@@ -2026,7 +2031,7 @@ export type ListStateMachinesError = InvalidToken | CommonErrors;
  * This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
  */
 export const listStateMachines: API.PaginatedOperationMethod<
-  ListStateMachinesInput,
+  ListStateMachinesInput & RegionInput,
   ListStateMachinesOutput,
   ListStateMachinesError,
   Credentials | HttpClient.HttpClient,
@@ -2068,7 +2073,7 @@ export type ListStateMachineVersionsError =
  * - DeleteStateMachineVersion
  */
 export const listStateMachineVersions: API.OperationMethod<
-  ListStateMachineVersionsInput,
+  ListStateMachineVersionsInput & RegionInput,
   ListStateMachineVersionsOutput,
   ListStateMachineVersionsError,
   Credentials | HttpClient.HttpClient
@@ -2093,7 +2098,7 @@ export type ListTagsForResourceError = InvalidArn | ResourceNotFound | CommonErr
  * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceInput,
+  ListTagsForResourceInput & RegionInput,
   ListTagsForResourceOutput,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2138,7 +2143,7 @@ export type PublishStateMachineVersionError =
  * - ListStateMachineVersions
  */
 export const publishStateMachineVersion: API.OperationMethod<
-  PublishStateMachineVersionInput,
+  PublishStateMachineVersionInput & RegionInput,
   PublishStateMachineVersionOutput,
   PublishStateMachineVersionError,
   Credentials | HttpClient.HttpClient
@@ -2192,7 +2197,7 @@ export type RedriveExecutionError =
  * - The execution event history count is less than 24,999. Redriven executions append their event history to the existing event history. Make sure your workflow execution contains less than 24,999 events to accommodate the `ExecutionRedriven` history event and at least one other history event.
  */
 export const redriveExecution: API.OperationMethod<
-  RedriveExecutionInput,
+  RedriveExecutionInput & RegionInput,
   RedriveExecutionOutput,
   RedriveExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2230,7 +2235,7 @@ export type SendTaskFailureError =
  * A caller can mark a task as fail without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
  */
 export const sendTaskFailure: API.OperationMethod<
-  SendTaskFailureInput,
+  SendTaskFailureInput & RegionInput,
   SendTaskFailureOutput,
   SendTaskFailureError,
   Credentials | HttpClient.HttpClient
@@ -2270,7 +2275,7 @@ export type SendTaskHeartbeatError = InvalidToken | TaskDoesNotExist | TaskTimed
  * for heartbeats.
  */
 export const sendTaskHeartbeat: API.OperationMethod<
-  SendTaskHeartbeatInput,
+  SendTaskHeartbeatInput & RegionInput,
   SendTaskHeartbeatOutput,
   SendTaskHeartbeatError,
   Credentials | HttpClient.HttpClient
@@ -2300,7 +2305,7 @@ export type SendTaskSuccessError =
  * successfully.
  */
 export const sendTaskSuccess: API.OperationMethod<
-  SendTaskSuccessInput,
+  SendTaskSuccessInput & RegionInput,
   SendTaskSuccessOutput,
   SendTaskSuccessError,
   Credentials | HttpClient.HttpClient
@@ -2373,7 +2378,7 @@ export type StartExecutionError =
  * `StartExecution` isn't idempotent for `EXPRESS` workflows.
  */
 export const startExecution: API.OperationMethod<
-  StartExecutionInput,
+  StartExecutionInput & RegionInput,
   StartExecutionOutput,
   StartExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2425,7 +2430,7 @@ export type StartSyncExecutionError =
  * configuration.
  */
 export const startSyncExecution: API.OperationMethod<
-  StartSyncExecutionInput,
+  StartSyncExecutionInput & RegionInput,
   StartSyncExecutionOutput,
   StartSyncExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2472,7 +2477,7 @@ export type StopExecutionError =
  * A caller can stop an execution without using any KMS permissions in the execution role if the caller provides a null value for both `error` and `cause` fields because no data needs to be encrypted.
  */
 export const stopExecution: API.OperationMethod<
-  StopExecutionInput,
+  StopExecutionInput & RegionInput,
   StopExecutionOutput,
   StopExecutionError,
   Credentials | HttpClient.HttpClient
@@ -2506,7 +2511,7 @@ export type TagResourceError = InvalidArn | ResourceNotFound | TooManyTags | Com
  * Tags may only contain Unicode letters, digits, white space, or these symbols: `_ . : / = + - @`.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceInput,
+  TagResourceInput & RegionInput,
   TagResourceOutput,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2558,7 +2563,7 @@ export type TestStateError =
  * service integration patterns, Parallel, or Map states.
  */
 export const testState: API.OperationMethod<
-  TestStateInput,
+  TestStateInput & RegionInput,
   TestStateOutput,
   TestStateError,
   Credentials | HttpClient.HttpClient
@@ -2579,7 +2584,7 @@ export type UntagResourceError = InvalidArn | ResourceNotFound | CommonErrors;
  * Remove a tag from a Step Functions resource
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceInput,
+  UntagResourceInput & RegionInput,
   UntagResourceOutput,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2599,7 +2604,7 @@ export type UpdateMapRunError = InvalidArn | ResourceNotFound | ValidationExcept
  * Updates an in-progress Map Run's configuration to include changes to the settings that control maximum concurrency and Map Run failure.
  */
 export const updateMapRun: API.OperationMethod<
-  UpdateMapRunInput,
+  UpdateMapRunInput & RegionInput,
   UpdateMapRunOutput,
   UpdateMapRunError,
   Credentials | HttpClient.HttpClient
@@ -2670,7 +2675,7 @@ export type UpdateStateMachineError =
  * `definition` and `roleArn`.
  */
 export const updateStateMachine: API.OperationMethod<
-  UpdateStateMachineInput,
+  UpdateStateMachineInput & RegionInput,
   UpdateStateMachineOutput,
   UpdateStateMachineError,
   Credentials | HttpClient.HttpClient
@@ -2735,7 +2740,7 @@ export type UpdateStateMachineAliasError =
  * - DeleteStateMachineAlias
  */
 export const updateStateMachineAlias: API.OperationMethod<
-  UpdateStateMachineAliasInput,
+  UpdateStateMachineAliasInput & RegionInput,
   UpdateStateMachineAliasOutput,
   UpdateStateMachineAliasError,
   Credentials | HttpClient.HttpClient
@@ -2792,7 +2797,7 @@ export type ValidateStateMachineDefinitionError = ValidationException | CommonEr
  * wording of diagnostic messages.
  */
 export const validateStateMachineDefinition: API.OperationMethod<
-  ValidateStateMachineDefinitionInput,
+  ValidateStateMachineDefinitionInput & RegionInput,
   ValidateStateMachineDefinitionOutput,
   ValidateStateMachineDefinitionError,
   Credentials | HttpClient.HttpClient
@@ -3178,7 +3183,10 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetActivityTaskInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.optional(S.String), input: S.optional(SensitiveString) }).pipe(ns),
+        S.Struct({
+          taskToken: S.optional(SensitiveString),
+          input: S.optional(SensitiveString),
+        }).pipe(ns),
       ).annotate({ identifier: "GetActivityTaskOutput" });
   }
 }
@@ -3611,7 +3619,7 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          taskToken: S.String,
+          taskToken: SensitiveString,
           error: S.optional(SensitiveString),
           cause: S.optional(SensitiveString),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -3622,7 +3630,7 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.String }).pipe(
+        S.Struct({ taskToken: SensitiveString }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SendTaskHeartbeatInput" });
@@ -3632,7 +3640,7 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.String, output: SensitiveString }).pipe(
+        S.Struct({ taskToken: SensitiveString, output: SensitiveString }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SendTaskSuccessInput" });

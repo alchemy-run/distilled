@@ -79,19 +79,19 @@ export type CreateVaultItemRequestCategory =
   | "SSH_KEY"
   | "CUSTOM";
 export interface CreateVaultItemRequestUrlsItem {
-  label?: string;
-  primary?: boolean;
+  label?: string | undefined;
+  primary?: boolean | undefined;
   href: string;
 }
 export type CreateVaultItemRequestUrlsList = Array<CreateVaultItemRequestUrlsItem>;
 export type CreateVaultItemRequestTagsList = Array<string>;
 export interface CreateVaultItemRequestSectionsItem {
-  id?: string;
-  label?: string;
+  id?: string | undefined;
+  label?: string | undefined;
 }
 export type CreateVaultItemRequestSectionsList = Array<CreateVaultItemRequestSectionsItem>;
 export interface FieldInputSection {
-  id?: string;
+  id?: string | undefined;
 }
 export type FieldInputType =
   | "STRING"
@@ -111,53 +111,53 @@ export type GeneratorRecipeCharacterSetsList = Array<
 /** The recipe is used in conjunction with the "generate" property to set the character set used to generate a new secure value */
 export interface GeneratorRecipe {
   /** Length of the generated value */
-  length?: number;
-  characterSets?: GeneratorRecipeCharacterSetsList;
+  length?: number | undefined;
+  characterSets?: GeneratorRecipeCharacterSetsList | undefined;
   /** List of all characters that should be excluded from generated passwords. */
-  excludeCharacters?: string;
+  excludeCharacters?: string | undefined;
 }
 export interface FieldInput {
   id: string;
-  section?: FieldInputSection;
+  section?: FieldInputSection | undefined;
   type: FieldInputType | (string & {});
   /** Some item types, Login and Password, have fields used for autofill. This property indicates that purpose and is required for some item types. */
-  purpose?: FieldInputPurpose | (string & {});
-  label?: string;
-  value?: string;
+  purpose?: FieldInputPurpose | (string & {}) | undefined;
+  label?: string | undefined;
+  value?: string | undefined;
   /** If value is not present then a new value should be generated for this field */
-  generate?: boolean;
-  recipe?: GeneratorRecipe;
+  generate?: boolean | undefined;
+  recipe?: GeneratorRecipe | undefined;
 }
 export type CreateVaultItemRequestFieldsList = Array<FieldInput>;
 /** For files that are in a section, this field describes the section. */
 export type FileInputSection = FieldInputSection;
 export interface FileInput {
   /** ID of the file */
-  id?: string;
+  id?: string | undefined;
   /** Name of the file */
-  name?: string;
+  name?: string | undefined;
   /** Size in bytes of the file */
-  size?: number;
+  size?: number | undefined;
   /** For files that are in a section, this field describes the section. */
-  section?: FieldInputSection;
+  section?: FieldInputSection | undefined;
   /** Base64-encoded contents of the file. Only set if size <= OP_MAX_INLINE_FILE_SIZE_KB kb and `inline_files` is set to `true`. */
-  content?: string;
+  content?: string | undefined;
 }
 export type CreateVaultItemRequestFilesList = Array<FileInput>;
 export interface CreateVaultItemRequest {
   /** The UUID of the Vault to create an Item in */
   vaultUuid: string;
-  id?: string;
-  title?: string;
+  id?: string | undefined;
+  title?: string | undefined;
   vault: CreateVaultItemRequestVault;
   category: CreateVaultItemRequestCategory | (string & {});
-  urls?: CreateVaultItemRequestUrlsList;
-  favorite?: boolean;
-  tags?: CreateVaultItemRequestTagsList;
-  version?: number;
-  sections?: CreateVaultItemRequestSectionsList;
-  fields?: CreateVaultItemRequestFieldsList;
-  files?: CreateVaultItemRequestFilesList;
+  urls?: CreateVaultItemRequestUrlsList | undefined;
+  favorite?: boolean | undefined;
+  tags?: CreateVaultItemRequestTagsList | undefined;
+  version?: number | undefined;
+  sections?: CreateVaultItemRequestSectionsList | undefined;
+  fields?: CreateVaultItemRequestFieldsList | undefined;
+  files?: CreateVaultItemRequestFilesList | undefined;
 }
 export type CreateVaultItemResponseVault = CreateVaultItemRequestVault;
 export type CreateVaultItemResponseCategory =
@@ -203,52 +203,52 @@ export type FieldType =
 export type FieldPurpose = "" | "USERNAME" | "PASSWORD" | "NOTES";
 export interface Field {
   id: string;
-  section?: FieldInputSection;
+  section?: FieldInputSection | undefined;
   type: FieldType;
   /** Some item types, Login and Password, have fields used for autofill. This property indicates that purpose and is required for some item types. */
-  purpose?: FieldPurpose;
-  label?: string;
-  value?: string;
+  purpose?: FieldPurpose | undefined;
+  label?: string | undefined;
+  value?: string | undefined;
   /** If value is not present then a new value should be generated for this field */
-  generate?: boolean;
-  recipe?: GeneratorRecipe;
+  generate?: boolean | undefined;
+  recipe?: GeneratorRecipe | undefined;
   /** For fields with a purpose of `PASSWORD` this is the entropy of the value */
-  entropy?: number;
+  entropy?: number | undefined;
 }
 export type CreateVaultItemResponseFieldsList = Array<Field>;
 /** For files that are in a section, this field describes the section. */
 export type FileSection = FieldInputSection;
 export interface File {
   /** ID of the file */
-  id?: string;
+  id?: string | undefined;
   /** Name of the file */
-  name?: string;
+  name?: string | undefined;
   /** Size in bytes of the file */
-  size?: number;
+  size?: number | undefined;
   /** Path of the Connect API that can be used to download the contents of this file. */
-  content_path?: string;
+  content_path?: string | undefined;
   /** For files that are in a section, this field describes the section. */
-  section?: FieldInputSection;
+  section?: FieldInputSection | undefined;
   /** Base64-encoded contents of the file. Only set if size <= OP_MAX_INLINE_FILE_SIZE_KB kb and `inline_files` is set to `true`. */
-  content?: string;
+  content?: string | undefined;
 }
 export type CreateVaultItemResponseFilesList = Array<File>;
 export interface CreateVaultItemResponse {
-  id?: string;
-  title?: string;
+  id?: string | undefined;
+  title?: string | undefined;
   vault: CreateVaultItemRequestVault;
   category: CreateVaultItemResponseCategory;
-  urls?: CreateVaultItemResponseUrlsList;
-  favorite?: boolean;
-  tags?: CreateVaultItemResponseTagsList;
-  version?: number;
-  state?: CreateVaultItemResponseState;
-  createdAt?: string;
-  updatedAt?: string;
-  lastEditedBy?: string;
-  sections?: CreateVaultItemResponseSectionsList;
-  fields?: CreateVaultItemResponseFieldsList;
-  files?: CreateVaultItemResponseFilesList;
+  urls?: CreateVaultItemResponseUrlsList | undefined;
+  favorite?: boolean | undefined;
+  tags?: CreateVaultItemResponseTagsList | undefined;
+  version?: number | undefined;
+  state?: CreateVaultItemResponseState | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  lastEditedBy?: string | undefined;
+  sections?: CreateVaultItemResponseSectionsList | undefined;
+  fields?: CreateVaultItemResponseFieldsList | undefined;
+  files?: CreateVaultItemResponseFilesList | undefined;
 }
 export interface DeleteVaultItemRequest {
   /** The UUID of the Vault the item is in */
@@ -268,38 +268,38 @@ export interface DownloadFileByIDRequest {
 export interface DownloadFileByIDResponse {}
 export interface GetApiActivityRequest {
   /** How many API Events should be retrieved in a single request. */
-  limit?: number;
+  limit?: number | undefined;
   /** How far into the collection of API Events should the response start */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type APIRequestAction = "READ" | "CREATE" | "UPDATE" | "DELETE";
 export type APIRequestResult = "SUCCESS" | "DENY";
 export interface APIRequestActor {
-  id?: string;
-  account?: string;
-  jti?: string;
-  userAgent?: string;
-  requestIp?: string;
+  id?: string | undefined;
+  account?: string | undefined;
+  jti?: string | undefined;
+  userAgent?: string | undefined;
+  requestIp?: string | undefined;
 }
 export type APIRequestResourceType = "ITEM" | "VAULT";
 export type APIRequestResourceVault = FieldInputSection;
 export type APIRequestResourceItem = FieldInputSection;
 export interface APIRequestResource {
-  type?: APIRequestResourceType;
-  vault?: FieldInputSection;
-  item?: FieldInputSection;
-  itemVersion?: number;
+  type?: APIRequestResourceType | undefined;
+  vault?: FieldInputSection | undefined;
+  item?: FieldInputSection | undefined;
+  itemVersion?: number | undefined;
 }
 /** Represents a request that was made to the API. Including what Token was used and what resource was accessed. */
 export interface APIRequest {
   /** The unique id used to identify a single request. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** The time at which the request was processed by the server. */
-  timestamp?: string;
-  action?: APIRequestAction;
-  result?: APIRequestResult;
-  actor?: APIRequestActor;
-  resource?: APIRequestResource;
+  timestamp?: string | undefined;
+  action?: APIRequestAction | undefined;
+  result?: APIRequestResult | undefined;
+  actor?: APIRequestActor | undefined;
+  resource?: APIRequestResource | undefined;
 }
 export type GetApiActivityResponseBodyList = Array<APIRequest>;
 export type GetApiActivityResponse = GetApiActivityResponseBodyList;
@@ -311,7 +311,7 @@ export interface GetDetailsOfFileByIdRequest {
   /** The UUID of the File to fetch */
   fileUuid: string;
   /** Tells server to return the base64-encoded file contents in the response. */
-  inline_files?: boolean;
+  inline_files?: boolean | undefined;
 }
 export interface GetHeartbeatRequest {}
 export interface GetHeartbeatResponse {}
@@ -321,7 +321,7 @@ export interface GetItemFilesRequest {
   /** The UUID of the Item to fetch files from */
   itemUuid: string;
   /** Tells server to return the base64-encoded file contents in the response. */
-  inline_files?: boolean;
+  inline_files?: boolean | undefined;
 }
 export type GetItemFilesResponseBodyList = Array<File>;
 export type GetItemFilesResponse = GetItemFilesResponseBodyList;
@@ -330,17 +330,17 @@ export interface GetPrometheusMetricsResponse {}
 export interface GetServerHealthRequest {}
 /** The state of a registered server dependency. */
 export interface ServiceDependency {
-  service?: string;
-  status?: string;
+  service?: string | undefined;
+  status?: string | undefined;
   /** Human-readable message for explaining the current state. */
-  message?: string;
+  message?: string | undefined;
 }
 export type GetServerHealthResponseDependenciesList = Array<ServiceDependency>;
 export interface GetServerHealthResponse {
   name: string;
   /** The Connect server's version */
   version: string;
-  dependencies?: GetServerHealthResponseDependenciesList;
+  dependencies?: GetServerHealthResponseDependenciesList | undefined;
 }
 export interface GetVaultByIdRequest {
   /** The UUID of the Vault to fetch Items from */
@@ -348,18 +348,18 @@ export interface GetVaultByIdRequest {
 }
 export type VaultType = "USER_CREATED" | "PERSONAL" | "EVERYONE" | "TRANSFER";
 export interface Vault {
-  id?: string;
-  name?: string;
-  description?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
   /** The vault version */
-  attributeVersion?: number;
+  attributeVersion?: number | undefined;
   /** The version of the vault contents */
-  contentVersion?: number;
+  contentVersion?: number | undefined;
   /** Number of active items in the vault */
-  items?: number;
-  type?: VaultType;
-  createdAt?: string;
-  updatedAt?: string;
+  items?: number | undefined;
+  type?: VaultType | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetVaultItemByIdRequest {
   /** The UUID of the Vault to fetch Item from */
@@ -400,27 +400,27 @@ export type GetVaultItemByIdResponseSectionsList = Array<CreateVaultItemRequestS
 export type GetVaultItemByIdResponseFieldsList = Array<Field>;
 export type GetVaultItemByIdResponseFilesList = Array<File>;
 export interface GetVaultItemByIdResponse {
-  id?: string;
-  title?: string;
+  id?: string | undefined;
+  title?: string | undefined;
   vault: CreateVaultItemRequestVault;
   category: GetVaultItemByIdResponseCategory;
-  urls?: GetVaultItemByIdResponseUrlsList;
-  favorite?: boolean;
-  tags?: GetVaultItemByIdResponseTagsList;
-  version?: number;
-  state?: GetVaultItemByIdResponseState;
-  createdAt?: string;
-  updatedAt?: string;
-  lastEditedBy?: string;
-  sections?: GetVaultItemByIdResponseSectionsList;
-  fields?: GetVaultItemByIdResponseFieldsList;
-  files?: GetVaultItemByIdResponseFilesList;
+  urls?: GetVaultItemByIdResponseUrlsList | undefined;
+  favorite?: boolean | undefined;
+  tags?: GetVaultItemByIdResponseTagsList | undefined;
+  version?: number | undefined;
+  state?: GetVaultItemByIdResponseState | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  lastEditedBy?: string | undefined;
+  sections?: GetVaultItemByIdResponseSectionsList | undefined;
+  fields?: GetVaultItemByIdResponseFieldsList | undefined;
+  files?: GetVaultItemByIdResponseFilesList | undefined;
 }
 export interface GetVaultItemsRequest {
   /** The UUID of the Vault to fetch Items from */
   vaultUuid: string;
   /** Filter the Item collection based on Item name using SCIM eq filter */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ItemVault = CreateVaultItemRequestVault;
 export type ItemCategory =
@@ -451,24 +451,24 @@ export type ItemUrlsList = Array<CreateVaultItemRequestUrlsItem>;
 export type ItemTagsList = Array<string>;
 export type ItemState = "ARCHIVED" | "DELETED";
 export interface Item {
-  id?: string;
-  title?: string;
+  id?: string | undefined;
+  title?: string | undefined;
   vault: CreateVaultItemRequestVault;
   category: ItemCategory;
-  urls?: ItemUrlsList;
-  favorite?: boolean;
-  tags?: ItemTagsList;
-  version?: number;
-  state?: ItemState;
-  createdAt?: string;
-  updatedAt?: string;
-  lastEditedBy?: string;
+  urls?: ItemUrlsList | undefined;
+  favorite?: boolean | undefined;
+  tags?: ItemTagsList | undefined;
+  version?: number | undefined;
+  state?: ItemState | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  lastEditedBy?: string | undefined;
 }
 export type GetVaultItemsResponseBodyList = Array<Item>;
 export type GetVaultItemsResponse = GetVaultItemsResponseBodyList;
 export interface GetVaultsRequest {
   /** Filter the Vault collection based on Vault name using SCIM eq filter */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type GetVaultsResponseBodyList = Array<Vault>;
 export type GetVaultsResponse = GetVaultsResponseBodyList;
@@ -508,17 +508,17 @@ export interface UpdateVaultItemRequest {
   vaultUuid: string;
   /** The UUID of the Item to update */
   itemUuid: string;
-  id?: string;
-  title?: string;
+  id?: string | undefined;
+  title?: string | undefined;
   vault: CreateVaultItemRequestVault;
   category: UpdateVaultItemRequestCategory | (string & {});
-  urls?: UpdateVaultItemRequestUrlsList;
-  favorite?: boolean;
-  tags?: UpdateVaultItemRequestTagsList;
-  version?: number;
-  sections?: UpdateVaultItemRequestSectionsList;
-  fields?: UpdateVaultItemRequestFieldsList;
-  files?: UpdateVaultItemRequestFilesList;
+  urls?: UpdateVaultItemRequestUrlsList | undefined;
+  favorite?: boolean | undefined;
+  tags?: UpdateVaultItemRequestTagsList | undefined;
+  version?: number | undefined;
+  sections?: UpdateVaultItemRequestSectionsList | undefined;
+  fields?: UpdateVaultItemRequestFieldsList | undefined;
+  files?: UpdateVaultItemRequestFilesList | undefined;
 }
 export type UpdateVaultItemResponseVault = CreateVaultItemRequestVault;
 export type UpdateVaultItemResponseCategory =
@@ -553,28 +553,28 @@ export type UpdateVaultItemResponseSectionsList = Array<CreateVaultItemRequestSe
 export type UpdateVaultItemResponseFieldsList = Array<Field>;
 export type UpdateVaultItemResponseFilesList = Array<File>;
 export interface UpdateVaultItemResponse {
-  id?: string;
-  title?: string;
+  id?: string | undefined;
+  title?: string | undefined;
   vault: CreateVaultItemRequestVault;
   category: UpdateVaultItemResponseCategory;
-  urls?: UpdateVaultItemResponseUrlsList;
-  favorite?: boolean;
-  tags?: UpdateVaultItemResponseTagsList;
-  version?: number;
-  state?: UpdateVaultItemResponseState;
-  createdAt?: string;
-  updatedAt?: string;
-  lastEditedBy?: string;
-  sections?: UpdateVaultItemResponseSectionsList;
-  fields?: UpdateVaultItemResponseFieldsList;
-  files?: UpdateVaultItemResponseFilesList;
+  urls?: UpdateVaultItemResponseUrlsList | undefined;
+  favorite?: boolean | undefined;
+  tags?: UpdateVaultItemResponseTagsList | undefined;
+  version?: number | undefined;
+  state?: UpdateVaultItemResponseState | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  lastEditedBy?: string | undefined;
+  sections?: UpdateVaultItemResponseSectionsList | undefined;
+  fields?: UpdateVaultItemResponseFieldsList | undefined;
+  files?: UpdateVaultItemResponseFilesList | undefined;
 }
 export type PatchItemOp = "add" | "remove" | "replace";
 export interface PatchItem {
   op: PatchItemOp | (string & {});
   /** An RFC6901 JSON Pointer pointing to the Item document, an Item Attribute, and Item Field by Field ID, or an Item Field Attribute */
   path: string;
-  value?: unknown;
+  value?: unknown | undefined;
 }
 export type Patch = Array<PatchItem>;
 export interface UpdateVaultItemByItemUuidRequest {
@@ -582,7 +582,7 @@ export interface UpdateVaultItemByItemUuidRequest {
   vaultUuid: string;
   /** The UUID of the Item to update */
   itemUuid: string;
-  body?: Patch;
+  body?: Patch | undefined;
 }
 export type UpdateVaultItemByItemUuidResponseVault = CreateVaultItemRequestVault;
 export type UpdateVaultItemByItemUuidResponseCategory =
@@ -618,21 +618,21 @@ export type UpdateVaultItemByItemUuidResponseSectionsList =
 export type UpdateVaultItemByItemUuidResponseFieldsList = Array<Field>;
 export type UpdateVaultItemByItemUuidResponseFilesList = Array<File>;
 export interface UpdateVaultItemByItemUuidResponse {
-  id?: string;
-  title?: string;
+  id?: string | undefined;
+  title?: string | undefined;
   vault: CreateVaultItemRequestVault;
   category: UpdateVaultItemByItemUuidResponseCategory;
-  urls?: UpdateVaultItemByItemUuidResponseUrlsList;
-  favorite?: boolean;
-  tags?: UpdateVaultItemByItemUuidResponseTagsList;
-  version?: number;
-  state?: UpdateVaultItemByItemUuidResponseState;
-  createdAt?: string;
-  updatedAt?: string;
-  lastEditedBy?: string;
-  sections?: UpdateVaultItemByItemUuidResponseSectionsList;
-  fields?: UpdateVaultItemByItemUuidResponseFieldsList;
-  files?: UpdateVaultItemByItemUuidResponseFilesList;
+  urls?: UpdateVaultItemByItemUuidResponseUrlsList | undefined;
+  favorite?: boolean | undefined;
+  tags?: UpdateVaultItemByItemUuidResponseTagsList | undefined;
+  version?: number | undefined;
+  state?: UpdateVaultItemByItemUuidResponseState | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | undefined;
+  lastEditedBy?: string | undefined;
+  sections?: UpdateVaultItemByItemUuidResponseSectionsList | undefined;
+  fields?: UpdateVaultItemByItemUuidResponseFieldsList | undefined;
+  files?: UpdateVaultItemByItemUuidResponseFilesList | undefined;
 }
 export type CreateVaultItemError = BadRequest | Forbidden | NotFound | OnepasswordOpError;
 /** Create a new Item */

@@ -53,11 +53,11 @@ export interface CreateKubeconfigRequest {
   projectId: string;
   region: string;
   clusterName: string;
-  expirationSeconds?: string;
+  expirationSeconds?: string | undefined;
 }
 export interface Kubeconfig {
-  expirationTimestamp?: string;
-  kubeconfig?: string;
+  expirationTimestamp?: string | undefined;
+  kubeconfig?: string | undefined;
 }
 export interface IDP {
   /** Enable IDP integration for the cluster. */
@@ -66,7 +66,7 @@ export interface IDP {
   type: string;
 }
 export interface Access {
-  idp?: IDP;
+  idp?: IDP | undefined;
 }
 export interface Audit {
   /** Enable cluster audit log forwarding to a Telemetry Router. U+26A0 Note: This feature is in private preview. Enabling audit logging is only possible for enabled accounts. Otherwise the request will be rejected. */
@@ -90,9 +90,9 @@ export interface DNS {
   /** Enables the dns extension. */
   enabled: boolean;
   /** Enables Gateway API support for ExternalDNS. The CRDs must be installed by the user. Once installed, ExternalDNS will be configured at the next cluster reconcile. */
-  gatewayApi?: boolean;
+  gatewayApi?: boolean | undefined;
   /** Array of domain filters for ExternalDNS, e.g., *.runs.onstackit.cloud. */
-  zones?: DNSZonesList;
+  zones?: DNSZonesList | undefined;
 }
 export interface Observability {
   /** Enables the Observability extension. */
@@ -101,15 +101,15 @@ export interface Observability {
   instanceId: string;
 }
 export interface Extension {
-  acl?: ACL;
-  applicationLoadBalancer?: ApplicationLoadBalancer;
-  dns?: DNS;
-  observability?: Observability;
+  acl?: ACL | undefined;
+  applicationLoadBalancer?: ApplicationLoadBalancer | undefined;
+  dns?: DNS | undefined;
+  observability?: Observability | undefined;
 }
 export interface HibernationSchedule {
   end: string;
   start: string;
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export type HibernationSchedulesList = Array<HibernationSchedule>;
 export interface Hibernation {
@@ -122,39 +122,46 @@ export interface Kubernetes {
 /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
 export type CreateOrUpdateClusterRequestLabelsMap = { [key: string]: string | undefined };
 export interface MaintenanceAutoUpdate {
-  kubernetesVersion?: boolean;
-  machineImageVersion?: boolean;
+  kubernetesVersion?: boolean | undefined;
+  machineImageVersion?: boolean | undefined;
 }
 export interface TimeWindow {
   end: string;
   start: string;
 }
 export interface Maintenance {
-  autoUpdate?: MaintenanceAutoUpdate;
-  timeWindow?: TimeWindow;
+  autoUpdate?: MaintenanceAutoUpdate | undefined;
+  timeWindow?: TimeWindow | undefined;
 }
-/** CNI to use for the cluster. Only one type of CNI can be used. The type of CNI is immutable after creation. Defaults to calico */
+export interface CiliumHubble {
+  enabled?: boolean | undefined;
+}
+/** Configuration options for the Cilium CNI U+26A0 Note: This feature is in private preview. Enabling Cilium is only possible for enabled accounts. If your account does not have access, the request will be rejected. */
+export interface CiliumConfig {
+  hubble?: CiliumHubble | undefined;
+}
+/** CNI to use for the cluster. Only one type of CNI can be used. The type of CNI is immutable after creation. Defaults to calico. */
 export interface CNI {
-  /** configuration options for the Calico CNI */
-  calico?: unknown;
+  calico?: unknown | undefined;
+  cilium?: CiliumConfig | undefined;
 }
 /** The access scope of the Control Plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area. U+26A0 Warning: Changing the access scope on an existing cluster directly impacts its network exposure (e.g., making a private cluster publicly accessible) U+26A0 Note: This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected. */
 export type AccessScope = "PUBLIC" | "SNA";
 export interface V2ControlPlaneNetwork {
-  accessScope?: AccessScope | (string & {});
+  accessScope?: AccessScope | (string & {}) | undefined;
 }
 /** PodAddressRanges contains the CIDRs that are used to allocate Pod IPs from. Currently only 1 range is allowed. Immutable after creation. */
 export type NetworkPodAddressRangesList = Array<string>;
 /** ServiceAddressRanges contains the CIDRs that are used to allocate Service ClusterIPs from. Currently only 1 range is allowed. Immutable after creation. */
 export type NetworkServiceAddressRangesList = Array<string>;
 export interface Network {
-  cni?: CNI;
-  controlPlane?: V2ControlPlaneNetwork;
-  id?: string;
+  cni?: CNI | undefined;
+  controlPlane?: V2ControlPlaneNetwork | undefined;
+  id?: string | undefined;
   /** PodAddressRanges contains the CIDRs that are used to allocate Pod IPs from. Currently only 1 range is allowed. Immutable after creation. */
-  podAddressRanges?: NetworkPodAddressRangesList;
+  podAddressRanges?: NetworkPodAddressRangesList | undefined;
   /** ServiceAddressRanges contains the CIDRs that are used to allocate Service ClusterIPs from. Currently only 1 range is allowed. Immutable after creation. */
-  serviceAddressRanges?: NetworkServiceAddressRangesList;
+  serviceAddressRanges?: NetworkServiceAddressRangesList | undefined;
 }
 export type NodepoolAvailabilityZonesList = Array<string>;
 export interface Kata {
@@ -163,12 +170,12 @@ export interface Kata {
 }
 export type CRIName = "containerd";
 export interface CRI {
-  kata?: Kata;
-  name?: CRIName | (string & {});
+  kata?: Kata | undefined;
+  name?: CRIName | (string & {}) | undefined;
 }
 export interface NodepoolKubernetes {
   /** Override the Kubernetes version for the Kubelet of this Nodepool. Version must be equal or lower than the version of the cluster. Only one minor version difference to the version of the cluster is allowed. Downgrade of existing Nodepools is prohibited. */
-  version?: string;
+  version?: string | undefined;
 }
 export type NodepoolLabelsMap = { [key: string]: string | undefined };
 /** For valid names and versions please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `machineImages`. */
@@ -185,31 +192,31 @@ export type TaintEffect = "NoSchedule" | "PreferNoSchedule" | "NoExecute";
 export interface Taint {
   effect: TaintEffect | (string & {});
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type NodepoolTaintsList = Array<Taint>;
 export interface Volume {
   size: number;
   /** For valid values please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `volumeTypes`. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface Nodepool {
   /** This needs to be true for at least one node pool. */
-  allowSystemComponents?: boolean;
+  allowSystemComponents?: boolean | undefined;
   availabilityZones: NodepoolAvailabilityZonesList;
-  cri?: CRI;
-  kubernetes?: NodepoolKubernetes;
-  labels?: NodepoolLabelsMap;
+  cri?: CRI | undefined;
+  kubernetes?: NodepoolKubernetes | undefined;
+  labels?: NodepoolLabelsMap | undefined;
   machine: Machine;
-  maxSurge?: number;
-  maxUnavailable?: number;
+  maxSurge?: number | undefined;
+  maxUnavailable?: number | undefined;
   /** Maximum number of nodes in the pool. During runtime, the cluster will never scale beyond 1000 nodes, even if the total maximum would allow for a larger cluster. */
   maximum: number;
   /** Minimum number of nodes in the pool. The sum of all minima must not exceed 1000. */
   minimum: number;
   /** Maximum 15 chars */
   name: string;
-  taints?: NodepoolTaintsList;
+  taints?: NodepoolTaintsList | undefined;
   volume: Volume;
 }
 export type CreateOrUpdateClusterRequestNodepoolsList = Array<Nodepool>;
@@ -232,11 +239,11 @@ export type CredentialsRotationStatePhase =
   | "COMPLETED";
 export interface CredentialsRotationState {
   /** Format: `2024-02-15T11:06:29Z` */
-  lastCompletionTime?: string;
+  lastCompletionTime?: string | undefined;
   /** Format: `2024-02-15T11:06:29Z` */
-  lastInitiationTime?: string;
+  lastInitiationTime?: string | undefined;
   /** Phase of the credentials rotation. `NEVER` indicates that no credentials rotation has been performed using the new credentials rotation endpoints yet. */
-  phase?: CredentialsRotationStatePhase | (string & {});
+  phase?: CredentialsRotationStatePhase | (string & {}) | undefined;
 }
 /** The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster. */
 export type ClusterStatusEgressAddressRangesList = Array<string>;
@@ -255,32 +262,32 @@ export type RuntimeErrorCode =
   | "SKE_DNS_ZONE_NOT_FOUND";
 export interface RuntimeError {
   /** - Code: `SKE_UNSPECIFIED` Message: "An error occurred. Please open a support ticket if this error persists." - Code: `SKE_TMP_AUTH_ERROR` Message: "Authentication failed. This is a temporary error. Please wait while the system recovers." - Code: `SKE_QUOTA_EXCEEDED` Message: "Your project's resource quotas are exhausted. Please make sure your quota is sufficient for the ordered cluster." - Code: `SKE_OBSERVABILITY_INSTANCE_NOT_FOUND` Message: "The provided Observability instance could not be found." - Code: `SKE_RATE_LIMITS` Message: "While provisioning your cluster, request rate limits where incurred. Please wait while the system recovers." - Code: `SKE_INFRA_ERROR` Message: "An error occurred with the underlying infrastructure. Please open a support ticket if this error persists." - Code: `SKE_REMAINING_RESOURCES` Message: "There are remaining Kubernetes resources in your cluster that prevent deletion. Please make sure to remove them." - Code: `SKE_CONFIGURATION_PROBLEM` Message: "A configuration error occurred. Please open a support ticket if this error persists." - Code: `SKE_UNREADY_NODES` Message: "Not all worker nodes are ready. Please open a support ticket if this error persists." - Code: `SKE_API_SERVER_ERROR` Message: "The Kubernetes API server is not reporting readiness. Please open a support ticket if this error persists." - Code: `SKE_DNS_ZONE_NOT_FOUND` Message: "The provided DNS zone for the STACKIT DNS extension could not be found. Please ensure you defined a valid domain that belongs to a STACKIT DNS zone." */
-  code?: RuntimeErrorCode | (string & {});
-  details?: string;
-  message?: string;
+  code?: RuntimeErrorCode | (string & {}) | undefined;
+  details?: string | undefined;
+  message?: string | undefined;
 }
 export interface ClusterError {
   /** Possible values: `"SKE_INFRA_SNA_NETWORK_NOT_FOUND"`, `"SKE_INFRA_SNA_NETWORK_NO_ROUTER"`, `"SKE_NODE_NO_VALID_HOST_FOUND"`, `"SKE_NODE_MISCONFIGURED_PDB"`, `"SKE_NODE_MACHINE_TYPE_NOT_FOUND"`, `"SKE_NETWORK_NO_DNS_CONFIGURED"`, `"SKE_NETWORK_NO_AVAILABLE_IPS"`, `"SKE_NODE_MEMORY_PRESSURE"`, `"SKE_NODE_DISK_PRESSURE"`, `"SKE_NODE_PID_PRESSURE"`, `"SKE_OBSERVABILITY_INSTANCE_NOT_FOUND"`, `"SKE_OBSERVABILITY_INSTANCE_NOT_READY"`, `"SKE_DNS_ZONE_NOT_FOUND"`, `"SKE_SNA_DOES_NOT_SUPPORT_SERVICE_ROUTES"`, `"SKE_FETCHING_ERRORS_NOT_POSSIBLE"` */
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type ClusterStatusErrorsList = Array<ClusterError>;
 export interface ExpirationStatusKubernetes {
-  expirationDate?: string;
-  version?: string;
+  expirationDate?: string | undefined;
+  version?: string | undefined;
 }
 export interface ExpirationStatusNodepool {
-  kubernetesExpirationDate?: string;
-  kubernetesVersion?: string;
-  name?: string;
-  osExpirationDate?: string;
-  osName?: string;
-  osVersion?: string;
+  kubernetesExpirationDate?: string | undefined;
+  kubernetesVersion?: string | undefined;
+  name?: string | undefined;
+  osExpirationDate?: string | undefined;
+  osName?: string | undefined;
+  osVersion?: string | undefined;
 }
 export type ExpirationStatusNodepoolsList = Array<ExpirationStatusNodepool>;
 export interface ExpirationStatus {
-  kubernetes?: ExpirationStatusKubernetes;
-  nodepools?: ExpirationStatusNodepoolsList;
+  kubernetes?: ExpirationStatusKubernetes | undefined;
+  nodepools?: ExpirationStatusNodepoolsList | undefined;
 }
 /** The network ranges (in CIDR notation) used by nodes of the cluster. */
 export type ClusterStatusNodeAddressRangesList = Array<string>;
@@ -289,59 +296,59 @@ export type ClusterStatusPodAddressRangesList = Array<string>;
 /** The network ranges (in CIDR notation) used by services of the cluster. */
 export type ClusterStatusServiceAddressRangesList = Array<string>;
 export interface ClusterStatus {
-  aggregated?: ClusterStatusState | (string & {});
+  aggregated?: ClusterStatusState | (string & {}) | undefined;
   /** Format: `2024-02-15T11:06:29Z` */
-  creationTime?: string;
-  credentialsRotation?: CredentialsRotationState;
+  creationTime?: string | undefined;
+  credentialsRotation?: CredentialsRotationState | undefined;
   /** The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster. */
-  egressAddressRanges?: ClusterStatusEgressAddressRangesList;
-  error?: RuntimeError;
-  errors?: ClusterStatusErrorsList;
-  expiration?: ExpirationStatus;
-  hibernated?: boolean;
-  identity?: string;
+  egressAddressRanges?: ClusterStatusEgressAddressRangesList | undefined;
+  error?: RuntimeError | undefined;
+  errors?: ClusterStatusErrorsList | undefined;
+  expiration?: ExpirationStatus | undefined;
+  hibernated?: boolean | undefined;
+  identity?: string | undefined;
   /** The network ranges (in CIDR notation) used by nodes of the cluster. */
-  nodeAddressRanges?: ClusterStatusNodeAddressRangesList;
+  nodeAddressRanges?: ClusterStatusNodeAddressRangesList | undefined;
   /** The network ranges (in CIDR notation) used by pods of the cluster. */
-  podAddressRanges?: ClusterStatusPodAddressRangesList;
-  serviceAccountIssuer?: string;
+  podAddressRanges?: ClusterStatusPodAddressRangesList | undefined;
+  serviceAccountIssuer?: string | undefined;
   /** The network ranges (in CIDR notation) used by services of the cluster. */
-  serviceAddressRanges?: ClusterStatusServiceAddressRangesList;
+  serviceAddressRanges?: ClusterStatusServiceAddressRangesList | undefined;
 }
 export interface CreateOrUpdateClusterRequest {
   projectId: string;
   region: string;
   /** Use lowercase alphanumeric characters or -, must start and end with an alphanumeric character, and be between 1 and 11 characters long. */
   clusterName: string;
-  access?: Access;
-  audit?: Audit;
-  extensions?: Extension;
-  hibernation?: Hibernation;
+  access?: Access | undefined;
+  audit?: Audit | undefined;
+  extensions?: Extension | undefined;
+  hibernation?: Hibernation | undefined;
   kubernetes: Kubernetes;
   /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
-  labels?: CreateOrUpdateClusterRequestLabelsMap;
-  maintenance?: Maintenance;
-  network?: Network;
+  labels?: CreateOrUpdateClusterRequestLabelsMap | undefined;
+  maintenance?: Maintenance | undefined;
+  network?: Network | undefined;
   nodepools: CreateOrUpdateClusterRequestNodepoolsList;
-  status?: ClusterStatus;
+  status?: ClusterStatus | undefined;
 }
 /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
 export type ClusterLabelsMap = { [key: string]: string | undefined };
 export type ClusterNodepoolsList = Array<Nodepool>;
 export interface Cluster {
-  access?: Access;
-  audit?: Audit;
-  extensions?: Extension;
-  hibernation?: Hibernation;
+  access?: Access | undefined;
+  audit?: Audit | undefined;
+  extensions?: Extension | undefined;
+  hibernation?: Hibernation | undefined;
   kubernetes: Kubernetes;
   /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
-  labels?: ClusterLabelsMap;
-  maintenance?: Maintenance;
+  labels?: ClusterLabelsMap | undefined;
+  maintenance?: Maintenance | undefined;
   /** Use lowercase alphanumeric characters or -, must start and end with an alphanumeric character, and be between 1 and 11 characters long. */
-  name?: string;
-  network?: Network;
+  name?: string | undefined;
+  network?: Network | undefined;
   nodepools: ClusterNodepoolsList;
-  status?: ClusterStatus;
+  status?: ClusterStatus | undefined;
 }
 export interface DeleteClusterRequest {
   projectId: string;
@@ -360,7 +367,7 @@ export interface GetIDPKubeconfigRequest {
   clusterName: string;
 }
 export interface IDPKubeconfig {
-  kubeconfig?: string;
+  kubeconfig?: string | undefined;
 }
 export interface GetLoginKubeconfigRequest {
   projectId: string;
@@ -368,7 +375,7 @@ export interface GetLoginKubeconfigRequest {
   clusterName: string;
 }
 export interface LoginKubeconfig {
-  kubeconfig?: string;
+  kubeconfig?: string | undefined;
 }
 export interface ListClustersRequest {
   projectId: string;
@@ -376,54 +383,58 @@ export interface ListClustersRequest {
 }
 export type ListClustersResponseItemsList = Array<Cluster>;
 export interface ListClustersResponse {
-  items?: ListClustersResponseItemsList;
+  items?: ListClustersResponseItemsList | undefined;
 }
 export type ListProviderOptionsRequestVersionState = "SUPPORTED";
 export interface ListProviderOptionsRequest {
   region: string;
-  versionState?: ListProviderOptionsRequestVersionState | (string & {});
+  versionState?: ListProviderOptionsRequestVersionState | (string & {}) | undefined;
 }
 export interface AvailabilityZone {
-  name?: string;
+  name?: string | undefined;
 }
 export type ProviderOptionsAvailabilityZonesList = Array<AvailabilityZone>;
 export type KubernetesVersionFeatureGatesMap = { [key: string]: string | undefined };
 export interface KubernetesVersion {
-  expirationDate?: string;
-  featureGates?: KubernetesVersionFeatureGatesMap;
-  state?: string;
-  version?: string;
+  expirationDate?: string | undefined;
+  featureGates?: KubernetesVersionFeatureGatesMap | undefined;
+  state?: string | undefined;
+  version?: string | undefined;
 }
 export type ProviderOptionsKubernetesVersionsList = Array<KubernetesVersion>;
-export type MachineImageVersionCriList = Array<CRI>;
+export type MachineImageVersionCRIName = "containerd";
+export interface MachineImageVersionCRI {
+  name?: MachineImageVersionCRIName | undefined;
+}
+export type MachineImageVersionCriList = Array<MachineImageVersionCRI>;
 export interface MachineImageVersion {
-  cri?: MachineImageVersionCriList;
-  expirationDate?: string;
-  state?: string;
-  version?: string;
+  cri?: MachineImageVersionCriList | undefined;
+  expirationDate?: string | undefined;
+  state?: string | undefined;
+  version?: string | undefined;
 }
 export type MachineImageVersionsList = Array<MachineImageVersion>;
 export interface MachineImage {
-  name?: string;
-  versions?: MachineImageVersionsList;
+  name?: string | undefined;
+  versions?: MachineImageVersionsList | undefined;
 }
 export type ProviderOptionsMachineImagesList = Array<MachineImage>;
 export interface MachineType {
-  architecture?: string;
-  cpu?: number;
-  gpu?: number;
-  memory?: number;
-  name?: string;
+  architecture?: string | undefined;
+  cpu?: number | undefined;
+  gpu?: number | undefined;
+  memory?: number | undefined;
+  name?: string | undefined;
 }
 export type ProviderOptionsMachineTypesList = Array<MachineType>;
 export type VolumeType = AvailabilityZone;
 export type ProviderOptionsVolumeTypesList = Array<AvailabilityZone>;
 export interface ProviderOptions {
-  availabilityZones?: ProviderOptionsAvailabilityZonesList;
-  kubernetesVersions?: ProviderOptionsKubernetesVersionsList;
-  machineImages?: ProviderOptionsMachineImagesList;
-  machineTypes?: ProviderOptionsMachineTypesList;
-  volumeTypes?: ProviderOptionsVolumeTypesList;
+  availabilityZones?: ProviderOptionsAvailabilityZonesList | undefined;
+  kubernetesVersions?: ProviderOptionsKubernetesVersionsList | undefined;
+  machineImages?: ProviderOptionsMachineImagesList | undefined;
+  machineTypes?: ProviderOptionsMachineTypesList | undefined;
+  volumeTypes?: ProviderOptionsVolumeTypesList | undefined;
 }
 export interface StartCredentialsRotationRequest {
   projectId: string;
@@ -498,7 +509,7 @@ export const createOrUpdateCluster: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateOrUpdateClusterRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<Cluster>,
+  output: __S(358, __c11, 6) as any as S.Schema<Cluster>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -532,7 +543,7 @@ export const getCluster: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetClusterRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<Cluster>,
+  output: __S(358, __c11, 6) as any as S.Schema<Cluster>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -600,7 +611,7 @@ export const listProviderOptions: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListProviderOptionsRequest>,
-  output: __S(12, __c0, 12) as any as S.Schema<ProviderOptions>,
+  output: __S(13, __c0, 13) as any as S.Schema<ProviderOptions>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -722,7 +733,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expirationDate: S.optional(S.String),
-          featureGates: S.optional(__S(385, __c12, 1)),
+          featureGates: S.optional(__S(384, __c12, 0)),
           state: S.optional(S.String),
           version: S.optional(S.String),
         }),
@@ -730,28 +741,34 @@ function __c0(j: number): any {
     case 4:
       return S.Array(__S(3, __c0, 3));
     case 5:
-      return S.Array(__S(386, __c12, 2));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          cri: S.optional(__S(5, __c0, 5)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MachineImageVersionCRI" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          cri: S.optional(__S(6, __c0, 6)),
           expirationDate: S.optional(S.String),
           state: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "MachineImageVersion" });
-    case 7:
-      return S.Array(__S(6, __c0, 6));
     case 8:
+      return S.Array(__S(7, __c0, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          versions: S.optional(__S(7, __c0, 7)),
+          versions: S.optional(__S(8, __c0, 8)),
         }),
       ).annotate({ identifier: "MachineImage" });
-    case 9:
-      return S.Array(__S(8, __c0, 8));
     case 10:
+      return S.Array(__S(9, __c0, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           architecture: S.optional(S.String),
@@ -761,15 +778,15 @@ function __c0(j: number): any {
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MachineType" });
-    case 11:
-      return S.Array(__S(10, __c0, 10));
     case 12:
+      return S.Array(__S(11, __c0, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           availabilityZones: S.optional(__S(2, __c0, 2)),
           kubernetesVersions: S.optional(__S(4, __c0, 4)),
-          machineImages: S.optional(__S(9, __c0, 9)),
-          machineTypes: S.optional(__S(11, __c0, 11)),
+          machineImages: S.optional(__S(10, __c0, 10)),
+          machineTypes: S.optional(__S(12, __c0, 12)),
           volumeTypes: S.optional(__S(2, __c0, 2)),
         }),
       ).annotate({ identifier: "ProviderOptions" });
@@ -933,15 +950,15 @@ function __c9(j: number): any {
           region: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           access: S.optional(__S(321, __c10, 1)),
-          audit: S.optional(__S(384, __c12, 0)),
-          extensions: S.optional(__S(326, __c10, 6)),
-          hibernation: S.optional(__S(329, __c10, 9)),
-          kubernetes: __S(330, __c10, 10),
-          labels: S.optional(__S(385, __c12, 1)),
-          maintenance: S.optional(__S(333, __c10, 13)),
-          network: S.optional(__S(336, __c10, 16)),
-          nodepools: __S(344, __c10, 24),
-          status: S.optional(__S(353, __c11, 1)),
+          audit: S.optional(__S(322, __c10, 2)),
+          extensions: S.optional(__S(327, __c10, 7)),
+          hibernation: S.optional(__S(330, __c10, 10)),
+          kubernetes: __S(331, __c10, 11),
+          labels: S.optional(__S(384, __c12, 0)),
+          maintenance: S.optional(__S(334, __c10, 14)),
+          network: S.optional(__S(339, __c10, 19)),
+          nodepools: __S(348, __c10, 28),
+          status: S.optional(__S(357, __c11, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -969,39 +986,45 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "Access" });
     case 2:
-      return S.Array(S.String);
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrs: __S(322, __c10, 2),
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "Audit" });
+    case 3:
+      return S.Array(S.String);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          allowedCidrs: __S(323, __c10, 3),
           enabled: S.Boolean,
         }),
       ).annotate({ identifier: "ACL" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           gatewayApi: S.optional(S.Boolean),
-          zones: S.optional(__S(322, __c10, 2)),
+          zones: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "DNS" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           instanceId: S.String,
         }),
       ).annotate({ identifier: "Observability" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(323, __c10, 3)),
-          applicationLoadBalancer: S.optional(__S(384, __c12, 0)),
-          dns: S.optional(__S(324, __c10, 4)),
-          observability: S.optional(__S(325, __c10, 5)),
+          acl: S.optional(__S(324, __c10, 4)),
+          applicationLoadBalancer: S.optional(__S(322, __c10, 2)),
+          dns: S.optional(__S(325, __c10, 5)),
+          observability: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "Extension" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           end: S.String,
@@ -1009,84 +1032,104 @@ function __c10(j: number): any {
           timezone: S.optional(S.String),
         }),
       ).annotate({ identifier: "HibernationSchedule" });
-    case 8:
-      return S.Array(__S(327, __c10, 7));
     case 9:
+      return S.Array(__S(328, __c10, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          schedules: __S(328, __c10, 8),
+          schedules: __S(329, __c10, 9),
         }),
       ).annotate({ identifier: "Hibernation" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           version: S.String,
         }),
       ).annotate({ identifier: "Kubernetes" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           kubernetesVersion: S.optional(S.Boolean),
           machineImageVersion: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MaintenanceAutoUpdate" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           end: S.String,
           start: S.String,
         }),
       ).annotate({ identifier: "TimeWindow" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          autoUpdate: S.optional(__S(331, __c10, 11)),
-          timeWindow: S.optional(__S(332, __c10, 12)),
-        }),
-      ).annotate({ identifier: "Maintenance" });
     case 14:
       return S.suspend(() =>
         S.Struct({
+          autoUpdate: S.optional(__S(332, __c10, 12)),
+          timeWindow: S.optional(__S(333, __c10, 13)),
+        }),
+      ).annotate({ identifier: "Maintenance" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CiliumHubble" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          hubble: S.optional(__S(335, __c10, 15)),
+        }),
+      ).annotate({ identifier: "CiliumConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
           calico: S.optional(S.Unknown),
+          cilium: S.optional(__S(336, __c10, 16)),
         }),
       ).annotate({ identifier: "CNI" });
-    case 15:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           accessScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2ControlPlaneNetwork" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          cni: S.optional(__S(334, __c10, 14)),
-          controlPlane: S.optional(__S(335, __c10, 15)),
+          cni: S.optional(__S(337, __c10, 17)),
+          controlPlane: S.optional(__S(338, __c10, 18)),
           id: S.optional(S.String),
-          podAddressRanges: S.optional(__S(322, __c10, 2)),
-          serviceAddressRanges: S.optional(__S(322, __c10, 2)),
+          podAddressRanges: S.optional(__S(323, __c10, 3)),
+          serviceAddressRanges: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "Network" });
-    case 17:
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          kata: S.optional(__S(322, __c10, 2)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CRI" });
+    case 21:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodepoolKubernetes" });
-    case 18:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           version: S.String,
         }),
       ).annotate({ identifier: "Image" });
-    case 19:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          image: __S(338, __c10, 18),
+          image: __S(342, __c10, 22),
           type: S.String,
         }),
       ).annotate({ identifier: "Machine" });
-    case 20:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           effect: S.String,
@@ -1094,36 +1137,36 @@ function __c10(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Taint" });
-    case 21:
-      return S.Array(__S(340, __c10, 20));
-    case 22:
+    case 25:
+      return S.Array(__S(344, __c10, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           size: S.Number,
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Volume" });
-    case 23:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           allowSystemComponents: S.optional(S.Boolean),
-          availabilityZones: __S(322, __c10, 2),
-          cri: S.optional(__S(386, __c12, 2)),
-          kubernetes: S.optional(__S(337, __c10, 17)),
-          labels: S.optional(__S(385, __c12, 1)),
-          machine: __S(339, __c10, 19),
+          availabilityZones: __S(323, __c10, 3),
+          cri: S.optional(__S(340, __c10, 20)),
+          kubernetes: S.optional(__S(341, __c10, 21)),
+          labels: S.optional(__S(384, __c12, 0)),
+          machine: __S(343, __c10, 23),
           maxSurge: S.optional(S.Number),
           maxUnavailable: S.optional(S.Number),
           maximum: S.Number,
           minimum: S.Number,
           name: S.String,
-          taints: S.optional(__S(341, __c10, 21)),
-          volume: __S(342, __c10, 22),
+          taints: S.optional(__S(345, __c10, 25)),
+          volume: __S(346, __c10, 26),
         }),
       ).annotate({ identifier: "Nodepool" });
-    case 24:
-      return S.Array(__S(343, __c10, 23));
-    case 25:
+    case 28:
+      return S.Array(__S(347, __c10, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           lastCompletionTime: S.optional(S.String),
@@ -1131,7 +1174,7 @@ function __c10(j: number): any {
           phase: S.optional(S.String),
         }),
       ).annotate({ identifier: "CredentialsRotationState" });
-    case 26:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
@@ -1139,23 +1182,27 @@ function __c10(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuntimeError" });
-    case 27:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterError" });
-    case 28:
-      return S.Array(__S(347, __c10, 27));
-    case 29:
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(351, __c10, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           expirationDate: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpirationStatusKubernetes" });
-    case 30:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           kubernetesExpirationDate: S.optional(S.String),
@@ -1166,51 +1213,47 @@ function __c10(j: number): any {
           osVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpirationStatusNodepool" });
-    case 31:
-      return S.Array(__S(350, __c10, 30));
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
+    case 3:
+      return S.Array(__S(354, __c11, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          kubernetes: S.optional(__S(349, __c10, 29)),
-          nodepools: S.optional(__S(351, __c10, 31)),
+          kubernetes: S.optional(__S(353, __c11, 1)),
+          nodepools: S.optional(__S(355, __c11, 3)),
         }),
       ).annotate({ identifier: "ExpirationStatus" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           aggregated: S.optional(S.String),
           creationTime: S.optional(S.String),
-          credentialsRotation: S.optional(__S(345, __c10, 25)),
-          egressAddressRanges: S.optional(__S(322, __c10, 2)),
-          error: S.optional(__S(346, __c10, 26)),
-          errors: S.optional(__S(348, __c10, 28)),
-          expiration: S.optional(__S(352, __c11, 0)),
+          credentialsRotation: S.optional(__S(349, __c10, 29)),
+          egressAddressRanges: S.optional(__S(323, __c10, 3)),
+          error: S.optional(__S(350, __c10, 30)),
+          errors: S.optional(__S(352, __c11, 0)),
+          expiration: S.optional(__S(356, __c11, 4)),
           hibernated: S.optional(S.Boolean),
           identity: S.optional(S.String),
-          nodeAddressRanges: S.optional(__S(322, __c10, 2)),
-          podAddressRanges: S.optional(__S(322, __c10, 2)),
+          nodeAddressRanges: S.optional(__S(323, __c10, 3)),
+          podAddressRanges: S.optional(__S(323, __c10, 3)),
           serviceAccountIssuer: S.optional(S.String),
-          serviceAddressRanges: S.optional(__S(322, __c10, 2)),
+          serviceAddressRanges: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "ClusterStatus" });
-    case 2:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           access: S.optional(__S(321, __c10, 1)),
-          audit: S.optional(__S(384, __c12, 0)),
-          extensions: S.optional(__S(326, __c10, 6)),
-          hibernation: S.optional(__S(329, __c10, 9)),
-          kubernetes: __S(330, __c10, 10),
-          labels: S.optional(__S(385, __c12, 1)),
-          maintenance: S.optional(__S(333, __c10, 13)),
+          audit: S.optional(__S(322, __c10, 2)),
+          extensions: S.optional(__S(327, __c10, 7)),
+          hibernation: S.optional(__S(330, __c10, 10)),
+          kubernetes: __S(331, __c10, 11),
+          labels: S.optional(__S(384, __c12, 0)),
+          maintenance: S.optional(__S(334, __c10, 14)),
           name: S.optional(S.String),
-          network: S.optional(__S(336, __c10, 16)),
-          nodepools: __S(344, __c10, 24),
-          status: S.optional(__S(353, __c11, 1)),
+          network: S.optional(__S(339, __c10, 19)),
+          nodepools: __S(348, __c10, 28),
+          status: S.optional(__S(357, __c11, 5)),
         }),
       ).annotate({ identifier: "Cluster" });
   }
@@ -1218,20 +1261,7 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "Audit" });
-    case 1:
       return S.Record(S.String, S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          kata: S.optional(__S(384, __c12, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CRI" });
   }
 }
 function __c13(j: number): any {
@@ -1337,7 +1367,7 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListClustersRequest" });
     case 1:
-      return S.Array(__S(354, __c11, 2));
+      return S.Array(__S(358, __c11, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({

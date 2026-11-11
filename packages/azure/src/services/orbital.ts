@@ -93,13 +93,13 @@ export interface ContactProfileLinkChannel {
   bandwidthMHz: number;
   endPoint: EndPoint;
   /** Copy of the modem configuration file such as Kratos QRadio. Only valid for uplink directions. If provided, the modem connects to the customer endpoint and accepts commands from the customer instead of a VITA.49 stream. */
-  modulationConfiguration?: string;
+  modulationConfiguration?: string | undefined;
   /** Copy of the modem configuration file such as Kratos QRadio or Kratos QuantumRx. Only valid for downlink directions. If provided, the modem connects to the customer endpoint and sends demodulated data instead of a VITA.49 stream. */
-  demodulationConfiguration?: string;
+  demodulationConfiguration?: string | undefined;
   /** Currently unused. */
-  encodingConfiguration?: string;
+  encodingConfiguration?: string | undefined;
   /** Currently unused. */
-  decodingConfiguration?: string;
+  decodingConfiguration?: string | undefined;
 }
 /** Contact Profile Link Channel. */
 export type ContactProfileLinkChannelsList = Array<ContactProfileLinkChannel>;
@@ -112,9 +112,9 @@ export interface ContactProfileLink {
   /** Direction (Uplink or Downlink). */
   direction: ContactProfileLinkDirection | (string & {});
   /** Gain to noise temperature in db/K. It is the required G/T by the customer. Not used yet. */
-  gainOverTemperature?: number;
+  gainOverTemperature?: number | undefined;
   /** Effective Isotropic Radiated Power (EIRP) in dBW. It is the required EIRP by the customer. Not used yet. */
-  eirpdBW?: number;
+  eirpdBW?: number | undefined;
   /** Contact Profile Link Channel. */
   channels: ContactProfileLinkChannelsList;
 }
@@ -123,21 +123,22 @@ export type ContactProfilesPropertiesInputLinksList = Array<ContactProfileLink>;
 /** List of Contact Profile Resource Properties. */
 export interface ContactProfilesPropertiesInput {
   /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ProvisioningStateInput | (string & {});
+  provisioningState?: ProvisioningStateInput | (string & {}) | undefined;
   /** Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumViableContactDuration?: string;
+  minimumViableContactDuration?: string | undefined;
   /** Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumElevationDegrees?: number;
+  minimumElevationDegrees?: number | undefined;
   /** Auto-tracking configuration. */
   autoTrackingConfiguration?:
     | ContactProfilesPropertiesInputAutoTrackingConfiguration
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub. */
-  eventHubUri?: string;
+  eventHubUri?: string | undefined;
   /** Network configuration of customer virtual network. */
   networkConfiguration: ContactProfilesPropertiesInputNetworkConfiguration;
   /** Third-party mission configuration of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
-  thirdPartyConfigurations?: ContactProfilesPropertiesInputThirdPartyConfigurationsList;
+  thirdPartyConfigurations?: ContactProfilesPropertiesInputThirdPartyConfigurationsList | undefined;
   /** Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
   links: ContactProfilesPropertiesInputLinksList;
 }
@@ -149,7 +150,7 @@ export interface ContactProfilesCreateOrUpdateRequest {
   /** Contact Profile name. */
   contactProfileName: string;
   /** Resource tags. */
-  tags?: ContactProfilesCreateOrUpdateRequestTagsMap;
+  tags?: ContactProfilesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the contact profile resource. */
@@ -162,17 +163,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type ContactProfilesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -197,39 +198,39 @@ export type ContactProfilesPropertiesLinksList = Array<ContactProfileLink>;
 /** List of Contact Profile Resource Properties. */
 export interface ContactProfilesProperties {
   /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumViableContactDuration?: string;
+  minimumViableContactDuration?: string | undefined;
   /** Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station. */
-  minimumElevationDegrees?: number;
+  minimumElevationDegrees?: number | undefined;
   /** Auto-tracking configuration. */
-  autoTrackingConfiguration?: ContactProfilesPropertiesAutoTrackingConfiguration;
+  autoTrackingConfiguration?: ContactProfilesPropertiesAutoTrackingConfiguration | undefined;
   /** ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub. */
-  eventHubUri?: string;
+  eventHubUri?: string | undefined;
   /** Network configuration of customer virtual network. */
   networkConfiguration: ContactProfilesPropertiesInputNetworkConfiguration;
   /** Third-party mission configuration of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
-  thirdPartyConfigurations?: ContactProfilesPropertiesThirdPartyConfigurationsList;
+  thirdPartyConfigurations?: ContactProfilesPropertiesThirdPartyConfigurationsList | undefined;
   /** Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints. */
   links: ContactProfilesPropertiesLinksList;
 }
 export interface ContactProfilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ContactProfilesCreateOrUpdateResponseTagsMap;
+  tags?: ContactProfilesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the contact profile resource. */
   properties: ContactProfilesProperties;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource Reference. */
 export interface ResourceReference {
@@ -239,7 +240,7 @@ export interface ResourceReference {
 /** Properties of the Contact Resource. */
 export interface ContactsPropertiesInput {
   /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ProvisioningStateInput | (string & {});
+  provisioningState?: ProvisioningStateInput | (string & {}) | undefined;
   /** Reservation start time of a contact (ISO 8601 UTC standard). */
   reservationStartTime: string;
   /** Reservation end time of a contact (ISO 8601 UTC standard). */
@@ -272,59 +273,59 @@ export type ContactsPropertiesAntennaConfigurationSourceIpsList = Array<string>;
 /** The configuration associated with the allocated antenna. */
 export interface ContactsPropertiesAntennaConfiguration {
   /** The destination IP a packet can be sent to. This would for example be the TCP endpoint you would send data to. */
-  destinationIp?: string;
+  destinationIp?: string | undefined;
   /** List of Source IP */
-  sourceIps?: ContactsPropertiesAntennaConfigurationSourceIpsList;
+  sourceIps?: ContactsPropertiesAntennaConfigurationSourceIpsList | undefined;
 }
 /** Properties of the Contact Resource. */
 export interface ContactsProperties {
   /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Status of a contact. */
-  status?: ContactsPropertiesStatus;
+  status?: ContactsPropertiesStatus | undefined;
   /** Reservation start time of a contact (ISO 8601 UTC standard). */
   reservationStartTime: string;
   /** Reservation end time of a contact (ISO 8601 UTC standard). */
   reservationEndTime: string;
   /** Receive start time of a contact (ISO 8601 UTC standard). */
-  rxStartTime?: string;
+  rxStartTime?: string | undefined;
   /** Receive end time of a contact (ISO 8601 UTC standard). */
-  rxEndTime?: string;
+  rxEndTime?: string | undefined;
   /** Transmit start time of a contact (ISO 8601 UTC standard). */
-  txStartTime?: string;
+  txStartTime?: string | undefined;
   /** Transmit end time of a contact (ISO 8601 UTC standard). */
-  txEndTime?: string;
+  txEndTime?: string | undefined;
   /** Any error message while scheduling a contact. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Maximum elevation of the antenna during the contact in decimal degrees. */
-  maximumElevationDegrees?: number;
+  maximumElevationDegrees?: number | undefined;
   /** Azimuth of the antenna at the start of the contact in decimal degrees. */
-  startAzimuthDegrees?: number;
+  startAzimuthDegrees?: number | undefined;
   /** Azimuth of the antenna at the end of the contact in decimal degrees. */
-  endAzimuthDegrees?: number;
+  endAzimuthDegrees?: number | undefined;
   /** Azure Ground Station name. */
   groundStationName: string;
   /** Spacecraft elevation above the horizon at contact start. */
-  startElevationDegrees?: number;
+  startElevationDegrees?: number | undefined;
   /** Spacecraft elevation above the horizon at contact end. */
-  endElevationDegrees?: number;
+  endElevationDegrees?: number | undefined;
   /** The configuration associated with the allocated antenna. */
-  antennaConfiguration?: ContactsPropertiesAntennaConfiguration;
+  antennaConfiguration?: ContactsPropertiesAntennaConfiguration | undefined;
   /** The reference to the contact profile resource. */
   contactProfile: ResourceReference;
 }
 export interface CreateContactResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: ContactsProperties;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeleteContactRequest {
   /** The ID of the target subscription. */
@@ -338,7 +339,7 @@ export interface DeleteContactRequest {
 }
 export interface DeleteContactResponse {
   /** URL for determining when an operation has completed. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteContactProfileRequest {
   /** The ID of the target subscription. */
@@ -350,7 +351,7 @@ export interface DeleteContactProfileRequest {
 }
 export interface DeleteContactProfileResponse {
   /** URL for determining when an operation has completed. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteEdgeSiteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -380,7 +381,7 @@ export interface DeleteL2ConnectionRequest {
 }
 export interface DeleteL2ConnectionResponse {
   /** URL for determining when an operation has completed. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteSpacecraftRequest {
   /** The ID of the target subscription. */
@@ -392,7 +393,7 @@ export interface DeleteSpacecraftRequest {
 }
 export interface DeleteSpacecraftResponse {
   /** URL for determining when an operation has completed. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type EdgeSitesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -409,7 +410,7 @@ export interface EdgeSitesCreateOrUpdateRequest {
   /** Edge site name. */
   edgeSiteName: string;
   /** Resource tags. */
-  tags?: EdgeSitesCreateOrUpdateRequestTagsMap;
+  tags?: EdgeSitesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -419,15 +420,15 @@ export interface EdgeSitesCreateOrUpdateRequest {
 export type EdgeSitesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface EdgeSitesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EdgeSitesCreateOrUpdateResponseTagsMap;
+  tags?: EdgeSitesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -445,13 +446,13 @@ export interface GetContactRequest {
 }
 export interface GetContactResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: ContactsProperties;
 }
 export interface GetContactProfileRequest {
@@ -466,15 +467,15 @@ export interface GetContactProfileRequest {
 export type GetContactProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface GetContactProfileResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetContactProfileResponseTagsMap;
+  tags?: GetContactProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the contact profile resource. */
@@ -492,15 +493,15 @@ export interface GetEdgeSiteRequest {
 export type GetEdgeSiteResponseTagsMap = { [key: string]: string | undefined };
 export interface GetEdgeSiteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetEdgeSiteResponseTagsMap;
+  tags?: GetEdgeSiteResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -525,37 +526,37 @@ export type GroundStationsPropertiesReleaseMode = "Preview" | "GA";
 /** List of ground station resource properties. */
 export interface GroundStationsProperties {
   /** City of ground station. */
-  city?: string;
+  city?: string | undefined;
   /** Ground station capabilities. */
   capabilities: GroundStationsPropertiesCapabilitiesList;
   /** Ground station provider name. */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Longitude of the ground station in decimal degrees. */
-  longitudeDegrees?: number;
+  longitudeDegrees?: number | undefined;
   /** Latitude of the ground station in decimal degrees. */
-  latitudeDegrees?: number;
+  latitudeDegrees?: number | undefined;
   /** Altitude of the ground station. */
-  altitudeMeters?: number;
+  altitudeMeters?: number | undefined;
   /** Release Status of a ground station. */
-  releaseMode?: GroundStationsPropertiesReleaseMode;
+  releaseMode?: GroundStationsPropertiesReleaseMode | undefined;
   /** A reference to global communications site. */
   globalCommunicationsSite: ResourceReference;
 }
 export interface GetGroundStationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetGroundStationResponseTagsMap;
+  tags?: GetGroundStationResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Ground Station. */
-  properties?: GroundStationsProperties;
+  properties?: GroundStationsProperties | undefined;
 }
 export interface GetL2ConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -588,9 +589,9 @@ export interface L2ConnectionsPropertiesGroundStationPartnerRouter {
 /** Properties object for an L2 Connection. */
 export interface L2ConnectionsProperties {
   /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ProvisioningState_2;
+  provisioningState?: ProvisioningState_2 | undefined;
   /** Globally-unique identifier for this connection that is to be used as a circuit ID. */
-  circuitId?: string;
+  circuitId?: string | undefined;
   /** A reference to an Microsoft.Orbital/edgeSites resource to route traffic for. */
   edgeSite: ResourceReference;
   /** The name of the partner router that cross-connects with the Orbital Edge Router at the edge site. */
@@ -604,15 +605,15 @@ export interface L2ConnectionsProperties {
 }
 export interface GetL2ConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetL2ConnectionResponseTagsMap;
+  tags?: GetL2ConnectionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -633,31 +634,31 @@ export type OperationResultValueList = Array<unknown>;
 /** Operation result error properties. */
 export interface OperationResultErrorProperties {
   /** The code of the error. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Operation Result Entity. */
 export interface OperationResult {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
-  status?: Status;
+  name?: string | undefined;
+  status?: Status | undefined;
   /** The operation start time (ISO 8601 UTC standard). */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The operation end time (ISO 8601 UTC standard). */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Percentage completed. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** A list of results when the operation returns multiple results. */
-  value?: OperationResultValueList;
+  value?: OperationResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
-  properties?: unknown;
-  error?: OperationResultErrorProperties;
+  nextLink?: string | undefined;
+  properties?: unknown | undefined;
+  error?: OperationResultErrorProperties | undefined;
   /** URL for determining when an operation has completed. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSpacecraftRequest {
   /** The ID of the target subscription. */
@@ -695,16 +696,16 @@ export interface SpacecraftLink {
   /** Polarization. e.g. (RHCP, LHCP). */
   polarization: SpacecraftLinkPolarization;
   /** Authorized Ground Stations */
-  authorizations?: SpacecraftLinkAuthorizationsList;
+  authorizations?: SpacecraftLinkAuthorizationsList | undefined;
 }
 /** Immutable list of Spacecraft links. */
 export type SpacecraftsPropertiesLinksList = Array<SpacecraftLink>;
 /** List of Spacecraft Resource Properties. */
 export interface SpacecraftsProperties {
   /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** NORAD ID of the spacecraft. */
-  noradId?: string;
+  noradId?: string | undefined;
   /** Title line of the two-line element set (TLE). */
   titleLine: string;
   /** Line 1 of the two-line element set (TLE). */
@@ -716,15 +717,15 @@ export interface SpacecraftsProperties {
 }
 export interface GetSpacecraftResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSpacecraftResponseTagsMap;
+  tags?: GetSpacecraftResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Spacecraft Properties */
@@ -737,17 +738,17 @@ export type GroundStationsPropertiesInputCapabilitiesList = Array<Capability | (
 /** List of ground station resource properties. */
 export interface GroundStationsPropertiesInput {
   /** City of ground station. */
-  city?: string;
+  city?: string | undefined;
   /** Ground station capabilities. */
   capabilities: GroundStationsPropertiesInputCapabilitiesList;
   /** Ground station provider name. */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Longitude of the ground station in decimal degrees. */
-  longitudeDegrees?: number;
+  longitudeDegrees?: number | undefined;
   /** Latitude of the ground station in decimal degrees. */
-  latitudeDegrees?: number;
+  latitudeDegrees?: number | undefined;
   /** Altitude of the ground station. */
-  altitudeMeters?: number;
+  altitudeMeters?: number | undefined;
   /** A reference to global communications site. */
   globalCommunicationsSite: ResourceReference;
 }
@@ -759,29 +760,29 @@ export interface GroundStationsCreateOrUpdateRequest {
   /** Ground Station name. */
   groundStationName: string;
   /** Resource tags. */
-  tags?: GroundStationsCreateOrUpdateRequestTagsMap;
+  tags?: GroundStationsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Ground Station. */
-  properties?: GroundStationsPropertiesInput;
+  properties?: GroundStationsPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type GroundStationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface GroundStationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GroundStationsCreateOrUpdateResponseTagsMap;
+  tags?: GroundStationsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Ground Station. */
-  properties?: GroundStationsProperties;
+  properties?: GroundStationsProperties | undefined;
 }
 /** Resource tags. */
 export type L2ConnectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -812,7 +813,7 @@ export interface L2ConnectionsCreateOrUpdateRequest {
   /** L2 Connection name. */
   l2ConnectionName: string;
   /** Resource tags. */
-  tags?: L2ConnectionsCreateOrUpdateRequestTagsMap;
+  tags?: L2ConnectionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -822,21 +823,21 @@ export interface L2ConnectionsCreateOrUpdateRequest {
 export type L2ConnectionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface L2ConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L2ConnectionsCreateOrUpdateResponseTagsMap;
+  tags?: L2ConnectionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
   properties: L2ConnectionsProperties;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type ListAvailableGroundStationByCapabilityRequestCapability =
   | "EarthObservation"
@@ -852,28 +853,28 @@ export type AvailableGroundStationPropertiesReleaseMode = "Preview" | "GA";
 /** Properties object for Available groundstation. */
 export interface AvailableGroundStationProperties {
   /** City of ground station. */
-  city?: string;
+  city?: string | undefined;
   /** Ground station provider name. */
-  providerName?: string;
+  providerName?: string | undefined;
   /** Longitude of the ground station in decimal degrees. */
-  longitudeDegrees?: number;
+  longitudeDegrees?: number | undefined;
   /** Latitude of the ground station in decimal degrees. */
-  latitudeDegrees?: number;
+  latitudeDegrees?: number | undefined;
   /** Altitude of the ground station. */
-  altitudeMeters?: number;
+  altitudeMeters?: number | undefined;
   /** Release Status of a ground station. */
-  releaseMode?: AvailableGroundStationPropertiesReleaseMode;
+  releaseMode?: AvailableGroundStationPropertiesReleaseMode | undefined;
 }
 /** Ground Stations available to schedule Contacts. */
 export interface AvailableGroundStation {
   /** ID of groundStation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the ground station. */
-  name?: string;
+  name?: string | undefined;
   /** Azure region. */
-  location?: string;
+  location?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The properties bag for this resource. */
   properties: AvailableGroundStationProperties;
 }
@@ -882,30 +883,30 @@ export type AvailableGroundStationListResultValueList = Array<AvailableGroundSta
 /** Response for the AvailableGroundStations API service call. */
 export interface AvailableGroundStationListResult {
   /** A list of ground station resources. */
-  value?: AvailableGroundStationListResultValueList;
+  value?: AvailableGroundStationListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContactProfileBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Resource tags. */
 export type ContactProfileTagsMap = { [key: string]: string | undefined };
 /** Customer creates a Contact Profile Resource, which will contain all of the configurations required for scheduling a contact. */
 export interface ContactProfile {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ContactProfileTagsMap;
+  tags?: ContactProfileTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the contact profile resource. */
@@ -916,9 +917,9 @@ export type ContactProfileListResultValueList = Array<ContactProfile>;
 /** Response for the ListContactProfiles API service call. */
 export interface ContactProfileListResult {
   /** A list of contact profile resources in a resource group. */
-  value?: ContactProfileListResultValueList;
+  value?: ContactProfileListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContactProfilesRequest {
   /** The ID of the target subscription. */
@@ -926,7 +927,7 @@ export interface ListContactProfilesRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export interface ListContactsRequest {
   /** The ID of the target subscription. */
@@ -936,18 +937,18 @@ export interface ListContactsRequest {
   /** Spacecraft ID. */
   spacecraftName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Customer creates a contact resource for a spacecraft resource. */
 export interface Contact {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: ContactsProperties;
 }
 /** A list of contact resources in a resource group. */
@@ -955,30 +956,30 @@ export type ContactListResultValueList = Array<Contact>;
 /** Response for the ListContacts API service call. */
 export interface ContactListResult {
   /** A list of contact resources in a resource group. */
-  value?: ContactListResultValueList;
+  value?: ContactListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEdgeSiteBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Resource tags. */
 export type EdgeSiteTagsMap = { [key: string]: string | undefined };
 /** A customer's reference to a global communications site site. */
 export interface EdgeSite {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: EdgeSiteTagsMap;
+  tags?: EdgeSiteTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -989,9 +990,9 @@ export type EdgeSiteListResultValueList = Array<EdgeSite>;
 /** Response for an API service call that lists Edge Sites. */
 export interface EdgeSiteListResult {
   /** A list of edge site resources. */
-  value?: EdgeSiteListResultValueList;
+  value?: EdgeSiteListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEdgeSiteL2ConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1003,16 +1004,16 @@ export interface ListEdgeSiteL2ConnectionsRequest {
 }
 export interface ResourceIdListResultValueItem {
   /** The Azure Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A list of Azure Resource IDs. */
 export type ResourceIdListResultValueList = Array<ResourceIdListResultValueItem>;
 /** Response for an API service call that lists the resource IDs of resources associated with another resource. */
 export interface ResourceIdListResult {
   /** A list of Azure Resource IDs. */
-  value?: ResourceIdListResultValueList;
+  value?: ResourceIdListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListEdgeSitesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1020,7 +1021,7 @@ export interface ListEdgeSitesRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export interface ListGlobalCommunicationsSiteBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1035,85 +1036,85 @@ export interface LocationData {
   /** The nation (e.g., United States of America) of the location. */
   country: string;
   /** The name of the closest Azure region, (e.g., westus2). */
-  closestAzureRegion?: string;
+  closestAzureRegion?: string | undefined;
   /** Any extra information needed to uniquely identify the location (e.g., zip code). */
-  extra?: string | null;
+  extra?: string | null | undefined;
 }
 /** The type of the global communications site. groundStations can only use sites of type GroundStation, and edgeSites can only use sites of type Edge. */
 export type GlobalCommunicationsSiteType = "Edge" | "GroundStation";
 /** One of the partner routers within a global communications site. */
 export interface PartnerRouter {
   /** The unique name of the partnerRouter. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Partner routers connected to this site. */
 export type GlobalCommunicationsSitesPropertiesPartnerRoutersList = Array<PartnerRouter>;
 /** Properties object for a global communications site. */
 export interface GlobalCommunicationsSitesProperties {
   /** Describes the location of the global communications site. */
-  locationData?: LocationData;
+  locationData?: LocationData | undefined;
   /** The type of the global communications site. EdgeSite or GroundStation. */
-  globalCommunicationsSiteType?: GlobalCommunicationsSiteType;
+  globalCommunicationsSiteType?: GlobalCommunicationsSiteType | undefined;
   /** Partner routers connected to this site. */
-  partnerRouters?: GlobalCommunicationsSitesPropertiesPartnerRoutersList;
+  partnerRouters?: GlobalCommunicationsSitesPropertiesPartnerRoutersList | undefined;
   /** The bandwidth per partner router cross-connection at this global communications site, measured in bits per second. */
-  partnerSiteBandwidth?: number;
+  partnerSiteBandwidth?: number | undefined;
 }
 /** A site where the Orbital network is connected to a partner network. */
 export interface GlobalCommunicationsSite {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties bag for this resource. */
-  properties?: GlobalCommunicationsSitesProperties;
+  properties?: GlobalCommunicationsSitesProperties | undefined;
 }
 /** A list of global communications sites. */
 export type GlobalCommunicationsSiteListResultValueList = Array<GlobalCommunicationsSite>;
 /** Response for an API service call that lists Global Communications Sites. */
 export interface GlobalCommunicationsSiteListResult {
   /** A list of global communications sites. */
-  value?: GlobalCommunicationsSiteListResultValueList;
+  value?: GlobalCommunicationsSiteListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroundStationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Resource tags. */
 export type GroundStationTagsMap = { [key: string]: string | undefined };
 /** Ground Station contains one or more antennas. */
 export interface GroundStation {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GroundStationTagsMap;
+  tags?: GroundStationTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Ground Station. */
-  properties?: GroundStationsProperties;
+  properties?: GroundStationsProperties | undefined;
 }
 /** A list of ground station resources. */
 export type GroundStationListResultValueList = Array<GroundStation>;
 /** Response for the ListGroundStations API service call. */
 export interface GroundStationListResult {
   /** A list of ground station resources. */
-  value?: GroundStationListResultValueList;
+  value?: GroundStationListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGroundStationL2ConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1129,28 +1130,28 @@ export interface ListGroundStationsRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export interface ListL2ConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Resource tags. */
 export type L2ConnectionTagsMap = { [key: string]: string | undefined };
 /** Connects an edge site to an orbital gateway and describes what layer 2 traffic to forward between them. */
 export interface L2Connection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: L2ConnectionTagsMap;
+  tags?: L2ConnectionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -1161,9 +1162,9 @@ export type L2ConnectionListResultValueList = Array<L2Connection>;
 /** Response for an API service call that lists L2 Connections. */
 export interface L2ConnectionListResult {
   /** A list of L2 Connection resources. */
-  value?: L2ConnectionListResultValueList;
+  value?: L2ConnectionListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListL2ConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1171,19 +1172,19 @@ export interface ListL2ConnectionsRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1192,23 +1193,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSpacecraftAvailableContactsRequest {
   /** The ID of the target subscription. */
@@ -1229,64 +1230,64 @@ export interface ListSpacecraftAvailableContactsRequest {
 /** Contact Instance Properties. */
 export interface ContactInstanceProperties {
   /** Maximum elevation of the antenna during the contact in decimal degrees. */
-  maximumElevationDegrees?: number;
+  maximumElevationDegrees?: number | undefined;
   /** Time at which antenna transmit will be enabled (ISO 8601 UTC standard). */
-  txStartTime?: string;
+  txStartTime?: string | undefined;
   /** Time at which antenna transmit will be disabled (ISO 8601 UTC standard). */
-  txEndTime?: string;
+  txEndTime?: string | undefined;
   /** Earliest time to receive a signal (ISO 8601 UTC standard). */
-  rxStartTime?: string;
+  rxStartTime?: string | undefined;
   /** Time to lost receiving a signal (ISO 8601 UTC standard). */
-  rxEndTime?: string;
+  rxEndTime?: string | undefined;
   /** Azimuth of the antenna at the start of the contact in decimal degrees. */
-  startAzimuthDegrees?: number;
+  startAzimuthDegrees?: number | undefined;
   /** Azimuth of the antenna at the end of the contact in decimal degrees. */
-  endAzimuthDegrees?: number;
+  endAzimuthDegrees?: number | undefined;
   /** Spacecraft elevation above the horizon at contact start. */
-  startElevationDegrees?: number;
+  startElevationDegrees?: number | undefined;
   /** Spacecraft elevation above the horizon at contact end. */
-  endElevationDegrees?: number;
+  endElevationDegrees?: number | undefined;
 }
 /** Customer retrieves list of Available Contacts for a spacecraft resource. Later, one of the available contact can be selected to create a contact. */
 export interface AvailableContacts {
   /** The reference to the spacecraft resource. */
-  spacecraft?: ResourceReference;
+  spacecraft?: ResourceReference | undefined;
   /** Name of Azure Ground Station. */
-  groundStationName?: string;
+  groundStationName?: string | undefined;
   /** Properties of Contact resource. */
-  properties?: ContactInstanceProperties;
+  properties?: ContactInstanceProperties | undefined;
 }
 /** A list of available contacts. */
 export type AvailableContactsListResultValueList = Array<AvailableContacts>;
 /** Response for the ListAvailableContacts API service call. */
 export interface AvailableContactsListResult {
   /** A list of available contacts. */
-  value?: AvailableContactsListResultValueList;
+  value?: AvailableContactsListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** URL for determining when an operation has completed. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListSpacecraftBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Resource tags. */
 export type SpacecraftTagsMap = { [key: string]: string | undefined };
 /** Customer creates a spacecraft resource to schedule a contact. */
 export interface Spacecraft {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SpacecraftTagsMap;
+  tags?: SpacecraftTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Spacecraft Properties */
@@ -1297,9 +1298,9 @@ export type SpacecraftListResultValueList = Array<Spacecraft>;
 /** Response for the ListSpacecrafts API service call. */
 export interface SpacecraftListResult {
   /** A list of spacecraft resources in a resource group. */
-  value?: SpacecraftListResultValueList;
+  value?: SpacecraftListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSpacecraftsRequest {
   /** The ID of the target subscription. */
@@ -1307,7 +1308,7 @@ export interface ListSpacecraftsRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  _skiptoken?: string;
+  _skiptoken?: string | undefined;
 }
 /** Resource tags. */
 export type SpacecraftsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1337,9 +1338,9 @@ export type SpacecraftsPropertiesInputLinksList = Array<SpacecraftLinkInput>;
 /** List of Spacecraft Resource Properties. */
 export interface SpacecraftsPropertiesInput {
   /** The current state of the resource's creation, deletion, or modification. */
-  provisioningState?: ProvisioningStateInput | (string & {});
+  provisioningState?: ProvisioningStateInput | (string & {}) | undefined;
   /** NORAD ID of the spacecraft. */
-  noradId?: string;
+  noradId?: string | undefined;
   /** Title line of the two-line element set (TLE). */
   titleLine: string;
   /** Line 1 of the two-line element set (TLE). */
@@ -1357,7 +1358,7 @@ export interface SpacecraftsCreateOrUpdateRequest {
   /** Spacecraft ID. */
   spacecraftName: string;
   /** Resource tags. */
-  tags?: SpacecraftsCreateOrUpdateRequestTagsMap;
+  tags?: SpacecraftsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Spacecraft Properties */
@@ -1367,21 +1368,21 @@ export interface SpacecraftsCreateOrUpdateRequest {
 export type SpacecraftsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SpacecraftsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SpacecraftsCreateOrUpdateResponseTagsMap;
+  tags?: SpacecraftsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Spacecraft Properties */
   properties: SpacecraftsProperties;
   /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateContactProfileTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -1393,27 +1394,27 @@ export interface UpdateContactProfileTagsRequest {
   /** Contact Profile name. */
   contactProfileName: string;
   /** Resource tags. */
-  tags?: UpdateContactProfileTagsRequestTagsMap;
+  tags?: UpdateContactProfileTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateContactProfileTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateContactProfileTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateContactProfileTagsResponseTagsMap;
+  tags?: UpdateContactProfileTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the contact profile resource. */
   properties: ContactProfilesProperties;
   /** URL for determining when an operation has completed. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateEdgeSiteTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -1425,21 +1426,21 @@ export interface UpdateEdgeSiteTagsRequest {
   /** Edge site name. */
   edgeSiteName: string;
   /** Resource tags. */
-  tags?: UpdateEdgeSiteTagsRequestTagsMap;
+  tags?: UpdateEdgeSiteTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateEdgeSiteTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateEdgeSiteTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateEdgeSiteTagsResponseTagsMap;
+  tags?: UpdateEdgeSiteTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
@@ -1455,25 +1456,25 @@ export interface UpdateGroundStationTagsRequest {
   /** Ground Station name. */
   groundStationName: string;
   /** Resource tags. */
-  tags?: UpdateGroundStationTagsRequestTagsMap;
+  tags?: UpdateGroundStationTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateGroundStationTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateGroundStationTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateGroundStationTagsResponseTagsMap;
+  tags?: UpdateGroundStationTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of the Ground Station. */
-  properties?: GroundStationsProperties;
+  properties?: GroundStationsProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateL2ConnectionTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -1485,27 +1486,27 @@ export interface UpdateL2ConnectionTagsRequest {
   /** L2 Connection name. */
   l2ConnectionName: string;
   /** Resource tags. */
-  tags?: UpdateL2ConnectionTagsRequestTagsMap;
+  tags?: UpdateL2ConnectionTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateL2ConnectionTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateL2ConnectionTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateL2ConnectionTagsResponseTagsMap;
+  tags?: UpdateL2ConnectionTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties bag for this resource. */
   properties: L2ConnectionsProperties;
   /** URL for determining when an operation has completed. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateSpacecraftTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -1517,27 +1518,27 @@ export interface UpdateSpacecraftTagsRequest {
   /** Spacecraft ID. */
   spacecraftName: string;
   /** Resource tags. */
-  tags?: UpdateSpacecraftTagsRequestTagsMap;
+  tags?: UpdateSpacecraftTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSpacecraftTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSpacecraftTagsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSpacecraftTagsResponseTagsMap;
+  tags?: UpdateSpacecraftTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Spacecraft Properties */
   properties: SpacecraftsProperties;
   /** URL for determining when an operation has completed. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export type ContactProfilesCreateOrUpdateError = AzureOpError;
 /** Creates or updates a contact profile. */

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -127,67 +128,67 @@ export type ContentType = string;
 export type NonNegativeLong = number;
 export type StringPrimitive = string;
 export interface DescribeObjectResponse {
-  ETag?: string;
-  ContentType?: string;
-  ContentLength?: number;
-  CacheControl?: string;
-  LastModified?: Date;
+  ETag?: string | undefined;
+  ContentType?: string | undefined;
+  ContentLength?: number | undefined;
+  CacheControl?: string | undefined;
+  LastModified?: Date | undefined;
 }
 export type RangePattern = string;
 export interface GetObjectRequest {
   Path: string;
-  Range?: string;
+  Range?: string | undefined;
 }
 export type ContentRangePattern = string;
 export type StatusCode = number;
 export interface GetObjectResponse {
-  Body?: T.StreamingOutputBody;
-  CacheControl?: string;
-  ContentRange?: string;
-  ContentLength?: number;
-  ContentType?: string;
-  ETag?: string;
-  LastModified?: Date;
+  Body?: T.StreamingOutputBody | undefined;
+  CacheControl?: string | undefined;
+  ContentRange?: string | undefined;
+  ContentLength?: number | undefined;
+  ContentType?: string | undefined;
+  ETag?: string | undefined;
+  LastModified?: Date | undefined;
   StatusCode: number;
 }
 export type ListPathNaming = string;
 export type ListLimit = number;
 export type PaginationToken = string;
 export interface ListItemsRequest {
-  Path?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Path?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ItemName = string;
 export type ItemType = "OBJECT" | "FOLDER" | (string & {});
 export interface Item {
-  Name?: string;
-  Type?: ItemType;
-  ETag?: string;
-  LastModified?: Date;
-  ContentType?: string;
-  ContentLength?: number;
+  Name?: string | undefined;
+  Type?: ItemType | undefined;
+  ETag?: string | undefined;
+  LastModified?: Date | undefined;
+  ContentType?: string | undefined;
+  ContentLength?: number | undefined;
 }
 export type ItemList = Item[];
 export interface ListItemsResponse {
-  Items?: Item[];
-  NextToken?: string;
+  Items?: Item[] | undefined;
+  NextToken?: string | undefined;
 }
 export type StorageClass = "TEMPORAL" | (string & {});
 export type UploadAvailability = "STANDARD" | "STREAMING" | (string & {});
 export interface PutObjectRequest {
   Body: T.StreamingInputBody;
   Path: string;
-  ContentType?: string;
-  CacheControl?: string;
-  StorageClass?: StorageClass;
-  UploadAvailability?: UploadAvailability;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
+  StorageClass?: StorageClass | undefined;
+  UploadAvailability?: UploadAvailability | undefined;
 }
 export type SHA256Hash = string;
 export interface PutObjectResponse {
-  ContentSHA256?: string;
-  ETag?: string;
-  StorageClass?: StorageClass;
+  ContentSHA256?: string | undefined;
+  ETag?: string | undefined;
+  StorageClass?: StorageClass | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteObjectError =
@@ -199,7 +200,7 @@ export type DeleteObjectError =
  * Deletes an object at the specified path.
  */
 export const deleteObject: API.OperationMethod<
-  DeleteObjectRequest,
+  DeleteObjectRequest & RegionInput,
   DeleteObjectResponse,
   DeleteObjectError,
   Credentials | HttpClient.HttpClient
@@ -223,7 +224,7 @@ export type DescribeObjectError =
  * Gets the headers for an object at the specified path.
  */
 export const describeObject: API.OperationMethod<
-  DescribeObjectRequest,
+  DescribeObjectRequest & RegionInput,
   DescribeObjectResponse,
   DescribeObjectError,
   Credentials | HttpClient.HttpClient
@@ -248,7 +249,7 @@ export type GetObjectError =
  * Downloads the object at the specified path. If the object's upload availability is set to `streaming`, AWS Elemental MediaStore downloads the object even if it's still uploading the object.
  */
 export const getObject: API.OperationMethod<
-  GetObjectRequest,
+  GetObjectRequest & RegionInput,
   GetObjectResponse,
   GetObjectError,
   Credentials | HttpClient.HttpClient
@@ -274,7 +275,7 @@ export type ListItemsError = ContainerNotFoundException | InternalServerError | 
  * folder.
  */
 export const listItems: API.PaginatedOperationMethod<
-  ListItemsRequest,
+  ListItemsRequest & RegionInput,
   ListItemsResponse,
   ListItemsError,
   Credentials | HttpClient.HttpClient,
@@ -300,7 +301,7 @@ export type PutObjectError = ContainerNotFoundException | InternalServerError | 
  * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
  */
 export const putObject: API.OperationMethod<
-  PutObjectRequest,
+  PutObjectRequest & RegionInput,
   PutObjectResponse,
   PutObjectError,
   Credentials | HttpClient.HttpClient

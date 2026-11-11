@@ -199,9 +199,10 @@ const graphqlSpec = (model: any, sourceNote: string): SdkSpec => ({
   memberTraitPipes: {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
+  // A sensitive JSON scalar (AddOn.environment) is redacted whole.
   memberTsType: (m) =>
     "smithy.api#sensitive" in (m.traits ?? {})
-      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      ? `${m.target === "smithy.api#Document" ? "Redacted.Redacted<unknown>" : "string | Redacted.Redacted<string>"}${m.nullable ? " | null" : ""}`
       : undefined,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   errors: {

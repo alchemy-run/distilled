@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -163,12 +164,12 @@ export type Region = string;
 export type RegionList = string[];
 export interface ReplicationSpecification {
   replicationStrategy: string;
-  regionList?: string[];
+  regionList?: string[] | undefined;
 }
 export interface CreateKeyspaceRequest {
   keyspaceName: string;
-  tags?: Tag[];
-  replicationSpecification?: ReplicationSpecification;
+  tags?: Tag[] | undefined;
+  replicationSpecification?: ReplicationSpecification | undefined;
 }
 export type ARN = string;
 export interface CreateKeyspaceResponse {
@@ -197,8 +198,8 @@ export type StaticColumnList = StaticColumn[];
 export interface SchemaDefinition {
   allColumns: ColumnDefinition[];
   partitionKeys: PartitionKey[];
-  clusteringKeys?: ClusteringKey[];
-  staticColumns?: StaticColumn[];
+  clusteringKeys?: ClusteringKey[] | undefined;
+  staticColumns?: StaticColumn[] | undefined;
 }
 export interface Comment {
   message: string;
@@ -207,14 +208,14 @@ export type ThroughputMode = string;
 export type CapacityUnits = number;
 export interface CapacitySpecification {
   throughputMode: string;
-  readCapacityUnits?: number;
-  writeCapacityUnits?: number;
+  readCapacityUnits?: number | undefined;
+  writeCapacityUnits?: number | undefined;
 }
 export type EncryptionType = string;
 export type KmsKeyARN = string;
 export interface EncryptionSpecification {
   type: string;
-  kmsKeyIdentifier?: string;
+  kmsKeyIdentifier?: string | undefined;
 }
 export type PointInTimeRecoveryStatus = string;
 export interface PointInTimeRecovery {
@@ -232,28 +233,28 @@ export interface ClientSideTimestamps {
 export type IntegerObject = number;
 export type DoubleObject = number;
 export interface TargetTrackingScalingPolicyConfiguration {
-  disableScaleIn?: boolean;
-  scaleInCooldown?: number;
-  scaleOutCooldown?: number;
+  disableScaleIn?: boolean | undefined;
+  scaleInCooldown?: number | undefined;
+  scaleOutCooldown?: number | undefined;
   targetValue: number;
 }
 export interface AutoScalingPolicy {
-  targetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration;
+  targetTrackingScalingPolicyConfiguration?: TargetTrackingScalingPolicyConfiguration | undefined;
 }
 export interface AutoScalingSettings {
-  autoScalingDisabled?: boolean;
-  minimumUnits?: number;
-  maximumUnits?: number;
-  scalingPolicy?: AutoScalingPolicy;
+  autoScalingDisabled?: boolean | undefined;
+  minimumUnits?: number | undefined;
+  maximumUnits?: number | undefined;
+  scalingPolicy?: AutoScalingPolicy | undefined;
 }
 export interface AutoScalingSpecification {
-  writeCapacityAutoScaling?: AutoScalingSettings;
-  readCapacityAutoScaling?: AutoScalingSettings;
+  writeCapacityAutoScaling?: AutoScalingSettings | undefined;
+  readCapacityAutoScaling?: AutoScalingSettings | undefined;
 }
 export interface ReplicaSpecification {
   region: string;
-  readCapacityUnits?: number;
-  readCapacityAutoScaling?: AutoScalingSettings;
+  readCapacityUnits?: number | undefined;
+  readCapacityAutoScaling?: AutoScalingSettings | undefined;
 }
 export type ReplicaSpecificationList = ReplicaSpecification[];
 export type CdcStatus = string;
@@ -261,30 +262,30 @@ export type ViewType = string;
 export type CdcPropagateTags = string;
 export interface CdcSpecification {
   status: string;
-  viewType?: string;
-  tags?: Tag[];
-  propagateTags?: string;
+  viewType?: string | undefined;
+  tags?: Tag[] | undefined;
+  propagateTags?: string | undefined;
 }
 export interface WarmThroughputSpecification {
-  readUnitsPerSecond?: number;
-  writeUnitsPerSecond?: number;
+  readUnitsPerSecond?: number | undefined;
+  writeUnitsPerSecond?: number | undefined;
 }
 export interface CreateTableRequest {
   keyspaceName: string;
   tableName: string;
   schemaDefinition: SchemaDefinition;
-  comment?: Comment;
-  capacitySpecification?: CapacitySpecification;
-  encryptionSpecification?: EncryptionSpecification;
-  pointInTimeRecovery?: PointInTimeRecovery;
-  ttl?: TimeToLive;
-  defaultTimeToLive?: number;
-  tags?: Tag[];
-  clientSideTimestamps?: ClientSideTimestamps;
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecification[];
-  cdcSpecification?: CdcSpecification;
-  warmThroughputSpecification?: WarmThroughputSpecification;
+  comment?: Comment | undefined;
+  capacitySpecification?: CapacitySpecification | undefined;
+  encryptionSpecification?: EncryptionSpecification | undefined;
+  pointInTimeRecovery?: PointInTimeRecovery | undefined;
+  ttl?: TimeToLive | undefined;
+  defaultTimeToLive?: number | undefined;
+  tags?: Tag[] | undefined;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaSpecification[] | undefined;
+  cdcSpecification?: CdcSpecification | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecification | undefined;
 }
 export interface CreateTableResponse {
   resourceArn: string;
@@ -329,15 +330,15 @@ export type TablesReplicationProgress = string;
 export interface ReplicationGroupStatus {
   region: string;
   keyspaceStatus: string;
-  tablesReplicationProgress?: string;
+  tablesReplicationProgress?: string | undefined;
 }
 export type ReplicationGroupStatusList = ReplicationGroupStatus[];
 export interface GetKeyspaceResponse {
   keyspaceName: string;
   resourceArn: string;
   replicationStrategy: string;
-  replicationRegions?: string[];
-  replicationGroupStatuses?: ReplicationGroupStatus[];
+  replicationRegions?: string[] | undefined;
+  replicationGroupStatuses?: ReplicationGroupStatus[] | undefined;
 }
 export interface GetTableRequest {
   keyspaceName: string;
@@ -346,13 +347,13 @@ export interface GetTableRequest {
 export type TableStatus = string;
 export interface CapacitySpecificationSummary {
   throughputMode: string;
-  readCapacityUnits?: number;
-  writeCapacityUnits?: number;
-  lastUpdateToPayPerRequestTimestamp?: Date;
+  readCapacityUnits?: number | undefined;
+  writeCapacityUnits?: number | undefined;
+  lastUpdateToPayPerRequestTimestamp?: Date | undefined;
 }
 export interface PointInTimeRecoverySummary {
   status: string;
-  earliestRestorableTimestamp?: Date;
+  earliestRestorableTimestamp?: Date | undefined;
 }
 export type WarmThroughputStatus = string;
 export interface WarmThroughputSpecificationSummary {
@@ -361,51 +362,51 @@ export interface WarmThroughputSpecificationSummary {
   status: string;
 }
 export interface ReplicaSpecificationSummary {
-  region?: string;
-  status?: string;
-  capacitySpecification?: CapacitySpecificationSummary;
-  warmThroughputSpecification?: WarmThroughputSpecificationSummary;
+  region?: string | undefined;
+  status?: string | undefined;
+  capacitySpecification?: CapacitySpecificationSummary | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecificationSummary | undefined;
 }
 export type ReplicaSpecificationSummaryList = ReplicaSpecificationSummary[];
 export type StreamArn = string;
 export interface CdcSpecificationSummary {
   status: string;
-  viewType?: string;
+  viewType?: string | undefined;
 }
 export interface GetTableResponse {
   keyspaceName: string;
   tableName: string;
   resourceArn: string;
-  creationTimestamp?: Date;
-  status?: string;
-  schemaDefinition?: SchemaDefinition;
-  capacitySpecification?: CapacitySpecificationSummary;
-  encryptionSpecification?: EncryptionSpecification;
-  pointInTimeRecovery?: PointInTimeRecoverySummary;
-  ttl?: TimeToLive;
-  defaultTimeToLive?: number;
-  comment?: Comment;
-  clientSideTimestamps?: ClientSideTimestamps;
-  replicaSpecifications?: ReplicaSpecificationSummary[];
-  latestStreamArn?: string;
-  cdcSpecification?: CdcSpecificationSummary;
-  warmThroughputSpecification?: WarmThroughputSpecificationSummary;
+  creationTimestamp?: Date | undefined;
+  status?: string | undefined;
+  schemaDefinition?: SchemaDefinition | undefined;
+  capacitySpecification?: CapacitySpecificationSummary | undefined;
+  encryptionSpecification?: EncryptionSpecification | undefined;
+  pointInTimeRecovery?: PointInTimeRecoverySummary | undefined;
+  ttl?: TimeToLive | undefined;
+  defaultTimeToLive?: number | undefined;
+  comment?: Comment | undefined;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
+  replicaSpecifications?: ReplicaSpecificationSummary[] | undefined;
+  latestStreamArn?: string | undefined;
+  cdcSpecification?: CdcSpecificationSummary | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecificationSummary | undefined;
 }
 export interface GetTableAutoScalingSettingsRequest {
   keyspaceName: string;
   tableName: string;
 }
 export interface ReplicaAutoScalingSpecification {
-  region?: string;
-  autoScalingSpecification?: AutoScalingSpecification;
+  region?: string | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
 }
 export type ReplicaAutoScalingSpecificationList = ReplicaAutoScalingSpecification[];
 export interface GetTableAutoScalingSettingsResponse {
   keyspaceName: string;
   tableName: string;
   resourceArn: string;
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaAutoScalingSpecification[];
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaAutoScalingSpecification[] | undefined;
 }
 export interface GetTypeRequest {
   keyspaceName: string;
@@ -418,34 +419,34 @@ export type Depth = number;
 export interface GetTypeResponse {
   keyspaceName: string;
   typeName: string;
-  fieldDefinitions?: FieldDefinition[];
-  lastModifiedTimestamp?: Date;
-  status?: string;
-  directReferringTables?: string[];
-  directParentTypes?: string[];
-  maxNestingDepth?: number;
+  fieldDefinitions?: FieldDefinition[] | undefined;
+  lastModifiedTimestamp?: Date | undefined;
+  status?: string | undefined;
+  directReferringTables?: string[] | undefined;
+  directParentTypes?: string[] | undefined;
+  maxNestingDepth?: number | undefined;
   keyspaceArn: string;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListKeyspacesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface KeyspaceSummary {
   keyspaceName: string;
   resourceArn: string;
   replicationStrategy: string;
-  replicationRegions?: string[];
+  replicationRegions?: string[] | undefined;
 }
 export type KeyspaceSummaryList = KeyspaceSummary[];
 export interface ListKeyspacesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   keyspaces: KeyspaceSummary[];
 }
 export interface ListTablesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   keyspaceName: string;
 }
 export interface TableSummary {
@@ -455,25 +456,25 @@ export interface TableSummary {
 }
 export type TableSummaryList = TableSummary[];
 export interface ListTablesResponse {
-  nextToken?: string;
-  tables?: TableSummary[];
+  nextToken?: string | undefined;
+  tables?: TableSummary[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTagsForResourceResponse {
-  nextToken?: string;
-  tags?: Tag[];
+  nextToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface ListTypesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   keyspaceName: string;
 }
 export interface ListTypesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   types: string[];
 }
 export interface RestoreTableRequest {
@@ -481,13 +482,13 @@ export interface RestoreTableRequest {
   sourceTableName: string;
   targetKeyspaceName: string;
   targetTableName: string;
-  restoreTimestamp?: Date;
-  capacitySpecificationOverride?: CapacitySpecification;
-  encryptionSpecificationOverride?: EncryptionSpecification;
-  pointInTimeRecoveryOverride?: PointInTimeRecovery;
-  tagsOverride?: Tag[];
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecification[];
+  restoreTimestamp?: Date | undefined;
+  capacitySpecificationOverride?: CapacitySpecification | undefined;
+  encryptionSpecificationOverride?: EncryptionSpecification | undefined;
+  pointInTimeRecoveryOverride?: PointInTimeRecovery | undefined;
+  tagsOverride?: Tag[] | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaSpecification[] | undefined;
 }
 export interface RestoreTableResponse {
   restoredTableARN: string;
@@ -505,7 +506,7 @@ export interface UntagResourceResponse {}
 export interface UpdateKeyspaceRequest {
   keyspaceName: string;
   replicationSpecification: ReplicationSpecification;
-  clientSideTimestamps?: ClientSideTimestamps;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
 }
 export interface UpdateKeyspaceResponse {
   resourceArn: string;
@@ -513,17 +514,17 @@ export interface UpdateKeyspaceResponse {
 export interface UpdateTableRequest {
   keyspaceName: string;
   tableName: string;
-  addColumns?: ColumnDefinition[];
-  capacitySpecification?: CapacitySpecification;
-  encryptionSpecification?: EncryptionSpecification;
-  pointInTimeRecovery?: PointInTimeRecovery;
-  ttl?: TimeToLive;
-  defaultTimeToLive?: number;
-  clientSideTimestamps?: ClientSideTimestamps;
-  autoScalingSpecification?: AutoScalingSpecification;
-  replicaSpecifications?: ReplicaSpecification[];
-  cdcSpecification?: CdcSpecification;
-  warmThroughputSpecification?: WarmThroughputSpecification;
+  addColumns?: ColumnDefinition[] | undefined;
+  capacitySpecification?: CapacitySpecification | undefined;
+  encryptionSpecification?: EncryptionSpecification | undefined;
+  pointInTimeRecovery?: PointInTimeRecovery | undefined;
+  ttl?: TimeToLive | undefined;
+  defaultTimeToLive?: number | undefined;
+  clientSideTimestamps?: ClientSideTimestamps | undefined;
+  autoScalingSpecification?: AutoScalingSpecification | undefined;
+  replicaSpecifications?: ReplicaSpecification[] | undefined;
+  cdcSpecification?: CdcSpecification | undefined;
+  warmThroughputSpecification?: WarmThroughputSpecification | undefined;
 }
 export interface UpdateTableResponse {
   resourceArn: string;
@@ -543,7 +544,7 @@ export type CreateKeyspaceError =
  * For more information, see Create a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
 export const createKeyspace: API.OperationMethod<
-  CreateKeyspaceRequest,
+  CreateKeyspaceRequest & RegionInput,
   CreateKeyspaceResponse,
   CreateKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -580,7 +581,7 @@ export type CreateTableError =
  * For more information, see Create a table in the *Amazon Keyspaces Developer Guide*.
  */
 export const createTable: API.OperationMethod<
-  CreateTableRequest,
+  CreateTableRequest & RegionInput,
   CreateTableResponse,
   CreateTableError,
   Credentials | HttpClient.HttpClient
@@ -618,7 +619,7 @@ export type CreateTypeError =
  * For more information, see User-defined types (UDTs) in the *Amazon Keyspaces Developer Guide*.
  */
 export const createType: API.OperationMethod<
-  CreateTypeRequest,
+  CreateTypeRequest & RegionInput,
   CreateTypeResponse,
   CreateTypeError,
   Credentials | HttpClient.HttpClient
@@ -652,7 +653,7 @@ export type DeleteKeyspaceError =
  * The `DeleteKeyspace` operation deletes a keyspace and all of its tables.
  */
 export const deleteKeyspace: API.OperationMethod<
-  DeleteKeyspaceRequest,
+  DeleteKeyspaceRequest & RegionInput,
   DeleteKeyspaceResponse,
   DeleteKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -686,7 +687,7 @@ export type DeleteTableError =
  * The `DeleteTable` operation deletes a table and all of its data. After a `DeleteTable` request is received, the specified table is in the `DELETING` state until Amazon Keyspaces completes the deletion. If the table is in the `ACTIVE` state, you can delete it. If a table is either in the `CREATING` or `UPDATING` states, then Amazon Keyspaces returns a `ResourceInUseException`. If the specified table does not exist, Amazon Keyspaces returns a `ResourceNotFoundException`. If the table is already in the `DELETING` state, no error is returned.
  */
 export const deleteTable: API.OperationMethod<
-  DeleteTableRequest,
+  DeleteTableRequest & RegionInput,
   DeleteTableResponse,
   DeleteTableError,
   Credentials | HttpClient.HttpClient
@@ -722,7 +723,7 @@ export type DeleteTypeError =
  * To configure the required permissions, see Permissions to delete a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const deleteType: API.OperationMethod<
-  DeleteTypeRequest,
+  DeleteTypeRequest & RegionInput,
   DeleteTypeResponse,
   DeleteTypeError,
   Credentials | HttpClient.HttpClient
@@ -755,7 +756,7 @@ export type GetKeyspaceError =
  * Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an `UpdateKeyspace` operation.
  */
 export const getKeyspace: API.OperationMethod<
-  GetKeyspaceRequest,
+  GetKeyspaceRequest & RegionInput,
   GetKeyspaceResponse,
   GetKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -789,7 +790,7 @@ export type GetTableError =
  * To read table metadata using `GetTable`, the IAM principal needs `Select` action permissions for the table and the system keyspace.
  */
 export const getTable: API.OperationMethod<
-  GetTableRequest,
+  GetTableRequest & RegionInput,
   GetTableResponse,
   GetTableError,
   Credentials | HttpClient.HttpClient
@@ -831,7 +832,7 @@ export type GetTableAutoScalingSettingsError =
  * - `application-autoscaling:DescribeScalingPolicies`
  */
 export const getTableAutoScalingSettings: API.OperationMethod<
-  GetTableAutoScalingSettingsRequest,
+  GetTableAutoScalingSettingsRequest & RegionInput,
   GetTableAutoScalingSettingsResponse,
   GetTableAutoScalingSettingsError,
   Credentials | HttpClient.HttpClient
@@ -865,7 +866,7 @@ export type GetTypeError =
  * To read keyspace metadata using `GetType`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const getType: API.OperationMethod<
-  GetTypeRequest,
+  GetTypeRequest & RegionInput,
   GetTypeResponse,
   GetTypeError,
   Credentials | HttpClient.HttpClient
@@ -897,7 +898,7 @@ export type ListKeyspacesError =
  * The `ListKeyspaces` operation returns a list of keyspaces.
  */
 export const listKeyspaces: API.PaginatedOperationMethod<
-  ListKeyspacesRequest,
+  ListKeyspacesRequest & RegionInput,
   ListKeyspacesResponse,
   ListKeyspacesError,
   Credentials | HttpClient.HttpClient,
@@ -938,7 +939,7 @@ export type ListTablesError =
  * To read keyspace metadata using `ListTables`, the IAM principal needs `Select` action permissions for the system keyspace.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -979,7 +980,7 @@ export type ListTagsForResourceError =
  * To read keyspace metadata using `ListTagsForResource`, the IAM principal needs `Select` action permissions for the specified resource and the system keyspace.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -1020,7 +1021,7 @@ export type ListTypesError =
  * To read keyspace metadata using `ListTypes`, the IAM principal needs `Select` action permissions for the system keyspace. To configure the required permissions, see Permissions to view a UDT in the *Amazon Keyspaces Developer Guide*.
  */
 export const listTypes: API.PaginatedOperationMethod<
-  ListTypesRequest,
+  ListTypesRequest & RegionInput,
   ListTypesResponse,
   ListTypesError,
   Credentials | HttpClient.HttpClient,
@@ -1086,7 +1087,7 @@ export type RestoreTableError =
  * - Amazon CloudWatch metrics and alarms
  */
 export const restoreTable: API.OperationMethod<
-  RestoreTableRequest,
+  RestoreTableRequest & RegionInput,
   RestoreTableResponse,
   RestoreTableError,
   Credentials | HttpClient.HttpClient
@@ -1122,7 +1123,7 @@ export type TagResourceError =
  * For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see Amazon Keyspaces resource access based on tags in the *Amazon Keyspaces Developer Guide*.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1156,7 +1157,7 @@ export type UntagResourceError =
  * Removes the association of tags from a Amazon Keyspaces resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1230,7 +1231,7 @@ export type UpdateKeyspaceError =
  * For more information, see Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace in the *Amazon Keyspaces Developer Guide*.
  */
 export const updateKeyspace: API.OperationMethod<
-  UpdateKeyspaceRequest,
+  UpdateKeyspaceRequest & RegionInput,
   UpdateKeyspaceResponse,
   UpdateKeyspaceError,
   Credentials | HttpClient.HttpClient
@@ -1264,7 +1265,7 @@ export type UpdateTableError =
  * Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
  */
 export const updateTable: API.OperationMethod<
-  UpdateTableRequest,
+  UpdateTableRequest & RegionInput,
   UpdateTableResponse,
   UpdateTableError,
   Credentials | HttpClient.HttpClient

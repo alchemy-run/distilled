@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -173,205 +174,207 @@ export type ExecutionMode = string;
 export type WaitTimeSeconds = number;
 export interface BatchExecuteStatementInput {
   Sqls: string[];
-  ClusterIdentifier?: string;
-  SecretArn?: string;
-  DbUser?: string;
-  Database?: string;
-  WithEvent?: boolean;
-  StatementName?: string;
-  Parameters?: SqlParameter[];
-  WorkgroupName?: string;
-  ClientToken?: string;
-  ResultFormat?: string;
-  SessionKeepAliveSeconds?: number;
-  SessionId?: string;
-  ExecutionMode?: string;
-  WaitTimeSeconds?: number;
+  ClusterIdentifier?: string | undefined;
+  SecretArn?: string | undefined;
+  DbUser?: string | undefined;
+  Database?: string | undefined;
+  WithEvent?: boolean | undefined;
+  StatementName?: string | undefined;
+  Parameters?: SqlParameter[] | undefined;
+  WorkgroupName?: string | undefined;
+  ClientToken?: string | undefined;
+  ResultFormat?: string | undefined;
+  SessionKeepAliveSeconds?: number | undefined;
+  SessionId?: string | undefined;
+  ExecutionMode?: string | undefined;
+  WaitTimeSeconds?: number | undefined;
 }
 export type DbGroupList = string[];
 export type StatementStatusString = string;
 export type BoxedLong = number;
 export type BoxedBoolean = boolean;
 export interface BatchExecuteStatementOutput {
-  Id?: string;
-  CreatedAt?: Date;
-  ClusterIdentifier?: string;
-  DbUser?: string;
-  DbGroups?: string[];
-  Database?: string;
-  SecretArn?: string;
-  WorkgroupName?: string;
-  SessionId?: string;
-  Status?: string;
-  RedshiftPid?: number;
-  HasResultSet?: boolean;
+  Id?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ClusterIdentifier?: string | undefined;
+  DbUser?: string | undefined;
+  DbGroups?: string[] | undefined;
+  Database?: string | undefined;
+  SecretArn?: string | undefined;
+  WorkgroupName?: string | undefined;
+  SessionId?: string | undefined;
+  Status?: string | undefined;
+  RedshiftPid?: number | undefined;
+  HasResultSet?: boolean | undefined;
 }
 export interface CancelStatementRequest {
   Id: string;
 }
 export interface CancelStatementResponse {
-  Status?: boolean;
+  Status?: boolean | undefined;
 }
 export interface DescribeStatementRequest {
   Id: string;
-  WaitTimeSeconds?: number;
+  WaitTimeSeconds?: number | undefined;
 }
 export type StatusString = string;
 export interface SubStatementData {
   Id: string;
-  Duration?: number;
-  Error?: string;
-  Status?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  QueryString?: string;
-  ResultRows?: number;
-  ResultSize?: number;
-  RedshiftQueryId?: number;
-  HasResultSet?: boolean;
+  Duration?: number | undefined;
+  Error?: string | undefined;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  QueryString?: string | undefined;
+  ResultRows?: number | undefined;
+  ResultSize?: number | undefined;
+  RedshiftQueryId?: number | undefined;
+  RedshiftQueryUuid?: string | undefined;
+  HasResultSet?: boolean | undefined;
 }
 export type SubStatementList = SubStatementData[];
 export interface DescribeStatementResponse {
   Id: string;
-  SecretArn?: string;
-  DbUser?: string;
-  Database?: string;
-  ClusterIdentifier?: string;
-  Duration?: number;
-  Error?: string;
-  Status?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  RedshiftPid?: number;
-  HasResultSet?: boolean;
-  QueryString?: string;
-  ResultRows?: number;
-  ResultSize?: number;
-  RedshiftQueryId?: number;
-  QueryParameters?: SqlParameter[];
-  SubStatements?: SubStatementData[];
-  WorkgroupName?: string;
-  ResultFormat?: string;
-  SessionId?: string;
-  ExecutionMode?: string;
+  SecretArn?: string | undefined;
+  DbUser?: string | undefined;
+  Database?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  Duration?: number | undefined;
+  Error?: string | undefined;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  RedshiftPid?: number | undefined;
+  HasResultSet?: boolean | undefined;
+  QueryString?: string | undefined;
+  ResultRows?: number | undefined;
+  ResultSize?: number | undefined;
+  RedshiftQueryId?: number | undefined;
+  RedshiftQueryUuid?: string | undefined;
+  QueryParameters?: SqlParameter[] | undefined;
+  SubStatements?: SubStatementData[] | undefined;
+  WorkgroupName?: string | undefined;
+  ResultFormat?: string | undefined;
+  SessionId?: string | undefined;
+  ExecutionMode?: string | undefined;
 }
 export type PageSize = number;
 export interface DescribeTableRequest {
-  ClusterIdentifier?: string;
-  SecretArn?: string;
-  DbUser?: string;
+  ClusterIdentifier?: string | undefined;
+  SecretArn?: string | undefined;
+  DbUser?: string | undefined;
   Database: string;
-  ConnectedDatabase?: string;
-  Schema?: string;
-  Table?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  WorkgroupName?: string;
+  ConnectedDatabase?: string | undefined;
+  Schema?: string | undefined;
+  Table?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkgroupName?: string | undefined;
 }
 export interface ColumnMetadata {
-  isCaseSensitive?: boolean;
-  isCurrency?: boolean;
-  isSigned?: boolean;
-  label?: string;
-  name?: string;
-  nullable?: number;
-  precision?: number;
-  scale?: number;
-  schemaName?: string;
-  tableName?: string;
-  typeName?: string;
-  length?: number;
-  columnDefault?: string;
+  isCaseSensitive?: boolean | undefined;
+  isCurrency?: boolean | undefined;
+  isSigned?: boolean | undefined;
+  label?: string | undefined;
+  name?: string | undefined;
+  nullable?: number | undefined;
+  precision?: number | undefined;
+  scale?: number | undefined;
+  schemaName?: string | undefined;
+  tableName?: string | undefined;
+  typeName?: string | undefined;
+  length?: number | undefined;
+  columnDefault?: string | undefined;
 }
 export type ColumnList = ColumnMetadata[];
 export interface DescribeTableResponse {
-  TableName?: string;
-  ColumnList?: ColumnMetadata[];
-  NextToken?: string;
+  TableName?: string | undefined;
+  ColumnList?: ColumnMetadata[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ExecuteStatementInput {
   Sql: string;
-  ClusterIdentifier?: string;
-  SecretArn?: string;
-  DbUser?: string;
-  Database?: string;
-  WithEvent?: boolean;
-  StatementName?: string;
-  Parameters?: SqlParameter[];
-  WorkgroupName?: string;
-  ClientToken?: string;
-  ResultFormat?: string;
-  SessionKeepAliveSeconds?: number;
-  SessionId?: string;
-  WaitTimeSeconds?: number;
+  ClusterIdentifier?: string | undefined;
+  SecretArn?: string | undefined;
+  DbUser?: string | undefined;
+  Database?: string | undefined;
+  WithEvent?: boolean | undefined;
+  StatementName?: string | undefined;
+  Parameters?: SqlParameter[] | undefined;
+  WorkgroupName?: string | undefined;
+  ClientToken?: string | undefined;
+  ResultFormat?: string | undefined;
+  SessionKeepAliveSeconds?: number | undefined;
+  SessionId?: string | undefined;
+  WaitTimeSeconds?: number | undefined;
 }
 export interface ExecuteStatementOutput {
-  Id?: string;
-  CreatedAt?: Date;
-  ClusterIdentifier?: string;
-  DbUser?: string;
-  DbGroups?: string[];
-  Database?: string;
-  SecretArn?: string;
-  WorkgroupName?: string;
-  SessionId?: string;
-  Status?: string;
-  RedshiftPid?: number;
-  HasResultSet?: boolean;
+  Id?: string | undefined;
+  CreatedAt?: Date | undefined;
+  ClusterIdentifier?: string | undefined;
+  DbUser?: string | undefined;
+  DbGroups?: string[] | undefined;
+  Database?: string | undefined;
+  SecretArn?: string | undefined;
+  WorkgroupName?: string | undefined;
+  SessionId?: string | undefined;
+  Status?: string | undefined;
+  RedshiftPid?: number | undefined;
+  HasResultSet?: boolean | undefined;
 }
 export interface GetStatementResultRequest {
   Id: string;
-  NextToken?: string;
-  WaitTimeSeconds?: number;
+  NextToken?: string | undefined;
+  WaitTimeSeconds?: number | undefined;
 }
 export type BoxedDouble = number;
 export type Field =
   | {
       isNull: boolean;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
+      isNull?: undefined;
       booleanValue: boolean;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
       longValue: number;
-      doubleValue?: never;
-      stringValue?: never;
-      blobValue?: never;
+      doubleValue?: undefined;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
       doubleValue: number;
-      stringValue?: never;
-      blobValue?: never;
+      stringValue?: undefined;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
       stringValue: string;
-      blobValue?: never;
+      blobValue?: undefined;
     }
   | {
-      isNull?: never;
-      booleanValue?: never;
-      longValue?: never;
-      doubleValue?: never;
-      stringValue?: never;
+      isNull?: undefined;
+      booleanValue?: undefined;
+      longValue?: undefined;
+      doubleValue?: undefined;
+      stringValue?: undefined;
       blobValue: Uint8Array;
     };
 export type FieldList = Field[];
@@ -379,135 +382,135 @@ export type SqlRecords = Field[][];
 export type ColumnMetadataList = ColumnMetadata[];
 export interface GetStatementResultResponse {
   Records: Field[][];
-  ColumnMetadata?: ColumnMetadata[];
-  TotalNumRows?: number;
-  NextToken?: string;
+  ColumnMetadata?: ColumnMetadata[] | undefined;
+  TotalNumRows?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetStatementResultV2Request {
   Id: string;
-  NextToken?: string;
-  WaitTimeSeconds?: number;
+  NextToken?: string | undefined;
+  WaitTimeSeconds?: number | undefined;
 }
 export type QueryRecords = { CSVRecords: string };
 export type FormattedSqlRecords = QueryRecords[];
 export interface GetStatementResultV2Response {
   Records: QueryRecords[];
-  ColumnMetadata?: ColumnMetadata[];
-  TotalNumRows?: number;
-  ResultFormat?: string;
-  NextToken?: string;
+  ColumnMetadata?: ColumnMetadata[] | undefined;
+  TotalNumRows?: number | undefined;
+  ResultFormat?: string | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDatabasesRequest {
-  ClusterIdentifier?: string;
-  Database?: string;
-  SecretArn?: string;
-  DbUser?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  WorkgroupName?: string;
+  ClusterIdentifier?: string | undefined;
+  Database?: string | undefined;
+  SecretArn?: string | undefined;
+  DbUser?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkgroupName?: string | undefined;
 }
 export type DatabaseList = string[];
 export interface ListDatabasesResponse {
-  Databases?: string[];
-  NextToken?: string;
+  Databases?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSchemasRequest {
-  ClusterIdentifier?: string;
-  SecretArn?: string;
-  DbUser?: string;
+  ClusterIdentifier?: string | undefined;
+  SecretArn?: string | undefined;
+  DbUser?: string | undefined;
   Database: string;
-  ConnectedDatabase?: string;
-  SchemaPattern?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  WorkgroupName?: string;
+  ConnectedDatabase?: string | undefined;
+  SchemaPattern?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkgroupName?: string | undefined;
 }
 export type SchemaList = string[];
 export interface ListSchemasResponse {
-  Schemas?: string[];
-  NextToken?: string;
+  Schemas?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListStatementsLimit = number;
 export type SessionStatusString = string;
 export interface ListSessionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  SessionId?: string;
-  Status?: string;
-  RoleLevel?: boolean;
-  ClusterIdentifier?: string;
-  WorkgroupName?: string;
-  Database?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  SessionId?: string | undefined;
+  Status?: string | undefined;
+  RoleLevel?: boolean | undefined;
+  ClusterIdentifier?: string | undefined;
+  WorkgroupName?: string | undefined;
+  Database?: string | undefined;
 }
 export interface SessionData {
   SessionId: string;
   Status: string;
   CreatedAt: Date;
-  UpdatedAt?: Date;
-  Database?: string;
-  DbUser?: string;
-  ClusterIdentifier?: string;
-  WorkgroupName?: string;
-  SessionAliveSeconds?: number;
-  SessionTtl?: Date;
-  CurrentStatementId?: string;
+  UpdatedAt?: Date | undefined;
+  Database?: string | undefined;
+  DbUser?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  WorkgroupName?: string | undefined;
+  SessionAliveSeconds?: number | undefined;
+  SessionTtl?: Date | undefined;
+  CurrentStatementId?: string | undefined;
 }
 export type SessionList = SessionData[];
 export interface ListSessionsResponse {
   Sessions: SessionData[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListStatementsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  StatementName?: string;
-  Status?: string;
-  RoleLevel?: boolean;
-  Database?: string;
-  ClusterIdentifier?: string;
-  WorkgroupName?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StatementName?: string | undefined;
+  Status?: string | undefined;
+  RoleLevel?: boolean | undefined;
+  Database?: string | undefined;
+  ClusterIdentifier?: string | undefined;
+  WorkgroupName?: string | undefined;
 }
 export type StatementStringList = string[];
 export interface StatementData {
   Id: string;
-  QueryString?: string;
-  QueryStrings?: string[];
-  SecretArn?: string;
-  Status?: string;
-  StatementName?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  QueryParameters?: SqlParameter[];
-  IsBatchStatement?: boolean;
-  ResultFormat?: string;
-  SessionId?: string;
+  QueryString?: string | undefined;
+  QueryStrings?: string[] | undefined;
+  SecretArn?: string | undefined;
+  Status?: string | undefined;
+  StatementName?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  QueryParameters?: SqlParameter[] | undefined;
+  IsBatchStatement?: boolean | undefined;
+  ResultFormat?: string | undefined;
+  SessionId?: string | undefined;
 }
 export type StatementList = StatementData[];
 export interface ListStatementsResponse {
   Statements: StatementData[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTablesRequest {
-  ClusterIdentifier?: string;
-  SecretArn?: string;
-  DbUser?: string;
+  ClusterIdentifier?: string | undefined;
+  SecretArn?: string | undefined;
+  DbUser?: string | undefined;
   Database: string;
-  ConnectedDatabase?: string;
-  SchemaPattern?: string;
-  TablePattern?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  WorkgroupName?: string;
+  ConnectedDatabase?: string | undefined;
+  SchemaPattern?: string | undefined;
+  TablePattern?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  WorkgroupName?: string | undefined;
 }
 export interface TableMember {
-  name?: string;
-  type?: string;
-  schema?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  schema?: string | undefined;
 }
 export type TableList = TableMember[];
 export interface ListTablesResponse {
-  Tables?: TableMember[];
-  NextToken?: string;
+  Tables?: TableMember[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BatchExecuteStatementError =
   | ActiveSessionsExceededException
@@ -533,7 +536,7 @@ export type BatchExecuteStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const batchExecuteStatement: API.OperationMethod<
-  BatchExecuteStatementInput,
+  BatchExecuteStatementInput & RegionInput,
   BatchExecuteStatementOutput,
   BatchExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -568,7 +571,7 @@ export type CancelStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const cancelStatement: API.OperationMethod<
-  CancelStatementRequest,
+  CancelStatementRequest & RegionInput,
   CancelStatementResponse,
   CancelStatementError,
   Credentials | HttpClient.HttpClient
@@ -601,7 +604,7 @@ export type DescribeStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const describeStatement: API.OperationMethod<
-  DescribeStatementRequest,
+  DescribeStatementRequest & RegionInput,
   DescribeStatementResponse,
   DescribeStatementError,
   Credentials | HttpClient.HttpClient
@@ -644,7 +647,7 @@ export type DescribeTableError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const describeTable: API.PaginatedOperationMethod<
-  DescribeTableRequest,
+  DescribeTableRequest & RegionInput,
   DescribeTableResponse,
   DescribeTableError,
   Credentials | HttpClient.HttpClient,
@@ -696,7 +699,7 @@ export type ExecuteStatementError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const executeStatement: API.OperationMethod<
-  ExecuteStatementInput,
+  ExecuteStatementInput & RegionInput,
   ExecuteStatementOutput,
   ExecuteStatementError,
   Credentials | HttpClient.HttpClient
@@ -730,7 +733,7 @@ export type GetStatementResultError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const getStatementResult: API.PaginatedOperationMethod<
-  GetStatementResultRequest,
+  GetStatementResultRequest & RegionInput,
   GetStatementResultResponse,
   GetStatementResultError,
   Credentials | HttpClient.HttpClient,
@@ -764,7 +767,7 @@ export type GetStatementResultV2Error =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const getStatementResultV2: API.PaginatedOperationMethod<
-  GetStatementResultV2Request,
+  GetStatementResultV2Request & RegionInput,
   GetStatementResultV2Response,
   GetStatementResultV2Error,
   Credentials | HttpClient.HttpClient,
@@ -809,7 +812,7 @@ export type ListDatabasesError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listDatabases: API.PaginatedOperationMethod<
-  ListDatabasesRequest,
+  ListDatabasesRequest & RegionInput,
   ListDatabasesResponse,
   ListDatabasesError,
   Credentials | HttpClient.HttpClient,
@@ -860,7 +863,7 @@ export type ListSchemasError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listSchemas: API.PaginatedOperationMethod<
-  ListSchemasRequest,
+  ListSchemasRequest & RegionInput,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient,
@@ -899,7 +902,7 @@ export type ListSessionsError =
  * Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the `ClusterIdentifier` or `WorkgroupName` parameter to ensure that the IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see Trusted identity propagation overview.
  */
 export const listSessions: API.PaginatedOperationMethod<
-  ListSessionsRequest,
+  ListSessionsRequest & RegionInput,
   ListSessionsResponse,
   ListSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -934,7 +937,7 @@ export type ListStatementsError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listStatements: API.PaginatedOperationMethod<
-  ListStatementsRequest,
+  ListStatementsRequest & RegionInput,
   ListStatementsResponse,
   ListStatementsError,
   Credentials | HttpClient.HttpClient,
@@ -979,7 +982,7 @@ export type ListTablesError =
  * For more information about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in the *Amazon Redshift Management Guide*.
  */
 export const listTables: API.PaginatedOperationMethod<
-  ListTablesRequest,
+  ListTablesRequest & RegionInput,
   ListTablesResponse,
   ListTablesError,
   Credentials | HttpClient.HttpClient,
@@ -1104,6 +1107,7 @@ function __c5(j: number): any {
           ResultRows: S.optional(S.Number),
           ResultSize: S.optional(S.Number),
           RedshiftQueryId: S.optional(S.Number),
+          RedshiftQueryUuid: S.optional(S.String),
           HasResultSet: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SubStatementData" });
@@ -1128,6 +1132,7 @@ function __c5(j: number): any {
           ResultRows: S.optional(S.Number),
           ResultSize: S.optional(S.Number),
           RedshiftQueryId: S.optional(S.Number),
+          RedshiftQueryUuid: S.optional(S.String),
           QueryParameters: S.optional(__S(9, __c1, 1)),
           SubStatements: S.optional(__S(42, __c5, 2)),
           WorkgroupName: S.optional(S.String),

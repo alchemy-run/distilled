@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -186,7 +187,7 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateEmailContactRequest {
   name: string | redacted.Redacted<string>;
   emailAddress: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEmailContactResponse {
   arn: string;
@@ -214,19 +215,19 @@ export interface GetEmailContactResponse {
   emailContact: EmailContact;
 }
 export interface ListEmailContactsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type EmailContacts = EmailContact[];
 export interface ListEmailContactsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   emailContacts: EmailContact[];
 }
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface SendActivationCodeRequest {
   arn: string;
@@ -266,7 +267,7 @@ export type ActivateEmailContactError =
  * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
  */
 export const activateEmailContact: API.OperationMethod<
-  ActivateEmailContactRequest,
+  ActivateEmailContactRequest & RegionInput,
   ActivateEmailContactResponse,
   ActivateEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -300,7 +301,7 @@ export type CreateEmailContactError =
  * Creates an email contact for the provided email address.
  */
 export const createEmailContact: API.OperationMethod<
-  CreateEmailContactRequest,
+  CreateEmailContactRequest & RegionInput,
   CreateEmailContactResponse,
   CreateEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -336,7 +337,7 @@ export type DeleteEmailContactError =
  * Deleting an email contact removes it from all associated notification configurations.
  */
 export const deleteEmailContact: API.OperationMethod<
-  DeleteEmailContactRequest,
+  DeleteEmailContactRequest & RegionInput,
   DeleteEmailContactResponse,
   DeleteEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -369,7 +370,7 @@ export type GetEmailContactError =
  * Returns an email contact.
  */
 export const getEmailContact: API.OperationMethod<
-  GetEmailContactRequest,
+  GetEmailContactRequest & RegionInput,
   GetEmailContactResponse,
   GetEmailContactError,
   Credentials | HttpClient.HttpClient
@@ -400,7 +401,7 @@ export type ListEmailContactsError =
  * Lists all email contacts created under the Account.
  */
 export const listEmailContacts: API.PaginatedOperationMethod<
-  ListEmailContactsRequest,
+  ListEmailContactsRequest & RegionInput,
   ListEmailContactsResponse,
   ListEmailContactsError,
   Credentials | HttpClient.HttpClient,
@@ -438,7 +439,7 @@ export type ListTagsForResourceError =
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -473,7 +474,7 @@ export type SendActivationCodeError =
  * It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
  */
 export const sendActivationCode: API.OperationMethod<
-  SendActivationCodeRequest,
+  SendActivationCodeRequest & RegionInput,
   SendActivationCodeResponse,
   SendActivationCodeError,
   Credentials | HttpClient.HttpClient
@@ -506,7 +507,7 @@ export type TagResourceError =
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -538,7 +539,7 @@ export type UntagResourceError =
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts..
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient

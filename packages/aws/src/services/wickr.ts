@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -144,75 +145,75 @@ export type SensitiveString = string | redacted.Redacted<string>;
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
 export interface BatchCreateUserRequestItem {
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
   securityGroupIds: string[];
   username: string;
-  inviteCode?: string;
-  inviteCodeTtl?: number;
-  codeValidation?: boolean;
+  inviteCode?: string | undefined;
+  inviteCodeTtl?: number | undefined;
+  codeValidation?: boolean | undefined;
 }
 export type BatchCreateUserRequestItems = BatchCreateUserRequestItem[];
 export type ClientToken = string;
 export interface BatchCreateUserRequest {
   networkId: string;
   users: BatchCreateUserRequestItem[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type UserId = string;
 export interface User {
-  userId?: string;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  username?: string;
-  securityGroups?: string[];
-  isAdmin?: boolean;
-  suspended?: boolean;
-  status?: number;
-  otpEnabled?: boolean;
-  scimId?: string;
-  type?: string;
-  cell?: string;
-  countryCode?: string;
-  challengeFailures?: number;
-  isInviteExpired?: boolean;
-  isUser?: boolean;
-  inviteCode?: string;
-  codeValidation?: boolean;
-  uname?: string;
+  userId?: string | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  username?: string | undefined;
+  securityGroups?: string[] | undefined;
+  isAdmin?: boolean | undefined;
+  suspended?: boolean | undefined;
+  status?: number | undefined;
+  otpEnabled?: boolean | undefined;
+  scimId?: string | undefined;
+  type?: string | undefined;
+  cell?: string | undefined;
+  countryCode?: string | undefined;
+  challengeFailures?: number | undefined;
+  isInviteExpired?: boolean | undefined;
+  isUser?: boolean | undefined;
+  inviteCode?: string | undefined;
+  codeValidation?: boolean | undefined;
+  uname?: string | undefined;
 }
 export type Users = User[];
 export interface BatchUserErrorResponseItem {
-  field?: string;
-  reason?: string;
+  field?: string | undefined;
+  reason?: string | undefined;
   userId: string;
 }
 export type BatchUserErrorResponseItems = BatchUserErrorResponseItem[];
 export interface BatchCreateUserResponse {
-  message?: string;
-  successful?: User[];
-  failed?: BatchUserErrorResponseItem[];
+  message?: string | undefined;
+  successful?: User[] | undefined;
+  failed?: BatchUserErrorResponseItem[] | undefined;
 }
 export type UserIds = string[];
 export interface BatchDeleteUserRequest {
   networkId: string;
   userIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface BatchUserSuccessResponseItem {
   userId: string;
 }
 export type BatchUserSuccessResponseItems = BatchUserSuccessResponseItem[];
 export interface BatchDeleteUserResponse {
-  message?: string;
-  successful?: BatchUserSuccessResponseItem[];
-  failed?: BatchUserErrorResponseItem[];
+  message?: string | undefined;
+  successful?: BatchUserSuccessResponseItem[] | undefined;
+  failed?: BatchUserErrorResponseItem[] | undefined;
 }
 export type Unames = string[];
 export interface BatchLookupUserUnameRequest {
   networkId: string;
   unames: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type Uname = string;
 export interface BatchUnameSuccessResponseItem {
@@ -221,80 +222,80 @@ export interface BatchUnameSuccessResponseItem {
 }
 export type BatchUnameSuccessResponseItems = BatchUnameSuccessResponseItem[];
 export interface BatchUnameErrorResponseItem {
-  field?: string;
-  reason?: string;
+  field?: string | undefined;
+  reason?: string | undefined;
   uname: string;
 }
 export type BatchUnameErrorResponseItems = BatchUnameErrorResponseItem[];
 export interface BatchLookupUserUnameResponse {
-  message?: string;
-  successful?: BatchUnameSuccessResponseItem[];
-  failed?: BatchUnameErrorResponseItem[];
+  message?: string | undefined;
+  successful?: BatchUnameSuccessResponseItem[] | undefined;
+  failed?: BatchUnameErrorResponseItem[] | undefined;
 }
 export interface BatchReinviteUserRequest {
   networkId: string;
   userIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface BatchReinviteUserResponse {
-  message?: string;
-  successful?: BatchUserSuccessResponseItem[];
-  failed?: BatchUserErrorResponseItem[];
+  message?: string | undefined;
+  successful?: BatchUserSuccessResponseItem[] | undefined;
+  failed?: BatchUserErrorResponseItem[] | undefined;
 }
 export type AppIds = string[];
 export interface BatchResetDevicesForUserRequest {
   networkId: string;
   userId: string;
   appIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface BatchDeviceSuccessResponseItem {
   appId: string;
 }
 export type BatchDeviceSuccessResponseItems = BatchDeviceSuccessResponseItem[];
 export interface BatchDeviceErrorResponseItem {
-  field?: string;
-  reason?: string;
+  field?: string | undefined;
+  reason?: string | undefined;
   appId: string;
 }
 export type BatchDeviceErrorResponseItems = BatchDeviceErrorResponseItem[];
 export interface BatchResetDevicesForUserResponse {
-  message?: string;
-  successful?: BatchDeviceSuccessResponseItem[];
-  failed?: BatchDeviceErrorResponseItem[];
+  message?: string | undefined;
+  successful?: BatchDeviceSuccessResponseItem[] | undefined;
+  failed?: BatchDeviceErrorResponseItem[] | undefined;
 }
 export interface BatchToggleUserSuspendStatusRequest {
   networkId: string;
   suspend: boolean;
   userIds: string[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface BatchToggleUserSuspendStatusResponse {
-  message?: string;
-  successful?: BatchUserSuccessResponseItem[];
-  failed?: BatchUserErrorResponseItem[];
+  message?: string | undefined;
+  successful?: BatchUserSuccessResponseItem[] | undefined;
+  failed?: BatchUserErrorResponseItem[] | undefined;
 }
 export interface CreateBotRequest {
   networkId: string;
   username: string;
-  displayName?: string;
+  displayName?: string | undefined;
   groupId: string;
   challenge: string | redacted.Redacted<string>;
 }
 export type BotId = string;
 export interface CreateBotResponse {
-  message?: string;
+  message?: string | undefined;
   botId: string;
-  networkId?: string;
-  username?: string;
-  displayName?: string;
-  groupId?: string;
+  networkId?: string | undefined;
+  username?: string | undefined;
+  displayName?: string | undefined;
+  groupId?: string | undefined;
 }
 export interface CreateDataRetentionBotRequest {
   networkId: string;
 }
 export interface CreateDataRetentionBotResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface CreateDataRetentionBotChallengeRequest {
   networkId: string;
@@ -306,13 +307,13 @@ export type AccessLevel = "STANDARD" | "PREMIUM" | (string & {});
 export interface CreateNetworkRequest {
   networkName: string;
   accessLevel: AccessLevel;
-  enablePremiumFreeTrial?: boolean;
-  encryptionKeyArn?: string;
+  enablePremiumFreeTrial?: boolean | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export interface CreateNetworkResponse {
-  networkId?: string;
-  networkName?: string;
-  encryptionKeyArn?: string;
+  networkId?: string | undefined;
+  networkName?: string | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export type PermittedNetworksList = string[];
 export interface WickrAwsNetworks {
@@ -326,80 +327,80 @@ export interface PermittedWickrEnterpriseNetwork {
 }
 export type PermittedWickrEnterpriseNetworksList = PermittedWickrEnterpriseNetwork[];
 export interface SecurityGroupSettingsRequest {
-  lockoutThreshold?: number;
-  permittedNetworks?: string[];
-  enableGuestFederation?: boolean;
-  globalFederation?: boolean;
-  federationMode?: number;
-  enableRestrictedGlobalFederation?: boolean;
-  permittedWickrAwsNetworks?: WickrAwsNetworks[];
-  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetwork[];
+  lockoutThreshold?: number | undefined;
+  permittedNetworks?: string[] | undefined;
+  enableGuestFederation?: boolean | undefined;
+  globalFederation?: boolean | undefined;
+  federationMode?: number | undefined;
+  enableRestrictedGlobalFederation?: boolean | undefined;
+  permittedWickrAwsNetworks?: WickrAwsNetworks[] | undefined;
+  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetwork[] | undefined;
 }
 export interface CreateSecurityGroupRequest {
   networkId: string;
   name: string;
   securityGroupSettings: SecurityGroupSettingsRequest;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type SecurityGroupStringList = string[];
 export interface CallingSettings {
-  canStart11Call?: boolean;
-  canVideoCall?: boolean;
-  forceTcpCall?: boolean;
+  canStart11Call?: boolean | undefined;
+  canVideoCall?: boolean | undefined;
+  forceTcpCall?: boolean | undefined;
 }
 export interface PasswordRequirements {
-  lowercase?: number;
-  minLength?: number;
-  numbers?: number;
-  symbols?: number;
-  uppercase?: number;
+  lowercase?: number | undefined;
+  minLength?: number | undefined;
+  numbers?: number | undefined;
+  symbols?: number | undefined;
+  uppercase?: number | undefined;
 }
 export interface ShredderSettings {
-  canProcessManually?: boolean;
-  intensity?: number;
+  canProcessManually?: boolean | undefined;
+  intensity?: number | undefined;
 }
 export interface SecurityGroupSettings {
-  alwaysReauthenticate?: boolean;
-  atakPackageValues?: string[];
-  calling?: CallingSettings;
-  checkForUpdates?: boolean;
-  enableAtak?: boolean;
-  enableCrashReports?: boolean;
-  enableFileDownload?: boolean;
-  enableGuestFederation?: boolean;
-  enableNotificationPreview?: boolean;
-  enableOpenAccessOption?: boolean;
-  enableRestrictedGlobalFederation?: boolean;
-  filesEnabled?: boolean;
-  forceDeviceLockout?: number;
-  forceOpenAccess?: boolean;
-  forceReadReceipts?: boolean;
-  globalFederation?: boolean;
-  isAtoEnabled?: boolean;
-  isLinkPreviewEnabled?: boolean;
-  locationAllowMaps?: boolean;
-  locationEnabled?: boolean;
-  maxAutoDownloadSize?: number;
-  maxBor?: number;
-  maxTtl?: number;
-  messageForwardingEnabled?: boolean;
-  passwordRequirements?: PasswordRequirements;
-  presenceEnabled?: boolean;
-  quickResponses?: string[];
-  showMasterRecoveryKey?: boolean;
-  shredder?: ShredderSettings;
-  ssoMaxIdleMinutes?: number;
-  maxNonSsoSessionMinutes?: number;
-  federationMode?: number;
-  lockoutThreshold?: number;
-  permittedNetworks?: string[];
-  permittedWickrAwsNetworks?: WickrAwsNetworks[];
-  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetwork[];
+  alwaysReauthenticate?: boolean | undefined;
+  atakPackageValues?: string[] | undefined;
+  calling?: CallingSettings | undefined;
+  checkForUpdates?: boolean | undefined;
+  enableAtak?: boolean | undefined;
+  enableCrashReports?: boolean | undefined;
+  enableFileDownload?: boolean | undefined;
+  enableGuestFederation?: boolean | undefined;
+  enableNotificationPreview?: boolean | undefined;
+  enableOpenAccessOption?: boolean | undefined;
+  enableRestrictedGlobalFederation?: boolean | undefined;
+  filesEnabled?: boolean | undefined;
+  forceDeviceLockout?: number | undefined;
+  forceOpenAccess?: boolean | undefined;
+  forceReadReceipts?: boolean | undefined;
+  globalFederation?: boolean | undefined;
+  isAtoEnabled?: boolean | undefined;
+  isLinkPreviewEnabled?: boolean | undefined;
+  locationAllowMaps?: boolean | undefined;
+  locationEnabled?: boolean | undefined;
+  maxAutoDownloadSize?: number | undefined;
+  maxBor?: number | undefined;
+  maxTtl?: number | undefined;
+  messageForwardingEnabled?: boolean | undefined;
+  passwordRequirements?: PasswordRequirements | undefined;
+  presenceEnabled?: boolean | undefined;
+  quickResponses?: string[] | undefined;
+  showMasterRecoveryKey?: boolean | undefined;
+  shredder?: ShredderSettings | undefined;
+  ssoMaxIdleMinutes?: number | undefined;
+  maxNonSsoSessionMinutes?: number | undefined;
+  federationMode?: number | undefined;
+  lockoutThreshold?: number | undefined;
+  permittedNetworks?: string[] | undefined;
+  permittedWickrAwsNetworks?: WickrAwsNetworks[] | undefined;
+  permittedWickrEnterpriseNetworks?: PermittedWickrEnterpriseNetwork[] | undefined;
 }
 export interface SecurityGroup {
   activeMembers: number;
   botMembers: number;
-  activeDirectoryGuid?: string;
+  activeDirectoryGuid?: string | undefined;
   id: string;
   isDefault: boolean;
   name: string;
@@ -414,29 +415,29 @@ export interface DeleteBotRequest {
   botId: string;
 }
 export interface DeleteBotResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDataRetentionBotRequest {
   networkId: string;
 }
 export interface DeleteDataRetentionBotResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteNetworkRequest {
   networkId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteNetworkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSecurityGroupRequest {
   networkId: string;
   groupId: string;
 }
 export interface DeleteSecurityGroupResponse {
-  message?: string;
-  networkId?: string;
-  groupId?: string;
+  message?: string | undefined;
+  networkId?: string | undefined;
+  groupId?: string | undefined;
 }
 export interface GetBotRequest {
   networkId: string;
@@ -444,16 +445,16 @@ export interface GetBotRequest {
 }
 export type BotStatus = 1 | 2 | (number & {});
 export interface GetBotResponse {
-  botId?: string;
-  displayName?: string;
-  username?: string;
-  uname?: string;
-  pubkey?: string;
-  status?: BotStatus;
-  groupId?: string;
-  hasChallenge?: boolean;
-  suspended?: boolean;
-  lastLogin?: string;
+  botId?: string | undefined;
+  displayName?: string | undefined;
+  username?: string | undefined;
+  uname?: string | undefined;
+  pubkey?: string | undefined;
+  status?: BotStatus | undefined;
+  groupId?: string | undefined;
+  hasChallenge?: boolean | undefined;
+  suspended?: boolean | undefined;
+  lastLogin?: string | undefined;
 }
 export interface GetBotsCountRequest {
   networkId: string;
@@ -467,12 +468,12 @@ export interface GetDataRetentionBotRequest {
   networkId: string;
 }
 export interface GetDataRetentionBotResponse {
-  botName?: string;
-  botExists?: boolean;
-  isBotActive?: boolean;
-  isDataRetentionBotRegistered?: boolean;
-  isDataRetentionServiceEnabled?: boolean;
-  isPubkeyMsgAcked?: boolean;
+  botName?: string | undefined;
+  botExists?: boolean | undefined;
+  isBotActive?: boolean | undefined;
+  isDataRetentionBotRegistered?: boolean | undefined;
+  isDataRetentionServiceEnabled?: boolean | undefined;
+  isPubkeyMsgAcked?: boolean | undefined;
 }
 export interface GetGuestUserHistoryCountRequest {
   networkId: string;
@@ -494,10 +495,10 @@ export interface GetNetworkResponse {
   accessLevel: AccessLevel;
   awsAccountId: string;
   networkArn: string;
-  standing?: number;
-  freeTrialExpiration?: string;
-  migrationState?: number;
-  encryptionKeyArn?: string;
+  standing?: number | undefined;
+  freeTrialExpiration?: string | undefined;
+  migrationState?: number | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export interface GetNetworkSettingsRequest {
   networkId: string;
@@ -513,43 +514,43 @@ export interface GetNetworkSettingsResponse {
 }
 export interface GetOidcInfoRequest {
   networkId: string;
-  clientId?: string;
-  code?: string;
-  grantType?: string;
-  redirectUri?: string;
-  url?: string;
-  clientSecret?: string | redacted.Redacted<string>;
-  codeVerifier?: string;
-  certificate?: string;
+  clientId?: string | undefined;
+  code?: string | undefined;
+  grantType?: string | undefined;
+  redirectUri?: string | undefined;
+  url?: string | undefined;
+  clientSecret?: string | redacted.Redacted<string> | undefined;
+  codeVerifier?: string | undefined;
+  certificate?: string | undefined;
 }
 export interface OidcConfigInfo {
-  applicationName?: string;
-  clientId?: string;
+  applicationName?: string | undefined;
+  clientId?: string | undefined;
   companyId: string;
   scopes: string;
   issuer: string;
-  clientSecret?: string | redacted.Redacted<string>;
-  secret?: string | redacted.Redacted<string>;
-  redirectUrl?: string;
-  userId?: string;
-  customUsername?: string;
-  caCertificate?: string;
-  applicationId?: number;
-  ssoTokenBufferMinutes?: number;
-  extraAuthParams?: string;
+  clientSecret?: string | redacted.Redacted<string> | undefined;
+  secret?: string | redacted.Redacted<string> | undefined;
+  redirectUrl?: string | undefined;
+  userId?: string | undefined;
+  customUsername?: string | undefined;
+  caCertificate?: string | undefined;
+  applicationId?: number | undefined;
+  ssoTokenBufferMinutes?: number | undefined;
+  extraAuthParams?: string | undefined;
 }
 export interface OidcTokenInfo {
-  codeVerifier?: string;
-  codeChallenge?: string;
-  accessToken?: string;
-  idToken?: string;
-  refreshToken?: string;
-  tokenType?: string;
-  expiresIn?: number;
+  codeVerifier?: string | undefined;
+  codeChallenge?: string | undefined;
+  accessToken?: string | undefined;
+  idToken?: string | undefined;
+  refreshToken?: string | undefined;
+  tokenType?: string | undefined;
+  expiresIn?: number | undefined;
 }
 export interface GetOidcInfoResponse {
-  openidConnectInfo?: OidcConfigInfo;
-  tokenInfo?: OidcTokenInfo;
+  openidConnectInfo?: OidcConfigInfo | undefined;
+  tokenInfo?: OidcTokenInfo | undefined;
 }
 export interface GetOpentdfConfigRequest {
   networkId: string;
@@ -570,20 +571,20 @@ export interface GetSecurityGroupResponse {
 export interface GetUserRequest {
   networkId: string;
   userId: string;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface GetUserResponse {
   userId: string;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  username?: string;
-  isAdmin?: boolean;
-  suspended?: boolean;
-  status?: number;
-  lastActivity?: number;
-  lastLogin?: number;
-  securityGroupIds?: string[];
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  username?: string | undefined;
+  isAdmin?: boolean | undefined;
+  suspended?: boolean | undefined;
+  status?: number | undefined;
+  lastActivity?: number | undefined;
+  lastLogin?: number | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export interface GetUsersCountRequest {
   networkId: string;
@@ -598,12 +599,12 @@ export interface GetUsersCountResponse {
 export type SortDirection = "ASC" | "DESC" | (string & {});
 export interface ListBlockedGuestUsersRequest {
   networkId: string;
-  maxResults?: number;
-  sortDirection?: SortDirection;
-  sortFields?: string;
-  username?: string;
-  admin?: string;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  sortDirection?: SortDirection | undefined;
+  sortFields?: string | undefined;
+  username?: string | undefined;
+  admin?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface BlockedGuestUser {
   username: string;
@@ -613,66 +614,66 @@ export interface BlockedGuestUser {
 }
 export type BlockedGuestUserList = BlockedGuestUser[];
 export interface ListBlockedGuestUsersResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   blocklist: BlockedGuestUser[];
 }
 export interface ListBotsRequest {
   networkId: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortFields?: string;
-  sortDirection?: SortDirection;
-  displayName?: string;
-  username?: string;
-  status?: BotStatus;
-  groupId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortFields?: string | undefined;
+  sortDirection?: SortDirection | undefined;
+  displayName?: string | undefined;
+  username?: string | undefined;
+  status?: BotStatus | undefined;
+  groupId?: string | undefined;
 }
 export interface Bot {
-  botId?: string;
-  displayName?: string;
-  username?: string;
-  uname?: string;
-  pubkey?: string;
-  status?: BotStatus;
-  groupId?: string;
-  hasChallenge?: boolean;
-  suspended?: boolean;
-  lastLogin?: string;
+  botId?: string | undefined;
+  displayName?: string | undefined;
+  username?: string | undefined;
+  uname?: string | undefined;
+  pubkey?: string | undefined;
+  status?: BotStatus | undefined;
+  groupId?: string | undefined;
+  hasChallenge?: boolean | undefined;
+  suspended?: boolean | undefined;
+  lastLogin?: string | undefined;
 }
 export type Bots = Bot[];
 export interface ListBotsResponse {
   bots: Bot[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDevicesForUserRequest {
   networkId: string;
   userId: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortFields?: string;
-  sortDirection?: SortDirection;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortFields?: string | undefined;
+  sortDirection?: SortDirection | undefined;
 }
 export interface BasicDeviceObject {
-  appId?: string;
-  created?: string;
-  lastLogin?: string;
-  statusText?: string;
-  suspend?: boolean;
-  type?: string;
+  appId?: string | undefined;
+  created?: string | undefined;
+  lastLogin?: string | undefined;
+  statusText?: string | undefined;
+  suspend?: boolean | undefined;
+  type?: string | undefined;
 }
 export type Devices = BasicDeviceObject[];
 export interface ListDevicesForUserResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   devices: BasicDeviceObject[];
 }
 export interface ListGuestUsersRequest {
   networkId: string;
-  maxResults?: number;
-  sortDirection?: SortDirection;
-  sortFields?: string;
-  username?: string;
-  billingPeriod?: string;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  sortDirection?: SortDirection | undefined;
+  sortFields?: string | undefined;
+  username?: string | undefined;
+  billingPeriod?: string | undefined;
+  nextToken?: string | undefined;
 }
 export interface GuestUser {
   billingPeriod: string;
@@ -681,14 +682,14 @@ export interface GuestUser {
 }
 export type GuestUserList = GuestUser[];
 export interface ListGuestUsersResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   guestlist: GuestUser[];
 }
 export interface ListNetworksRequest {
-  maxResults?: number;
-  sortFields?: string;
-  sortDirection?: SortDirection;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  sortFields?: string | undefined;
+  sortDirection?: SortDirection | undefined;
+  nextToken?: string | undefined;
 }
 export interface Network {
   networkId: string;
@@ -696,105 +697,105 @@ export interface Network {
   accessLevel: AccessLevel;
   awsAccountId: string;
   networkArn: string;
-  standing?: number;
-  freeTrialExpiration?: string;
-  migrationState?: number;
-  encryptionKeyArn?: string;
+  standing?: number | undefined;
+  freeTrialExpiration?: string | undefined;
+  migrationState?: number | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export type NetworkList = Network[];
 export interface ListNetworksResponse {
   networks: Network[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityGroupsRequest {
   networkId: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortFields?: string;
-  sortDirection?: SortDirection;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortFields?: string | undefined;
+  sortDirection?: SortDirection | undefined;
 }
 export type SecurityGroupList = SecurityGroup[];
 export interface ListSecurityGroupsResponse {
-  securityGroups?: SecurityGroup[];
-  nextToken?: string;
+  securityGroups?: SecurityGroup[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityGroupUsersRequest {
   networkId: string;
   groupId: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortFields?: string;
-  sortDirection?: SortDirection;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortFields?: string | undefined;
+  sortDirection?: SortDirection | undefined;
 }
 export interface ListSecurityGroupUsersResponse {
   users: User[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type UserStatus = 1 | 2 | (number & {});
 export interface ListUsersRequest {
   networkId: string;
-  nextToken?: string;
-  maxResults?: number;
-  sortFields?: string;
-  sortDirection?: SortDirection;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  username?: string;
-  status?: UserStatus;
-  groupId?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  sortFields?: string | undefined;
+  sortDirection?: SortDirection | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  username?: string | undefined;
+  status?: UserStatus | undefined;
+  groupId?: string | undefined;
 }
 export interface ListUsersResponse {
-  nextToken?: string;
-  users?: User[];
+  nextToken?: string | undefined;
+  users?: User[] | undefined;
 }
 export interface RegisterOidcConfigRequest {
   networkId: string;
   companyId: string;
-  customUsername?: string;
-  extraAuthParams?: string;
+  customUsername?: string | undefined;
+  extraAuthParams?: string | undefined;
   issuer: string;
   scopes: string;
-  secret?: string | redacted.Redacted<string>;
-  ssoTokenBufferMinutes?: number;
-  userId?: string;
+  secret?: string | redacted.Redacted<string> | undefined;
+  ssoTokenBufferMinutes?: number | undefined;
+  userId?: string | undefined;
 }
 export interface RegisterOidcConfigResponse {
-  applicationName?: string;
-  clientId?: string;
+  applicationName?: string | undefined;
+  clientId?: string | undefined;
   companyId: string;
   scopes: string;
   issuer: string;
-  clientSecret?: string | redacted.Redacted<string>;
-  secret?: string | redacted.Redacted<string>;
-  redirectUrl?: string;
-  userId?: string;
-  customUsername?: string;
-  caCertificate?: string;
-  applicationId?: number;
-  ssoTokenBufferMinutes?: number;
-  extraAuthParams?: string;
+  clientSecret?: string | redacted.Redacted<string> | undefined;
+  secret?: string | redacted.Redacted<string> | undefined;
+  redirectUrl?: string | undefined;
+  userId?: string | undefined;
+  customUsername?: string | undefined;
+  caCertificate?: string | undefined;
+  applicationId?: number | undefined;
+  ssoTokenBufferMinutes?: number | undefined;
+  extraAuthParams?: string | undefined;
 }
 export interface RegisterOidcConfigTestRequest {
   networkId: string;
-  extraAuthParams?: string;
+  extraAuthParams?: string | undefined;
   issuer: string;
   scopes: string;
-  certificate?: string;
+  certificate?: string | undefined;
 }
 export type StringList = string[];
 export interface RegisterOidcConfigTestResponse {
-  tokenEndpoint?: string;
-  userinfoEndpoint?: string;
-  responseTypesSupported?: string[];
-  scopesSupported?: string[];
-  issuer?: string;
-  authorizationEndpoint?: string;
-  endSessionEndpoint?: string;
-  logoutEndpoint?: string;
-  grantTypesSupported?: string[];
-  revocationEndpoint?: string;
-  tokenEndpointAuthMethodsSupported?: string[];
-  microsoftMultiRefreshToken?: boolean;
+  tokenEndpoint?: string | undefined;
+  userinfoEndpoint?: string | undefined;
+  responseTypesSupported?: string[] | undefined;
+  scopesSupported?: string[] | undefined;
+  issuer?: string | undefined;
+  authorizationEndpoint?: string | undefined;
+  endSessionEndpoint?: string | undefined;
+  logoutEndpoint?: string | undefined;
+  grantTypesSupported?: string[] | undefined;
+  revocationEndpoint?: string | undefined;
+  tokenEndpointAuthMethodsSupported?: string[] | undefined;
+  microsoftMultiRefreshToken?: boolean | undefined;
 }
 export interface RegisterOpentdfConfigRequest {
   networkId: string;
@@ -802,7 +803,7 @@ export interface RegisterOpentdfConfigRequest {
   clientSecret: string | redacted.Redacted<string>;
   domain: string;
   provider: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface RegisterOpentdfConfigResponse {
   clientId: string;
@@ -813,13 +814,13 @@ export interface RegisterOpentdfConfigResponse {
 export interface UpdateBotRequest {
   networkId: string;
   botId: string;
-  displayName?: string;
-  groupId?: string;
-  challenge?: string | redacted.Redacted<string>;
-  suspend?: boolean;
+  displayName?: string | undefined;
+  groupId?: string | undefined;
+  challenge?: string | redacted.Redacted<string> | undefined;
+  suspend?: boolean | undefined;
 }
 export interface UpdateBotResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export type DataRetentionActionType = "ENABLE" | "DISABLE" | "PUBKEY_MSG_ACK" | (string & {});
 export interface UpdateDataRetentionRequest {
@@ -827,7 +828,7 @@ export interface UpdateDataRetentionRequest {
   actionType: DataRetentionActionType;
 }
 export interface UpdateDataRetentionResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface UpdateGuestUserRequest {
   networkId: string;
@@ -835,33 +836,33 @@ export interface UpdateGuestUserRequest {
   block: boolean;
 }
 export interface UpdateGuestUserResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface UpdateNetworkRequest {
   networkId: string;
   networkName: string;
-  clientToken?: string;
-  encryptionKeyArn?: string;
+  clientToken?: string | undefined;
+  encryptionKeyArn?: string | undefined;
 }
 export interface UpdateNetworkResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export type Status = "DISABLED" | "ENABLED" | "FORCE_ENABLED" | (string & {});
 export interface ReadReceiptConfig {
-  status?: Status;
+  status?: Status | undefined;
 }
 export interface ConsentPopupConfig {
   enabled: boolean;
-  header?: string;
-  content?: string;
-  closeButtonLabel?: string;
+  header?: string | undefined;
+  content?: string | undefined;
+  closeButtonLabel?: string | undefined;
 }
 export interface NetworkSettings {
-  enableClientMetrics?: boolean;
-  readReceiptConfig?: ReadReceiptConfig;
-  dataRetention?: boolean;
-  enableTrustedDataFormat?: boolean;
-  consentPopup?: ConsentPopupConfig;
+  enableClientMetrics?: boolean | undefined;
+  readReceiptConfig?: ReadReceiptConfig | undefined;
+  dataRetention?: boolean | undefined;
+  enableTrustedDataFormat?: boolean | undefined;
+  consentPopup?: ConsentPopupConfig | undefined;
 }
 export interface UpdateNetworkSettingsRequest {
   networkId: string;
@@ -873,43 +874,43 @@ export interface UpdateNetworkSettingsResponse {
 export interface UpdateSecurityGroupRequest {
   networkId: string;
   groupId: string;
-  name?: string;
-  securityGroupSettings?: SecurityGroupSettings;
+  name?: string | undefined;
+  securityGroupSettings?: SecurityGroupSettings | undefined;
 }
 export interface UpdateSecurityGroupResponse {
   securityGroup: SecurityGroup;
 }
 export interface UpdateUserDetails {
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  username?: string;
-  securityGroupIds?: string[];
-  inviteCode?: string;
-  inviteCodeTtl?: number;
-  codeValidation?: boolean;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  username?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  inviteCode?: string | undefined;
+  inviteCodeTtl?: number | undefined;
+  codeValidation?: boolean | undefined;
 }
 export interface UpdateUserRequest {
   networkId: string;
   userId: string;
-  userDetails?: UpdateUserDetails;
+  userDetails?: UpdateUserDetails | undefined;
 }
 export interface UpdateUserResponse {
   userId: string;
   networkId: string;
-  securityGroupIds?: string[];
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  middleName?: string;
+  securityGroupIds?: string[] | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  middleName?: string | undefined;
   suspended: boolean;
-  modified?: number;
-  status?: number;
-  inviteCode?: string;
-  inviteExpiration?: number;
-  codeValidation?: boolean;
+  modified?: number | undefined;
+  status?: number | undefined;
+  inviteCode?: string | undefined;
+  inviteExpiration?: number | undefined;
+  codeValidation?: boolean | undefined;
 }
 export interface ErrorDetail {
-  field?: string;
-  reason?: string;
+  field?: string | undefined;
+  reason?: string | undefined;
 }
 export type ErrorDetailList = ErrorDetail[];
 export type BatchCreateUserError =
@@ -927,7 +928,7 @@ export type BatchCreateUserError =
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
 export const batchCreateUser: API.OperationMethod<
-  BatchCreateUserRequest,
+  BatchCreateUserRequest & RegionInput,
   BatchCreateUserResponse,
   BatchCreateUserError,
   Credentials | HttpClient.HttpClient
@@ -963,7 +964,7 @@ export type BatchDeleteUserError =
  * Deletes multiple users from a specified Wickr network. This operation permanently removes user accounts and their associated data from the network.
  */
 export const batchDeleteUser: API.OperationMethod<
-  BatchDeleteUserRequest,
+  BatchDeleteUserRequest & RegionInput,
   BatchDeleteUserResponse,
   BatchDeleteUserError,
   Credentials | HttpClient.HttpClient
@@ -999,7 +1000,7 @@ export type BatchLookupUserUnameError =
  * Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes.
  */
 export const batchLookupUserUname: API.OperationMethod<
-  BatchLookupUserUnameRequest,
+  BatchLookupUserUnameRequest & RegionInput,
   BatchLookupUserUnameResponse,
   BatchLookupUserUnameError,
   Credentials | HttpClient.HttpClient
@@ -1035,7 +1036,7 @@ export type BatchReinviteUserError =
  * Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired.
  */
 export const batchReinviteUser: API.OperationMethod<
-  BatchReinviteUserRequest,
+  BatchReinviteUserRequest & RegionInput,
   BatchReinviteUserResponse,
   BatchReinviteUserError,
   Credentials | HttpClient.HttpClient
@@ -1071,7 +1072,7 @@ export type BatchResetDevicesForUserError =
  * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
  */
 export const batchResetDevicesForUser: API.OperationMethod<
-  BatchResetDevicesForUserRequest,
+  BatchResetDevicesForUserRequest & RegionInput,
   BatchResetDevicesForUserResponse,
   BatchResetDevicesForUserError,
   Credentials | HttpClient.HttpClient
@@ -1107,7 +1108,7 @@ export type BatchToggleUserSuspendStatusError =
  * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
  */
 export const batchToggleUserSuspendStatus: API.OperationMethod<
-  BatchToggleUserSuspendStatusRequest,
+  BatchToggleUserSuspendStatusRequest & RegionInput,
   BatchToggleUserSuspendStatusResponse,
   BatchToggleUserSuspendStatusError,
   Credentials | HttpClient.HttpClient
@@ -1143,7 +1144,7 @@ export type CreateBotError =
  * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
  */
 export const createBot: API.OperationMethod<
-  CreateBotRequest,
+  CreateBotRequest & RegionInput,
   CreateBotResponse,
   CreateBotError,
   Credentials | HttpClient.HttpClient
@@ -1179,7 +1180,7 @@ export type CreateDataRetentionBotError =
  * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
  */
 export const createDataRetentionBot: API.OperationMethod<
-  CreateDataRetentionBotRequest,
+  CreateDataRetentionBotRequest & RegionInput,
   CreateDataRetentionBotResponse,
   CreateDataRetentionBotError,
   Credentials | HttpClient.HttpClient
@@ -1215,7 +1216,7 @@ export type CreateDataRetentionBotChallengeError =
  * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
  */
 export const createDataRetentionBotChallenge: API.OperationMethod<
-  CreateDataRetentionBotChallengeRequest,
+  CreateDataRetentionBotChallengeRequest & RegionInput,
   CreateDataRetentionBotChallengeResponse,
   CreateDataRetentionBotChallengeError,
   Credentials | HttpClient.HttpClient
@@ -1251,7 +1252,7 @@ export type CreateNetworkError =
  * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
  */
 export const createNetwork: API.OperationMethod<
-  CreateNetworkRequest,
+  CreateNetworkRequest & RegionInput,
   CreateNetworkResponse,
   CreateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1287,7 +1288,7 @@ export type CreateSecurityGroupError =
  * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
  */
 export const createSecurityGroup: API.OperationMethod<
-  CreateSecurityGroupRequest,
+  CreateSecurityGroupRequest & RegionInput,
   CreateSecurityGroupResponse,
   CreateSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -1323,7 +1324,7 @@ export type DeleteBotError =
  * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
  */
 export const deleteBot: API.OperationMethod<
-  DeleteBotRequest,
+  DeleteBotRequest & RegionInput,
   DeleteBotResponse,
   DeleteBotError,
   Credentials | HttpClient.HttpClient
@@ -1359,7 +1360,7 @@ export type DeleteDataRetentionBotError =
  * Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database.
  */
 export const deleteDataRetentionBot: API.OperationMethod<
-  DeleteDataRetentionBotRequest,
+  DeleteDataRetentionBotRequest & RegionInput,
   DeleteDataRetentionBotResponse,
   DeleteDataRetentionBotError,
   Credentials | HttpClient.HttpClient
@@ -1395,7 +1396,7 @@ export type DeleteNetworkError =
  * Deletes a Wickr network and all its associated resources, including users, bots, security groups, and settings. This operation is permanent and cannot be undone.
  */
 export const deleteNetwork: API.OperationMethod<
-  DeleteNetworkRequest,
+  DeleteNetworkRequest & RegionInput,
   DeleteNetworkResponse,
   DeleteNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1431,7 +1432,7 @@ export type DeleteSecurityGroupError =
  * Deletes a security group from a Wickr network. This operation cannot be performed on the default security group.
  */
 export const deleteSecurityGroup: API.OperationMethod<
-  DeleteSecurityGroupRequest,
+  DeleteSecurityGroupRequest & RegionInput,
   DeleteSecurityGroupResponse,
   DeleteSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -1467,7 +1468,7 @@ export type GetBotError =
  * Retrieves detailed information about a specific bot in a Wickr network, including its status, group membership, and authentication details.
  */
 export const getBot: API.OperationMethod<
-  GetBotRequest,
+  GetBotRequest & RegionInput,
   GetBotResponse,
   GetBotError,
   Credentials | HttpClient.HttpClient
@@ -1503,7 +1504,7 @@ export type GetBotsCountError =
  * Retrieves the count of bots in a Wickr network, categorized by their status (pending, active, and total).
  */
 export const getBotsCount: API.OperationMethod<
-  GetBotsCountRequest,
+  GetBotsCountRequest & RegionInput,
   GetBotsCountResponse,
   GetBotsCountError,
   Credentials | HttpClient.HttpClient
@@ -1539,7 +1540,7 @@ export type GetDataRetentionBotError =
  * Retrieves information about the data retention bot in a Wickr network, including its status and whether the data retention service is enabled.
  */
 export const getDataRetentionBot: API.OperationMethod<
-  GetDataRetentionBotRequest,
+  GetDataRetentionBotRequest & RegionInput,
   GetDataRetentionBotResponse,
   GetDataRetentionBotError,
   Credentials | HttpClient.HttpClient
@@ -1575,7 +1576,7 @@ export type GetGuestUserHistoryCountError =
  * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
  */
 export const getGuestUserHistoryCount: API.OperationMethod<
-  GetGuestUserHistoryCountRequest,
+  GetGuestUserHistoryCountRequest & RegionInput,
   GetGuestUserHistoryCountResponse,
   GetGuestUserHistoryCountError,
   Credentials | HttpClient.HttpClient
@@ -1611,7 +1612,7 @@ export type GetNetworkError =
  * Retrieves detailed information about a specific Wickr network, including its configuration, access level, and status.
  */
 export const getNetwork: API.OperationMethod<
-  GetNetworkRequest,
+  GetNetworkRequest & RegionInput,
   GetNetworkResponse,
   GetNetworkError,
   Credentials | HttpClient.HttpClient
@@ -1647,7 +1648,7 @@ export type GetNetworkSettingsError =
  * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
  */
 export const getNetworkSettings: API.OperationMethod<
-  GetNetworkSettingsRequest,
+  GetNetworkSettingsRequest & RegionInput,
   GetNetworkSettingsResponse,
   GetNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1683,7 +1684,7 @@ export type GetOidcInfoError =
  * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
  */
 export const getOidcInfo: API.OperationMethod<
-  GetOidcInfoRequest,
+  GetOidcInfoRequest & RegionInput,
   GetOidcInfoResponse,
   GetOidcInfoError,
   Credentials | HttpClient.HttpClient
@@ -1719,7 +1720,7 @@ export type GetOpentdfConfigError =
  * Retrieves the OpenTDF integration configuration for a Wickr network.
  */
 export const getOpentdfConfig: API.OperationMethod<
-  GetOpentdfConfigRequest,
+  GetOpentdfConfigRequest & RegionInput,
   GetOpentdfConfigResponse,
   GetOpentdfConfigError,
   Credentials | HttpClient.HttpClient
@@ -1755,7 +1756,7 @@ export type GetSecurityGroupError =
  * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
  */
 export const getSecurityGroup: API.OperationMethod<
-  GetSecurityGroupRequest,
+  GetSecurityGroupRequest & RegionInput,
   GetSecurityGroupResponse,
   GetSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -1791,7 +1792,7 @@ export type GetUserError =
  * Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history.
  */
 export const getUser: API.OperationMethod<
-  GetUserRequest,
+  GetUserRequest & RegionInput,
   GetUserResponse,
   GetUserError,
   Credentials | HttpClient.HttpClient
@@ -1827,7 +1828,7 @@ export type GetUsersCountError =
  * Retrieves the count of users in a Wickr network, categorized by their status (pending, active, rejected) and showing how many users can still be added.
  */
 export const getUsersCount: API.OperationMethod<
-  GetUsersCountRequest,
+  GetUsersCountRequest & RegionInput,
   GetUsersCountResponse,
   GetUsersCountError,
   Credentials | HttpClient.HttpClient
@@ -1863,7 +1864,7 @@ export type ListBlockedGuestUsersError =
  * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
  */
 export const listBlockedGuestUsers: API.PaginatedOperationMethod<
-  ListBlockedGuestUsersRequest,
+  ListBlockedGuestUsersRequest & RegionInput,
   ListBlockedGuestUsersResponse,
   ListBlockedGuestUsersError,
   Credentials | HttpClient.HttpClient,
@@ -1906,7 +1907,7 @@ export type ListBotsError =
  * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
  */
 export const listBots: API.PaginatedOperationMethod<
-  ListBotsRequest,
+  ListBotsRequest & RegionInput,
   ListBotsResponse,
   ListBotsError,
   Credentials | HttpClient.HttpClient,
@@ -1949,7 +1950,7 @@ export type ListDevicesForUserError =
  * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
  */
 export const listDevicesForUser: API.PaginatedOperationMethod<
-  ListDevicesForUserRequest,
+  ListDevicesForUserRequest & RegionInput,
   ListDevicesForUserResponse,
   ListDevicesForUserError,
   Credentials | HttpClient.HttpClient,
@@ -1992,7 +1993,7 @@ export type ListGuestUsersError =
  * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
  */
 export const listGuestUsers: API.PaginatedOperationMethod<
-  ListGuestUsersRequest,
+  ListGuestUsersRequest & RegionInput,
   ListGuestUsersResponse,
   ListGuestUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2034,7 +2035,7 @@ export type ListNetworksError =
  * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
  */
 export const listNetworks: API.PaginatedOperationMethod<
-  ListNetworksRequest,
+  ListNetworksRequest & RegionInput,
   ListNetworksResponse,
   ListNetworksError,
   Credentials | HttpClient.HttpClient,
@@ -2076,7 +2077,7 @@ export type ListSecurityGroupsError =
  * Retrieves a paginated list of security groups in a specified Wickr network. You can sort the results by various criteria.
  */
 export const listSecurityGroups: API.PaginatedOperationMethod<
-  ListSecurityGroupsRequest,
+  ListSecurityGroupsRequest & RegionInput,
   ListSecurityGroupsResponse,
   ListSecurityGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -2119,7 +2120,7 @@ export type ListSecurityGroupUsersError =
  * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
  */
 export const listSecurityGroupUsers: API.PaginatedOperationMethod<
-  ListSecurityGroupUsersRequest,
+  ListSecurityGroupUsersRequest & RegionInput,
   ListSecurityGroupUsersResponse,
   ListSecurityGroupUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2162,7 +2163,7 @@ export type ListUsersError =
  * Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership.
  */
 export const listUsers: API.PaginatedOperationMethod<
-  ListUsersRequest,
+  ListUsersRequest & RegionInput,
   ListUsersResponse,
   ListUsersError,
   Credentials | HttpClient.HttpClient,
@@ -2205,7 +2206,7 @@ export type RegisterOidcConfigError =
  * Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider.
  */
 export const registerOidcConfig: API.OperationMethod<
-  RegisterOidcConfigRequest,
+  RegisterOidcConfigRequest & RegionInput,
   RegisterOidcConfigResponse,
   RegisterOidcConfigError,
   Credentials | HttpClient.HttpClient
@@ -2241,7 +2242,7 @@ export type RegisterOidcConfigTestError =
  * Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities.
  */
 export const registerOidcConfigTest: API.OperationMethod<
-  RegisterOidcConfigTestRequest,
+  RegisterOidcConfigTestRequest & RegionInput,
   RegisterOidcConfigTestResponse,
   RegisterOidcConfigTestError,
   Credentials | HttpClient.HttpClient
@@ -2277,7 +2278,7 @@ export type RegisterOpentdfConfigError =
  * Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider.
  */
 export const registerOpentdfConfig: API.OperationMethod<
-  RegisterOpentdfConfigRequest,
+  RegisterOpentdfConfigRequest & RegionInput,
   RegisterOpentdfConfigResponse,
   RegisterOpentdfConfigError,
   Credentials | HttpClient.HttpClient
@@ -2313,7 +2314,7 @@ export type UpdateBotError =
  * Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status.
  */
 export const updateBot: API.OperationMethod<
-  UpdateBotRequest,
+  UpdateBotRequest & RegionInput,
   UpdateBotResponse,
   UpdateBotError,
   Credentials | HttpClient.HttpClient
@@ -2349,7 +2350,7 @@ export type UpdateDataRetentionError =
  * Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message.
  */
 export const updateDataRetention: API.OperationMethod<
-  UpdateDataRetentionRequest,
+  UpdateDataRetentionRequest & RegionInput,
   UpdateDataRetentionResponse,
   UpdateDataRetentionError,
   Credentials | HttpClient.HttpClient
@@ -2385,7 +2386,7 @@ export type UpdateGuestUserError =
  * Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network.
  */
 export const updateGuestUser: API.OperationMethod<
-  UpdateGuestUserRequest,
+  UpdateGuestUserRequest & RegionInput,
   UpdateGuestUserResponse,
   UpdateGuestUserError,
   Credentials | HttpClient.HttpClient
@@ -2421,7 +2422,7 @@ export type UpdateNetworkError =
  * Updates the properties of an existing Wickr network, such as its name or encryption key configuration.
  */
 export const updateNetwork: API.OperationMethod<
-  UpdateNetworkRequest,
+  UpdateNetworkRequest & RegionInput,
   UpdateNetworkResponse,
   UpdateNetworkError,
   Credentials | HttpClient.HttpClient
@@ -2457,7 +2458,7 @@ export type UpdateNetworkSettingsError =
  * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
  */
 export const updateNetworkSettings: API.OperationMethod<
-  UpdateNetworkSettingsRequest,
+  UpdateNetworkSettingsRequest & RegionInput,
   UpdateNetworkSettingsResponse,
   UpdateNetworkSettingsError,
   Credentials | HttpClient.HttpClient
@@ -2493,7 +2494,7 @@ export type UpdateSecurityGroupError =
  * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
  */
 export const updateSecurityGroup: API.OperationMethod<
-  UpdateSecurityGroupRequest,
+  UpdateSecurityGroupRequest & RegionInput,
   UpdateSecurityGroupResponse,
   UpdateSecurityGroupError,
   Credentials | HttpClient.HttpClient
@@ -2531,7 +2532,7 @@ export type UpdateUserError =
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
 export const updateUser: API.OperationMethod<
-  UpdateUserRequest,
+  UpdateUserRequest & RegionInput,
   UpdateUserResponse,
   UpdateUserError,
   Credentials | HttpClient.HttpClient

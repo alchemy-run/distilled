@@ -1,0 +1,10 @@
+{
+  "description": "An MCP server definition's `authorization_token` is the bearer credential sent to that MCP server, but the spec does not mark it sensitive. Mark it so it is accepted as `Redacted` and never logged.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_messages#BetaRequestMCPServerURLDefinition/members/authorization_token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

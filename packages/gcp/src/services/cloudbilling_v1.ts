@@ -85,53 +85,69 @@ export class NotFound
 
 export interface CancelTaskRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
+  tenant?: string | undefined;
 }
 export interface CancelTasksRequest {
   /** The resource name of the task to cancel. Format: tasks/{task_id} */
   name: string;
   /** Request body */
-  body?: CancelTaskRequest;
+  body?: CancelTaskRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type StringList_ = Array<string>;
 /** FilePart represents the different ways files can be provided. If files are small, directly feeding the bytes is supported via file_with_bytes. If the file is large, the agent should read the content as appropriate directly from the file_with_uri source. */
 export interface FilePart {
-  mimeType?: string;
-  fileWithUri?: string;
-  name?: string;
-  fileWithBytes?: string;
+  fileWithUri?: string | undefined;
+  name?: string | undefined;
+  mimeType?: string | undefined;
+  fileWithBytes?: string | undefined;
 }
 /** DataPart represents a structured blob. This is most commonly a JSON payload. */
 export interface DataPart {
-  data?: DocumentMap;
+  data?: DocumentMap | undefined;
 }
 /** Part represents a container for a section of communication content. Parts can be purely textual, some sort of file (image, video, etc) or a structured data blob (i.e. JSON). */
 export interface Part {
-  text?: string;
-  file?: FilePart;
+  text?: string | undefined;
   /** Optional metadata associated with this part. */
-  metadata?: DocumentMap;
-  data?: DataPart;
+  metadata?: DocumentMap | undefined;
+  file?: FilePart | undefined;
+  data?: DataPart | undefined;
 }
 export type PartList = Array<Part>;
+/** Artifacts are the container for task completed results. These are similar to Messages but are intended to be the product of a task, as opposed to point-to-point communication. */
+export interface Artifact {
+  /** A human readable name for the artifact. */
+  name?: string | undefined;
+  /** Unique identifier (e.g. UUID) for the artifact. It must be at least unique within a task. */
+  artifactId?: string | undefined;
+  /** The URIs of extensions that are present or contributed to this Artifact. */
+  extensions?: StringList_ | undefined;
+  /** A human readable description of the artifact, optional. */
+  description?: string | undefined;
+  /** The content of the artifact. */
+  parts?: PartList | undefined;
+  /** Optional metadata included with the artifact. */
+  metadata?: DocumentMap | undefined;
+}
+export type ArtifactList = Array<Artifact>;
 export type MessageRoleEnum = "ROLE_UNSPECIFIED" | "ROLE_USER" | "ROLE_AGENT";
 /** Message is one unit of communication between client and server. It is associated with a context and optionally a task. Since the server is responsible for the context definition, it must always provide a context_id in its messages. The client can optionally provide the context_id if it knows the context to associate the message to. Similarly for task_id, except the server decides if a task is created and whether to include the task_id. */
 export interface Message {
-  /** The task id of the message. This is optional and if set, the message will be associated with the given task. */
-  taskId?: string;
   /** The URIs of extensions that are present or contributed to this Message. */
-  extensions?: StringList_;
-  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Content is the container of the message content. */
-  content?: PartList;
-  /** The context id of the message. This is optional and if set, the message will be associated with the given context. */
-  contextId?: string;
+  extensions?: StringList_ | undefined;
   /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED Any optional metadata to provide along with the message. */
-  metadata?: DocumentMap;
-  /** A role for the message. */
-  role?: MessageRoleEnum | (string & {});
+  metadata?: DocumentMap | undefined;
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Content is the container of the message content. */
+  content?: PartList | undefined;
   /** The unique identifier (e.g. UUID)of the message. This is required and created by the message creator. */
-  messageId?: string;
+  messageId?: string | undefined;
+  /** The context id of the message. This is optional and if set, the message will be associated with the given context. */
+  contextId?: string | undefined;
+  /** The task id of the message. This is optional and if set, the message will be associated with the given task. */
+  taskId?: string | undefined;
+  /** A role for the message. */
+  role?: MessageRoleEnum | (string & {}) | undefined;
 }
 export type MessageList = Array<Message>;
 export type TaskStatusStateEnum =
@@ -146,116 +162,100 @@ export type TaskStatusStateEnum =
   | "TASK_STATE_AUTH_REQUIRED";
 /** A container for the status of a task */
 export interface TaskStatus {
-  /** A message associated with the status. */
-  message?: Message;
   /** Timestamp when the status was recorded. Example: "2023-10-27T10:00:00Z" */
-  timestamp?: string;
+  timestamp?: string | undefined;
+  /** A message associated with the status. */
+  message?: Message | undefined;
   /** The current state of this task */
-  state?: TaskStatusStateEnum;
+  state?: TaskStatusStateEnum | undefined;
 }
-/** Artifacts are the container for task completed results. These are similar to Messages but are intended to be the product of a task, as opposed to point-to-point communication. */
-export interface Artifact {
-  /** The URIs of extensions that are present or contributed to this Artifact. */
-  extensions?: StringList_;
-  /** Optional metadata included with the artifact. */
-  metadata?: DocumentMap;
-  /** A human readable name for the artifact. */
-  name?: string;
-  /** A human readable description of the artifact, optional. */
-  description?: string;
-  /** The content of the artifact. */
-  parts?: PartList;
-  /** Unique identifier (e.g. UUID) for the artifact. It must be at least unique within a task. */
-  artifactId?: string;
-}
-export type ArtifactList = Array<Artifact>;
 /** Task is the core unit of action for A2A. It has a current status and when results are created for the task they are stored in the artifact. If there are multiple turns for a task, these are stored in history. */
 export interface Task {
-  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED A key/value object to store custom metadata about a task. */
-  metadata?: DocumentMap;
-  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED The history of interactions from a task. */
-  history?: MessageList;
-  /** The current status of a Task, including state and a message. */
-  status?: TaskStatus;
-  /** Unique identifier (e.g. UUID) for the task, generated by the server for a new task. */
-  id?: string;
   /** Unique identifier (e.g. UUID) for the contextual collection of interactions (tasks and messages). Created by the A2A server. */
-  contextId?: string;
+  contextId?: string | undefined;
+  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED A key/value object to store custom metadata about a task. */
+  metadata?: DocumentMap | undefined;
   /** A set of output artifacts for a Task. */
-  artifacts?: ArtifactList;
+  artifacts?: ArtifactList | undefined;
+  /** Unique identifier (e.g. UUID) for the task, generated by the server for a new task. */
+  id?: string | undefined;
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED The history of interactions from a task. */
+  history?: MessageList | undefined;
+  /** The current status of a Task, including state and a message. */
+  status?: TaskStatus | undefined;
 }
 /** A billing account in the [Google Cloud Console](https://console.cloud.google.com/). You can assign a billing account to one or more projects. */
 export interface BillingAccount {
-  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
-  currencyCode?: string;
   /** Output only. The resource name of the billing account. The resource name has the form `billingAccounts/{billing_account_id}`. For example, `billingAccounts/012345-567890-ABCDEF` would be the resource name for billing account `012345-567890-ABCDEF`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. True if the billing account is open, and will therefore be charged for any usage on associated projects. False if the billing account is closed, and therefore projects associated with it are unable to use paid services. */
-  open?: boolean;
-  /** Output only. The billing account's parent resource identifier. Use the `MoveBillingAccount` method to update the account's parent resource if it is a organization. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
-  parent?: string;
-  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
-  masterBillingAccount?: string;
+  open?: boolean | undefined;
+  /** Optional. The currency in which the billing account is billed and charged, represented as an ISO 4217 code such as `USD`. Billing account currency is determined at the time of billing account creation and cannot be updated subsequently, so this field should not be set on update requests. In addition, a subaccount always matches the currency of its parent billing account, so this field should not be set on subaccount creation requests. Clients can read this field to determine the currency of an existing billing account. */
+  currencyCode?: string | undefined;
   /** The display name given to the billing account, such as `My Billing Account`. This name is displayed in the Google Cloud Console. */
-  displayName?: string;
+  displayName?: string | undefined;
+  /** Output only. The billing account's parent resource identifier. Use the `MoveBillingAccount` method to update the account's parent resource if it is a organization. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
+  parent?: string | undefined;
+  /** If this account is a [subaccount](https://cloud.google.com/billing/docs/concepts), then this will be the resource name of the parent billing account that it is being resold through. Otherwise this will be empty. */
+  masterBillingAccount?: string | undefined;
 }
 export interface CreateBillingAccountsRequest {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
-  parent?: string;
+  parent?: string | undefined;
   /** Request body */
-  body?: BillingAccount;
+  body?: BillingAccount | undefined;
 }
 export interface CreateBillingAccountsSubAccountsRequest {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
   /** Request body */
-  body?: BillingAccount;
+  body?: BillingAccount | undefined;
 }
 export interface CreateOrganizationsBillingAccountsRequest {
   /** Optional. The parent to create a billing account from. Format: - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
   /** Request body */
-  body?: BillingAccount;
+  body?: BillingAccount | undefined;
 }
 /** Defines authentication details, used for push notifications. */
 export interface AuthenticationInfo {
   /** Supported authentication schemes - e.g. Basic, Bearer, etc */
-  schemes?: StringList_;
+  schemes?: StringList_ | undefined;
   /** Optional credentials */
-  credentials?: string;
+  credentials?: string | undefined;
 }
 /** Configuration for setting up push notifications for task updates. */
 export interface PushNotificationConfig {
-  /** Token unique for this task/session */
-  token?: string;
-  /** Information about the authentication to sent with the notification */
-  authentication?: AuthenticationInfo;
   /** Url to send the notification too */
-  url?: string;
+  url?: string | undefined;
+  /** Information about the authentication to sent with the notification */
+  authentication?: AuthenticationInfo | undefined;
+  /** Token unique for this task/session */
+  token?: string | undefined;
   /** A unique identifier (e.g. UUID) for this push notification. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface TaskPushNotificationConfig {
   /** The resource name of the config. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
-  name?: string;
+  name?: string | undefined;
   /** The push notification configuration details. */
-  pushNotificationConfig?: PushNotificationConfig;
+  pushNotificationConfig?: PushNotificationConfig | undefined;
 }
 export interface CreateTasksPushNotificationConfigsRequest {
+  /** Required. The ID for the new config. */
+  configId?: string | undefined;
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Required. The parent task resource for this config. Format: tasks/{task_id} */
   parent: string;
-  /** Required. The ID for the new config. */
-  configId?: string;
   /** Request body */
-  body?: TaskPushNotificationConfig;
+  body?: TaskPushNotificationConfig | undefined;
 }
 export interface DeleteTasksPushNotificationConfigsRequest {
   /** The resource name of the config to delete. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
   name: string;
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
+  tenant?: string | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -270,244 +270,216 @@ export interface GetBillingInfoProjectsRequest {
 /** Encapsulation of billing information for a Google Cloud Console project. A project has at most one associated billing account at a time (but a billing account can be assigned to multiple projects). */
 export interface ProjectBillingInfo {
   /** Output only. True if the project is associated with an open billing account, to which usage on the project is charged. False if the project is associated with a closed billing account, or no billing account at all, and therefore cannot use paid services. */
-  billingEnabled?: boolean;
-  /** The resource name of the billing account associated with the project, if any. For example, `billingAccounts/012345-567890-ABCDEF`. */
-  billingAccountName?: string;
-  /** Output only. The resource name for the `ProjectBillingInfo`; has the form `projects/{project_id}/billingInfo`. For example, the resource name for the billing information for project `tokyo-rain-123` would be `projects/tokyo-rain-123/billingInfo`. */
-  name?: string;
+  billingEnabled?: boolean | undefined;
   /** Output only. The ID of the project that this `ProjectBillingInfo` represents, such as `tokyo-rain-123`. This is a convenience field so that you don't need to parse the `name` field to obtain a project ID. */
-  projectId?: string;
+  projectId?: string | undefined;
+  /** Output only. The resource name for the `ProjectBillingInfo`; has the form `projects/{project_id}/billingInfo`. For example, the resource name for the billing information for project `tokyo-rain-123` would be `projects/tokyo-rain-123/billingInfo`. */
+  name?: string | undefined;
+  /** The resource name of the billing account associated with the project, if any. For example, `billingAccounts/012345-567890-ABCDEF`. */
+  billingAccountName?: string | undefined;
 }
 export interface GetCardV1Request {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
+  tenant?: string | undefined;
 }
 /** Represents information about the service provider of an agent. */
 export interface AgentProvider {
-  /** The providers reference url Example: "https://ai.google.dev" */
-  url?: string;
   /** The providers organization name Example: "Google" */
-  organization?: string;
+  organization?: string | undefined;
+  /** The providers reference url Example: "https://ai.google.dev" */
+  url?: string | undefined;
 }
-/** Defines additional transport information for the agent. */
-export interface AgentInterface {
-  /** The transport supported this url. This is an open form string, to be easily extended for many transport protocols. The core ones officially supported are JSONRPC, GRPC and HTTP+JSON. */
-  transport?: string;
-  /** Tenant to be set in the request when calling the agent. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-  /** The url this interface is found at. */
-  url?: string;
+/** AgentCardSignature represents a JWS signature of an AgentCard. This follows the JSON format of an RFC 7515 JSON Web Signature (JWS). */
+export interface AgentCardSignature {
+  /** Required. The protected JWS header for the signature. This is always a base64url-encoded JSON object. Required. */
+  protected?: string | undefined;
+  /** Required. The computed signature, base64url-encoded. Required. */
+  signature?: string | undefined;
+  /** The unprotected JWS header values. */
+  header?: DocumentMap | undefined;
 }
-export type AgentInterfaceList = Array<AgentInterface>;
-/** A declaration of an extension supported by an Agent. */
-export interface AgentExtension {
-  /** A description of how this agent uses this extension. Example: "Google OAuth 2.0 authentication" */
-  description?: string;
-  /** Whether the client must follow specific requirements of the extension. Example: false */
-  required?: boolean;
-  /** The URI of the extension. Example: "https://developers.google.com/identity/protocols/oauth2" */
-  uri?: string;
-  /** Optional configuration for the extension. */
-  params?: DocumentMap;
-}
-export type AgentExtensionList = Array<AgentExtension>;
-/** Defines the A2A feature set supported by the agent */
-export interface AgentCapabilities {
-  /** Extensions supported by this agent. */
-  extensions?: AgentExtensionList;
-  /** If the agent will support streaming responses */
-  streaming?: boolean;
-  /** If the agent can send push notifications to the clients webhook */
-  pushNotifications?: boolean;
-}
+export type AgentCardSignatureList = Array<AgentCardSignature>;
 /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED */
 export interface StringList {
-  list?: StringList_;
+  list?: StringList_ | undefined;
 }
 export type StringListMap = { [key: string]: StringList | undefined };
 export interface Security {
-  schemes?: StringListMap;
+  schemes?: StringListMap | undefined;
 }
 export type SecurityList = Array<Security>;
 /** AgentSkill represents a unit of action/solution that the agent can perform. One can think of this as a type of highly reliable solution that an agent can be tasked to provide. Agents have the autonomy to choose how and when to use specific skills, but clients should have confidence that if the skill is defined that unit of action can be reliably performed. */
 export interface AgentSkill {
-  /** Possible input modalities supported. */
-  inputModes?: StringList_;
-  /** A set of example queries that this skill is designed to address. These examples should help the caller to understand how to craft requests to the agent to achieve specific goals. Example: ["I need a recipe for bread"] */
-  examples?: StringList_;
-  /** Possible output modalities produced */
-  outputModes?: StringList_;
-  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Security schemes necessary for the agent to leverage this skill. As in the overall AgentCard.security, this list represents a logical OR of security requirement objects. Each object is a set of security schemes that must be used together (a logical AND). protolint:enable REPEATED_FIELD_NAMES_PLURALIZED */
-  security?: SecurityList;
   /** Unique identifier of the skill within this agent. */
-  id?: string;
+  id?: string | undefined;
+  /** Possible input modalities supported. */
+  inputModes?: StringList_ | undefined;
   /** A human readable name for the skill. */
-  name?: string;
-  /** A set of tags for the skill to enhance categorization/utilization. Example: ["cooking", "customer support", "billing"] */
-  tags?: StringList_;
+  name?: string | undefined;
+  /** A set of example queries that this skill is designed to address. These examples should help the caller to understand how to craft requests to the agent to achieve specific goals. Example: ["I need a recipe for bread"] */
+  examples?: StringList_ | undefined;
   /** A human (or llm) readable description of the skill details and behaviors. */
-  description?: string;
+  description?: string | undefined;
+  /** A set of tags for the skill to enhance categorization/utilization. Example: ["cooking", "customer support", "billing"] */
+  tags?: StringList_ | undefined;
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Security schemes necessary for the agent to leverage this skill. As in the overall AgentCard.security, this list represents a logical OR of security requirement objects. Each object is a set of security schemes that must be used together (a logical AND). protolint:enable REPEATED_FIELD_NAMES_PLURALIZED */
+  security?: SecurityList | undefined;
+  /** Possible output modalities produced */
+  outputModes?: StringList_ | undefined;
 }
 export type AgentSkillList = Array<AgentSkill>;
-export interface HTTPAuthSecurityScheme {
+export interface MutualTlsSecurityScheme {
   /** Description of this security scheme. */
-  description?: string;
-  /** A hint to the client to identify how the bearer token is formatted. Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes. */
-  bearerFormat?: string;
+  description?: string | undefined;
+}
+export interface HTTPAuthSecurityScheme {
   /** The name of the HTTP Authentication scheme to be used in the Authorization header as defined in RFC7235. The values used SHOULD be registered in the IANA Authentication Scheme registry. The value is case-insensitive, as defined in RFC7235. */
-  scheme?: string;
+  scheme?: string | undefined;
+  /** Description of this security scheme. */
+  description?: string | undefined;
+  /** A hint to the client to identify how the bearer token is formatted. Bearer tokens are usually generated by an authorization server, so this information is primarily for documentation purposes. */
+  bearerFormat?: string | undefined;
+}
+export interface OpenIdConnectSecurityScheme {
+  /** Well-known URL to discover the [[OpenID-Connect-Discovery]] provider metadata. */
+  openIdConnectUrl?: string | undefined;
+  /** Description of this security scheme. */
+  description?: string | undefined;
+}
+export interface APIKeySecurityScheme {
+  /** Description of this security scheme. */
+  description?: string | undefined;
+  /** Name of the header, query or cookie parameter to be used. */
+  name?: string | undefined;
+  /** Location of the API key, valid values are "query", "header", or "cookie" */
+  location?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export interface ClientCredentialsOAuthFlow {
   /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
-  refreshUrl?: string;
+  refreshUrl?: string | undefined;
   /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
-  scopes?: StringMap;
+  scopes?: StringMap | undefined;
   /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
-  tokenUrl?: string;
+  tokenUrl?: string | undefined;
 }
 export interface AuthorizationCodeOAuthFlow {
+  /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  tokenUrl?: string | undefined;
+  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
+  scopes?: StringMap | undefined;
   /** The authorization URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS */
-  authorizationUrl?: string;
+  authorizationUrl?: string | undefined;
   /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
-  refreshUrl?: string;
-  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
-  scopes?: StringMap;
-  /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
-  tokenUrl?: string;
+  refreshUrl?: string | undefined;
 }
-export interface PasswordOAuthFlow {
-  /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
-  scopes?: StringMap;
-  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
-  refreshUrl?: string;
-  /** The token URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
-  tokenUrl?: string;
-}
+export type PasswordOAuthFlow = ClientCredentialsOAuthFlow;
 export interface ImplicitOAuthFlow {
   /** The authorization URL to be used for this flow. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS */
-  authorizationUrl?: string;
-  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
-  refreshUrl?: string;
+  authorizationUrl?: string | undefined;
   /** The available scopes for the OAuth2 security scheme. A map between the scope name and a short description for it. The map MAY be empty. */
-  scopes?: StringMap;
+  scopes?: StringMap | undefined;
+  /** The URL to be used for obtaining refresh tokens. This MUST be in the form of a URL. The OAuth2 standard requires the use of TLS. */
+  refreshUrl?: string | undefined;
 }
 export interface OAuthFlows {
-  clientCredentials?: ClientCredentialsOAuthFlow;
-  authorizationCode?: AuthorizationCodeOAuthFlow;
-  password?: PasswordOAuthFlow;
-  implicit?: ImplicitOAuthFlow;
+  clientCredentials?: ClientCredentialsOAuthFlow | undefined;
+  authorizationCode?: AuthorizationCodeOAuthFlow | undefined;
+  password?: ClientCredentialsOAuthFlow | undefined;
+  implicit?: ImplicitOAuthFlow | undefined;
 }
 export interface OAuth2SecurityScheme {
   /** URL to the oauth2 authorization server metadata [RFC8414](https://datatracker.ietf.org/doc/html/rfc8414). TLS is required. */
-  oauth2MetadataUrl?: string;
+  oauth2MetadataUrl?: string | undefined;
+  /** Description of this security scheme. */
+  description?: string | undefined;
   /** An object containing configuration information for the flow types supported */
-  flows?: OAuthFlows;
-  /** Description of this security scheme. */
-  description?: string;
-}
-export interface MutualTlsSecurityScheme {
-  /** Description of this security scheme. */
-  description?: string;
-}
-export interface OpenIdConnectSecurityScheme {
-  /** Description of this security scheme. */
-  description?: string;
-  /** Well-known URL to discover the [[OpenID-Connect-Discovery]] provider metadata. */
-  openIdConnectUrl?: string;
-}
-export interface APIKeySecurityScheme {
-  /** Location of the API key, valid values are "query", "header", or "cookie" */
-  location?: string;
-  /** Description of this security scheme. */
-  description?: string;
-  /** Name of the header, query or cookie parameter to be used. */
-  name?: string;
+  flows?: OAuthFlows | undefined;
 }
 export interface SecurityScheme {
-  httpAuthSecurityScheme?: HTTPAuthSecurityScheme;
-  oauth2SecurityScheme?: OAuth2SecurityScheme;
-  mtlsSecurityScheme?: MutualTlsSecurityScheme;
-  openIdConnectSecurityScheme?: OpenIdConnectSecurityScheme;
-  apiKeySecurityScheme?: APIKeySecurityScheme;
+  mtlsSecurityScheme?: MutualTlsSecurityScheme | undefined;
+  httpAuthSecurityScheme?: HTTPAuthSecurityScheme | undefined;
+  openIdConnectSecurityScheme?: OpenIdConnectSecurityScheme | undefined;
+  apiKeySecurityScheme?: APIKeySecurityScheme | undefined;
+  oauth2SecurityScheme?: OAuth2SecurityScheme | undefined;
 }
 export type SecuritySchemeMap = { [key: string]: SecurityScheme | undefined };
-/** AgentCardSignature represents a JWS signature of an AgentCard. This follows the JSON format of an RFC 7515 JSON Web Signature (JWS). */
-export interface AgentCardSignature {
-  /** The unprotected JWS header values. */
-  header?: DocumentMap;
-  /** Required. The protected JWS header for the signature. This is always a base64url-encoded JSON object. Required. */
-  protected?: string;
-  /** Required. The computed signature, base64url-encoded. Required. */
-  signature?: string;
+/** Defines additional transport information for the agent. */
+export interface AgentInterface {
+  /** The url this interface is found at. */
+  url?: string | undefined;
+  /** The transport supported this url. This is an open form string, to be easily extended for many transport protocols. The core ones officially supported are JSONRPC, GRPC and HTTP+JSON. */
+  transport?: string | undefined;
+  /** Tenant to be set in the request when calling the agent. Experimental, might still change for 1.0 release. */
+  tenant?: string | undefined;
 }
-export type AgentCardSignatureList = Array<AgentCardSignature>;
+export type AgentInterfaceList = Array<AgentInterface>;
+/** A declaration of an extension supported by an Agent. */
+export interface AgentExtension {
+  /** Whether the client must follow specific requirements of the extension. Example: false */
+  required?: boolean | undefined;
+  /** The URI of the extension. Example: "https://developers.google.com/identity/protocols/oauth2" */
+  uri?: string | undefined;
+  /** Optional configuration for the extension. */
+  params?: DocumentMap | undefined;
+  /** A description of how this agent uses this extension. Example: "Google OAuth 2.0 authentication" */
+  description?: string | undefined;
+}
+export type AgentExtensionList = Array<AgentExtension>;
+/** Defines the A2A feature set supported by the agent */
+export interface AgentCapabilities {
+  /** If the agent can send push notifications to the clients webhook */
+  pushNotifications?: boolean | undefined;
+  /** If the agent will support streaming responses */
+  streaming?: boolean | undefined;
+  /** Extensions supported by this agent. */
+  extensions?: AgentExtensionList | undefined;
+}
 /** AgentCard conveys key information: - Overall details (version, name, description, uses) - Skills; a set of actions/solutions the agent can perform - Default modalities/content types supported by the agent. - Authentication requirements Next ID: 19 */
 export interface AgentCard {
-  /** The service provider of the agent. */
-  provider?: AgentProvider;
-  /** The mime types supported as outputs from this agent. */
-  defaultOutputModes?: StringList_;
-  /** A description of the agent's domain of action/solution space. Example: "Agent that helps users with recipes and cooking." */
-  description?: string;
-  /** Announcement of additional supported transports. Client can use any of the supported transports. */
-  additionalInterfaces?: AgentInterfaceList;
-  /** A2A Capability set supported by the agent. */
-  capabilities?: AgentCapabilities;
-  /** The version of the A2A protocol this agent supports. */
-  protocolVersion?: string;
-  /** A human readable name for the agent. Example: "Recipe Agent" */
-  name?: string;
-  /** Skills represent a unit of ability an agent can perform. This may somewhat abstract but represents a more focused set of actions that the agent is highly likely to succeed at. */
-  skills?: AgentSkillList;
-  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED The set of interaction modes that the agent supports across all skills. This can be overridden per skill. Defined as mime types. */
-  defaultInputModes?: StringList_;
-  /** The security scheme details used for authenticating with this agent. */
-  securitySchemes?: SecuritySchemeMap;
-  /** Whether the agent supports providing an extended agent card when the user is authenticated, i.e. is the card from .well-known different than the card from GetAgentCard. */
-  supportsAuthenticatedExtendedCard?: boolean;
-  /** A URL to the address the agent is hosted at. This represents the preferred endpoint as declared by the agent. */
-  url?: string;
-  /** The transport of the preferred endpoint. If empty, defaults to JSONRPC. */
-  preferredTransport?: string;
   /** An optional URL to an icon for the agent. */
-  iconUrl?: string;
-  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Security requirements for contacting the agent. This list can be seen as an OR of ANDs. Each object in the list describes one possible set of security requirements that must be present on a request. This allows specifying, for example, "callers must either use OAuth OR an API Key AND mTLS." Example: security { schemes { key: "oauth" value { list: ["read"] } } } security { schemes { key: "api-key" } schemes { key: "mtls" } } */
-  security?: SecurityList;
-  /** JSON Web Signatures computed for this AgentCard. */
-  signatures?: AgentCardSignatureList;
+  iconUrl?: string | undefined;
+  /** A URL to the address the agent is hosted at. This represents the preferred endpoint as declared by the agent. */
+  url?: string | undefined;
+  /** A description of the agent's domain of action/solution space. Example: "Agent that helps users with recipes and cooking." */
+  description?: string | undefined;
+  /** The transport of the preferred endpoint. If empty, defaults to JSONRPC. */
+  preferredTransport?: string | undefined;
+  /** The version of the A2A protocol this agent supports. */
+  protocolVersion?: string | undefined;
+  /** protolint:enable REPEATED_FIELD_NAMES_PLURALIZED The set of interaction modes that the agent supports across all skills. This can be overridden per skill. Defined as mime types. */
+  defaultInputModes?: StringList_ | undefined;
   /** The version of the agent. Example: "1.0.0" */
-  version?: string;
+  version?: string | undefined;
+  /** The mime types supported as outputs from this agent. */
+  defaultOutputModes?: StringList_ | undefined;
   /** A url to provide additional documentation about the agent. */
-  documentationUrl?: string;
+  documentationUrl?: string | undefined;
+  /** The service provider of the agent. */
+  provider?: AgentProvider | undefined;
+  /** Whether the agent supports providing an extended agent card when the user is authenticated, i.e. is the card from .well-known different than the card from GetAgentCard. */
+  supportsAuthenticatedExtendedCard?: boolean | undefined;
+  /** JSON Web Signatures computed for this AgentCard. */
+  signatures?: AgentCardSignatureList | undefined;
+  /** Skills represent a unit of ability an agent can perform. This may somewhat abstract but represents a more focused set of actions that the agent is highly likely to succeed at. */
+  skills?: AgentSkillList | undefined;
+  /** The security scheme details used for authenticating with this agent. */
+  securitySchemes?: SecuritySchemeMap | undefined;
+  /** Announcement of additional supported transports. Client can use any of the supported transports. */
+  additionalInterfaces?: AgentInterfaceList | undefined;
+  /** protolint:disable REPEATED_FIELD_NAMES_PLURALIZED Security requirements for contacting the agent. This list can be seen as an OR of ANDs. Each object in the list describes one possible set of security requirements that must be present on a request. This allows specifying, for example, "callers must either use OAuth OR an API Key AND mTLS." Example: security { schemes { key: "oauth" value { list: ["read"] } } } security { schemes { key: "api-key" } schemes { key: "mtls" } } */
+  security?: SecurityList | undefined;
+  /** A2A Capability set supported by the agent. */
+  capabilities?: AgentCapabilities | undefined;
+  /** A human readable name for the agent. Example: "Recipe Agent" */
+  name?: string | undefined;
 }
 export interface GetIamPolicyBillingAccountsRequest {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number | undefined;
 }
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList_;
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
-}
-export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -515,399 +487,420 @@ export type AuditLogConfigLogTypeEnum =
   | "DATA_READ";
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList_;
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: StringList_ | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
+  /** The configuration for logging of each type of permission. */
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList_ | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+}
+export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
-  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string | undefined;
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
 }
 export interface GetTasksRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Required. The resource name of the task. Format: tasks/{task_id} */
   name: string;
   /** The number of most recent messages from the task's history to retrieve. */
-  historyLength?: number;
+  historyLength?: number | undefined;
 }
 export interface GetTasksPushNotificationConfigsRequest {
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
+  tenant?: string | undefined;
   /** The resource name of the config to retrieve. Format: tasks/{task_id}/pushNotificationConfigs/{config_id} */
   name: string;
 }
 export interface ListBillingAccountsRequest {
-  /** Requested page size. The maximum page size is 100; this is also the default. */
-  pageSize?: number;
   /** Options for how to filter the returned billing accounts. This only supports filtering for [subaccounts](https://cloud.google.com/billing/docs/concepts) under a single provided parent billing account. (for example, `master_billing_account=billingAccounts/012345-678901-ABCDEF`). Boolean algebra and other fields are not currently supported. */
-  filter?: string;
+  filter?: string | undefined;
   /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListBillingAccounts` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Requested page size. The maximum page size is 100; this is also the default. */
+  pageSize?: number | undefined;
   /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
-  parent?: string;
+  parent?: string | undefined;
 }
 export type BillingAccountList = Array<BillingAccount>;
 /** Response message for `ListBillingAccounts`. */
 export interface ListBillingAccountsResponse {
-  /** A token to retrieve the next page of results. To retrieve the next page, call `ListBillingAccounts` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
-  nextPageToken?: string;
   /** A list of billing accounts. */
-  billingAccounts?: BillingAccountList;
+  billingAccounts?: BillingAccountList | undefined;
+  /** A token to retrieve the next page of results. To retrieve the next page, call `ListBillingAccounts` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
+  nextPageToken?: string | undefined;
 }
 export interface ListBillingAccountsProjectsRequest {
+  /** Requested page size. The maximum page size is 100; this is also the default. */
+  pageSize?: number | undefined;
   /** Required. The resource name of the billing account associated with the projects that you want to list. For example, `billingAccounts/012345-567890-ABCDEF`. */
   name: string;
-  /** Requested page size. The maximum page size is 100; this is also the default. */
-  pageSize?: number;
   /** A token identifying a page of results to be returned. This should be a `next_page_token` value returned from a previous `ListProjectBillingInfo` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ProjectBillingInfoList = Array<ProjectBillingInfo>;
 /** Request message for `ListProjectBillingInfoResponse`. */
 export interface ListProjectBillingInfoResponse {
-  /** A token to retrieve the next page of results. To retrieve the next page, call `ListProjectBillingInfo` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
-  nextPageToken?: string;
   /** A list of `ProjectBillingInfo` resources representing the projects associated with the billing account. */
-  projectBillingInfo?: ProjectBillingInfoList;
+  projectBillingInfo?: ProjectBillingInfoList | undefined;
+  /** A token to retrieve the next page of results. To retrieve the next page, call `ListProjectBillingInfo` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
+  nextPageToken?: string | undefined;
 }
 export interface ListBillingAccountsSubAccountsRequest {
   /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
   /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListBillingAccounts` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Requested page size. The maximum page size is 100; this is also the default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Options for how to filter the returned billing accounts. This only supports filtering for [subaccounts](https://cloud.google.com/billing/docs/concepts) under a single provided parent billing account. (for example, `master_billing_account=billingAccounts/012345-678901-ABCDEF`). Boolean algebra and other fields are not currently supported. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListOrganizationsBillingAccountsRequest {
-  /** Requested page size. The maximum page size is 100; this is also the default. */
-  pageSize?: number;
   /** Options for how to filter the returned billing accounts. This only supports filtering for [subaccounts](https://cloud.google.com/billing/docs/concepts) under a single provided parent billing account. (for example, `master_billing_account=billingAccounts/012345-678901-ABCDEF`). Boolean algebra and other fields are not currently supported. */
-  filter?: string;
+  filter?: string | undefined;
   /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListBillingAccounts` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Requested page size. The maximum page size is 100; this is also the default. */
+  pageSize?: number | undefined;
   /** Optional. The parent resource to list billing accounts from. Format: - `organizations/{organization_id}`, for example, `organizations/12345678` - `billingAccounts/{billing_account_id}`, for example, `billingAccounts/012345-567890-ABCDEF` */
   parent: string;
 }
 export interface ListServicesRequest {
-  /** Requested page size. Defaults to 5000. */
-  pageSize?: number;
   /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListServices` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Requested page size. Defaults to 5000. */
+  pageSize?: number | undefined;
 }
 /** Encapsulates a single service in Google Cloud Platform. */
 export interface Service {
-  /** A human readable display name for this service. */
-  displayName?: string;
   /** The business under which the service is offered. Ex. "businessEntities/GCP", "businessEntities/Maps" */
-  businessEntityName?: string;
+  businessEntityName?: string | undefined;
+  /** A human readable display name for this service. */
+  displayName?: string | undefined;
   /** The resource name for the service. Example: "services/6F81-5844-456A" */
-  name?: string;
+  name?: string | undefined;
   /** The identifier for the service. Example: "6F81-5844-456A" */
-  serviceId?: string;
+  serviceId?: string | undefined;
 }
 export type ServiceList = Array<Service>;
 /** Response message for `ListServices`. */
 export interface ListServicesResponse {
-  /** A token to retrieve the next page of results. To retrieve the next page, call `ListServices` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
-  nextPageToken?: string;
   /** A list of services. */
-  services?: ServiceList;
+  services?: ServiceList | undefined;
+  /** A token to retrieve the next page of results. To retrieve the next page, call `ListServices` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
+  nextPageToken?: string | undefined;
 }
 export interface ListServicesSkusRequest {
-  /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListSkus` call. If unspecified, the first page of results is returned. */
-  pageToken?: string;
-  /** Optional exclusive end time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
-  endTime?: string;
-  /** Optional inclusive start time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
-  startTime?: string;
-  /** The ISO 4217 currency code for the pricing info in the response proto. Will use the conversion rate as of start_time. Optional. If not specified USD will be used. */
-  currencyCode?: string;
+  /** Requested page size. Defaults to 5000. */
+  pageSize?: number | undefined;
   /** Required. The name of the service. Example: "services/6F81-5844-456A" */
   parent: string;
-  /** Requested page size. Defaults to 5000. */
-  pageSize?: number;
+  /** Optional exclusive end time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
+  endTime?: string | undefined;
+  /** Optional inclusive start time of the time range for which the pricing versions will be returned. Timestamps in the future are not allowed. The time range has to be within a single calendar month in America/Los_Angeles timezone. Time range as a whole is optional. If not specified, the latest pricing will be returned (up to 12 hours old at most). */
+  startTime?: string | undefined;
+  /** The ISO 4217 currency code for the pricing info in the response proto. Will use the conversion rate as of start_time. Optional. If not specified USD will be used. */
+  currencyCode?: string | undefined;
+  /** A token identifying a page of results to return. This should be a `next_page_token` value returned from a previous `ListSkus` call. If unspecified, the first page of results is returned. */
+  pageToken?: string | undefined;
 }
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+  nanos?: number | undefined;
   /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
 }
 /** The price rate indicating starting usage and its corresponding price. */
 export interface TierRate {
   /** Usage is priced at this rate only after this amount. Example: start_usage_amount of 10 indicates that the usage will be priced at the unit_price after the first 10 usage_units. */
-  startUsageAmount?: number;
+  startUsageAmount?: number | undefined;
   /** The price per unit of usage. Example: unit_price of amount $10 indicates that each unit will cost $10. */
-  unitPrice?: Money;
+  unitPrice?: Money | undefined;
 }
 export type TierRateList = Array<TierRate>;
 /** Expresses a mathematical pricing formula. For Example:- `usage_unit: GBy` `tiered_rates:` `[start_usage_amount: 20, unit_price: $10]` `[start_usage_amount: 100, unit_price: $5]` The above expresses a pricing formula where the first 20GB is free, the next 80GB is priced at $10 per GB followed by $5 per GB for additional usage. */
 export interface PricingExpression {
-  /** The short hand for unit of usage this pricing is specified in. Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte". */
-  usageUnit?: string;
-  /** The list of tiered rates for this pricing. The total cost is computed by applying each of the tiered rates on usage. This repeated list is sorted by ascending order of start_usage_amount. */
-  tieredRates?: TierRateList;
   /** Conversion factor for converting from price per usage_unit to price per base_unit, and start_usage_amount to start_usage_amount in base_unit. unit_price / base_unit_conversion_factor = price per base_unit. start_usage_amount * base_unit_conversion_factor = start_usage_amount in base_unit. */
-  baseUnitConversionFactor?: number;
-  /** The base unit in human readable form. Example: "byte". */
-  baseUnitDescription?: string;
-  /** The unit of usage in human readable form. Example: "gibi byte". */
-  usageUnitDescription?: string;
+  baseUnitConversionFactor?: number | undefined;
+  /** The list of tiered rates for this pricing. The total cost is computed by applying each of the tiered rates on usage. This repeated list is sorted by ascending order of start_usage_amount. */
+  tieredRates?: TierRateList | undefined;
+  /** The short hand for unit of usage this pricing is specified in. Example: usage_unit of "GiBy" means that usage is specified in "Gibi Byte". */
+  usageUnit?: string | undefined;
   /** The recommended quantity of units for displaying pricing info. When displaying pricing info it is recommended to display: (unit_price * display_quantity) per display_quantity usage_unit. This field does not affect the pricing formula and is for display purposes only. Example: If the unit_price is "0.0001 USD", the usage_unit is "GB" and the display_quantity is "1000" then the recommended way of displaying the pricing info is "0.10 USD per 1000 GB" */
-  displayQuantity?: number;
+  displayQuantity?: number | undefined;
   /** The base unit for the SKU which is the unit used in usage exports. Example: "By" */
-  baseUnit?: string;
+  baseUnit?: string | undefined;
+  /** The unit of usage in human readable form. Example: "gibi byte". */
+  usageUnitDescription?: string | undefined;
+  /** The base unit in human readable form. Example: "byte". */
+  baseUnitDescription?: string | undefined;
 }
-export type AggregationInfoAggregationLevelEnum =
-  | "AGGREGATION_LEVEL_UNSPECIFIED"
-  | "ACCOUNT"
-  | "PROJECT";
 export type AggregationInfoAggregationIntervalEnum =
   | "AGGREGATION_INTERVAL_UNSPECIFIED"
   | "DAILY"
   | "MONTHLY";
+export type AggregationInfoAggregationLevelEnum =
+  | "AGGREGATION_LEVEL_UNSPECIFIED"
+  | "ACCOUNT"
+  | "PROJECT";
 /** Represents the aggregation level and interval for pricing of a single SKU. */
 export interface AggregationInfo {
-  aggregationLevel?: AggregationInfoAggregationLevelEnum;
   /** The number of intervals to aggregate over. Example: If aggregation_level is "DAILY" and aggregation_count is 14, aggregation will be over 14 days. */
-  aggregationCount?: number;
-  aggregationInterval?: AggregationInfoAggregationIntervalEnum;
+  aggregationCount?: number | undefined;
+  aggregationInterval?: AggregationInfoAggregationIntervalEnum | undefined;
+  aggregationLevel?: AggregationInfoAggregationLevelEnum | undefined;
 }
 /** Represents the pricing information for a SKU at a single point of time. */
 export interface PricingInfo {
-  /** Expresses the pricing formula. See `PricingExpression` for an example. */
-  pricingExpression?: PricingExpression;
-  /** Conversion rate used for currency conversion, from USD to the currency specified in the request. This includes any surcharge collected for billing in non USD currency. If a currency is not specified in the request this defaults to 1.0. Example: USD * currency_conversion_rate = JPY */
-  currencyConversionRate?: number;
-  /** Aggregation Info. This can be left unspecified if the pricing expression doesn't require aggregation. */
-  aggregationInfo?: AggregationInfo;
   /** An optional human readable summary of the pricing information, has a maximum length of 256 characters. */
-  summary?: string;
+  summary?: string | undefined;
+  /** Conversion rate used for currency conversion, from USD to the currency specified in the request. This includes any surcharge collected for billing in non USD currency. If a currency is not specified in the request this defaults to 1.0. Example: USD * currency_conversion_rate = JPY */
+  currencyConversionRate?: number | undefined;
+  /** Expresses the pricing formula. See `PricingExpression` for an example. */
+  pricingExpression?: PricingExpression | undefined;
+  /** Aggregation Info. This can be left unspecified if the pricing expression doesn't require aggregation. */
+  aggregationInfo?: AggregationInfo | undefined;
   /** The timestamp from which this pricing was effective within the requested time range. This is guaranteed to be greater than or equal to the start_time field in the request and less than the end_time field in the request. If a time range was not specified in the request this field will be equivalent to a time within the last 12 hours, indicating the latest pricing info. */
-  effectiveTime?: string;
+  effectiveTime?: string | undefined;
 }
 export type PricingInfoList = Array<PricingInfo>;
 export type GeoTaxonomyTypeEnum = "TYPE_UNSPECIFIED" | "GLOBAL" | "REGIONAL" | "MULTI_REGIONAL";
 /** Encapsulates the geographic taxonomy data for a sku. */
 export interface GeoTaxonomy {
   /** The type of Geo Taxonomy: GLOBAL, REGIONAL, or MULTI_REGIONAL. */
-  type?: GeoTaxonomyTypeEnum;
+  type?: GeoTaxonomyTypeEnum | undefined;
   /** The list of regions associated with a sku. Empty for Global skus, which are associated with all Google Cloud regions. */
-  regions?: StringList_;
+  regions?: StringList_ | undefined;
 }
 /** Represents the category hierarchy of a SKU. */
 export interface Category {
-  /** The display name of the service this SKU belongs to. */
-  serviceDisplayName?: string;
-  /** A group classification for related SKUs. Example: "RAM", "GPU", "Prediction", "Ops", "GoogleEgress" etc. */
-  resourceGroup?: string;
   /** The type of product the SKU refers to. Example: "Compute", "Storage", "Network", "ApplicationServices" etc. */
-  resourceFamily?: string;
+  resourceFamily?: string | undefined;
+  /** A group classification for related SKUs. Example: "RAM", "GPU", "Prediction", "Ops", "GoogleEgress" etc. */
+  resourceGroup?: string | undefined;
   /** Represents how the SKU is consumed. Example: "OnDemand", "Preemptible", "Commit1Mo", "Commit1Yr" etc. */
-  usageType?: string;
+  usageType?: string | undefined;
+  /** The display name of the service this SKU belongs to. */
+  serviceDisplayName?: string | undefined;
 }
 /** Encapsulates a single SKU in Google Cloud */
 export interface Sku {
-  /** The resource name for the SKU. Example: "services/6F81-5844-456A/skus/D041-B8A1-6E0B" */
-  name?: string;
-  /** A human readable description of the SKU, has a maximum length of 256 characters. */
-  description?: string;
-  /** Identifies the service provider. This is 'Google' for first party services in Google Cloud Platform. */
-  serviceProviderName?: string;
-  /** List of service regions this SKU is offered at. Example: "asia-east1" Service regions can be found at https://cloud.google.com/about/locations/ */
-  serviceRegions?: StringList_;
   /** A timeline of pricing info for this SKU in chronological order. */
-  pricingInfo?: PricingInfoList;
+  pricingInfo?: PricingInfoList | undefined;
   /** The geographic taxonomy for this sku. */
-  geoTaxonomy?: GeoTaxonomy;
+  geoTaxonomy?: GeoTaxonomy | undefined;
   /** The identifier for the SKU. Example: "D041-B8A1-6E0B" */
-  skuId?: string;
+  skuId?: string | undefined;
+  /** The resource name for the SKU. Example: "services/6F81-5844-456A/skus/D041-B8A1-6E0B" */
+  name?: string | undefined;
+  /** List of service regions this SKU is offered at. Example: "asia-east1" Service regions can be found at https://cloud.google.com/about/locations/ */
+  serviceRegions?: StringList_ | undefined;
   /** The category hierarchy of this SKU, purely for organizational purpose. */
-  category?: Category;
+  category?: Category | undefined;
+  /** Identifies the service provider. This is 'Google' for first party services in Google Cloud Platform. */
+  serviceProviderName?: string | undefined;
+  /** A human readable description of the SKU, has a maximum length of 256 characters. */
+  description?: string | undefined;
 }
 export type SkuList = Array<Sku>;
 /** Response message for `ListSkus`. */
 export interface ListSkusResponse {
   /** The list of public SKUs of the given service. */
-  skus?: SkuList;
+  skus?: SkuList | undefined;
   /** A token to retrieve the next page of results. To retrieve the next page, call `ListSkus` again with the `page_token` field set to this value. This field is empty if there are no more results to retrieve. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListTasksPushNotificationConfigsRequest {
-  /** For AIP-158 these fields are present. Usually not used/needed. The maximum number of configurations to return. If unspecified, all configs will be returned. */
-  pageSize?: number;
   /** A page token received from a previous ListTaskPushNotificationConfigRequest call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTaskPushNotificationConfigRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string | undefined;
+  /** For AIP-158 these fields are present. Usually not used/needed. The maximum number of configurations to return. If unspecified, all configs will be returned. */
+  pageSize?: number | undefined;
   /** The parent task resource. Format: tasks/{task_id} */
   parent: string;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
 }
 export type TaskPushNotificationConfigList = Array<TaskPushNotificationConfig>;
 export interface ListTaskPushNotificationConfigResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of push notification configurations. */
-  configs?: TaskPushNotificationConfigList;
+  configs?: TaskPushNotificationConfigList | undefined;
 }
 /** Request message for `MoveBillingAccount` RPC. */
 export interface MoveBillingAccountRequest {
   /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
-  destinationParent?: string;
+  destinationParent?: string | undefined;
 }
 export interface MoveBillingAccountsRequest {
   /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
   name: string;
   /** Request body */
-  body?: MoveBillingAccountRequest;
+  body?: MoveBillingAccountRequest | undefined;
 }
 export interface MoveOrganizationsBillingAccountsRequest {
-  /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
-  destinationParent: string;
   /** Required. The resource name of the billing account to move. Must be of the form `billingAccounts/{billing_account_id}`. The specified billing account cannot be a subaccount, since a subaccount always belongs to the same organization as its parent account. */
   name: string;
+  /** Required. The resource name of the Organization to move the billing account under. Must be of the form `organizations/{organization_id}`. */
+  destinationParent: string;
 }
 export interface PatchBillingAccountsRequest {
   /** Required. The name of the billing account resource to be updated. */
   name: string;
   /** The update mask applied to the resource. Only "display_name" is currently supported. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: BillingAccount;
+  body?: BillingAccount | undefined;
 }
 /** Configuration of a send message request. */
 export interface SendMessageConfiguration {
   /** The maximum number of messages to include in the history. if 0, the history will be unlimited. */
-  historyLength?: number;
-  /** The output modes that the agent is expected to respond with. */
-  acceptedOutputModes?: StringList_;
-  /** A configuration of a webhook that can be used to receive updates */
-  pushNotification?: PushNotificationConfig;
+  historyLength?: number | undefined;
   /** If true, the message will be blocking until the task is completed. If false, the message will be non-blocking and the task will be returned immediately. It is the caller's responsibility to check for any task updates. */
-  blocking?: boolean;
+  blocking?: boolean | undefined;
+  /** A configuration of a webhook that can be used to receive updates */
+  pushNotification?: PushNotificationConfig | undefined;
+  /** The output modes that the agent is expected to respond with. */
+  acceptedOutputModes?: StringList_ | undefined;
 }
 /** /////////// Request Messages /////////// */
 export interface SendMessageRequest {
   /** Required. The message to send to the agent. */
-  message?: Message;
-  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
-  /** Optional metadata for the request. */
-  metadata?: DocumentMap;
+  message?: Message | undefined;
   /** Configuration for the send request. */
-  configuration?: SendMessageConfiguration;
+  configuration?: SendMessageConfiguration | undefined;
+  /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
+  tenant?: string | undefined;
+  /** Optional metadata for the request. */
+  metadata?: DocumentMap | undefined;
 }
 export interface SendMessageRequest_ {
   /** Request body */
-  body?: SendMessageRequest;
+  body?: SendMessageRequest | undefined;
 }
 /** ////// Response Messages /////////// */
 export interface SendMessageResponse {
-  message?: Message;
-  task?: Task;
+  task?: Task | undefined;
+  message?: Message | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
+  /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyBillingAccountsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface StreamMessageRequest {
   /** Request body */
-  body?: SendMessageRequest;
-}
-/** TaskArtifactUpdateEvent represents a task delta where an artifact has been generated. */
-export interface TaskArtifactUpdateEvent {
-  /** The id of the context that this task belongs too */
-  contextId?: string;
-  /** The artifact itself */
-  artifact?: Artifact;
-  /** Whether this should be appended to a prior one produced */
-  append?: boolean;
-  /** Optional metadata associated with the artifact update. */
-  metadata?: DocumentMap;
-  /** The id of the task for this artifact */
-  taskId?: string;
-  /** Whether this represents the last part of an artifact */
-  lastChunk?: boolean;
+  body?: SendMessageRequest | undefined;
 }
 /** TaskStatusUpdateEvent is a delta even on a task indicating that a task has changed. */
 export interface TaskStatusUpdateEvent {
-  /** Whether this is the last status update expected for this task. */
-  final?: boolean;
-  /** The new status of the task. */
-  status?: TaskStatus;
-  /** The id of the context that the task belongs to */
-  contextId?: string;
   /** Optional metadata to associate with the task update. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
+  /** The id of the context that the task belongs to */
+  contextId?: string | undefined;
   /** The id of the task that is changed */
-  taskId?: string;
+  taskId?: string | undefined;
+  /** The new status of the task. */
+  status?: TaskStatus | undefined;
+  /** Whether this is the last status update expected for this task. */
+  final?: boolean | undefined;
+}
+/** TaskArtifactUpdateEvent represents a task delta where an artifact has been generated. */
+export interface TaskArtifactUpdateEvent {
+  /** The artifact itself */
+  artifact?: Artifact | undefined;
+  /** The id of the context that this task belongs too */
+  contextId?: string | undefined;
+  /** Whether this represents the last part of an artifact */
+  lastChunk?: boolean | undefined;
+  /** Optional metadata associated with the artifact update. */
+  metadata?: DocumentMap | undefined;
+  /** Whether this should be appended to a prior one produced */
+  append?: boolean | undefined;
+  /** The id of the task for this artifact */
+  taskId?: string | undefined;
 }
 /** The stream response for a message. The stream should be one of the following sequences: If the response is a message, the stream should contain one, and only one, message and then close If the response is a task lifecycle, the first response should be a Task object followed by zero or more TaskStatusUpdateEvents and TaskArtifactUpdateEvents. The stream should complete when the Task if in an interrupted or terminal state. A stream that ends before these conditions are met are */
 export interface StreamResponse {
-  message?: Message;
-  task?: Task;
-  artifactUpdate?: TaskArtifactUpdateEvent;
-  statusUpdate?: TaskStatusUpdateEvent;
+  message?: Message | undefined;
+  statusUpdate?: TaskStatusUpdateEvent | undefined;
+  artifactUpdate?: TaskArtifactUpdateEvent | undefined;
+  task?: Task | undefined;
 }
 export interface SubscribeTasksRequest {
   /** The resource name of the task to subscribe to. Format: tasks/{task_id} */
   name: string;
   /** Optional tenant, provided as a path parameter. Experimental, might still change for 1.0 release. */
-  tenant?: string;
+  tenant?: string | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList_;
+  permissions?: StringList_ | undefined;
 }
 export interface TestIamPermissionsBillingAccountsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList_;
+  permissions?: StringList_ | undefined;
 }
 export interface UpdateBillingInfoProjectsRequest {
   /** Required. The resource name of the project associated with the billing information that you want to update. For example, `projects/tokyo-rain-123`. */
   name: string;
   /** Request body */
-  body?: ProjectBillingInfo;
+  body?: ProjectBillingInfo | undefined;
 }
 export type CancelTasksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Cancel a task from the agent. If supported one should expect no more task updates for the task. */
@@ -1074,7 +1067,7 @@ export const getCardV1: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetCardV1Request>,
-  output: __S(124, __c3, 28) as any as S.Schema<AgentCard>,
+  output: __S(123, __c3, 27) as any as S.Schema<AgentCard>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1469,9 +1462,9 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           billingEnabled: S.optional(S.Boolean),
-          billingAccountName: S.optional(S.String),
-          name: S.optional(S.String),
           projectId: S.optional(S.String),
+          name: S.optional(S.String),
+          billingAccountName: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProjectBillingInfo" });
   }
@@ -1493,78 +1486,80 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
           organization: S.optional(S.String),
+          url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentProvider" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          transport: S.optional(S.String),
-          tenant: S.optional(S.String),
-          url: S.optional(S.String),
+          protected: S.optional(S.String),
+          signature: S.optional(S.String),
+          header: S.optional(__S(896, __c28, 0)),
         }),
-      ).annotate({ identifier: "AgentInterface" });
+      ).annotate({ identifier: "AgentCardSignature" });
     case 3:
       return S.Array(__S(98, __c3, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          required: S.optional(S.Boolean),
-          uri: S.optional(S.String),
-          params: S.optional(__S(896, __c28, 0)),
-        }),
-      ).annotate({ identifier: "AgentExtension" });
-    case 5:
-      return S.Array(__S(100, __c3, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          extensions: S.optional(__S(101, __c3, 5)),
-          streaming: S.optional(S.Boolean),
-          pushNotifications: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "AgentCapabilities" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
           list: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "StringList" });
-    case 8:
-      return S.Record(S.String, __S(103, __c3, 7));
-    case 9:
+    case 5:
+      return S.Record(S.String, __S(100, __c3, 4));
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          schemes: S.optional(__S(104, __c3, 8)),
+          schemes: S.optional(__S(101, __c3, 5)),
         }),
       ).annotate({ identifier: "Security" });
+    case 7:
+      return S.Array(__S(102, __c3, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          inputModes: S.optional(__S(960, __c30, 0)),
+          name: S.optional(S.String),
+          examples: S.optional(__S(960, __c30, 0)),
+          description: S.optional(S.String),
+          tags: S.optional(__S(960, __c30, 0)),
+          security: S.optional(__S(103, __c3, 7)),
+          outputModes: S.optional(__S(960, __c30, 0)),
+        }),
+      ).annotate({ identifier: "AgentSkill" });
+    case 9:
+      return S.Array(__S(104, __c3, 8));
     case 10:
-      return S.Array(__S(105, __c3, 9));
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MutualTlsSecurityScheme" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          inputModes: S.optional(__S(960, __c30, 0)),
-          examples: S.optional(__S(960, __c30, 0)),
-          outputModes: S.optional(__S(960, __c30, 0)),
-          security: S.optional(__S(106, __c3, 10)),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          tags: S.optional(__S(960, __c30, 0)),
+          scheme: S.optional(S.String),
+          description: S.optional(S.String),
+          bearerFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HTTPAuthSecurityScheme" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          openIdConnectUrl: S.optional(S.String),
           description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AgentSkill" });
-    case 12:
-      return S.Array(__S(107, __c3, 11));
+      ).annotate({ identifier: "OpenIdConnectSecurityScheme" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          bearerFormat: S.optional(S.String),
-          scheme: S.optional(S.String),
+          name: S.optional(S.String),
+          location: S.optional(S.String),
         }),
-      ).annotate({ identifier: "HTTPAuthSecurityScheme" });
+      ).annotate({ identifier: "APIKeySecurityScheme" });
     case 14:
       return S.Record(S.String, S.String);
     case 15:
@@ -1578,109 +1573,99 @@ function __c3(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
+          tokenUrl: S.optional(S.String),
+          scopes: S.optional(__S(110, __c3, 14)),
           authorizationUrl: S.optional(S.String),
           refreshUrl: S.optional(S.String),
-          scopes: S.optional(__S(110, __c3, 14)),
-          tokenUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizationCodeOAuthFlow" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(110, __c3, 14)),
-          refreshUrl: S.optional(S.String),
-          tokenUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PasswordOAuthFlow" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
           authorizationUrl: S.optional(S.String),
-          refreshUrl: S.optional(S.String),
           scopes: S.optional(__S(110, __c3, 14)),
+          refreshUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImplicitOAuthFlow" });
-    case 19:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           clientCredentials: S.optional(__S(111, __c3, 15)),
           authorizationCode: S.optional(__S(112, __c3, 16)),
-          password: S.optional(__S(113, __c3, 17)),
-          implicit: S.optional(__S(114, __c3, 18)),
+          password: S.optional(__S(111, __c3, 15)),
+          implicit: S.optional(__S(113, __c3, 17)),
         }),
       ).annotate({ identifier: "OAuthFlows" });
-    case 20:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           oauth2MetadataUrl: S.optional(S.String),
-          flows: S.optional(__S(115, __c3, 19)),
           description: S.optional(S.String),
+          flows: S.optional(__S(114, __c3, 18)),
         }),
       ).annotate({ identifier: "OAuth2SecurityScheme" });
-    case 21:
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
+          mtlsSecurityScheme: S.optional(__S(106, __c3, 10)),
+          httpAuthSecurityScheme: S.optional(__S(107, __c3, 11)),
+          openIdConnectSecurityScheme: S.optional(__S(108, __c3, 12)),
+          apiKeySecurityScheme: S.optional(__S(109, __c3, 13)),
+          oauth2SecurityScheme: S.optional(__S(115, __c3, 19)),
         }),
-      ).annotate({ identifier: "MutualTlsSecurityScheme" });
+      ).annotate({ identifier: "SecurityScheme" });
+    case 21:
+      return S.Record(S.String, __S(116, __c3, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.String),
-          openIdConnectUrl: S.optional(S.String),
+          url: S.optional(S.String),
+          transport: S.optional(S.String),
+          tenant: S.optional(S.String),
         }),
-      ).annotate({ identifier: "OpenIdConnectSecurityScheme" });
+      ).annotate({ identifier: "AgentInterface" });
     case 23:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String),
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "APIKeySecurityScheme" });
+      return S.Array(__S(118, __c3, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          httpAuthSecurityScheme: S.optional(__S(109, __c3, 13)),
-          oauth2SecurityScheme: S.optional(__S(116, __c3, 20)),
-          mtlsSecurityScheme: S.optional(__S(117, __c3, 21)),
-          openIdConnectSecurityScheme: S.optional(__S(118, __c3, 22)),
-          apiKeySecurityScheme: S.optional(__S(119, __c3, 23)),
+          required: S.optional(S.Boolean),
+          uri: S.optional(S.String),
+          params: S.optional(__S(896, __c28, 0)),
+          description: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SecurityScheme" });
+      ).annotate({ identifier: "AgentExtension" });
     case 25:
-      return S.Record(S.String, __S(120, __c3, 24));
+      return S.Array(__S(120, __c3, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          header: S.optional(__S(896, __c28, 0)),
-          protected: S.optional(S.String),
-          signature: S.optional(S.String),
+          pushNotifications: S.optional(S.Boolean),
+          streaming: S.optional(S.Boolean),
+          extensions: S.optional(__S(121, __c3, 25)),
         }),
-      ).annotate({ identifier: "AgentCardSignature" });
+      ).annotate({ identifier: "AgentCapabilities" });
     case 27:
-      return S.Array(__S(122, __c3, 26));
-    case 28:
       return S.suspend(() =>
         S.Struct({
-          provider: S.optional(__S(97, __c3, 1)),
-          defaultOutputModes: S.optional(__S(960, __c30, 0)),
-          description: S.optional(S.String),
-          additionalInterfaces: S.optional(__S(99, __c3, 3)),
-          capabilities: S.optional(__S(102, __c3, 6)),
-          protocolVersion: S.optional(S.String),
-          name: S.optional(S.String),
-          skills: S.optional(__S(108, __c3, 12)),
-          defaultInputModes: S.optional(__S(960, __c30, 0)),
-          securitySchemes: S.optional(__S(121, __c3, 25)),
-          supportsAuthenticatedExtendedCard: S.optional(S.Boolean),
-          url: S.optional(S.String),
-          preferredTransport: S.optional(S.String),
           iconUrl: S.optional(S.String),
-          security: S.optional(__S(106, __c3, 10)),
-          signatures: S.optional(__S(123, __c3, 27)),
+          url: S.optional(S.String),
+          description: S.optional(S.String),
+          preferredTransport: S.optional(S.String),
+          protocolVersion: S.optional(S.String),
+          defaultInputModes: S.optional(__S(960, __c30, 0)),
           version: S.optional(S.String),
+          defaultOutputModes: S.optional(__S(960, __c30, 0)),
           documentationUrl: S.optional(S.String),
+          provider: S.optional(__S(97, __c3, 1)),
+          supportsAuthenticatedExtendedCard: S.optional(S.Boolean),
+          signatures: S.optional(__S(99, __c3, 3)),
+          skills: S.optional(__S(105, __c3, 9)),
+          securitySchemes: S.optional(__S(117, __c3, 21)),
+          additionalInterfaces: S.optional(__S(119, __c3, 23)),
+          security: S.optional(__S(103, __c3, 7)),
+          capabilities: S.optional(__S(122, __c3, 26)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentCard" });
   }
@@ -1690,8 +1675,8 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
           resource: S.String.pipe(T.Label()),
+          "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1707,47 +1692,47 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          expression: S.optional(S.String),
-          location: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Expr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          condition: S.optional(__S(160, __c5, 0)),
-          members: S.optional(__S(960, __c30, 0)),
-          role: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(161, __c5, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          exemptedMembers: S.optional(__S(960, __c30, 0)),
           logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "AuditLogConfig" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          service: S.optional(S.String),
+          auditLogConfigs: S.optional(__S(161, __c5, 1)),
+        }),
+      ).annotate({ identifier: "AuditConfig" });
+    case 3:
+      return S.Array(__S(162, __c5, 2));
     case 4:
-      return S.Array(__S(163, __c5, 3));
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          location: S.optional(S.String),
+          expression: S.optional(S.String),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          auditLogConfigs: S.optional(__S(164, __c5, 4)),
-          service: S.optional(S.String),
+          members: S.optional(__S(960, __c30, 0)),
+          role: S.optional(S.String),
+          condition: S.optional(__S(164, __c5, 4)),
         }),
-      ).annotate({ identifier: "AuditConfig" });
+      ).annotate({ identifier: "Binding" });
     case 6:
       return S.Array(__S(165, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.Number),
-          bindings: S.optional(__S(162, __c5, 2)),
+          auditConfigs: S.optional(__S(163, __c5, 3)),
           etag: S.optional(S.String),
-          auditConfigs: S.optional(__S(166, __c5, 6)),
+          version: S.optional(S.Number),
+          bindings: S.optional(__S(166, __c5, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -1792,9 +1777,9 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1813,8 +1798,8 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           billingAccounts: S.optional(__S(288, __c9, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBillingAccountsResponse" });
   }
@@ -1824,8 +1809,8 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1840,8 +1825,8 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           projectBillingInfo: S.optional(__S(321, __c10, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProjectBillingInfoResponse" });
   }
@@ -1870,9 +1855,9 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1889,8 +1874,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1902,8 +1887,8 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           businessEntityName: S.optional(S.String),
+          displayName: S.optional(S.String),
           name: S.optional(S.String),
           serviceId: S.optional(S.String),
         }),
@@ -1913,8 +1898,8 @@ function __c13(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           services: S.optional(__S(418, __c13, 2)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
@@ -1924,12 +1909,12 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           endTime: S.optional(S.String.pipe(T.Query())),
           startTime: S.optional(S.String.pipe(T.Query())),
           currencyCode: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1942,8 +1927,8 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nanos: S.optional(S.Number),
-          units: S.optional(S.String),
           currencyCode: S.optional(S.String),
+          units: S.optional(S.String),
         }),
       ).annotate({ identifier: "Money" });
     case 2:
@@ -1958,30 +1943,30 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          usageUnit: S.optional(S.String),
-          tieredRates: S.optional(__S(451, __c14, 3)),
           baseUnitConversionFactor: S.optional(S.Number),
-          baseUnitDescription: S.optional(S.String),
-          usageUnitDescription: S.optional(S.String),
+          tieredRates: S.optional(__S(451, __c14, 3)),
+          usageUnit: S.optional(S.String),
           displayQuantity: S.optional(S.Number),
           baseUnit: S.optional(S.String),
+          usageUnitDescription: S.optional(S.String),
+          baseUnitDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "PricingExpression" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          aggregationLevel: S.optional(S.String),
           aggregationCount: S.optional(S.Number),
           aggregationInterval: S.optional(S.String),
+          aggregationLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregationInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          pricingExpression: S.optional(__S(452, __c14, 4)),
-          currencyConversionRate: S.optional(S.Number),
-          aggregationInfo: S.optional(__S(453, __c14, 5)),
           summary: S.optional(S.String),
+          currencyConversionRate: S.optional(S.Number),
+          pricingExpression: S.optional(__S(452, __c14, 4)),
+          aggregationInfo: S.optional(__S(453, __c14, 5)),
           effectiveTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "PricingInfo" });
@@ -1997,23 +1982,23 @@ function __c14(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          serviceDisplayName: S.optional(S.String),
-          resourceGroup: S.optional(S.String),
           resourceFamily: S.optional(S.String),
+          resourceGroup: S.optional(S.String),
           usageType: S.optional(S.String),
+          serviceDisplayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Category" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          serviceProviderName: S.optional(S.String),
-          serviceRegions: S.optional(__S(960, __c30, 0)),
           pricingInfo: S.optional(__S(455, __c14, 7)),
           geoTaxonomy: S.optional(__S(456, __c14, 8)),
           skuId: S.optional(S.String),
+          name: S.optional(S.String),
+          serviceRegions: S.optional(__S(960, __c30, 0)),
           category: S.optional(__S(457, __c14, 9)),
+          serviceProviderName: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Sku" });
     case 11:
@@ -2032,10 +2017,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           tenant: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2083,8 +2068,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          destinationParent: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          destinationParent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2130,8 +2115,8 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(932, __c29, 4)),
           task: S.optional(__S(937, __c29, 9)),
+          message: S.optional(__S(934, __c29, 6)),
         }),
       ).annotate({ identifier: "SendMessageResponse" });
   }
@@ -2142,18 +2127,18 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           historyLength: S.optional(S.Number),
-          acceptedOutputModes: S.optional(__S(960, __c30, 0)),
-          pushNotification: S.optional(__S(1185, __c37, 1)),
           blocking: S.optional(S.Boolean),
+          pushNotification: S.optional(__S(1185, __c37, 1)),
+          acceptedOutputModes: S.optional(__S(960, __c30, 0)),
         }),
       ).annotate({ identifier: "SendMessageConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(932, __c29, 4)),
+          message: S.optional(__S(934, __c29, 6)),
+          configuration: S.optional(__S(640, __c20, 0)),
           tenant: S.optional(S.String),
           metadata: S.optional(__S(896, __c28, 0)),
-          configuration: S.optional(__S(640, __c20, 0)),
         }),
       ).annotate({ identifier: "SendMessageRequest" });
   }
@@ -2163,8 +2148,8 @@ function __c21(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
           policy: S.optional(__S(167, __c5, 7)),
+          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
@@ -2203,31 +2188,31 @@ function __c23(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contextId: S.optional(S.String),
-          artifact: S.optional(__S(935, __c29, 7)),
-          append: S.optional(S.Boolean),
           metadata: S.optional(__S(896, __c28, 0)),
+          contextId: S.optional(S.String),
           taskId: S.optional(S.String),
-          lastChunk: S.optional(S.Boolean),
+          status: S.optional(__S(936, __c29, 8)),
+          final: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TaskArtifactUpdateEvent" });
+      ).annotate({ identifier: "TaskStatusUpdateEvent" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          final: S.optional(S.Boolean),
-          status: S.optional(__S(934, __c29, 6)),
+          artifact: S.optional(__S(932, __c29, 4)),
           contextId: S.optional(S.String),
+          lastChunk: S.optional(S.Boolean),
           metadata: S.optional(__S(896, __c28, 0)),
+          append: S.optional(S.Boolean),
           taskId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "TaskStatusUpdateEvent" });
+      ).annotate({ identifier: "TaskArtifactUpdateEvent" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(932, __c29, 4)),
+          message: S.optional(__S(934, __c29, 6)),
+          statusUpdate: S.optional(__S(736, __c23, 0)),
+          artifactUpdate: S.optional(__S(737, __c23, 1)),
           task: S.optional(__S(937, __c29, 9)),
-          artifactUpdate: S.optional(__S(736, __c23, 0)),
-          statusUpdate: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "StreamResponse" });
   }
@@ -2323,9 +2308,9 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
           fileWithUri: S.optional(S.String),
           name: S.optional(S.String),
+          mimeType: S.optional(S.String),
           fileWithBytes: S.optional(S.String),
         }),
       ).annotate({ identifier: "FilePart" });
@@ -2339,8 +2324,8 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.String),
-          file: S.optional(__S(928, __c29, 0)),
           metadata: S.optional(__S(896, __c28, 0)),
+          file: S.optional(__S(928, __c29, 0)),
           data: S.optional(__S(929, __c29, 1)),
         }),
       ).annotate({ identifier: "Part" });
@@ -2349,47 +2334,47 @@ function __c29(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
+          name: S.optional(S.String),
+          artifactId: S.optional(S.String),
           extensions: S.optional(__S(960, __c30, 0)),
-          content: S.optional(__S(931, __c29, 3)),
-          contextId: S.optional(S.String),
+          description: S.optional(S.String),
+          parts: S.optional(__S(931, __c29, 3)),
           metadata: S.optional(__S(896, __c28, 0)),
-          role: S.optional(S.String),
-          messageId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Message" });
+      ).annotate({ identifier: "Artifact" });
     case 5:
       return S.Array(__S(932, __c29, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          message: S.optional(__S(932, __c29, 4)),
+          extensions: S.optional(__S(960, __c30, 0)),
+          metadata: S.optional(__S(896, __c28, 0)),
+          content: S.optional(__S(931, __c29, 3)),
+          messageId: S.optional(S.String),
+          contextId: S.optional(S.String),
+          taskId: S.optional(S.String),
+          role: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Message" });
+    case 7:
+      return S.Array(__S(934, __c29, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           timestamp: S.optional(S.String),
+          message: S.optional(__S(934, __c29, 6)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "TaskStatus" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          extensions: S.optional(__S(960, __c30, 0)),
-          metadata: S.optional(__S(896, __c28, 0)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          parts: S.optional(__S(931, __c29, 3)),
-          artifactId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Artifact" });
-    case 8:
-      return S.Array(__S(935, __c29, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(896, __c28, 0)),
-          history: S.optional(__S(933, __c29, 5)),
-          status: S.optional(__S(934, __c29, 6)),
-          id: S.optional(S.String),
           contextId: S.optional(S.String),
-          artifacts: S.optional(__S(936, __c29, 8)),
+          metadata: S.optional(__S(896, __c28, 0)),
+          artifacts: S.optional(__S(933, __c29, 5)),
+          id: S.optional(S.String),
+          history: S.optional(__S(935, __c29, 7)),
+          status: S.optional(__S(936, __c29, 8)),
         }),
       ).annotate({ identifier: "Task" });
   }
@@ -2422,12 +2407,12 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          currencyCode: S.optional(S.String),
           name: S.optional(S.String),
           open: S.optional(S.Boolean),
+          currencyCode: S.optional(S.String),
+          displayName: S.optional(S.String),
           parent: S.optional(S.String),
           masterBillingAccount: S.optional(S.String),
-          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingAccount" });
   }
@@ -2471,9 +2456,9 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          configId: S.optional(S.String.pipe(T.Query())),
           tenant: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          configId: S.optional(S.String.pipe(T.Query())),
           body: S.optional(__S(1152, __c36, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -2508,9 +2493,9 @@ function __c37(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
-          authentication: S.optional(__S(1184, __c37, 0)),
           url: S.optional(S.String),
+          authentication: S.optional(__S(1184, __c37, 0)),
+          token: S.optional(S.String),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "PushNotificationConfig" });

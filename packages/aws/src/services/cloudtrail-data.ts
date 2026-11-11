@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -120,7 +121,7 @@ export type Uuid = string;
 export interface AuditEvent {
   id: string;
   eventData: string;
-  eventDataChecksum?: string;
+  eventDataChecksum?: string | undefined;
 }
 export type AuditEvents = AuditEvent[];
 export type ChannelArn = string;
@@ -128,7 +129,7 @@ export type ExternalId = string;
 export interface PutAuditEventsRequest {
   auditEvents: AuditEvent[];
   channelArn: string;
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface AuditEventResultEntry {
   id: string;
@@ -163,7 +164,7 @@ export type PutAuditEventsError =
  * request.
  */
 export const putAuditEvents: API.OperationMethod<
-  PutAuditEventsRequest,
+  PutAuditEventsRequest & RegionInput,
   PutAuditEventsResponse,
   PutAuditEventsError,
   Credentials | HttpClient.HttpClient

@@ -49,7 +49,7 @@ export interface AddAudiencePeopleRequest {
   /** The new customer CSV -- a file id (`file_...`) returned by `POST /files`. Its headers must match the audience's saved column mapping. */
   file_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Whether the audience targets a defined group of people or people similar to an existing audience. */
 export type AudienceAudienceType = "custom" | "lookalike";
@@ -230,17 +230,17 @@ export type CreateAudienceRequestAudienceType = "custom" | "lookalike";
 /** CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
 export interface CreateAudienceRequestColumnMapping {
   /** CSV header for ISO 3166-1 alpha-2 country codes, such as `US`. */
-  country?: string;
+  country?: string | undefined;
   /** CSV header for email addresses. */
-  email?: string;
+  email?: string | undefined;
   /** CSV header for first names. */
-  first_name?: string;
+  first_name?: string | undefined;
   /** CSV header for last names. */
-  last_name?: string;
+  last_name?: string | undefined;
   /** CSV header for each customer's lifetime value -- a non-negative number, currency symbols allowed. When mapped, Meta creates the audience as value-based, so lookalikes built from it favor people similar to the highest-value customers. */
-  ltv?: string;
+  ltv?: string | undefined;
   /** CSV header for phone numbers. */
-  phone?: string;
+  phone?: string | undefined;
 }
 /** Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
 export type CreateAudienceRequestEngagementExcludeList = Array<AudienceEngagementRule>;
@@ -251,7 +251,7 @@ export type CreateAudienceRequestEngagementPlatform = "meta";
 /** Rules for membership based on social engagement. Requires a connected social account with advertising access. */
 export interface CreateAudienceRequestEngagement {
   /** Exclude anyone matching any exclusion rule. Defaults to an empty array. Video audiences do not support exclusions; use a separate audience in ad-group exclusions. */
-  exclude?: CreateAudienceRequestEngagementExcludeList;
+  exclude?: CreateAudienceRequestEngagementExcludeList | undefined;
   /** Match any inclusion rule. Video rules must share a retention window and cannot be combined with other sources. */
   include: CreateAudienceRequestEngagementIncludeList;
   /** Ad platform that maintains membership. */
@@ -263,29 +263,29 @@ export interface CreateAudienceRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Audience type. Defaults to `custom`. */
-  audience_type?: CreateAudienceRequestAudienceType | (string & {});
+  audience_type?: CreateAudienceRequestAudienceType | (string & {}) | undefined;
   /** Filter audiences only, and set only at creation. `true` (the default) rebuilds membership from the filters twice a day. `false` keeps whoever matched at creation and never rebuilds. */
-  auto_refresh?: boolean;
+  auto_refresh?: boolean | undefined;
   /** CSV audiences only. Maps supported identity fields to CSV column headers. Map at least one of `email` or `phone`. */
-  column_mapping?: CreateAudienceRequestColumnMapping;
+  column_mapping?: CreateAudienceRequestColumnMapping | undefined;
   /** Lookalikes only. Number of lookalike audiences to create (1-6). */
-  count?: number;
+  count?: number | undefined;
   /** Rules for membership based on social engagement. Requires a connected social account with advertising access. */
-  engagement?: CreateAudienceRequestEngagement;
+  engagement?: CreateAudienceRequestEngagement | undefined;
   /** CSV audiences only. The uploaded customer CSV -- a file id (`file_...`) returned by `POST /files`. */
-  file_id?: string;
+  file_id?: string | undefined;
   /** Filter audiences only. The People filters that define membership, keyed exactly as `GET /people` accepts them -- for example `{"os": "iOS", "country": "US"}`. Activity dates `event_from` and `event_to` are inclusive and remain fixed on refresh. Use `event_within_days`, `first_seen_within_days` or `last_seen_within_days` for a rolling window. Source values are canonical source paths (`whop:<campaign>:<group>:<ad>`, `ext:<platform>:...`, `referrer:<domain>`, `direct`), exact or with a trailing `:*` wildcard. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Audience display name. Required for custom audiences; lookalike names are generated from the source audience. */
-  name?: string;
+  name?: string | undefined;
   /** Lookalikes only. Total similarity reach as a whole percent (1-20), sliced evenly across `count` -- must be divisible by `count`. For example, 3 audiences at 6% creates 0-2%, 2-4%, and 4-6% bands. */
-  percentage?: number;
+  percentage?: number | undefined;
   /** Lookalikes only. The ready custom audience (`adaud_`) to build from; uploaded and People audiences need at least 100 matched people. Meta validates engagement audience eligibility when creating the lookalike. */
-  source_audience_id?: string;
+  source_audience_id?: string | undefined;
   /** Custom audience source. Inferred from `engagement`, then `filters`, otherwise defaults to `csv_upload`. Supply only the fields for the selected source. */
-  source_type?: CreateAudienceRequestSourceType | (string & {});
+  source_type?: CreateAudienceRequestSourceType | (string & {}) | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CreateAudienceResponseBodyCase1DataList = Array<Audience>;
 export interface CreateAudienceResponseBodyCase1 {
@@ -306,15 +306,15 @@ export interface ListAudiencesRequest {
   /** Account ID, prefixed `biz_`. */
   account_id: string;
   /** Audience ID, prefixed `adaud_`, used to filter the response to one audience. */
-  audience_id?: string;
+  audience_id?: string | undefined;
   /** Filter by custom or lookalike audiences. */
-  audience_type?: ListAudiencesRequestAudienceType | (string & {});
+  audience_type?: ListAudiencesRequestAudienceType | (string & {}) | undefined;
   /** Filter by uploaded customer lists, Whop People filters, or social engagement. */
-  source_type?: ListAudiencesRequestSourceType | (string & {});
+  source_type?: ListAudiencesRequestSourceType | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListAudiencesResponseDataList = Array<Audience>;
 export interface ListAudiencesResponsePageInfo {
@@ -331,9 +331,9 @@ export interface UpdateAudienceRequest {
   /** Audience ID, prefixed `adaud_`. */
   id: string;
   /** Replaces the People filters that define membership. The whole definition is replaced rather than merged, so send every filter you want to keep -- a filter you leave out stops applying. Keys and values are the ones `GET /people` accepts, such as an `os` of `iOS` or a `country` of `US`, and at least one filter is required. Date filters must be rolling windows -- `first_seen_within_days` or `last_seen_within_days` -- so the audience re-anchors every time it rebuilds; fixed dates such as `first_seen_after` are rejected, as is `audience_id`. An array value holds at most 500 items, and each value at most 10 KB. Only an audience with a `source_type` of `people_filter` and `auto_refresh` of `true` accepts filters: an uploaded list has no filters to replace, and with auto refresh off the audience keeps the people it matched when it was built, so create a new audience instead. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** New audience display name. A blank value is ignored rather than clearing the name. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AddAudiencePeopleError = Conflict | WhopOpError;
 /** Add People Adds users from a new CSV file to an existing uploaded custom audience. The file uses the audience's saved column mapping, processing happens in the background, and existing audience members remain unchanged. */

@@ -104,9 +104,9 @@ export interface RulesDeleteResultItem {
   /** Identify the snippet. */
   snippetName: string;
   /** Provide an informative description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Indicate whether to execute the rule. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type RulesDeleteResultList = Array<RulesDeleteResultItem>;
 export type DeleteRuleResponse = RulesDeleteResultList;
@@ -137,7 +137,7 @@ export interface GetSnippetResponse {
   /** Identify the snippet. */
   snippetName: string;
   /** Indicates when the snippet was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface ListRulesRequest {
   /** Use this field to specify the unique ID of the zone. */
@@ -150,9 +150,9 @@ export interface ListSnippetsRequest {
   /** Use this field to specify the unique ID of the zone. */
   zoneId: string;
   /** Specifies the current page number. */
-  page?: number;
+  page?: number | undefined;
   /** Specifies how many results to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface ListResultItem {
   /** Indicates when the snippet was created. */
@@ -160,14 +160,14 @@ export interface ListResultItem {
   /** Identify the snippet. */
   snippetName: string;
   /** Indicates when the snippet was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListSnippetsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface RulesUpdateRequestRulesItem {
   /** Define the expression that determines which traffic matches the rule. */
@@ -175,9 +175,9 @@ export interface RulesUpdateRequestRulesItem {
   /** Identify the snippet. */
   snippetName: string;
   /** Provide an informative description of the rule. */
-  description?: string;
+  description?: string | undefined;
   /** Indicate whether to execute the rule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type RulesUpdateRequestRulesList = Array<RulesUpdateRequestRulesItem>;
 export interface PutRuleRequest {
@@ -197,7 +197,7 @@ export interface PutSnippetRequest {
   /** Snippet metadata ({ mainModule }), JSON-encoded as the multipart `metadata` part. */
   metadata: unknown;
   /** Snippet module file(s), appended under their own filenames. */
-  files?: File | Blob | (File | Blob)[];
+  files?: File | Blob | (File | Blob)[] | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSnippetResponse {
@@ -206,7 +206,7 @@ export interface PutSnippetResponse {
   /** Identify the snippet. */
   snippetName: string;
   /** Indicates when the snippet was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type DeleteRuleError =
   | SnippetRulesNotFound

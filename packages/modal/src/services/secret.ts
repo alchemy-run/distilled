@@ -23,51 +23,83 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The environment doesn't exist (gRPC NOT_FOUND). */
+export class EnvironmentNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5, message: { includes: "Environment" } }],
+  ) {}
+
+/** A secret with this name already exists in the environment (gRPC ALREADY_EXISTS). */
+export class SecretAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SecretAlreadyExists>()("SecretAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The secret doesn't exist (gRPC NOT_FOUND). */
+export class SecretNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SecretNotFound>()("SecretNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
 export interface DeleteSecretRequest {
-  secretId?: string;
+  secretId?: string | undefined;
 }
 export interface DeleteSecretResponse {}
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListSecretRequest {
-  environmentName?: string;
-  pagination?: ListPagination;
+  environmentName?: string | undefined;
+  pagination?: ListPagination | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
+  createdAt: number;
   /** Timestamp of resource creation */
-  createdBy?: string;
+  createdBy: string;
 }
 export type StringList = Array<string>;
 export interface SecretMetadata {
-  name?: string;
-  creationInfo?: CreationInfo;
-  keys?: StringList;
-  environmentName?: string;
+  name: string;
+  creationInfo?: CreationInfo | undefined;
+  keys: StringList;
+  environmentName: string;
+  lastUsedAt: number;
+  templateType: string;
 }
 export interface SecretListItem {
-  label?: string;
-  createdAt?: number;
+  label: string;
+  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
-  lastUsedAt?: number;
-  environmentName?: string;
+  lastUsedAt: number;
+  environmentName: string;
   /** Unused by client */
-  secretId?: string;
-  metadata?: SecretMetadata;
+  secretId: string;
+  metadata?: SecretMetadata | undefined;
 }
 export type SecretListItemList = Array<SecretListItem>;
 export interface ListSecretResponse {
-  items?: SecretListItemList;
-  environmentName?: string;
+  items: SecretListItemList;
+  environmentName: string;
 }
 export interface SecretGetInfoRequest {
-  secretId?: string;
+  secretId?: string | undefined;
 }
 export interface SecretGetInfoResponse {
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -78,32 +110,32 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export type StringMap = { [key: string]: string | undefined };
 export interface SecretGetOrCreateRequest {
-  deploymentName?: string;
+  deploymentName?: string | undefined;
   /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
   /** Not used atm */
-  envDict?: StringMap;
-  appId?: string;
+  envDict?: StringMap | undefined;
+  appId?: string | undefined;
   /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */
-  requiredKeys?: StringList;
+  requiredKeys?: StringList | undefined;
 }
 export interface SecretGetOrCreateResponse {
-  secretId?: string;
-  metadata?: SecretMetadata;
+  secretId: string;
+  metadata?: SecretMetadata | undefined;
 }
 export interface UpdateSecretRequestUpdate {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type UpdateSecretRequestUpdateList = Array<UpdateSecretRequestUpdate>;
 export interface UpdateSecretRequest {
   /** If not set, the key is removed. */
-  secretId?: string;
-  updates?: UpdateSecretRequestUpdateList;
+  secretId?: string | undefined;
+  updates?: UpdateSecretRequestUpdateList | undefined;
 }
 export interface UpdateSecretResponse {}
-export type DeleteSecretError = ModalOpError;
+export type DeleteSecretError = SecretNotFound | ModalOpError;
 /** Secrets */
 export const deleteSecret: API.OperationMethod<
   DeleteSecretRequest,
@@ -113,30 +145,38 @@ export const deleteSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteSecretRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteSecretResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSecret",
 }));
 
-export type ListSecretError = ModalOpError;
-export const listSecret: API.OperationMethod<
+export type ListSecretError = EnvironmentNotFound | ModalOpError;
+export const listSecret: API.PaginatedOperationMethod<
   ListSecretRequest,
   ListSecretResponse,
   ListSecretError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  ModalOpContext,
+  SecretListItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17, __c2, 1) as any as S.Schema<ListSecretRequest>,
   output: __S(20, __c2, 4) as any as S.Schema<ListSecretResponse>,
-  errors: [UnknownModalError],
+  errors: [EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecret",
-}));
+  pagination: {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "metadata.creationInfo.createdAt",
+    items: "items",
+    pageSize: "pagination.maxObjects",
+  } as const,
+})) as any;
 
-export type SecretGetInfoError = ModalOpError;
+export type SecretGetInfoError = SecretNotFound | ModalOpError;
 export const secretGetInfo: API.OperationMethod<
   SecretGetInfoRequest,
   SecretGetInfoResponse,
@@ -145,14 +185,18 @@ export const secretGetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<SecretGetInfoRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<SecretGetInfoResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SecretGetInfo",
 }));
 
-export type SecretGetOrCreateError = ModalOpError;
+export type SecretGetOrCreateError =
+  | SecretNotFound
+  | SecretAlreadyExists
+  | EnvironmentNotFound
+  | ModalOpError;
 export const secretGetOrCreate: API.OperationMethod<
   SecretGetOrCreateRequest,
   SecretGetOrCreateResponse,
@@ -161,14 +205,14 @@ export const secretGetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c5, 1) as any as S.Schema<SecretGetOrCreateRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<SecretGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, SecretAlreadyExists, EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SecretGetOrCreate",
 }));
 
-export type UpdateSecretError = ModalOpError;
+export type UpdateSecretError = SecretNotFound | ModalOpError;
 export const updateSecret: API.OperationMethod<
   UpdateSecretRequest,
   UpdateSecretResponse,
@@ -177,7 +221,7 @@ export const updateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50, __c6, 2) as any as S.Schema<UpdateSecretRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateSecretResponse>,
-  errors: [UnknownModalError],
+  errors: [SecretNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -222,11 +266,11 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          label: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          lastUsedAt: S.optional(S.Number),
-          environmentName: S.optional(S.String),
-          secretId: S.optional(S.String),
+          label: S.String,
+          createdAt: S.Number,
+          lastUsedAt: S.Number,
+          environmentName: S.String,
+          secretId: S.String,
           metadata: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "SecretListItem" });
@@ -235,8 +279,8 @@ function __c2(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(19, __c2, 3)),
-          environmentName: S.optional(S.String),
+          items: __S(19, __c2, 3),
+          environmentName: S.String,
         }),
       ).annotate({ identifier: "ListSecretResponse" });
   }
@@ -246,8 +290,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 1:
@@ -255,10 +299,12 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          name: S.String,
           creationInfo: S.optional(__S(24, __c3, 0)),
-          keys: S.optional(__S(25, __c3, 1)),
-          environmentName: S.optional(S.String),
+          keys: __S(25, __c3, 1),
+          environmentName: S.String,
+          lastUsedAt: S.Number,
+          templateType: S.String,
         }),
       ).annotate({ identifier: "SecretMetadata" });
   }
@@ -301,7 +347,7 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          secretId: S.optional(S.String),
+          secretId: S.String,
           metadata: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "SecretGetOrCreateResponse" });

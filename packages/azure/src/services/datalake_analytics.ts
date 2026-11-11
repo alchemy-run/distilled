@@ -36,7 +36,7 @@ const TELEMETRY = {
 /** The Data Lake Store account properties to use when adding a new Data Lake Store account. */
 export interface AddDataLakeStoreProperties {
   /** The optional suffix for the Data Lake Store account. */
-  suffix?: string;
+  suffix?: string | undefined;
 }
 export interface AddDataLakeStoreAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -48,7 +48,7 @@ export interface AddDataLakeStoreAccountRequest {
   /** The name of the Data Lake Store account to add. */
   dataLakeStoreAccountName: string;
   /** The Data Lake Store account properties to use when adding a new Data Lake Store account. */
-  properties?: AddDataLakeStoreProperties;
+  properties?: AddDataLakeStoreProperties | undefined;
 }
 export interface AddDataLakeStoreAccountResponse {}
 /** The Azure Storage account properties to use when adding a new Azure Storage account. */
@@ -56,7 +56,7 @@ export interface AddStorageAccountProperties {
   /** The access key associated with this Azure Storage account that will be used to connect to it. */
   accessKey: string;
   /** The optional suffix for the storage account. */
-  suffix?: string;
+  suffix?: string | undefined;
 }
 export interface AddStorageAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -86,11 +86,11 @@ export interface CheckAccountNameAvailabilityRequest {
 /** Data Lake Analytics account name availability result information. */
 export interface NameAvailabilityInformation {
   /** The Boolean value of true or false to indicate whether the Data Lake Analytics account name is available or not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the Data Lake Analytics account name is not available, if nameAvailable is false. */
-  reason?: string;
+  reason?: string | undefined;
   /** The message describing why the Data Lake Analytics account name is not available, if nameAvailable is false. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The type of AAD object the object identifier refers to. */
 export type CreateOrUpdateComputePolicyPropertiesObjectType = "User" | "Group" | "ServicePrincipal";
@@ -101,9 +101,9 @@ export interface CreateOrUpdateComputePolicyProperties {
   /** The type of AAD object the object identifier refers to. */
   objectType: CreateOrUpdateComputePolicyPropertiesObjectType | (string & {});
   /** The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed. */
-  maxDegreeOfParallelismPerJob?: number;
+  maxDegreeOfParallelismPerJob?: number | undefined;
   /** The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed. */
-  minPriorityPerJob?: number;
+  minPriorityPerJob?: number | undefined;
 }
 export interface ComputePoliciesCreateOrUpdateRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -122,23 +122,23 @@ export type ComputePolicyPropertiesObjectType = "User" | "Group" | "ServicePrinc
 /** The compute policy properties. */
 export interface ComputePolicyProperties {
   /** The AAD object identifier for the entity to create a policy for. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The type of AAD object the object identifier refers to. */
-  objectType?: ComputePolicyPropertiesObjectType;
+  objectType?: ComputePolicyPropertiesObjectType | undefined;
   /** The maximum degree of parallelism per job this user can use to submit jobs. */
-  maxDegreeOfParallelismPerJob?: number;
+  maxDegreeOfParallelismPerJob?: number | undefined;
   /** The minimum priority per job this user can use to submit jobs. */
-  minPriorityPerJob?: number;
+  minPriorityPerJob?: number | undefined;
 }
 export interface ComputePoliciesCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The compute policy properties. */
-  properties?: ComputePolicyProperties;
+  properties?: ComputePolicyProperties | undefined;
 }
 /** The resource tags. */
 export type CreateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -147,7 +147,7 @@ export interface AddDataLakeStoreWithAccountParameters {
   /** The unique name of the Data Lake Store account to add. */
   name: string;
   /** The Data Lake Store account properties to use when adding a new Data Lake Store account. */
-  properties?: AddDataLakeStoreProperties;
+  properties?: AddDataLakeStoreProperties | undefined;
 }
 /** The list of Data Lake Store accounts associated with this account. */
 export type CreateDataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList =
@@ -210,29 +210,30 @@ export interface CreateDataLakeAnalyticsAccountProperties {
   /** The list of Data Lake Store accounts associated with this account. */
   dataLakeStoreAccounts: CreateDataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList;
   /** The list of Azure Blob Storage accounts associated with this account. */
-  storageAccounts?: CreateDataLakeAnalyticsAccountPropertiesStorageAccountsList;
+  storageAccounts?: CreateDataLakeAnalyticsAccountPropertiesStorageAccountsList | undefined;
   /** The list of compute policies associated with this account. */
-  computePolicies?: CreateDataLakeAnalyticsAccountPropertiesComputePoliciesList;
+  computePolicies?: CreateDataLakeAnalyticsAccountPropertiesComputePoliciesList | undefined;
   /** The list of firewall rules associated with this account. */
-  firewallRules?: CreateDataLakeAnalyticsAccountPropertiesFirewallRulesList;
+  firewallRules?: CreateDataLakeAnalyticsAccountPropertiesFirewallRulesList | undefined;
   /** The current state of the IP address firewall for this account. */
-  firewallState?: CreateDataLakeAnalyticsAccountPropertiesFirewallState | (string & {});
+  firewallState?: CreateDataLakeAnalyticsAccountPropertiesFirewallState | (string & {}) | undefined;
   /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
   firewallAllowAzureIps?:
     | CreateDataLakeAnalyticsAccountPropertiesFirewallAllowAzureIps
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The commitment tier for the next month. */
-  newTier?: CreateDataLakeAnalyticsAccountPropertiesNewTier | (string & {});
+  newTier?: CreateDataLakeAnalyticsAccountPropertiesNewTier | (string & {}) | undefined;
   /** The maximum supported jobs running under the account at the same time. */
-  maxJobCount?: number;
+  maxJobCount?: number | undefined;
   /** The maximum supported degree of parallelism for this account. */
-  maxDegreeOfParallelism?: number;
+  maxDegreeOfParallelism?: number | undefined;
   /** The maximum supported degree of parallelism per job for this account. */
-  maxDegreeOfParallelismPerJob?: number;
+  maxDegreeOfParallelismPerJob?: number | undefined;
   /** The minimum supported priority per job for this account. */
-  minPriorityPerJob?: number;
+  minPriorityPerJob?: number | undefined;
   /** The number of days that job metadata is retained. */
-  queryStoreRetention?: number;
+  queryStoreRetention?: number | undefined;
 }
 export interface CreateAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -244,7 +245,7 @@ export interface CreateAccountRequest {
   /** The resource location. */
   location: string;
   /** The resource tags. */
-  tags?: CreateAccountRequestTagsMap;
+  tags?: CreateAccountRequestTagsMap | undefined;
   /** The Data Lake Analytics account properties to use for creating. */
   properties: CreateDataLakeAnalyticsAccountProperties;
 }
@@ -270,13 +271,13 @@ export type DataLakeStoreAccountInformationProperties = AddDataLakeStoreProperti
 /** Data Lake Store account information. */
 export interface DataLakeStoreAccountInformation {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The Data Lake Store account properties. */
-  properties?: AddDataLakeStoreProperties;
+  properties?: AddDataLakeStoreProperties | undefined;
 }
 /** The list of Data Lake Store accounts associated with this account. */
 export type DataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList =
@@ -287,18 +288,18 @@ export type DataLakeAnalyticsAccountPropertiesPublicDataLakeStoreAccountsList =
 /** The Azure Storage account properties. */
 export interface StorageAccountInformationProperties {
   /** The optional suffix for the storage account. */
-  suffix?: string;
+  suffix?: string | undefined;
 }
 /** Azure Storage account information. */
 export interface StorageAccountInformation {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The Azure Storage account properties. */
-  properties?: StorageAccountInformationProperties;
+  properties?: StorageAccountInformationProperties | undefined;
 }
 /** The list of Azure Blob Storage accounts associated with this account. */
 export type DataLakeAnalyticsAccountPropertiesStorageAccountsList =
@@ -306,13 +307,13 @@ export type DataLakeAnalyticsAccountPropertiesStorageAccountsList =
 /** Data Lake Analytics compute policy information. */
 export interface ComputePolicy {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The compute policy properties. */
-  properties?: ComputePolicyProperties;
+  properties?: ComputePolicyProperties | undefined;
 }
 /** The list of compute policies associated with this account. */
 export type DataLakeAnalyticsAccountPropertiesComputePoliciesList = Array<ComputePolicy>;
@@ -321,27 +322,27 @@ export type NestedResourceProvisioningState = "Succeeded" | "Canceled" | "Failed
 /** The HiveMetastore properties. */
 export interface HiveMetastoreProperties {
   /** The serverUri for the Hive MetaStore */
-  serverUri?: string;
+  serverUri?: string | undefined;
   /** The databaseName for the Hive MetaStore */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The runtimeVersion for the Hive MetaStore */
-  runtimeVersion?: string;
+  runtimeVersion?: string | undefined;
   /** The userName for the Hive MetaStore */
-  userName?: string;
+  userName?: string | undefined;
   /** The password for the Hive MetaStore */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The current state of the NestedResource */
-  nestedResourceProvisioningState?: NestedResourceProvisioningState;
+  nestedResourceProvisioningState?: NestedResourceProvisioningState | undefined;
 }
 export interface HiveMetastore {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The HiveMetastoreProperties rule properties. */
-  properties?: HiveMetastoreProperties;
+  properties?: HiveMetastoreProperties | undefined;
 }
 /** The list of hiveMetastores associated with this account. */
 export type DataLakeAnalyticsAccountPropertiesHiveMetastoresList = Array<HiveMetastore>;
@@ -350,40 +351,40 @@ export type VirtualNetworkRuleState = "Active" | "NetworkSourceDeleted" | "Faile
 /** The VirtualNetwork Rule properties. */
 export interface VirtualNetworkRuleProperties {
   /** The resource identifier for the subnet */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The current state of the VirtualNetwork Rule */
-  virtualNetworkRuleState?: VirtualNetworkRuleState;
+  virtualNetworkRuleState?: VirtualNetworkRuleState | undefined;
 }
 /** Data Lake Analytics VirtualNetwork Rule information. */
 export interface VirtualNetworkRule {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The VirtualNetwork rule properties. */
-  properties?: VirtualNetworkRuleProperties;
+  properties?: VirtualNetworkRuleProperties | undefined;
 }
 /** The list of virtualNetwork rules associated with this account. */
 export type DataLakeAnalyticsAccountPropertiesVirtualNetworkRulesList = Array<VirtualNetworkRule>;
 /** The firewall rule properties. */
 export interface FirewallRuleProperties {
   /** The start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
-  startIpAddress?: string;
+  startIpAddress?: string | undefined;
   /** The end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol. */
-  endIpAddress?: string;
+  endIpAddress?: string | undefined;
 }
 /** Data Lake Analytics firewall rule information. */
 export interface FirewallRule {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 /** The list of firewall rules associated with this account. */
 export type DataLakeAnalyticsAccountPropertiesFirewallRulesList = Array<FirewallRule>;
@@ -418,77 +419,79 @@ export type DataLakeAnalyticsAccountPropertiesDebugDataAccessLevel = "All" | "Cu
 /** The account specific properties that are associated with an underlying Data Lake Analytics account. Returned only when retrieving a specific account. */
 export interface DataLakeAnalyticsAccountProperties {
   /** The unique identifier associated with this Data Lake Analytics account. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The provisioning status of the Data Lake Analytics account. */
-  provisioningState?: DataLakeAnalyticsAccountPropertiesProvisioningState;
+  provisioningState?: DataLakeAnalyticsAccountPropertiesProvisioningState | undefined;
   /** The state of the Data Lake Analytics account. */
-  state?: DataLakeAnalyticsAccountPropertiesState;
+  state?: DataLakeAnalyticsAccountPropertiesState | undefined;
   /** The account creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The account last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The full CName endpoint for this account. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The default Data Lake Store account associated with this account. */
-  defaultDataLakeStoreAccount?: string;
+  defaultDataLakeStoreAccount?: string | undefined;
   /** The list of Data Lake Store accounts associated with this account. */
-  dataLakeStoreAccounts?: DataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList;
+  dataLakeStoreAccounts?: DataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList | undefined;
   /** The list of Data Lake Store accounts associated with this account. */
-  publicDataLakeStoreAccounts?: DataLakeAnalyticsAccountPropertiesPublicDataLakeStoreAccountsList;
+  publicDataLakeStoreAccounts?:
+    | DataLakeAnalyticsAccountPropertiesPublicDataLakeStoreAccountsList
+    | undefined;
   /** The list of Azure Blob Storage accounts associated with this account. */
-  storageAccounts?: DataLakeAnalyticsAccountPropertiesStorageAccountsList;
+  storageAccounts?: DataLakeAnalyticsAccountPropertiesStorageAccountsList | undefined;
   /** The list of compute policies associated with this account. */
-  computePolicies?: DataLakeAnalyticsAccountPropertiesComputePoliciesList;
+  computePolicies?: DataLakeAnalyticsAccountPropertiesComputePoliciesList | undefined;
   /** The list of hiveMetastores associated with this account. */
-  hiveMetastores?: DataLakeAnalyticsAccountPropertiesHiveMetastoresList;
+  hiveMetastores?: DataLakeAnalyticsAccountPropertiesHiveMetastoresList | undefined;
   /** The list of virtualNetwork rules associated with this account. */
-  virtualNetworkRules?: DataLakeAnalyticsAccountPropertiesVirtualNetworkRulesList;
+  virtualNetworkRules?: DataLakeAnalyticsAccountPropertiesVirtualNetworkRulesList | undefined;
   /** The list of firewall rules associated with this account. */
-  firewallRules?: DataLakeAnalyticsAccountPropertiesFirewallRulesList;
+  firewallRules?: DataLakeAnalyticsAccountPropertiesFirewallRulesList | undefined;
   /** The current state of the IP address firewall for this account. */
-  firewallState?: DataLakeAnalyticsAccountPropertiesFirewallState;
+  firewallState?: DataLakeAnalyticsAccountPropertiesFirewallState | undefined;
   /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
-  firewallAllowAzureIps?: DataLakeAnalyticsAccountPropertiesFirewallAllowAzureIps;
+  firewallAllowAzureIps?: DataLakeAnalyticsAccountPropertiesFirewallAllowAzureIps | undefined;
   /** The commitment tier for the next month. */
-  newTier?: DataLakeAnalyticsAccountPropertiesNewTier;
+  newTier?: DataLakeAnalyticsAccountPropertiesNewTier | undefined;
   /** The commitment tier in use for the current month. */
-  currentTier?: DataLakeAnalyticsAccountPropertiesCurrentTier;
+  currentTier?: DataLakeAnalyticsAccountPropertiesCurrentTier | undefined;
   /** The maximum supported jobs running under the account at the same time. */
-  maxJobCount?: number;
+  maxJobCount?: number | undefined;
   /** The maximum supported active jobs under the account at the same time. */
-  maxActiveJobCountPerUser?: number;
+  maxActiveJobCountPerUser?: number | undefined;
   /** The maximum supported jobs queued under the account at the same time. */
-  maxQueuedJobCountPerUser?: number;
+  maxQueuedJobCountPerUser?: number | undefined;
   /** The maximum supported active jobs under the account at the same time. */
-  maxJobRunningTimeInMin?: number;
+  maxJobRunningTimeInMin?: number | undefined;
   /** The system defined maximum supported jobs running under the account at the same time, which restricts the maximum number of running jobs the user can set for the account. */
-  systemMaxJobCount?: number;
+  systemMaxJobCount?: number | undefined;
   /** The maximum supported degree of parallelism for this account. */
-  maxDegreeOfParallelism?: number;
+  maxDegreeOfParallelism?: number | undefined;
   /** The system defined maximum supported degree of parallelism for this account, which restricts the maximum value of parallelism the user can set for the account. */
-  systemMaxDegreeOfParallelism?: number;
+  systemMaxDegreeOfParallelism?: number | undefined;
   /** The maximum supported degree of parallelism per job for this account. */
-  maxDegreeOfParallelismPerJob?: number;
+  maxDegreeOfParallelismPerJob?: number | undefined;
   /** The minimum supported priority per job for this account. */
-  minPriorityPerJob?: number;
+  minPriorityPerJob?: number | undefined;
   /** The number of days that job metadata is retained. */
-  queryStoreRetention?: number;
+  queryStoreRetention?: number | undefined;
   /** The current state of the DebugDataAccessLevel for this account. */
-  debugDataAccessLevel?: DataLakeAnalyticsAccountPropertiesDebugDataAccessLevel;
+  debugDataAccessLevel?: DataLakeAnalyticsAccountPropertiesDebugDataAccessLevel | undefined;
 }
 export interface CreateAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: CreateAccountResponseTagsMap;
+  tags?: CreateAccountResponseTagsMap | undefined;
   /** The properties defined by Data Lake Analytics all properties are specific to each resource provider. */
-  properties?: DataLakeAnalyticsAccountProperties;
+  properties?: DataLakeAnalyticsAccountProperties | undefined;
 }
 export interface DeleteAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -557,13 +560,13 @@ export interface FirewallRulesCreateOrUpdateRequest {
 }
 export interface FirewallRulesCreateOrUpdateResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface GetAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -577,17 +580,17 @@ export interface GetAccountRequest {
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetAccountResponseTagsMap;
+  tags?: GetAccountResponseTagsMap | undefined;
   /** The properties defined by Data Lake Analytics all properties are specific to each resource provider. */
-  properties?: DataLakeAnalyticsAccountProperties;
+  properties?: DataLakeAnalyticsAccountProperties | undefined;
 }
 export interface GetComputePolicyRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -601,13 +604,13 @@ export interface GetComputePolicyRequest {
 }
 export interface GetComputePolicyResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The compute policy properties. */
-  properties?: ComputePolicyProperties;
+  properties?: ComputePolicyProperties | undefined;
 }
 export interface GetDataLakeStoreAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -621,13 +624,13 @@ export interface GetDataLakeStoreAccountRequest {
 }
 export interface GetDataLakeStoreAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The Data Lake Store account properties. */
-  properties?: AddDataLakeStoreProperties;
+  properties?: AddDataLakeStoreProperties | undefined;
 }
 export interface GetFirewallRuleRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -641,13 +644,13 @@ export interface GetFirewallRuleRequest {
 }
 export interface GetFirewallRuleResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface GetLocationCapabilityRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -665,15 +668,15 @@ export type CapabilityInformationState =
 /** Subscription-level properties and limits for Data Lake Analytics. */
 export interface CapabilityInformation {
   /** The subscription credentials that uniquely identifies the subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The subscription state. */
-  state?: CapabilityInformationState;
+  state?: CapabilityInformationState | undefined;
   /** The maximum supported number of accounts under this subscription. */
-  maxAccountCount?: number;
+  maxAccountCount?: number | undefined;
   /** The current number of accounts under this subscription. */
-  accountCount?: number;
+  accountCount?: number | undefined;
   /** The Boolean value of true or false to indicate the maintenance state. */
-  migrationState?: boolean;
+  migrationState?: boolean | undefined;
 }
 export interface GetStorageAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -687,13 +690,13 @@ export interface GetStorageAccountRequest {
 }
 export interface GetStorageAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The Azure Storage account properties. */
-  properties?: StorageAccountInformationProperties;
+  properties?: StorageAccountInformationProperties | undefined;
 }
 export interface GetStorageAccountStorageContainerRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -710,17 +713,17 @@ export interface GetStorageAccountStorageContainerRequest {
 /** Azure Storage blob container properties information. */
 export interface StorageContainerProperties {
   /** The last modified time of the blob container. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
 }
 export interface GetStorageAccountStorageContainerResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the blob container. */
-  properties?: StorageContainerProperties;
+  properties?: StorageContainerProperties | undefined;
 }
 export interface ListAccountByResourceGroupRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -728,17 +731,17 @@ export interface ListAccountByResourceGroupRequest {
   /** The name of the Azure resource group. */
   resourceGroupName: string;
   /** OData filter. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of items to return. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of items to skip over before returning elements. Optional. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
-  _select?: string;
+  _select?: string | undefined;
   /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
 }
 /** The resource tags. */
 export type DataLakeAnalyticsAccountBasicTagsMap = { [key: string]: string | undefined };
@@ -760,59 +763,59 @@ export type DataLakeAnalyticsAccountPropertiesBasicState = "Active" | "Suspended
 /** The basic account specific properties that are associated with an underlying Data Lake Analytics account. */
 export interface DataLakeAnalyticsAccountPropertiesBasic {
   /** The unique identifier associated with this Data Lake Analytics account. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The provisioning status of the Data Lake Analytics account. */
-  provisioningState?: DataLakeAnalyticsAccountPropertiesBasicProvisioningState;
+  provisioningState?: DataLakeAnalyticsAccountPropertiesBasicProvisioningState | undefined;
   /** The state of the Data Lake Analytics account. */
-  state?: DataLakeAnalyticsAccountPropertiesBasicState;
+  state?: DataLakeAnalyticsAccountPropertiesBasicState | undefined;
   /** The account creation time. */
-  creationTime?: string;
+  creationTime?: string | undefined;
   /** The account last modified time. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The full CName endpoint for this account. */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account. */
 export interface DataLakeAnalyticsAccountBasic {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: DataLakeAnalyticsAccountBasicTagsMap;
+  tags?: DataLakeAnalyticsAccountBasicTagsMap | undefined;
   /** The properties defined by Data Lake Analytics all properties are specific to each resource provider. */
-  properties?: DataLakeAnalyticsAccountPropertiesBasic;
+  properties?: DataLakeAnalyticsAccountPropertiesBasic | undefined;
 }
 /** The results of the list operation. */
 export type DataLakeAnalyticsAccountListResultValueList = Array<DataLakeAnalyticsAccountBasic>;
 /** Data Lake Analytics account list information. */
 export interface DataLakeAnalyticsAccountListResult {
   /** The results of the list operation. */
-  value?: DataLakeAnalyticsAccountListResultValueList;
+  value?: DataLakeAnalyticsAccountListResultValueList | undefined;
   /** The current number of data lake analytics accounts under this subscription. */
-  count?: number;
+  count?: number | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccountsRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** OData filter. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of items to return. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of items to skip over before returning elements. Optional. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
-  _select?: string;
+  _select?: string | undefined;
   /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
 }
 export interface ListComputePolicyByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -827,9 +830,9 @@ export type ComputePolicyListResultValueList = Array<ComputePolicy>;
 /** The list of compute policies in the account. */
 export interface ComputePolicyListResult {
   /** The results of the list operation. */
-  value?: ComputePolicyListResultValueList;
+  value?: ComputePolicyListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDataLakeStoreAccountByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -839,17 +842,17 @@ export interface ListDataLakeStoreAccountByAccountRequest {
   /** The name of the Data Lake Analytics account. */
   accountName: string;
   /** OData filter. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of items to return. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of items to skip over before returning elements. Optional. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
-  _select?: string;
+  _select?: string | undefined;
   /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
 }
 /** The results of the list operation. */
 export type DataLakeStoreAccountInformationListResultValueList =
@@ -857,9 +860,9 @@ export type DataLakeStoreAccountInformationListResultValueList =
 /** Data Lake Store account list information. */
 export interface DataLakeStoreAccountInformationListResult {
   /** The results of the list operation. */
-  value?: DataLakeStoreAccountInformationListResultValueList;
+  value?: DataLakeStoreAccountInformationListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFirewallRuleByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -874,90 +877,90 @@ export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** Data Lake Analytics firewall rule list information. */
 export interface FirewallRuleListResult {
   /** The results of the list operation. */
-  value?: FirewallRuleListResultValueList;
+  value?: FirewallRuleListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The display information for a particular operation. */
 export interface OperationDisplay {
   /** The resource provider of the operation. */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource type of the operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** A friendly name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** A friendly description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface OperationMetaMetricAvailabilitiesSpecification {
   /** The timegrain for OperationMetaMetricAvailabilitiesSpecification. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
   /** The blobDuration for OperationMetaMetricAvailabilitiesSpecification. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** The availabilities for OperationMetaMetricSpecification. */
 export type OperationMetaMetricSpecificationAvailabilitiesList =
   Array<OperationMetaMetricAvailabilitiesSpecification>;
 export interface OperationMetaMetricSpecification {
   /** The name for OperationMetaMetricSpecification. */
-  name?: string;
+  name?: string | undefined;
   /** The displayName for OperationMetaMetricSpecification. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The displayName for OperationMetaMetricSpecification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The unit for OperationMetaMetricSpecification. */
-  unit?: string;
+  unit?: string | undefined;
   /** The aggregationType for OperationMetaMetricSpecification. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** The availabilities for OperationMetaMetricSpecification. */
-  availabilities?: OperationMetaMetricSpecificationAvailabilitiesList;
+  availabilities?: OperationMetaMetricSpecificationAvailabilitiesList | undefined;
 }
 /** The metricSpecifications for OperationMetaServiceSpecification. */
 export type OperationMetaServiceSpecificationMetricSpecificationsList =
   Array<OperationMetaMetricSpecification>;
 export interface OperationMetaLogSpecification {
   /** The name for OperationMetaLogSpecification. */
-  name?: string;
+  name?: string | undefined;
   /** The displayName for OperationMetaLogSpecification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The blobDuration for OperationMetaLogSpecification. */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** The logSpecifications for OperationMetaServiceSpecification. */
 export type OperationMetaServiceSpecificationLogSpecificationsList =
   Array<OperationMetaLogSpecification>;
 export interface OperationMetaServiceSpecification {
   /** The metricSpecifications for OperationMetaServiceSpecification. */
-  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: OperationMetaServiceSpecificationMetricSpecificationsList | undefined;
   /** The logSpecifications for OperationMetaServiceSpecification. */
-  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList;
+  logSpecifications?: OperationMetaServiceSpecificationLogSpecificationsList | undefined;
 }
 export interface OperationMetaPropertyInfo {
   /** The operations OperationMetaServiceSpecification. */
-  serviceSpecification?: OperationMetaServiceSpecification;
+  serviceSpecification?: OperationMetaServiceSpecification | undefined;
 }
 /** The intended executor of the operation. */
 export type OperationOrigin = "user" | "system" | "user,system";
 /** An available operation for Data Lake Analytics. */
 export interface Operation {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** The display information for the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The OperationMetaPropertyInfo for the operation. */
-  properties?: OperationMetaPropertyInfo;
+  properties?: OperationMetaPropertyInfo | undefined;
   /** The intended executor of the operation. */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
 }
 /** The results of the list operation. */
 export type OperationListResultValueList = Array<Operation>;
 /** The list of available operations for Data Lake Analytics. */
 export interface OperationListResult {
   /** The results of the list operation. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAccountByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -967,26 +970,26 @@ export interface ListStorageAccountByAccountRequest {
   /** The name of the Data Lake Analytics account. */
   accountName: string;
   /** The OData filter. Optional. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of items to return. Optional. */
-  _top?: number;
+  _top?: number | undefined;
   /** The number of items to skip over before returning elements. Optional. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional. */
-  _select?: string;
+  _select?: string | undefined;
   /** OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional. */
-  _count?: boolean;
+  _count?: boolean | undefined;
 }
 /** The results of the list operation. */
 export type StorageAccountInformationListResultValueList = Array<StorageAccountInformation>;
 /** Azure Storage account list information. */
 export interface StorageAccountInformationListResult {
   /** The results of the list operation. */
-  value?: StorageAccountInformationListResultValueList;
+  value?: StorageAccountInformationListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAccountSasTokensRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1003,16 +1006,16 @@ export interface ListStorageAccountSasTokensRequest {
 /** SAS token information. */
 export interface SasTokenInformation {
   /** The access token for the associated Azure Storage Container. */
-  accessToken?: string | Redacted.Redacted<string>;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The results of the list operation. */
 export type SasTokenInformationListResultValueList = Array<SasTokenInformation>;
 /** The SAS response that contains the storage account, container and associated SAS token for connection use. */
 export interface SasTokenInformationListResult {
   /** The results of the list operation. */
-  value?: SasTokenInformationListResultValueList;
+  value?: SasTokenInformationListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAccountStorageContainersRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1027,22 +1030,22 @@ export interface ListStorageAccountStorageContainersRequest {
 /** Azure Storage blob container information. */
 export interface StorageContainer {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the blob container. */
-  properties?: StorageContainerProperties;
+  properties?: StorageContainerProperties | undefined;
 }
 /** The results of the list operation. */
 export type StorageContainerListResultValueList = Array<StorageContainer>;
 /** The list of blob containers associated with the storage account attached to the Data Lake Analytics account. */
 export interface StorageContainerListResult {
   /** The results of the list operation. */
-  value?: StorageContainerListResultValueList;
+  value?: StorageContainerListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The resource tags. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -1053,7 +1056,7 @@ export interface UpdateDataLakeStoreWithAccountParameters {
   /** The unique name of the Data Lake Store account to update. */
   name: string;
   /** The Data Lake Store account properties to use when updating a Data Lake Store account. */
-  properties?: AddDataLakeStoreProperties;
+  properties?: AddDataLakeStoreProperties | undefined;
 }
 /** The list of Data Lake Store accounts associated with this account. */
 export type UpdateDataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList =
@@ -1061,16 +1064,16 @@ export type UpdateDataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList =
 /** The Azure Storage account properties to use when updating an Azure Storage account. */
 export interface UpdateStorageAccountProperties {
   /** The updated access key associated with this Azure Storage account that will be used to connect to it. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** The optional suffix for the storage account. */
-  suffix?: string;
+  suffix?: string | undefined;
 }
 /** The parameters used to update an Azure Storage account while updating a Data Lake Analytics account. */
 export interface UpdateStorageAccountWithAccountParameters {
   /** The unique name of the Azure Storage account to update. */
   name: string;
   /** The Azure Storage account properties to use when updating an Azure Storage account. */
-  properties?: UpdateStorageAccountProperties;
+  properties?: UpdateStorageAccountProperties | undefined;
 }
 /** The list of Azure Blob storage accounts associated with this account. */
 export type UpdateDataLakeAnalyticsAccountPropertiesStorageAccountsList =
@@ -1080,20 +1083,20 @@ export type UpdateComputePolicyPropertiesObjectType = "User" | "Group" | "Servic
 /** The compute policy properties to use when updating a compute policy. */
 export interface UpdateComputePolicyProperties {
   /** The AAD object identifier for the entity to create a policy for. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The type of AAD object the object identifier refers to. */
-  objectType?: UpdateComputePolicyPropertiesObjectType | (string & {});
+  objectType?: UpdateComputePolicyPropertiesObjectType | (string & {}) | undefined;
   /** The maximum degree of parallelism per job this user can use to submit jobs. This property, the min priority per job property, or both must be passed. */
-  maxDegreeOfParallelismPerJob?: number;
+  maxDegreeOfParallelismPerJob?: number | undefined;
   /** The minimum priority per job this user can use to submit jobs. This property, the max degree of parallelism per job property, or both must be passed. */
-  minPriorityPerJob?: number;
+  minPriorityPerJob?: number | undefined;
 }
 /** The parameters used to update a compute policy while updating a Data Lake Analytics account. */
 export interface UpdateComputePolicyWithAccountParameters {
   /** The unique name of the compute policy to update. */
   name: string;
   /** The compute policy properties to use when updating a compute policy. */
-  properties?: UpdateComputePolicyProperties;
+  properties?: UpdateComputePolicyProperties | undefined;
 }
 /** The list of compute policies associated with this account. */
 export type UpdateDataLakeAnalyticsAccountPropertiesComputePoliciesList =
@@ -1105,7 +1108,7 @@ export interface UpdateFirewallRuleWithAccountParameters {
   /** The unique name of the firewall rule to update. */
   name: string;
   /** The firewall rule properties to use when updating a firewall rule. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 /** The list of firewall rules associated with this account. */
 export type UpdateDataLakeAnalyticsAccountPropertiesFirewallRulesList =
@@ -1128,31 +1131,34 @@ export type UpdateDataLakeAnalyticsAccountPropertiesNewTier =
 /** The properties to update that are associated with an underlying Data Lake Analytics account. */
 export interface UpdateDataLakeAnalyticsAccountProperties {
   /** The list of Data Lake Store accounts associated with this account. */
-  dataLakeStoreAccounts?: UpdateDataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList;
+  dataLakeStoreAccounts?:
+    | UpdateDataLakeAnalyticsAccountPropertiesDataLakeStoreAccountsList
+    | undefined;
   /** The list of Azure Blob storage accounts associated with this account. */
-  storageAccounts?: UpdateDataLakeAnalyticsAccountPropertiesStorageAccountsList;
+  storageAccounts?: UpdateDataLakeAnalyticsAccountPropertiesStorageAccountsList | undefined;
   /** The list of compute policies associated with this account. */
-  computePolicies?: UpdateDataLakeAnalyticsAccountPropertiesComputePoliciesList;
+  computePolicies?: UpdateDataLakeAnalyticsAccountPropertiesComputePoliciesList | undefined;
   /** The list of firewall rules associated with this account. */
-  firewallRules?: UpdateDataLakeAnalyticsAccountPropertiesFirewallRulesList;
+  firewallRules?: UpdateDataLakeAnalyticsAccountPropertiesFirewallRulesList | undefined;
   /** The current state of the IP address firewall for this account. Disabling the firewall does not remove existing rules, they will just be ignored until the firewall is re-enabled. */
-  firewallState?: UpdateDataLakeAnalyticsAccountPropertiesFirewallState | (string & {});
+  firewallState?: UpdateDataLakeAnalyticsAccountPropertiesFirewallState | (string & {}) | undefined;
   /** The current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. */
   firewallAllowAzureIps?:
     | UpdateDataLakeAnalyticsAccountPropertiesFirewallAllowAzureIps
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The commitment tier to use for next month. */
-  newTier?: UpdateDataLakeAnalyticsAccountPropertiesNewTier | (string & {});
+  newTier?: UpdateDataLakeAnalyticsAccountPropertiesNewTier | (string & {}) | undefined;
   /** The maximum supported jobs running under the account at the same time. */
-  maxJobCount?: number;
+  maxJobCount?: number | undefined;
   /** The maximum supported degree of parallelism for this account. */
-  maxDegreeOfParallelism?: number;
+  maxDegreeOfParallelism?: number | undefined;
   /** The maximum supported degree of parallelism per job for this account. */
-  maxDegreeOfParallelismPerJob?: number;
+  maxDegreeOfParallelismPerJob?: number | undefined;
   /** The minimum supported priority per job for this account. */
-  minPriorityPerJob?: number;
+  minPriorityPerJob?: number | undefined;
   /** The number of days that job metadata is retained. */
-  queryStoreRetention?: number;
+  queryStoreRetention?: number | undefined;
 }
 export interface UpdateAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1162,25 +1168,25 @@ export interface UpdateAccountRequest {
   /** The name of the Data Lake Analytics account. */
   accountName: string;
   /** The resource tags. */
-  tags?: UpdateAccountRequestTagsMap;
+  tags?: UpdateAccountRequestTagsMap | undefined;
   /** The properties that can be updated in an existing Data Lake Analytics account. */
-  properties?: UpdateDataLakeAnalyticsAccountProperties;
+  properties?: UpdateDataLakeAnalyticsAccountProperties | undefined;
 }
 /** The resource tags. */
 export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAccountResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateAccountResponseTagsMap;
+  tags?: UpdateAccountResponseTagsMap | undefined;
   /** The properties defined by Data Lake Analytics all properties are specific to each resource provider. */
-  properties?: DataLakeAnalyticsAccountProperties;
+  properties?: DataLakeAnalyticsAccountProperties | undefined;
 }
 export interface UpdateComputePolicyRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1192,17 +1198,17 @@ export interface UpdateComputePolicyRequest {
   /** The name of the compute policy to update. */
   computePolicyName: string;
   /** The compute policy properties to use when updating a compute policy. */
-  properties?: UpdateComputePolicyProperties;
+  properties?: UpdateComputePolicyProperties | undefined;
 }
 export interface UpdateComputePolicyResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The compute policy properties. */
-  properties?: ComputePolicyProperties;
+  properties?: ComputePolicyProperties | undefined;
 }
 export interface UpdateFirewallRuleRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1214,17 +1220,17 @@ export interface UpdateFirewallRuleRequest {
   /** The name of the firewall rule to update. */
   firewallRuleName: string;
   /** The firewall rule properties to use when updating a firewall rule. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface UpdateFirewallRuleResponse {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The firewall rule properties. */
-  properties?: FirewallRuleProperties;
+  properties?: FirewallRuleProperties | undefined;
 }
 export interface UpdateStorageAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1236,7 +1242,7 @@ export interface UpdateStorageAccountRequest {
   /** The Azure Storage account to modify */
   storageAccountName: string;
   /** The Azure Storage account properties to use when updating an Azure Storage account. */
-  properties?: UpdateStorageAccountProperties;
+  properties?: UpdateStorageAccountProperties | undefined;
 }
 export interface UpdateStorageAccountResponse {}
 export type AddDataLakeStoreAccountError = AzureOpError;

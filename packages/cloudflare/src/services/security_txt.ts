@@ -70,15 +70,15 @@ export type GetResponseHiringList = Array<string>;
 export type GetResponsePolicyList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SecurityTxtFile {
-  acknowledgments?: GetResponseAcknowledgmentsList | null;
-  canonical?: GetResponseCanonicalList | null;
-  contact?: GetResponseContactList | null;
-  enabled?: boolean | null;
-  encryption?: GetResponseEncryptionList | null;
-  expires?: string | null;
-  hiring?: GetResponseHiringList | null;
-  policy?: GetResponsePolicyList | null;
-  preferredLanguages?: string | null;
+  acknowledgments?: GetResponseAcknowledgmentsList | null | undefined;
+  canonical?: GetResponseCanonicalList | null | undefined;
+  contact?: GetResponseContactList | null | undefined;
+  enabled?: boolean | null | undefined;
+  encryption?: GetResponseEncryptionList | null | undefined;
+  expires?: string | null | undefined;
+  hiring?: GetResponseHiringList | null | undefined;
+  policy?: GetResponsePolicyList | null | undefined;
+  preferredLanguages?: string | null | undefined;
 }
 export type GetSecurityTxtResponse = SecurityTxtFile;
 export type UpdateRequestAcknowledgmentsList = Array<string>;
@@ -90,15 +90,15 @@ export type UpdateRequestPolicyList = Array<string>;
 export interface PutSecurityTxtRequest {
   /** Identifier. */
   zoneId: string;
-  acknowledgments?: UpdateRequestAcknowledgmentsList;
-  canonical?: UpdateRequestCanonicalList;
-  contact?: UpdateRequestContactList;
-  enabled?: boolean;
-  encryption?: UpdateRequestEncryptionList;
-  expires?: string;
-  hiring?: UpdateRequestHiringList;
-  policy?: UpdateRequestPolicyList;
-  preferredLanguages?: string;
+  acknowledgments?: UpdateRequestAcknowledgmentsList | undefined;
+  canonical?: UpdateRequestCanonicalList | undefined;
+  contact?: UpdateRequestContactList | undefined;
+  enabled?: boolean | undefined;
+  encryption?: UpdateRequestEncryptionList | undefined;
+  expires?: string | undefined;
+  hiring?: UpdateRequestHiringList | undefined;
+  policy?: UpdateRequestPolicyList | undefined;
+  preferredLanguages?: string | undefined;
 }
 export interface PutSecurityTxtResponse {}
 export type DeleteSecurityTxtError = Forbidden | CloudflareOpError;

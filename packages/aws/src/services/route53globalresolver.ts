@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -201,19 +202,19 @@ export type FirewallRulePriority = number;
 export type DnsQueryType = string;
 export interface BatchCreateFirewallRuleInputItem {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
   clientToken: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   dnsViewId: string;
-  qType?: string;
+  qType?: string | undefined;
 }
 export type BatchCreateFirewallRuleInputItems = BatchCreateFirewallRuleInputItem[];
 export interface BatchCreateFirewallRuleInput {
@@ -222,29 +223,29 @@ export interface BatchCreateFirewallRuleInput {
 export type CRResourceStatus = "CREATING" | "OPERATIONAL" | "UPDATING" | "DELETING" | (string & {});
 export interface BatchCreateFirewallRuleResult {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
   clientToken: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  createdAt?: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
-  id?: string;
-  managedDomainListName?: string;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
+  id?: string | undefined;
+  managedDomainListName?: string | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   dnsViewId: string;
-  queryType?: string;
-  status?: CRResourceStatus;
-  updatedAt?: Date;
+  queryType?: string | undefined;
+  status?: CRResourceStatus | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface BatchCreateFirewallRuleOutputItem {
   firewallRule: BatchCreateFirewallRuleResult;
   code: number;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchCreateFirewallRuleOutputItems = BatchCreateFirewallRuleOutputItem[];
 export interface BatchCreateFirewallRuleOutput {
@@ -259,15 +260,15 @@ export interface BatchDeleteFirewallRuleInput {
   firewallRules: BatchDeleteFirewallRuleInputItem[];
 }
 export interface BatchDeleteFirewallRuleResult {
-  clientToken?: string;
+  clientToken?: string | undefined;
   id: string;
-  name?: string;
-  status?: CRResourceStatus;
+  name?: string | undefined;
+  status?: CRResourceStatus | undefined;
 }
 export interface BatchDeleteFirewallRuleOutputItem {
   firewallRule: BatchDeleteFirewallRuleResult;
   code: number;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchDeleteFirewallRuleOutputItems = BatchDeleteFirewallRuleOutputItem[];
 export interface BatchDeleteFirewallRuleOutput {
@@ -275,46 +276,46 @@ export interface BatchDeleteFirewallRuleOutput {
   successes: BatchDeleteFirewallRuleOutputItem[];
 }
 export interface BatchUpdateFirewallRuleInputItem {
-  action?: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
+  action?: FirewallRuleAction | undefined;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
   firewallRuleId: string;
-  name?: string;
-  priority?: number;
+  name?: string | undefined;
+  priority?: number | undefined;
 }
 export type BatchUpdateFirewallRuleInputItems = BatchUpdateFirewallRuleInputItem[];
 export interface BatchUpdateFirewallRuleInput {
   firewallRules: BatchUpdateFirewallRuleInputItem[];
 }
 export interface BatchUpdateFirewallRuleResult {
-  action?: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  clientToken?: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  createdAt?: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  action?: FirewallRuleAction | undefined;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  clientToken?: string | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  createdAt?: Date | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
-  name?: string;
-  priority?: number;
-  dnsViewId?: string;
-  queryType?: string;
-  status?: CRResourceStatus;
-  updatedAt?: Date;
+  name?: string | undefined;
+  priority?: number | undefined;
+  dnsViewId?: string | undefined;
+  queryType?: string | undefined;
+  status?: CRResourceStatus | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface BatchUpdateFirewallRuleOutputItem {
   firewallRule: BatchUpdateFirewallRuleResult;
   code: number;
-  message?: string;
+  message?: string | undefined;
 }
 export type BatchUpdateFirewallRuleOutputItems = BatchUpdateFirewallRuleOutputItem[];
 export interface BatchUpdateFirewallRuleOutput {
@@ -330,12 +331,12 @@ export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateAccessSourceInput {
   cidr: string;
-  clientToken?: string;
-  ipAddressType?: IpAddressType;
-  name?: string;
+  clientToken?: string | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAccessSourceOutput {
   arn: string;
@@ -343,29 +344,29 @@ export interface CreateAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
   updatedAt: Date;
 }
 export interface CreateAccessTokenInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnsViewId: string;
-  expiresAt?: Date;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  expiresAt?: Date | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TokenStatus = "CREATING" | "OPERATIONAL" | "DELETING" | (string & {});
 export type AccessTokenValue = string | redacted.Redacted<string>;
 export interface CreateAccessTokenOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   createdAt: Date;
   dnsViewId: string;
   expiresAt: Date;
-  name?: string;
+  name?: string | undefined;
   status: TokenStatus;
   value: string | redacted.Redacted<string>;
 }
@@ -374,13 +375,13 @@ export type EdnsClientSubnetType = "ENABLED" | "DISABLED" | (string & {});
 export type FirewallRulesFailOpenType = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateDNSViewInput {
   globalResolverId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  dnssecValidation?: DnsSecValidationType;
-  ednsClientSubnet?: EdnsClientSubnetType;
-  firewallRulesFailOpen?: FirewallRulesFailOpenType;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  dnssecValidation?: DnsSecValidationType | undefined;
+  ednsClientSubnet?: EdnsClientSubnetType | undefined;
+  firewallRulesFailOpen?: FirewallRulesFailOpenType | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProfileResourceStatus =
   | "CREATING"
@@ -394,29 +395,29 @@ export type ProfileResourceStatus =
 export interface CreateDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
   status: ProfileResourceStatus;
 }
 export interface CreateFirewallDomainListInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   globalResolverId: string;
-  description?: string;
+  description?: string | undefined;
   name: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateFirewallDomainListOutput {
   arn: string;
   globalResolverId: string;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   domainCount: number;
   id: string;
   name: string;
@@ -425,36 +426,36 @@ export interface CreateFirewallDomainListOutput {
 }
 export interface CreateFirewallRuleInput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  clientToken?: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  clientToken?: string | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   name: string;
-  priority?: number;
+  priority?: number | undefined;
   dnsViewId: string;
-  qType?: string;
+  qType?: string | undefined;
 }
 export interface CreateFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
@@ -462,13 +463,13 @@ export type GlobalResolverIpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
 export type Region = string;
 export type Regions = string[];
 export interface CreateGlobalResolverInput {
-  clientToken?: string;
-  description?: string;
-  ipAddressType?: GlobalResolverIpAddressType;
+  clientToken?: string | undefined;
+  description?: string | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
   name: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   regions: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Sni = string;
 export type IPv4Address = string;
@@ -480,13 +481,13 @@ export interface CreateGlobalResolverOutput {
   arn: string;
   clientToken: string;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   dnsName: string;
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
+  ipv6Addresses?: string[] | undefined;
   name: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   regions: string[];
   status: CRResourceStatus;
   updatedAt: Date;
@@ -500,7 +501,7 @@ export interface DeleteAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -520,12 +521,12 @@ export interface DeleteDNSViewInput {
 export interface DeleteDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -545,20 +546,20 @@ export interface DeleteFirewallRuleInput {
 }
 export interface DeleteFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
@@ -570,16 +571,16 @@ export interface DeleteGlobalResolverOutput {
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export interface DisableDNSViewInput {
   dnsViewId: string;
@@ -587,12 +588,12 @@ export interface DisableDNSViewInput {
 export interface DisableDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -618,12 +619,12 @@ export interface EnableDNSViewInput {
 export interface EnableDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -638,7 +639,7 @@ export interface GetAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -650,12 +651,12 @@ export interface GetAccessTokenInput {
 export interface GetAccessTokenOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   createdAt: Date;
   dnsViewId: string;
   expiresAt: Date;
   globalResolverId: string;
-  name?: string;
+  name?: string | undefined;
   status: TokenStatus;
   updatedAt: Date;
   value: string | redacted.Redacted<string>;
@@ -666,12 +667,12 @@ export interface GetDNSViewInput {
 export interface GetDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -683,14 +684,14 @@ export interface GetFirewallDomainListInput {
 export interface GetFirewallDomainListOutput {
   arn: string;
   globalResolverId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   domainCount: number;
   id: string;
   name: string;
   status: CRResourceStatus;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   updatedAt: Date;
 }
 export interface GetFirewallRuleInput {
@@ -698,20 +699,20 @@ export interface GetFirewallRuleInput {
 }
 export interface GetFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
@@ -723,16 +724,16 @@ export interface GetGlobalResolverOutput {
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export interface GetHostedZoneAssociationInput {
   hostedZoneAssociationId: string;
@@ -751,7 +752,7 @@ export interface GetManagedFirewallDomainListInput {
   managedFirewallDomainListId: string;
 }
 export interface GetManagedFirewallDomainListOutput {
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   managedListType: string;
@@ -769,9 +770,9 @@ export interface ImportFirewallDomainsOutput {
 export type Strings = string[];
 export type Filters = { [key: string]: string[] | undefined };
 export interface ListAccessSourcesInput {
-  maxResults?: number;
-  nextToken?: string;
-  filters?: { [key: string]: string[] | undefined };
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface AccessSourcesItem {
   arn: string;
@@ -779,7 +780,7 @@ export interface AccessSourcesItem {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -787,14 +788,14 @@ export interface AccessSourcesItem {
 }
 export type AccessSources = AccessSourcesItem[];
 export interface ListAccessSourcesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   accessSources: AccessSourcesItem[];
 }
 export interface ListAccessTokensInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   dnsViewId: string;
-  filters?: { [key: string]: string[] | undefined };
+  filters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface AccessTokenItem {
   id: string;
@@ -803,18 +804,18 @@ export interface AccessTokenItem {
   dnsViewId: string;
   expiresAt: Date;
   globalResolverId: string;
-  name?: string;
+  name?: string | undefined;
   status: TokenStatus;
   updatedAt: Date;
 }
 export type AccessTokens = AccessTokenItem[];
 export interface ListAccessTokensOutput {
-  nextToken?: string;
-  accessTokens?: AccessTokenItem[];
+  nextToken?: string | undefined;
+  accessTokens?: AccessTokenItem[] | undefined;
 }
 export interface ListDNSViewsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   globalResolverId: string;
 }
 export interface DNSViewSummary {
@@ -825,7 +826,7 @@ export interface DNSViewSummary {
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -833,19 +834,19 @@ export interface DNSViewSummary {
 }
 export type DNSViews = DNSViewSummary[];
 export interface ListDNSViewsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dnsViews: DNSViewSummary[];
 }
 export interface ListFirewallDomainListsInput {
-  maxResults?: number;
-  nextToken?: string;
-  globalResolverId?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  globalResolverId?: string | undefined;
 }
 export interface FirewallDomainListsItem {
   arn: string;
   globalResolverId: string;
   createdAt: Date;
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   status: CRResourceStatus;
@@ -853,78 +854,78 @@ export interface FirewallDomainListsItem {
 }
 export type FirewallDomainLists = FirewallDomainListsItem[];
 export interface ListFirewallDomainListsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   firewallDomainLists: FirewallDomainListsItem[];
 }
 export interface ListFirewallDomainsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   firewallDomainListId: string;
 }
 export type Domains = string[];
 export interface ListFirewallDomainsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   domains: string[];
 }
 export interface ListFirewallRulesInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   dnsViewId: string;
-  filters?: { [key: string]: string[] | undefined };
+  filters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface FirewallRulesItem {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
 export type FirewallRules = FirewallRulesItem[];
 export interface ListFirewallRulesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   firewallRules: FirewallRulesItem[];
 }
 export interface ListGlobalResolversInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface GlobalResolversItem {
   id: string;
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export type GlobalResolvers = GlobalResolversItem[];
 export interface ListGlobalResolversOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   globalResolvers: GlobalResolversItem[];
 }
 export interface ListHostedZoneAssociationsInput {
-  maxResults?: number;
-  nextToken?: string;
-  resourceArn?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  resourceArn?: string | undefined;
 }
 export interface HostedZoneAssociationSummary {
   id: string;
@@ -938,28 +939,28 @@ export interface HostedZoneAssociationSummary {
 }
 export type HostedZoneAssociations = HostedZoneAssociationSummary[];
 export interface ListHostedZoneAssociationsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   hostedZoneAssociations: HostedZoneAssociationSummary[];
 }
 export interface ListManagedFirewallDomainListsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   managedFirewallDomainListType: string;
 }
 export interface ManagedFirewallDomainListsItem {
-  description?: string;
+  description?: string | undefined;
   id: string;
   name: string;
   managedListType: string;
 }
 export type ManagedFirewallDomainLists = ManagedFirewallDomainListsItem[];
 export interface ListManagedFirewallDomainListsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   managedFirewallDomainLists: ManagedFirewallDomainListsItem[];
 }
 export interface ListSharedDNSViewsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AccountId = string;
 export interface SharedDNSViewSummary {
@@ -970,7 +971,7 @@ export interface SharedDNSViewSummary {
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -979,14 +980,14 @@ export interface SharedDNSViewSummary {
 }
 export type SharedDNSViews = SharedDNSViewSummary[];
 export interface ListSharedDNSViewsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   dnsViews: SharedDNSViewSummary[];
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1001,10 +1002,10 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAccessSourceInput {
   accessSourceId: string;
-  cidr?: string;
-  ipAddressType?: IpAddressType;
-  name?: string;
-  protocol?: DnsProtocol;
+  cidr?: string | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  name?: string | undefined;
+  protocol?: DnsProtocol | undefined;
 }
 export interface UpdateAccessSourceOutput {
   arn: string;
@@ -1012,7 +1013,7 @@ export interface UpdateAccessSourceOutput {
   createdAt: Date;
   id: string;
   ipAddressType: IpAddressType;
-  name?: string;
+  name?: string | undefined;
   dnsViewId: string;
   protocol: DnsProtocol;
   status: CRResourceStatus;
@@ -1028,21 +1029,21 @@ export interface UpdateAccessTokenOutput {
 }
 export interface UpdateDNSViewInput {
   dnsViewId: string;
-  name?: string;
-  description?: string;
-  dnssecValidation?: DnsSecValidationType;
-  ednsClientSubnet?: EdnsClientSubnetType;
-  firewallRulesFailOpen?: FirewallRulesFailOpenType;
+  name?: string | undefined;
+  description?: string | undefined;
+  dnssecValidation?: DnsSecValidationType | undefined;
+  ednsClientSubnet?: EdnsClientSubnetType | undefined;
+  firewallRulesFailOpen?: FirewallRulesFailOpenType | undefined;
 }
 export interface UpdateDNSViewOutput {
   id: string;
   arn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   dnssecValidation: DnsSecValidationType;
   ednsClientSubnet: EdnsClientSubnetType;
   firewallRulesFailOpen: FirewallRulesFailOpenType;
   name: string;
-  description?: string;
+  description?: string | undefined;
   globalResolverId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -1059,65 +1060,65 @@ export interface UpdateFirewallDomainsOutput {
   status: CRResourceStatus;
 }
 export interface UpdateFirewallRuleInput {
-  action?: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
+  action?: FirewallRuleAction | undefined;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
   clientToken: string;
-  confidenceThreshold?: ConfidenceThreshold;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
   firewallRuleId: string;
-  name?: string;
-  priority?: number;
+  name?: string | undefined;
+  priority?: number | undefined;
 }
 export interface UpdateFirewallRuleOutput {
   action: FirewallRuleAction;
-  blockOverrideDnsType?: BlockOverrideDnsQueryType;
-  blockOverrideDomain?: string;
-  blockOverrideTtl?: number;
-  blockResponse?: FirewallBlockResponse;
-  confidenceThreshold?: ConfidenceThreshold;
+  blockOverrideDnsType?: BlockOverrideDnsQueryType | undefined;
+  blockOverrideDomain?: string | undefined;
+  blockOverrideTtl?: number | undefined;
+  blockResponse?: FirewallBlockResponse | undefined;
+  confidenceThreshold?: ConfidenceThreshold | undefined;
   createdAt: Date;
-  description?: string;
-  dnsAdvancedProtection?: DnsAdvancedProtection;
-  firewallDomainListId?: string;
+  description?: string | undefined;
+  dnsAdvancedProtection?: DnsAdvancedProtection | undefined;
+  firewallDomainListId?: string | undefined;
   id: string;
   name: string;
   priority: number;
   dnsViewId: string;
-  queryType?: string;
+  queryType?: string | undefined;
   status: CRResourceStatus;
   updatedAt: Date;
 }
 export interface UpdateGlobalResolverInput {
   globalResolverId: string;
-  name?: string;
-  observabilityRegion?: string;
-  description?: string;
-  ipAddressType?: GlobalResolverIpAddressType;
-  regions?: string[];
+  name?: string | undefined;
+  observabilityRegion?: string | undefined;
+  description?: string | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
+  regions?: string[] | undefined;
 }
 export interface UpdateGlobalResolverOutput {
   id: string;
   arn: string;
   clientToken: string;
   dnsName: string;
-  observabilityRegion?: string;
+  observabilityRegion?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   regions: string[];
   createdAt: Date;
   updatedAt: Date;
   status: CRResourceStatus;
   ipv4Addresses: string[];
-  ipv6Addresses?: string[];
-  ipAddressType?: GlobalResolverIpAddressType;
+  ipv6Addresses?: string[] | undefined;
+  ipAddressType?: GlobalResolverIpAddressType | undefined;
 }
 export interface UpdateHostedZoneAssociationInput {
   hostedZoneAssociationId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateHostedZoneAssociationOutput {
   id: string;
@@ -1155,7 +1156,7 @@ export type AssociateHostedZoneError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const associateHostedZone: API.OperationMethod<
-  AssociateHostedZoneInput,
+  AssociateHostedZoneInput & RegionInput,
   AssociateHostedZoneOutput,
   AssociateHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -1190,7 +1191,7 @@ export type BatchCreateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const batchCreateFirewallRule: API.OperationMethod<
-  BatchCreateFirewallRuleInput,
+  BatchCreateFirewallRuleInput & RegionInput,
   BatchCreateFirewallRuleOutput,
   BatchCreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1222,7 +1223,7 @@ export type BatchDeleteFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const batchDeleteFirewallRule: API.OperationMethod<
-  BatchDeleteFirewallRuleInput,
+  BatchDeleteFirewallRuleInput & RegionInput,
   BatchDeleteFirewallRuleOutput,
   BatchDeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1254,7 +1255,7 @@ export type BatchUpdateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const batchUpdateFirewallRule: API.OperationMethod<
-  BatchUpdateFirewallRuleInput,
+  BatchUpdateFirewallRuleInput & RegionInput,
   BatchUpdateFirewallRuleOutput,
   BatchUpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1289,7 +1290,7 @@ export type CreateAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createAccessSource: API.OperationMethod<
-  CreateAccessSourceInput,
+  CreateAccessSourceInput & RegionInput,
   CreateAccessSourceOutput,
   CreateAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -1327,7 +1328,7 @@ export type CreateAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createAccessToken: API.OperationMethod<
-  CreateAccessTokenInput,
+  CreateAccessTokenInput & RegionInput,
   CreateAccessTokenOutput,
   CreateAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -1365,7 +1366,7 @@ export type CreateDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createDNSView: API.OperationMethod<
-  CreateDNSViewInput,
+  CreateDNSViewInput & RegionInput,
   CreateDNSViewOutput,
   CreateDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1403,7 +1404,7 @@ export type CreateFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createFirewallDomainList: API.OperationMethod<
-  CreateFirewallDomainListInput,
+  CreateFirewallDomainListInput & RegionInput,
   CreateFirewallDomainListOutput,
   CreateFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1441,7 +1442,7 @@ export type CreateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createFirewallRule: API.OperationMethod<
-  CreateFirewallRuleInput,
+  CreateFirewallRuleInput & RegionInput,
   CreateFirewallRuleOutput,
   CreateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1478,7 +1479,7 @@ export type CreateGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const createGlobalResolver: API.OperationMethod<
-  CreateGlobalResolverInput,
+  CreateGlobalResolverInput & RegionInput,
   CreateGlobalResolverOutput,
   CreateGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -1514,7 +1515,7 @@ export type DeleteAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteAccessSource: API.OperationMethod<
-  DeleteAccessSourceInput,
+  DeleteAccessSourceInput & RegionInput,
   DeleteAccessSourceOutput,
   DeleteAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -1550,7 +1551,7 @@ export type DeleteAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteAccessToken: API.OperationMethod<
-  DeleteAccessTokenInput,
+  DeleteAccessTokenInput & RegionInput,
   DeleteAccessTokenOutput,
   DeleteAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -1586,7 +1587,7 @@ export type DeleteDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteDNSView: API.OperationMethod<
-  DeleteDNSViewInput,
+  DeleteDNSViewInput & RegionInput,
   DeleteDNSViewOutput,
   DeleteDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1622,7 +1623,7 @@ export type DeleteFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteFirewallDomainList: API.OperationMethod<
-  DeleteFirewallDomainListInput,
+  DeleteFirewallDomainListInput & RegionInput,
   DeleteFirewallDomainListOutput,
   DeleteFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1658,7 +1659,7 @@ export type DeleteFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteFirewallRule: API.OperationMethod<
-  DeleteFirewallRuleInput,
+  DeleteFirewallRuleInput & RegionInput,
   DeleteFirewallRuleOutput,
   DeleteFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -1694,7 +1695,7 @@ export type DeleteGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const deleteGlobalResolver: API.OperationMethod<
-  DeleteGlobalResolverInput,
+  DeleteGlobalResolverInput & RegionInput,
   DeleteGlobalResolverOutput,
   DeleteGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -1731,7 +1732,7 @@ export type DisableDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const disableDNSView: API.OperationMethod<
-  DisableDNSViewInput,
+  DisableDNSViewInput & RegionInput,
   DisableDNSViewOutput,
   DisableDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1768,7 +1769,7 @@ export type DisassociateHostedZoneError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const disassociateHostedZone: API.OperationMethod<
-  DisassociateHostedZoneInput,
+  DisassociateHostedZoneInput & RegionInput,
   DisassociateHostedZoneOutput,
   DisassociateHostedZoneError,
   Credentials | HttpClient.HttpClient
@@ -1805,7 +1806,7 @@ export type EnableDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const enableDNSView: API.OperationMethod<
-  EnableDNSViewInput,
+  EnableDNSViewInput & RegionInput,
   EnableDNSViewOutput,
   EnableDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1841,7 +1842,7 @@ export type GetAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getAccessSource: API.OperationMethod<
-  GetAccessSourceInput,
+  GetAccessSourceInput & RegionInput,
   GetAccessSourceOutput,
   GetAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -1875,7 +1876,7 @@ export type GetAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getAccessToken: API.OperationMethod<
-  GetAccessTokenInput,
+  GetAccessTokenInput & RegionInput,
   GetAccessTokenOutput,
   GetAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -1909,7 +1910,7 @@ export type GetDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getDNSView: API.OperationMethod<
-  GetDNSViewInput,
+  GetDNSViewInput & RegionInput,
   GetDNSViewOutput,
   GetDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -1943,7 +1944,7 @@ export type GetFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getFirewallDomainList: API.OperationMethod<
-  GetFirewallDomainListInput,
+  GetFirewallDomainListInput & RegionInput,
   GetFirewallDomainListOutput,
   GetFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -1977,7 +1978,7 @@ export type GetFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getFirewallRule: API.OperationMethod<
-  GetFirewallRuleInput,
+  GetFirewallRuleInput & RegionInput,
   GetFirewallRuleOutput,
   GetFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -2011,7 +2012,7 @@ export type GetGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getGlobalResolver: API.OperationMethod<
-  GetGlobalResolverInput,
+  GetGlobalResolverInput & RegionInput,
   GetGlobalResolverOutput,
   GetGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -2045,7 +2046,7 @@ export type GetHostedZoneAssociationError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getHostedZoneAssociation: API.OperationMethod<
-  GetHostedZoneAssociationInput,
+  GetHostedZoneAssociationInput & RegionInput,
   GetHostedZoneAssociationOutput,
   GetHostedZoneAssociationError,
   Credentials | HttpClient.HttpClient
@@ -2079,7 +2080,7 @@ export type GetManagedFirewallDomainListError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const getManagedFirewallDomainList: API.OperationMethod<
-  GetManagedFirewallDomainListInput,
+  GetManagedFirewallDomainListInput & RegionInput,
   GetManagedFirewallDomainListOutput,
   GetManagedFirewallDomainListError,
   Credentials | HttpClient.HttpClient
@@ -2115,7 +2116,7 @@ export type ImportFirewallDomainsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const importFirewallDomains: API.OperationMethod<
-  ImportFirewallDomainsInput,
+  ImportFirewallDomainsInput & RegionInput,
   ImportFirewallDomainsOutput,
   ImportFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2150,7 +2151,7 @@ export type ListAccessSourcesError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listAccessSources: API.PaginatedOperationMethod<
-  ListAccessSourcesInput,
+  ListAccessSourcesInput & RegionInput,
   ListAccessSourcesOutput,
   ListAccessSourcesError,
   Credentials | HttpClient.HttpClient,
@@ -2190,7 +2191,7 @@ export type ListAccessTokensError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listAccessTokens: API.PaginatedOperationMethod<
-  ListAccessTokensInput,
+  ListAccessTokensInput & RegionInput,
   ListAccessTokensOutput,
   ListAccessTokensError,
   Credentials | HttpClient.HttpClient,
@@ -2231,7 +2232,7 @@ export type ListDNSViewsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listDNSViews: API.PaginatedOperationMethod<
-  ListDNSViewsInput,
+  ListDNSViewsInput & RegionInput,
   ListDNSViewsOutput,
   ListDNSViewsError,
   Credentials | HttpClient.HttpClient,
@@ -2272,7 +2273,7 @@ export type ListFirewallDomainListsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listFirewallDomainLists: API.PaginatedOperationMethod<
-  ListFirewallDomainListsInput,
+  ListFirewallDomainListsInput & RegionInput,
   ListFirewallDomainListsOutput,
   ListFirewallDomainListsError,
   Credentials | HttpClient.HttpClient,
@@ -2313,7 +2314,7 @@ export type ListFirewallDomainsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listFirewallDomains: API.PaginatedOperationMethod<
-  ListFirewallDomainsInput,
+  ListFirewallDomainsInput & RegionInput,
   ListFirewallDomainsOutput,
   ListFirewallDomainsError,
   Credentials | HttpClient.HttpClient,
@@ -2354,7 +2355,7 @@ export type ListFirewallRulesError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listFirewallRules: API.PaginatedOperationMethod<
-  ListFirewallRulesInput,
+  ListFirewallRulesInput & RegionInput,
   ListFirewallRulesOutput,
   ListFirewallRulesError,
   Credentials | HttpClient.HttpClient,
@@ -2394,7 +2395,7 @@ export type ListGlobalResolversError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listGlobalResolvers: API.PaginatedOperationMethod<
-  ListGlobalResolversInput,
+  ListGlobalResolversInput & RegionInput,
   ListGlobalResolversOutput,
   ListGlobalResolversError,
   Credentials | HttpClient.HttpClient,
@@ -2434,7 +2435,7 @@ export type ListHostedZoneAssociationsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listHostedZoneAssociations: API.PaginatedOperationMethod<
-  ListHostedZoneAssociationsInput,
+  ListHostedZoneAssociationsInput & RegionInput,
   ListHostedZoneAssociationsOutput,
   ListHostedZoneAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -2474,7 +2475,7 @@ export type ListManagedFirewallDomainListsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listManagedFirewallDomainLists: API.PaginatedOperationMethod<
-  ListManagedFirewallDomainListsInput,
+  ListManagedFirewallDomainListsInput & RegionInput,
   ListManagedFirewallDomainListsOutput,
   ListManagedFirewallDomainListsError,
   Credentials | HttpClient.HttpClient,
@@ -2513,7 +2514,7 @@ export type ListSharedDNSViewsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listSharedDNSViews: API.PaginatedOperationMethod<
-  ListSharedDNSViewsInput,
+  ListSharedDNSViewsInput & RegionInput,
   ListSharedDNSViewsOutput,
   ListSharedDNSViewsError,
   Credentials | HttpClient.HttpClient,
@@ -2547,7 +2548,7 @@ export type ListTagsForResourceError = ResourceNotFoundException | CommonErrors;
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -2573,7 +2574,7 @@ export type TagResourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2596,7 @@ export type UntagResourceError = ResourceNotFoundException | ValidationException
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2625,7 +2626,7 @@ export type UpdateAccessSourceError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateAccessSource: API.OperationMethod<
-  UpdateAccessSourceInput,
+  UpdateAccessSourceInput & RegionInput,
   UpdateAccessSourceOutput,
   UpdateAccessSourceError,
   Credentials | HttpClient.HttpClient
@@ -2663,7 +2664,7 @@ export type UpdateAccessTokenError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateAccessToken: API.OperationMethod<
-  UpdateAccessTokenInput,
+  UpdateAccessTokenInput & RegionInput,
   UpdateAccessTokenOutput,
   UpdateAccessTokenError,
   Credentials | HttpClient.HttpClient
@@ -2701,7 +2702,7 @@ export type UpdateDNSViewError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateDNSView: API.OperationMethod<
-  UpdateDNSViewInput,
+  UpdateDNSViewInput & RegionInput,
   UpdateDNSViewOutput,
   UpdateDNSViewError,
   Credentials | HttpClient.HttpClient
@@ -2739,7 +2740,7 @@ export type UpdateFirewallDomainsError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateFirewallDomains: API.OperationMethod<
-  UpdateFirewallDomainsInput,
+  UpdateFirewallDomainsInput & RegionInput,
   UpdateFirewallDomainsOutput,
   UpdateFirewallDomainsError,
   Credentials | HttpClient.HttpClient
@@ -2777,7 +2778,7 @@ export type UpdateFirewallRuleError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateFirewallRule: API.OperationMethod<
-  UpdateFirewallRuleInput,
+  UpdateFirewallRuleInput & RegionInput,
   UpdateFirewallRuleOutput,
   UpdateFirewallRuleError,
   Credentials | HttpClient.HttpClient
@@ -2815,7 +2816,7 @@ export type UpdateGlobalResolverError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateGlobalResolver: API.OperationMethod<
-  UpdateGlobalResolverInput,
+  UpdateGlobalResolverInput & RegionInput,
   UpdateGlobalResolverOutput,
   UpdateGlobalResolverError,
   Credentials | HttpClient.HttpClient
@@ -2853,7 +2854,7 @@ export type UpdateHostedZoneAssociationError =
  * Route 53 Global Resolver is a global service that supports resolvers in multiple Amazon Web Services Regions but you must specify the US East (Ohio) Region to create, update, or otherwise work with Route 53 Global Resolver resources. That is, for example, specify `--region us-east-2` on Amazon Web Services CLI commands.
  */
 export const updateHostedZoneAssociation: API.OperationMethod<
-  UpdateHostedZoneAssociationInput,
+  UpdateHostedZoneAssociationInput & RegionInput,
   UpdateHostedZoneAssociationOutput,
   UpdateHostedZoneAssociationError,
   Credentials | HttpClient.HttpClient

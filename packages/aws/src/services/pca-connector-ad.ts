@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -167,7 +168,7 @@ export type IpAddressType = "IPV4" | "DUALSTACK" | (string & {});
 export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
 export interface VpcInformation {
-  IpAddressType?: IpAddressType;
+  IpAddressType?: IpAddressType | undefined;
   SecurityGroupIds: string[];
 }
 export type ClientToken = string;
@@ -176,26 +177,26 @@ export interface CreateConnectorRequest {
   DirectoryId: string;
   CertificateAuthorityArn: string;
   VpcInformation: VpcInformation;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConnectorArn = string;
 export interface CreateConnectorResponse {
-  ConnectorArn?: string;
+  ConnectorArn?: string | undefined;
 }
 export interface CreateDirectoryRegistrationRequest {
   DirectoryId: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DirectoryRegistrationArn = string;
 export interface CreateDirectoryRegistrationResponse {
-  DirectoryRegistrationArn?: string;
+  DirectoryRegistrationArn?: string | undefined;
 }
 export interface CreateServicePrincipalNameRequest {
   DirectoryRegistrationArn: string;
   ConnectorArn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface CreateServicePrincipalNameResponse {}
 export type TemplateName = string;
@@ -214,7 +215,7 @@ export type CryptoProvidersList = string[];
 export interface PrivateKeyAttributesV2 {
   MinimalKeyLength: number;
   KeySpec: KeySpec;
-  CryptoProviders?: string[];
+  CryptoProviders?: string[] | undefined;
 }
 export type ClientCompatibilityV2 =
   | "WINDOWS_SERVER_2003"
@@ -225,42 +226,42 @@ export type ClientCompatibilityV2 =
   | "WINDOWS_SERVER_2016"
   | (string & {});
 export interface PrivateKeyFlagsV2 {
-  ExportableKey?: boolean;
-  StrongKeyProtectionRequired?: boolean;
+  ExportableKey?: boolean | undefined;
+  StrongKeyProtectionRequired?: boolean | undefined;
   ClientVersion: ClientCompatibilityV2;
 }
 export interface EnrollmentFlagsV2 {
-  IncludeSymmetricAlgorithms?: boolean;
-  UserInteractionRequired?: boolean;
-  RemoveInvalidCertificateFromPersonalStore?: boolean;
-  NoSecurityExtension?: boolean;
-  EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean;
+  IncludeSymmetricAlgorithms?: boolean | undefined;
+  UserInteractionRequired?: boolean | undefined;
+  RemoveInvalidCertificateFromPersonalStore?: boolean | undefined;
+  NoSecurityExtension?: boolean | undefined;
+  EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean | undefined;
 }
 export interface SubjectNameFlagsV2 {
-  SanRequireDomainDns?: boolean;
-  SanRequireSpn?: boolean;
-  SanRequireDirectoryGuid?: boolean;
-  SanRequireUpn?: boolean;
-  SanRequireEmail?: boolean;
-  SanRequireDns?: boolean;
-  RequireDnsAsCn?: boolean;
-  RequireEmail?: boolean;
-  RequireCommonName?: boolean;
-  RequireDirectoryPath?: boolean;
+  SanRequireDomainDns?: boolean | undefined;
+  SanRequireSpn?: boolean | undefined;
+  SanRequireDirectoryGuid?: boolean | undefined;
+  SanRequireUpn?: boolean | undefined;
+  SanRequireEmail?: boolean | undefined;
+  SanRequireDns?: boolean | undefined;
+  RequireDnsAsCn?: boolean | undefined;
+  RequireEmail?: boolean | undefined;
+  RequireCommonName?: boolean | undefined;
+  RequireDirectoryPath?: boolean | undefined;
 }
 export interface GeneralFlagsV2 {
-  AutoEnrollment?: boolean;
-  MachineType?: boolean;
+  AutoEnrollment?: boolean | undefined;
+  MachineType?: boolean | undefined;
 }
 export interface KeyUsageFlags {
-  DigitalSignature?: boolean;
-  NonRepudiation?: boolean;
-  KeyEncipherment?: boolean;
-  DataEncipherment?: boolean;
-  KeyAgreement?: boolean;
+  DigitalSignature?: boolean | undefined;
+  NonRepudiation?: boolean | undefined;
+  KeyEncipherment?: boolean | undefined;
+  DataEncipherment?: boolean | undefined;
+  KeyAgreement?: boolean | undefined;
 }
 export interface KeyUsage {
-  Critical?: boolean;
+  Critical?: boolean | undefined;
   UsageFlags: KeyUsageFlags;
 }
 export type ApplicationPolicyType =
@@ -334,20 +335,20 @@ export type ApplicationPolicyType =
   | (string & {});
 export type CustomObjectIdentifier = string;
 export type ApplicationPolicy =
-  | { PolicyType: ApplicationPolicyType; PolicyObjectIdentifier?: never }
-  | { PolicyType?: never; PolicyObjectIdentifier: string };
+  | { PolicyType: ApplicationPolicyType; PolicyObjectIdentifier?: undefined }
+  | { PolicyType?: undefined; PolicyObjectIdentifier: string };
 export type ApplicationPolicyList = ApplicationPolicy[];
 export interface ApplicationPolicies {
-  Critical?: boolean;
+  Critical?: boolean | undefined;
   Policies: ApplicationPolicy[];
 }
 export interface ExtensionsV2 {
   KeyUsage: KeyUsage;
-  ApplicationPolicies?: ApplicationPolicies;
+  ApplicationPolicies?: ApplicationPolicies | undefined;
 }
 export interface TemplateV2 {
   CertificateValidity: CertificateValidity;
-  SupersededTemplates?: string[];
+  SupersededTemplates?: string[] | undefined;
   PrivateKeyAttributes: PrivateKeyAttributesV2;
   PrivateKeyFlags: PrivateKeyFlagsV2;
   EnrollmentFlags: EnrollmentFlagsV2;
@@ -357,18 +358,18 @@ export interface TemplateV2 {
 }
 export type KeyUsagePropertyType = "ALL" | (string & {});
 export interface KeyUsagePropertyFlags {
-  Decrypt?: boolean;
-  KeyAgreement?: boolean;
-  Sign?: boolean;
+  Decrypt?: boolean | undefined;
+  KeyAgreement?: boolean | undefined;
+  Sign?: boolean | undefined;
 }
 export type KeyUsageProperty =
-  | { PropertyType: KeyUsagePropertyType; PropertyFlags?: never }
-  | { PropertyType?: never; PropertyFlags: KeyUsagePropertyFlags };
+  | { PropertyType: KeyUsagePropertyType; PropertyFlags?: undefined }
+  | { PropertyType?: undefined; PropertyFlags: KeyUsagePropertyFlags };
 export type PrivateKeyAlgorithm = "RSA" | "ECDH_P256" | "ECDH_P384" | "ECDH_P521" | (string & {});
 export interface PrivateKeyAttributesV3 {
   MinimalKeyLength: number;
   KeySpec: KeySpec;
-  CryptoProviders?: string[];
+  CryptoProviders?: string[] | undefined;
   KeyUsageProperty: KeyUsageProperty;
   Algorithm: PrivateKeyAlgorithm;
 }
@@ -380,42 +381,42 @@ export type ClientCompatibilityV3 =
   | "WINDOWS_SERVER_2016"
   | (string & {});
 export interface PrivateKeyFlagsV3 {
-  ExportableKey?: boolean;
-  StrongKeyProtectionRequired?: boolean;
-  RequireAlternateSignatureAlgorithm?: boolean;
+  ExportableKey?: boolean | undefined;
+  StrongKeyProtectionRequired?: boolean | undefined;
+  RequireAlternateSignatureAlgorithm?: boolean | undefined;
   ClientVersion: ClientCompatibilityV3;
 }
 export interface EnrollmentFlagsV3 {
-  IncludeSymmetricAlgorithms?: boolean;
-  UserInteractionRequired?: boolean;
-  RemoveInvalidCertificateFromPersonalStore?: boolean;
-  NoSecurityExtension?: boolean;
-  EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean;
+  IncludeSymmetricAlgorithms?: boolean | undefined;
+  UserInteractionRequired?: boolean | undefined;
+  RemoveInvalidCertificateFromPersonalStore?: boolean | undefined;
+  NoSecurityExtension?: boolean | undefined;
+  EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean | undefined;
 }
 export interface SubjectNameFlagsV3 {
-  SanRequireDomainDns?: boolean;
-  SanRequireSpn?: boolean;
-  SanRequireDirectoryGuid?: boolean;
-  SanRequireUpn?: boolean;
-  SanRequireEmail?: boolean;
-  SanRequireDns?: boolean;
-  RequireDnsAsCn?: boolean;
-  RequireEmail?: boolean;
-  RequireCommonName?: boolean;
-  RequireDirectoryPath?: boolean;
+  SanRequireDomainDns?: boolean | undefined;
+  SanRequireSpn?: boolean | undefined;
+  SanRequireDirectoryGuid?: boolean | undefined;
+  SanRequireUpn?: boolean | undefined;
+  SanRequireEmail?: boolean | undefined;
+  SanRequireDns?: boolean | undefined;
+  RequireDnsAsCn?: boolean | undefined;
+  RequireEmail?: boolean | undefined;
+  RequireCommonName?: boolean | undefined;
+  RequireDirectoryPath?: boolean | undefined;
 }
 export interface GeneralFlagsV3 {
-  AutoEnrollment?: boolean;
-  MachineType?: boolean;
+  AutoEnrollment?: boolean | undefined;
+  MachineType?: boolean | undefined;
 }
 export type HashAlgorithm = "SHA256" | "SHA384" | "SHA512" | (string & {});
 export interface ExtensionsV3 {
   KeyUsage: KeyUsage;
-  ApplicationPolicies?: ApplicationPolicies;
+  ApplicationPolicies?: ApplicationPolicies | undefined;
 }
 export interface TemplateV3 {
   CertificateValidity: CertificateValidity;
-  SupersededTemplates?: string[];
+  SupersededTemplates?: string[] | undefined;
   PrivateKeyAttributes: PrivateKeyAttributesV3;
   PrivateKeyFlags: PrivateKeyFlagsV3;
   EnrollmentFlags: EnrollmentFlagsV3;
@@ -427,9 +428,9 @@ export interface TemplateV3 {
 export interface PrivateKeyAttributesV4 {
   MinimalKeyLength: number;
   KeySpec: KeySpec;
-  CryptoProviders?: string[];
-  KeyUsageProperty?: KeyUsageProperty;
-  Algorithm?: PrivateKeyAlgorithm;
+  CryptoProviders?: string[] | undefined;
+  KeyUsageProperty?: KeyUsageProperty | undefined;
+  Algorithm?: PrivateKeyAlgorithm | undefined;
 }
 export type ClientCompatibilityV4 =
   | "WINDOWS_SERVER_2012"
@@ -437,79 +438,79 @@ export type ClientCompatibilityV4 =
   | "WINDOWS_SERVER_2016"
   | (string & {});
 export interface PrivateKeyFlagsV4 {
-  ExportableKey?: boolean;
-  StrongKeyProtectionRequired?: boolean;
-  RequireAlternateSignatureAlgorithm?: boolean;
-  RequireSameKeyRenewal?: boolean;
-  UseLegacyProvider?: boolean;
+  ExportableKey?: boolean | undefined;
+  StrongKeyProtectionRequired?: boolean | undefined;
+  RequireAlternateSignatureAlgorithm?: boolean | undefined;
+  RequireSameKeyRenewal?: boolean | undefined;
+  UseLegacyProvider?: boolean | undefined;
   ClientVersion: ClientCompatibilityV4;
 }
 export interface EnrollmentFlagsV4 {
-  IncludeSymmetricAlgorithms?: boolean;
-  UserInteractionRequired?: boolean;
-  RemoveInvalidCertificateFromPersonalStore?: boolean;
-  NoSecurityExtension?: boolean;
-  EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean;
+  IncludeSymmetricAlgorithms?: boolean | undefined;
+  UserInteractionRequired?: boolean | undefined;
+  RemoveInvalidCertificateFromPersonalStore?: boolean | undefined;
+  NoSecurityExtension?: boolean | undefined;
+  EnableKeyReuseOnNtTokenKeysetStorageFull?: boolean | undefined;
 }
 export interface SubjectNameFlagsV4 {
-  SanRequireDomainDns?: boolean;
-  SanRequireSpn?: boolean;
-  SanRequireDirectoryGuid?: boolean;
-  SanRequireUpn?: boolean;
-  SanRequireEmail?: boolean;
-  SanRequireDns?: boolean;
-  RequireDnsAsCn?: boolean;
-  RequireEmail?: boolean;
-  RequireCommonName?: boolean;
-  RequireDirectoryPath?: boolean;
+  SanRequireDomainDns?: boolean | undefined;
+  SanRequireSpn?: boolean | undefined;
+  SanRequireDirectoryGuid?: boolean | undefined;
+  SanRequireUpn?: boolean | undefined;
+  SanRequireEmail?: boolean | undefined;
+  SanRequireDns?: boolean | undefined;
+  RequireDnsAsCn?: boolean | undefined;
+  RequireEmail?: boolean | undefined;
+  RequireCommonName?: boolean | undefined;
+  RequireDirectoryPath?: boolean | undefined;
 }
 export interface GeneralFlagsV4 {
-  AutoEnrollment?: boolean;
-  MachineType?: boolean;
+  AutoEnrollment?: boolean | undefined;
+  MachineType?: boolean | undefined;
 }
 export interface ExtensionsV4 {
   KeyUsage: KeyUsage;
-  ApplicationPolicies?: ApplicationPolicies;
+  ApplicationPolicies?: ApplicationPolicies | undefined;
 }
 export interface TemplateV4 {
   CertificateValidity: CertificateValidity;
-  SupersededTemplates?: string[];
+  SupersededTemplates?: string[] | undefined;
   PrivateKeyAttributes: PrivateKeyAttributesV4;
   PrivateKeyFlags: PrivateKeyFlagsV4;
   EnrollmentFlags: EnrollmentFlagsV4;
   SubjectNameFlags: SubjectNameFlagsV4;
   GeneralFlags: GeneralFlagsV4;
-  HashAlgorithm?: HashAlgorithm;
+  HashAlgorithm?: HashAlgorithm | undefined;
   Extensions: ExtensionsV4;
 }
 export type TemplateDefinition =
-  | { TemplateV2: TemplateV2; TemplateV3?: never; TemplateV4?: never }
-  | { TemplateV2?: never; TemplateV3: TemplateV3; TemplateV4?: never }
-  | { TemplateV2?: never; TemplateV3?: never; TemplateV4: TemplateV4 };
+  | { TemplateV2: TemplateV2; TemplateV3?: undefined; TemplateV4?: undefined }
+  | { TemplateV2?: undefined; TemplateV3: TemplateV3; TemplateV4?: undefined }
+  | { TemplateV2?: undefined; TemplateV3?: undefined; TemplateV4: TemplateV4 };
 export interface CreateTemplateRequest {
   ConnectorArn: string;
   Name: string;
   Definition: TemplateDefinition;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TemplateArn = string;
 export interface CreateTemplateResponse {
-  TemplateArn?: string;
+  TemplateArn?: string | undefined;
 }
 export type GroupSecurityIdentifier = string;
 export type DisplayName = string;
 export type AccessRight = "ALLOW" | "DENY" | (string & {});
 export interface AccessRights {
-  Enroll?: AccessRight;
-  AutoEnroll?: AccessRight;
+  Enroll?: AccessRight | undefined;
+  AutoEnroll?: AccessRight | undefined;
 }
 export interface CreateTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
   GroupSecurityIdentifier: string;
   GroupDisplayName: string;
   AccessRights: AccessRights;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface CreateTemplateGroupAccessControlEntryResponse {}
 export interface DeleteConnectorRequest {
@@ -552,18 +553,18 @@ export type ConnectorStatusReason =
   | "VPC_RESOURCE_NOT_FOUND"
   | (string & {});
 export interface Connector {
-  Arn?: string;
-  CertificateAuthorityArn?: string;
-  CertificateEnrollmentPolicyServerEndpoint?: string;
-  DirectoryId?: string;
-  VpcInformation?: VpcInformation;
-  Status?: ConnectorStatus;
-  StatusReason?: ConnectorStatusReason;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  CertificateEnrollmentPolicyServerEndpoint?: string | undefined;
+  DirectoryId?: string | undefined;
+  VpcInformation?: VpcInformation | undefined;
+  Status?: ConnectorStatus | undefined;
+  StatusReason?: ConnectorStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetConnectorResponse {
-  Connector?: Connector;
+  Connector?: Connector | undefined;
 }
 export interface GetDirectoryRegistrationRequest {
   DirectoryRegistrationArn: string;
@@ -583,15 +584,15 @@ export type DirectoryRegistrationStatusReason =
   | "INTERNAL_FAILURE"
   | (string & {});
 export interface DirectoryRegistration {
-  Arn?: string;
-  DirectoryId?: string;
-  Status?: DirectoryRegistrationStatus;
-  StatusReason?: DirectoryRegistrationStatusReason;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  DirectoryId?: string | undefined;
+  Status?: DirectoryRegistrationStatus | undefined;
+  StatusReason?: DirectoryRegistrationStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetDirectoryRegistrationResponse {
-  DirectoryRegistration?: DirectoryRegistration;
+  DirectoryRegistration?: DirectoryRegistration | undefined;
 }
 export interface GetServicePrincipalNameRequest {
   DirectoryRegistrationArn: string;
@@ -612,15 +613,15 @@ export type ServicePrincipalNameStatusReason =
   | "INTERNAL_FAILURE"
   | (string & {});
 export interface ServicePrincipalName {
-  DirectoryRegistrationArn?: string;
-  ConnectorArn?: string;
-  Status?: ServicePrincipalNameStatus;
-  StatusReason?: ServicePrincipalNameStatusReason;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  DirectoryRegistrationArn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  Status?: ServicePrincipalNameStatus | undefined;
+  StatusReason?: ServicePrincipalNameStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetServicePrincipalNameResponse {
-  ServicePrincipalName?: ServicePrincipalName;
+  ServicePrincipalName?: ServicePrincipalName | undefined;
 }
 export interface GetTemplateRequest {
   TemplateArn: string;
@@ -631,137 +632,137 @@ export interface TemplateRevision {
   MinorRevision: number;
 }
 export interface Template {
-  Arn?: string;
-  ConnectorArn?: string;
-  Definition?: TemplateDefinition;
-  Name?: string;
-  ObjectIdentifier?: string;
-  PolicySchema?: number;
-  Status?: TemplateStatus;
-  Revision?: TemplateRevision;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  Definition?: TemplateDefinition | undefined;
+  Name?: string | undefined;
+  ObjectIdentifier?: string | undefined;
+  PolicySchema?: number | undefined;
+  Status?: TemplateStatus | undefined;
+  Revision?: TemplateRevision | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetTemplateResponse {
-  Template?: Template;
+  Template?: Template | undefined;
 }
 export interface GetTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
   GroupSecurityIdentifier: string;
 }
 export interface AccessControlEntry {
-  GroupDisplayName?: string;
-  GroupSecurityIdentifier?: string;
-  AccessRights?: AccessRights;
-  TemplateArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  GroupDisplayName?: string | undefined;
+  GroupSecurityIdentifier?: string | undefined;
+  AccessRights?: AccessRights | undefined;
+  TemplateArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetTemplateGroupAccessControlEntryResponse {
-  AccessControlEntry?: AccessControlEntry;
+  AccessControlEntry?: AccessControlEntry | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConnectorSummary {
-  Arn?: string;
-  CertificateAuthorityArn?: string;
-  CertificateEnrollmentPolicyServerEndpoint?: string;
-  DirectoryId?: string;
-  VpcInformation?: VpcInformation;
-  Status?: ConnectorStatus;
-  StatusReason?: ConnectorStatusReason;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  CertificateEnrollmentPolicyServerEndpoint?: string | undefined;
+  DirectoryId?: string | undefined;
+  VpcInformation?: VpcInformation | undefined;
+  Status?: ConnectorStatus | undefined;
+  StatusReason?: ConnectorStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ConnectorList = ConnectorSummary[];
 export interface ListConnectorsResponse {
-  Connectors?: ConnectorSummary[];
-  NextToken?: string;
+  Connectors?: ConnectorSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDirectoryRegistrationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DirectoryRegistrationSummary {
-  Arn?: string;
-  DirectoryId?: string;
-  Status?: DirectoryRegistrationStatus;
-  StatusReason?: DirectoryRegistrationStatusReason;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  DirectoryId?: string | undefined;
+  Status?: DirectoryRegistrationStatus | undefined;
+  StatusReason?: DirectoryRegistrationStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type DirectoryRegistrationList = DirectoryRegistrationSummary[];
 export interface ListDirectoryRegistrationsResponse {
-  DirectoryRegistrations?: DirectoryRegistrationSummary[];
-  NextToken?: string;
+  DirectoryRegistrations?: DirectoryRegistrationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListServicePrincipalNamesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   DirectoryRegistrationArn: string;
 }
 export interface ServicePrincipalNameSummary {
-  DirectoryRegistrationArn?: string;
-  ConnectorArn?: string;
-  Status?: ServicePrincipalNameStatus;
-  StatusReason?: ServicePrincipalNameStatusReason;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  DirectoryRegistrationArn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  Status?: ServicePrincipalNameStatus | undefined;
+  StatusReason?: ServicePrincipalNameStatusReason | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ServicePrincipalNameList = ServicePrincipalNameSummary[];
 export interface ListServicePrincipalNamesResponse {
-  ServicePrincipalNames?: ServicePrincipalNameSummary[];
-  NextToken?: string;
+  ServicePrincipalNames?: ServicePrincipalNameSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTemplateGroupAccessControlEntriesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   TemplateArn: string;
 }
 export interface AccessControlEntrySummary {
-  GroupDisplayName?: string;
-  GroupSecurityIdentifier?: string;
-  AccessRights?: AccessRights;
-  TemplateArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  GroupDisplayName?: string | undefined;
+  GroupSecurityIdentifier?: string | undefined;
+  AccessRights?: AccessRights | undefined;
+  TemplateArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type AccessControlEntryList = AccessControlEntrySummary[];
 export interface ListTemplateGroupAccessControlEntriesResponse {
-  AccessControlEntries?: AccessControlEntrySummary[];
-  NextToken?: string;
+  AccessControlEntries?: AccessControlEntrySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTemplatesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ConnectorArn: string;
 }
 export interface TemplateSummary {
-  Arn?: string;
-  ConnectorArn?: string;
-  Definition?: TemplateDefinition;
-  Name?: string;
-  ObjectIdentifier?: string;
-  PolicySchema?: number;
-  Status?: TemplateStatus;
-  Revision?: TemplateRevision;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  Definition?: TemplateDefinition | undefined;
+  Name?: string | undefined;
+  ObjectIdentifier?: string | undefined;
+  PolicySchema?: number | undefined;
+  Status?: TemplateStatus | undefined;
+  Revision?: TemplateRevision | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type TemplateList = TemplateSummary[];
 export interface ListTemplatesResponse {
-  Templates?: TemplateSummary[];
-  NextToken?: string;
+  Templates?: TemplateSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -776,15 +777,15 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateTemplateRequest {
   TemplateArn: string;
-  Definition?: TemplateDefinition;
-  ReenrollAllCertificateHolders?: boolean;
+  Definition?: TemplateDefinition | undefined;
+  ReenrollAllCertificateHolders?: boolean | undefined;
 }
 export interface UpdateTemplateResponse {}
 export interface UpdateTemplateGroupAccessControlEntryRequest {
   TemplateArn: string;
   GroupSecurityIdentifier: string;
-  GroupDisplayName?: string;
-  AccessRights?: AccessRights;
+  GroupDisplayName?: string | undefined;
+  AccessRights?: AccessRights | undefined;
 }
 export interface UpdateTemplateGroupAccessControlEntryResponse {}
 export type ValidationExceptionReason =
@@ -812,7 +813,7 @@ export type CreateConnectorError =
  * directory ID, and security groups.
  */
 export const createConnector: API.OperationMethod<
-  CreateConnectorRequest,
+  CreateConnectorRequest & RegionInput,
   CreateConnectorResponse,
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
@@ -848,7 +849,7 @@ export type CreateDirectoryRegistrationError =
  * Active Directory
  */
 export const createDirectoryRegistration: API.OperationMethod<
-  CreateDirectoryRegistrationRequest,
+  CreateDirectoryRegistrationRequest & RegionInput,
   CreateDirectoryRegistrationResponse,
   CreateDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -884,7 +885,7 @@ export type CreateServicePrincipalNameError =
  * account.
  */
 export const createServicePrincipalName: API.OperationMethod<
-  CreateServicePrincipalNameRequest,
+  CreateServicePrincipalNameRequest & RegionInput,
   CreateServicePrincipalNameResponse,
   CreateServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
@@ -920,7 +921,7 @@ export type CreateTemplateError =
  * using these templates based on the requester's Active Directory group membership.
  */
 export const createTemplate: API.OperationMethod<
-  CreateTemplateRequest,
+  CreateTemplateRequest & RegionInput,
   CreateTemplateResponse,
   CreateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -957,7 +958,7 @@ export type CreateTemplateGroupAccessControlEntryError =
  * autoenrolling with the template based on the group security identifiers (SIDs).
  */
 export const createTemplateGroupAccessControlEntry: API.OperationMethod<
-  CreateTemplateGroupAccessControlEntryRequest,
+  CreateTemplateGroupAccessControlEntryRequest & RegionInput,
   CreateTemplateGroupAccessControlEntryResponse,
   CreateTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
@@ -996,7 +997,7 @@ export type DeleteConnectorError =
  * action.
  */
 export const deleteConnector: API.OperationMethod<
-  DeleteConnectorRequest,
+  DeleteConnectorRequest & RegionInput,
   DeleteConnectorResponse,
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1030,7 +1031,7 @@ export type DeleteDirectoryRegistrationError =
  * Amazon Web Services Private CA with the directory.
  */
 export const deleteDirectoryRegistration: API.OperationMethod<
-  DeleteDirectoryRegistrationRequest,
+  DeleteDirectoryRegistrationRequest & RegionInput,
   DeleteDirectoryRegistrationResponse,
   DeleteDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1063,7 +1064,7 @@ export type DeleteServicePrincipalNameError =
  * Active Directory.
  */
 export const deleteServicePrincipalName: API.OperationMethod<
-  DeleteServicePrincipalNameRequest,
+  DeleteServicePrincipalNameRequest & RegionInput,
   DeleteServicePrincipalNameResponse,
   DeleteServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
@@ -1097,7 +1098,7 @@ export type DeleteTemplateError =
  * are revoked or expired.
  */
 export const deleteTemplate: API.OperationMethod<
-  DeleteTemplateRequest,
+  DeleteTemplateRequest & RegionInput,
   DeleteTemplateResponse,
   DeleteTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1131,7 +1132,7 @@ export type DeleteTemplateGroupAccessControlEntryError =
  * Deletes a group access control entry.
  */
 export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
-  DeleteTemplateGroupAccessControlEntryRequest,
+  DeleteTemplateGroupAccessControlEntryRequest & RegionInput,
   DeleteTemplateGroupAccessControlEntryResponse,
   DeleteTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
@@ -1165,7 +1166,7 @@ export type GetConnectorError =
  * (Amazon Resource Name).
  */
 export const getConnector: API.OperationMethod<
-  GetConnectorRequest,
+  GetConnectorRequest & RegionInput,
   GetConnectorResponse,
   GetConnectorError,
   Credentials | HttpClient.HttpClient
@@ -1197,7 +1198,7 @@ export type GetDirectoryRegistrationError =
  * A structure that contains information about your directory registration.
  */
 export const getDirectoryRegistration: API.OperationMethod<
-  GetDirectoryRegistrationRequest,
+  GetDirectoryRegistrationRequest & RegionInput,
   GetDirectoryRegistrationResponse,
   GetDirectoryRegistrationError,
   Credentials | HttpClient.HttpClient
@@ -1230,7 +1231,7 @@ export type GetServicePrincipalNameError =
  * Active Directory.
  */
 export const getServicePrincipalName: API.OperationMethod<
-  GetServicePrincipalNameRequest,
+  GetServicePrincipalNameRequest & RegionInput,
   GetServicePrincipalNameResponse,
   GetServicePrincipalNameError,
   Credentials | HttpClient.HttpClient
@@ -1263,7 +1264,7 @@ export type GetTemplateError =
  * private CA.
  */
 export const getTemplate: API.OperationMethod<
-  GetTemplateRequest,
+  GetTemplateRequest & RegionInput,
   GetTemplateResponse,
   GetTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1295,7 +1296,7 @@ export type GetTemplateGroupAccessControlEntryError =
  * Retrieves the group access control entries for a template.
  */
 export const getTemplateGroupAccessControlEntry: API.OperationMethod<
-  GetTemplateGroupAccessControlEntryRequest,
+  GetTemplateGroupAccessControlEntryRequest & RegionInput,
   GetTemplateGroupAccessControlEntryResponse,
   GetTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient
@@ -1326,7 +1327,7 @@ export type ListConnectorsError =
  * Lists the connectors that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action.
  */
 export const listConnectors: API.PaginatedOperationMethod<
-  ListConnectorsRequest,
+  ListConnectorsRequest & RegionInput,
   ListConnectorsResponse,
   ListConnectorsError,
   Credentials | HttpClient.HttpClient,
@@ -1364,7 +1365,7 @@ export type ListDirectoryRegistrationsError =
  * action.
  */
 export const listDirectoryRegistrations: API.PaginatedOperationMethod<
-  ListDirectoryRegistrationsRequest,
+  ListDirectoryRegistrationsRequest & RegionInput,
   ListDirectoryRegistrationsResponse,
   ListDirectoryRegistrationsError,
   Credentials | HttpClient.HttpClient,
@@ -1403,7 +1404,7 @@ export type ListServicePrincipalNamesError =
  * Active Directory.
  */
 export const listServicePrincipalNames: API.PaginatedOperationMethod<
-  ListServicePrincipalNamesRequest,
+  ListServicePrincipalNamesRequest & RegionInput,
   ListServicePrincipalNamesResponse,
   ListServicePrincipalNamesError,
   Credentials | HttpClient.HttpClient,
@@ -1442,7 +1443,7 @@ export type ListTagsForResourceError =
  * Lists the tags, if any, that are associated with your resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1474,7 +1475,7 @@ export type ListTemplateGroupAccessControlEntriesError =
  * Lists group access control entries you created.
  */
 export const listTemplateGroupAccessControlEntries: API.PaginatedOperationMethod<
-  ListTemplateGroupAccessControlEntriesRequest,
+  ListTemplateGroupAccessControlEntriesRequest & RegionInput,
   ListTemplateGroupAccessControlEntriesResponse,
   ListTemplateGroupAccessControlEntriesError,
   Credentials | HttpClient.HttpClient,
@@ -1513,7 +1514,7 @@ export type ListTemplatesError =
  * Lists the templates, if any, that are associated with a connector.
  */
 export const listTemplates: API.PaginatedOperationMethod<
-  ListTemplatesRequest,
+  ListTemplatesRequest & RegionInput,
   ListTemplatesResponse,
   ListTemplatesError,
   Credentials | HttpClient.HttpClient,
@@ -1552,7 +1553,7 @@ export type TagResourceError =
  * Adds one or more tags to your resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1584,7 +1585,7 @@ export type UntagResourceError =
  * Removes one or more tags from your resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1617,7 +1618,7 @@ export type UpdateTemplateError =
  * Update template configuration to define the information included in certificates.
  */
 export const updateTemplate: API.OperationMethod<
-  UpdateTemplateRequest,
+  UpdateTemplateRequest & RegionInput,
   UpdateTemplateResponse,
   UpdateTemplateError,
   Credentials | HttpClient.HttpClient
@@ -1651,7 +1652,7 @@ export type UpdateTemplateGroupAccessControlEntryError =
  * Update a group access control entry you created using CreateTemplateGroupAccessControlEntry.
  */
 export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
-  UpdateTemplateGroupAccessControlEntryRequest,
+  UpdateTemplateGroupAccessControlEntryRequest & RegionInput,
   UpdateTemplateGroupAccessControlEntryResponse,
   UpdateTemplateGroupAccessControlEntryError,
   Credentials | HttpClient.HttpClient

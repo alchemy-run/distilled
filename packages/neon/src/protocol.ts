@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * NeonProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type NeonOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | NeonParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Neon operation. */
 export type NeonOpContext = Credentials | HttpClient.HttpClient;

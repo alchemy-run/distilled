@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -152,8 +153,8 @@ export interface BatchDeleteDevicePositionHistoryRequest {
 }
 export type BatchItemErrorCode = string;
 export interface BatchItemError {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface BatchDeleteDevicePositionHistoryError_ {
   DeviceId: string;
@@ -186,8 +187,8 @@ export interface DevicePositionUpdate {
   DeviceId: string;
   SampleTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type DevicePositionUpdateList = DevicePositionUpdate[];
 export interface BatchEvaluateGeofencesRequest {
@@ -201,7 +202,7 @@ export interface BatchEvaluateGeofencesError_ {
 }
 export type BatchEvaluateGeofencesErrorList = BatchEvaluateGeofencesError_[];
 export interface BatchEvaluateGeofencesResponse {
-  Errors?: BatchEvaluateGeofencesError_[];
+  Errors?: BatchEvaluateGeofencesError_[] | undefined;
 }
 export interface BatchGetDevicePositionRequest {
   TrackerName: string;
@@ -213,12 +214,12 @@ export interface BatchGetDevicePositionError_ {
 }
 export type BatchGetDevicePositionErrorList = BatchGetDevicePositionError_[];
 export interface DevicePosition {
-  DeviceId?: string;
+  DeviceId?: string | undefined;
   SampleTime: Date;
   ReceivedTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type DevicePositionList = DevicePosition[];
 export interface BatchGetDevicePositionResponse {
@@ -234,16 +235,16 @@ export interface Circle {
 export type Base64EncodedGeobuf = Uint8Array | redacted.Redacted<Uint8Array>;
 export type MultiLinearRings = number[][][][];
 export interface GeofenceGeometry {
-  Polygon?: number[][][];
-  Circle?: Circle;
-  Geobuf?: Uint8Array | redacted.Redacted<Uint8Array>;
-  MultiPolygon?: number[][][][];
+  Polygon?: number[][][] | undefined;
+  Circle?: Circle | undefined;
+  Geobuf?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  MultiPolygon?: number[][][][] | undefined;
 }
 export type PropertyMap = { [key: string]: string | undefined };
 export interface BatchPutGeofenceRequestEntry {
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type BatchPutGeofenceRequestEntryList = BatchPutGeofenceRequestEntry[];
 export interface BatchPutGeofenceRequest {
@@ -283,26 +284,26 @@ export type TravelMode = string;
 export type SensitiveBoolean = boolean;
 export type DistanceUnit = string;
 export interface CalculateRouteCarModeOptions {
-  AvoidFerries?: boolean;
-  AvoidTolls?: boolean;
+  AvoidFerries?: boolean | undefined;
+  AvoidTolls?: boolean | undefined;
 }
 export type DimensionUnit = string;
 export interface TruckDimensions {
-  Length?: number;
-  Height?: number;
-  Width?: number;
-  Unit?: string;
+  Length?: number | undefined;
+  Height?: number | undefined;
+  Width?: number | undefined;
+  Unit?: string | undefined;
 }
 export type VehicleWeightUnit = string;
 export interface TruckWeight {
-  Total?: number;
-  Unit?: string;
+  Total?: number | undefined;
+  Unit?: string | undefined;
 }
 export interface CalculateRouteTruckModeOptions {
-  AvoidFerries?: boolean;
-  AvoidTolls?: boolean;
-  Dimensions?: TruckDimensions;
-  Weight?: TruckWeight;
+  AvoidFerries?: boolean | undefined;
+  AvoidTolls?: boolean | undefined;
+  Dimensions?: TruckDimensions | undefined;
+  Weight?: TruckWeight | undefined;
 }
 export type OptimizationMode = string;
 export type ApiKey = string | redacted.Redacted<string>;
@@ -310,28 +311,28 @@ export interface CalculateRouteRequest {
   CalculatorName: string;
   DeparturePosition: number[];
   DestinationPosition: number[];
-  WaypointPositions?: number[][];
-  TravelMode?: string;
-  DepartureTime?: Date;
-  DepartNow?: boolean;
-  DistanceUnit?: string;
-  IncludeLegGeometry?: boolean;
-  CarModeOptions?: CalculateRouteCarModeOptions;
-  TruckModeOptions?: CalculateRouteTruckModeOptions;
-  ArrivalTime?: Date;
-  OptimizeFor?: string;
-  Key?: string | redacted.Redacted<string>;
+  WaypointPositions?: number[][] | undefined;
+  TravelMode?: string | undefined;
+  DepartureTime?: Date | undefined;
+  DepartNow?: boolean | undefined;
+  DistanceUnit?: string | undefined;
+  IncludeLegGeometry?: boolean | undefined;
+  CarModeOptions?: CalculateRouteCarModeOptions | undefined;
+  TruckModeOptions?: CalculateRouteTruckModeOptions | undefined;
+  ArrivalTime?: Date | undefined;
+  OptimizeFor?: string | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export type LineString = number[][];
 export interface LegGeometry {
-  LineString?: number[][];
+  LineString?: number[][] | undefined;
 }
 export interface Step {
   StartPosition: number[];
   EndPosition: number[];
   Distance: number;
   DurationSeconds: number;
-  GeometryOffset?: number;
+  GeometryOffset?: number | undefined;
 }
 export type StepList = Step[];
 export interface Leg {
@@ -339,7 +340,7 @@ export interface Leg {
   EndPosition: number[];
   Distance: number;
   DurationSeconds: number;
-  Geometry?: LegGeometry;
+  Geometry?: LegGeometry | undefined;
   Steps: Step[];
 }
 export type LegList = Leg[];
@@ -360,23 +361,23 @@ export interface CalculateRouteMatrixRequest {
   CalculatorName: string;
   DeparturePositions: number[][];
   DestinationPositions: number[][];
-  TravelMode?: string;
-  DepartureTime?: Date;
-  DepartNow?: boolean;
-  DistanceUnit?: string;
-  CarModeOptions?: CalculateRouteCarModeOptions;
-  TruckModeOptions?: CalculateRouteTruckModeOptions;
-  Key?: string | redacted.Redacted<string>;
+  TravelMode?: string | undefined;
+  DepartureTime?: Date | undefined;
+  DepartNow?: boolean | undefined;
+  DistanceUnit?: string | undefined;
+  CarModeOptions?: CalculateRouteCarModeOptions | undefined;
+  TruckModeOptions?: CalculateRouteTruckModeOptions | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteMatrixErrorCode = string;
 export interface RouteMatrixEntryError {
   Code: string;
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface RouteMatrixEntry {
-  Distance?: number;
-  DurationSeconds?: number;
-  Error?: RouteMatrixEntryError;
+  Distance?: number | undefined;
+  DurationSeconds?: number | undefined;
+  Error?: RouteMatrixEntryError | undefined;
 }
 export type RouteMatrixRow = RouteMatrixEntry[];
 export type RouteMatrix = RouteMatrixEntry[][];
@@ -388,8 +389,8 @@ export interface CalculateRouteMatrixSummary {
 }
 export interface CalculateRouteMatrixResponse {
   RouteMatrix: RouteMatrixEntry[][];
-  SnappedDeparturePositions?: number[][];
-  SnappedDestinationPositions?: number[][];
+  SnappedDeparturePositions?: number[][] | undefined;
+  SnappedDestinationPositions?: number[][] | undefined;
   Summary: CalculateRouteMatrixSummary;
 }
 export type JobId = string;
@@ -411,11 +412,11 @@ export type TagMap = { [key: string]: string | undefined };
 export type KmsKeyId = string;
 export interface CreateGeofenceCollectionRequest {
   CollectionName: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyId?: string;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface CreateGeofenceCollectionResponse {
   CollectionName: string;
@@ -443,17 +444,17 @@ export type AppleAppList = AppleApp[];
 export interface ApiKeyRestrictions {
   AllowActions: string[];
   AllowResources: string[];
-  AllowReferers?: (string | redacted.Redacted<string>)[];
-  AllowAndroidApps?: AndroidApp[];
-  AllowAppleApps?: AppleApp[];
+  AllowReferers?: (string | redacted.Redacted<string>)[] | undefined;
+  AllowAndroidApps?: AndroidApp[] | undefined;
+  AllowAppleApps?: AppleApp[] | undefined;
 }
 export interface CreateKeyRequest {
   KeyName: string;
   Restrictions: ApiKeyRestrictions;
-  Description?: string;
-  ExpireTime?: Date;
-  NoExpiry?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  ExpireTime?: Date | undefined;
+  NoExpiry?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateKeyResponse {
   Key: string | redacted.Redacted<string>;
@@ -467,15 +468,15 @@ export type CustomLayer = string;
 export type CustomLayerList = string[];
 export interface MapConfiguration {
   Style: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  CustomLayers?: string[];
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  CustomLayers?: string[] | undefined;
 }
 export interface CreateMapRequest {
   MapName: string;
   Configuration: MapConfiguration;
-  PricingPlan?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMapResponse {
   MapName: string;
@@ -484,15 +485,15 @@ export interface CreateMapResponse {
 }
 export type IntendedUse = string;
 export interface DataSourceConfiguration {
-  IntendedUse?: string;
+  IntendedUse?: string | undefined;
 }
 export interface CreatePlaceIndexRequest {
   IndexName: string;
   DataSource: string;
-  PricingPlan?: string;
-  Description?: string;
-  DataSourceConfiguration?: DataSourceConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  DataSourceConfiguration?: DataSourceConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePlaceIndexResponse {
   IndexName: string;
@@ -502,9 +503,9 @@ export interface CreatePlaceIndexResponse {
 export interface CreateRouteCalculatorRequest {
   CalculatorName: string;
   DataSource: string;
-  PricingPlan?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRouteCalculatorResponse {
   CalculatorName: string;
@@ -514,14 +515,14 @@ export interface CreateRouteCalculatorResponse {
 export type PositionFiltering = string;
 export interface CreateTrackerRequest {
   TrackerName: string;
-  PricingPlan?: string;
-  KmsKeyId?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  PositionFiltering?: string;
-  EventBridgeEnabled?: boolean;
-  KmsKeyEnableGeospatialQueries?: boolean;
+  PricingPlan?: string | undefined;
+  KmsKeyId?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PositionFiltering?: string | undefined;
+  EventBridgeEnabled?: boolean | undefined;
+  KmsKeyEnableGeospatialQueries?: boolean | undefined;
 }
 export interface CreateTrackerResponse {
   TrackerName: string;
@@ -534,7 +535,7 @@ export interface DeleteGeofenceCollectionRequest {
 export interface DeleteGeofenceCollectionResponse {}
 export interface DeleteKeyRequest {
   KeyName: string;
-  ForceDelete?: boolean;
+  ForceDelete?: boolean | undefined;
 }
 export interface DeleteKeyResponse {}
 export interface DeleteMapRequest {
@@ -559,14 +560,14 @@ export interface DescribeGeofenceCollectionRequest {
 export interface DescribeGeofenceCollectionResponse {
   CollectionName: string;
   CollectionArn: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  KmsKeyId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceCount?: number;
+  GeofenceCount?: number | undefined;
 }
 export interface DescribeKeyRequest {
   KeyName: string;
@@ -579,8 +580,8 @@ export interface DescribeKeyResponse {
   CreateTime: Date;
   ExpireTime: Date;
   UpdateTime: Date;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeMapRequest {
   MapName: string;
@@ -588,11 +589,11 @@ export interface DescribeMapRequest {
 export interface DescribeMapResponse {
   MapName: string;
   MapArn: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   DataSource: string;
   Configuration: MapConfiguration;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
@@ -602,13 +603,13 @@ export interface DescribePlaceIndexRequest {
 export interface DescribePlaceIndexResponse {
   IndexName: string;
   IndexArn: string;
-  PricingPlan?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
   DataSource: string;
   DataSourceConfiguration: DataSourceConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeRouteCalculatorRequest {
   CalculatorName: string;
@@ -616,12 +617,12 @@ export interface DescribeRouteCalculatorRequest {
 export interface DescribeRouteCalculatorResponse {
   CalculatorName: string;
   CalculatorArn: string;
-  PricingPlan?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
   DataSource: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeTrackerRequest {
   TrackerName: string;
@@ -629,16 +630,16 @@ export interface DescribeTrackerRequest {
 export interface DescribeTrackerResponse {
   TrackerName: string;
   TrackerArn: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreateTime: Date;
   UpdateTime: Date;
-  KmsKeyId?: string;
-  PositionFiltering?: string;
-  EventBridgeEnabled?: boolean;
-  KmsKeyEnableGeospatialQueries?: boolean;
+  KmsKeyId?: string | undefined;
+  PositionFiltering?: string | undefined;
+  EventBridgeEnabled?: boolean | undefined;
+  KmsKeyEnableGeospatialQueries?: boolean | undefined;
 }
 export interface DisassociateTrackerConsumerRequest {
   TrackerName: string;
@@ -647,18 +648,18 @@ export interface DisassociateTrackerConsumerRequest {
 export interface DisassociateTrackerConsumerResponse {}
 export interface ForecastGeofenceEventsDeviceState {
   Position: number[];
-  Speed?: number;
+  Speed?: number | undefined;
 }
 export type SpeedUnit = string;
 export type LargeToken = string;
 export interface ForecastGeofenceEventsRequest {
   CollectionName: string;
   DeviceState: ForecastGeofenceEventsDeviceState;
-  TimeHorizonMinutes?: number;
-  DistanceUnit?: string;
-  SpeedUnit?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  TimeHorizonMinutes?: number | undefined;
+  DistanceUnit?: string | undefined;
+  SpeedUnit?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Uuid = string;
 export type NearestDistance = number;
@@ -669,13 +670,13 @@ export interface ForecastedEvent {
   IsDeviceInGeofence: boolean;
   NearestDistance: number;
   EventType: string;
-  ForecastedBreachTime?: Date;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  ForecastedBreachTime?: Date | undefined;
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type ForecastedEventsList = ForecastedEvent[];
 export interface ForecastGeofenceEventsResponse {
   ForecastedEvents: ForecastedEvent[];
-  NextToken?: string;
+  NextToken?: string | undefined;
   DistanceUnit: string;
   SpeedUnit: string;
 }
@@ -684,25 +685,25 @@ export interface GetDevicePositionRequest {
   DeviceId: string;
 }
 export interface GetDevicePositionResponse {
-  DeviceId?: string;
+  DeviceId?: string | undefined;
   SampleTime: Date;
   ReceivedTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type Token = string;
 export interface GetDevicePositionHistoryRequest {
   TrackerName: string;
   DeviceId: string;
-  NextToken?: string;
-  StartTimeInclusive?: Date;
-  EndTimeExclusive?: Date;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  StartTimeInclusive?: Date | undefined;
+  EndTimeExclusive?: Date | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetDevicePositionHistoryResponse {
   DevicePositions: DevicePosition[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetGeofenceRequest {
   CollectionName: string;
@@ -714,7 +715,7 @@ export interface GetGeofenceResponse {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetJobRequest {
   JobId: string;
@@ -723,17 +724,17 @@ export type JobAction = string;
 export type ValidateAddressAdditionalFeature = string;
 export type ValidateAddressAdditionalFeatureList = string[];
 export interface ValidateAddressActionOptions {
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: string[] | undefined;
 }
 export interface JobActionOptions {
-  ValidateAddress?: ValidateAddressActionOptions;
+  ValidateAddress?: ValidateAddressActionOptions | undefined;
 }
 export type JobErrorCode = string;
 export type JobErrorMessage = string;
 export type JobErrorMessagesList = string[];
 export interface JobError {
   Code: string;
-  Messages?: string[];
+  Messages?: string[] | undefined;
 }
 export type IamRoleArn = string;
 export type JobInputLocation = string;
@@ -750,49 +751,49 @@ export interface JobOutputOptions {
 }
 export interface GetJobResponse {
   Action: string;
-  ActionOptions?: JobActionOptions;
+  ActionOptions?: JobActionOptions | undefined;
   CreatedAt: Date;
-  EndedAt?: Date;
-  Error?: JobError;
+  EndedAt?: Date | undefined;
+  Error?: JobError | undefined;
   ExecutionRoleArn: string;
   InputOptions: JobInputOptions;
   JobArn: string;
   JobId: string;
-  Name?: string;
+  Name?: string | undefined;
   OutputOptions: JobOutputOptions;
   Status: string;
   UpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetMapGlyphsRequest {
   MapName: string;
   FontStack: string;
   FontUnicodeRange: string;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapGlyphsResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export interface GetMapSpritesRequest {
   MapName: string;
   FileName: string;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapSpritesResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export interface GetMapStyleDescriptorRequest {
   MapName: string;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapStyleDescriptorResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface GetMapTileRequest {
@@ -800,97 +801,97 @@ export interface GetMapTileRequest {
   Z: string | redacted.Redacted<string>;
   X: string | redacted.Redacted<string>;
   Y: string | redacted.Redacted<string>;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapTileResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export type PlaceId = string | redacted.Redacted<string>;
 export type LanguageTag = string;
 export interface GetPlaceRequest {
   IndexName: string;
   PlaceId: string | redacted.Redacted<string>;
-  Language?: string;
-  Key?: string | redacted.Redacted<string>;
+  Language?: string | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface PlaceGeometry {
-  Point?: number[];
+  Point?: number[] | undefined;
 }
 export type SensitiveInteger = number;
 export interface TimeZone {
   Name: string | redacted.Redacted<string>;
-  Offset?: number;
+  Offset?: number | undefined;
 }
 export type PlaceCategory = string | redacted.Redacted<string>;
 export type PlaceCategoryList = (string | redacted.Redacted<string>)[];
 export type PlaceSupplementalCategory = string | redacted.Redacted<string>;
 export type PlaceSupplementalCategoryList = (string | redacted.Redacted<string>)[];
 export interface Place {
-  Label?: string | redacted.Redacted<string>;
+  Label?: string | redacted.Redacted<string> | undefined;
   Geometry: PlaceGeometry;
-  AddressNumber?: string | redacted.Redacted<string>;
-  Street?: string | redacted.Redacted<string>;
-  Neighborhood?: string | redacted.Redacted<string>;
-  Municipality?: string | redacted.Redacted<string>;
-  SubRegion?: string | redacted.Redacted<string>;
-  Region?: string | redacted.Redacted<string>;
-  Country?: string | redacted.Redacted<string>;
-  PostalCode?: string | redacted.Redacted<string>;
-  Interpolated?: boolean;
-  TimeZone?: TimeZone;
-  UnitType?: string | redacted.Redacted<string>;
-  UnitNumber?: string | redacted.Redacted<string>;
-  Categories?: (string | redacted.Redacted<string>)[];
-  SupplementalCategories?: (string | redacted.Redacted<string>)[];
-  SubMunicipality?: string | redacted.Redacted<string>;
+  AddressNumber?: string | redacted.Redacted<string> | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  Neighborhood?: string | redacted.Redacted<string> | undefined;
+  Municipality?: string | redacted.Redacted<string> | undefined;
+  SubRegion?: string | redacted.Redacted<string> | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
+  Interpolated?: boolean | undefined;
+  TimeZone?: TimeZone | undefined;
+  UnitType?: string | redacted.Redacted<string> | undefined;
+  UnitNumber?: string | redacted.Redacted<string> | undefined;
+  Categories?: (string | redacted.Redacted<string>)[] | undefined;
+  SupplementalCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  SubMunicipality?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetPlaceResponse {
   Place: Place;
 }
 export interface TrackingFilterGeometry {
-  Polygon?: number[][][];
+  Polygon?: number[][][] | undefined;
 }
 export interface ListDevicePositionsRequest {
   TrackerName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  FilterGeometry?: TrackingFilterGeometry;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  FilterGeometry?: TrackingFilterGeometry | undefined;
 }
 export interface ListDevicePositionsResponseEntry {
   DeviceId: string;
   SampleTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type ListDevicePositionsResponseEntryList = ListDevicePositionsResponseEntry[];
 export interface ListDevicePositionsResponse {
   Entries: ListDevicePositionsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGeofenceCollectionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGeofenceCollectionsResponseEntry {
   CollectionName: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListGeofenceCollectionsResponseEntryList = ListGeofenceCollectionsResponseEntry[];
 export interface ListGeofenceCollectionsResponse {
   Entries: ListGeofenceCollectionsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGeofencesRequest {
   CollectionName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListGeofenceResponseEntry {
   GeofenceId: string;
@@ -898,32 +899,32 @@ export interface ListGeofenceResponseEntry {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type ListGeofenceResponseEntryList = ListGeofenceResponseEntry[];
 export interface ListGeofencesResponse {
   Entries: ListGeofenceResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface JobsFilter {
-  JobStatus?: string;
+  JobStatus?: string | undefined;
 }
 export interface ListJobsRequest {
-  Filter?: JobsFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  Filter?: JobsFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJobsResponseEntry {
   Action: string;
-  ActionOptions?: JobActionOptions;
+  ActionOptions?: JobActionOptions | undefined;
   CreatedAt: Date;
   ExecutionRoleArn: string;
-  EndedAt?: Date;
-  Error?: JobError;
+  EndedAt?: Date | undefined;
+  Error?: JobError | undefined;
   InputOptions: JobInputOptions;
   JobId: string;
   JobArn: string;
-  Name?: string;
+  Name?: string | undefined;
   OutputOptions: JobOutputOptions;
   Status: string;
   UpdatedAt: Date;
@@ -931,21 +932,21 @@ export interface ListJobsResponseEntry {
 export type ListJobsResponseEntryList = ListJobsResponseEntry[];
 export interface ListJobsResponse {
   Entries: ListJobsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Status = string;
 export interface ApiKeyFilter {
-  KeyStatus?: string;
+  KeyStatus?: string | undefined;
 }
 export interface ListKeysRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: ApiKeyFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: ApiKeyFilter | undefined;
 }
 export interface ListKeysResponseEntry {
   KeyName: string;
   ExpireTime: Date;
-  Description?: string;
+  Description?: string | undefined;
   Restrictions: ApiKeyRestrictions;
   CreateTime: Date;
   UpdateTime: Date;
@@ -953,97 +954,97 @@ export interface ListKeysResponseEntry {
 export type ListKeysResponseEntryList = ListKeysResponseEntry[];
 export interface ListKeysResponse {
   Entries: ListKeysResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListMapsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMapsResponseEntry {
   MapName: string;
-  Description?: string;
+  Description?: string | undefined;
   DataSource: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListMapsResponseEntryList = ListMapsResponseEntry[];
 export interface ListMapsResponse {
   Entries: ListMapsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListPlaceIndexesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPlaceIndexesResponseEntry {
   IndexName: string;
-  Description?: string;
+  Description?: string | undefined;
   DataSource: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListPlaceIndexesResponseEntryList = ListPlaceIndexesResponseEntry[];
 export interface ListPlaceIndexesResponse {
   Entries: ListPlaceIndexesResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRouteCalculatorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRouteCalculatorsResponseEntry {
   CalculatorName: string;
-  Description?: string;
+  Description?: string | undefined;
   DataSource: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListRouteCalculatorsResponseEntryList = ListRouteCalculatorsResponseEntry[];
 export interface ListRouteCalculatorsResponse {
   Entries: ListRouteCalculatorsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTrackerConsumersRequest {
   TrackerName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ArnList = string[];
 export interface ListTrackerConsumersResponse {
   ConsumerArns: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTrackersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTrackersResponseEntry {
   TrackerName: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListTrackersResponseEntryList = ListTrackersResponseEntry[];
 export interface ListTrackersResponse {
   Entries: ListTrackersResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PutGeofenceRequest {
   CollectionName: string;
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutGeofenceResponse {
   GeofenceId: string;
@@ -1054,20 +1055,20 @@ export type PlaceIndexSearchResultLimit = number;
 export interface SearchPlaceIndexForPositionRequest {
   IndexName: string;
   Position: number[];
-  MaxResults?: number;
-  Language?: string;
-  Key?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  Language?: string | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchPlaceIndexForPositionSummary {
   Position: number[];
-  MaxResults?: number;
+  MaxResults?: number | undefined;
   DataSource: string;
-  Language?: string;
+  Language?: string | undefined;
 }
 export interface SearchForPositionResult {
   Place: Place;
   Distance: number;
-  PlaceId?: string | redacted.Redacted<string>;
+  PlaceId?: string | redacted.Redacted<string> | undefined;
 }
 export type SearchForPositionResultList = SearchForPositionResult[];
 export interface SearchPlaceIndexForPositionResponse {
@@ -1079,29 +1080,29 @@ export type FilterPlaceCategoryList = (string | redacted.Redacted<string>)[];
 export interface SearchPlaceIndexForSuggestionsRequest {
   IndexName: string;
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
-  Key?: string | redacted.Redacted<string>;
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchPlaceIndexForSuggestionsSummary {
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
   DataSource: string;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface SearchForSuggestionsResult {
   Text: string | redacted.Redacted<string>;
-  PlaceId?: string | redacted.Redacted<string>;
-  Categories?: (string | redacted.Redacted<string>)[];
-  SupplementalCategories?: (string | redacted.Redacted<string>)[];
+  PlaceId?: string | redacted.Redacted<string> | undefined;
+  Categories?: (string | redacted.Redacted<string>)[] | undefined;
+  SupplementalCategories?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type SearchForSuggestionsResultList = SearchForSuggestionsResult[];
 export interface SearchPlaceIndexForSuggestionsResponse {
@@ -1111,30 +1112,30 @@ export interface SearchPlaceIndexForSuggestionsResponse {
 export interface SearchPlaceIndexForTextRequest {
   IndexName: string;
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
-  Key?: string | redacted.Redacted<string>;
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchPlaceIndexForTextSummary {
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
-  ResultBBox?: number[];
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
+  ResultBBox?: number[] | undefined;
   DataSource: string;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface SearchForTextResult {
   Place: Place;
-  Distance?: number;
-  Relevance?: number;
-  PlaceId?: string | redacted.Redacted<string>;
+  Distance?: number | undefined;
+  Relevance?: number | undefined;
+  PlaceId?: string | redacted.Redacted<string> | undefined;
 }
 export type SearchForTextResultList = SearchForTextResult[];
 export interface SearchPlaceIndexForTextResponse {
@@ -1143,14 +1144,14 @@ export interface SearchPlaceIndexForTextResponse {
 }
 export type ClientToken = string;
 export interface StartJobRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Action: string;
-  ActionOptions?: JobActionOptions;
+  ActionOptions?: JobActionOptions | undefined;
   ExecutionRoleArn: string;
   InputOptions: JobInputOptions;
-  Name?: string;
+  Name?: string | undefined;
   OutputOptions: JobOutputOptions;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartJobResponse {
   CreatedAt: Date;
@@ -1171,9 +1172,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateGeofenceCollectionRequest {
   CollectionName: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateGeofenceCollectionResponse {
   CollectionName: string;
@@ -1182,11 +1183,11 @@ export interface UpdateGeofenceCollectionResponse {
 }
 export interface UpdateKeyRequest {
   KeyName: string;
-  Description?: string;
-  ExpireTime?: Date;
-  NoExpiry?: boolean;
-  ForceUpdate?: boolean;
-  Restrictions?: ApiKeyRestrictions;
+  Description?: string | undefined;
+  ExpireTime?: Date | undefined;
+  NoExpiry?: boolean | undefined;
+  ForceUpdate?: boolean | undefined;
+  Restrictions?: ApiKeyRestrictions | undefined;
 }
 export interface UpdateKeyResponse {
   KeyArn: string;
@@ -1195,14 +1196,14 @@ export interface UpdateKeyResponse {
 }
 export type CountryCode3OrEmpty = string | redacted.Redacted<string>;
 export interface MapConfigurationUpdate {
-  PoliticalView?: string | redacted.Redacted<string>;
-  CustomLayers?: string[];
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  CustomLayers?: string[] | undefined;
 }
 export interface UpdateMapRequest {
   MapName: string;
-  PricingPlan?: string;
-  Description?: string;
-  ConfigurationUpdate?: MapConfigurationUpdate;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  ConfigurationUpdate?: MapConfigurationUpdate | undefined;
 }
 export interface UpdateMapResponse {
   MapName: string;
@@ -1211,9 +1212,9 @@ export interface UpdateMapResponse {
 }
 export interface UpdatePlaceIndexRequest {
   IndexName: string;
-  PricingPlan?: string;
-  Description?: string;
-  DataSourceConfiguration?: DataSourceConfiguration;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  DataSourceConfiguration?: DataSourceConfiguration | undefined;
 }
 export interface UpdatePlaceIndexResponse {
   IndexName: string;
@@ -1222,8 +1223,8 @@ export interface UpdatePlaceIndexResponse {
 }
 export interface UpdateRouteCalculatorRequest {
   CalculatorName: string;
-  PricingPlan?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateRouteCalculatorResponse {
   CalculatorName: string;
@@ -1232,12 +1233,12 @@ export interface UpdateRouteCalculatorResponse {
 }
 export interface UpdateTrackerRequest {
   TrackerName: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
-  PositionFiltering?: string;
-  EventBridgeEnabled?: boolean;
-  KmsKeyEnableGeospatialQueries?: boolean;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
+  PositionFiltering?: string | undefined;
+  EventBridgeEnabled?: boolean | undefined;
+  KmsKeyEnableGeospatialQueries?: boolean | undefined;
 }
 export interface UpdateTrackerResponse {
   TrackerName: string;
@@ -1262,21 +1263,21 @@ export interface LteNetworkMeasurements {
   Earfcn: number;
   CellId: number;
   Pci: number;
-  Rsrp?: number;
-  Rsrq?: number;
+  Rsrp?: number | undefined;
+  Rsrq?: number | undefined;
 }
 export type LteNetworkMeasurementsList = LteNetworkMeasurements[];
 export interface LteCellDetails {
   CellId: number;
   Mcc: number;
   Mnc: number;
-  LocalId?: LteLocalId;
-  NetworkMeasurements?: LteNetworkMeasurements[];
-  TimingAdvance?: number;
-  NrCapable?: boolean;
-  Rsrp?: number;
-  Rsrq?: number;
-  Tac?: number;
+  LocalId?: LteLocalId | undefined;
+  NetworkMeasurements?: LteNetworkMeasurements[] | undefined;
+  TimingAdvance?: number | undefined;
+  NrCapable?: boolean | undefined;
+  Rsrp?: number | undefined;
+  Rsrq?: number | undefined;
+  Tac?: number | undefined;
 }
 export type LteCellDetailsList = LteCellDetails[];
 export interface CellSignals {
@@ -1286,20 +1287,20 @@ export interface DeviceState {
   DeviceId: string;
   SampleTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  Ipv4Address?: string;
-  WiFiAccessPoints?: WiFiAccessPoint[];
-  CellSignals?: CellSignals;
+  Accuracy?: PositionalAccuracy | undefined;
+  Ipv4Address?: string | undefined;
+  WiFiAccessPoints?: WiFiAccessPoint[] | undefined;
+  CellSignals?: CellSignals | undefined;
 }
 export interface VerifyDevicePositionRequest {
   TrackerName: string;
   DeviceState: DeviceState;
-  DistanceUnit?: string;
+  DistanceUnit?: string | undefined;
 }
 export interface InferredState {
-  Position?: number[];
-  Accuracy?: PositionalAccuracy;
-  DeviationDistance?: number;
+  Position?: number[] | undefined;
+  Accuracy?: PositionalAccuracy | undefined;
+  DeviationDistance?: number | undefined;
   ProxyDetected: boolean;
 }
 export interface VerifyDevicePositionResponse {
@@ -1332,7 +1333,7 @@ export type AssociateTrackerConsumerError =
  * Currently not supported -- Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
  */
 export const associateTrackerConsumer: API.OperationMethod<
-  AssociateTrackerConsumerRequest,
+  AssociateTrackerConsumerRequest & RegionInput,
   AssociateTrackerConsumerResponse,
   AssociateTrackerConsumerError,
   Credentials | HttpClient.HttpClient
@@ -1367,7 +1368,7 @@ export type BatchDeleteDevicePositionHistoryError =
  * Deletes the position history of one or more devices from a tracker resource.
  */
 export const batchDeleteDevicePositionHistory: API.OperationMethod<
-  BatchDeleteDevicePositionHistoryRequest,
+  BatchDeleteDevicePositionHistoryRequest & RegionInput,
   BatchDeleteDevicePositionHistoryResponse,
   BatchDeleteDevicePositionHistoryError,
   Credentials | HttpClient.HttpClient
@@ -1402,7 +1403,7 @@ export type BatchDeleteGeofenceError =
  * This operation deletes the resource permanently.
  */
 export const batchDeleteGeofence: API.OperationMethod<
-  BatchDeleteGeofenceRequest,
+  BatchDeleteGeofenceRequest & RegionInput,
   BatchDeleteGeofenceResponse,
   BatchDeleteGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -1447,7 +1448,7 @@ export type BatchEvaluateGeofencesError =
  * The `DeviceID` is used as a string to represent the device. You do not need to have a `Tracker` associated with the `DeviceID`.
  */
 export const batchEvaluateGeofences: API.OperationMethod<
-  BatchEvaluateGeofencesRequest,
+  BatchEvaluateGeofencesRequest & RegionInput,
   BatchEvaluateGeofencesResponse,
   BatchEvaluateGeofencesError,
   Credentials | HttpClient.HttpClient
@@ -1480,7 +1481,7 @@ export type BatchGetDevicePositionError =
  * Lists the latest device positions for requested devices.
  */
 export const batchGetDevicePosition: API.OperationMethod<
-  BatchGetDevicePositionRequest,
+  BatchGetDevicePositionRequest & RegionInput,
   BatchGetDevicePositionResponse,
   BatchGetDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -1513,7 +1514,7 @@ export type BatchPutGeofenceError =
  * A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
 export const batchPutGeofence: API.OperationMethod<
-  BatchPutGeofenceRequest,
+  BatchPutGeofenceRequest & RegionInput,
   BatchPutGeofenceResponse,
   BatchPutGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -1552,7 +1553,7 @@ export type BatchUpdateDevicePositionError =
  * When `PositionFiltering` is set to `AccuracyBased` filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If `PositionFiltering` is set to `AccuracyBased` filtering, Amazon Location uses the default value `{ "Horizontal": 0}` when accuracy is not provided on a `DevicePositionUpdate`.
  */
 export const batchUpdateDevicePosition: API.OperationMethod<
-  BatchUpdateDevicePositionRequest,
+  BatchUpdateDevicePositionRequest & RegionInput,
   BatchUpdateDevicePositionResponse,
   BatchUpdateDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -1607,7 +1608,7 @@ export type CalculateRouteError =
  * If you specify `walking` for the travel mode and your data provider is Esri, the start and destination must be within 40km.
  */
 export const calculateRoute: API.OperationMethod<
-  CalculateRouteRequest,
+  CalculateRouteRequest & RegionInput,
   CalculateRouteResponse,
   CalculateRouteError,
   Credentials | HttpClient.HttpClient
@@ -1666,7 +1667,7 @@ export type CalculateRouteMatrixError =
  * - Specifying a travel mode using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`.
  */
 export const calculateRouteMatrix: API.OperationMethod<
-  CalculateRouteMatrixRequest,
+  CalculateRouteMatrixRequest & RegionInput,
   CalculateRouteMatrixResponse,
   CalculateRouteMatrixError,
   Credentials | HttpClient.HttpClient
@@ -1701,7 +1702,7 @@ export type CancelJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const cancelJob: API.OperationMethod<
-  CancelJobRequest,
+  CancelJobRequest & RegionInput,
   CancelJobResponse,
   CancelJobError,
   Credentials | HttpClient.HttpClient
@@ -1735,7 +1736,7 @@ export type CreateGeofenceCollectionError =
  * Creates a geofence collection, which manages and stores geofences.
  */
 export const createGeofenceCollection: API.OperationMethod<
-  CreateGeofenceCollectionRequest,
+  CreateGeofenceCollectionRequest & RegionInput,
   CreateGeofenceCollectionResponse,
   CreateGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -1772,7 +1773,7 @@ export type CreateKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const createKey: API.OperationMethod<
-  CreateKeyRequest,
+  CreateKeyRequest & RegionInput,
   CreateKeyResponse,
   CreateKeyError,
   Credentials | HttpClient.HttpClient
@@ -1821,7 +1822,7 @@ export type CreateMapError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createMap: API.OperationMethod<
-  CreateMapRequest,
+  CreateMapRequest & RegionInput,
   CreateMapResponse,
   CreateMapError,
   Credentials | HttpClient.HttpClient
@@ -1870,7 +1871,7 @@ export type CreatePlaceIndexError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createPlaceIndex: API.OperationMethod<
-  CreatePlaceIndexRequest,
+  CreatePlaceIndexRequest & RegionInput,
   CreatePlaceIndexResponse,
   CreatePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -1921,7 +1922,7 @@ export type CreateRouteCalculatorError =
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
 export const createRouteCalculator: API.OperationMethod<
-  CreateRouteCalculatorRequest,
+  CreateRouteCalculatorRequest & RegionInput,
   CreateRouteCalculatorResponse,
   CreateRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -1956,7 +1957,7 @@ export type CreateTrackerError =
  * Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
  */
 export const createTracker: API.OperationMethod<
-  CreateTrackerRequest,
+  CreateTrackerRequest & RegionInput,
   CreateTrackerResponse,
   CreateTrackerError,
   Credentials | HttpClient.HttpClient
@@ -1992,7 +1993,7 @@ export type DeleteGeofenceCollectionError =
  * This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
  */
 export const deleteGeofenceCollection: API.OperationMethod<
-  DeleteGeofenceCollectionRequest,
+  DeleteGeofenceCollectionRequest & RegionInput,
   DeleteGeofenceCollectionResponse,
   DeleteGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2027,7 +2028,7 @@ export type DeleteKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const deleteKey: API.OperationMethod<
-  DeleteKeyRequest,
+  DeleteKeyRequest & RegionInput,
   DeleteKeyResponse,
   DeleteKeyError,
   Credentials | HttpClient.HttpClient
@@ -2074,7 +2075,7 @@ export type DeleteMapError =
  * This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
  */
 export const deleteMap: API.OperationMethod<
-  DeleteMapRequest,
+  DeleteMapRequest & RegionInput,
   DeleteMapResponse,
   DeleteMapError,
   Credentials | HttpClient.HttpClient
@@ -2121,7 +2122,7 @@ export type DeletePlaceIndexError =
  * This operation deletes the resource permanently.
  */
 export const deletePlaceIndex: API.OperationMethod<
-  DeletePlaceIndexRequest,
+  DeletePlaceIndexRequest & RegionInput,
   DeletePlaceIndexResponse,
   DeletePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -2168,7 +2169,7 @@ export type DeleteRouteCalculatorError =
  * This operation deletes the resource permanently.
  */
 export const deleteRouteCalculator: API.OperationMethod<
-  DeleteRouteCalculatorRequest,
+  DeleteRouteCalculatorRequest & RegionInput,
   DeleteRouteCalculatorResponse,
   DeleteRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -2203,7 +2204,7 @@ export type DeleteTrackerError =
  * This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
  */
 export const deleteTracker: API.OperationMethod<
-  DeleteTrackerRequest,
+  DeleteTrackerRequest & RegionInput,
   DeleteTrackerResponse,
   DeleteTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2236,7 +2237,7 @@ export type DescribeGeofenceCollectionError =
  * Retrieves the geofence collection details.
  */
 export const describeGeofenceCollection: API.OperationMethod<
-  DescribeGeofenceCollectionRequest,
+  DescribeGeofenceCollectionRequest & RegionInput,
   DescribeGeofenceCollectionResponse,
   DescribeGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -2271,7 +2272,7 @@ export type DescribeKeyError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const describeKey: API.OperationMethod<
-  DescribeKeyRequest,
+  DescribeKeyRequest & RegionInput,
   DescribeKeyResponse,
   DescribeKeyError,
   Credentials | HttpClient.HttpClient
@@ -2316,7 +2317,7 @@ export type DescribeMapError =
  * Retrieves the map resource details.
  */
 export const describeMap: API.OperationMethod<
-  DescribeMapRequest,
+  DescribeMapRequest & RegionInput,
   DescribeMapResponse,
   DescribeMapError,
   Credentials | HttpClient.HttpClient
@@ -2361,7 +2362,7 @@ export type DescribePlaceIndexError =
  * Retrieves the place index resource details.
  */
 export const describePlaceIndex: API.OperationMethod<
-  DescribePlaceIndexRequest,
+  DescribePlaceIndexRequest & RegionInput,
   DescribePlaceIndexResponse,
   DescribePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -2406,7 +2407,7 @@ export type DescribeRouteCalculatorError =
  * Retrieves the route calculator resource details.
  */
 export const describeRouteCalculator: API.OperationMethod<
-  DescribeRouteCalculatorRequest,
+  DescribeRouteCalculatorRequest & RegionInput,
   DescribeRouteCalculatorResponse,
   DescribeRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -2439,7 +2440,7 @@ export type DescribeTrackerError =
  * Retrieves the tracker resource details.
  */
 export const describeTracker: API.OperationMethod<
-  DescribeTrackerRequest,
+  DescribeTrackerRequest & RegionInput,
   DescribeTrackerResponse,
   DescribeTrackerError,
   Credentials | HttpClient.HttpClient
@@ -2474,7 +2475,7 @@ export type DisassociateTrackerConsumerError =
  * Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
  */
 export const disassociateTrackerConsumer: API.OperationMethod<
-  DisassociateTrackerConsumerRequest,
+  DisassociateTrackerConsumerRequest & RegionInput,
   DisassociateTrackerConsumerResponse,
   DisassociateTrackerConsumerError,
   Credentials | HttpClient.HttpClient
@@ -2515,7 +2516,7 @@ export type ForecastGeofenceEventsError =
  * Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
  */
 export const forecastGeofenceEvents: API.PaginatedOperationMethod<
-  ForecastGeofenceEventsRequest,
+  ForecastGeofenceEventsRequest & RegionInput,
   ForecastGeofenceEventsResponse,
   ForecastGeofenceEventsError,
   Credentials | HttpClient.HttpClient,
@@ -2557,7 +2558,7 @@ export type GetDevicePositionError =
  * Device positions are deleted after 30 days.
  */
 export const getDevicePosition: API.OperationMethod<
-  GetDevicePositionRequest,
+  GetDevicePositionRequest & RegionInput,
   GetDevicePositionResponse,
   GetDevicePositionError,
   Credentials | HttpClient.HttpClient
@@ -2592,7 +2593,7 @@ export type GetDevicePositionHistoryError =
  * Device positions are deleted after 30 days.
  */
 export const getDevicePositionHistory: API.PaginatedOperationMethod<
-  GetDevicePositionHistoryRequest,
+  GetDevicePositionHistoryRequest & RegionInput,
   GetDevicePositionHistoryResponse,
   GetDevicePositionHistoryError,
   Credentials | HttpClient.HttpClient,
@@ -2634,7 +2635,7 @@ export type GetGeofenceError =
  * The returned geometry will always match the geometry format used when the geofence was created.
  */
 export const getGeofence: API.OperationMethod<
-  GetGeofenceRequest,
+  GetGeofenceRequest & RegionInput,
   GetGeofenceResponse,
   GetGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -2669,7 +2670,7 @@ export type GetJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const getJob: API.OperationMethod<
-  GetJobRequest,
+  GetJobRequest & RegionInput,
   GetJobResponse,
   GetJobError,
   Credentials | HttpClient.HttpClient
@@ -2714,7 +2715,7 @@ export type GetMapGlyphsError =
  * Retrieves glyphs used to display labels on a map.
  */
 export const getMapGlyphs: API.OperationMethod<
-  GetMapGlyphsRequest,
+  GetMapGlyphsRequest & RegionInput,
   GetMapGlyphsResponse,
   GetMapGlyphsError,
   Credentials | HttpClient.HttpClient
@@ -2759,7 +2760,7 @@ export type GetMapSpritesError =
  * Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
  */
 export const getMapSprites: API.OperationMethod<
-  GetMapSpritesRequest,
+  GetMapSpritesRequest & RegionInput,
   GetMapSpritesResponse,
   GetMapSpritesError,
   Credentials | HttpClient.HttpClient
@@ -2806,7 +2807,7 @@ export type GetMapStyleDescriptorError =
  * The style descriptor contains speciU+FB01cations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
  */
 export const getMapStyleDescriptor: API.OperationMethod<
-  GetMapStyleDescriptorRequest,
+  GetMapStyleDescriptorRequest & RegionInput,
   GetMapStyleDescriptorResponse,
   GetMapStyleDescriptorError,
   Credentials | HttpClient.HttpClient
@@ -2853,7 +2854,7 @@ export type GetMapTileError =
  * The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
  */
 export const getMapTile: API.OperationMethod<
-  GetMapTileRequest,
+  GetMapTileRequest & RegionInput,
   GetMapTileResponse,
   GetMapTileError,
   Credentials | HttpClient.HttpClient
@@ -2908,7 +2909,7 @@ export type GetPlaceError =
  * If your Place index resource is configured with Grab as your geolocation provider and Storage as Intended use, the GetPlace operation is unavailable. For more information, see AWS service terms.
  */
 export const getPlace: API.OperationMethod<
-  GetPlaceRequest,
+  GetPlaceRequest & RegionInput,
   GetPlaceResponse,
   GetPlaceError,
   Credentials | HttpClient.HttpClient
@@ -2940,7 +2941,7 @@ export type ListDevicePositionsError =
  * A batch request to retrieve all device positions.
  */
 export const listDevicePositions: API.PaginatedOperationMethod<
-  ListDevicePositionsRequest,
+  ListDevicePositionsRequest & RegionInput,
   ListDevicePositionsResponse,
   ListDevicePositionsError,
   Credentials | HttpClient.HttpClient,
@@ -2978,7 +2979,7 @@ export type ListGeofenceCollectionsError =
  * Lists geofence collections in your Amazon Web Services account.
  */
 export const listGeofenceCollections: API.PaginatedOperationMethod<
-  ListGeofenceCollectionsRequest,
+  ListGeofenceCollectionsRequest & RegionInput,
   ListGeofenceCollectionsResponse,
   ListGeofenceCollectionsError,
   Credentials | HttpClient.HttpClient,
@@ -3017,7 +3018,7 @@ export type ListGeofencesError =
  * Lists geofences stored in a given geofence collection.
  */
 export const listGeofences: API.PaginatedOperationMethod<
-  ListGeofencesRequest,
+  ListGeofencesRequest & RegionInput,
   ListGeofencesResponse,
   ListGeofencesError,
   Credentials | HttpClient.HttpClient,
@@ -3058,7 +3059,7 @@ export type ListJobsError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const listJobs: API.PaginatedOperationMethod<
-  ListJobsRequest,
+  ListJobsRequest & RegionInput,
   ListJobsResponse,
   ListJobsError,
   Credentials | HttpClient.HttpClient,
@@ -3098,7 +3099,7 @@ export type ListKeysError =
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
 export const listKeys: API.PaginatedOperationMethod<
-  ListKeysRequest,
+  ListKeysRequest & RegionInput,
   ListKeysResponse,
   ListKeysError,
   Credentials | HttpClient.HttpClient,
@@ -3148,7 +3149,7 @@ export type ListMapsError =
  * Lists map resources in your Amazon Web Services account.
  */
 export const listMaps: API.PaginatedOperationMethod<
-  ListMapsRequest,
+  ListMapsRequest & RegionInput,
   ListMapsResponse,
   ListMapsError,
   Credentials | HttpClient.HttpClient,
@@ -3198,7 +3199,7 @@ export type ListPlaceIndexesError =
  * Lists place index resources in your Amazon Web Services account.
  */
 export const listPlaceIndexes: API.PaginatedOperationMethod<
-  ListPlaceIndexesRequest,
+  ListPlaceIndexesRequest & RegionInput,
   ListPlaceIndexesResponse,
   ListPlaceIndexesError,
   Credentials | HttpClient.HttpClient,
@@ -3248,7 +3249,7 @@ export type ListRouteCalculatorsError =
  * Lists route calculator resources in your Amazon Web Services account.
  */
 export const listRouteCalculators: API.PaginatedOperationMethod<
-  ListRouteCalculatorsRequest,
+  ListRouteCalculatorsRequest & RegionInput,
   ListRouteCalculatorsResponse,
   ListRouteCalculatorsError,
   Credentials | HttpClient.HttpClient,
@@ -3287,7 +3288,7 @@ export type ListTagsForResourceError =
  * Returns a list of tags that are applied to the specified Amazon Location resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -3320,7 +3321,7 @@ export type ListTrackerConsumersError =
  * Lists geofence collections currently associated to the given tracker resource.
  */
 export const listTrackerConsumers: API.PaginatedOperationMethod<
-  ListTrackerConsumersRequest,
+  ListTrackerConsumersRequest & RegionInput,
   ListTrackerConsumersResponse,
   ListTrackerConsumersError,
   Credentials | HttpClient.HttpClient,
@@ -3359,7 +3360,7 @@ export type ListTrackersError =
  * Lists tracker resources in your Amazon Web Services account.
  */
 export const listTrackers: API.PaginatedOperationMethod<
-  ListTrackersRequest,
+  ListTrackersRequest & RegionInput,
   ListTrackersResponse,
   ListTrackersError,
   Credentials | HttpClient.HttpClient,
@@ -3399,7 +3400,7 @@ export type PutGeofenceError =
  * Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
 export const putGeofence: API.OperationMethod<
-  PutGeofenceRequest,
+  PutGeofenceRequest & RegionInput,
   PutGeofenceResponse,
   PutGeofenceError,
   Credentials | HttpClient.HttpClient
@@ -3443,7 +3444,7 @@ export type SearchPlaceIndexForPositionError =
  * Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
  */
 export const searchPlaceIndexForPosition: API.OperationMethod<
-  SearchPlaceIndexForPositionRequest,
+  SearchPlaceIndexForPositionRequest & RegionInput,
   SearchPlaceIndexForPositionResponse,
   SearchPlaceIndexForPositionError,
   Credentials | HttpClient.HttpClient
@@ -3490,7 +3491,7 @@ export type SearchPlaceIndexForSuggestionsError =
  * You can search for suggested place names near a specified position by using `BiasPosition`, or filter results within a bounding box by using `FilterBBox`. These parameters are mutually exclusive; using both `BiasPosition` and `FilterBBox` in the same command returns an error.
  */
 export const searchPlaceIndexForSuggestions: API.OperationMethod<
-  SearchPlaceIndexForSuggestionsRequest,
+  SearchPlaceIndexForSuggestionsRequest & RegionInput,
   SearchPlaceIndexForSuggestionsResponse,
   SearchPlaceIndexForSuggestionsError,
   Credentials | HttpClient.HttpClient
@@ -3539,7 +3540,7 @@ export type SearchPlaceIndexForTextError =
  * Search results are returned in order of highest to lowest relevance.
  */
 export const searchPlaceIndexForText: API.OperationMethod<
-  SearchPlaceIndexForTextRequest,
+  SearchPlaceIndexForTextRequest & RegionInput,
   SearchPlaceIndexForTextResponse,
   SearchPlaceIndexForTextError,
   Credentials | HttpClient.HttpClient
@@ -3573,7 +3574,7 @@ export type StartJobError =
  * For more information, see Job concepts in the *Amazon Location Service Developer Guide*.
  */
 export const startJob: API.OperationMethod<
-  StartJobRequest,
+  StartJobRequest & RegionInput,
   StartJobResponse,
   StartJobError,
   Credentials | HttpClient.HttpClient
@@ -3611,7 +3612,7 @@ export type TagResourceError =
  * You can associate up to 50 tags with a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3644,7 +3645,7 @@ export type UntagResourceError =
  * Removes one or more tags from the specified Amazon Location resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -3677,7 +3678,7 @@ export type UpdateGeofenceCollectionError =
  * Updates the specified properties of a given geofence collection.
  */
 export const updateGeofenceCollection: API.OperationMethod<
-  UpdateGeofenceCollectionRequest,
+  UpdateGeofenceCollectionRequest & RegionInput,
   UpdateGeofenceCollectionResponse,
   UpdateGeofenceCollectionError,
   Credentials | HttpClient.HttpClient
@@ -3710,7 +3711,7 @@ export type UpdateKeyError =
  * Updates the specified properties of a given API key resource.
  */
 export const updateKey: API.OperationMethod<
-  UpdateKeyRequest,
+  UpdateKeyRequest & RegionInput,
   UpdateKeyResponse,
   UpdateKeyError,
   Credentials | HttpClient.HttpClient
@@ -3755,7 +3756,7 @@ export type UpdateMapError =
  * Updates the specified properties of a given map resource.
  */
 export const updateMap: API.OperationMethod<
-  UpdateMapRequest,
+  UpdateMapRequest & RegionInput,
   UpdateMapResponse,
   UpdateMapError,
   Credentials | HttpClient.HttpClient
@@ -3800,7 +3801,7 @@ export type UpdatePlaceIndexError =
  * Updates the specified properties of a given place index resource.
  */
 export const updatePlaceIndex: API.OperationMethod<
-  UpdatePlaceIndexRequest,
+  UpdatePlaceIndexRequest & RegionInput,
   UpdatePlaceIndexResponse,
   UpdatePlaceIndexError,
   Credentials | HttpClient.HttpClient
@@ -3845,7 +3846,7 @@ export type UpdateRouteCalculatorError =
  * Updates the specified properties for a given route calculator resource.
  */
 export const updateRouteCalculator: API.OperationMethod<
-  UpdateRouteCalculatorRequest,
+  UpdateRouteCalculatorRequest & RegionInput,
   UpdateRouteCalculatorResponse,
   UpdateRouteCalculatorError,
   Credentials | HttpClient.HttpClient
@@ -3878,7 +3879,7 @@ export type UpdateTrackerError =
  * Updates the specified properties of a given tracker resource.
  */
 export const updateTracker: API.OperationMethod<
-  UpdateTrackerRequest,
+  UpdateTrackerRequest & RegionInput,
   UpdateTrackerResponse,
   UpdateTrackerError,
   Credentials | HttpClient.HttpClient
@@ -3913,7 +3914,7 @@ export type VerifyDevicePositionError =
  * The Location Integrity SDK provides enhanced features related to device verification, and it is available for use by request. To get access to the SDK, contact Sales Support.
  */
 export const verifyDevicePosition: API.OperationMethod<
-  VerifyDevicePositionRequest,
+  VerifyDevicePositionRequest & RegionInput,
   VerifyDevicePositionResponse,
   VerifyDevicePositionError,
   Credentials | HttpClient.HttpClient

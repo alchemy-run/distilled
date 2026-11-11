@@ -25,8 +25,8 @@ const TELEMETRY = {
 } as const;
 
 export interface CreateInterpreterContextRequest {
-  cwd?: string;
-  language?: string;
+  cwd?: string | undefined;
+  language?: string | undefined;
 }
 export interface InterpreterContext {
   active: boolean;
@@ -41,8 +41,6 @@ export interface DeleteInterpreterContextRequest {
 }
 export type DeleteInterpreterContextResponseBodyMap = { [key: string]: string | undefined };
 export type DeleteInterpreterContextResponse = DeleteInterpreterContextResponseBodyMap;
-export interface ExecuteInterpreterCodeRequest {}
-export interface ExecuteInterpreterCodeResponse {}
 export interface ListInterpreterContextsRequest {}
 export type ListContextsResponseContextsList = Array<InterpreterContext>;
 export interface ListContextsResponse {
@@ -82,23 +80,6 @@ export const deleteInterpreterContext: API.OperationMethod<
   span: "DeleteInterpreterContext",
 }));
 
-export type ExecuteInterpreterCodeError = DaytonaOpError;
-/** Execute code in an interpreter context Executes code in a specified context (or default context if not specified) via WebSocket streaming */
-export const executeInterpreterCode: API.OperationMethod<
-  ExecuteInterpreterCodeRequest,
-  ExecuteInterpreterCodeResponse,
-  ExecuteInterpreterCodeError,
-  DaytonaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<ExecuteInterpreterCodeRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<ExecuteInterpreterCodeResponse>,
-  errors: [UnknownDaytonaError],
-  protocol: DaytonaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ExecuteInterpreterCode",
-}));
-
 export type ListInterpreterContextsError = DaytonaOpError;
 /** List all user-created interpreter contexts Returns information about all user-created interpreter contexts (excludes default context) */
 export const listInterpreterContexts: API.OperationMethod<
@@ -107,8 +88,8 @@ export const listInterpreterContexts: API.OperationMethod<
   ListInterpreterContextsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListInterpreterContextsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<ListContextsResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<ListInterpreterContextsRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<ListContextsResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -163,20 +144,6 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/process/interpreter/execute", code: 200 }),
-        ),
-      ).annotate({ identifier: "ExecuteInterpreterCodeRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "ExecuteInterpreterCodeResponse",
-      });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
           T.Http({ method: "GET", uri: "/process/interpreter/context", code: 200 }),
         ),
       ).annotate({ identifier: "ListInterpreterContextsRequest" });
@@ -185,7 +152,7 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          contexts: __S(17, __c4, 1),
+          contexts: __S(13, __c3, 1),
         }),
       ).annotate({ identifier: "ListContextsResponse" });
   }

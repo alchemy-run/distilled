@@ -1,3 +1,6 @@
+import type { Request } from "@distilled.cloud/s3/client/request";
+import { CryptoError } from "@distilled.cloud/s3/SigV4";
+import { toBase64 } from "@distilled.cloud/s3/util/base64";
 /**
  * Legacy Signature Version 2 request signing, used by SimpleDB only. It is
  * reached through the `AwsAuthSigv2` trait, so programs that do not use
@@ -8,9 +11,7 @@ import { pipe } from "effect/Function";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
-import type { Request } from "./client/request.ts";
 import type { ResolvedCredentials } from "./credentials-service.ts";
-import { toBase64 } from "./util/base64.ts";
 
 /**
  * Legacy Signature Version 2 (SimpleDB is the sole remaining SigV2-only
@@ -24,7 +25,7 @@ export const signV2 = (
   endpoint: string,
   fullPath: string,
   credentials: ResolvedCredentials,
-): Effect.Effect<HttpClientRequest.HttpClientRequest> => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, CryptoError> => {
   const rfc3986 = (s: string) =>
     encodeURIComponent(s).replace(
       /[!'()*]/g,
@@ -62,15 +63,18 @@ export const signV2 = (
     canonical,
   ].join("\n");
   return Effect.map(
-    Effect.promise(async () => {
-      const key = await crypto.subtle.importKey(
-        "raw",
-        new TextEncoder().encode(Redacted.value(credentials.secretAccessKey)),
-        { name: "HMAC", hash: "SHA-256" },
-        false,
-        ["sign"],
-      );
-      return crypto.subtle.sign("HMAC", key, new TextEncoder().encode(stringToSign));
+    Effect.tryPromise({
+      try: async () => {
+        const key = await crypto.subtle.importKey(
+          "raw",
+          new TextEncoder().encode(Redacted.value(credentials.secretAccessKey)),
+          { name: "HMAC", hash: "SHA-256" },
+          false,
+          ["sign"],
+        );
+        return crypto.subtle.sign("HMAC", key, new TextEncoder().encode(stringToSign));
+      },
+      catch: (cause) => new CryptoError({ operation: "hmac", cause }),
     }),
     (signatureBytes) => {
       const signature = toBase64(new Uint8Array(signatureBytes));

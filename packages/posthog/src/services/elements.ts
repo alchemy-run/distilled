@@ -55,27 +55,27 @@ export type CreateElementRequestAttrClassList = Array<string>;
 export interface CreateElementRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  text?: string | null;
-  tag_name?: string | null;
-  attr_class?: CreateElementRequestAttrClassList | null;
-  href?: string | null;
-  attr_id?: string | null;
-  nth_child?: number | null;
-  nth_of_type?: number | null;
-  attributes?: unknown;
-  order?: number | null;
+  text?: string | null | undefined;
+  tag_name?: string | null | undefined;
+  attr_class?: CreateElementRequestAttrClassList | null | undefined;
+  href?: string | null | undefined;
+  attr_id?: string | null | undefined;
+  nth_child?: number | null | undefined;
+  nth_of_type?: number | null | undefined;
+  attributes?: unknown | undefined;
+  order?: number | null | undefined;
 }
 export type ElementAttrClassList = Array<string>;
 export interface Element {
-  text?: string | null;
-  tag_name?: string | null;
-  attr_class?: ElementAttrClassList | null;
-  href?: string | null;
-  attr_id?: string | null;
-  nth_child?: number | null;
-  nth_of_type?: number | null;
-  attributes?: unknown;
-  order?: number | null;
+  text?: string | null | undefined;
+  tag_name?: string | null | undefined;
+  attr_class?: ElementAttrClassList | null | undefined;
+  href?: string | null | undefined;
+  attr_id?: string | null | undefined;
+  nth_child?: number | null | undefined;
+  nth_of_type?: number | null | undefined;
+  attributes?: unknown | undefined;
+  order?: number | null | undefined;
 }
 export interface ElementsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -95,23 +95,23 @@ export interface GetElementsStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Comma-separated data attribute names (wildcards allowed, e.g. data-*). When provided, each element's attributes map is filtered to matching attr__* keys, shrinking the response. */
-  data_attributes?: string;
+  data_attributes?: string | undefined;
   /** Start of the date range (e.g. -7d, 2024-01-01). Defaults to last 7 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the date range (e.g. 2024-01-31). Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** When true, applies the project's internal-and-test-account filters to the underlying events. Pass the lowercase string true; other truthy spellings are ignored. */
-  filter_test_accounts?: boolean;
+  filter_test_accounts?: boolean | undefined;
   /** Event types to include: $autocapture, $rageclick, $dead_click. Defaults to all three. Accepts repeated parameters, a JSON array, or a comma-separated list. */
-  include?: GetElementsStatRequestIncludeList;
+  include?: GetElementsStatRequestIncludeList | undefined;
   /** Maximum rows per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination offset */
-  offset?: number;
+  offset?: number | undefined;
   /** JSON-encoded list of property filters to apply to the underlying events, e.g. [{"key": "$current_url", "value": "https://example.com/page"}] or [{"key": "email", "value": "@posthog.com", "operator": "icontains", "type": "person"}]. Supports event, person, cohort, element, and HogQL property filter types. */
-  properties?: string;
+  properties?: string | undefined;
   /** Sampling factor between 0 and 1 */
-  sampling_factor?: number;
+  sampling_factor?: number | undefined;
 }
 /** Parsed elements of the chain, clicked element first */
 export type ElementStatsElementsList = Array<Element>;
@@ -139,16 +139,16 @@ export interface ListElementsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedElementListResultsList = Array<Element>;
 export interface PaginatedElementList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedElementListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedElementListResultsList | undefined;
 }
 export interface ListElementsValuesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -156,7 +156,7 @@ export interface ListElementsValuesRequest {
   /** Element property to list values for: tag_name, text, href, or attr_id. */
   key: string;
   /** Optional substring to filter values by (case-sensitive contains match). */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ElementValue {
   /** A distinct value of the requested element property */
@@ -170,15 +170,15 @@ export interface UpdateElementRequest {
   project_id: string;
   /** A unique integer value identifying this element. */
   id: number;
-  text?: string | null;
-  tag_name?: string | null;
-  attr_class?: UpdateElementRequestAttrClassList | null;
-  href?: string | null;
-  attr_id?: string | null;
-  nth_child?: number | null;
-  nth_of_type?: number | null;
-  attributes?: unknown;
-  order?: number | null;
+  text?: string | null | undefined;
+  tag_name?: string | null | undefined;
+  attr_class?: UpdateElementRequestAttrClassList | null | undefined;
+  href?: string | null | undefined;
+  attr_id?: string | null | undefined;
+  nth_child?: number | null | undefined;
+  nth_of_type?: number | null | undefined;
+  attributes?: unknown | undefined;
+  order?: number | null | undefined;
 }
 export type UpdateElementsPartialRequestAttrClassList = Array<string>;
 export interface UpdateElementsPartialRequest {
@@ -186,15 +186,15 @@ export interface UpdateElementsPartialRequest {
   project_id: string;
   /** A unique integer value identifying this element. */
   id: number;
-  text?: string | null;
-  tag_name?: string | null;
-  attr_class?: UpdateElementsPartialRequestAttrClassList | null;
-  href?: string | null;
-  attr_id?: string | null;
-  nth_child?: number | null;
-  nth_of_type?: number | null;
-  attributes?: unknown;
-  order?: number | null;
+  text?: string | null | undefined;
+  tag_name?: string | null | undefined;
+  attr_class?: UpdateElementsPartialRequestAttrClassList | null | undefined;
+  href?: string | null | undefined;
+  attr_id?: string | null | undefined;
+  nth_child?: number | null | undefined;
+  nth_of_type?: number | null | undefined;
+  attributes?: unknown | undefined;
+  order?: number | null | undefined;
 }
 export type CreateElementError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createElement: API.OperationMethod<

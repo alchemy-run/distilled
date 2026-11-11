@@ -52,218 +52,163 @@ export type ScansBulkCreateRequestBodyItemVisibility = "Public" | "Unlisted";
 export interface ScansBulkCreateRequestBodyItem {
   url: string;
   /** Enable agent readiness checks. */
-  agentReadiness?: boolean;
-  customagent?: string;
+  agentReadiness?: boolean | undefined;
+  customagent?: string | undefined;
   /** Set custom headers. */
-  customHeaders?: ScansBulkCreateRequestBodyItemCustomHeadersMap;
-  referer?: string;
+  customHeaders?: ScansBulkCreateRequestBodyItemCustomHeadersMap | undefined;
+  referer?: string | undefined;
   /** Take multiple screenshots targeting different device types. */
-  screenshotsResolutions?: ScansBulkCreateRequestBodyItemScreenshotsResolutionsList;
+  screenshotsResolutions?: ScansBulkCreateRequestBodyItemScreenshotsResolutionsList | undefined;
   /** The option `Public` means it will be included in listings like recent scans and search results. `Unlisted` means it will not be included in the aforementioned listings, users will need to have the scan's ID to access it. A a scan will be automatically marked as unlisted if it fails, if it contains potential PII or other sensitive material. */
-  visibility?: ScansBulkCreateRequestBodyItemVisibility | (string & {});
+  visibility?: ScansBulkCreateRequestBodyItemVisibility | (string & {}) | undefined;
 }
 export type ScansBulkCreateRequestBodyList = Array<ScansBulkCreateRequestBodyItem>;
 export interface BulkCreateScansRequest {
   /** Account ID. */
   accountId: string;
   /** List of urls to scan (up to a 100). */
-  body?: ScansBulkCreateRequestBodyList;
+  body?: ScansBulkCreateRequestBodyList | undefined;
 }
 export type BulkCreateScansResponse = string;
 export type ScansCreateRequestCountry =
-  | "AF"
+  | "AE"
   | "AL"
-  | "DZ"
-  | "AD"
-  | "AO"
-  | "AG"
-  | "AR"
   | "AM"
-  | "AU"
+  | "AO"
+  | "AR"
   | "AT"
+  | "AU"
   | "AZ"
-  | "BH"
-  | "BD"
   | "BB"
-  | "BY"
+  | "BD"
   | "BE"
-  | "BZ"
-  | "BJ"
-  | "BM"
-  | "BT"
-  | "BO"
-  | "BA"
-  | "BW"
-  | "BR"
-  | "BN"
-  | "BG"
   | "BF"
-  | "BI"
-  | "KH"
-  | "CM"
+  | "BG"
+  | "BH"
+  | "BN"
+  | "BO"
+  | "BR"
+  | "BT"
+  | "BW"
+  | "BY"
   | "CA"
-  | "CV"
-  | "KY"
-  | "CF"
-  | "TD"
-  | "CL"
-  | "CN"
-  | "CO"
-  | "KM"
-  | "CG"
-  | "CR"
+  | "CD"
+  | "CH"
   | "CI"
-  | "HR"
-  | "CU"
+  | "CL"
+  | "CM"
+  | "CO"
+  | "CR"
+  | "CW"
   | "CY"
   | "CZ"
-  | "CD"
-  | "DK"
-  | "DJ"
-  | "DM"
-  | "DO"
-  | "EC"
-  | "EG"
-  | "SV"
-  | "GQ"
-  | "ER"
-  | "EE"
-  | "SZ"
-  | "ET"
-  | "FJ"
-  | "FI"
-  | "FR"
-  | "GA"
-  | "GE"
   | "DE"
+  | "DJ"
+  | "DK"
+  | "DO"
+  | "DZ"
+  | "EC"
+  | "EE"
+  | "EG"
+  | "ES"
+  | "ET"
+  | "FI"
+  | "FJ"
+  | "FR"
+  | "GB"
+  | "GD"
+  | "GE"
   | "GH"
   | "GR"
-  | "GL"
-  | "GD"
   | "GT"
-  | "GN"
-  | "GW"
+  | "GU"
   | "GY"
-  | "HT"
+  | "HK"
   | "HN"
+  | "HR"
+  | "HT"
   | "HU"
-  | "IS"
-  | "IN"
   | "ID"
-  | "IR"
-  | "IQ"
   | "IE"
   | "IL"
+  | "IN"
+  | "IQ"
+  | "IS"
   | "IT"
   | "JM"
-  | "JP"
   | "JO"
-  | "KZ"
+  | "JP"
   | "KE"
-  | "KI"
-  | "KW"
   | "KG"
+  | "KH"
+  | "KR"
+  | "KW"
+  | "KZ"
   | "LA"
-  | "LV"
   | "LB"
-  | "LS"
+  | "LK"
   | "LR"
-  | "LY"
-  | "LI"
   | "LT"
   | "LU"
-  | "MO"
-  | "MG"
-  | "MW"
-  | "MY"
-  | "MV"
-  | "ML"
-  | "MR"
-  | "MU"
-  | "MX"
-  | "FM"
-  | "MD"
-  | "MC"
-  | "MN"
-  | "MS"
+  | "LV"
   | "MA"
-  | "MZ"
-  | "MM"
-  | "NA"
-  | "NR"
-  | "NP"
-  | "NL"
-  | "NZ"
-  | "NI"
-  | "NE"
-  | "NG"
-  | "KP"
+  | "MD"
+  | "MG"
   | "MK"
+  | "MM"
+  | "MN"
+  | "MO"
+  | "MT"
+  | "MU"
+  | "MV"
+  | "MW"
+  | "MX"
+  | "MY"
+  | "MZ"
+  | "NA"
+  | "NC"
+  | "NG"
+  | "NL"
   | "NO"
+  | "NP"
+  | "NZ"
   | "OM"
-  | "PK"
-  | "PS"
   | "PA"
-  | "PG"
-  | "PY"
   | "PE"
+  | "PF"
   | "PH"
+  | "PK"
   | "PL"
+  | "PR"
+  | "PS"
   | "PT"
+  | "PY"
   | "QA"
+  | "RE"
   | "RO"
+  | "RS"
   | "RU"
   | "RW"
-  | "SH"
-  | "KN"
-  | "LC"
-  | "VC"
-  | "WS"
-  | "SM"
-  | "ST"
   | "SA"
-  | "SN"
-  | "RS"
-  | "SC"
-  | "SL"
-  | "SK"
-  | "SI"
-  | "SB"
-  | "SO"
-  | "ZA"
-  | "KR"
-  | "SS"
-  | "ES"
-  | "LK"
-  | "SD"
-  | "SR"
   | "SE"
-  | "CH"
-  | "SY"
-  | "TW"
-  | "TJ"
-  | "TZ"
+  | "SG"
+  | "SI"
+  | "SK"
+  | "SN"
+  | "SR"
   | "TH"
-  | "BS"
-  | "GM"
-  | "TL"
-  | "TG"
-  | "TO"
-  | "TT"
+  | "TJ"
   | "TN"
   | "TR"
-  | "TM"
-  | "UG"
+  | "TT"
+  | "TW"
+  | "TZ"
   | "UA"
-  | "AE"
-  | "GB"
+  | "UG"
   | "US"
-  | "UY"
   | "UZ"
-  | "VU"
-  | "VE"
   | "VN"
-  | "YE"
+  | "ZA"
   | "ZM"
   | "ZW";
 export type ScansCreateRequestCustomHeadersMap = { [key: string]: string | undefined };
@@ -277,17 +222,17 @@ export interface CreateScanRequest {
   accountId: string;
   url: string;
   /** Enable agent readiness checks. */
-  agentReadiness?: boolean;
+  agentReadiness?: boolean | undefined;
   /** Country to geo egress from */
-  country?: ScansCreateRequestCountry | (string & {});
-  customagent?: string;
+  country?: ScansCreateRequestCountry | (string & {}) | undefined;
+  customagent?: string | undefined;
   /** Set custom headers. */
-  customHeaders?: ScansCreateRequestCustomHeadersMap;
-  referer?: string;
+  customHeaders?: ScansCreateRequestCustomHeadersMap | undefined;
+  referer?: string | undefined;
   /** Take multiple screenshots targeting different device types. */
-  screenshotsResolutions?: ScansCreateRequestScreenshotsResolutionsList;
+  screenshotsResolutions?: ScansCreateRequestScreenshotsResolutionsList | undefined;
   /** The option `Public` means it will be included in listings like recent scans and search results. `Unlisted` means it will not be included in the aforementioned listings, users will need to have the scan's ID to access it. A a scan will be automatically marked as unlisted if it fails, if it contains potential PII or other sensitive material. */
-  visibility?: ScansCreateRequestVisibility | (string & {});
+  visibility?: ScansCreateRequestVisibility | (string & {}) | undefined;
 }
 export type CreateScanResponse = string;
 export interface DomScanRequest {
@@ -365,7 +310,7 @@ export interface ScansGetResponseDataRequestsItemRequestRequest {
   mixedContentType: string;
   referrerPolicy: string;
   url: string;
-  headers?: unknown | null;
+  headers?: unknown | null | undefined;
 }
 export interface ScansGetResponseDataRequestsItemRequestRedirectResponseSecurityHeadersItem {
   name: string;
@@ -384,7 +329,7 @@ export interface ScansGetResponseDataRequestsItemRequestRedirectResponse {
   status: number;
   statusText: string;
   url: string;
-  headers?: unknown | null;
+  headers?: unknown | null | undefined;
 }
 export interface ScansGetResponseDataRequestsItemRequest {
   documentURL: string;
@@ -395,10 +340,10 @@ export interface ScansGetResponseDataRequestsItemRequest {
   requestId: string;
   type: string;
   wallTime: number;
-  frameId?: string | null;
-  loaderId?: string | null;
-  primaryRequest?: boolean | null;
-  redirectResponse?: ScansGetResponseDataRequestsItemRequestRedirectResponse | null;
+  frameId?: string | null | undefined;
+  loaderId?: string | null | undefined;
+  primaryRequest?: boolean | null | undefined;
+  redirectResponse?: ScansGetResponseDataRequestsItemRequestRedirectResponse | null | undefined;
 }
 export interface ScansGetResponseDataRequestsItemResponseAsn {
   asn: string;
@@ -450,7 +395,7 @@ export interface ScansGetResponseDataRequestsItemResponseResponse {
   status: number;
   statusText: string;
   url: string;
-  headers?: unknown | null;
+  headers?: unknown | null | undefined;
 }
 export interface ScansGetResponseDataRequestsItemResponse {
   asn: ScansGetResponseDataRequestsItemResponseAsn;
@@ -462,8 +407,8 @@ export interface ScansGetResponseDataRequestsItemResponse {
   response: ScansGetResponseDataRequestsItemResponseResponse;
   size: number;
   type: string;
-  contentAvailable?: boolean | null;
-  hash?: string | null;
+  contentAvailable?: boolean | null | undefined;
+  hash?: string | null | undefined;
 }
 export interface ScansGetResponseDataRequestsItemRequestsItemInitiator {
   type: string;
@@ -497,7 +442,7 @@ export type ScansGetResponseDataRequestsItemRequestsList =
 export interface ScansGetResponseDataRequestsItem {
   request: ScansGetResponseDataRequestsItemRequest;
   response: ScansGetResponseDataRequestsItemResponse;
-  requests?: ScansGetResponseDataRequestsItemRequestsList | null;
+  requests?: ScansGetResponseDataRequestsItemRequestsList | null | undefined;
 }
 export type ScansGetResponseDataRequestsList = Array<ScansGetResponseDataRequestsItem>;
 export interface ScansGetResponseData {
@@ -593,7 +538,7 @@ export interface ScansGetResponseMetaProcessorsPhishing {
 export interface ScansGetResponseMetaProcessorsRadarRankDataItem {
   bucket: string;
   hostname: string;
-  rank?: number | null;
+  rank?: number | null | undefined;
 }
 export type ScansGetResponseMetaProcessorsRadarRankDataList =
   Array<ScansGetResponseMetaProcessorsRadarRankDataItem>;
@@ -634,37 +579,52 @@ export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessCont
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest {
   method: string;
   url: string;
-  headers?: unknown | null;
+  headers?: unknown | null | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse {
   status: number;
   statusText: string;
-  bodyPreview?: string | null;
-  bodySize?: number | null;
-  headers?: unknown | null;
-  redirectedTo?: string | null;
+  bodyPreview?: string | null | undefined;
+  bodySize?: number | null | undefined;
+  headers?: unknown | null | undefined;
+  redirectedTo?: string | null | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem {
   action: string;
   label: string;
-  finding?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding | null;
-  request?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest | null;
-  response?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse | null;
+  finding?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding
+    | null
+    | undefined;
+  request?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest
+    | null
+    | undefined;
+  response?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceList =
   Array<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem>;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef {
   /** Stable, translatable message code. */
   code: string;
-  params?: unknown | null;
+  params?: unknown | null | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignals {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -680,11 +640,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRo
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRules {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlRobotsTxtAiRulesEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -700,11 +666,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWe
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuth {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlWebBotAuthEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControl {
   contentSignals: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignals;
@@ -725,11 +697,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpMessage
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcp {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcpEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2EvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -745,11 +723,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2Message
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2 {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2EvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAp2EvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -765,11 +749,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppMessage
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMpp {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceMppEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -785,11 +775,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpMessage
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcp {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceUcpEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402EvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -805,11 +801,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402Messag
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402 {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402EvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceX402EvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksCommerce {
   acp: ScansGetResponseMetaProcessorsAgentReadinessChecksCommerceAcp;
@@ -832,11 +834,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibili
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiation {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiationEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibility {
   markdownNegotiation: ScansGetResponseMetaProcessorsAgentReadinessChecksContentAccessibilityMarkdownNegotiation;
@@ -855,11 +863,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDns
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -875,11 +889,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLin
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -895,11 +915,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRob
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxt {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityRobotsTxtEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -915,11 +941,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySit
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemap {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilitySitemapEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverability {
   dnsAid: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid;
@@ -941,11 +973,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentC
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCard {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCardEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -961,11 +999,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkil
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkills {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAgentSkillsEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -981,11 +1025,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalo
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -1001,11 +1051,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdMessag
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -1021,11 +1077,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdMes
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -1041,11 +1103,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServer
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCardEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -1061,11 +1129,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDisc
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscoveryEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -1081,11 +1155,43 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProt
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResourceEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
+}
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItemFinding =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItemRequest =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemRequest;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItemResponse =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemResponse;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceItem =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceList =
+  Array<ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItem>;
+export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolMessageRef =
+  ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
+export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocol {
+  status: string;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocolEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceItemFinding =
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsEvidenceItemFinding;
@@ -1101,11 +1207,17 @@ export type ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpMes
   ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef;
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp {
   status: string;
-  details?: unknown | null;
-  durationMs?: number | null;
-  evidence?: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceList | null;
-  message?: string | null;
-  messageRef?: ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef | null;
+  details?: unknown | null | undefined;
+  durationMs?: number | null | undefined;
+  evidence?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcpEvidenceList
+    | null
+    | undefined;
+  message?: string | null | undefined;
+  messageRef?:
+    | ScansGetResponseMetaProcessorsAgentReadinessChecksBotAccessControlContentSignalsMessageRef
+    | null
+    | undefined;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscovery {
   a2aAgentCard: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryA2aAgentCard;
@@ -1116,6 +1228,7 @@ export interface ScansGetResponseMetaProcessorsAgentReadinessChecksDiscovery {
   mcpServerCard: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryMcpServerCard;
   oauthDiscovery: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthDiscovery;
   oauthProtectedResource: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryOauthProtectedResource;
+  personalAgentProtocol: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryPersonalAgentProtocol;
   webMcp: ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryWebMcp;
 }
 export interface ScansGetResponseMetaProcessorsAgentReadinessChecks {
@@ -1146,9 +1259,12 @@ export interface ScansGetResponseMetaProcessorsAgentReadiness {
   checks: ScansGetResponseMetaProcessorsAgentReadinessChecks;
   level: number;
   levelName: string;
-  commerceSignals?: ScansGetResponseMetaProcessorsAgentReadinessCommerceSignalsList | null;
-  isCommerce?: boolean | null;
-  nextLevel?: ScansGetResponseMetaProcessorsAgentReadinessNextLevel | null;
+  commerceSignals?:
+    | ScansGetResponseMetaProcessorsAgentReadinessCommerceSignalsList
+    | null
+    | undefined;
+  isCommerce?: boolean | null | undefined;
+  nextLevel?: ScansGetResponseMetaProcessorsAgentReadinessNextLevel | null | undefined;
 }
 export type ScansGetResponseMetaProcessorsPhishingV2DataList = Array<string>;
 export interface ScansGetResponseMetaProcessorsPhishingV2 {
@@ -1157,15 +1273,18 @@ export interface ScansGetResponseMetaProcessorsPhishingV2 {
 export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList = Array<string>;
 export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList = Array<string>;
 export interface ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal {
-  aiInput?: string | null;
-  aiTrain?: string | null;
-  search?: string | null;
+  aiInput?: string | null | undefined;
+  aiTrain?: string | null | undefined;
+  search?: string | null | undefined;
 }
 export interface ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue {
   allow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueAllowList;
   disallow: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueDisallowList;
-  contentSignal?: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal | null;
-  crawlDelay?: number | null;
+  contentSignal?:
+    | ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValueContentSignal
+    | null
+    | undefined;
+  crawlDelay?: number | null | undefined;
 }
 export type ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap = {
   [key: string]: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesValue | undefined;
@@ -1174,7 +1293,7 @@ export type ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList = Array<
 export interface ScansGetResponseMetaProcessorsRobotsTxtDataItem {
   rules: ScansGetResponseMetaProcessorsRobotsTxtDataItemRulesMap;
   sitemaps: ScansGetResponseMetaProcessorsRobotsTxtDataItemSitemapsList;
-  hash?: string | null;
+  hash?: string | null | undefined;
 }
 export type ScansGetResponseMetaProcessorsRobotsTxtDataList =
   Array<ScansGetResponseMetaProcessorsRobotsTxtDataItem>;
@@ -1224,10 +1343,10 @@ export interface ScansGetResponseMetaProcessors {
   phishing: ScansGetResponseMetaProcessorsPhishing;
   radarRank: ScansGetResponseMetaProcessorsRadarRank;
   wappa: ScansGetResponseMetaProcessorsWappa;
-  agentReadiness?: ScansGetResponseMetaProcessorsAgentReadiness | null;
-  phishingV2?: ScansGetResponseMetaProcessorsPhishingV2 | null;
-  robotsTxt?: ScansGetResponseMetaProcessorsRobotsTxt | null;
-  urlCategories?: ScansGetResponseMetaProcessorsUrlCategories | null;
+  agentReadiness?: ScansGetResponseMetaProcessorsAgentReadiness | null | undefined;
+  phishingV2?: ScansGetResponseMetaProcessorsPhishingV2 | null | undefined;
+  robotsTxt?: ScansGetResponseMetaProcessorsRobotsTxt | null | undefined;
+  urlCategories?: ScansGetResponseMetaProcessorsUrlCategories | null | undefined;
 }
 export interface ScansGetResponseMeta {
   processors: ScansGetResponseMetaProcessors;
@@ -1255,7 +1374,7 @@ export interface ScansGetResponsePage {
   tlsValidDays: number;
   tlsValidFrom: string;
   url: string;
-  screenshot?: ScansGetResponsePageScreenshot | null;
+  screenshot?: ScansGetResponsePageScreenshot | null | undefined;
 }
 export interface ScansGetResponseScanner {
   colo: string;
@@ -1299,7 +1418,7 @@ export interface ScansGetResponseStatsIpStatsItem {
   redirects: number;
   requests: number;
   size: number;
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export type ScansGetResponseStatsIpStatsList = Array<ScansGetResponseStatsIpStatsItem>;
 export type ScansGetResponseStatsProtocolStatsItemCountriesList = Array<string>;
@@ -1370,8 +1489,8 @@ export interface ScansGetResponseStats {
 export type ScansGetResponseTaskOptionsScreenshotsResolutionsList = Array<string>;
 export interface ScansGetResponseTaskOptions {
   /** Custom headers set. */
-  customHeaders?: unknown | null;
-  screenshotsResolutions?: ScansGetResponseTaskOptionsScreenshotsResolutionsList | null;
+  customHeaders?: unknown | null | undefined;
+  screenshotsResolutions?: ScansGetResponseTaskOptionsScreenshotsResolutionsList | null | undefined;
 }
 export interface ScansGetResponseTask {
   apexDomain: string;
@@ -1436,7 +1555,7 @@ export interface ScansHarResponseLogEntriesItemRequest {
 export interface ScansHarResponseLogEntriesItemResponseContent {
   mimeType: string;
   size: number;
-  compression?: number | null;
+  compression?: number | null | undefined;
 }
 export type ScansHarResponseLogEntriesItemResponseHeadersItem =
   ScansGetResponseDataRequestsItemRequestRedirectResponseSecurityHeadersItem;
@@ -1495,9 +1614,9 @@ export interface ListScansRequest {
   /** Account ID. */
   accountId: string;
   /** Filter scans */
-  q?: string;
+  q?: string | undefined;
   /** Limit the number of objects in the response. */
-  size?: number;
+  size?: number | undefined;
 }
 export interface ScansListResponseResultsItemPage {
   asn: string;
@@ -1540,7 +1659,7 @@ export interface ScreenshotScanRequest {
   /** Scan UUID. */
   scanId: string;
   /** Target device type. */
-  resolution?: ScansScreenshotRequestResolution | (string & {});
+  resolution?: ScansScreenshotRequestResolution | (string & {}) | undefined;
 }
 export interface ScreenshotScanResponse {}
 export type BulkCreateScansError = CloudflareOpError;
@@ -2359,6 +2478,7 @@ function __c8(j: number): any {
           mcpServerCard: __S(256, __c8, 0),
           oauthDiscovery: __S(256, __c8, 0),
           oauthProtectedResource: __S(256, __c8, 0),
+          personalAgentProtocol: __S(256, __c8, 0),
           webMcp: __S(256, __c8, 0),
         }),
       ).annotate({ identifier: "ScansGetResponseMetaProcessorsAgentReadinessChecksDiscovery" });

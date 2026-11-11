@@ -67,6 +67,29 @@ describe("StringEncoded members", () => {
   });
 });
 
+describe("empty JSON bodies", () => {
+  const Empty = S.Struct({}).pipe(T.Http({ method: "POST", uri: "/rpc.Service/List" }));
+  const build = (emptyJsonBody?: boolean) =>
+    Effect.runSync(
+      buildRequest({
+        input: {},
+        inputAst: Empty.ast,
+        baseUrl: "https://example.test",
+        ...(emptyJsonBody === undefined ? {} : { emptyJsonBody }),
+      }),
+    );
+
+  test("a POST with no body members sends no body by default", () => {
+    expect(build().body._tag).toBe("Empty");
+  });
+
+  test("emptyJsonBody sends {} as JSON", () => {
+    const body = build(true).body as { readonly _tag: string; readonly body?: Uint8Array };
+    expect(body._tag).toBe("Uint8Array");
+    expect(new TextDecoder().decode(body.body)).toBe("{}");
+  });
+});
+
 describe("URI label encoding", () => {
   const input = (preserve?: string) =>
     S.Struct({
@@ -145,7 +168,7 @@ describe("dot-segment labels", () => {
     for (const id of [".", ".."]) {
       const error = Effect.runSync(Effect.flip(request(id)));
       expect(error).toBeInstanceOf(InvalidInput);
-      expect(error.member).toBe("id");
+      expect((error as InvalidInput).member).toBe("id");
     }
   });
 
@@ -257,6 +280,35 @@ describe("sensitive union responses", () => {
         ],
       });
     }
+  });
+});
+
+describe("sensitive untyped members", () => {
+  const schema = S.Struct({
+    environment: S.NullOr(S.Unknown).pipe(SensitiveValue()),
+    config: S.NullOr(
+      S.Struct({ name: S.String, secret: S.NullOr(S.String).pipe(SensitiveValue()) }),
+    ).pipe(SensitiveValue()),
+  });
+
+  test("an untyped object is redacted whole; a typed struct is walked", () => {
+    const environment = { AWS_ACCESS_KEY_ID: "fixture-id", AWS_SECRET_ACCESS_KEY: "fixture-key" };
+    const wrapped = wrapSensitive(schema.ast, {
+      environment,
+      config: { name: "files", secret: "fixture-secret" },
+    }) as any;
+    expect(Redacted.isRedacted(wrapped.environment)).toBe(true);
+    expect(Redacted.value(wrapped.environment)).toEqual(environment);
+    expect(wrapped.config).toEqual({ name: "files", secret: Redacted.make("fixture-secret") });
+    expect(String(wrapped.environment)).not.toContain("fixture-key");
+    expect(wrapSensitive(schema.ast, wrapped)).toEqual(wrapped);
+  });
+
+  test("null stays null", () => {
+    expect(wrapSensitive(schema.ast, { environment: null, config: null })).toEqual({
+      environment: null,
+      config: null,
+    });
   });
 });
 

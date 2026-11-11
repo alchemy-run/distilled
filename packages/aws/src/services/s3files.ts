@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -141,7 +142,7 @@ export type SecondaryGids = number[];
 export interface PosixUser {
   uid: number;
   gid: number;
-  secondaryGids?: number[];
+  secondaryGids?: number[] | undefined;
 }
 export type Path = string;
 export type OwnerUid = number;
@@ -153,15 +154,15 @@ export interface CreationPermissions {
   permissions: string;
 }
 export interface RootDirectory {
-  path?: string;
-  creationPermissions?: CreationPermissions;
+  path?: string | undefined;
+  creationPermissions?: CreationPermissions | undefined;
 }
 export interface CreateAccessPointRequest {
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
   fileSystemId: string;
-  posixUser?: PosixUser;
-  rootDirectory?: RootDirectory;
+  posixUser?: PosixUser | undefined;
+  rootDirectory?: RootDirectory | undefined;
 }
 export type AccessPointArn = string;
 export type AccessPointId = string;
@@ -172,6 +173,7 @@ export type LifeCycleState =
   | "deleted"
   | "error"
   | "updating"
+  | "misconfigured"
   | (string & {});
 export type AwsAccountId = string;
 export interface CreateAccessPointResponse {
@@ -181,10 +183,10 @@ export interface CreateAccessPointResponse {
   fileSystemId: string;
   status: LifeCycleState;
   ownerId: string;
-  posixUser?: PosixUser;
-  rootDirectory?: RootDirectory;
-  tags?: Tag[];
-  name?: string;
+  posixUser?: PosixUser | undefined;
+  rootDirectory?: RootDirectory | undefined;
+  tags?: Tag[] | undefined;
+  name?: string | undefined;
 }
 export type BucketArn = string;
 export type CreationToken = string;
@@ -192,29 +194,29 @@ export type KmsKeyId = string;
 export type RoleArn = string;
 export interface CreateFileSystemRequest {
   bucket: string;
-  prefix?: string;
-  clientToken?: string;
-  kmsKeyId?: string;
+  prefix?: string | undefined;
+  clientToken?: string | undefined;
+  kmsKeyId?: string | undefined;
   roleArn: string;
-  tags?: Tag[];
-  acceptBucketWarning?: boolean;
+  tags?: Tag[] | undefined;
+  acceptBucketWarning?: boolean | undefined;
 }
 export type FileSystemArn = string;
 export type StatusMessage = string;
 export interface CreateFileSystemResponse {
-  creationTime?: Date;
-  fileSystemArn?: string;
-  fileSystemId?: string;
-  bucket?: string;
-  prefix?: string;
-  clientToken?: string;
-  kmsKeyId?: string;
-  status?: LifeCycleState;
-  statusMessage?: string;
-  roleArn?: string;
-  ownerId?: string;
-  tags?: Tag[];
-  name?: string;
+  creationTime?: Date | undefined;
+  fileSystemArn?: string | undefined;
+  fileSystemId?: string | undefined;
+  bucket?: string | undefined;
+  prefix?: string | undefined;
+  clientToken?: string | undefined;
+  kmsKeyId?: string | undefined;
+  status?: LifeCycleState | undefined;
+  statusMessage?: string | undefined;
+  roleArn?: string | undefined;
+  ownerId?: string | undefined;
+  tags?: Tag[] | undefined;
+  name?: string | undefined;
 }
 export type SubnetId = string;
 export type Ipv4Address = string;
@@ -225,28 +227,28 @@ export type SecurityGroups = string[];
 export interface CreateMountTargetRequest {
   fileSystemId: string;
   subnetId: string;
-  ipv4Address?: string;
-  ipv6Address?: string;
-  ipAddressType?: IpAddressType;
-  securityGroups?: string[];
+  ipv4Address?: string | undefined;
+  ipv6Address?: string | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  securityGroups?: string[] | undefined;
 }
 export type AvailabilityZoneId = string;
 export type MountTargetId = string;
 export type NetworkInterfaceId = string;
 export type VpcId = string;
 export interface CreateMountTargetResponse {
-  availabilityZoneId?: string;
+  availabilityZoneId?: string | undefined;
   ownerId: string;
   mountTargetId: string;
-  fileSystemId?: string;
+  fileSystemId?: string | undefined;
   subnetId: string;
-  ipv4Address?: string;
-  ipv6Address?: string;
-  networkInterfaceId?: string;
-  vpcId?: string;
-  securityGroups?: string[];
-  status?: LifeCycleState;
-  statusMessage?: string;
+  ipv4Address?: string | undefined;
+  ipv6Address?: string | undefined;
+  networkInterfaceId?: string | undefined;
+  vpcId?: string | undefined;
+  securityGroups?: string[] | undefined;
+  status?: LifeCycleState | undefined;
+  statusMessage?: string | undefined;
 }
 export interface DeleteAccessPointRequest {
   accessPointId: string;
@@ -254,7 +256,7 @@ export interface DeleteAccessPointRequest {
 export interface DeleteAccessPointResponse {}
 export interface DeleteFileSystemRequest {
   fileSystemId: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteFileSystemResponse {}
 export interface DeleteFileSystemPolicyRequest {
@@ -275,28 +277,28 @@ export interface GetAccessPointResponse {
   fileSystemId: string;
   status: LifeCycleState;
   ownerId: string;
-  posixUser?: PosixUser;
-  rootDirectory?: RootDirectory;
-  tags?: Tag[];
-  name?: string;
+  posixUser?: PosixUser | undefined;
+  rootDirectory?: RootDirectory | undefined;
+  tags?: Tag[] | undefined;
+  name?: string | undefined;
 }
 export interface GetFileSystemRequest {
   fileSystemId: string;
 }
 export interface GetFileSystemResponse {
-  creationTime?: Date;
-  fileSystemArn?: string;
-  fileSystemId?: string;
-  bucket?: string;
-  prefix?: string;
-  clientToken?: string;
-  kmsKeyId?: string;
-  status?: LifeCycleState;
-  statusMessage?: string;
-  roleArn?: string;
-  ownerId?: string;
-  tags?: Tag[];
-  name?: string;
+  creationTime?: Date | undefined;
+  fileSystemArn?: string | undefined;
+  fileSystemId?: string | undefined;
+  bucket?: string | undefined;
+  prefix?: string | undefined;
+  clientToken?: string | undefined;
+  kmsKeyId?: string | undefined;
+  status?: LifeCycleState | undefined;
+  statusMessage?: string | undefined;
+  roleArn?: string | undefined;
+  ownerId?: string | undefined;
+  tags?: Tag[] | undefined;
+  name?: string | undefined;
 }
 export interface GetFileSystemPolicyRequest {
   fileSystemId: string;
@@ -309,18 +311,18 @@ export interface GetMountTargetRequest {
   mountTargetId: string;
 }
 export interface GetMountTargetResponse {
-  availabilityZoneId?: string;
+  availabilityZoneId?: string | undefined;
   ownerId: string;
   mountTargetId: string;
-  fileSystemId?: string;
+  fileSystemId?: string | undefined;
   subnetId: string;
-  ipv4Address?: string;
-  ipv6Address?: string;
-  networkInterfaceId?: string;
-  vpcId?: string;
-  securityGroups?: string[];
-  status?: LifeCycleState;
-  statusMessage?: string;
+  ipv4Address?: string | undefined;
+  ipv6Address?: string | undefined;
+  networkInterfaceId?: string | undefined;
+  vpcId?: string | undefined;
+  securityGroups?: string[] | undefined;
+  status?: LifeCycleState | undefined;
+  statusMessage?: string | undefined;
 }
 export interface GetSynchronizationConfigurationRequest {
   fileSystemId: string;
@@ -337,14 +339,14 @@ export interface ExpirationDataRule {
 }
 export type ExpirationDataRuleList = ExpirationDataRule[];
 export interface GetSynchronizationConfigurationResponse {
-  latestVersionNumber?: number;
+  latestVersionNumber?: number | undefined;
   importDataRules: ImportDataRule[];
   expirationDataRules: ExpirationDataRule[];
 }
 export interface ListAccessPointsRequest {
   fileSystemId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAccessPointsDescription {
   accessPointArn: string;
@@ -352,69 +354,69 @@ export interface ListAccessPointsDescription {
   fileSystemId: string;
   status: LifeCycleState;
   ownerId: string;
-  posixUser?: PosixUser;
-  rootDirectory?: RootDirectory;
-  name?: string;
+  posixUser?: PosixUser | undefined;
+  rootDirectory?: RootDirectory | undefined;
+  name?: string | undefined;
 }
 export type AccessPoints = ListAccessPointsDescription[];
 export interface ListAccessPointsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   accessPoints: ListAccessPointsDescription[];
 }
 export interface ListFileSystemsRequest {
-  bucket?: string;
-  maxResults?: number;
-  nextToken?: string;
+  bucket?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListFileSystemsDescription {
   creationTime: Date;
   fileSystemArn: string;
   fileSystemId: string;
-  name?: string;
+  name?: string | undefined;
   bucket: string;
   status: LifeCycleState;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   roleArn: string;
   ownerId: string;
 }
 export type FileSystems = ListFileSystemsDescription[];
 export interface ListFileSystemsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   fileSystems: ListFileSystemsDescription[];
 }
 export interface ListMountTargetsRequest {
-  fileSystemId?: string;
-  accessPointId?: string;
-  maxResults?: number;
-  nextToken?: string;
+  fileSystemId?: string | undefined;
+  accessPointId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMountTargetsDescription {
-  availabilityZoneId?: string;
-  fileSystemId?: string;
-  ipv4Address?: string;
-  ipv6Address?: string;
-  status?: LifeCycleState;
-  statusMessage?: string;
+  availabilityZoneId?: string | undefined;
+  fileSystemId?: string | undefined;
+  ipv4Address?: string | undefined;
+  ipv6Address?: string | undefined;
+  status?: LifeCycleState | undefined;
+  statusMessage?: string | undefined;
   mountTargetId: string;
-  networkInterfaceId?: string;
+  networkInterfaceId?: string | undefined;
   ownerId: string;
   subnetId: string;
-  vpcId?: string;
+  vpcId?: string | undefined;
 }
 export type MountTargets = ListMountTargetsDescription[];
 export interface ListMountTargetsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   mountTargets: ListMountTargetsDescription[];
 }
 export type ResourceId = string;
 export interface ListTagsForResourceRequest {
   resourceId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
-  nextToken?: string;
+  tags?: Tag[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutFileSystemPolicyRequest {
   fileSystemId: string;
@@ -423,7 +425,7 @@ export interface PutFileSystemPolicyRequest {
 export interface PutFileSystemPolicyResponse {}
 export interface PutSynchronizationConfigurationRequest {
   fileSystemId: string;
-  latestVersionNumber?: number;
+  latestVersionNumber?: number | undefined;
   importDataRules: ImportDataRule[];
   expirationDataRules: ExpirationDataRule[];
 }
@@ -444,18 +446,18 @@ export interface UpdateMountTargetRequest {
   securityGroups: string[];
 }
 export interface UpdateMountTargetResponse {
-  availabilityZoneId?: string;
+  availabilityZoneId?: string | undefined;
   ownerId: string;
   mountTargetId: string;
-  fileSystemId?: string;
+  fileSystemId?: string | undefined;
   subnetId: string;
-  ipv4Address?: string;
-  ipv6Address?: string;
-  networkInterfaceId?: string;
-  vpcId?: string;
-  securityGroups?: string[];
-  status?: LifeCycleState;
-  statusMessage?: string;
+  ipv4Address?: string | undefined;
+  ipv6Address?: string | undefined;
+  networkInterfaceId?: string | undefined;
+  vpcId?: string | undefined;
+  securityGroups?: string[] | undefined;
+  status?: LifeCycleState | undefined;
+  statusMessage?: string | undefined;
 }
 export type ErrorCode = string;
 export type CreateAccessPointError =
@@ -469,7 +471,7 @@ export type CreateAccessPointError =
  * Creates an S3 File System Access Point for application-specific access with POSIX user identity and root directory enforcement. Access points provide a way to manage access to shared datasets in multi-tenant scenarios.
  */
 export const createAccessPoint: API.OperationMethod<
-  CreateAccessPointRequest,
+  CreateAccessPointRequest & RegionInput,
   CreateAccessPointResponse,
   CreateAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -501,7 +503,7 @@ export type CreateFileSystemError =
  * Creates an S3 File System resource scoped to a bucket or prefix within a bucket, enabling file system access to S3 data. To create a file system, you need an S3 bucket and an IAM role that grants the service permission to access the bucket.
  */
 export const createFileSystem: API.OperationMethod<
-  CreateFileSystemRequest,
+  CreateFileSystemRequest & RegionInput,
   CreateFileSystemResponse,
   CreateFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -533,7 +535,7 @@ export type CreateMountTargetError =
  * Creates a mount target resource as an endpoint for mounting the S3 File System from compute resources in a specific Availability Zone and VPC. Mount targets provide network access to the file system.
  */
 export const createMountTarget: API.OperationMethod<
-  CreateMountTargetRequest,
+  CreateMountTargetRequest & RegionInput,
   CreateMountTargetResponse,
   CreateMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -564,7 +566,7 @@ export type DeleteAccessPointError =
  * Deletes an S3 File System Access Point. This operation is irreversible.
  */
 export const deleteAccessPoint: API.OperationMethod<
-  DeleteAccessPointRequest,
+  DeleteAccessPointRequest & RegionInput,
   DeleteAccessPointResponse,
   DeleteAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -594,7 +596,7 @@ export type DeleteFileSystemError =
  * Deletes an S3 File System. You can optionally force deletion of a file system that has pending export data.
  */
 export const deleteFileSystem: API.OperationMethod<
-  DeleteFileSystemRequest,
+  DeleteFileSystemRequest & RegionInput,
   DeleteFileSystemResponse,
   DeleteFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -623,7 +625,7 @@ export type DeleteFileSystemPolicyError =
  * Deletes the IAM resource policy of an S3 File System.
  */
 export const deleteFileSystemPolicy: API.OperationMethod<
-  DeleteFileSystemPolicyRequest,
+  DeleteFileSystemPolicyRequest & RegionInput,
   DeleteFileSystemPolicyResponse,
   DeleteFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -648,7 +650,7 @@ export type DeleteMountTargetError =
  * Deletes the specified mount target. This operation is irreversible.
  */
 export const deleteMountTarget: API.OperationMethod<
-  DeleteMountTargetRequest,
+  DeleteMountTargetRequest & RegionInput,
   DeleteMountTargetResponse,
   DeleteMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -677,7 +679,7 @@ export type GetAccessPointError =
  * Returns resource information for an S3 File System Access Point.
  */
 export const getAccessPoint: API.OperationMethod<
-  GetAccessPointRequest,
+  GetAccessPointRequest & RegionInput,
   GetAccessPointResponse,
   GetAccessPointError,
   Credentials | HttpClient.HttpClient
@@ -701,7 +703,7 @@ export type GetFileSystemError =
  * Returns resource information for the specified S3 File System including status, configuration, and metadata.
  */
 export const getFileSystem: API.OperationMethod<
-  GetFileSystemRequest,
+  GetFileSystemRequest & RegionInput,
   GetFileSystemResponse,
   GetFileSystemError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +727,7 @@ export type GetFileSystemPolicyError =
  * Returns the IAM resource policy of an S3 File System.
  */
 export const getFileSystemPolicy: API.OperationMethod<
-  GetFileSystemPolicyRequest,
+  GetFileSystemPolicyRequest & RegionInput,
   GetFileSystemPolicyResponse,
   GetFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -749,7 +751,7 @@ export type GetMountTargetError =
  * Returns detailed resource information for the specified mount target including network configuration.
  */
 export const getMountTarget: API.OperationMethod<
-  GetMountTargetRequest,
+  GetMountTargetRequest & RegionInput,
   GetMountTargetResponse,
   GetMountTargetError,
   Credentials | HttpClient.HttpClient
@@ -773,7 +775,7 @@ export type GetSynchronizationConfigurationError =
  * Returns the synchronization configuration for the specified S3 File System, including import data rules and expiration data rules.
  */
 export const getSynchronizationConfiguration: API.OperationMethod<
-  GetSynchronizationConfigurationRequest,
+  GetSynchronizationConfigurationRequest & RegionInput,
   GetSynchronizationConfigurationResponse,
   GetSynchronizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -797,7 +799,7 @@ export type ListAccessPointsError =
  * Returns resource information for all S3 File System Access Points associated with the specified S3 File System.
  */
 export const listAccessPoints: API.PaginatedOperationMethod<
-  ListAccessPointsRequest,
+  ListAccessPointsRequest & RegionInput,
   ListAccessPointsResponse,
   ListAccessPointsError,
   Credentials | HttpClient.HttpClient,
@@ -824,7 +826,7 @@ export type ListFileSystemsError = InternalServerException | ValidationException
  * Returns a list of all S3 File Systems owned by the account with optional filtering by bucket.
  */
 export const listFileSystems: API.PaginatedOperationMethod<
-  ListFileSystemsRequest,
+  ListFileSystemsRequest & RegionInput,
   ListFileSystemsResponse,
   ListFileSystemsError,
   Credentials | HttpClient.HttpClient,
@@ -855,7 +857,7 @@ export type ListMountTargetsError =
  * Returns resource information for all mount targets with optional filtering by file system, access point, and VPC.
  */
 export const listMountTargets: API.PaginatedOperationMethod<
-  ListMountTargetsRequest,
+  ListMountTargetsRequest & RegionInput,
   ListMountTargetsResponse,
   ListMountTargetsError,
   Credentials | HttpClient.HttpClient,
@@ -886,7 +888,7 @@ export type ListTagsForResourceError =
  * Lists all tags for S3 Files resources.
  */
 export const listTagsForResource: API.PaginatedOperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -917,7 +919,7 @@ export type PutFileSystemPolicyError =
  * Creates or replaces the IAM resource policy for an S3 File System to control access permissions.
  */
 export const putFileSystemPolicy: API.OperationMethod<
-  PutFileSystemPolicyRequest,
+  PutFileSystemPolicyRequest & RegionInput,
   PutFileSystemPolicyResponse,
   PutFileSystemPolicyError,
   Credentials | HttpClient.HttpClient
@@ -942,7 +944,7 @@ export type PutSynchronizationConfigurationError =
  * Creates or updates the synchronization configuration for the specified S3 File System, including import data rules and expiration data rules.
  */
 export const putSynchronizationConfiguration: API.OperationMethod<
-  PutSynchronizationConfigurationRequest,
+  PutSynchronizationConfigurationRequest & RegionInput,
   PutSynchronizationConfigurationResponse,
   PutSynchronizationConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -971,7 +973,7 @@ export type TagResourceError =
  * Creates tags for S3 Files resources using standard Amazon Web Services tagging APIs.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -995,7 +997,7 @@ export type UntagResourceError =
  * Removes tags from S3 Files resources.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1019,7 +1021,7 @@ export type UpdateMountTargetError =
  * Updates the mount target resource, specifically security group configurations.
  */
 export const updateMountTarget: API.OperationMethod<
-  UpdateMountTargetRequest,
+  UpdateMountTargetRequest & RegionInput,
   UpdateMountTargetResponse,
   UpdateMountTargetError,
   Credentials | HttpClient.HttpClient

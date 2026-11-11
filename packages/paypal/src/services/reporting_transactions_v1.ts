@@ -45,9 +45,9 @@ export class Forbidden
 
 export interface GetBalanceRequest {
   /** List balances in the response at the date time provided, will return the last refreshed balance in the system when not provided. */
-  as_of_time?: string;
+  as_of_time?: string | undefined;
   /** Filters the transactions in the response by a [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) for the PayPal transaction currency. */
-  currency_code?: string;
+  currency_code?: string | undefined;
 }
 /** The currency and amount for a financial transaction, such as a balance or payment due. */
 export interface Money {
@@ -60,127 +60,127 @@ export interface BalanceDetail {
   /** Currency Code of the balances listed. */
   currency: string;
   /** Optional field representing if the currency is primary currency or not. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** The total amount in PayPal account. It is the sum of all the other balances. */
   total_balance: Money;
   /** The amount of cash in an Account which is at the customer's disposal. This amount is captured at settlement cutoff time in the user's time zone as defined for the user. */
-  available_balance?: Money;
+  available_balance?: Money | undefined;
   /** Balance withheld in the account. The portion of funds that PayPal holds for the customer that is not currently at the customer's disposal. */
-  withheld_balance?: Money;
+  withheld_balance?: Money | undefined;
 }
 /** An array of balance detail objects. */
 export type BalanceDetailList = Array<BalanceDetail>;
 /** The balances response information. */
 export interface BalancesResponse {
-  balances?: BalanceDetailList;
-  account_id?: string;
+  balances?: BalanceDetailList | undefined;
+  account_id?: string | undefined;
   /** The requested date and time or the last date and time when the balances can be served, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  as_of_time?: string;
+  as_of_time?: string | undefined;
   /** The date and time when the balances was last refreshed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_refresh_time?: string;
+  last_refresh_time?: string | undefined;
 }
 export interface SearchGetRequest {
   /** Filters the transactions in the response by a PayPal transaction ID. A valid transaction ID is 17 characters long, except for an <a href="/docs/api/payments/v1/#definition-order">order ID</a>, which is 19 characters long.<blockquote><strong>Note:</strong> A transaction ID is not unique in the reporting system. The response can list two transactions with the same ID. One transaction can be balance affecting while the other is non-balance affecting.</blockquote> */
-  transaction_id?: string;
+  transaction_id?: string | undefined;
   /** Filters the transactions in the response by a PayPal transaction event code. See [Transaction event codes](/docs/integration/direct/transaction-search/transaction-event-codes/). */
-  transaction_type?: string;
+  transaction_type?: string | undefined;
   /** Filters the transactions in the response by a PayPal transaction status code. Value is:<table><thead><tr><th>Status&nbsp;code</th><th>Description</th></tr></thead><tbody><tr><td><code>D</code></td><td>PayPal or merchant rules denied the transaction.</td></tr><tr><td><code>P</code></td><td>The transaction is pending. The transaction was created but waits for another payment process to complete, such as an ACH transaction, before the status changes to <code>S</code>.</td></tr><tr><td><code>S</code></td><td>The transaction successfully completed without a denial and after any pending statuses.</td></tr><tr><td><code>V</code></td><td>A successful transaction was reversed and funds were refunded to the original sender.</td></tr></tbody></table> */
-  transaction_status?: string;
+  transaction_status?: string | undefined;
   /** Filters the transactions in the response by a gross transaction amount range. Specify the range as `<start-range> TO <end-range>`, where `<start-range>` is the lower limit of the gross PayPal transaction amount and `<end-range>` is the upper limit of the gross transaction amount. Specify the amounts in lower denominations. For example, to search for transactions from $5.00 to $10.05, specify `[500 TO 1005]`.<blockquote><strong>Note:</strong>The values must be URL encoded.</blockquote> */
-  transaction_amount?: string;
+  transaction_amount?: string | undefined;
   /** Filters the transactions in the response by a [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) for the PayPal transaction currency. */
-  transaction_currency?: string;
+  transaction_currency?: string | undefined;
   /** Filters the transactions in the response by a start date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required. Fractional seconds are optional. */
   start_date: string;
   /** Filters the transactions in the response by an end date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required. Fractional seconds are optional. The maximum supported range is 31 days. */
   end_date: string;
   /** Filters the transactions in the response by a payment instrument type. Value is either:<ul><li><code>CREDITCARD</code>. Returns a direct credit card transaction with a corresponding value.</li><li><code>DEBITCARD</code>. Returns a debit card transaction with a corresponding value.</li></ul>If you omit this parameter, the API does not apply this filter. */
-  payment_instrument_type?: string;
+  payment_instrument_type?: string | undefined;
   /** Filters the transactions in the response by a store ID. */
-  store_id?: string;
+  store_id?: string | undefined;
   /** Filters the transactions in the response by a terminal ID. */
-  terminal_id?: string;
+  terminal_id?: string | undefined;
   /** Indicates which fields appear in the response. Value is a single field or a comma-separated list of fields. The <code>transaction_info</code> value returns only the transaction details in the response. To include all fields in the response, specify <code>fields=all</code>. Valid fields are:<ul><li><a href="/docs/api/transaction-search/v1/#definition-transaction_info"><code>transaction_info</code></a>. The transaction information. Includes the ID of the PayPal account of the payee, the PayPal-generated transaction ID, the PayPal-generated base ID, the PayPal reference ID type, the transaction event code, the date and time when the transaction was initiated and was last updated, the transaction amounts including the PayPal fee, any discounts, insurance, the transaction status, and other information about the transaction.</li><li><a href="/docs/api/transaction-search/v1/#definition-payer_info"><code>payer_info</code></a>. The payer information. Includes the PayPal customer account ID and the payer's email address, primary phone number, name, country code, address, and whether the payer is verified or unverified.</li><li><a href="/docs/api/transaction-search/v1/#definition-shipping_info"><code>shipping_info</code></a>. The shipping information. Includes the recipient's name, the shipping method for this order, the shipping address for this order, and the secondary address associated with this order.</li><li><a href="/docs/api/transaction-search/v1/#definition-auction_info"><code>auction_info</code></a>. The auction information. Includes the name of the auction site, the auction site URL, the ID of the customer who makes the purchase in the auction, and the date and time when the auction closes.</li><li><a href="/docs/api/transaction-search/v1/#definition-cart_info"><code>cart_info</code></a>. The cart information. Includes an array of item details, whether the item amount or the shipping amount already includes tax, and the ID of the invoice for PayPal-generated invoices.</li><li><a href="/docs/api/transaction-search/v1/#definition-incentive_info"><code>incentive_info</code></a>. An array of incentive detail objects. Each object includes the incentive, such as a special offer or coupon, the incentive amount, and the incentive program code that identifies a merchant loyalty or incentive program.</li><li><a href="/docs/api/transaction-search/v1/#definition-store_info"><code>store_info</code></a>. The store information. Includes the ID of the merchant store and the terminal ID for the checkout stand in the merchant store.</li></ul> */
-  fields?: string;
+  fields?: string | undefined;
   /** Indicates whether the response includes only balance-impacting transactions or all transactions. Value is either:<ul><li><code>Y</code>. The default. The response includes only balance transactions.</li><li><code>N</code>. The response includes all transactions.</li></ul> */
-  balance_affecting_records_only?: string;
+  balance_affecting_records_only?: string | undefined;
   /** The number of items to return in the response. So, the combination of `page=1` and `page_size=20` returns the first 20 items. The combination of `page=2` and `page_size=20` returns the next 20 items. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The zero-relative start index of the entire list of items that are returned in the response. So, the combination of `page=1` and `page_size=20` returns the first 20 items. */
-  page?: number;
+  page?: number | undefined;
 }
 /** The PayPal reference ID type. */
 export type TransactionInfoPaypalReferenceIdType = "ODR" | "TXN" | "SUB" | "PAP";
 /** The transaction information. */
 export interface TransactionInfo {
   /** The ID of the PayPal account of the counterparty. */
-  paypal_account_id?: string;
+  paypal_account_id?: string | undefined;
   /** The PayPal-generated transaction ID. */
-  transaction_id?: string;
+  transaction_id?: string | undefined;
   /** The PayPal-generated base ID. PayPal exclusive. Cannot be altered. Defined as a related, pre-existing transaction or event. */
-  paypal_reference_id?: string;
+  paypal_reference_id?: string | undefined;
   /** The PayPal reference ID type. */
-  paypal_reference_id_type?: TransactionInfoPaypalReferenceIdType;
+  paypal_reference_id_type?: TransactionInfoPaypalReferenceIdType | undefined;
   /** A five-digit transaction event code that classifies the transaction type based on money movement and debit or credit. For example, <code>T0001</code>. See [Transaction event codes](/docs/integration/direct/transaction-search/transaction-event-codes/). */
-  transaction_event_code?: string;
+  transaction_event_code?: string | undefined;
   /** The date and time when work on a transaction began in the PayPal system, as expressed in the time zone of the account on this side of the payment. Specify the value in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  transaction_initiation_date?: string;
+  transaction_initiation_date?: string | undefined;
   /** The date and time when the transaction was last changed, as expressed in the time zone of the account on this side of the payment. Specify the value in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  transaction_updated_date?: string;
+  transaction_updated_date?: string | undefined;
   /** The all-inclusive gross transaction amount that was transferred between the sender and receiver through PayPal. */
-  transaction_amount?: Money;
+  transaction_amount?: Money | undefined;
   /** The PayPal fee amount. All transaction fees are included in this amount, which is the record of fee associated with the transaction.<blockquote><strong>Note:</strong> This field contains a value only when a transaction fee is applied and processed for this transaction.</blockquote> */
-  fee_amount?: Money;
+  fee_amount?: Money | undefined;
   /** The reduction in price offered for goods or services purchased.<blockquote><strong>Note:</strong> This discount is for a price reduction that is offered for other than that at a individual item level.</blockquote> */
-  discount_amount?: Money;
+  discount_amount?: Money | undefined;
   /** An insurance charge. Guarantees the quality or delivery of a product. */
-  insurance_amount?: Money;
+  insurance_amount?: Money | undefined;
   /** The PayPal- or merchant-reported sales tax amount for the transaction. */
-  sales_tax_amount?: Money;
+  sales_tax_amount?: Money | undefined;
   /** The PayPal- or merchant-reported shipping amount for the transaction. */
-  shipping_amount?: Money;
+  shipping_amount?: Money | undefined;
   /** The discount on the shipping amount. */
-  shipping_discount_amount?: Money;
+  shipping_discount_amount?: Money | undefined;
   /** The tax on the shipping service. */
-  shipping_tax_amount?: Money;
+  shipping_tax_amount?: Money | undefined;
   /** The special amount that is added to the transaction. */
-  other_amount?: Money;
+  other_amount?: Money | undefined;
   /** The tip. */
-  tip_amount?: Money;
+  tip_amount?: Money | undefined;
   /** A code that indicates the transaction status. Value is:<table><thead><tr><th>Status&nbsp;code</th><th>Description</th></tr></thead><tbody><tr><td><code>D</code></td><td>PayPal or merchant rules denied the transaction.</td></tr><tr><td><code>P</code></td><td>The transaction is pending. The transaction was created but waits for another payment process to complete, such as an ACH transaction, before the status changes to <code>S</code>.</td></tr><tr><td><code>S</code></td><td>The transaction successfully completed without a denial and after any pending statuses.</td></tr><tr><td><code>V</code></td><td>A successful transaction was fully reversed and funds were refunded to the original sender.</td></tr></tbody></table> */
-  transaction_status?: string;
+  transaction_status?: string | undefined;
   /** The subject of payment. The payer passes this value to the payee. The payer controls this data through the interface through which he or she sends the data. */
-  transaction_subject?: string;
+  transaction_subject?: string | undefined;
   /** A special note that the payer passes to the payee. Might contain special customer requests, such as shipping instructions. */
-  transaction_note?: string;
+  transaction_note?: string | undefined;
   /** The payment tracking ID, which is a unique ID that partners specify to either get information about a payment or request a refund. */
-  payment_tracking_id?: string;
+  payment_tracking_id?: string | undefined;
   /** The bank reference ID. The bank provides this value for an ACH transaction. */
-  bank_reference_id?: string;
+  bank_reference_id?: string | undefined;
   /** The ending balance.<blockquote><strong>Note:</strong> If you specify one or more optional query parameters, the <code>ending_balance</code> response field is empty.</blockquote> */
-  ending_balance?: Money;
+  ending_balance?: Money | undefined;
   /** The available amount of transaction currency during the completion of this transaction. */
-  available_balance?: Money;
+  available_balance?: Money | undefined;
   /** The invoice ID that is sent by the merchant with the transaction.<blockquote><strong>Note:</strong> If an invoice ID was sent with the capture request, the value is reported. Otherwise, the invoice ID of the authorizing transaction is reported.</blockquote> */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The merchant-provided custom text.<blockquote><strong>Note:</strong> Usually, this field includes the unique ID for payments made with MassPay type transaction.</blockquote> */
-  custom_field?: string;
+  custom_field?: string | undefined;
   /** Indicates whether the transaction is eligible for protection. Value is:<ul><li><code>01</code>. Eligible.</li><li><code>02</code>. Not eligible</li><li><code>03</code>. Partially eligible.</li></ul> */
-  protection_eligibility?: string;
+  protection_eligibility?: string | undefined;
   /** The credit term. The time span covered by the installment payments as expressed in the term length plus the length time unit code. */
-  credit_term?: string;
+  credit_term?: string | undefined;
   /** The overall amount of the credit transaction fee. */
-  credit_transactional_fee?: Money;
+  credit_transactional_fee?: Money | undefined;
   /** The overall amount of the credit promotional fee. */
-  credit_promotional_fee?: Money;
+  credit_promotional_fee?: Money | undefined;
   /** The annual percentage rate (APR). Determines the amount of interest a consumer pays to finance a purchase at a merchant. */
-  annual_percentage_rate?: string;
+  annual_percentage_rate?: string | undefined;
   /** The payment method that was used for a transaction. Value is <code>PUI</code>, <code>installment</code>, or <code>mEFT</code>.<blockquote><strong>Note:</strong> Appears only for pay upon invoice (PUI), installment, and mEFT transactions. Merchants and partners in the EMEA region can use this attribute to note transactions that attract turn-over tax.</blockquote> */
-  payment_method_type?: string;
+  payment_method_type?: string | undefined;
   /** A high-level classification of the type of financial instrument that was used to fund a payment. The pattern is not provided because the value is defined by an external party. E.g. PAYPAL, CREDIT_CARD, DEBIT_CARD, APPLE_PAY, BANK , VENMO ,Pay Upon Invoice, Pay Later or <a href="https://developer.paypal.com/docs/checkout/integration-features/alternative-payment-methods/" title="Link to available APM list">Alternative Payment Methods (APM)</a>. */
-  instrument_type?: string;
+  instrument_type?: string | undefined;
   /** A finer-grained classification of the financial instrument that was used to fund a payment. For example, `Visa card` or a `Mastercard` for a credit card, BANKCARD ,DISCOVER etc. The pattern is not provided because the value is defined by an external party. */
-  instrument_sub_type?: string;
+  instrument_sub_type?: string | undefined;
 }
 /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
 export interface Phone {
@@ -189,185 +189,185 @@ export interface Phone {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
 }
 /** The name of the party. */
 export interface Name {
   /** The prefix, or title, to the party's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
   /** When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
   /** The suffix for the party's name. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business. */
-  alternate_full_name?: string;
+  alternate_full_name?: string | undefined;
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** A simple postal address with coarse-grained fields. Do not use for an international address. Use for backward compatibility only. Does not contain phone. */
 export interface Address {
   /** The first line of the address. For example, number or street. */
   line1: string;
   /** The second line of the address. For example, suite or apartment number. */
-  line2?: string;
+  line2?: string | undefined;
   /** The city name. */
   city: string;
   /** The [code](/docs/api/reference/state-codes/) for a US state or the equivalent for other countries. Required for transactions if the address is in one of these countries: [Argentina](/docs/api/reference/state-codes/#argentina), [Brazil](/docs/api/reference/state-codes/#brazil), [Canada](/docs/api/reference/state-codes/#canada), [China](/docs/api/reference/state-codes/#china), [India](/docs/api/reference/state-codes/#india), [Italy](/docs/api/reference/state-codes/#italy), [Japan](/docs/api/reference/state-codes/#japan), [Mexico](/docs/api/reference/state-codes/#mexico), [Thailand](/docs/api/reference/state-codes/#thailand), or [United States](/docs/api/reference/state-codes/#usa). Maximum length is 40 single-byte characters. */
-  state?: string;
+  state?: string | undefined;
   country_code: string;
   /** The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
 }
 /** The payer information. */
 export interface PayerInfo {
   /** The PayPal` customer account ID. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The email address of the payer. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The primary phone number of the payer. */
-  phone_number?: Phone;
+  phone_number?: Phone | undefined;
   /** The address status of the payer. Value is either:<ul><li><code>Y</code>. Verified.</li><li><code>N</code>. Not verified.</li></ul> */
-  address_status?: string;
+  address_status?: string | undefined;
   /** The status of the payer. Value is `Y` or `N`. */
-  payer_status?: string;
+  payer_status?: string | undefined;
   /** The payer name. */
-  payer_name?: Name;
+  payer_name?: Name | undefined;
   /** The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region of the payer.<blockquote><strong>Note:</strong> The country code for Great Britain is <code>GB</code> and not <code>UK</code> as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.</blockquote> */
-  country_code?: string;
+  country_code?: string | undefined;
   /** The payer address. */
-  address?: Address;
+  address?: Address | undefined;
 }
 /** The shipping information. */
 export interface ShippingInfo {
   /** The recipient's name. */
-  name?: string;
+  name?: string | undefined;
   /** The shipping method that is associated with this order. */
-  method?: string;
+  method?: string | undefined;
   /** The shipping address that is associated with this order. */
-  address?: Address;
+  address?: Address | undefined;
   /** The secondary shipping address that is associated with this order. */
-  secondary_shipping_address?: Address;
+  secondary_shipping_address?: Address | undefined;
 }
 /** The tax levied by a government on the purchase of goods or services. */
 export interface ItemDetailTaxAmount {
   /** The tax levied by a government on the purchase of goods or services. */
-  tax_amount?: Money;
+  tax_amount?: Money | undefined;
 }
 /** An array of tax amounts levied by a government on the purchase of goods or services. */
 export type ItemDetailTaxAmountList = Array<ItemDetailTaxAmount>;
 /** A checkout option as a name-and-value pair. */
 export interface CheckoutOption {
   /** The checkout option name, such as `color` or `texture`. */
-  checkout_option_name?: string;
+  checkout_option_name?: string | undefined;
   /** The checkout option value. For example, the checkout option `color` might be `blue` or `red` while the checkout option `texture` might be `smooth` or `rippled`. */
-  checkout_option_value?: string;
+  checkout_option_value?: string | undefined;
 }
 /** An array of checkout options. Each option has a name and value. */
 export type CheckoutOptionList = Array<CheckoutOption>;
 /** The item details. */
 export interface ItemDetail {
   /** An item code that identifies a merchant's goods or service. */
-  item_code?: string;
+  item_code?: string | undefined;
   /** The item name. */
-  item_name?: string;
+  item_name?: string | undefined;
   /** The item description. */
-  item_description?: string;
+  item_description?: string | undefined;
   /** The item options. Describes option choices on the purchase of the item in some detail. */
-  item_options?: string;
+  item_options?: string | undefined;
   /** The number of purchased units of goods or a service. */
-  item_quantity?: string;
+  item_quantity?: string | undefined;
   /** The cost for each instance of goods or a service. */
-  item_unit_price?: Money;
+  item_unit_price?: Money | undefined;
   /** The amount of the payment for the item. */
-  item_amount?: Money;
+  item_amount?: Money | undefined;
   /** The reduction in price associated with goods or a service. */
-  discount_amount?: Money;
+  discount_amount?: Money | undefined;
   /** An increment or decrement to a purchase amount. */
-  adjustment_amount?: Money;
+  adjustment_amount?: Money | undefined;
   /** The amount of money charged for gift wrapping an item. */
-  gift_wrap_amount?: Money;
+  gift_wrap_amount?: Money | undefined;
   /** A rate, expressed in hundreds, that is used to calculate a levy for the purchase of goods or services. */
-  tax_percentage?: string;
-  tax_amounts?: ItemDetailTaxAmountList;
+  tax_percentage?: string | undefined;
+  tax_amounts?: ItemDetailTaxAmountList | undefined;
   /** The delivery cost. */
-  basic_shipping_amount?: Money;
+  basic_shipping_amount?: Money | undefined;
   /** The cost for expedited delivery of the goods. */
-  extra_shipping_amount?: Money;
+  extra_shipping_amount?: Money | undefined;
   /** A charge for processing the purchase of goods or services. */
-  handling_amount?: Money;
+  handling_amount?: Money | undefined;
   /** A charge for guaranteeing the quality of a product or delivery of a product. */
-  insurance_amount?: Money;
+  insurance_amount?: Money | undefined;
   /** The sum of all factors, item cost, discounts, tax, shipping, and so on, that goes into the cost of an item. */
-  total_item_amount?: Money;
+  total_item_amount?: Money | undefined;
   /** The invoice number. An alphanumeric string that identifies a billing for a merchant. */
-  invoice_number?: string;
-  checkout_options?: CheckoutOptionList;
+  invoice_number?: string | undefined;
+  checkout_options?: CheckoutOptionList | undefined;
 }
 /** An array of item details. */
 export type ItemDetailList = Array<ItemDetail>;
 /** The cart information. */
 export interface CartInfo {
-  item_details?: ItemDetailList;
+  item_details?: ItemDetailList | undefined;
   /** Indicates whether the item amount or the shipping amount already includes tax. */
-  tax_inclusive?: boolean;
+  tax_inclusive?: boolean | undefined;
   /** The ID of the invoice. Appears for only PayPal-generated invoices. */
-  paypal_invoice_id?: string;
+  paypal_invoice_id?: string | undefined;
 }
 /** The store information. */
 export interface StoreInfo {
   /** The ID of a store for a merchant in the system of record. */
-  store_id?: string;
+  store_id?: string | undefined;
   /** The terminal ID for the checkout stand in a merchant store. */
-  terminal_id?: string;
+  terminal_id?: string | undefined;
 }
 /** The auction information. */
 export interface AuctionInfo {
   /** The name of the auction site. */
-  auction_site?: string;
+  auction_site?: string | undefined;
   /** The auction site URL. */
-  auction_item_site?: string;
+  auction_item_site?: string | undefined;
   /** The ID of the buyer who makes the purchase in the auction. This ID might be different from the payer ID provided for the payment. */
-  auction_buyer_id?: string;
+  auction_buyer_id?: string | undefined;
   /** The date and time when the auction closes, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  auction_closing_date?: string;
+  auction_closing_date?: string | undefined;
 }
 /** The incentive details. */
 export interface IncentiveDetail {
   /** The type of incentive, such as a special offer or coupon. */
-  incentive_type?: string;
+  incentive_type?: string | undefined;
   /** The code that identifies an incentive, such as a coupon. */
-  incentive_code?: string;
+  incentive_code?: string | undefined;
   /** The incentive amount. */
-  incentive_amount?: Money;
+  incentive_amount?: Money | undefined;
   /** The incentive program code that identifies a merchant loyalty or incentive program. */
-  incentive_program_code?: string;
+  incentive_program_code?: string | undefined;
 }
 /** An array of incentive details. */
 export type IncentiveDetailList = Array<IncentiveDetail>;
 /** The incentive details. */
 export interface IncentiveInfo {
-  incentive_details?: IncentiveDetailList;
+  incentive_details?: IncentiveDetailList | undefined;
 }
 /** The transaction details. */
 export interface TransactionDetail {
   /** The transaction information. */
-  transaction_info?: TransactionInfo;
+  transaction_info?: TransactionInfo | undefined;
   /** The payer information. */
-  payer_info?: PayerInfo;
+  payer_info?: PayerInfo | undefined;
   /** The shipping information. */
-  shipping_info?: ShippingInfo;
+  shipping_info?: ShippingInfo | undefined;
   /** The cart information. */
-  cart_info?: CartInfo;
+  cart_info?: CartInfo | undefined;
   /** The store information. */
-  store_info?: StoreInfo;
+  store_info?: StoreInfo | undefined;
   /** The auction information. */
-  auction_info?: AuctionInfo;
+  auction_info?: AuctionInfo | undefined;
   /** The incentive information. */
-  incentive_info?: IncentiveInfo;
+  incentive_info?: IncentiveInfo | undefined;
 }
 /** An array of transaction detail objects. */
 export type TransactionDetailList = Array<TransactionDetail>;
@@ -388,28 +388,28 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
 /** The search response information. */
 export interface SearchResponse {
-  transaction_details?: TransactionDetailList;
+  transaction_details?: TransactionDetailList | undefined;
   /** The merchant account number. */
-  account_number?: string;
+  account_number?: string | undefined;
   /** The start date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  start_date?: string;
+  start_date?: string | undefined;
   /** The end date and time or the last date when the data can be served, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  end_date?: string;
+  end_date?: string | undefined;
   /** The date and time when the data was last refreshed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_refreshed_datetime?: string;
+  last_refreshed_datetime?: string | undefined;
   /** A zero-relative index of transactions. */
-  page?: number;
+  page?: number | undefined;
   /** The total number of transactions as an integer beginning with the specified `page` in the full result and not just in this response. */
-  total_items?: number;
+  total_items?: number | undefined;
   /** The total number of pages, as an `integer`, when the `total_items` is divided into pages of the specified `page_size`. */
-  total_pages?: number;
-  links?: LinkDescriptionList;
+  total_pages?: number | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export type GetBalanceError = BadRequest | Forbidden | PaypalOpError;
 /** List all balances List all balances. Specify date time to list balances for that time that appear in the response.<blockquote><strong>Notes:</strong> <ul><li>It takes a maximum of three hours for balances to appear in the list balances call.</li><li>This call lists balances upto the previous three years.</li></ul></blockquote> */

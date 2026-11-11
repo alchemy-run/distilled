@@ -37,11 +37,11 @@ export interface GetMessagingPreferencesOptOutRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Message category key to list opt-outs for. If omitted, lists recipients opted out of all marketing messages. */
-  category_key?: string;
-  page?: number;
-  page_size?: number;
+  category_key?: string | undefined;
+  page?: number | undefined;
+  page_size?: number | undefined;
   /** Case-insensitive substring match on the recipient identifier. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface MessagePreferences {
   /** Server-assigned UUID for this recipient's preference record. */
@@ -78,13 +78,13 @@ export interface MessagingPreferencesAddOptOutCreateRequest {
   /** The recipient identifier to opt out (e.g. email address). */
   identifier: string;
   /** Optional message category key. If omitted, the recipient is opted out of all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 export interface BulkOptOutEntry {
   /** The recipient identifier to opt out (e.g. email address). */
   identifier: string;
   /** Message category key for this recipient. Overrides the request-level category_key. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 /** Recipients to opt out, at most 1000 per request. */
 export type MessagingPreferencesBulkAddOptOutsCreateRequestOptOutsList = Array<BulkOptOutEntry>;
@@ -94,7 +94,7 @@ export interface MessagingPreferencesBulkAddOptOutsCreateRequest {
   /** Recipients to opt out, at most 1000 per request. */
   opt_outs: MessagingPreferencesBulkAddOptOutsCreateRequestOptOutsList;
   /** Message category key applied to entries without their own. If omitted, recipients are opted out of all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 /** The first few entry-level problems, so the caller can fix their list. */
 export type BulkAddOptOutsResultErrorsList = Array<string>;
@@ -112,14 +112,14 @@ export interface MessagingPreferencesExportOptOutsCsvRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Message category key to export. If omitted, exports recipients opted out of all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 export interface MessagingPreferencesExportOptOutsCsvRetrieveResponse {}
 export interface MessagingPreferencesGenerateLinkCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Recipient to generate the link for. Defaults to the requesting user's own email address. */
-  recipient?: string;
+  recipient?: string | undefined;
 }
 export interface PreferencesLink {
   /** Token-gated URL where the recipient can manage their preferences. */
@@ -131,7 +131,7 @@ export interface MessagingPreferencesRemoveOptOutCreateRequest {
   /** The recipient identifier to opt back in (e.g. email address). */
   identifier: string;
   /** Optional message category key. If omitted, the recipient is opted back in to all marketing messages. */
-  category_key?: string;
+  category_key?: string | undefined;
 }
 export type GetMessagingPreferencesOptOutError = NotFound | PosthogOpError;
 /** List recipients opted out of a message category Get opt-outs filtered by category or overall opt-outs if no category specified */

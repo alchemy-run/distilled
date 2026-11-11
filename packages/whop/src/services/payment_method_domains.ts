@@ -63,11 +63,11 @@ export class NotFound
 
 export interface CreatePaymentMethodDomainRequest {
   /** Account to register the domain for (`biz_` tag). Required when authenticating as a user; an account API key supplies its own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Hostname to register (e.g. `checkout.shinetime.example`). */
   hostname: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Wallet provider the domain is registered with. */
 export type PaymentMethodDomainProvider = "apple";
@@ -107,29 +107,29 @@ export type ListPaymentMethodDomainsRequestOrder = "created_at";
 export type ListPaymentMethodDomainsRequestDirection = "asc" | "desc";
 export interface ListPaymentMethodDomainsRequest {
   /** Only domains registered for this account (`biz_` tag). Defaults to the caller's account plus its connected accounts. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only the domain with this exact hostname. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Only domains with this verification status. */
-  status?: ListPaymentMethodDomainsRequestStatus | (string & {});
+  status?: ListPaymentMethodDomainsRequestStatus | (string & {}) | undefined;
   /** Only domains registered with this wallet provider. */
-  provider?: ListPaymentMethodDomainsRequestProvider | (string & {});
+  provider?: ListPaymentMethodDomainsRequestProvider | (string & {}) | undefined;
   /** Only domains created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only domains created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Sort field. */
-  order?: ListPaymentMethodDomainsRequestOrder | (string & {});
+  order?: ListPaymentMethodDomainsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListPaymentMethodDomainsRequestDirection | (string & {});
+  direction?: ListPaymentMethodDomainsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListPaymentMethodDomainsResponseDataList = Array<PaymentMethodDomain>;
 export interface ListPaymentMethodDomainsResponsePageInfo {
@@ -146,7 +146,7 @@ export interface VerifyPaymentMethodDomainRequest {
   /** The unique identifier of the payment method domain, prefixed `pmd_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CreatePaymentMethodDomainError =
   | BadRequest

@@ -65,7 +65,7 @@ export interface ActivatePaymentRuleRequest {
   /** The payment rule ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply. */
 export type PaymentRuleAction = "allow" | "block" | "review" | "enforce_3ds";
@@ -171,23 +171,23 @@ export interface CreatePaymentRuleRequestConditions {
 export type CreatePaymentRuleRequestMetadataMap = { [key: string]: string | undefined };
 export interface CreatePaymentRuleRequest {
   /** The account to create the rule on. Defaults to the account the request is acting for. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** What this account's rule requests when every condition matches. One applicable account-rule action wins, in this order: `allow`, `block`, `review`, `enforce_3ds`. An `allow` overrides this account's other rules, never Whop's own fraud controls. A `review` requests authorization without capture for an eligible on-session card payment through Whop Payments. Automatic capture is scheduled for 48 hours after authorization; capture or void the payment before then to decide sooner. Capture may complete later or fail. Review is skipped for unsupported methods, off-session payments, and payments already configured for manual capture. An `enforce_3ds` is skipped when the account rule cannot apply a challenge. Other 3DS requirements still apply. */
   action: CreatePaymentRuleRequestAction | (string & {});
   /** The conditions a payment is matched against. Up to 10 conditions, and 8 KiB once serialized. */
   conditions: CreatePaymentRuleRequestConditions;
   /** Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value. */
-  metadata?: CreatePaymentRuleRequestMetadataMap;
+  metadata?: CreatePaymentRuleRequestMetadataMap | undefined;
   /** A name for this rule. Up to 255 characters. */
   name: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface DeactivatePaymentRuleRequest {
   /** The payment rule ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface DeletePaymentRuleRequest {
   /** The payment rule ID. */
@@ -260,23 +260,23 @@ export type ListPaymentRulesRequestOrder = "created_at";
 export type ListPaymentRulesRequestDirection = "asc" | "desc";
 export interface ListPaymentRulesRequest {
   /** Only return rules belonging to this account. Defaults to the account the request is acting for. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return rules with this status. */
-  status?: ListPaymentRulesRequestStatus | (string & {});
+  status?: ListPaymentRulesRequestStatus | (string & {}) | undefined;
   /** Only return rules that take this action. */
-  action?: ListPaymentRulesRequestAction | (string & {});
+  action?: ListPaymentRulesRequestAction | (string & {}) | undefined;
   /** The field to sort by. */
-  order?: ListPaymentRulesRequestOrder | (string & {});
+  order?: ListPaymentRulesRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListPaymentRulesRequestDirection | (string & {});
+  direction?: ListPaymentRulesRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListPaymentRulesResponseDataList = Array<PaymentRule>;
 export type ListPaymentRulesResponsePageInfo = ListPaymentRuleFieldsResponsePageInfo;
@@ -329,7 +329,7 @@ export interface ReplacePaymentRuleRequest {
   /** The conditions a payment is matched against. Up to 10 conditions, and 8 KiB once serialized. */
   conditions: ReplacePaymentRuleRequestConditions;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value. */
 export type UpdatePaymentRuleRequestMetadataMap = { [key: string]: string | undefined };
@@ -337,9 +337,9 @@ export interface UpdatePaymentRuleRequest {
   /** The payment rule ID. */
   id: string;
   /** Custom string-to-string values for your integration. Maximum 50 keys, 40 characters per key, 500 characters per value. */
-  metadata?: UpdatePaymentRuleRequestMetadataMap;
+  metadata?: UpdatePaymentRuleRequestMetadataMap | undefined;
   /** A name for this rule. Up to 255 characters. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ActivatePaymentRuleError = Conflict | WhopOpError;
 /** Activate a payment rule */

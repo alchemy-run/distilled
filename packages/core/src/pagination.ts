@@ -20,6 +20,7 @@ import type * as Arr from "effect/Array";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
+import { SdkError } from "./sdk-error.ts";
 
 /**
  * Get a value from an object using a dot-separated path (e.g.
@@ -72,13 +73,17 @@ export const getItems = (obj: unknown, path: string): readonly unknown[] => {
 /** Pagination trait describing how to navigate between pages. */
 export interface PaginatedTrait {
   /** Pagination strategy */
-  readonly mode?: "token" | "page" | "cursor" | "relay" | "link" | "single";
+  readonly mode?: "token" | "page" | "cursor" | "relay" | "link" | "keyset" | "single";
   /**
    * The name of the input member containing the page/cursor token. In link
    * mode it is also the query parameter read from the `rel="next"` URL.
    */
   readonly inputToken?: string;
-  /** The path to the output member containing the next page/cursor token */
+  /**
+   * The path to the output member containing the next page/cursor token. In
+   * keyset mode it is a path within one item: the key the next page starts
+   * after.
+   */
   readonly outputToken?: string;
   /**
    * The path to the output member containing the paginated items. Segments
@@ -103,7 +108,14 @@ export type PaginationStrategy = <Input extends Record<string, unknown>, Output,
   pagination: PaginatedTrait,
 ) => Stream.Stream<Output, E, R>;
 
-const missingPaginationConfig = (kind: string) => Stream.die(new Error(kind));
+/**
+ * The stream of a paginated operation whose trait lacks a field its
+ * strategy reads: it fails with {@link SdkError} (part of every
+ * operation's error channel, so the strategy's `E` is cast to hold it).
+ * The generator refuses such traits.
+ */
+export const missingPaginationConfig = (message: string): Stream.Stream<never> =>
+  Stream.fail(new SdkError({ message })) as Stream.Stream<never>;
 
 /**
  * Whether a continuation token/cursor returned by a paginated operation
@@ -272,6 +284,64 @@ export const paginateToken = <Input extends Record<string, unknown>, Output, E, 
 
       return [response, nextState] as const;
     }),
+  );
+};
+
+// ============================================================================
+// Keyset Pagination
+// ============================================================================
+
+/** `input` with the value at the dot-separated `path` replaced (copying each level). */
+const setPath = (input: Record<string, unknown>, path: string, value: unknown): any => {
+  const [head, ...rest] = path.split(".");
+  const key = head!;
+  if (rest.length === 0) return { ...input, [key]: value };
+  const child = input[key];
+  return {
+    ...input,
+    [key]: setPath(
+      child !== null && typeof child === "object" ? (child as Record<string, unknown>) : {},
+      rest.join("."),
+      value,
+    ),
+  };
+};
+
+/**
+ * Stream of pages using keyset pagination: the next request starts after
+ * the key of the page's last item. `inputToken` is the input member the key
+ * goes to and `outputToken` the key's path within an item (both may be
+ * dot-separated: Modal's `List*` calls take `pagination.createdBefore` and
+ * key on each item's `createdAt`). Traversal ends on an empty page, a page
+ * smaller than the requested `pageSize`, or a key that doesn't advance.
+ */
+export const paginateKeyset = <Input extends Record<string, unknown>, Output, E, R>(
+  operation: (input: Input) => Effect.Effect<Output, E, R>,
+  input: Input,
+  pagination: PaginatedTrait,
+): Stream.Stream<Output, E, R> => {
+  const { inputToken, outputToken, items } = pagination;
+  if (!inputToken || !outputToken || !items) {
+    return missingPaginationConfig("Keyset pagination requires inputToken, outputToken and items");
+  }
+  const limit = pagination.pageSize ? getPath(input, pagination.pageSize) : undefined;
+  type State = { request: Input; key: unknown } | undefined;
+  return Stream.unfold({ request: input, key: getPath(input, inputToken) } as State, (state) =>
+    state === undefined
+      ? Effect.succeed(undefined)
+      : Effect.map(operation(state.request), (response) => {
+          const page = getItems(response, items);
+          const key = page.length > 0 ? getPath(page[page.length - 1], outputToken) : undefined;
+          const done =
+            page.length === 0 ||
+            isTerminalToken(key) ||
+            key === state.key ||
+            (typeof limit === "number" && page.length < limit);
+          return [
+            response,
+            done ? undefined : { request: setPath(state.request, inputToken, key), key },
+          ] as const;
+        }),
   );
 };
 
@@ -453,6 +523,8 @@ export const paginateWithDefaults: PaginationStrategy = (operation, input, pagin
       return paginateRelay(operation, input, pagination);
     case "link":
       return paginateLink(operation, input, pagination);
+    case "keyset":
+      return paginateKeyset(operation, input, pagination);
     case "single":
       return paginateSingle(operation, input, pagination);
     case "token":

@@ -79,8 +79,6 @@ export interface GetLoadBalancerTypeResponseLoadBalancerType {
   max_targets: number;
   /** Number of SSL Certificates that can be assigned to a single Load Balancer. */
   max_assigned_certificates: number;
-  /** **Deprecated:** This field is deprecated. Use the `deprecation` object instead. Point in time when the Load Balancer type is deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetLoadBalancerTypeResponseLoadBalancerTypeDeprecation | null;
   /** Price per [Location](#tag/locations). */
@@ -91,11 +89,11 @@ export interface GetLoadBalancerTypeResponse {
 }
 export interface ListLoadBalancerTypesRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
 export type ListLoadBalancerTypesResponseLoadBalancerTypesItemDeprecation =
@@ -129,8 +127,6 @@ export interface ListLoadBalancerTypesResponseLoadBalancerTypesItem {
   max_targets: number;
   /** Number of SSL Certificates that can be assigned to a single Load Balancer. */
   max_assigned_certificates: number;
-  /** **Deprecated:** This field is deprecated. Use the `deprecation` object instead. Point in time when the Load Balancer type is deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetLoadBalancerTypeResponseLoadBalancerTypeDeprecation | null;
   /** Price per [Location](#tag/locations). */
@@ -263,7 +259,6 @@ function __c1(j: number): any {
           max_services: S.Number,
           max_targets: S.Number,
           max_assigned_certificates: S.Number,
-          deprecated: S.NullOr(S.String),
           deprecation: S.NullOr(__S(8, __c1, 0)),
           prices: __S(11, __c1, 3),
         }),

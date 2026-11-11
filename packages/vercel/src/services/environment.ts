@@ -83,15 +83,15 @@ export interface CreateCustomEnvironmentRequest {
   /** The unique project identifier or the project name */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Description of the custom environment. This is optional. */
-  description?: string;
+  description?: string | undefined;
   /** How we want to determine a matching branch. This is optional. */
-  branchMatcher?: CreateCustomEnvironmentRequestBranchMatcher;
+  branchMatcher?: CreateCustomEnvironmentRequestBranchMatcher | undefined;
   /** Where to copy environment variables from. This is optional. */
-  copyEnvVarsFrom?: string;
+  copyEnvVarsFrom?: string | undefined;
 }
 /** The type of matching to perform */
 export type CreateCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
@@ -118,16 +118,19 @@ export type CreateCustomEnvironmentResponseDomainsItemVerificationList =
 /** List of domains associated with this environment */
 export interface CreateCustomEnvironmentResponseDomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: CreateCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | CreateCustomEnvironmentResponseDomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: CreateCustomEnvironmentResponseDomainsItemVerificationList;
+  verification?: CreateCustomEnvironmentResponseDomainsItemVerificationList | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -138,15 +141,17 @@ export type CreateCustomEnvironmentResponseDomainsList =
 export type CreateCustomEnvironmentResponseType = "development" | "preview" | "production";
 export interface CreateCustomEnvironmentResponse {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: CreateCustomEnvironmentResponseBranchMatcher;
+  branchMatcher?: CreateCustomEnvironmentResponseBranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: CreateCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | CreateCustomEnvironmentResponseCurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: CreateCustomEnvironmentResponseDomainsList;
+  domains?: CreateCustomEnvironmentResponseDomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -162,7 +167,7 @@ export interface CreateSharedEnvVariableRequestEvsItem {
   /** The value of the Shared Environment Variable */
   value: string;
   /** A comment to add context on what this Shared Environment Variable is for */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type CreateSharedEnvVariableRequestEvsList = Array<CreateSharedEnvVariableRequestEvsItem>;
 /** The type of environment variable */
@@ -176,32 +181,32 @@ export type CreateSharedEnvVariableRequestTargetList = Array<
 export type CreateSharedEnvVariableRequestProjectIdList = Array<string>;
 export interface CreateSharedEnvVariableRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   evs: CreateSharedEnvVariableRequestEvsList;
   /** The type of environment variable */
-  type?: CreateSharedEnvVariableRequestType | (string & {});
+  type?: CreateSharedEnvVariableRequestType | (string & {}) | undefined;
   /** The target environment of the Shared Environment Variable */
-  target?: CreateSharedEnvVariableRequestTargetList;
+  target?: CreateSharedEnvVariableRequestTargetList | undefined;
   /** Associate a Shared Environment Variable to projects. */
-  projectId?: CreateSharedEnvVariableRequestProjectIdList;
+  projectId?: CreateSharedEnvVariableRequestProjectIdList | undefined;
 }
 /** The custom environment IDs that this Shared Env Var is scoped to. */
 export type CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList = Array<string>;
 export type CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type = "user";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
-  name?: string | null;
+  name?: string | null | undefined;
   type: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase0Type;
   username: string;
 }
 export type CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type = "app";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
   name: string;
   type: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipalCase1Type;
@@ -227,44 +232,48 @@ export type CreateSharedEnvVariableResponseCreatedItemType =
   | "system";
 export interface CreateSharedEnvVariableResponseCreatedItem {
   /** whether or not this env varible applies to custom environments */
-  applyToAllCustomEnvironments?: boolean;
+  applyToAllCustomEnvironments?: boolean | undefined;
   /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
+  comment?: string | undefined;
   /** The date when the Shared Env Var was created. */
-  created?: string;
+  created?: string | undefined;
   /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList;
+  customEnvironmentIds?:
+    | CreateSharedEnvVariableResponseCreatedItemCustomEnvironmentIdsList
+    | undefined;
   /** whether or not this env variable is decrypted */
-  decrypted?: boolean;
+  decrypted?: boolean | undefined;
   /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
+  deletedBy?: string | null | undefined;
   /** The unique identifier of the Shared Env Var. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Shared Env Var. */
-  key?: string;
+  key?: string | undefined;
   /** The last editor full name or username. */
-  lastEditedByDisplayName?: string;
-  lastEditedByPrincipal?: CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal;
+  lastEditedByDisplayName?: string | undefined;
+  lastEditedByPrincipal?:
+    | CreateSharedEnvVariableResponseCreatedItemLastEditedByPrincipal
+    | undefined;
   /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
+  ownerId?: string | null | undefined;
   /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: CreateSharedEnvVariableResponseCreatedItemProjectIdList;
+  projectId?: CreateSharedEnvVariableResponseCreatedItemProjectIdList | undefined;
   /** environments this env variable targets */
-  target?: CreateSharedEnvVariableResponseCreatedItemTargetList;
+  target?: CreateSharedEnvVariableResponseCreatedItemTargetList | undefined;
   /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: CreateSharedEnvVariableResponseCreatedItemType;
+  type?: CreateSharedEnvVariableResponseCreatedItemType | undefined;
   /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
+  updatedBy?: string | null | undefined;
   /** The value of the Shared Env Var. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CreateSharedEnvVariableResponseCreatedList =
   Array<CreateSharedEnvVariableResponseCreatedItem>;
@@ -297,17 +306,17 @@ export type CreateSharedEnvVariableResponseFailedItemErrorValue =
   | string
   | CreateSharedEnvVariableResponseFailedItemErrorValueCase1List;
 export interface CreateSharedEnvVariableResponseFailedItemError {
-  action?: string;
+  action?: string | undefined;
   code: string;
-  envVarId?: string;
-  envVarKey?: string;
-  gitBranch?: string;
-  key?: string;
-  link?: string;
+  envVarId?: string | undefined;
+  envVarKey?: string | undefined;
+  gitBranch?: string | undefined;
+  key?: string | undefined;
+  link?: string | undefined;
   message: string;
-  project?: string;
-  target?: CreateSharedEnvVariableResponseFailedItemErrorTarget;
-  value?: CreateSharedEnvVariableResponseFailedItemErrorValue;
+  project?: string | undefined;
+  target?: CreateSharedEnvVariableResponseFailedItemErrorTarget | undefined;
+  value?: CreateSharedEnvVariableResponseFailedItemErrorValue | undefined;
 }
 export interface CreateSharedEnvVariableResponseFailedItem {
   error: CreateSharedEnvVariableResponseFailedItemError;
@@ -322,9 +331,9 @@ export interface CreateSharedEnvVariableResponse {
 export type DeleteSharedEnvVariableRequestIdsList = Array<string>;
 export interface DeleteSharedEnvVariableRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** IDs of the Shared Environment Variables to delete */
   ids: DeleteSharedEnvVariableRequestIdsList;
 }
@@ -358,17 +367,17 @@ export type DeleteSharedEnvVariableResponseFailedItemErrorValue =
   | string
   | DeleteSharedEnvVariableResponseFailedItemErrorValueCase1List;
 export interface DeleteSharedEnvVariableResponseFailedItemError {
-  action?: string;
+  action?: string | undefined;
   code: string;
-  envVarId?: string;
-  envVarKey?: string;
-  gitBranch?: string;
-  key?: string;
-  link?: string;
+  envVarId?: string | undefined;
+  envVarKey?: string | undefined;
+  gitBranch?: string | undefined;
+  key?: string | undefined;
+  link?: string | undefined;
   message: string;
-  project?: string;
-  target?: DeleteSharedEnvVariableResponseFailedItemErrorTarget;
-  value?: DeleteSharedEnvVariableResponseFailedItemErrorValue;
+  project?: string | undefined;
+  target?: DeleteSharedEnvVariableResponseFailedItemErrorTarget | undefined;
+  value?: DeleteSharedEnvVariableResponseFailedItemErrorValue | undefined;
 }
 export interface DeleteSharedEnvVariableResponseFailedItem {
   error: DeleteSharedEnvVariableResponseFailedItemError;
@@ -385,9 +394,9 @@ export interface GetCustomEnvironmentRequest {
   /** The unique custom environment identifier within the project */
   environmentSlugOrId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The type of matching to perform */
 export type GetCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
@@ -410,16 +419,16 @@ export type GetCustomEnvironmentResponseDomainsItemVerificationList =
 /** List of domains associated with this environment */
 export interface GetCustomEnvironmentResponseDomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: GetCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?: GetCustomEnvironmentResponseDomainsItemRedirectStatusCode | null | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: GetCustomEnvironmentResponseDomainsItemVerificationList;
+  verification?: GetCustomEnvironmentResponseDomainsItemVerificationList | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -430,15 +439,15 @@ export type GetCustomEnvironmentResponseDomainsList =
 export type GetCustomEnvironmentResponseType = "development" | "preview" | "production";
 export interface GetCustomEnvironmentResponse {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: GetCustomEnvironmentResponseBranchMatcher;
+  branchMatcher?: GetCustomEnvironmentResponseBranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: GetCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  currentDeploymentAliases?: GetCustomEnvironmentResponseCurrentDeploymentAliasesList | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: GetCustomEnvironmentResponseDomainsList;
+  domains?: GetCustomEnvironmentResponseDomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -452,11 +461,11 @@ export interface GetProjectCustomEnvironmentsRequest {
   /** The unique project identifier or the project name */
   idOrName: string;
   /** Fetch custom environments for a specific git branch */
-  gitBranch?: string;
+  gitBranch?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The maximum number of custom environments allowed either by the team's plan type or a custom override. */
 export interface GetProjectCustomEnvironmentsResponseAccountLimit {
@@ -491,16 +500,21 @@ export type GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerif
 /** List of domains associated with this environment */
 export interface GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerificationList;
+  verification?:
+    | GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsItemVerificationList
+    | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -514,15 +528,17 @@ export type GetProjectCustomEnvironmentsResponseEnvironmentsItemType =
   | "production";
 export interface GetProjectCustomEnvironmentsResponseEnvironmentsItem {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher;
+  branchMatcher?: GetProjectCustomEnvironmentsResponseEnvironmentsItemBranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | GetProjectCustomEnvironmentsResponseEnvironmentsItemCurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList;
+  domains?: GetProjectCustomEnvironmentsResponseEnvironmentsItemDomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -543,25 +559,25 @@ export interface GetSharedEnvVarRequest {
   /** The unique ID for the Shared Environment Variable to get the decrypted value. */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The custom environment IDs that this Shared Env Var is scoped to. */
 export type GetSharedEnvVarResponseCustomEnvironmentIdsList = Array<string>;
 export type GetSharedEnvVarResponseLastEditedByPrincipalCase0Type = "user";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface GetSharedEnvVarResponseLastEditedByPrincipalCase0 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
-  name?: string | null;
+  name?: string | null | undefined;
   type: GetSharedEnvVarResponseLastEditedByPrincipalCase0Type;
   username: string;
 }
 export type GetSharedEnvVarResponseLastEditedByPrincipalCase1Type = "app";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface GetSharedEnvVarResponseLastEditedByPrincipalCase1 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
   name: string;
   type: GetSharedEnvVarResponseLastEditedByPrincipalCase1Type;
@@ -579,75 +595,75 @@ export type GetSharedEnvVarResponseTargetList = Array<GetSharedEnvVarResponseTar
 export type GetSharedEnvVarResponseType = "encrypted" | "plain" | "sensitive" | "system";
 export interface GetSharedEnvVarResponse {
   /** whether or not this env varible applies to custom environments */
-  applyToAllCustomEnvironments?: boolean;
+  applyToAllCustomEnvironments?: boolean | undefined;
   /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
+  comment?: string | undefined;
   /** The date when the Shared Env Var was created. */
-  created?: string;
+  created?: string | undefined;
   /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: GetSharedEnvVarResponseCustomEnvironmentIdsList;
+  customEnvironmentIds?: GetSharedEnvVarResponseCustomEnvironmentIdsList | undefined;
   /** whether or not this env variable is decrypted */
-  decrypted?: boolean;
+  decrypted?: boolean | undefined;
   /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
+  deletedBy?: string | null | undefined;
   /** The unique identifier of the Shared Env Var. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Shared Env Var. */
-  key?: string;
+  key?: string | undefined;
   /** The last editor full name or username. */
-  lastEditedByDisplayName?: string;
-  lastEditedByPrincipal?: GetSharedEnvVarResponseLastEditedByPrincipal;
+  lastEditedByDisplayName?: string | undefined;
+  lastEditedByPrincipal?: GetSharedEnvVarResponseLastEditedByPrincipal | undefined;
   /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
+  ownerId?: string | null | undefined;
   /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: GetSharedEnvVarResponseProjectIdList;
+  projectId?: GetSharedEnvVarResponseProjectIdList | undefined;
   /** environments this env variable targets */
-  target?: GetSharedEnvVarResponseTargetList;
+  target?: GetSharedEnvVarResponseTargetList | undefined;
   /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: GetSharedEnvVarResponseType;
+  type?: GetSharedEnvVarResponseType | undefined;
   /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
+  updatedBy?: string | null | undefined;
   /** The value of the Shared Env Var. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListSharedEnvVariableRequest {
-  search?: string;
+  search?: string | undefined;
   /** Filter SharedEnvVariables that belong to a project */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Filter SharedEnvVariables based on comma separated ids */
-  ids?: string;
+  ids?: string | undefined;
   /** Filter SharedEnvVariables based on comma separated ids */
-  exclude_ids?: string;
+  exclude_ids?: string | undefined;
   /** Filter SharedEnvVariables that belong to a project */
-  exclude_projectId?: string;
+  exclude_projectId?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The custom environment IDs that this Shared Env Var is scoped to. */
 export type ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList = Array<string>;
 export type ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type = "user";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
-  name?: string | null;
+  name?: string | null | undefined;
   type: ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase0Type;
   username: string;
 }
 export type ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type = "app";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
   name: string;
   type: ListSharedEnvVariableResponseDataItemLastEditedByPrincipalCase1Type;
@@ -678,45 +694,45 @@ export type ListSharedEnvVariableResponseDataItemType =
   | "system";
 export interface ListSharedEnvVariableResponseDataItem {
   /** whether or not this env varible applies to custom environments */
-  applyToAllCustomEnvironments?: boolean;
+  applyToAllCustomEnvironments?: boolean | undefined;
   /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
+  comment?: string | undefined;
   /** The date when the Shared Env Var was created. */
   created: string;
   /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList;
+  customEnvironmentIds?: ListSharedEnvVariableResponseDataItemCustomEnvironmentIdsList | undefined;
   /** whether or not this env variable is decrypted */
   decrypted: boolean;
   /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
+  deletedBy?: string | null | undefined;
   /** The unique identifier of the Shared Env Var. */
   id: string;
   /** The name of the Shared Env Var. */
   key: string;
   /** The last editor full name or username. */
-  lastEditedByDisplayName?: string;
-  lastEditedByPrincipal?: ListSharedEnvVariableResponseDataItemLastEditedByPrincipal;
+  lastEditedByDisplayName?: string | undefined;
+  lastEditedByPrincipal?: ListSharedEnvVariableResponseDataItemLastEditedByPrincipal | undefined;
   /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
+  ownerId?: string | null | undefined;
   /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: ListSharedEnvVariableResponseDataItemProjectIdList;
+  projectId?: ListSharedEnvVariableResponseDataItemProjectIdList | undefined;
   securityIssues: ListSharedEnvVariableResponseDataItemSecurityIssuesList;
   /** environments this env variable targets */
-  target?: ListSharedEnvVariableResponseDataItemTargetList;
+  target?: ListSharedEnvVariableResponseDataItemTargetList | undefined;
   /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: ListSharedEnvVariableResponseDataItemType;
+  type?: ListSharedEnvVariableResponseDataItemType | undefined;
   /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
+  updatedBy?: string | null | undefined;
   /** The value of the Shared Env Var. */
-  value?: string;
+  value?: string | undefined;
 }
 export type ListSharedEnvVariableResponseDataList = Array<ListSharedEnvVariableResponseDataItem>;
 /** This object contains information related to the pagination of the current request, including the necessary parameters to get the next or previous page of data. */
@@ -738,11 +754,11 @@ export interface RemoveCustomEnvironmentRequest {
   /** The unique custom environment identifier within the project */
   environmentSlugOrId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Delete Environment Variables that are not assigned to any environments. */
-  deleteUnassignedEnvironmentVariables?: boolean;
+  deleteUnassignedEnvironmentVariables?: boolean | undefined;
 }
 /** The type of matching to perform */
 export type RemoveCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
@@ -765,16 +781,19 @@ export type RemoveCustomEnvironmentResponseDomainsItemVerificationList =
 /** List of domains associated with this environment */
 export interface RemoveCustomEnvironmentResponseDomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: RemoveCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | RemoveCustomEnvironmentResponseDomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: RemoveCustomEnvironmentResponseDomainsItemVerificationList;
+  verification?: RemoveCustomEnvironmentResponseDomainsItemVerificationList | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -785,15 +804,17 @@ export type RemoveCustomEnvironmentResponseDomainsList =
 export type RemoveCustomEnvironmentResponseType = "development" | "preview" | "production";
 export interface RemoveCustomEnvironmentResponse {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: RemoveCustomEnvironmentResponseBranchMatcher;
+  branchMatcher?: RemoveCustomEnvironmentResponseBranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | RemoveCustomEnvironmentResponseCurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: RemoveCustomEnvironmentResponseDomainsList;
+  domains?: RemoveCustomEnvironmentResponseDomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -808,9 +829,9 @@ export interface UnlinkSharedEnvVariableRequest {
   id: string;
   projectId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UnlinkSharedEnvVariableResponse {
   id: string;
@@ -830,13 +851,13 @@ export interface UpdateCustomEnvironmentRequest {
   /** The unique custom environment identifier within the project */
   environmentSlugOrId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Description of the custom environment. This is optional. */
-  description?: string;
+  description?: string | undefined;
   /** How we want to determine a matching branch. This is optional. */
-  branchMatcher?: UpdateCustomEnvironmentRequestBranchMatcher | null;
+  branchMatcher?: UpdateCustomEnvironmentRequestBranchMatcher | null | undefined;
 }
 /** The type of matching to perform */
 export type UpdateCustomEnvironmentResponseBranchMatcherType = "endsWith" | "equals" | "startsWith";
@@ -859,16 +880,19 @@ export type UpdateCustomEnvironmentResponseDomainsItemVerificationList =
 /** List of domains associated with this environment */
 export interface UpdateCustomEnvironmentResponseDomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: UpdateCustomEnvironmentResponseDomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | UpdateCustomEnvironmentResponseDomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: UpdateCustomEnvironmentResponseDomainsItemVerificationList;
+  verification?: UpdateCustomEnvironmentResponseDomainsItemVerificationList | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -879,15 +903,17 @@ export type UpdateCustomEnvironmentResponseDomainsList =
 export type UpdateCustomEnvironmentResponseType = "development" | "preview" | "production";
 export interface UpdateCustomEnvironmentResponse {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: UpdateCustomEnvironmentResponseBranchMatcher;
+  branchMatcher?: UpdateCustomEnvironmentResponseBranchMatcher | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | UpdateCustomEnvironmentResponseCurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: UpdateCustomEnvironmentResponseDomainsList;
+  domains?: UpdateCustomEnvironmentResponseDomainsList | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -914,27 +940,27 @@ export type UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdatesUnlinkList
 /** Incrementally update project linking without specifying the full list */
 export interface UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdates {
   /** Project IDs to add to this environment variable */
-  link?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdatesLinkList;
+  link?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdatesLinkList | undefined;
   /** Project IDs to remove from this environment variable */
-  unlink?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdatesUnlinkList;
+  unlink?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdatesUnlinkList | undefined;
 }
 /** The new type of the Shared Environment Variable */
 export type UpdateSharedEnvVariableRequestUpdatesValueType = "encrypted" | "sensitive";
 export interface UpdateSharedEnvVariableRequestUpdatesValue {
   /** The name of the Shared Environment Variable */
-  key?: string;
+  key?: string | undefined;
   /** The value of the Shared Environment Variable */
-  value?: string;
+  value?: string | undefined;
   /** The target environment of the Shared Environment Variable */
-  target?: UpdateSharedEnvVariableRequestUpdatesValueTargetList;
+  target?: UpdateSharedEnvVariableRequestUpdatesValueTargetList | undefined;
   /** Associate a Shared Environment Variable to projects. */
-  projectId?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdList;
+  projectId?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdList | undefined;
   /** Incrementally update project linking without specifying the full list */
-  projectIdUpdates?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdates;
+  projectIdUpdates?: UpdateSharedEnvVariableRequestUpdatesValueProjectIdUpdates | undefined;
   /** The new type of the Shared Environment Variable */
-  type?: UpdateSharedEnvVariableRequestUpdatesValueType | (string & {});
+  type?: UpdateSharedEnvVariableRequestUpdatesValueType | (string & {}) | undefined;
   /** A comment to add context on what this Shared Environment Variable is for */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** An object where each key is an environment variable ID (not the key name) and the value is the update to apply */
 export type UpdateSharedEnvVariableRequestUpdatesMap = {
@@ -942,9 +968,9 @@ export type UpdateSharedEnvVariableRequestUpdatesMap = {
 };
 export interface UpdateSharedEnvVariableRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** An object where each key is an environment variable ID (not the key name) and the value is the update to apply */
   updates: UpdateSharedEnvVariableRequestUpdatesMap;
 }
@@ -977,17 +1003,17 @@ export type UpdateSharedEnvVariableResponseFailedItemErrorValue =
   | string
   | UpdateSharedEnvVariableResponseFailedItemErrorValueCase1List;
 export interface UpdateSharedEnvVariableResponseFailedItemError {
-  action?: string;
+  action?: string | undefined;
   code: string;
-  envVarId?: string;
-  envVarKey?: string;
-  gitBranch?: string;
-  key?: string;
-  link?: string;
+  envVarId?: string | undefined;
+  envVarKey?: string | undefined;
+  gitBranch?: string | undefined;
+  key?: string | undefined;
+  link?: string | undefined;
   message: string;
-  project?: string;
-  target?: UpdateSharedEnvVariableResponseFailedItemErrorTarget;
-  value?: UpdateSharedEnvVariableResponseFailedItemErrorValue;
+  project?: string | undefined;
+  target?: UpdateSharedEnvVariableResponseFailedItemErrorTarget | undefined;
+  value?: UpdateSharedEnvVariableResponseFailedItemErrorValue | undefined;
 }
 export interface UpdateSharedEnvVariableResponseFailedItem {
   error: UpdateSharedEnvVariableResponseFailedItemError;
@@ -999,16 +1025,16 @@ export type UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList =
 export type UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type = "user";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
-  name?: string | null;
+  name?: string | null | undefined;
   type: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase0Type;
   username: string;
 }
 export type UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type = "app";
 /** The principal that last edited this env var, when the editor id resolves to a known user or app. Lets clients render the right avatar instead of assuming every editor is a user. */
 export interface UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1 {
-  avatar?: string;
+  avatar?: string | undefined;
   id: string;
   name: string;
   type: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipalCase1Type;
@@ -1034,44 +1060,48 @@ export type UpdateSharedEnvVariableResponseUpdatedItemType =
   | "system";
 export interface UpdateSharedEnvVariableResponseUpdatedItem {
   /** whether or not this env varible applies to custom environments */
-  applyToAllCustomEnvironments?: boolean;
+  applyToAllCustomEnvironments?: boolean | undefined;
   /** A user provided comment that describes what this Shared Env Var is for. */
-  comment?: string;
+  comment?: string | undefined;
   /** The date when the Shared Env Var was created. */
-  created?: string;
+  created?: string | undefined;
   /** Timestamp for when the Shared Env Var was created. */
-  createdAt?: number;
+  createdAt?: number | undefined;
   /** The unique identifier of the user who created the Shared Env Var. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** The custom environment IDs that this Shared Env Var is scoped to. */
-  customEnvironmentIds?: UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList;
+  customEnvironmentIds?:
+    | UpdateSharedEnvVariableResponseUpdatedItemCustomEnvironmentIdsList
+    | undefined;
   /** whether or not this env variable is decrypted */
-  decrypted?: boolean;
+  decrypted?: boolean | undefined;
   /** Timestamp for when the Shared Env Var was (soft) deleted. */
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   /** The unique identifier of the user who deleted the Shared Env Var. */
-  deletedBy?: string | null;
+  deletedBy?: string | null | undefined;
   /** The unique identifier of the Shared Env Var. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the Shared Env Var. */
-  key?: string;
+  key?: string | undefined;
   /** The last editor full name or username. */
-  lastEditedByDisplayName?: string;
-  lastEditedByPrincipal?: UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal;
+  lastEditedByDisplayName?: string | undefined;
+  lastEditedByPrincipal?:
+    | UpdateSharedEnvVariableResponseUpdatedItemLastEditedByPrincipal
+    | undefined;
   /** The unique identifier of the owner (team) the Shared Env Var was created for. */
-  ownerId?: string | null;
+  ownerId?: string | null | undefined;
   /** The unique identifiers of the projects which the Shared Env Var is linked to. */
-  projectId?: UpdateSharedEnvVariableResponseUpdatedItemProjectIdList;
+  projectId?: UpdateSharedEnvVariableResponseUpdatedItemProjectIdList | undefined;
   /** environments this env variable targets */
-  target?: UpdateSharedEnvVariableResponseUpdatedItemTargetList;
+  target?: UpdateSharedEnvVariableResponseUpdatedItemTargetList | undefined;
   /** The type of this cosmos doc instance, if blank, assume secret. */
-  type?: UpdateSharedEnvVariableResponseUpdatedItemType;
+  type?: UpdateSharedEnvVariableResponseUpdatedItemType | undefined;
   /** Timestamp for when the Shared Env Var was last updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** The unique identifier of the user who last updated the Shared Env Var. */
-  updatedBy?: string | null;
+  updatedBy?: string | null | undefined;
   /** The value of the Shared Env Var. */
-  value?: string;
+  value?: string | undefined;
 }
 export type UpdateSharedEnvVariableResponseUpdatedList =
   Array<UpdateSharedEnvVariableResponseUpdatedItem>;
