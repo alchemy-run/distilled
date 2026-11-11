@@ -5,12 +5,15 @@ import { Readable, Writable } from "node:stream";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import * as Stream from "effect/Stream";
+import * as Tracer from "effect/Tracer";
 import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
 import * as API from "../src/api.ts";
 import * as CloudflareSockets from "../src/grpc-transport-cloudflare-sockets.ts";
+import { trailersOf } from "../src/grpc-transport.ts";
 import {
   decodeMessage,
   encodeMessage,
@@ -48,6 +51,26 @@ const descriptors: ProtoDescriptors = {
 
 /** Chunked replies with the status in trailers, each frame split across writes. */
 const server = http.createServer((req, res) => {
+  if (req.url === "/names") {
+    // Names every object has, each sent more than once.
+    res.writeHead(200, [
+      ["constructor", "a"],
+      ["x-a", "1"],
+      ["constructor", "b"],
+      ["valueof", "c"],
+      ["x-a", "2"],
+      ["trailer", "constructor, __proto__"],
+    ]);
+    res.write("body");
+    res.addTrailers([
+      ["constructor", "a"],
+      ["__proto__", "b"],
+      ["constructor", "c"],
+      ["__proto__", "d"],
+    ] as unknown as http.OutgoingHttpHeaders);
+    res.end();
+    return;
+  }
   const chunks: Buffer[] = [];
   req.on("data", (chunk: Buffer) => chunks.push(chunk));
   req.on("end", async () => {
@@ -129,6 +152,23 @@ const run = <A, E>(effect: Effect.Effect<A, E, any>) =>
   );
 
 describe("gRPC over cloudflare:sockets", () => {
+  test("a name sent more than once is one header, whatever the name", async () => {
+    const response = await Effect.runPromise(
+      CloudflareSockets.client
+        .execute(HttpClientRequest.get(`${url}/names`))
+        .pipe(Effect.provideService(Tracer.DisablePropagation, true)),
+    );
+    expect(response.headers).toMatchObject({ "x-a": "1, 2", valueof: "c" });
+    expect(Object.entries(response.headers).filter(([name]) => name === "constructor")).toEqual([
+      ["constructor", "a, b"],
+    ]);
+    expect(await Effect.runPromise(response.text)).toBe("body");
+    expect(Object.entries(await Effect.runPromise(trailersOf(response)))).toEqual([
+      ["constructor", "a, c"],
+      ["__proto__", "b, d"],
+    ]);
+  });
+
   test("reads a chunked reply and its trailers", async () => {
     const result = await run(get({ count: 1 }));
     expect(result._tag).toBe("Success");
