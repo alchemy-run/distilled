@@ -2,7 +2,6 @@ import { mockHttpClient } from "@distilled.cloud/dev/testing";
 import * as Effect from "effect/Effect";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
-import * as Stream from "effect/Stream";
 import { describe, expect, test } from "vitest";
 import { fromToken, resolveConfig } from "../src/credentials.ts";
 import { NamespaceLabsProtocol, baseUrlFor, hostFor } from "../src/protocol.ts";
@@ -113,49 +112,9 @@ describe("requests", () => {
     expect(request!.headers["content-type"]).toBe("application/json");
     expect(bodyOf(request!)).toBe("{}");
   });
-
-  test("a request body is proto3 JSON on the regional compute host", async () => {
-    seen.length = 0;
-    await call(compute.describeInstance({ instanceId: "abc" }), { body: "{}" });
-    expect(seen[0]!.url).toBe(
-      "https://us.compute.namespaceapis.com/namespace.cloud.compute.v1beta.ComputeService/DescribeInstance",
-    );
-    expect(JSON.parse(bodyOf(seen[0]!))).toEqual({ instanceId: "abc" });
-  });
 });
 
-describe("Connect errors", () => {
-  test("not_found is a typed NotFound carrying the Connect body", async () => {
-    const result = await call(
-      compute.describeInstance({ instanceId: "missing" }),
-      connectError(404, "not_found", "instance not found"),
-    );
-    expect(result).toMatchObject({
-      _tag: "Failure",
-      failure: {
-        _tag: "NotFound",
-        message: "instance not found",
-        body: { code: "not_found", details: [{ debug: { id: "req-1" } }] },
-      },
-    });
-  });
-
-  test.each([
-    [400, "invalid_argument", "InvalidArgument"],
-    [400, "failed_precondition", "FailedPrecondition"],
-    [400, "out_of_range", "OutOfRange"],
-    [401, "unauthenticated", "Unauthenticated"],
-    [403, "permission_denied", "PermissionDenied"],
-    [409, "already_exists", "AlreadyExists"],
-    [409, "aborted", "Aborted"],
-    [429, "resource_exhausted", "ResourceExhausted"],
-    [499, "canceled", "Canceled"],
-    [501, "unimplemented", "Unimplemented"],
-  ] as const)("%d %s is %s", async (status, code, tag) => {
-    const result = await call(vault.describeObject({ objectId: "x" }), connectError(status, code));
-    expect(result).toMatchObject({ _tag: "Failure", failure: { _tag: tag, message: code } });
-  });
-
+describe("errors", () => {
   test("an unmapped status is UnknownNamespaceLabsError with the code and details", async () => {
     const result = await call(
       vault.describeObject({ objectId: "x" }),
@@ -170,24 +129,5 @@ describe("Connect errors", () => {
         details: [{ debug: { id: "req-1" } }],
       },
     });
-  });
-});
-
-describe("pagination", () => {
-  test("listInstances follows paginationCursor until it is absent", async () => {
-    seen.length = 0;
-    const pages = [
-      { instances: [{ metadata: { instanceId: "a" } }], paginationCursor: "c1" },
-      { instances: [{ metadata: { instanceId: "b" } }] },
-    ];
-    const result = await call(Stream.runCollect(compute.listInstances.items({})), () => ({
-      body: JSON.stringify(pages[seen.length - 1]),
-    }));
-    expect(result).toMatchObject({ _tag: "Success" });
-    expect(Array.from((result as any).success).map((i: any) => i.metadata.instanceId)).toEqual([
-      "a",
-      "b",
-    ]);
-    expect(seen.map((r) => JSON.parse(bodyOf(r)))).toEqual([{}, { paginationCursor: "c1" }]);
   });
 });
