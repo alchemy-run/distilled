@@ -1,5 +1,5 @@
 {
-  "description": "One tag per Archil error code, named after the code in PascalCase (`sandbox_fork_mounted` -> `SandboxForkMounted`). Each matches the status plus the body's `code`, and carries the body's text as `message`. Codes come from the spec's response examples, plus codes the live API returned that the spec omits (`sandbox_not_ready`, `sandbox_stop_conflict`, `sandbox_not_deletable`, `sandbox_has_forks`, `conflict` on createBranch, and `not_found` on every 404). Categories drive retries: `sandbox_pausing`, `sandbox_stopping` and `sandbox_not_ready` are retryable, `no_capacity` is retryable as throttling, and `not_enabled` declares no httpError so its 503 is not retried as a server error. The API token operations type their 401 as Unauthorized. Archil answers a bad key and a valid key it refuses with the same bare 401 `Unauthorized` (live, 2026-11-11: `GET /api/tokens` and `DELETE /api/tokens/{id}` refuse the key that lists disks with 200), so the tag names the status, not a cause.",
+  "description": "One tag per Archil error code, named after the code in PascalCase (`sandbox_fork_mounted` -> `SandboxForkMounted`). Each matches the status plus the body's `code`, and carries the body's text as `message`. Codes come from the spec's response examples, plus codes the live API returned that the spec omits (`sandbox_not_ready`, `sandbox_stop_conflict`, `sandbox_not_deletable`, `sandbox_has_forks`, `conflict` on createBranch, and `not_found` on every 404). Categories drive retries: `sandbox_pausing`, `sandbox_stopping` and `sandbox_not_ready` are retryable, `no_capacity` is retryable as throttling, and `not_enabled` declares no httpError so its 503 is not retried as a server error.",
   "patches": [
     {
       "op": "add",
@@ -426,28 +426,6 @@
               "body": {
                 "/code": "not_enabled"
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.archil.api#Unauthorized",
-      "value": {
-        "type": "structure",
-        "members": {
-          "message": {
-            "target": "smithy.api#String"
-          }
-        },
-        "traits": {
-          "smithy.api#error": "client",
-          "smithy.api#httpError": 401,
-          "smithy.api#documentation": "Archil rejected the credential: the API key is invalid, or Archil refuses API keys on this operation.",
-          "com.distilled.openapi#errorMatchers": [
-            {
-              "status": 401
             }
           ]
         }
@@ -984,30 +962,6 @@
           "target": "com.archil.api#NotFound"
         }
       ]
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.archil.api#CreateApiToken/errors/-",
-      "value": {
-        "target": "com.archil.api#Unauthorized"
-      }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.archil.api#ListApiTokens/errors",
-      "before": "traits",
-      "value": [
-        {
-          "target": "com.archil.api#Unauthorized"
-        }
-      ]
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.archil.api#DeleteApiToken/errors/-",
-      "value": {
-        "target": "com.archil.api#Unauthorized"
-      }
     }
   ]
 }
